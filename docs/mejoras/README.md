@@ -5,9 +5,9 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Mejora | Por qué | Estado |
 | --- | --- | --- |
 | Pasar las respuestas de `runtime/` a Supabase | Los archivos locales solo funcionan con una instancia del servidor y no sirven en Vercel. El esquema ya existe ([base-de-datos.md](../base-de-datos.md)). | Hecha: PR #7 y #8 (probado contra el Supabase real por Luis) |
-| Cargar la semana piloto y el banco editorial en `days` y `questions` | Las tablas estaban vacías; el contenido sigue en `dist/questions.json` y `content-engine.mjs`. | Parcial: con `feat/despliegue-vercel-supabase`, la API publica cada jornada y sus preguntas al recibir la primera respuesta. Falta, si se quiere, una carga completa por adelantado |
-| Borrar los datos de prueba de Supabase | Jornada `2000-01-01` y respuestas falsas de `2026-12-14`; SQL en [base-de-datos.md](../base-de-datos.md#pendiente). | Pendiente |
-| Rotar la clave secreta de Supabase | La clave actual se compartió en el chat de un agente el 9 de noviembre. Crear otra, ponerla en los `.env` y en Vercel, y borrar la anterior. | Pendiente (Luis) |
+| Cargar la semana piloto y el banco editorial en `days` y `questions` | Las tablas estaban vacías; el contenido sigue en `dist/questions.json` y `content-engine.mjs`. | Hecha: PR #10 (todo el contenido publicado en Supabase) y PR #12 (publicación automática en cada despliegue de producción) |
+| Borrar los datos de prueba de Supabase | Jornada `2000-01-01` y respuestas falsas de `2026-12-14`. | Hecha el 9 de noviembre en `feat/documentar-clave-y-previews` (ver [bitácora](../bitacora/2026-11.md)) |
+| Rotar la clave secreta de Supabase | La clave actual se compartió en el chat de un agente el 9 de noviembre. Crear otra, ponerla en los `.env` y en Vercel, y borrar la anterior. | Hecha el 9 de noviembre: Luis la rotó, Álvaro la añadió en Vercel (ver [bitácora](../bitacora/2026-11.md)) |
 | Crear un entorno de preprod en Supabase | Hoy preprod y producción comparten base de datos. Ver [decisión 0001](../decisiones/0001-supabase-un-solo-entorno.md). | Pendiente (al tener jugadores reales) |
 | Generar `dist/questions.js` desde `dist/questions.json` | Hoy son dos copias que hay que mantener sincronizadas a mano. | Pendiente |
 | Copias de seguridad, observabilidad y control de acceso de administración | No existen en la implementación actual. | Pendiente |

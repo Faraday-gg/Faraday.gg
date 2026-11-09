@@ -1,6 +1,7 @@
 # 0006. Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg`
 
 - **Estado:** aceptada. Sustituye en parte a la [0003](0003-despliegue-en-vercel.md) en lo relativo al propietario del proyecto de Vercel.
+- **Sustituida en parte por:** la [0007](0007-preview-de-vercel-sin-login.md), en lo relativo a la protección de los despliegues Preview.
 - **Relacionada:** la [0004](0004-repositorio-publico-en-organizacion.md) recoge el paso del repositorio a la organización y su publicación; esta añade el proyecto de Vercel. Se numeró 0004 en su rama y se renumeró a 0006 al integrarla con `preprod`.
 - **Fecha:** 2026-11-09
 - **Quién:** Luis y Álvaro (Luis movió el repositorio; Álvaro, con Claude, creó el proyecto de Vercel)
