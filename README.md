@@ -35,6 +35,16 @@ node tests/vercel.test.mjs
 - Variables en Vercel (Settings → Environment Variables): `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (clave `sb_secret_...`, solo servidor).
 - Para probar en local contra Supabase: copia `.env.example` como `.env`, rellena la clave y arranca con `node --env-file=.env preview-server.mjs`.
 
+## Contenido en Supabase
+
+Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`, y se publican con:
+
+```sh
+node --env-file=.env scripts/publicar-contenido.mjs
+```
+
+Detalle en [docs/base-de-datos.md](docs/base-de-datos.md).
+
 ## Documentación y colaboración
 
 - [Arquitectura y stack](ARQUITECTURA.md): implementación actual, despliegue en Vercel y almacenamiento en Supabase.

@@ -21,7 +21,7 @@ Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` medi
 
 ## Trabajo compartido entre Luis y Álvaro
 
-En este proyecto trabajamos dos personas, Luis (`borgesinmas`, propietario del repositorio) y Álvaro, cada una con sus propios agentes. Los dos tenemos que poder saber en todo momento qué ha hecho el otro sin preguntárselo, así que **lo que no está escrito en el repositorio no existe**:
+En este proyecto trabajamos dos personas, Luis (`borgesinmas`) y Álvaro (`sistemavivacegroup`), Owners los dos de la organización de GitHub `Faraday-gg`, donde está el repositorio público [`Faraday-gg/Faraday.gg`](https://github.com/Faraday-gg/Faraday.gg), cada una con sus propios agentes. Los dos tenemos que poder saber en todo momento qué ha hecho el otro sin preguntárselo, así que **lo que no está escrito en el repositorio no existe**:
 
 | Dónde | Qué se apunta |
 |---|---|
@@ -125,4 +125,6 @@ Si no puedes subir la rama o abrir la PR (por ejemplo, porque no tienes sesión 
 - Las respuestas se guardan en `runtime/answers.json` en local y en Supabase en Vercel (`lib/stores.mjs`). Supabase tiene un solo entorno (`main`, producción, sin preprod); sus datos están en [ARQUITECTURA.md](ARQUITECTURA.md#entornos-y-servicios) y el esquema en [docs/base-de-datos.md](docs/base-de-datos.md). Los cambios de esquema van como migración en `supabase/migrations/` y se documentan en ese archivo en la misma PR. No apliques migraciones, borres datos ni cambies políticas en Supabase sin confirmación explícita del responsable.
 - La clave secreta de Supabase solo existe en variables de entorno (Vercel o `.env` local). Nunca en el código, en `dist/` ni en el navegador. Cuando se cree el proyecto de Vercel, documéntalo en ARQUITECTURA.md.
 - Registra en [docs/](docs/README.md) lo que el otro colaborador debe saber: decisiones en `docs/decisiones/`, cambios en servicios externos (Supabase, Vercel, GitHub) en `docs/bitacora/`, propuestas en `docs/ideas/` y deuda técnica en `docs/mejoras/`.
+- El contenido (jornadas, preguntas e imágenes) se sirve desde Supabase. Se edita en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`, y se publica con `node --env-file=.env scripts/publicar-contenido.mjs` solo con confirmación del responsable y después de fusionar el cambio en `main`. Anótalo en la bitácora.
+- El repositorio es público: no escribas en él datos personales, claves ni nada que no deba verse.
 - No añadas dependencias, servicios externos ni claves nuevas sin dejarlo explicado en la PR.

@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
-- **Estado:** esquema creado; la API lo usa a través de `lib/stores.mjs`, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-09, prueba contra el Supabase real y corrección de decimales (rama `fix/decimales-supabase`); última migración `20261109213854_esquema_inicial`
+- **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
+- **Última actualización:** 2026-11-09, contenido e imágenes en Supabase (rama `feat/contenido-en-supabase`); última migración `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -18,6 +18,19 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.questions` | Las preguntas de `dist/questions.json` y de `content-engine.mjs` | Preguntas de cada jornada con su cifra de referencia. |
 | `public.answers` | `runtime/answers.json` | Estimaciones anónimas de los jugadores. |
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
+| Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
+
+### Qué está en Supabase y qué no
+
+| Dato | Dónde vive | Por qué |
+| --- | --- | --- |
+| Jornadas y preguntas (texto, cifra, fuentes, supuestos, razonamiento, créditos) | **Supabase** (`days`, `questions.content`) | La API las lee de ahí. |
+| Fotografías | **Supabase Storage** (`imagenes`) | `content.image.src` apunta a su URL pública. |
+| Respuestas anónimas | **Supabase** (`answers`) | |
+| Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y se publica con `scripts/publicar-contenido.mjs`. |
+| Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
+| Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | No hay cuentas: sin autenticación no se puede asociar a nadie en el servidor. |
+| HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
 
 ## Tablas
 
@@ -69,17 +82,21 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 
 `lib/stores.mjs` accede por la API REST de Supabase (PostgREST), sin SDK, con la clave secreta en la cabecera `apikey`.
 
+- **Contenido (`/api/calendar`, `/api/day`, `/daily-content.js`)**: **manda Supabase.** La API lee las jornadas de `days` con sus preguntas (`questions.content`, en orden de `position`). Si una fecha no está publicada en Supabase, o Supabase no responde, usa `content-engine.mjs` como respaldo para no dejar la web sin preguntas, y lo anota en el registro. `/api/calendar` indica `"source": "supabase"` cuando ha leído de la base de datos.
+- **Respuestas a preguntas que solo existen en Supabase**: la API busca la pregunta en `questions` y usa su cifra de referencia para puntuar.
+
 - **`POST /api/answers`**:
   - La primera vez que una instancia recibe una respuesta de una jornada, inserta la jornada en `days` (`source` = `piloto` o `banco-editorial`) y sus tres preguntas en `questions` (`position` 1 a 3, `revision`, y en `content` el objeto completo). Ignora las filas que ya existan.
   - Después inserta la respuesta en `answers`, ignorando duplicados por `(question_id, player_hash)`, y lee las respuestas de esa pregunta para devolver la distribución.
   - Si la cifra guardada no coincide con la enviada, responde `409`. La API de Supabase devuelve los `double precision` redondeados a 15 cifras significativas, así que la comparación usa una tolerancia relativa de 1e-12; si no, reenviar la misma respuesta con muchos decimales daba `409`.
 - **`POST /api/daily-scores`**: lee de `answers` las tres preguntas del día, paginando de 1000 en 1000, y calcula la puntuación igual que en local.
-- **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): publicación de la jornada `2026-12-14`, respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto.
-- **`/api/calendar`, `/api/day` y `/daily-content.js`**: siguen generándose con `content-engine.mjs` y no leen `days` ni `questions`.
-- **Una jornada publicada no se actualiza.** Si más adelante cambia una pregunta de una fecha ya publicada (otro `id` en la misma fecha y posición), insertarla viola `unique (day_id, position)` y la API responde `500` para esa jornada. Se resuelve con una migración o a mano.
+- **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto. Después de publicar el contenido, la web en local mostró el calendario con `source: supabase` y la foto cargada desde Storage, sin errores en la consola.
+- **Publicar o actualizar el contenido**: `node --env-file=.env scripts/publicar-contenido.mjs` (con `--prueba` solo cuenta). Sube las imágenes de `dist/assets/` a Storage, reescribe `image.src` a su URL pública e inserta o **actualiza** por `id` todas las jornadas del piloto y del banco editorial. Hay que ejecutarlo cada vez que se fusione en `main` un cambio de contenido. Escribe en la única base de datos.
+- **Cambiar una pregunta ya publicada por otra distinta** (otro `id` en la misma fecha y posición) viola `unique (day_id, position)`: el script falla. Hay que borrar antes la pregunta antigua (y sus respuestas) a mano o con una migración.
 
 ## Seguridad y acceso
 
+- **Imágenes**: el almacén `imagenes` es público solo para lectura por URL, porque las fotos ya se muestran en la web. Para subir o cambiar archivos hace falta la clave secreta.
 - **Solo el servidor accede a la base de datos**, con la clave secreta del proyecto (variable de entorno, nunca en Git ni en el navegador). Ver [decisión 0002](decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md).
 - RLS está activado en las tres tablas **sin políticas**, y se han quitado todos los permisos a los roles `anon` y `authenticated`, también para ejecutar `daily_scores`. Con la clave pública no se puede leer ni escribir nada.
 - El aviso de Supabase «RLS Enabled No Policy» (nivel INFO) es **intencionado** por lo anterior.
@@ -107,17 +124,17 @@ Las usa `lib/stores.mjs`. Se configuran en Vercel, cuyo proyecto está aún sin 
 | Versión | Archivo | Qué hace | Aplicada |
 | --- | --- | --- | --- |
 | `20261109213854` | [esquema_inicial](../supabase/migrations/20261109213854_esquema_inicial.sql) | Crea `days`, `questions`, `answers`, `daily_scores`, RLS y permisos. | 2026-11-09, por Luis con Claude Code |
+| `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
 
 ## Pendiente
 
-- **Conectar la app**: hecho para `/api/answers` y `/api/daily-scores` en `feat/despliegue-vercel-supabase`. El calendario (`/api/calendar`, `/api/day`) sigue saliendo de `content-engine.mjs`. Leerlo de `days` y `questions` queda pendiente si se quiere fijar el contenido ya publicado.
-- **Cargar el contenido**: la API publica cada jornada y sus preguntas al recibir su primera respuesta. Si se quiere tenerlo todo cargado por adelantado, sigue haciendo falta un script que lea `dist/questions.json` y `content-engine.mjs`.
-- **Datos de prueba sin borrar**: todo lo que hay en la base de datos es de prueba. La jornada `2000-01-01` (preguntas `prueba-t1` y `prueba-t2`, 3 respuestas) es de la prueba de `daily_scores`, y la jornada `2026-12-14` (3 preguntas y respuestas de 6 jugadores falsos) es de las pruebas de la app contra el Supabase real. El borrado desde el agente se bloquea por permisos. Para quitarlas, ejecutar en el SQL Editor del panel:
+- **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Las jornadas nuevas se añaden en el repositorio y se publican con el script.
+- **Datos de prueba sin borrar**: la jornada `2000-01-01` (preguntas `prueba-t1` y `prueba-t2`, 3 respuestas) es de la prueba de `daily_scores`, y las respuestas de la jornada `2026-12-14` (6 jugadores falsos) son de las pruebas contra el Supabase real. **La jornada `2026-12-14` y sus preguntas son contenido real: no se borran.** El borrado desde el agente se bloquea por permisos. Para quitar solo lo de prueba, ejecutar en el SQL Editor del panel:
 
   ```sql
   delete from public.answers where question_id in (select id from public.questions where day_id in ('2000-01-01', '2026-12-14'));
-  delete from public.questions where day_id in ('2000-01-01', '2026-12-14');
-  delete from public.days where id in ('2000-01-01', '2026-12-14');
+  delete from public.questions where day_id = '2000-01-01';
+  delete from public.days where id = '2000-01-01';
   ```
 
   Cuando se borren, quitar este punto.

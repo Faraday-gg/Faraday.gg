@@ -41,6 +41,15 @@ function fakeSupabase(){
       for(const row of rows)if(!table.has(keyOf(name,row)))table.set(keyOf(name,row),row);
       return new Response(null,{status:201});
     }
+    if(name==='days'){
+      let rows=[...table.values()];
+      for(const filter of url.searchParams.getAll('id')){const [op,value]=filter.split(/\.(.*)/);rows=rows.filter(r=>op==='gte'?r.id>=value:op==='lte'?r.id<=value:r.id===value)}
+      rows.sort((a,b)=>a.id<b.id?-1:1);if(url.searchParams.get('order')==='id.desc')rows.reverse();
+      if(url.searchParams.has('limit'))rows=rows.slice(0,Number(url.searchParams.get('limit')));
+      const embed=/questions\(/.test(url.searchParams.get('select')||'');
+      return Response.json(rows.map(d=>embed?{id:d.id,name:d.name,theme:d.theme,questions:[...tables.questions.values()].filter(q=>q.day_id===d.id).map(({id,position,content})=>({id,position,content}))}:{id:d.id}));
+    }
+    if(name==='questions'){const q=tables.questions.get((url.searchParams.get('id')||'').replace(/^eq\./,''));return Response.json(q?[{day_id:q.day_id}]:[])}
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
     const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000),offset=Number(url.searchParams.get('offset')||0);
     const rows=[...table.values()].filter(r=>ids.includes(r.question_id)).sort((a,b)=>(a.question_id+a.player_hash).localeCompare(b.question_id+b.player_hash));
@@ -122,6 +131,20 @@ try{
   assert.equal(supabase.calls.filter(c=>c.method==='POST'&&c.url.pathname.endsWith('/days')).length,2,'Cada jornada se publica una vez por instancia');
   assert(supabase.calls.every(c=>c.url.origin==='https://proyecto.supabase.co'&&c.headers.get('apikey')===KEY&&!c.headers.has('authorization')));
   assert(!fs.existsSync(daysDirectory),'En Vercel no se escriben jornadas en disco');
+
+  // El contenido publicado en Supabase manda sobre content-engine.mjs: título editado y pregunta que solo existe en la base de datos.
+  const edited=structuredClone((await call('/api/day?date=2026-11-10')).data);
+  edited.questions[0]={...edited.questions[0],title:'Título editado en Supabase'};
+  edited.questions[1]={...edited.questions[1],id:'solo-en-supabase',answer:50};
+  supabase.tables.days.set('2026-11-10',{id:'2026-11-10',name:edited.name,theme:'Tema desde Supabase',source:'piloto'});
+  edited.questions.forEach((q,i)=>supabase.tables.questions.set(q.id,{id:q.id,day_id:'2026-11-10',position:i+1,revision:q.revision??1,title:q.title,unit:q.unit,answer:q.answer,content:q}));
+  const fromDb=(await call('/api/day?date=2026-11-10')).data;
+  assert.equal(fromDb.theme,'Tema desde Supabase');assert.equal(fromDb.questions[0].title,'Título editado en Supabase');assert.equal(fromDb.questions[1].id,'solo-en-supabase');
+  const calendarDb=(await call('/api/calendar')).data;assert.equal(calendarDb.source,'supabase');
+  assert.equal(calendarDb.days.find(d=>d.id==='2026-11-10').questions[0].title,'Título editado en Supabase','El calendario usa el contenido de Supabase');
+  assert(calendarDb.days.some(d=>d.id==='2026-11-09'),'Los días no publicados siguen saliendo de content-engine');
+  const dbOnly=await call('/api/answers',{method:'POST',body:{player:randomUUID(),guess:100,question:'solo-en-supabase'}});
+  assert.equal(dbOnly.status,200,'Se aceptan respuestas a preguntas que solo existen en Supabase');
 
   // Paginación: PostgREST devuelve como máximo 1000 filas por petición.
   const {supabaseStore}=await import('../lib/stores.mjs');
