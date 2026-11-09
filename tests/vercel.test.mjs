@@ -12,6 +12,7 @@ const daysDirectory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-vercel-'));fs.rmS
 // PostgREST mínimo con el esquema de supabase/migrations/20261109213854_esquema_inicial.sql:
 // days ──< questions ──< answers, con sus claves foráneas, únicas y comprobaciones.
 // Filtro in, orden, limit/offset (máximo 1000 filas) e inserción que ignora duplicados.
+// Como la API real, devuelve los double redondeados a 15 cifras significativas.
 function fakeSupabase(){
   const tables={days:new Map(),questions:new Map(),answers:new Map()},calls=[];
   const conflictKeys={days:'id',questions:'id',answers:'question_id,player_hash'};
@@ -43,7 +44,7 @@ function fakeSupabase(){
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
     const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000),offset=Number(url.searchParams.get('offset')||0);
     const rows=[...table.values()].filter(r=>ids.includes(r.question_id)).sort((a,b)=>(a.question_id+a.player_hash).localeCompare(b.question_id+b.player_hash));
-    return Response.json(rows.slice(offset,offset+limit).map(({question_id,player_hash,guess})=>({question_id,player_hash,guess})));
+    return Response.json(rows.slice(offset,offset+limit).map(({question_id,player_hash,guess})=>({question_id,player_hash,guess:Number(guess.toPrecision(15))})));
   }
   return {fetch,tables,calls};
 }
@@ -99,6 +100,11 @@ try{
   assert(Math.abs(result.data.own-((129166.66666666667/100000)+(60000/(419725/7))+(4700/(349.3*776.6/7.6**2)))/3)<.000001);
   const tomorrow=(await call('/api/day?date=2026-11-16')).data;
   assert.equal((await post(randomUUID(),100,tomorrow.questions[0].id)).status,200,'Las preguntas del banco se aceptan sin estado previo');
+  // Cifras con más de 15 cifras significativas (Supabase las devuelve redondeadas).
+  const precise=randomUUID(),long=tomorrow.questions[1].answer*2;assert.notEqual(Number(long.toPrecision(15)),long);
+  assert.equal((await post(precise,long,tomorrow.questions[1].id)).status,200);
+  assert.equal((await post(precise,long,tomorrow.questions[1].id)).status,200,'Reenviar la misma cifra no es un conflicto');
+  assert.equal((await post(precise,long*1.01,tomorrow.questions[1].id)).status,409,'Una cifra distinta sí lo es');
 
   // Seguridad y errores.
   assert.equal((await call('/api/answers',{method:'POST',body:{player:first,guess:1,question:'piloto-v2-1'},origin:'https://otro.test'})).status,403);
@@ -108,7 +114,7 @@ try{
   assert.equal((await call('/api/no-existe')).status,404);
 
   // Respuestas guardadas con el jugador anonimizado; jornadas y preguntas publicadas una sola vez.
-  assert.equal(supabase.tables.answers.size,8,'3 + 1 + 3 + 1 respuestas válidas');
+  assert.equal(supabase.tables.answers.size,9,'3 + 1 + 3 + 1 + 1 respuestas válidas');
   assert([...supabase.tables.answers.values()].every(row=>/^[0-9a-f]{64}$/.test(row.player_hash)&&row.player_hash!==first));
   assert.deepEqual([...supabase.tables.days.values()].map(d=>[d.id,d.source]),[['2026-11-09','piloto'],['2026-11-16','banco-editorial']]);
   assert.equal(supabase.tables.questions.size,6);

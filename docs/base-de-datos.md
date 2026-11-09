@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** esquema creado; la API lo usa a través de `lib/stores.mjs`, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-09, conexión de la API (rama `feat/despliegue-vercel-supabase`); última migración `20261109213854_esquema_inicial`
+- **Última actualización:** 2026-11-09, prueba contra el Supabase real y corrección de decimales (rama `fix/decimales-supabase`); última migración `20261109213854_esquema_inicial`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -72,8 +72,9 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 - **`POST /api/answers`**:
   - La primera vez que una instancia recibe una respuesta de una jornada, inserta la jornada en `days` (`source` = `piloto` o `banco-editorial`) y sus tres preguntas en `questions` (`position` 1 a 3, `revision`, y en `content` el objeto completo). Ignora las filas que ya existan.
   - Después inserta la respuesta en `answers`, ignorando duplicados por `(question_id, player_hash)`, y lee las respuestas de esa pregunta para devolver la distribución.
-  - Si la cifra guardada no coincide con la enviada, responde `409`.
+  - Si la cifra guardada no coincide con la enviada, responde `409`. La API de Supabase devuelve los `double precision` redondeados a 15 cifras significativas, así que la comparación usa una tolerancia relativa de 1e-12; si no, reenviar la misma respuesta con muchos decimales daba `409`.
 - **`POST /api/daily-scores`**: lee de `answers` las tres preguntas del día, paginando de 1000 en 1000, y calcula la puntuación igual que en local.
+- **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): publicación de la jornada `2026-12-14`, respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto.
 - **`/api/calendar`, `/api/day` y `/daily-content.js`**: siguen generándose con `content-engine.mjs` y no leen `days` ni `questions`.
 - **Una jornada publicada no se actualiza.** Si más adelante cambia una pregunta de una fecha ya publicada (otro `id` en la misma fecha y posición), insertarla viola `unique (day_id, position)` y la API responde `500` para esa jornada. Se resuelve con una migración o a mano.
 
@@ -111,12 +112,12 @@ Las usa `lib/stores.mjs`. Se configuran en Vercel, cuyo proyecto está aún sin 
 
 - **Conectar la app**: hecho para `/api/answers` y `/api/daily-scores` en `feat/despliegue-vercel-supabase`. El calendario (`/api/calendar`, `/api/day`) sigue saliendo de `content-engine.mjs`. Leerlo de `days` y `questions` queda pendiente si se quiere fijar el contenido ya publicado.
 - **Cargar el contenido**: la API publica cada jornada y sus preguntas al recibir su primera respuesta. Si se quiere tenerlo todo cargado por adelantado, sigue haciendo falta un script que lea `dist/questions.json` y `content-engine.mjs`.
-- **Datos de prueba sin borrar**: las pruebas del 9 de noviembre dejaron la jornada `2000-01-01` (`prueba-agente`), las preguntas `prueba-t1` y `prueba-t2` y 3 respuestas falsas, porque el borrado desde el agente fue bloqueado. Para quitarlas, ejecutar en el SQL Editor del panel:
+- **Datos de prueba sin borrar**: todo lo que hay en la base de datos es de prueba. La jornada `2000-01-01` (preguntas `prueba-t1` y `prueba-t2`, 3 respuestas) es de la prueba de `daily_scores`, y la jornada `2026-12-14` (3 preguntas y respuestas de 6 jugadores falsos) es de las pruebas de la app contra el Supabase real. El borrado desde el agente se bloquea por permisos. Para quitarlas, ejecutar en el SQL Editor del panel:
 
   ```sql
-  delete from public.answers where question_id in ('prueba-t1', 'prueba-t2');
-  delete from public.questions where id in ('prueba-t1', 'prueba-t2');
-  delete from public.days where id = '2000-01-01';
+  delete from public.answers where question_id in (select id from public.questions where day_id in ('2000-01-01', '2026-12-14'));
+  delete from public.questions where day_id in ('2000-01-01', '2026-12-14');
+  delete from public.days where id in ('2000-01-01', '2026-12-14');
   ```
 
   Cuando se borren, quitar este punto.
