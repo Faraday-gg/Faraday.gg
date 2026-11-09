@@ -30,3 +30,4 @@ node tests/community.test.mjs
 
 - [Arquitectura y stack](ARQUITECTURA.md): implementación actual y plan de migración a Supabase y Vercel.
 - [Instrucciones para agentes](AGENTS.md): trabajo en ramas `feat/` o `fix/`, PR hacia `preprod` y promoción revisada a `main`.
+- [Documentación del equipo](docs/README.md): decisiones, bitácora de servicios externos, ideas y mejoras pendientes.
