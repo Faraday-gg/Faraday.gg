@@ -9,7 +9,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Aceptada (en parte sustituida por 0006) | 2026-11-09 |
 | [0004](0004-repositorio-publico-en-organizacion.md) | Repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
 | [0005](0005-contenido-servido-desde-supabase.md) | El contenido se sirve desde Supabase | Aceptada | 2026-11-09 |
-| [0006](0006-vercel-hobby-en-la-cuenta-de-alvaro.md) | Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
+| [0006](0006-vercel-hobby-en-la-cuenta-de-alvaro.md) | Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg` | Aceptada (en parte sustituida por 0007) | 2026-11-09 |
+| [0007](0007-preview-de-vercel-sin-login.md) | Despliegues de Vercel sin Vercel Authentication | Aceptada | 2026-11-09 |
 
 ## Plantilla
 

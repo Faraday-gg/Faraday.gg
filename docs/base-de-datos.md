@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-09, publicación automática en Vercel (rama `feat/publicacion-automatica`); última migración `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-09, clave en Vercel, prueba real desde la Preview y borrado de los datos de prueba (rama `feat/documentar-clave-y-previews`); última migración `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -90,7 +90,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Después inserta la respuesta en `answers`, ignorando duplicados por `(question_id, player_hash)`, y lee las respuestas de esa pregunta para devolver la distribución.
   - Si la cifra guardada no coincide con la enviada, responde `409`. La API de Supabase devuelve los `double precision` redondeados a 15 cifras significativas, así que la comparación usa una tolerancia relativa de 1e-12; si no, reenviar la misma respuesta con muchos decimales daba `409`.
 - **`POST /api/daily-scores`**: lee de `answers` las tres preguntas del día, paginando de 1000 en 1000, y calcula la puntuación igual que en local.
-- **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto. Después de publicar el contenido, la web en local mostró el calendario con `source: supabase` y la foto cargada desde Storage, sin errores en la consola.
+- **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto. Después de publicar el contenido, la web en local mostró el calendario con `source: supabase` y la foto cargada desde Storage, sin errores en la consola. El mismo día se jugó una jornada completa en la Preview de `preprod` en Vercel: respuestas y puntuación diaria `200`, una fila por pregunta sin duplicados al reenviar. Esas respuestas y las de pruebas anteriores se borraron después: la tabla `answers` quedó vacía.
 - **Publicación del contenido** (`lib/publicar.mjs`). **Es automático**: Vercel la ejecuta en cada despliegue de producción (al fusionar en `main`): `vercel.json` tiene `"buildCommand": "node scripts/publicar-contenido.mjs --vercel"`. Funciona así:
   - Compara el repositorio con Supabase y **solo sube lo que ha cambiado**: imágenes cuyo MD5 no coincide con el de Storage, y jornadas o preguntas nuevas o con algún campo distinto (el `content` se compara sin tener en cuenta el orden de las claves, que jsonb no conserva). Si no hay cambios, solo lee.
   - En los despliegues **Preview** (`preprod` y demás ramas) no hace nada, porque comparten base de datos con producción.
@@ -108,7 +108,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 
 ## Variables de entorno
 
-Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, en la cuenta de Álvaro: `SUPABASE_URL` ya está y `SUPABASE_SECRET_KEY` la añade Álvaro. Para probar en local contra esta base de datos, van en un `.env` no versionado a partir de `.env.example` (`node --env-file=.env preview-server.mjs`). Atención: hay un solo entorno, así que lo que se responda en local con estas variables queda en producción. Solo nombres, nunca valores:
+Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, en la cuenta de Álvaro, en Production y Preview: `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (la clave rotada el 9 de noviembre, como *Secret*). Para probar en local contra esta base de datos, van en un `.env` no versionado a partir de `.env.example` (`node --env-file=.env preview-server.mjs`). Atención: hay un solo entorno, así que lo que se responda en local con estas variables queda en producción. Solo nombres, nunca valores:
 
 | Variable | Uso |
 | --- | --- |
@@ -133,13 +133,4 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 ## Pendiente
 
 - **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Las jornadas nuevas se añaden en el repositorio y se publican con el script.
-- **Datos de prueba sin borrar**: la jornada `2000-01-01` (preguntas `prueba-t1` y `prueba-t2`, 3 respuestas) es de la prueba de `daily_scores`, y las respuestas de la jornada `2026-12-14` (6 jugadores falsos) son de las pruebas contra el Supabase real. **La jornada `2026-12-14` y sus preguntas son contenido real: no se borran.** El borrado desde el agente se bloquea por permisos. Para quitar solo lo de prueba, ejecutar en el SQL Editor del panel:
-
-  ```sql
-  delete from public.answers where question_id in (select id from public.questions where day_id in ('2000-01-01', '2026-12-14'));
-  delete from public.questions where day_id = '2000-01-01';
-  delete from public.days where id = '2000-01-01';
-  ```
-
-  Cuando se borren, quitar este punto.
 - No se migran las respuestas de `runtime/answers.json`: son pruebas locales.
