@@ -4,7 +4,7 @@ Lee también [ARQUITECTURA.md](ARQUITECTURA.md), [README.md](README.md) y [docs/
 
 ## En una frase
 
-Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` mediante una PR que abre el agente y pasa a `main` con otra PR. **El agente llega hasta la PR; el merge lo hace siempre el propietario del repositorio (`borgesinmas`).** Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
+Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` mediante una PR que abre el agente y pasa a `main` con otra PR. **El agente llega hasta la PR; el merge lo hace siempre Luis (`borgesinmas`).** Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
 
 ## Ramas
 
@@ -21,7 +21,7 @@ Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` medi
 
 ## Trabajo compartido entre Luis y Álvaro
 
-En este proyecto trabajamos dos personas, Luis (`borgesinmas`, propietario del repositorio) y Álvaro, cada una con sus propios agentes. Los dos tenemos que poder saber en todo momento qué ha hecho el otro sin preguntárselo, así que **lo que no está escrito en el repositorio no existe**:
+En este proyecto trabajamos dos personas, Luis (`borgesinmas`) y Álvaro (`sistemavivacegroup`), cada una con sus propios agentes. El repositorio es [`Faraday-gg/Faraday.gg`](https://github.com/Faraday-gg/Faraday.gg), de la organización `Faraday-gg`, de la que los dos somos Owners. Los dos tenemos que poder saber en todo momento qué ha hecho el otro sin preguntárselo, así que **lo que no está escrito en el repositorio no existe**:
 
 | Dónde | Qué se apunta |
 |---|---|

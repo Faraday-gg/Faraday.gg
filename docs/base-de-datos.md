@@ -87,7 +87,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 
 ## Variables de entorno
 
-Las usa `lib/stores.mjs`. Se configuran en Vercel, cuyo proyecto está aún sin crear y lo monta Álvaro. Para probar en local contra esta base de datos, van en un `.env` no versionado a partir de `.env.example` (`node --env-file=.env preview-server.mjs`). Atención: hay un solo entorno, así que lo que se responda en local con estas variables queda en producción. Solo nombres, nunca valores:
+Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, en la cuenta de Álvaro: `SUPABASE_URL` ya está y `SUPABASE_SECRET_KEY` la añade Álvaro. Para probar en local contra esta base de datos, van en un `.env` no versionado a partir de `.env.example` (`node --env-file=.env preview-server.mjs`). Atención: hay un solo entorno, así que lo que se responda en local con estas variables queda en producción. Solo nombres, nunca valores:
 
 | Variable | Uso |
 | --- | --- |
