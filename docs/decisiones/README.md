@@ -5,7 +5,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | Nº | Decisión | Estado | Fecha |
 | --- | --- | --- | --- |
 | [0001](0001-supabase-un-solo-entorno.md) | Supabase con un solo entorno (`main`), sin preprod | Aceptada | 2026-11-09 |
-| [0002](0002-despliegue-en-vercel.md) | Despliegue en Vercel con una función y respuestas en Supabase | Propuesta | 2026-11-09 |
+| [0002](0002-acceso-a-supabase-solo-desde-el-servidor.md) | Acceso a Supabase solo desde el servidor | Aceptada | 2026-11-09 |
+| [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Propuesta | 2026-11-09 |
 
 ## Plantilla
 

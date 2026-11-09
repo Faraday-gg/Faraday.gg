@@ -4,9 +4,11 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 
 | Mejora | Por qué | Estado |
 | --- | --- | --- |
-| Pasar las respuestas de `runtime/` a Supabase | Los archivos locales solo funcionan con una instancia del servidor y no sirven en Vercel. Ver [ARQUITECTURA.md](../ARQUITECTURA.md#despliegue-vercel-y-supabase). | En curso: rama `feat/despliegue-vercel-supabase` (falta aplicar la migración y crear el proyecto de Vercel) |
+| Pasar las respuestas de `runtime/` a Supabase | Los archivos locales solo funcionan con una instancia del servidor y no sirven en Vercel. El esquema ya existe ([base-de-datos.md](../base-de-datos.md)). | En curso: rama `feat/despliegue-vercel-supabase` conecta el servidor local y la función de Vercel |
+| Cargar la semana piloto y el banco editorial en `days` y `questions` | Las tablas estaban vacías; el contenido sigue en `dist/questions.json` y `content-engine.mjs`. | Parcial: con `feat/despliegue-vercel-supabase`, la API publica cada jornada y sus preguntas al recibir la primera respuesta. Falta, si se quiere, una carga completa por adelantado |
+| Borrar los datos de prueba de Supabase | Jornada `2000-01-01` y preguntas `prueba-t1`/`prueba-t2`; SQL en [base-de-datos.md](../base-de-datos.md#pendiente). | Pendiente |
 | Crear un entorno de preprod en Supabase | Hoy preprod y producción comparten base de datos. Ver [decisión 0001](../decisiones/0001-supabase-un-solo-entorno.md). | Pendiente (al tener jugadores reales) |
 | Generar `dist/questions.js` desde `dist/questions.json` | Hoy son dos copias que hay que mantener sincronizadas a mano. | Pendiente |
 | Copias de seguridad, observabilidad y control de acceso de administración | No existen en la implementación actual. | Pendiente |
-| Calcular la distribución de respuestas en la base de datos | Hoy la función lee todas las respuestas de la pregunta en cada envío (paginadas de 1000 en 1000). Vale para el piloto, no para miles de jugadores. Ver [decisión 0002](../decisiones/0002-despliegue-en-vercel.md). | Pendiente |
+| Calcular la distribución de respuestas en la base de datos | Hoy la función lee todas las respuestas de la pregunta en cada envío (paginadas de 1000 en 1000). Vale para el piloto, no para miles de jugadores. Se puede usar la función `daily_scores` de la base de datos ([base-de-datos.md](../base-de-datos.md)). | Pendiente |
 | Proteger las ramas `main` y `preprod` en GitHub | GitHub no bloquea hoy los push directos; solo lo impide la norma de [AGENTS.md](../AGENTS.md). | Pendiente |

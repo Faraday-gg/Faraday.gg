@@ -14,7 +14,7 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
 | Pruebas | `node:assert`, un proceso Node aislado y un Supabase simulado | Integración del servidor local, banco editorial y función de Vercel con Supabase. |
 
-El código para Vercel y Supabase está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). Falta aplicar el esquema en Supabase y crear el proyecto de Vercel con sus variables de entorno. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
+El esquema de Supabase está creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)) y el código que lo usa desde el servidor local y desde Vercel está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). Falta crear el proyecto de Vercel con sus variables de entorno. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
 
 ## Entornos y servicios
 
@@ -30,9 +30,10 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | URL de la API | `https://umiqvlccxxafvafroxii.supabase.co` |
 | Panel del proyecto | <https://supabase.com/dashboard/project/umiqvlccxxafvafroxii> |
 | Rama de base de datos | `main` (*production*), la única que existe |
-| Esquema `public` | Vacío a 9 de noviembre de 2026. Migración preparada en `supabase/migrations/` (tablas `answers` y `answers_preview`), pendiente de aplicar tras aceptar su PR |
+| Esquema `public` | Tablas `days`, `questions` y `answers` y función `daily_scores`, creadas el 9 de noviembre de 2026 (migración `20261109213854_esquema_inicial`). Detalle en [docs/base-de-datos.md](docs/base-de-datos.md). |
+| Acceso | Solo desde el servidor con la clave secreta; la clave pública no da acceso a nada ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)) |
 | Conector MCP para agentes | `supabase-casi-casi` (apunta a este proyecto) |
-| Vercel | Sin proyecto todavía. Configuración lista en `vercel.json`; región de funciones `fra1` (Frankfurt) |
+| Vercel | Sin proyecto todavía (lo configura Álvaro). Configuración en `vercel.json`, región de funciones `fra1` (Frankfurt). Variables: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Ver [Despliegue](#despliegue-vercel-y-supabase). |
 
 ### Un solo entorno de Supabase
 
@@ -41,9 +42,8 @@ Supabase **no tiene entorno de preprod**: todo trabaja contra la base de datos `
 En la práctica:
 
 - La rama `preprod` de Git sigue existiendo y sigue siendo obligatoria para el código (ver [AGENTS.md](AGENTS.md)), pero **apunta a la misma base de datos que producción**.
-- Todo cambio de esquema se escribe como migración SQL versionada en el repositorio, se revisa en su PR y solo se aplica a Supabase después de aceptarla. Ningún agente aplica migraciones, borra datos ni cambia políticas en Supabase sin confirmación explícita del responsable.
+- Todo cambio de esquema se escribe como migración SQL versionada en `supabase/migrations/`, se documenta en [docs/base-de-datos.md](docs/base-de-datos.md) y se revisa en su PR. Lo normal es aplicarla en Supabase después de aceptar la PR; si el responsable pide aplicarla antes, se anota en la bitácora. Ningún agente aplica migraciones, borra datos ni cambia políticas en Supabase sin confirmación explícita del responsable.
 - Las pruebas automáticas no escriben en Supabase: siguen usando archivos temporales o datos de prueba locales.
-- Dentro de esa única base de datos, los despliegues de prueba de Vercel (Preview) escriben en la tabla `answers_preview` y producción en `answers`, para que las respuestas de prueba no se mezclen con las reales. Ver [decisión 0002](docs/decisiones/0002-despliegue-en-vercel.md).
 - Cada cambio aplicado a Supabase se anota en [docs/bitacora/](docs/bitacora/) para que los dos sepamos qué hay en la base de datos.
 
 ## Mapa del repositorio
@@ -61,12 +61,12 @@ lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
-supabase/migrations/     Esquema de la base de datos (se aplica tras aceptar la PR)
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
 content-engine.mjs       Calendario y banco editorial posterior al piloto
 research/                Fuentes, análisis y scripts de preparación editorial
 tests/                   Integración del servidor local, contenido editorial y función de Vercel
-docs/                    Decisiones, bitácora, ideas y mejoras del equipo (Markdown)
+docs/                    Decisiones, bitácora, ideas, mejoras y base de datos (Markdown)
+supabase/migrations/     Migraciones SQL de la base de datos, en orden de versión
 runtime/                 Estado local generado; excluido de Git
 ```
 
@@ -99,27 +99,20 @@ Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo
 - Región `fra1` (Frankfurt), la misma que la base de datos. En el plan Hobby solo se admite una región.
 - `includeFiles` para que la función lleve `dist/questions.json`.
 
-**Supabase** guarda las respuestas. El esquema está en `supabase/migrations/` y se aplica solo después de aceptar su PR:
+**Supabase** guarda las respuestas con el esquema descrito en [docs/base-de-datos.md](docs/base-de-datos.md) (migración `20261109213854_esquema_inicial`):
 
-- Tablas `answers` (producción) y `answers_preview` (despliegues Preview), con clave primaria `(question_id, player_hash)` y comprobaciones de formato y rango.
-- RLS activo y sin políticas, sin permisos para `anon` ni `authenticated`. El navegador no puede leerlas ni escribirlas.
-- Se retira el permiso de ejecución de `public.rls_auto_enable()` a `anon` y `authenticated`. Es el aviso que da hoy el asesor de seguridad.
-- La función accede con la clave secreta (`sb_secret_...`, rol `service_role`) por la API REST de Supabase, sin SDK. Pagina las lecturas porque PostgREST limita cada respuesta a 1000 filas.
-- Una respuesta repetida se ignora en la base de datos; si la cifra cambia, la API responde 409, como en local.
+- `answers` exige que la pregunta exista en `questions`. Al recibir la primera respuesta de una jornada, la API publica la jornada en `days` y sus tres preguntas en `questions`, en inserciones que ignoran duplicados, y después guarda la respuesta. El calendario y las preguntas que ve el navegador siguen saliendo de `content-engine.mjs`.
+- La función accede con la clave secreta (`sb_secret_...`, rol `service_role`) por la API REST de Supabase, sin SDK ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)). Pagina las lecturas porque PostgREST limita cada respuesta a 1000 filas.
+- Una respuesta repetida se ignora en la base de datos (única por `question_id` y `player_hash`). Si la cifra cambia, la API responde 409, como en local.
+- Preprod y producción comparten base de datos ([decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md)). Las respuestas enviadas desde un despliegue Preview de Vercel se mezclan con las reales.
 
-Variables de entorno de la función (solo por nombre; los valores, en el panel de Vercel):
-
-| Variable | Production | Preview |
-| --- | --- | --- |
-| `SUPABASE_URL` | URL del proyecto | URL del proyecto |
-| `SUPABASE_SECRET_KEY` | clave `sb_secret_...` | clave `sb_secret_...` |
-| `ANSWERS_TABLE` | `answers` | `answers_preview` |
+Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`.
 
 La rama de producción de Vercel debe ser `main`. La rama por defecto del repositorio es `preprod`, y Vercel la tomaría como producción si no se cambia. Las jornadas futuras del banco se calculan al vuelo, sin estado: un cambio en el banco editorial cambia también las fechas aún no jugadas.
 
-En el plan Hobby de Vercel, con un repositorio privado, solo el propietario de la cuenta puede disparar despliegues: los commits de otros autores se bloquean. Ver [decisión 0002](docs/decisiones/0002-despliegue-en-vercel.md).
+En el plan Hobby de Vercel, con un repositorio privado, solo el propietario de la cuenta puede disparar despliegues: los commits de otros autores se bloquean. Ver [decisión 0003](docs/decisiones/0003-despliegue-en-vercel.md).
 
-Pendiente: aplicar la migración, crear el proyecto de Vercel, copias de seguridad y retención de datos, y observabilidad más allá de los registros de Vercel.
+Pendiente: crear el proyecto de Vercel, copias de seguridad y retención de datos, y observabilidad más allá de los registros de Vercel.
 
 ## Desarrollo y verificación
 
