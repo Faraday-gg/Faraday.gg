@@ -13,7 +13,7 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
 | Pruebas | `node:assert` y un proceso Node aislado | Prueba de integración de la API de respuestas y su persistencia. |
 
-El proyecto de Supabase ya existe (ver [Entornos y servicios](#entornos-y-servicios)), pero está vacío: el código todavía no lo usa, no hay SDK de Supabase, integración con Vercel ni despliegue de producción configurados en este repositorio. Tampoco hay autenticación de usuarios ni cuentas personales.
+El proyecto de Supabase ya existe y tiene su esquema creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)), pero el código todavía no lo usa: no hay SDK de Supabase, integración con Vercel ni despliegue de producción configurados en este repositorio. Tampoco hay autenticación de usuarios ni cuentas personales.
 
 ## Entornos y servicios
 
@@ -29,9 +29,10 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | URL de la API | `https://umiqvlccxxafvafroxii.supabase.co` |
 | Panel del proyecto | <https://supabase.com/dashboard/project/umiqvlccxxafvafroxii> |
 | Rama de base de datos | `main` (*production*), la única que existe |
-| Esquema `public` | Vacío a 9 de noviembre de 2026: sin tablas ni migraciones |
+| Esquema `public` | Tablas `days`, `questions` y `answers` y función `daily_scores`, creadas el 9 de noviembre de 2026 (migración `20261109213854_esquema_inicial`). Sin contenido cargado. Detalle en [docs/base-de-datos.md](docs/base-de-datos.md). |
+| Acceso | Solo desde el servidor con la clave secreta; la clave pública no da acceso a nada ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)) |
 | Conector MCP para agentes | `supabase-casi-casi` (apunta a este proyecto) |
-| Vercel | Sin proyecto todavía |
+| Vercel | Álvaro está empezando a configurarlo; todavía sin proyecto documentado aquí. Variables previstas: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. |
 
 ### Un solo entorno de Supabase
 
@@ -40,7 +41,7 @@ Supabase **no tiene entorno de preprod**: todo trabaja contra la base de datos `
 En la práctica:
 
 - La rama `preprod` de Git sigue existiendo y sigue siendo obligatoria para el código (ver [AGENTS.md](AGENTS.md)), pero **apunta a la misma base de datos que producción**.
-- Todo cambio de esquema se escribe como migración SQL versionada en el repositorio, se revisa en su PR y solo se aplica a Supabase después de aceptarla. Ningún agente aplica migraciones, borra datos ni cambia políticas en Supabase sin confirmación explícita del responsable.
+- Todo cambio de esquema se escribe como migración SQL versionada en `supabase/migrations/`, se documenta en [docs/base-de-datos.md](docs/base-de-datos.md) y se revisa en su PR. Lo normal es aplicarla en Supabase después de aceptar la PR; si el responsable pide aplicarla antes, se anota en la bitácora. Ningún agente aplica migraciones, borra datos ni cambia políticas en Supabase sin confirmación explícita del responsable.
 - Las pruebas automáticas no escriben en Supabase: siguen usando archivos temporales o datos de prueba locales.
 - Cada cambio aplicado a Supabase se anota en [docs/bitacora/](docs/bitacora/) para que los dos sepamos qué hay en la base de datos.
 
@@ -59,7 +60,8 @@ preview-server.mjs       Servidor HTTP y API local
 content-engine.mjs       Calendario y banco editorial posterior al piloto
 research/                Fuentes, análisis y scripts de preparación editorial
 tests/                   Pruebas de integración del servidor y del contenido editorial
-docs/                    Decisiones, bitácora, ideas y mejoras del equipo (Markdown)
+docs/                    Decisiones, bitácora, ideas, mejoras y base de datos (Markdown)
+supabase/migrations/     Migraciones SQL de la base de datos, en orden de versión
 runtime/                 Estado local generado; excluido de Git
 ```
 
@@ -90,11 +92,11 @@ La intención es desplegar la web en **Vercel** y utilizar **Supabase** como bas
 Propuesta de trabajo, sujeta a diseño y revisión antes de implementarla:
 
 1. Mantener la web de `dist/` como frontend desplegado en Vercel. Convertir las rutas HTTP actuales en funciones o rutas de servidor compatibles con Vercel; `preview-server.mjs` puede seguir sirviendo de entorno local si comparte la lógica de negocio.
-2. Crear en Supabase un esquema para preguntas/jornadas publicadas y respuestas por pregunta e identificador anónimo. Definir claves únicas para evitar respuestas duplicadas y políticas de acceso apropiadas. La lógica de cálculo y validación de referencias debe ejecutarse en el servidor, sin exponer credenciales privilegiadas al navegador.
+2. ~~Crear en Supabase un esquema para jornadas, preguntas y respuestas.~~ **Hecho el 9 de noviembre de 2026**: ver [docs/base-de-datos.md](docs/base-de-datos.md). La lógica de cálculo y validación se ejecuta en el servidor, sin exponer credenciales privilegiadas al navegador.
 3. Sustituir las lecturas y escrituras de `runtime/` por consultas persistentes. Evitar depender del sistema de archivos de las funciones de Vercel para estado compartido. Planificar la migración de cualquier dato local que se decida conservar, con una revisión de privacidad previa.
 4. Configurar variables de entorno, pruebas de integración con el nuevo almacenamiento y despliegues de prueba desde `preprod` (teniendo en cuenta que, mientras sigamos en el plan gratuito, preprod y producción comparten base de datos). Promover a producción desde `main` solo después de revisar y aceptar la PR correspondiente.
 
-El proyecto de Supabase ya está creado (un único entorno, ver arriba), pero aún no tiene esquema; Vercel no tiene proyecto, y no hay variables de entorno ni canalización de despliegue definidas aquí. Las decisiones concretas de tablas, políticas, región y despliegue deben documentarse cuando se implementen.
+El proyecto de Supabase ya está creado (un único entorno, ver arriba) y tiene el esquema inicial, aún sin contenido ni conexión con la app; Vercel lo está empezando a configurar Álvaro, y no hay variables de entorno ni canalización de despliegue definidas aquí. Las decisiones concretas de tablas, políticas, región y despliegue deben documentarse cuando se implementen.
 
 ## Desarrollo y verificación
 
