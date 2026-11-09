@@ -1,0 +1,126 @@
+{
+  "id": "2026-08-28",
+  "name": "Viernes",
+  "theme": "Pulpo, lince y Venecia",
+  "questions": [
+    {
+      "id": "archivo-2026-08-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Pulpo a feira",
+      "title": "¿Cuántas raciones de pulpo a feira se sirven en la Festa do Pulpo de O Carballiño?",
+      "detail": "Plato de madera, pimentón, aceite y sal gorda. Cada ración lleva 250 g de pulpo y nadie repite (es mucho suponer).",
+      "unit": "raciones",
+      "answer": 110000,
+      "math": "En la fiesta se preparan entre 25.000 y 30.000 kg de pulpo; tomamos el punto medio, 27.500 kg. Entre 0,25 kg por ración: 110.000 raciones.",
+      "referenceExpression": "27500 ÷ 0,25",
+      "assumptions": "Usamos el punto medio del rango y raciones de 250 g. No distinguimos entre pulpo crudo y cocido, que pierde peso al cocerse.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Spain.info · Fiesta del Pulpo de O Carballiño",
+          "url": "https://www.spain.info/es/agenda/fiesta-pulpo/",
+          "fact": "En la fiesta se preparan entre 25.000 y 30.000 kilos de pulpo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-28-1.jpg",
+        "alt": "Ración de pulpo a feira con pimentón sobre un plato de madera",
+        "credit": "Tamorlan",
+        "url": "https://commons.wikimedia.org/wiki/File:Raci%C3%B3nPulpo.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Toneladas de pulpo en platos de madera",
+        "steps": [
+          "Es una de las fiestas gastronómicas más grandes de Galicia: decenas de pulpeiros cocinando sin parar. Pensemos en decenas de toneladas.",
+          "Si fueran unas 25 toneladas y cada ración lleva un cuarto de kilo, salen unas 100.000 raciones.",
+          "Con el punto medio de 27.500 kg salen 110.000 raciones. Si cuentas el peso que pierde el pulpo al cocerlo, serían algunas menos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Dieta de conejo",
+      "title": "¿Cuántas veces su propio peso come en conejos un lince ibérico a lo largo de un año?",
+      "detail": "Lince macho adulto, un conejo al día de 1,2 kg y ningún día de ayuno. Para él, el conejo no es plato: es menú.",
+      "unit": "veces",
+      "answer": 34.21875,
+      "math": "Un lince necesita aproximadamente un conejo al día. 365 conejos de 1,2 kg suman 438 kg al año. Un macho adulto pesa de media 12,8 kg: 438 ÷ 12,8 ≈ 34,2 veces su peso.",
+      "referenceExpression": "365 × 1,2 ÷ 12,8",
+      "assumptions": "Conejo silvestre de 1,2 kg, el extremo bajo del rango de 1,2-2,5 kg, porque el conejo ibérico es pequeño. Contamos el conejo entero, aunque el lince no se lo come todo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Lynx pardinus",
+          "url": "https://es.wikipedia.org/wiki/Lynx_pardinus",
+          "fact": "Los machos adultos pesan de media 12,8 kg y las hembras unos 9,3 kg; sus necesidades energéticas equivalen aproximadamente a un conejo por día."
+        },
+        {
+          "title": "Wikipedia · Oryctolagus cuniculus",
+          "url": "https://es.wikipedia.org/wiki/Oryctolagus_cuniculus",
+          "fact": "El peso del conejo europeo varía de 1,2 a 2,5 kg."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-28-2.jpg",
+        "alt": "Lince ibérico tumbado mirando a la cámara, con sus pinceles en las orejas",
+        "credit": "http://www.lynxexsitu.es",
+        "url": "https://commons.wikimedia.org/wiki/File:Iberian_Lynx_endrino03.JPG",
+        "license": "CC BY 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/es/deed.en"
+      },
+      "reasoning": {
+        "heading": "Un conejo al día, todo el año",
+        "steps": [
+          "Un lince es como un gato grande: algo más de 10 kg. Un conejo pesa algo más de un kilo, y come más o menos uno al día.",
+          "Al año son unos 365 conejos: unos 400 kg de comida. 400 entre 12 da más de 30 veces su peso.",
+          "Con 1,2 kg por conejo y 12,8 kg por lince salen 34,2 veces. Con conejos más grandes, la cifra subiría."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Puente a puente",
+      "title": "Cruzando tres puentes distintos al día, ¿cuántos días tardarías en cruzar todos los puentes de Venecia?",
+      "detail": "Solo el centro histórico y tres puentes nuevos cada día, sin repetir. Las góndolas no cuentan como atajo.",
+      "unit": "días",
+      "answer": 145,
+      "math": "El centro histórico de Venecia tiene 435 puentes que unen 121 islas. A tres puentes nuevos al día: 435 ÷ 3 = 145 días.",
+      "referenceExpression": "435 ÷ 3",
+      "assumptions": "Usamos la cifra de 435 puentes del centro histórico; según qué se cuente (puentes privados, islas cercanas), otras fuentes dan entre 391 y algo más de 440.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · List of bridges in Venice",
+          "url": "https://en.wikipedia.org/wiki/List_of_bridges_in_Venice",
+          "fact": "El centro histórico de Venecia tiene 435 puentes que unen 121 islas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-28-3.jpg",
+        "alt": "Puente de Rialto sobre el Gran Canal de Venecia con góndolas",
+        "credit": "Saffron Blaze",
+        "url": "https://commons.wikimedia.org/wiki/File:Rialto_Bridge_Grand_Canal.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Contar puentes antes que días",
+        "steps": [
+          "Venecia es un laberinto de canales; en cualquier paseo cruzas puentes sin parar. Habrá unos cuantos cientos.",
+          "Con 400 puentes y 3 al día, salen unos 130 días: más de cuatro meses de vacaciones.",
+          "Con los 435 puentes del centro histórico salen 145 días. Si cuentas también los de las islas cercanas, necesitarías algunas semanas más."
+        ]
+      }
+    }
+  ]
+}

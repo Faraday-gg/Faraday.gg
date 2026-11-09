@@ -148,3 +148,29 @@
   .workspace-launch svg{width:24px;height:28px}
   .game-actions .button{padding:14px 11px;font-size:11px}
 }
+
+/* Categorías: icono por pregunta en la portada, el archivo y el juego. */
+.cat-icon{display:inline-grid;place-items:center;width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);color:var(--ink);flex:none}
+.cat-icon svg{width:20px;height:20px}
+.cat-yellow{background:var(--yellow)}.cat-blue{background:var(--blue)}.cat-paper{background:var(--paper)}
+.hero-rounds{list-style:none;display:flex;gap:22px;margin:30px 0 0;padding:0}
+.hero-rounds li{display:flex;align-items:center;gap:9px}
+.round-number{font-size:12px;font-weight:800;letter-spacing:.08em}
+.cat-icon-hero{width:46px;height:46px;box-shadow:3px 3px 0 var(--ink)}
+.cat-icon-hero svg{width:26px;height:26px}
+.question-tag{display:inline-flex;align-items:center;gap:8px}
+.cat-icon-tag{width:22px;height:22px;border:0;background:transparent}
+.cat-icon-tag svg{width:17px;height:17px}
+.week-item{grid-template-columns:96px 1fr auto 150px 40px}
+.week-day{font-size:22px;white-space:nowrap}
+.week-icons{display:flex;gap:6px}
+.week-sticker{font-size:56px}
+.week-sticker span{display:block}
+.archive-more{margin-top:30px}
+@media(max-width:680px){
+  .hero-rounds{gap:14px;margin-top:22px}.cat-icon-hero{width:40px;height:40px}.cat-icon-hero svg{width:22px;height:22px}
+  .week-item{grid-template-columns:52px 1fr auto 20px;gap:8px}.week-day{font-size:14px}
+  .week-icons{gap:3px}.week-icons .cat-icon{width:24px;height:24px}.week-icons .cat-icon svg{width:14px;height:14px}
+  .week-sticker{font-size:30px}
+}
+.archive-more[hidden]{display:none}

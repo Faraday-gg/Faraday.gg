@@ -1,0 +1,131 @@
+{
+  "id": "2026-09-04",
+  "name": "Viernes",
+  "theme": "Tren, Minecraft y Olympus",
+  "questions": [
+    {
+      "id": "archivo-2026-09-04-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Del Mataró al AVE",
+      "title": "¿Cuántas veces cabe la primera línea de tren de la península en la red actual de alta velocidad?",
+      "detail": "Comparamos la línea Barcelona–Mataró de 1848 con todos los kilómetros de alta velocidad en servicio en España. El humo de la locomotora no cuenta.",
+      "unit": "veces",
+      "answer": 136.5635738831615,
+      "math": "La línea de 1848 medía 29,1 km. La red de alta velocidad tenía 3.974 km en servicio en septiembre de 2024. 3.974 ÷ 29,1 ≈ 136,6 veces.",
+      "referenceExpression": "3974 ÷ 29,1",
+      "assumptions": "Kilómetros de infraestructura de alta velocidad en servicio a septiembre de 2024; la red sigue creciendo.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Ferrocarril Barcelona-Mataró",
+          "url": "https://es.wikipedia.org/wiki/Ferrocarril_Barcelona-Mataró",
+          "fact": "Inaugurado el 28 de octubre de 1848, contaba con una longitud de 29,1 km."
+        },
+        {
+          "title": "Wikipedia · Alta velocidad ferroviaria en España",
+          "url": "https://es.wikipedia.org/wiki/Alta_velocidad_ferroviaria_en_España",
+          "fact": "En septiembre de 2024 la red tenía en servicio 3.974 kilómetros de infraestructuras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compara un trayecto corto con un país",
+        "steps": [
+          "La primera línea unía dos ciudades cercanas: unos 30 km. La red de AVE cruza España en todas direcciones: miles de kilómetros.",
+          "4.000 km entre 30 km dan algo más de 130 veces.",
+          "Con los datos exactos, 3.974 ÷ 29,1 = 136,6 veces. Cada nuevo tramo inaugurado sube la cifra; en 1848, el viaje a Mataró ya parecía cosa del futuro."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-04-1.jpg",
+        "alt": "Réplica de la locomotora del tren de Mataró ante las naves del Museo del Ferrocarril de Cataluña",
+        "credit": "archivo fotografico del museo del ferrocarril de Catalunya Espai 360",
+        "url": "https://commons.wikimedia.org/wiki/File:Maratoynave.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-04-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Mundo cuadrado",
+      "title": "¿Cuántas veces cabe la superficie de la Tierra en un mundo de Minecraft si cada bloque mide 1 m?",
+      "detail": "Mundo de Minecraft Java hasta su borde por defecto, plano como una galleta y con bloques de 1 × 1 m. La Tierra, con su superficie total, océanos incluidos.",
+      "unit": "veces",
+      "answer": 7.057819601940557,
+      "math": "El borde del mundo mide 59.999.968 bloques de lado: 59.999.968² ≈ 3,6 × 10¹⁵ m². La Tierra tiene 510.072.000 km² = 5,10 × 10¹⁴ m². Cociente ≈ 7,06 veces.",
+      "referenceExpression": "59999968² ÷ 510072000000000",
+      "assumptions": "Mundo cuadrado con el borde por defecto de Java Edition y 1 bloque = 1 m². No se cuentan alturas ni cuevas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Minecraft Wiki · World border",
+          "url": "https://minecraft.wiki/w/World_border",
+          "fact": "Por defecto, el borde está a 29.999.984 bloques del origen: un diámetro de 59.999.968 bloques."
+        },
+        {
+          "title": "Wikipedia · Earth",
+          "url": "https://en.wikipedia.org/wiki/Earth",
+          "fact": "Superficie total de la Tierra: 510.072.000 km²."
+        }
+      ],
+      "reasoning": {
+        "heading": "Eleva al cuadrado el lado",
+        "steps": [
+          "El mundo de Minecraft llega a 30 millones de bloques del centro hacia cada lado: 60.000 km de lado si cada bloque es un metro.",
+          "60.000 km al cuadrado son 3.600 millones de km². La Tierra ronda 500 millones de km²: cabe unas 7 veces.",
+          "El cálculo fino da 7,06 Tierras. Y aun así, la mayoría de jugadores no pasa de su casa de madera y la mina de al lado."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-04-2.png",
+        "alt": "Captura de un paisaje de Minecraft con bloques, árboles y relieve cuadriculado",
+        "credit": "Xbox México",
+        "url": "https://commons.wikimedia.org/wiki/File:Minecraft_Beta_1.8.1_Gameplay_Screenshot.png",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-04-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Monte sin funicular",
+      "title": "Subiendo 400 m de desnivel por hora, ¿cuántas horas tardarías en coronar el Olympus Mons de Marte?",
+      "detail": "Partes del nivel de referencia marciano y subes 400 m por hora sin parar a comer. Trae oxígeno: allí no hay chiringuitos.",
+      "unit": "horas",
+      "answer": 53.2175,
+      "math": "Olympus Mons alcanza 21.287 m sobre el nivel de referencia de Marte (medición MOLA). 21.287 ÷ 400 = 53,2 horas.",
+      "referenceExpression": "21287 ÷ 400",
+      "assumptions": "Usamos la altura sobre el nivel de referencia marciano. Desde las llanuras de Amazonis el desnivel se acerca a 26 km, lo que alargaría la excursión a unas 65 horas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Olympus Mons",
+          "url": "https://en.wikipedia.org/wiki/Olympus_Mons",
+          "fact": "Según el altímetro MOLA, mide 21,287 km sobre el nivel de referencia; desde las llanuras de Amazonis el desnivel se acerca a 26 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compáralo con el Everest",
+        "steps": [
+          "Olympus Mons es el volcán más alto conocido: más del doble que el Everest. Apostaríamos por unos 20 km.",
+          "20.000 m a 400 m por hora son 50 horas: más de dos días sin dormir.",
+          "Con los 21.287 m medidos por MOLA salen 53,2 horas. Si empiezas desde las llanuras de alrededor, súmale medio día largo."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-04-3.jpg",
+        "alt": "Vista de Olympus Mons, el enorme volcán marciano con su caldera en la cumbre",
+        "credit": "Image by NASA, modifications by Seddon",
+        "url": "https://commons.wikimedia.org/wiki/File:Olympus_Mons_alt.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Olympus_Mons_alt.jpg"
+      }
+    }
+  ]
+}

@@ -4,7 +4,14 @@ import {createHash} from 'node:crypto';
 
 const original=JSON.parse(fs.readFileSync(new URL('./dist/questions.json',import.meta.url),'utf8'));
 const base=original.flatMap(d=>d.questions);
-const fixtures=new Map(original.map(d=>[d.id,d]));
+// Archivo editorial: una jornada verificada por archivo en content/archivo/AAAA-MM-DD.json, anteriores al piloto.
+const archiveDirectory=new URL('./content/archivo/',import.meta.url);
+export const archive=fs.existsSync(archiveDirectory)?fs.readdirSync(archiveDirectory).filter(f=>/^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().map(f=>JSON.parse(fs.readFileSync(new URL(f,archiveDirectory),'utf8'))):[];
+// Jornadas escritas a mano (archivo + piloto), por orden de fecha.
+export const editorialDays=[...archive,...original].sort((a,b)=>a.id<b.id?-1:1);
+// Primera edición del juego: la Nº 1.
+export const FIRST_DAY=editorialDays[0].id;
+const fixtures=new Map(editorialDays.map(d=>[d.id,d]));
 const dayMs=86400000,start=Date.parse('2026-11-16T12:00:00Z');
 const units={
  area:[['folios A4',.210*.297,'m²','Una hoja A4 ocupa 0,210 × 0,297 m.'],['tarjetas bancarias',.0856*.05398,'m²','Tarjeta de referencia de 85,60 × 53,98 mm.'],['servilletas de papel',.33**2,'m²','Servilleta abierta ideal de 33 × 33 cm.'],['esterillas de yoga',1.8*.6,'m²','Esterilla de referencia de 180 × 60 cm.'],['posavasos',.1**2,'m²','Posavasos cuadrados de 10 cm de lado.'],['fichas de dominó',.05*.025,'m²','Ficha plana ideal de 5 × 2,5 cm.'],['manteles de restaurante',1.4**2,'m²','Manteles cuadrados de referencia de 1,4 m.'],['portadas de discos de vinilo',.315**2,'m²','Carátula cuadrada de referencia de 31,5 cm.']],
@@ -42,5 +49,8 @@ export function getDay(date,{persist=true,directory=process.env.DAYS_DIRECTORY||
 export function calendar(date=madridDate(),options={}){
  const end=Math.max(Date.parse('2026-11-15T12:00:00Z'),Date.parse(date+'T12:00:00Z'));
  const days=[];for(let i=29;i>=0;i--){const key=new Date(end-i*dayMs).toISOString().slice(0,10),day=getDay(key,options);if(day)days.push(day)}
- return {date,days,availableThrough:new Date(start+(Math.floor(pool.length/3)-1)*dayMs).toISOString().slice(0,10),generation:'verified-editorial-bank',exhausted:!getDay(date,options)};
+ // Jornadas más antiguas que la ventana de 30 días: solo un resumen; el navegador pide la jornada completa a /api/day al abrirla.
+ const from=new Date(end-29*dayMs).toISOString().slice(0,10);
+ const older=editorialDays.filter(d=>d.id<from).map(d=>({id:d.id,name:d.name,theme:d.theme,categories:d.questions.map(q=>q.category)}));
+ return {date,first:FIRST_DAY,days,archive:older,availableThrough:new Date(start+(Math.floor(pool.length/3)-1)*dayMs).toISOString().slice(0,10),generation:'verified-editorial-bank',exhausted:!getDay(date,options)};
 }

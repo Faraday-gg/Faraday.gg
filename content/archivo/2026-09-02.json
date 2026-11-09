@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-02",
+  "name": "Miércoles",
+  "theme": "Pilas, cerebro y Big Ben",
+  "questions": [
+    {
+      "id": "archivo-2026-09-02-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Coche a pilas",
+      "title": "¿Cuántas pilas AA harían falta para almacenar la energía de la batería de un coche eléctrico de 60 kWh?",
+      "detail": "Cambiamos la batería del coche por pilas del súper. Cada pila AA alcalina guarda 1,5 V × 2,5 Ah. Ni cables, ni soldaduras, ni pensar en el maletero.",
+      "unit": "pilas",
+      "answer": 16000,
+      "math": "Una pila de 1,5 V y 2.500 mAh guarda 1,5 × 2,5 = 3,75 Wh. La batería del coche tiene 60 kWh = 60.000 Wh. 60.000 ÷ 3,75 = 16.000 pilas.",
+      "referenceExpression": "60000 ÷ (1,5 × 2,5)",
+      "assumptions": "Pila alcalina con 2.500 mAh, dentro del rango típico de 1.700–2.850 mAh. La capacidad real baja mucho con consumos altos, así que en un coche rendirían bastante menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · AA battery",
+          "url": "https://en.wikipedia.org/wiki/AA_battery",
+          "fact": "Las pilas AA alcalinas tienen 1,5 V nominales y una capacidad de 1.700 a 2.850 mAh."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa todo a vatios hora",
+        "steps": [
+          "Una pila AA parece poca cosa y un coche eléctrico, un mundo. Intuitivamente diríamos miles de pilas, quizá decenas de miles.",
+          "La energía de una pila es voltaje por carga: 1,5 V por unos 2,5 Ah dan menos de 4 Wh. 60 kWh son 60.000 Wh, así que hablamos de unas 15.000–20.000 pilas.",
+          "Con 3,75 Wh por pila salen exactamente 16.000. Si usas pilas más generosas (2,85 Ah) bajarías a unas 14.000; con consumos fuertes, la pila rinde menos y harían falta más."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-02-1.jpg",
+        "alt": "Pilas AA alcalinas en fila, del tamaño de un dedo, para imaginar cuántas llenarían un coche",
+        "credit": "Threecharlie",
+        "url": "https://commons.wikimedia.org/wiki/File:Varta_Industrial_Alkaline_AA_batteries.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-02-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Bombilla pensante",
+      "title": "¿Cuántas bombillas LED de 8 W podrías encender con la potencia de tu cerebro?",
+      "detail": "Tu cerebro chupa energía sin parar, incluso mientras ves vídeos de gatos. Supón una dieta de 2.000 kcal al día y que el cerebro se lleva el 20 %. Bombillas LED de 8 W.",
+      "unit": "bombillas",
+      "answer": 2.4212962962962963,
+      "math": "El 20 % de 2.000 kcal son 400 kcal al día = 400 × 4.184 J = 1.673.600 J. Repartidos en 86.400 s dan unos 19,4 W. 19,4 ÷ 8 ≈ 2,42 bombillas.",
+      "referenceExpression": "2000 × 0,2 × 4184 ÷ 86400 ÷ 8",
+      "assumptions": "Dieta de 2.000 kcal y gasto cerebral constante del 20 %. Es una potencia media: el cerebro no tiene picos espectaculares al hacer sudokus.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "PNAS (vía PubMed Central) · Raichle y Gusnard, «Appraising the brain's energy budget»",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC124895/",
+          "fact": "El cerebro supone un 2 % del peso corporal pero consume alrededor del 20 % del oxígeno y, por tanto, de las calorías del cuerpo."
+        }
+      ],
+      "reasoning": {
+        "heading": "Convierte calorías en vatios",
+        "steps": [
+          "Pensar cansa, pero el cerebro no es un horno. Una apuesta rápida: algo parecido a una bombilla o dos.",
+          "2.000 kcal al día equivalen a unos 100 W de media para todo el cuerpo. El 20 % de eso son unos 20 W: dos bombillas LED y media.",
+          "Con el cálculo fino salen 19,4 W y 2,42 bombillas de 8 W. Si comes más o menos, la cifra se mueve en proporción; lo que no cambia es que tu cerebro gasta menos que un portátil."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-02-2.jpg",
+        "alt": "Varias bombillas LED de distintos tamaños, la vara de medir de la potencia cerebral",
+        "credit": "Geoffrey.landis at English Wikipedia",
+        "url": "https://commons.wikimedia.org/wiki/File:LED_bulbs.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-02-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Reloj insistente",
+      "title": "¿Cuántas campanadas da el Big Ben en un año?",
+      "detail": "Solo cuentan los toques de la gran campana que marca las horas: una vez a la una, doce a las doce, y vuelta a empezar. Los cuartos no cuentan. Año de 365 días sin obras ni averías.",
+      "unit": "campanadas",
+      "answer": 56940,
+      "math": "De la 1 a las 12 suman 1 + 2 + … + 12 = 78 campanadas. Dos vueltas al día dan 156. 156 × 365 = 56.940 campanadas.",
+      "referenceExpression": "2 × (12 × 13 ÷ 2) × 365",
+      "assumptions": "Solo la gran campana de las horas, todos los días del año. Se ignoran las paradas por restauración, como el silencio de 2017 a 2022.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Big Ben",
+          "url": "https://en.wikipedia.org/wiki/Big_Ben",
+          "fact": "La Gran Campana toca el número de la hora (a las doce, doce golpes) y cuatro campanas menores dan los cuartos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Suma las horas antes de multiplicar",
+        "steps": [
+          "Un reloj que da la hora suena mucho: a ojo, decenas de campanadas al día, decenas de miles al año.",
+          "Las horas del 1 al 12 suman 78. Como el reloj da dos vueltas al día, son 156 campanadas diarias, y por 365 días quedamos cerca de 57.000.",
+          "El total exacto es 56.940. Si añadieras los cuartos, el número se dispararía; y en los años de restauración (2017–2022) el Big Ben se quedó casi mudo."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-02-3.jpg",
+        "alt": "La torre Elizabeth del Palacio de Westminster con la esfera del reloj del Big Ben",
+        "credit": "Diliff",
+        "url": "https://commons.wikimedia.org/wiki/File:Clock_Tower_-_Palace_of_Westminster,_London_-_September_2006.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      }
+    }
+  ]
+}

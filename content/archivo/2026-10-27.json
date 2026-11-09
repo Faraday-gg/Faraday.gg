@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-27",
+  "name": "Martes",
+  "theme": "Luna, jamón y agua",
+  "questions": [
+    {
+      "id": "archivo-2026-10-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "La Luna se va",
+      "title": "Si la Luna se aleja 3,8 cm cada año, ¿cuántos años tarda en alejarse la altura de un piso de 3 m?",
+      "detail": "Ritmo constante medido con los láseres que rebotan en los espejos del Apolo. Despídete sin prisa: hay tiempo.",
+      "unit": "años",
+      "answer": 78.94736842105263,
+      "math": "Las medidas con láser muestran que la Luna se aleja unos 3,8 cm al año (NASA). 300 cm ÷ 3,8 ≈ 78,9 años.",
+      "referenceExpression": "300 ÷ 3,8",
+      "assumptions": "Ritmo constante. El alejamiento se debe a las mareas y cambia muy despacio a lo largo de millones de años.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "NASA Goddard · Measuring the Moon's Distance",
+          "url": "https://eclipse.gsfc.nasa.gov/help/ApolloLaser.html",
+          "fact": "Las medidas muestran que la Luna se aleja de la Tierra a un ritmo de unos 3,8 centímetros al año."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-27-1.jpg",
+        "alt": "Retrorreflector láser del Apolo 11 colocado sobre el suelo lunar",
+        "credit": "NASA",
+        "url": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Laser_Ranging_Experiment.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Laser_Ranging_Experiment.jpg"
+      },
+      "reasoning": {
+        "heading": "Altura de un piso entre centímetros por año",
+        "steps": [
+          "3,8 cm al año es lo que crecen tus uñas. Un piso son 3 metros: ¿siglos?",
+          "300 cm entre unos 4 cm al año son unos 75 años.",
+          "Con 3,8 cm salen 78,9 años: más o menos una vida humana. En toda tu vida la Luna se aleja la altura de un piso."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Loncha a loncha",
+      "title": "¿Cuántas lonchas finas salen de un jamón ibérico de bellota de 8 kg?",
+      "detail": "Cortado a cuchillo, con lonchas finas de 5 g. Hueso, corteza y grasa exterior se quedan fuera; el cortador no se come ninguna.",
+      "unit": "lonchas",
+      "answer": 688,
+      "math": "Un jamón ibérico de bellota cortado a mano rinde aproximadamente un 43 % (La Estrella del Jamón). 8.000 g × 0,43 = 3.440 g; ÷ 5 g = 688 lonchas.",
+      "referenceExpression": "8000 × 0,43 ÷ 5",
+      "assumptions": "Rendimiento orientativo de un comercio especializado: cada pieza varía. Loncha de 5 g; deshuesado y loncheado a máquina el rendimiento sube cerca del 58 %.",
+      "confidence": "Dato aproximado + modelo",
+      "sources": [
+        {
+          "title": "La Estrella del Jamón · What is the yield of a jamón?",
+          "url": "https://www.laestrelladeljamon.com/blog/en/what-is-the-yield-of-a-jamon/",
+          "fact": "Rendimiento aproximado del jamón ibérico de bellota (50 % ibérico) cortado a mano: 43 %; deshuesado y a máquina, 58 %."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-27-2.jpg",
+        "alt": "Jamón en el jamonero con lonchas finas recién cortadas",
+        "credit": "Tamorlan",
+        "url": "https://commons.wikimedia.org/wiki/File:Jam%C3%B3n_cortado-Madrid-2009.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero lo que se aprovecha, luego las lonchas",
+        "steps": [
+          "Un jamón entero da para muchas raciones. ¿Cientos o miles de lonchas?",
+          "Del peso, más de la mitad es hueso, corteza y grasa que no se sirve. Si quedan unos 3,5 kg, a 5 g por loncha salen unas 700.",
+          "Con un 43 % de rendimiento salen 688 lonchas. Si el cortador las hace de 3 g, casi 1.150."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Botijo humano",
+      "title": "¿Cuántas botellas de 1,5 litros de agua lleva dentro un adulto de 70 kg?",
+      "detail": "Un hombre adulto de 70 kg, con el 60 % de su peso en agua, y cada kilo de agua es un litro. Sin escurrir a nadie.",
+      "unit": "botellas",
+      "answer": 28,
+      "math": "En un hombre adulto el agua supone el 60 % del peso corporal (Manual MSD). 70 × 0,6 = 42 L; 42 ÷ 1,5 = 28 botellas.",
+      "referenceExpression": "70 × 0,6 ÷ 1,5",
+      "assumptions": "1 kg de agua = 1 L. En mujeres el porcentaje es menor (en torno al 50 %) porque tienen más tejido graso.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Manual MSD · Introducción al agua corporal",
+          "url": "https://www.msdmanuals.com/es/hogar/nefropatías/equilibrio-hídrico/introducción-al-agua-corporal",
+          "fact": "El agua supone el 60 % del peso corporal en el hombre y un 50 % en la mujer."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-27-3.jpg",
+        "alt": "Botellas de agua de plástico alineadas en la estantería de un supermercado",
+        "credit": "Zhiufook Hung Kwanling",
+        "url": "https://commons.wikimedia.org/wiki/File:HK_SKD_%E5%B0%87%E8%BB%8D%E6%BE%B3_TKO_%E5%BA%B7%E5%9F%8E%E8%B7%AF_Lohas_Park_Road_LOHAS_Park_%E6%97%A5%E5%87%BA%E5%BA%B7%E5%9F%8E%E5%95%86%E5%A0%B4_mall_shop_FRESH_%E6%96%B0%E9%AE%AE%E7%94%9F%E6%B4%BB_Supermarket_goods_November_2021_SS2_water_plastic_bottles.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Peso por porcentaje, luego en botellas",
+        "steps": [
+          "Dicen que somos casi todo agua. ¿Un par de garrafas o un pack entero?",
+          "Si un 60 % de 70 kg es agua, son unos 40 litros. En botellas de 1,5 L, unas 27.",
+          "Salen 42 litros y 28 botellas exactas: cuatro packs y pico de seis."
+        ]
+      }
+    }
+  ]
+}

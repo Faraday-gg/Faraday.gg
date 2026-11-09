@@ -1,0 +1,121 @@
+{
+  "id": "2026-08-17",
+  "name": "Lunes",
+  "theme": "Vuelta, paella y La Raya",
+  "questions": [
+    {
+      "id": "archivo-2026-08-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Etapa de panadería",
+      "title": "¿Cuántas barras de pan puestas en fila cubrirían todo el recorrido de la Vuelta a España 2024?",
+      "detail": "Pon barras de 60 cm punta con punta desde la salida de Lisboa hasta la meta de Madrid. Las migas no cuentan como avituallamiento.",
+      "unit": "barras",
+      "answer": 5507166.666666667,
+      "math": "La Vuelta 2024 recorrió 3.304,3 km. Son 3.304.300 m ÷ 0,6 m por barra ≈ 5.507.167 barras.",
+      "referenceExpression": "3304300 ÷ 0,6",
+      "assumptions": "Barra de pan de 60 cm exactos y distancia oficial de las 21 etapas, sin traslados entre etapas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · 2024 Vuelta a España",
+          "url": "https://en.wikipedia.org/wiki/2024_Vuelta_a_Espa%C3%B1a",
+          "fact": "Distancia total: 3.304,3 km en 21 etapas, de Lisboa a Madrid."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-17-1.jpg",
+        "alt": "Pelotón de la Vuelta a España subiendo un puerto entre aficionados",
+        "credit": "Adolfobrigido",
+        "url": "https://commons.wikimedia.org/wiki/File:Vuelta_a_Espa%C3%B1a_2016-9%C2%AA_etapa._Cistierna-_Oviedo._Alto_del_Naranco-30.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Kilómetros a barras",
+        "steps": [
+          "Una gran vuelta ronda los 3.000 km. Cada kilómetro necesita casi 1.700 barras de 60 cm.",
+          "3.000 × 1.667 ≈ 5 millones de barras: unas cuantas panaderías trabajando todo el verano.",
+          "Con los 3.304,3 km de 2024 salen 5.507.167 barras. Cada edición cambia de recorrido, así que la cuenta de pan también."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Arroz a granel",
+      "title": "¿Cuántos granos de arroz lleva una paella valenciana para seis personas?",
+      "detail": "Seis raciones de 100 g de arroz crudo y granos de 25 mg. El socarrat no se cuenta por separado.",
+      "unit": "granos",
+      "answer": 24000,
+      "math": "Seis raciones de 100 g suman 600 g de arroz. Con granos de 0,025 g (25 g por cada mil granos): 600 ÷ 0,025 = 24.000 granos.",
+      "referenceExpression": "600 ÷ 0,025",
+      "assumptions": "Usamos 25 g por cada mil granos, dentro del rango de 15-45 g citado para el arroz; las variedades de grano redondo como el bomba pueden pesar algo más.",
+      "confidence": "Rango documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia (alemán) · Tausendkornmasse",
+          "url": "https://de.wikipedia.org/wiki/Tausendkornmasse",
+          "fact": "La masa media de mil granos de arroz se sitúa entre 15 y 45 g."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-17-2.jpg",
+        "alt": "Paella valenciana en su paellera, con arroz, pollo, conejo y judías verdes",
+        "credit": "Jan Harenburg",
+        "url": "https://commons.wikimedia.org/wiki/File:01_Paella_Valenciana_original.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pesa un grano, luego la paellera",
+        "steps": [
+          "Un grano de arroz pesa muy poco: cuesta notar un puñado de diez en la mano. Con 600 g de arroz, salen decenas de miles de granos.",
+          "Si mil granos pesan unos 25 g, cada 100 g son 4.000 granos. Seis raciones dan unos 24.000.",
+          "El resultado es 24.000 granos. Con granos de 30 mg serían 20.000 y con granos de 20 mg, 30.000: el peso del grano es la clave."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Frontera a pie",
+      "title": "Andando 25 km al día, ¿cuántos días tardarías en recorrer la frontera entre España y Portugal?",
+      "detail": "Sigue La Raya desde la desembocadura del Miño hasta la del Guadiana a 25 km diarios. Dos idiomas, un solo par de botas.",
+      "unit": "días",
+      "answer": 49.36,
+      "math": "La frontera terrestre entre España y Portugal mide 1.234 km. A 25 km al día: 1.234 ÷ 25 ≈ 49,4 días.",
+      "referenceExpression": "1234 ÷ 25",
+      "assumptions": "Caminamos siguiendo exactamente la línea fronteriza; buena parte de La Raya va por ríos, así que en la práctica habría que dar rodeos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Frontera entre España y Portugal",
+          "url": "https://es.wikipedia.org/wiki/Frontera_entre_Espa%C3%B1a_y_Portugal",
+          "fact": "Frontera de 1.234 km de longitud, según la Diputación de Badajoz y la Junta de Extremadura."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-17-3.jpg",
+        "alt": "El río Miño entre Valença y Tui, frontera natural entre Portugal y España",
+        "credit": "Bjoertvedt",
+        "url": "https://commons.wikimedia.org/wiki/File:PT_Valenca_-_ES_Tui_-_Rio_Mi%C3%B1o_IMG_3880.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Distancia entre etapa diaria",
+        "steps": [
+          "La frontera recorre la península de norte a sur con muchas curvas: más de mil kilómetros. A 25 km diarios, más de un mes.",
+          "1.200 km ÷ 25 km = 48 días. Unas siete semanas de caminata.",
+          "Con 1.234 km salen 49,4 días. Si hay que bordear ríos y embalses, la distancia real a pie sería bastante mayor."
+        ]
+      }
+    }
+  ]
+}

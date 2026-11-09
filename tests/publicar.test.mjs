@@ -32,8 +32,9 @@ const content=buildContent(URL_BASE);
 
 // 1. Primera publicación: todo.
 let result=await run();
-assert.deepEqual(result,{images:21,days:36,questions:108,replaced:[]});
-assert.equal(sb.questions.size,108);assert.equal(sb.objects.size,21);
+// Archivo (92 jornadas, 276 preguntas y fotos) + piloto (7 jornadas, 21) + banco editorial (29 jornadas, 87 preguntas sin foto propia).
+assert.deepEqual(result,{images:297,days:128,questions:384,replaced:[]});
+assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,297);
 assert([...sb.questions.values()].every(q=>q.content.image.src.startsWith(`${URL_BASE}/storage/v1/object/public/${BUCKET}/`)),'Las imágenes apuntan a Storage');
 assert.equal(sb.days.get('2026-11-09').source,'piloto');assert.equal(sb.days.get('2026-12-14').source,'banco-editorial');
 

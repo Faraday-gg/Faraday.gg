@@ -1,0 +1,121 @@
+{
+  "id": "2026-08-20",
+  "name": "Jueves",
+  "theme": "Mascletà, nevera y 4004",
+  "questions": [
+    {
+      "id": "archivo-2026-08-20-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Pólvora fallera",
+      "title": "¿Cuántos kilos de pólvora se disparan en todas las mascletàs de la plaza del Ayuntamiento durante las Fallas?",
+      "detail": "Suma las 19 mascletàs del 1 al 19 de marzo, todas al límite de 120 kg. Los tapones para los oídos van aparte.",
+      "unit": "kg",
+      "answer": 2280,
+      "math": "En la plaza del Ayuntamiento se disparan 19 mascletàs, del 1 al 19 de marzo, con un límite de 120 kg cada una: 19 × 120 = 2.280 kg.",
+      "referenceExpression": "19 × 120",
+      "assumptions": "Todas las mascletàs al máximo autorizado. El límite se refiere a la carga de materia explosiva, y alguna edición especial lo ha superado (en 2024 se permitieron 330 kg el día 19).",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mascletà",
+          "url": "https://es.wikipedia.org/wiki/Masclet%C3%A0",
+          "fact": "En la plaza del Ayuntamiento hay 19 mascletàs entre el 1 y el 19 de marzo; el límite actual es de 120 kilos por mascletà."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-20-1.jpg",
+        "alt": "Humo y estruendo de una mascletà en la plaza del Ayuntamiento de Valencia",
+        "credit": "Vicente Mocholi Grau",
+        "url": "https://commons.wikimedia.org/wiki/File:Masclet%C3%A1_en_Valencia_Fallas_2023.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Mascletàs por kilos",
+        "steps": [
+          "Hay una mascletà diaria durante casi tres semanas y cada una es un terremoto de pólvora de cien kilos largos. Eso sugiere un par de toneladas.",
+          "20 mascletàs × 100 kg = 2.000 kg. Ya sabemos que hablamos de toneladas.",
+          "Con 19 mascletàs y 120 kg salen 2.280 kg. Es un máximo: no todas llegan al límite y alguna especial lo ha superado."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-20-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Puerta giratoria",
+      "title": "¿Cuántas veces abrirás la nevera a lo largo de tu vida?",
+      "detail": "Veinte aperturas al día, desde los 5 años hasta la esperanza de vida media en España. Las que solo son para mirar también cuentan.",
+      "unit": "veces",
+      "answer": 577168.05,
+      "math": "La esperanza de vida al nacer es de 84,01 años (INE, 2024). Desde los 5 años quedan 79,01 años × 365,25 días × 20 aperturas ≈ 577.168 veces.",
+      "referenceExpression": "(84,01 − 5) × 365,25 × 20",
+      "assumptions": "Veinte aperturas diarias es una suposición del juego, no una estadística. Contamos desde los 5 años hasta la esperanza de vida media al nacer.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Movimiento Natural de la Población 2024 (nota de prensa)",
+          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-20-2.jpg",
+        "alt": "Nevera abierta llena de comida en sus baldas",
+        "credit": "Bretwa",
+        "url": "https://commons.wikimedia.org/wiki/File:Food_into_a_refrigerator_-_20111002.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Días por aperturas",
+        "steps": [
+          "Si abres la nevera unas veinte veces al día, en un año son más de 7.000. En toda una vida, cientos de miles.",
+          "80 años × 7.300 aperturas al año ≈ 584.000. Ya tenemos el orden de magnitud: más de medio millón.",
+          "Con 79,01 años de nevera y 20 aperturas diarias salen 577.168 veces. Si eres de las que abren «solo a mirar», súmale lo que quieras."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-20-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Chips en miniatura",
+      "title": "¿Cuántos procesadores Intel 4004 harían falta para sumar los transistores de un chip moderno de 50.000 millones?",
+      "detail": "Junta procesadores Intel 4004 de 1971 hasta igualar los transistores de un chip moderno de 50.000 millones. Necesitarás un enchufe muy grande.",
+      "unit": "procesadores",
+      "answer": 21739130.43478261,
+      "math": "El Intel 4004 tenía 2.300 transistores. 50.000.000.000 ÷ 2.300 ≈ 21.739.130 procesadores.",
+      "referenceExpression": "50000000000 ÷ 2300",
+      "assumptions": "El chip moderno de 50.000 millones de transistores es una referencia redonda; los procesadores actuales van desde unos miles de millones hasta más de cien mil millones.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Intel 4004",
+          "url": "https://en.wikipedia.org/wiki/Intel_4004",
+          "fact": "El Intel 4004 contenía 2.300 transistores."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-20-3.jpg",
+        "alt": "Ampliación del diseño interno del chip Intel 4004, con sus pistas y transistores",
+        "credit": "Wolfgang Stief from Tittmoning, Germany",
+        "url": "https://commons.wikimedia.org/wiki/File:Intel_4004_Chip_Layout_(29983532570).jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Divide transistores entre transistores",
+        "steps": [
+          "El primer microprocesador comercial tenía unos pocos miles de transistores y los de hoy decenas de miles de millones. La división da decenas de millones.",
+          "50.000 millones ÷ 2.000 serían 25 millones; con 2.300 la cifra baja un poco.",
+          "El resultado son 21.739.130 procesadores 4004. Medio siglo de miniaturización en un solo número."
+        ]
+      }
+    }
+  ]
+}

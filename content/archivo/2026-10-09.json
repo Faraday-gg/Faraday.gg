@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-09",
+  "name": "Viernes",
+  "theme": "Sierra Nevada, Fuente Dé y Vía Láctea",
+  "questions": [
+    {
+      "id": "archivo-2026-10-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Esquí sin esquís",
+      "title": "Si bajaras andando por todas las pistas de Sierra Nevada, ¿cuántas horas tardarías?",
+      "detail": "Te olvidaste los esquís en el coche, pero no el orgullo. Recorre a pie todas las pistas balizadas a 4 km/h, una sola vez cada una, y con remontes gratis para subir.",
+      "unit": "horas",
+      "answer": 26.4,
+      "math": "La estación suma 105,6 km de pistas balizadas. A 4 km/h: 105,6 ÷ 4 = 26,4 horas.",
+      "referenceExpression": "105,6 ÷ 4",
+      "assumptions": "Paso constante de 4 km/h cuesta abajo y sobre nieve, algo optimista. No cuenta el tiempo de subir en los remontes ni las paradas para recuperar el aliento. Los kilómetros balizados cambian un poco de una temporada a otra.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Turismo de Andalucía · Sierra Nevada, datos prácticos",
+          "url": "https://www.andalucia.org/actividades-y-atracciones/deportes/sierra-nevada/datos-practicos/",
+          "fact": "Longitud total de pistas balizadas: 105,6 km en 120 pistas; desnivel de 1.200 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-09-1.jpg",
+        "alt": "Pistas nevadas de la estación de Sierra Nevada con esquiadores pequeños sobre la ladera",
+        "credit": "acebal from La Felguera, Spain",
+        "url": "https://commons.wikimedia.org/wiki/File:Sierra_Nevada_Ski_Station_(128785518).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Kilómetros de pista entre velocidad de paseo",
+        "steps": [
+          "Una gran estación española tiene del orden de cien kilómetros de pistas. Andando a 4 km/h, cada 4 km es una hora.",
+          "100 ÷ 4 = 25 horas: más de un día entero caminando, pero no una semana.",
+          "Con los 105,6 km balizados salen 26,4 horas. Sobre nieve real irías más despacio que en asfalto, así que la cifra es un mínimo; si añades las colas del remonte, mejor reserva el fin de semana entero."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Ascensor de montaña",
+      "title": "¿A cuántos pisos por segundo te sube el teleférico de Fuente Dé?",
+      "detail": "En menos de cuatro minutos pasas del valle a lo alto de los Picos de Europa. Mide la subida en pisos de 3 m y reparte el desnivel por igual durante todo el trayecto.",
+      "unit": "pisos/s",
+      "answer": 1.1409090909090909,
+      "math": "El teleférico salva 753 m de desnivel en 3 min 40 s, es decir, 220 s. 753 ÷ 220 ≈ 3,42 m/s. Con pisos de 3 m: 3,42 ÷ 3 ≈ 1,14 pisos por segundo.",
+      "referenceExpression": "753 ÷ 220 ÷ 3",
+      "assumptions": "Ganancia de altura uniforme durante todo el viaje. En realidad la cabina recorre 1.450 m de cable a unos 10 m/s, pero solo una parte de ese movimiento es vertical.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Fuente Dé cable car",
+          "url": "https://en.wikipedia.org/wiki/Fuente_D%C3%A9_cable_car",
+          "fact": "Desnivel de 753 m, trayecto de 3 min 40 s, 1.450 m de cable y cabinas a 10 m/s."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-09-2.jpg",
+        "alt": "Cabina del teleférico de Fuente Dé suspendida frente a la pared de roca de los Picos de Europa",
+        "credit": "Javier Pais",
+        "url": "https://commons.wikimedia.org/wiki/File:Teleferico_de_Fuente_De.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Sube metros y luego tradúcelos a pisos",
+        "steps": [
+          "El teleférico salva unos 750 m de pared en unos 4 minutos, es decir, unos 240 segundos.",
+          "750 entre 240 da algo más de 3 m por segundo, justo un piso de 3 m cada segundo.",
+          "Con los 220 s exactos salen 3,42 m/s y 1,14 pisos por segundo. Como el cable va inclinado, la cabina se mueve a unos 10 m/s; la cifra vertical es la que notas en los oídos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Contar estrellas",
+      "title": "Contando una estrella por segundo, ¿cuántos años tardarías en contar las estrellas de la Vía Láctea?",
+      "detail": "Una estrella cada segundo, sin dormir, sin comer y sin perder la cuenta. Usa la estimación clásica de 100.000 millones de estrellas en nuestra galaxia.",
+      "unit": "años",
+      "answer": 3168.808781402895,
+      "math": "Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 100.000.000.000 ÷ 31.557.600 ≈ 3.169 años.",
+      "referenceExpression": "100000000000 ÷ (365,25 × 86400)",
+      "assumptions": "La cifra de estrellas es una estimación: la ESA habla de unos 100.000 millones y otras estimaciones llegan a 400.000 millones, lo que cuadruplicaría el tiempo.",
+      "confidence": "Estimación científica + modelo",
+      "sources": [
+        {
+          "title": "ESA · How many stars are there in the Universe?",
+          "url": "https://www.esa.int/Science_Exploration/Space_Science/Herschel/How_many_stars_are_there_in_the_Universe",
+          "fact": "Los astrónomos estiman que hay unos 100.000 millones de estrellas solo en la Vía Láctea."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-09-3.jpg",
+        "alt": "Arco de la Vía Láctea sobre el cielo nocturno de La Palma",
+        "credit": "Amirreza Kamkar/IAU OAE",
+        "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_Arch_over_La_Palma_(ann22042m).jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+      },
+      "reasoning": {
+        "heading": "Un año son unos 30 millones de segundos",
+        "steps": [
+          "Contar 100.000 millones de cosas suena eterno. La clave es saber cuántos segundos tiene un año: 60 × 60 × 24 × 365.",
+          "Eso da unos 31,5 millones de segundos, digamos 30 millones. 100.000 millones entre 30 millones son unos 3.300 años.",
+          "Con la cuenta exacta salen 3.169 años: habría que empezar antes de la fundación de Roma. Si la galaxia tuviera 400.000 millones de estrellas, serían casi 12.700 años."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-31",
+  "name": "Lunes",
+  "theme": "Webb, Bolt y tortuga",
+  "questions": [
+    {
+      "id": "archivo-2026-08-31-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Ropa de cama espacial",
+      "title": "¿Cuántas sábanas de 150 × 200 cm harían falta para igualar el parasol del telescopio James Webb?",
+      "detail": "Parasol tratado como un rectángulo, sábanas sin arrugas y una sola capa (el Webb tiene cinco, pero no vamos a hacer la cama cinco veces).",
+      "unit": "sábanas",
+      "answer": 100.06397133333333,
+      "math": "El parasol mide 21,197 × 14,162 m = 300,19 m². Cada sábana cubre 1,5 × 2 = 3 m²: 300,19 ÷ 3 ≈ 100,1 sábanas.",
+      "referenceExpression": "21,197 × 14,162 ÷ (1,5 × 2)",
+      "assumptions": "Tratamos el parasol, que tiene forma de cometa, como un rectángulo de sus medidas máximas, y contamos una sola de sus cinco capas. Su superficie real es menor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Webb’s Sunshield",
+          "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+          "fact": "Dimensiones reales del parasol: 21,197 m × 14,162 m (69,5 × 46,5 pies)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-31-1.jpg",
+        "alt": "Parasol del telescopio James Webb desplegado en una sala limpia, con técnicos al lado para comparar",
+        "credit": "Chris Gunn",
+        "url": "https://commons.wikimedia.org/wiki/File:James_Webb_telescope_sunshield.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:James_Webb_telescope_sunshield.jpg"
+      },
+      "reasoning": {
+        "heading": "Del tamaño de una pista de tenis",
+        "steps": [
+          "El parasol del Webb es enorme: como una pista de tenis, unos 20 × 14 m, unos 300 m².",
+          "Una sábana de matrimonio cubre 3 m². 300 entre 3 da unas 100 sábanas.",
+          "Con 21,197 × 14,162 m salen 100,1 sábanas por capa. Para las cinco capas harían falta unas 500, y el parasol real no es rectangular."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-31-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "El rayo en la Castellana",
+      "title": "A la velocidad media de su récord de 100 m, ¿cuántos minutos tardaría Usain Bolt en recorrer el paseo de la Castellana?",
+      "detail": "Bolt mantiene la velocidad media de su récord durante todo el paseo, sin semáforos ni turistas. Una ficción deportiva con la Castellana cortada.",
+      "unit": "minutos",
+      "answer": 10.059,
+      "math": "Récord mundial: 100 m en 9,58 s (Berlín, 2009), una media de 10,44 m/s. La Castellana mide 6,3 km: 6.300 ÷ 10,44 ≈ 603,5 s ≈ 10,06 minutos.",
+      "referenceExpression": "6300 ÷ (100 ÷ 9,58) ÷ 60",
+      "assumptions": "Mantenemos la velocidad media del récord, incluida la salida, durante 6,3 km. Ningún humano aguanta esa velocidad más de unos segundos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Men’s 100 metres world record progression",
+          "url": "https://en.wikipedia.org/wiki/Men%27s_100_metres_world_record_progression",
+          "fact": "Usain Bolt tiene el récord mundial de 100 m con 9,58 s (Estadio Olímpico de Berlín, 16 de agosto de 2009)."
+        },
+        {
+          "title": "Wikipedia · Paseo de la Castellana",
+          "url": "https://es.wikipedia.org/wiki/Paseo_de_la_Castellana",
+          "fact": "El paseo mide 6,3 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-31-2.jpg",
+        "alt": "Usain Bolt haciendo su gesto del rayo",
+        "credit": "Brunel University",
+        "url": "https://commons.wikimedia.org/wiki/File:Usain_Bolt_Lightning_pose.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Velocidad de récord, distancia de avenida",
+        "steps": [
+          "Bolt va a algo más de 10 metros por segundo. La Castellana mide unos 6 km.",
+          "6.000 metros a 10 m/s son 600 segundos: unos 10 minutos.",
+          "Con 9,58 s en 100 m y 6,3 km salen 10,06 minutos. En la vida real, un buen maratoniano tarda unos 18 minutos en esa distancia."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-31-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Prisa ninguna",
+      "title": "¿Cuántos días tardaría una tortuga gigante de Galápagos en recorrer el Camí de Cavalls de Menorca?",
+      "detail": "Vuelta completa a Menorca por el antiguo camino de ronda, a 0,3 km/h y 8 horas de marcha al día. El resto, siesta y lechuga.",
+      "unit": "días",
+      "answer": 77.08333333333334,
+      "math": "El Camí de Cavalls mide 185 km. A 0,3 km/h durante 8 horas, la tortuga avanza 2,4 km al día: 185 ÷ 2,4 ≈ 77,1 días.",
+      "referenceExpression": "185 ÷ (0,3 × 8)",
+      "assumptions": "Velocidad constante de 0,3 km/h y 8 horas de marcha diarias, sin cuestas ni desvíos. En libertad, las tortugas caminan mucho menos al día.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Galápagos tortoise",
+          "url": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_tortoise",
+          "fact": "Se las ha observado caminar a 0,3 km/h."
+        },
+        {
+          "title": "Wikipedia · Camí de Cavalls",
+          "url": "https://es.wikipedia.org/wiki/Cam%C3%AD_de_Cavalls",
+          "fact": "El Camí de Cavalls tiene una longitud de 185 km dividida en 20 etapas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-31-3.jpg",
+        "alt": "Tortuga gigante de Galápagos caminando por la hierba en la isla de Santa Cruz",
+        "credit": "Charles J. Sharp",
+        "url": "https://commons.wikimedia.org/wiki/File:Gal%C3%A1pagos_tortoise_(Chelonoidis_nigra)_Santa_Cruz.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Despacito y con horario",
+        "steps": [
+          "Una tortuga gigante camina mucho más despacio que una persona: unos pocos cientos de metros por hora. Dar la vuelta a Menorca es casi 200 km.",
+          "A 0,3 km/h y 8 horas al día recorre unos 2,4 km diarios. 200 km entre 2,4 dan unos 80 días.",
+          "Con los 185 km del camino salen 77,1 días: casi tres meses. Una persona andando hace el camino en unas 20 etapas."
+        ]
+      }
+    }
+  ]
+}

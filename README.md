@@ -1,6 +1,6 @@
 # Casi Casi
 
-Semana piloto de un juego de estimaciones en español. Incluye siete días (del 9 al 15 de noviembre de 2026), con tres preguntas por día.
+Juego diario de estimaciones en español (Faraday.gg): tres preguntas al día, cada una con su categoría e icono. El archivo empieza el 9 de agosto de 2026 (reto Nº 1) y se puede jugar cualquier día anterior.
 
 ## Probar en local
 
@@ -12,7 +12,7 @@ Abre `http://127.0.0.1:4173`.
 
 La interfaz usa HTML, CSS y JavaScript. El servidor Node, sin dependencias, sirve la web y reúne respuestas anónimas en `runtime/answers.json`, fuera del directorio público, o en Supabase si se configuran sus variables (ver [Despliegue](#despliegue-vercel-y-supabase)). Las respuestas propias, notas e historial se guardan también en el navegador. Los resultados anteriores a la revisión del contenido se conservan bajo sus claves originales y no se mezclan con las nuevas preguntas.
 
-El botón circular con icono de calculadora, situado a la izquierda de «Confirmar respuesta», abre el bloc. Durante la semana piloto se puede acceder a los siete días.
+El botón circular con icono de calculadora, situado a la izquierda de «Confirmar respuesta», abre el bloc. En «El archivo» se puede jugar cualquier día ya publicado; los días futuros no aparecen.
 
 Cada pregunta tiene fuentes enlazadas, fecha de comprobación, operación y supuestos. La fotografía de Las Canteras es de Bengt Nyman, vía Wikimedia Commons, CC BY 2.0; se muestra completa, sin recorte. El análisis de las 100 preguntas de Fermi está en `research/analisis-100-preguntas.md`. Para repetir el scraping público: `node research/analyse.mjs`.
 
@@ -38,7 +38,7 @@ node tests/publicar.test.mjs
 
 ## Contenido en Supabase
 
-Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`. **No hay que publicarlas a mano**: al fusionar en `main`, el despliegue de producción de Vercel sube a Supabase solo lo que ha cambiado (`buildCommand` de `vercel.json`). Para revisar qué cambiaría o publicar sin esperar a Vercel:
+Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `content/archivo/` (una jornada por archivo, del 9 de agosto al 8 de noviembre de 2026), `dist/questions.json` (piloto), `content-engine.mjs` y `dist/assets/`. Para añadir o revisar jornadas del archivo: `node research/foto-commons.mjs` busca y descarga fotos de Commons solo con licencia libre y `node research/validar-archivo.mjs DESDE HASTA` comprueba cada jornada. **No hay que publicarlas a mano**: al fusionar en `main`, el despliegue de producción de Vercel sube a Supabase solo lo que ha cambiado (`buildCommand` de `vercel.json`). Para revisar qué cambiaría o publicar sin esperar a Vercel:
 
 ```sh
 node --env-file=.env scripts/publicar-contenido.mjs --prueba

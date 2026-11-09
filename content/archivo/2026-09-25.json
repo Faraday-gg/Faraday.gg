@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-25",
+  "name": "Viernes",
+  "theme": "Vaticano, Sídney y Chupa Chups",
+  "questions": [
+    {
+      "id": "archivo-2026-09-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Estado en el parque",
+      "title": "¿Cuántas Ciudades del Vaticano cabrían dentro de la Casa de Campo de Madrid?",
+      "detail": "El país más pequeño del mundo frente al gran pulmón verde de Madrid. Compara superficies totales, sin pedir permiso a la Guardia Suiza.",
+      "unit": "Vaticanos",
+      "answer": 39.15,
+      "math": "La Casa de Campo mide 1.722,6 hectáreas y la Ciudad del Vaticano, 44 hectáreas. 1.722,6 ÷ 44 = 39,15 Vaticanos.",
+      "referenceExpression": "1722,6 ÷ 44",
+      "assumptions": "Superficies totales; la forma de cada uno no permite encajarlos sin recortes.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Casa de Campo",
+          "url": "https://es.wikipedia.org/wiki/Casa_de_Campo",
+          "fact": "La Casa de Campo tiene una extensión de 1.722,6 hectáreas."
+        },
+        {
+          "title": "Wikipedia · Ciudad del Vaticano",
+          "url": "https://es.wikipedia.org/wiki/Ciudad_del_Vaticano",
+          "fact": "La Ciudad del Vaticano tiene una extensión de 0,44 km² (44 hectáreas)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-25-1.jpg",
+        "alt": "Vista aérea de la Ciudad del Vaticano con la basílica de San Pedro y sus jardines",
+        "credit": "Ondřej Žváček",
+        "url": "https://commons.wikimedia.org/wiki/File:Leteck%C3%BD_pohled_na_Vatik%C3%A1n.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "Pasa todo a hectáreas",
+        "steps": [
+          "El Vaticano es diminuto: menos de medio kilómetro cuadrado. La Casa de Campo es un parque gigantesco, de más de 15 km².",
+          "17 km² entre 0,44 km² da unos 40 Vaticanos.",
+          "Con 1.722,6 ha y 44 ha salen 39,15 Vaticanos. Cabrían 39 países enteros y sobraría sitio para el lago."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Tejas sin prisa",
+      "title": "Colocando una teja cada 30 segundos, ¿cuántos días tardarías en cubrir la Ópera de Sídney?",
+      "detail": "Las velas más famosas de la arquitectura, alicatadas a mano por una sola persona. Una teja cada 30 segundos, trabajando 24 horas al día sin descanso.",
+      "unit": "días",
+      "answer": 366.66875,
+      "math": "Las cubiertas de la Ópera llevan 1.056.006 tejas. A 30 s cada una: 31.680.180 segundos; entre 86.400 s por día: 366,7 días.",
+      "referenceExpression": "1056006 × 30 ÷ 86400",
+      "assumptions": "Ritmo constante las 24 horas. En la obra real las tejas se montaron en paneles prefabricados.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Sydney Opera House",
+          "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+          "fact": "Las cubiertas están revestidas con 1.056.006 tejas de dos colores."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-25-2.jpg",
+        "alt": "Detalle de las tejas blancas y crema de una de las velas de la Ópera de Sídney",
+        "credit": "gehkadl",
+        "url": "https://commons.wikimedia.org/wiki/File:SydneyOperaCloseUp.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Tejas por tiempo",
+        "steps": [
+          "Las velas se ven lisas, pero son un mosaico de tejas pequeñas: del orden de un millón.",
+          "A dos tejas por minuto, un millón son 500.000 minutos: unas 8.300 horas, casi un año sin dormir.",
+          "Con 1.056.006 tejas salen 366,7 días. Con jornadas de 8 horas, serían tres años largos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Caramelo kilométrico",
+      "title": "¿Cuántos kilómetros mediría en fila la producción récord de Chupa Chups en un solo día?",
+      "detail": "El caramelo con palo inventado en Barcelona, puesto en fila punta con punta. Cada Chupa Chups mide 11 cm de largo con su palo.",
+      "unit": "km",
+      "answer": 331.71434999999997,
+      "math": "En 2006 Chupa Chups batió el récord de producción en un día con 3.015.585 unidades. A 11 cm cada una: 3.015.585 × 0,11 = 331.714 m, unos 331,7 km.",
+      "referenceExpression": "3015585 × 0,11 ÷ 1000",
+      "assumptions": "Longitud de 11 cm por caramelo, supuesto del modelo. Es la producción récord de un día, no la media.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Chupa Chups · Historia",
+          "url": "https://www.chupachups.es/historia",
+          "fact": "En 2006 la marca batió el récord mundial de producción en un solo día, con 3.015.585 Chupa Chups."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-25-3.jpg",
+        "alt": "Chupa Chups de varios sabores con sus envoltorios de colores",
+        "credit": "kruder396",
+        "url": "https://commons.wikimedia.org/wiki/File:ChupaChups.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Unidades por longitud",
+        "steps": [
+          "Un Chupa Chups con palo mide como un bolígrafo corto: unos 11 cm.",
+          "Tres millones de caramelos por 0,11 m son unos 330.000 m: 330 km.",
+          "Con 3.015.585 unidades salen 331,7 km, más o menos la distancia de Madrid a Valencia por carretera."
+        ]
+      }
+    }
+  ]
+}

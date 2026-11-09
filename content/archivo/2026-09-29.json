@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-29",
+  "name": "Martes",
+  "theme": "Esqueleto, Saturn V y Nadal",
+  "questions": [
+    {
+      "id": "archivo-2026-09-29-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Vagón de huesos",
+      "title": "¿Cuántos kilos de esqueleto viajan en un vagón de metro con 150 pasajeros?",
+      "detail": "Hora punta, 150 personas apretadas y nadie se agarra a la barra. Supón 70 kg por pasajero y que el hueso es el 14 % del peso corporal.",
+      "unit": "kg",
+      "answer": 1470.0000000000002,
+      "math": "150 × 70 kg = 10.500 kg de pasajeros. El 14 % es hueso: 1.470 kg de esqueleto.",
+      "referenceExpression": "150 × 70 × 0,14",
+      "assumptions": "La proporción de hueso cambia con la edad, el sexo y la complexión; el 14 % es una media de adulto. Todos los pasajeros pesan lo mismo en nuestro modelo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Human skeleton",
+          "url": "https://en.wikipedia.org/wiki/Human_skeleton",
+          "fact": "La masa ósea del esqueleto supone alrededor del 14 % del peso corporal total (unos 10–11 kg en una persona media)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-29-1.jpg",
+        "alt": "Esqueleto humano completo de pie, visto de frente",
+        "credit": "Sklmsta",
+        "url": "https://commons.wikimedia.org/wiki/File:Human-Skeleton.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Pesa el vagón y quédate con los huesos",
+        "steps": [
+          "Cada persona lleva encima unos 10 kg de esqueleto. Con 150 pasajeros serán más de una tonelada.",
+          "150 × 10 kg = 1.500 kg. El orden de magnitud es una tonelada y media, el peso de un coche grande.",
+          "Con 70 kg por persona y un 14 % de hueso salen 1.470 kg. Si el vagón fuera de niños o de jugadores de baloncesto, la cifra cambiaría bastante."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-29-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Jirafas lunares",
+      "title": "¿Cuántas jirafas apiladas igualarían la altura del cohete Saturn V?",
+      "detail": "Jirafas adultas de 5 m, una sobre otra y muy quietas. Medimos el cohete completo, con la nave Apolo y la torre de escape encima.",
+      "unit": "jirafas",
+      "answer": 22.2,
+      "math": "El Saturn V medía 111 m (363 pies). 111 ÷ 5 = 22,2 jirafas.",
+      "referenceExpression": "111 ÷ 5",
+      "assumptions": "Las jirafas adultas miden entre 4 y 6 m según el sexo; usamos 5 m redondos. La altura incluye la nave Apolo y su torre de escape.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · What Was the Saturn V?",
+          "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-was-the-saturn-v-grades-5-8/",
+          "fact": "El cohete Saturn V medía 111 metros (363 pies), como un edificio de 36 plantas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-29-2.jpg",
+        "alt": "Cohete Saturn V del Apolo 11 trasladándose hacia la plataforma de lanzamiento junto a su torre de servicio",
+        "credit": "NASA/KSC",
+        "url": "https://commons.wikimedia.org/wiki/File:Apollo_11_rollout_(KSC-69PC-0234).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Apollo_11_rollout_(KSC-69PC-0234).jpg"
+      },
+      "reasoning": {
+        "heading": "Compara una torre con un cuello largo",
+        "steps": [
+          "El Saturn V era tan alto como un rascacielos de unas 35 plantas: más de 100 metros.",
+          "Con 100 m y jirafas de 5 m salen 20 jirafas. La respuesta estará en la veintena.",
+          "Con los 111 m oficiales salen 22,2 jirafas. Con jirafas de 6 m bastarían unas 18,5; con jirafas jóvenes harían falta muchas más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-29-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Horas de tierra batida",
+      "title": "Si cada partido que Nadal ganó en Roland Garros hubiera durado dos horas y media, ¿cuántas horas pasó ganando en París?",
+      "detail": "Solo cuentan las victorias, y todas duran exactamente 2,5 horas. Ni calentamientos ni ceremonias de trofeo.",
+      "unit": "horas",
+      "answer": 280,
+      "math": "Nadal cerró su carrera en Roland Garros con 112 victorias y 4 derrotas. 112 × 2,5 h = 280 horas.",
+      "referenceExpression": "112 × 2,5",
+      "assumptions": "La duración media de 2,5 h es un supuesto: hubo partidos de menos de dos horas y otros de más de cuatro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Roland-Garros · Rafael Nadal en cifras",
+          "url": "https://www.rolandgarros.com/en-us/article/rafael-nadal-numbers-figures-14-roland-garros-records-clay-victories",
+          "fact": "Balance de Nadal en Roland Garros: 112 victorias y 4 derrotas (96,5 % de triunfos) y 14 títulos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-29-3.jpg",
+        "alt": "Rafael Nadal golpeando la bola sobre la tierra batida de Roland Garros en 2011",
+        "credit": "y.caradec",
+        "url": "https://commons.wikimedia.org/wiki/File:Rafael_Nadal_2011_Roland_Garros_2011.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta victorias y multiplica",
+        "steps": [
+          "Nadal ganó 14 Roland Garros, y cada título exige siete partidos. Eso ya son 98 victorias, más las de los años en que no ganó.",
+          "Con unas 110 victorias y 2,5 h cada una salen unas 275 horas. El orden es de cientos de horas.",
+          "Con sus 112 victorias exactas salen 280 horas, más de once días seguidos ganando en París. La cifra real dependería de la duración de cada partido."
+        ]
+      }
+    }
+  ]
+}

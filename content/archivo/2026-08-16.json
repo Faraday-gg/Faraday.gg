@@ -1,0 +1,121 @@
+{
+  "id": "2026-08-16",
+  "name": "Domingo",
+  "theme": "GTC, sueños y Colón",
+  "questions": [
+    {
+      "id": "archivo-2026-08-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Espejito, espejito",
+      "title": "¿Cuántos espejos de baño de 60 × 80 cm suman la superficie del espejo del Gran Telescopio Canarias?",
+      "detail": "Compara la superficie colectora del espejo primario del GTC con espejos de baño de 0,48 m². Peinarse con el GTC no está permitido.",
+      "unit": "espejos",
+      "answer": 157.70833333333334,
+      "math": "Los 36 segmentos del espejo primario del GTC suman 75,7 m² de superficie colectora. Entre 0,48 m² por espejo de baño: unos 157,7 espejos.",
+      "referenceExpression": "75,7 ÷ (0,6 × 0,8)",
+      "assumptions": "Comparamos superficies, no calidad óptica. El espejo de baño mide exactamente 60 × 80 cm.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "IAC · Gran Telescopio Canarias",
+          "url": "https://iac.es/en/observatorios-de-canarias/telescopes-and-experiments/gran-telescopio-canarias",
+          "fact": "El espejo primario está formado por 36 segmentos hexagonales que juntos tienen una superficie colectora de 75,7 m²."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-16-1.jpg",
+        "alt": "Interior de la cúpula del Gran Telescopio Canarias con su estructura y espejo",
+        "credit": "Michele Albrigo",
+        "url": "https://commons.wikimedia.org/wiki/File:Gran_Telescopio_Canarias_-_interior.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Superficie entre superficie",
+        "steps": [
+          "El GTC tiene un espejo de unos 10 m de diámetro. Un círculo así ocupa unos 80 m²; un espejo de baño, medio metro cuadrado. Saldrían unos 160.",
+          "Con 80 m² ÷ 0,5 m² = 160 espejos. El orden de magnitud son cientos, no miles.",
+          "Con los 75,7 m² del IAC salen 157,7 espejos de baño. Para cubrir el hueco central y las juntas de los 36 hexágonos, el cálculo con el diámetro exagera un poco."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Cine nocturno",
+      "title": "¿Cuántos sueños tienes a lo largo de 80 años?",
+      "detail": "Cuenta un sueño por cada ciclo de sueño con fase REM: cinco por noche, todas las noches durante 80 años. Recordarlos es otro cantar.",
+      "unit": "sueños",
+      "answer": 146100,
+      "math": "Una noche tiene normalmente de 4 a 6 ciclos de sueño, y se sueña sobre todo en la fase REM. Con 5 sueños por noche: 80 × 365,25 × 5 = 146.100 sueños.",
+      "referenceExpression": "80 × 365,25 × 5",
+      "assumptions": "Un sueño por ciclo, cinco ciclos cada noche, desde el nacimiento. Los bebés duermen más y la estructura del sueño cambia con la edad.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NHLBI (NIH) · Sleep Phases and Stages",
+          "url": "https://www.nhlbi.nih.gov/health/sleep/stages-of-sleep",
+          "fact": "Normalmente hay de cuatro a seis ciclos por noche, de 80 a 100 minutos; los sueños suelen ocurrir en la fase REM."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-16-2.png",
+        "alt": "Pintura de una mujer dormida en la cama, de Henri de Toulouse-Lautrec",
+        "credit": "Henri de Toulouse-Lautrec",
+        "url": "https://commons.wikimedia.org/wiki/File:Woman_Sleeping_-_Henri_de_Toulouse-Lautrec.png",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Woman_Sleeping_-_Henri_de_Toulouse-Lautrec.png"
+      },
+      "reasoning": {
+        "heading": "Noches por ciclos",
+        "steps": [
+          "Si sueñas varias veces cada noche durante toda la vida, la cifra pasa enseguida de las decenas de miles.",
+          "80 años son unas 29.000 noches. Con 5 sueños por noche, unas 146.000.",
+          "El cálculo da 146.100 sueños. Con 4 ciclos por noche serían 116.880; con 6, 175.320. La inmensa mayoría no los recordarás."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "A toda vela",
+      "title": "¿A cuántos km/h navegó de media la flota de Colón entre La Gomera y Guanahaní?",
+      "detail": "Divide la travesía, simplificada como una línea recta de 6.000 km, entre el tiempo que pasó desde que dejaron Canarias hasta avistar tierra. Sin motor y sin GPS.",
+      "unit": "km/h",
+      "answer": 6.944444444444445,
+      "math": "La flota dejó Canarias el 6 de septiembre de 1492 y avistó tierra el 12 de octubre: 36 días, 864 horas. 6.000 km ÷ 864 h ≈ 6,94 km/h.",
+      "referenceExpression": "6000 ÷ (36 × 24)",
+      "assumptions": "La distancia de 6.000 km es un modelo de trayectoria recta, no una medida histórica; la ruta real zigzagueó y hubo días de calma. Contamos días completos de navegación.",
+      "confidence": "Fechas documentadas + modelo de distancia",
+      "sources": [
+        {
+          "title": "Wikipedia · Primer viaje de Colón",
+          "url": "https://es.wikipedia.org/wiki/Primer_viaje_de_Col%C3%B3n",
+          "fact": "La flota permaneció en Canarias hasta el 6 de septiembre de 1492; el 12 de octubre Rodrigo de Triana avistó tierra."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-16-3.jpg",
+        "alt": "Réplica de la nao Santa María navegando por el Támesis",
+        "credit": "Jodiepedia",
+        "url": "https://commons.wikimedia.org/wiki/File:34_Nao_Santa_Maria_in_the_Thames_-_IMG_5752_-_Nao.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Distancia entre horas de travesía",
+        "steps": [
+          "Un velero del siglo XV avanza a ritmo de bicicleta tranquila o menos. Cruzar el Atlántico en algo más de un mes sugiere pocos km/h.",
+          "6.000 km en unos 35 días son unos 170 km diarios: entre 24 horas, alrededor de 7 km/h.",
+          "Con 36 días exactos salen 6,94 km/h, unos 3,7 nudos. La velocidad real en ruta fue más alta en los días buenos y casi nula en las calmas."
+        ]
+      }
+    }
+  ]
+}

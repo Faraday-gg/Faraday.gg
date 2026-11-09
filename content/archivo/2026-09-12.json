@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-12",
+  "name": "Sábado",
+  "theme": "Calendario, Rodas y piel",
+  "questions": [
+    {
+      "id": "archivo-2026-09-12-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Días perdidos",
+      "title": "¿Cuántos días se desfasa el calendario juliano respecto a las estaciones cada mil años?",
+      "detail": "El año juliano dura 365,25 días; el año trópico, el que marca las estaciones, algo menos. Dejamos correr la diferencia mil años, como hasta que llegó el papa Gregorio XIII.",
+      "unit": "días",
+      "answer": 7.799999999974716,
+      "math": "El año juliano dura 365,25 días y el trópico 365,2422. La diferencia es 0,0078 días al año. En 1.000 años: 7,8 días.",
+      "referenceExpression": "(365,25 − 365,2422) × 1000",
+      "assumptions": "Año trópico medio constante; en realidad varía muy poco a lo largo de los siglos.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Año trópico",
+          "url": "https://es.wikipedia.org/wiki/Año_trópico",
+          "fact": "La duración del año trópico es de 365,2422 días."
+        },
+        {
+          "title": "Wikipedia · Julian calendar",
+          "url": "https://en.wikipedia.org/wiki/Julian_calendar",
+          "fact": "El calendario juliano gana un día cada 128 años respecto al año solar."
+        }
+      ],
+      "reasoning": {
+        "heading": "Resta los dos años",
+        "steps": [
+          "Seis horas extra cada año suenan bien, pero el año real dura unos 11 minutos menos.",
+          "11 minutos al año son unos 7.800 minutos en mil años: más de cinco días; con la cifra exacta, cerca de 8.",
+          "Con 0,0078 días al año salen 7,8 días por milenio. Por eso en 1582 hubo que saltar 10 días de golpe: del 4 al 15 de octubre."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-12-1.jpg",
+        "alt": "Relieve de la tumba de Gregorio XIII en San Pedro que representa la reforma del calendario",
+        "credit": "Camillo Rusconi (1658–1728); photograph de:User:Rsuessbr",
+        "url": "https://commons.wikimedia.org/wiki/File:Gregorianscher_Kalender_Petersdom.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    },
+    {
+      "id": "archivo-2026-09-12-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Arena de postal",
+      "title": "¿Cuántos granos de arena hay en la playa de Rodas de las islas Cíes?",
+      "detail": "Toda la playa en bajamar, con una capa de arena de 1 m de espesor y granos de 0,5 mm como cubitos diminutos. No te los lleves de recuerdo: es parque nacional.",
+      "unit": "granos",
+      "answer": 1872000000000000,
+      "math": "La playa mide 1.300 × 180 m = 234.000 m². Con 1 m de espesor son 234.000 m³. Cada grano ocupa 0,0005³ = 1,25 × 10⁻¹⁰ m³. 234.000 ÷ 1,25 × 10⁻¹⁰ = 1,872 × 10¹⁵ granos.",
+      "referenceExpression": "1300 × 180 × 1 ÷ 0,0005³",
+      "assumptions": "Anchura máxima de 180 m (en bajamar), capa uniforme de 1 m y granos cúbicos sin huecos. Con granos redondos y huecos entre ellos habría casi la mitad.",
+      "confidence": "Modelo aproximado",
+      "sources": [
+        {
+          "title": "Turespaña · spain.info, playa de Rodas",
+          "url": "https://www.spain.info/es/playa/rodas/",
+          "fact": "Longitud: 1.300 m. Anchura: 180 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el volumen, luego el grano",
+        "steps": [
+          "Una playa de más de un kilómetro tiene cientos de miles de metros cúbicos de arena.",
+          "En un metro cúbico caben 8.000 millones de granos de medio milímetro. Multiplicando por 200.000 m³ salen más de mil billones.",
+          "Con 1.300 × 180 m y 1 m de profundidad salen 1,9 × 10¹⁵ granos. La anchura cambia con la marea y la profundidad real es incierta: el orden de magnitud es lo que vale."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-12-2.jpg",
+        "alt": "Playa de Rodas en las islas Cíes, arena blanca entre dos islas y agua turquesa",
+        "credit": "Mario Sánchez",
+        "url": "https://commons.wikimedia.org/wiki/File:Praia_de_Rodas,_Illas_C%C3%ADes,_Vigo,_Galiza.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-12-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Envoltorio de papel",
+      "title": "¿Cuántos folios A4 harían falta para cubrir toda tu piel?",
+      "detail": "Envolvemos a un adulto de 1,8 m² de piel con folios A4 sin solapes ni arrugas. Momia de oficina, edición limitada.",
+      "unit": "folios",
+      "answer": 28.860028860028862,
+      "math": "Un adulto tiene entre 1,7 y 1,9 m² de superficie corporal: tomamos 1,8 m². Un A4 mide 0,21 × 0,297 = 0,06237 m². 1,8 ÷ 0,06237 ≈ 28,9 folios.",
+      "referenceExpression": "1,8 ÷ (0,21 × 0,297)",
+      "assumptions": "Superficie corporal de 1,8 m², entre las medias de hombres (1,91 m²) y mujeres (1,71 m²). El papel no se adapta a las curvas sin recortes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Body surface area",
+          "url": "https://en.wikipedia.org/wiki/Body_surface_area",
+          "fact": "En pacientes adultos del Reino Unido (2005), la superficie corporal media fue de 1,91 m² en hombres y 1,71 m² en mujeres."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compara tu piel con una hoja",
+        "steps": [
+          "La piel de un adulto mide más o menos lo que una sábana individual: casi 2 m².",
+          "Un folio tiene unos 0,06 m². 1,8 entre 0,06 son 30 folios.",
+          "El cálculo fino da 28,9 folios. Una persona alta y corpulenta necesitaría más de 33; un niño, la mitad."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-12-3.jpg",
+        "alt": "Paquetes de folios apilados en el suelo, más que suficientes para envolver a una persona",
+        "credit": "Sage Ross (WMF)",
+        "url": "https://commons.wikimedia.org/wiki/File:15_reams_of_paper_stacked_on_the_floor.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    }
+  ]
+}

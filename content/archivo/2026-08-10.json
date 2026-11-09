@@ -1,0 +1,126 @@
+{
+  "id": "2026-08-10",
+  "name": "Lunes",
+  "theme": "Tostadas, glóbulos y Park Güell",
+  "questions": [
+    {
+      "id": "archivo-2026-08-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Crujiente rutina",
+      "title": "Con una tostada cada desayuno, ¿cuántas tostadas te comerás en toda tu vida?",
+      "detail": "Una tostada al día, todos los días, desde los 3 años hasta la esperanza de vida media en España. Las que se queman también cuentan.",
+      "unit": "tostadas",
+      "answer": 29588.9025,
+      "math": "La esperanza de vida al nacer en España es de 84,01 años (INE, 2024). Desde los 3 años quedan 81,01 años × 365,25 días ≈ 29.590 tostadas.",
+      "referenceExpression": "(84,01 − 3) × 365,25",
+      "assumptions": "Una tostada diaria sin vacaciones ni días de churros, desde los 3 años hasta la esperanza de vida media al nacer. Es un modelo, no un dato de consumo de pan.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Movimiento Natural de la Población 2024 (nota de prensa)",
+          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-10-1.jpg",
+        "alt": "Tostadora metálica clásica de dos ranuras, la máquina de nuestras mañanas",
+        "credit": "BrokenSphere",
+        "url": "https://commons.wikimedia.org/wiki/File:Toastmaster_toaster.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta días, no rebanadas",
+        "steps": [
+          "Una vida larga ronda los 80 años y cada año tiene 365 desayunos. 80 × 365 se acerca a 30.000.",
+          "Quita los primeros años en los que aún no tostabas: quedan unos 80 años útiles y la cifra sigue cerca de las 29.000-30.000 tostadas.",
+          "Con los 84,01 años de esperanza de vida del INE salen 29.590 tostadas. La esperanza de vida media no es la tuya: cada año de más son 365 tostadas más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Fábrica roja",
+      "title": "¿Cuántos glóbulos rojos fabrica tu cuerpo cada segundo?",
+      "detail": "Supón un adulto con 25 billones de glóbulos rojos que viven 120 días y se reponen a ritmo constante. Tu médula trabaja también mientras juegas.",
+      "unit": "glóbulos/s",
+      "answer": 2411265.4320987654,
+      "math": "Un adulto tiene entre 20 y 30 billones de glóbulos rojos y cada uno vive entre 100 y 120 días. 25 billones ÷ (120 × 86.400 s) ≈ 2,41 millones por segundo.",
+      "referenceExpression": "25000000000000 ÷ (120 × 86400)",
+      "assumptions": "Población estable de 25 billones y vida de 120 días. Con 100 días de vida o más glóbulos, el ritmo sube; la cifra real varía entre personas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Red blood cell",
+          "url": "https://en.wikipedia.org/wiki/Red_blood_cell",
+          "fact": "Los adultos tienen entre 20 y 30 billones de glóbulos rojos; su vida funcional es de unos 100-120 días; se producen unos 2,4 millones por segundo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-10-2.jpg",
+        "alt": "Glóbulos rojos vistos al microscopio electrónico, con su forma de disco hundido en el centro",
+        "credit": "Bruce Wetzel (photographer). Harry Schaefer (photographer)",
+        "url": "https://commons.wikimedia.org/wiki/File:SEM_blood_cells.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:SEM_blood_cells.jpg"
+      },
+      "reasoning": {
+        "heading": "Reparte la plantilla entre sus días de vida",
+        "steps": [
+          "Si tienes billones de glóbulos y duran unos meses, cada día tienes que reponer una fracción enorme. Intuitivamente, serán millones por segundo.",
+          "25 billones entre 120 días son unos 200.000 millones al día. Un día tiene 86.400 segundos: unos 2 millones largos por segundo.",
+          "El cálculo exacto da 2.411.265 glóbulos por segundo, en línea con los 2,4 millones que se citan para un adulto. Con glóbulos de 100 días de vida, el ritmo se acercaría a 2,9 millones."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Banco con vistas",
+      "title": "¿Cuántas personas caben sentadas en el banco ondulado del Park Güell?",
+      "detail": "Reparte el famoso banco de trencadís de la plaza de la Naturaleza a 50 cm por persona. Nadie se tumba a echar la siesta.",
+      "unit": "personas",
+      "answer": 220,
+      "math": "El banco ondulado mide 110 m. Con 0,5 m por persona: 110 ÷ 0,5 = 220 personas sentadas.",
+      "referenceExpression": "110 ÷ 0,5",
+      "assumptions": "Medimos el banco por su longitud total y damos 50 cm a cada persona. Las curvas cóncavas y convexas hacen que unos tramos sean más cómodos que otros.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Park Güell",
+          "url": "https://es.wikipedia.org/wiki/Park_G%C3%BCell",
+          "fact": "En la plaza hay un banco de forma ondulada de 110 m de longitud, formado por módulos cóncavos y convexos de 1,5 m."
+        },
+        {
+          "title": "Barcelona.com · Banco ondulado del Park Güell",
+          "url": "https://www.barcelona.com/es/monumentos/parque-guell/banco-ondulado",
+          "fact": "Mide aproximadamente 110 metros, siguiendo el borde de la explanada."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-10-3.jpg",
+        "alt": "Banco serpenteante de trencadís del Park Güell, con sus curvas de cerámica de colores",
+        "credit": "Andy Mitchell from Glasgow, UK",
+        "url": "https://commons.wikimedia.org/wiki/File:Serpentine_Bench_in_Park_G%C3%BCell_(2924748275).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Mide el banco y reparte el sitio",
+        "steps": [
+          "El banco rodea una plaza grande; parece medir más de cien metros. A medio metro por persona serían unas 200.",
+          "Un banco de autobús da unos 50 cm por pasajero. 100 m darían 200 personas; un poco más de longitud y nos vamos a 220.",
+          "Con los 110 m documentados caben 220 personas. Las curvas ayudan a sentarse en grupitos, pero en la práctica siempre hay alguien que ocupa dos sitios con la mochila."
+        ]
+      }
+    }
+  ]
+}

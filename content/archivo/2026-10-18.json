@@ -1,0 +1,136 @@
+{
+  "id": "2026-10-18",
+  "name": "Domingo",
+  "theme": "Sáhara, fibra y latidos",
+  "questions": [
+    {
+      "id": "archivo-2026-10-18-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Arena para rato",
+      "title": "¿Cuántas Españas cabrían en el desierto del Sáhara?",
+      "detail": "Recortamos España entera, islas incluidas, y la vamos dejando caer sobre el desierto hasta llenarlo. Solo cuentan superficies: nada de encajar la costa en las dunas como un puzle.",
+      "unit": "Españas",
+      "answer": 18.577699250765342,
+      "math": "El Sáhara ocupa más de 9.400.000 km² (Wikipedia) y España 505.983 km² (INE, España en cifras 2019, dato de 2016). 9.400.000 ÷ 505.983 ≈ 18,6 Españas.",
+      "referenceExpression": "9400000 ÷ 505983",
+      "assumptions": "El límite del Sáhara es difuso y las fuentes dan entre 9,2 y 9,4 millones de km²; usamos 9,4 millones. Con 9,2 millones saldrían unas 18,2 Españas.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · Desierto del Sahara",
+          "url": "https://es.wikipedia.org/wiki/Desierto_del_Sahara",
+          "fact": "Superficie de más de 9.400.000 km²."
+        },
+        {
+          "title": "INE · España en cifras 2019, territorio",
+          "url": "https://www.ine.es/prodyser/espa_cifras/2019/4/",
+          "fact": "Superficie de España: 505.983 km² (dato de 2016, fuente Eurostat)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-18-1.jpg",
+        "alt": "Dunas de arena del Sáhara egipcio que se pierden hasta el horizonte",
+        "credit": "Vyacheslav Argenberg",
+        "url": "https://commons.wikimedia.org/wiki/File:Sand_dunes_in_the_desert,_Sahara_Desert,_Dakhla_Oasis,_Egypt.jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+      },
+      "reasoning": {
+        "heading": "Compara mapas: el Sáhara es casi tan grande como Estados Unidos",
+        "steps": [
+          "En el mapa, el Sáhara ocupa casi todo el norte de África, de un océano al mar Rojo. España, a su lado, parece una baldosa. La apuesta intuitiva suele quedarse en «unas cinco o seis».",
+          "España tiene medio millón de km². Si el Sáhara anda por los 9 millones, la división da unos 18. Ya sabemos que es más de una decena.",
+          "Con 9.400.000 km² y los 505.983 km² del INE salen 18,6 Españas. El borde sur del desierto, el Sahel, es una transición gradual, así que otro autor podría dar uno o dos millones de km² de diferencia."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-18-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Mensaje a Tokio",
+      "title": "¿Cuántos milisegundos tardaría la luz en ir de Madrid a Tokio por una fibra óptica tendida en línea recta?",
+      "detail": "Imagina una fibra perfecta que sigue la curva de la Tierra por el camino más corto, sin routers ni rodeos submarinos. El mensaje dice «hola» y nada más.",
+      "unit": "ms",
+      "answer": 53.81,
+      "math": "Distancia ortodrómica Madrid–Tokio calculada con las coordenadas de ambas ciudades (Wikipedia): unos 10.762 km. En el vidrio la luz viaja a unos 200.000 km/s (Wikipedia, «Optical fiber»). 10.762 ÷ 200.000 = 0,0538 s ≈ 53,8 ms.",
+      "referenceExpression": "10762 ÷ 200000 × 1000",
+      "assumptions": "Ruta de círculo máximo entre los centros de las dos ciudades. Los cables reales dan grandes rodeos y los equipos añaden retardo, así que un ping real tarda bastante más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Optical fiber",
+          "url": "https://en.wikipedia.org/wiki/Optical_fiber",
+          "fact": "Una señal por fibra óptica viaja a unos 200.000 km/s; el índice de refracción del vidrio de sílice ronda 1,5."
+        },
+        {
+          "title": "Wikipedia · Madrid",
+          "url": "https://en.wikipedia.org/wiki/Madrid",
+          "fact": "Coordenadas: 40,4169° N, 3,7033° O."
+        },
+        {
+          "title": "Wikipedia · Tokyo",
+          "url": "https://en.wikipedia.org/wiki/Tokyo",
+          "fact": "Coordenadas: 35,68972° N, 139,69222° E."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-18-2.jpg",
+        "alt": "Corte de un cable de fibra óptica con las fibras de colores asomando",
+        "credit": "Asurnipal",
+        "url": "https://commons.wikimedia.org/wiki/File:Optical_fiber_cable-02ASD.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "La luz es rápida, pero en el vidrio va con freno de mano",
+        "steps": [
+          "Tokio está al otro lado de Eurasia: entre 10.000 y 11.000 km. La luz parece instantánea, así que la intuición dice «casi nada».",
+          "En el vacío la luz hace 300.000 km por segundo; en el vidrio, un tercio menos, unos 200.000. 10.000 km entre 200.000 km/s son 0,05 s: unos 50 milisegundos.",
+          "Con los 10.762 km del círculo máximo salen 53,8 ms. Es el mínimo físico: los cables reales rodean continentes y un ping de ida y vuelta suele pasar con holgura de los 200 ms."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-18-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Metrónomo interno",
+      "title": "¿Cuántas veces habrá latido tu corazón al cumplir 80 años?",
+      "detail": "Tu corazón no se toma vacaciones. Supón un ritmo medio de 70 latidos por minuto toda la vida, sin contar sustos, carreras ni primeras citas.",
+      "unit": "latidos",
+      "answer": 2945376000,
+      "math": "La frecuencia normal en reposo de un adulto va de 60 a 100 latidos por minuto (Clínica Universidad de Navarra). Con 70 lpm: 70 × 60 × 24 × 365,25 × 80 ≈ 2.945 millones de latidos.",
+      "referenceExpression": "70 × 60 × 24 × 365,25 × 80",
+      "assumptions": "Ritmo constante de 70 lpm. En la infancia el corazón late más rápido y durante el ejercicio también, así que la cifra real puede ser algo mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Clínica Universidad de Navarra · Diccionario médico, frecuencia cardiaca",
+          "url": "https://www.cun.es/diccionario-medico/terminos/frecuencia-cardiaca",
+          "fact": "En un adulto sano en reposo oscila entre 60 y 100 latidos por minuto."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-18-3.jpg",
+        "alt": "Ilustración anatómica de la cara anterior del corazón humano",
+        "credit": "Patrick J. Lynch, medical illustrator",
+        "url": "https://commons.wikimedia.org/wiki/File:Heart_anterior_exterior_view.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "Minutos de vida por latidos por minuto",
+        "steps": [
+          "Un latido por segundo, más o menos. La cifra va a ser grande, pero ¿millones o miles de millones?",
+          "Un año tiene unos 525.000 minutos; a 70 latidos son unos 37 millones al año. Por 80 años, unos 3.000 millones.",
+          "Con 365,25 días por año salen 2.945 millones de latidos. Si tu media fuese 80 lpm en lugar de 70, sumarías otros 420 millones."
+        ]
+      }
+    }
+  ]
+}

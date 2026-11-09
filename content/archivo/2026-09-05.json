@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-05",
+  "name": "Sábado",
+  "theme": "La Robla, Bizkaia y mejillón",
+  "questions": [
+    {
+      "id": "archivo-2026-09-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Traviesas a la vista",
+      "title": "¿Cuántas traviesas tiene el ferrocarril de La Robla?",
+      "detail": "Toda la línea entre León y Bilbao con una traviesa cada 60 cm, sin contar desvíos ni estaciones. Para dormirse contando traviesas, mejor que ovejas.",
+      "unit": "traviesas",
+      "answer": 558333.3333333334,
+      "math": "La línea mide 335 km = 335.000 m. Con una traviesa cada 0,6 m: 335.000 ÷ 0,6 ≈ 558.333 traviesas.",
+      "referenceExpression": "335000 ÷ 0,6",
+      "assumptions": "Vía única con traviesas cada 60 cm de forma uniforme. No se cuentan apartaderos, vías de estación ni desvíos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Ferrocarril de La Robla",
+          "url": "https://es.wikipedia.org/wiki/Ferrocarril_de_La_Robla",
+          "fact": "La línea tiene una longitud de 335 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los kilómetros a pasitos de 60 cm",
+        "steps": [
+          "Una línea de cientos de kilómetros y una traviesa cada palmo largo: estamos hablando de cientos de miles.",
+          "Cada kilómetro tiene unas 1.700 traviesas a 60 cm. Con unos 300 km saldrían medio millón.",
+          "Con los 335 km de la línea salen 558.333 traviesas. Si se colocaran cada 50 cm, serían 670.000; las estaciones y desvíos añadirían todavía más."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-05-1.jpg",
+        "alt": "Vía del ferrocarril de La Robla entre matorrales, con las traviesas a la vista sobre el balasto",
+        "credit": "Discasto",
+        "url": "https://commons.wikimedia.org/wiki/File:Ferrocarril_de_La_Robla_sobre_la_ruta_de_la_Tejeda_de_Tosande_(4_de_abril_de_2018,_Dehesa_de_Montejo)_04.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Transbordador incansable",
+      "title": "¿Cuántos viajes hace al año la barquilla del Puente de Bizkaia?",
+      "detail": "La barquilla cruza la ría de Portugalete a Getxo una y otra vez. Supón un viaje cada 8 minutos, 20 horas al día, todos los días del año.",
+      "unit": "viajes",
+      "answer": 54750,
+      "math": "20 horas son 1.200 minutos. 1.200 ÷ 8 = 150 viajes al día. 150 × 365 = 54.750 viajes al año.",
+      "referenceExpression": "20 × 60 ÷ 8 × 365",
+      "assumptions": "Servicio continuo de 20 horas diarias con un trayecto cada 8 minutos. En la práctica hay horarios nocturnos, paradas por mantenimiento y por viento.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Puente Bizkaia · Tarifas y horarios",
+          "url": "https://puente-colgante.com/tarifas-y-horarios/",
+          "fact": "Fuera del horario nocturno, la barquilla realiza viajes de forma continuada, de unos 8 minutos cada uno."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta viajes por hora",
+        "steps": [
+          "Si cada cruce lleva unos 8 minutos, salen unos 7 u 8 viajes por hora.",
+          "Con 20 horas al día, unos 150 viajes. Por 365 días, alrededor de 55.000.",
+          "El modelo da 54.750 viajes. Las paradas técnicas o por temporal lo bajan algo; lo admirable es que el puente lleva haciéndolo desde 1893."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-05-2.jpg",
+        "alt": "Puente de Bizkaia sobre la ría del Nervión entre Getxo y Portugalete, con su barquilla colgante",
+        "credit": "Mikemod",
+        "url": "https://commons.wikimedia.org/wiki/File:Puente_de_Vizcaya-Guecho_y_Portugalete.jpg",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
+      }
+    },
+    {
+      "id": "archivo-2026-09-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Batea generosa",
+      "title": "¿Cuántos mejillones salen al año de una batea gallega?",
+      "detail": "Repartimos la producción gallega de mejillón de 2025 entre todas las bateas a partes iguales. Cada mejillón comercial pesa 20 g, con concha y todo.",
+      "unit": "mejillones",
+      "answer": 2612323.529411765,
+      "math": "En 2025 se produjeron 177.638 toneladas de mejillón en Galicia. Entre unas 3.400 bateas salen 52,2 t por batea. 52.246 kg ÷ 0,02 kg ≈ 2,6 millones de mejillones.",
+      "referenceExpression": "177638000 ÷ 3400 ÷ 0,02",
+      "assumptions": "Todas las bateas producen lo mismo y el mejillón medio pesa 20 g. El número de bateas es aproximado («casi 3.400», según el consejo regulador).",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Xunta de Galicia · Nota de prensa de la Consellería do Mar",
+          "url": "https://www.xunta.gal/notas-de-prensa/-/nova/025489/villaverde-apoia-sector-miticultor-busca-alternativas-para-garantir-subministro",
+          "fact": "En 2025, la acuicultura marina gallega produjo 189.251 t, de las que 177.638 t correspondieron al mejillón."
+        },
+        {
+          "title": "Xataka · bateas de mejillón en Galicia",
+          "url": "https://www.xataka.com/magnet/3-000-bateas-para-mejillon-sus-rias-galicia-ha-decidido-aclarar-cuestion-clave-su-contaminacion",
+          "fact": "Según el Consello Regulador Mexillón de Galicia, hay casi 3.400 bateas repartidas en 44 polígonos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Reparte toneladas entre bateas",
+        "steps": [
+          "Galicia produce muchísimo mejillón: del orden de cientos de miles de toneladas al año, en unas pocas miles de bateas.",
+          "Unas 180.000 t entre 3.500 bateas dan unas 50 t por batea. A 20 g el mejillón, son unos 2,5 millones.",
+          "Con 177.638 t y 3.400 bateas salen 2,6 millones de mejillones por batea. Las bateas grandes y bien situadas superan con creces la media."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-05-3.jpg",
+        "alt": "Bateas de mejillón flotando en la ría de Arousa con una lancha de trabajo",
+        "credit": "Chichole",
+        "url": "https://commons.wikimedia.org/wiki/File:Bateas_de_mejill%C3%B3n_y_una_lancha_en_la_r%C3%ADa_de_Arousa.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    }
+  ]
+}

@@ -6,6 +6,13 @@ const prettyDate = (id) => new Intl.DateTimeFormat('es-ES',{day:'numeric',month:
 const dateParts = Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(part=>[part.type,part.value]));
 let todayKey = window.DAILY_CALENDAR?.date || `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
 let currentDay = DAYS.find(day=>day.id===todayKey) || null;
+const FIRST_DAY = window.DAILY_CALENDAR?.first || '2026-08-09';
+const editionNumber = (id) => Math.round((Date.parse(id+'T12:00:00Z')-Date.parse(FIRST_DAY+'T12:00:00Z'))/86400000)+1;
+const categoriesOf = (day) => day.categories || (day.questions||[]).map(q=>q.category);
+const icons = (day, className) => categoriesOf(day).map(key=>window.categoryIcon?.(key,className)||'').join('');
+const loadedDays = new Map();
+let archiveOpen = false;
+const ARCHIVE_PREVIEW = 7;
 let activeDay = currentDay;
 let activeIndex = 0;
 let showingResult = false;
@@ -33,19 +40,37 @@ function art(kind){
 }
 function renderWeek(){
   $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
-  $('.section-kicker').textContent=currentDay?'RETO DE HOY':'NUEVA EDICIÓN EN PREPARACIÓN';
+  $('.section-kicker').textContent=currentDay?'RETO Nº '+editionNumber(todayKey):'NUEVA EDICIÓN EN PREPARACIÓN';
   ['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).disabled=!currentDay);
   if(!currentDay)$('#hero-play').textContent='Retos en preparación';
-  $('#week-list').innerHTML=DAYS.map((day,index)=>{
-    const done=getGuesses(day).length===3;
-    return `<button type="button" class="week-item ${day.id===todayKey?'today':''}" data-day="${index}" aria-label="Jugar ${day.name}, ${day.theme}"><span class="week-day">${String(index+1).padStart(2,'0')}</span><strong>${day.name}: ${day.theme}${day.id===todayKey?'<span class="week-badge">HOY</span>':''}${done?'<span class="week-badge">HECHO</span>':''}</strong><span class="week-date">${prettyDate(day.id)}</span><span class="week-arrow">↗</span></button>`;
+  const roundsList=$('#hero-rounds');
+  roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
+  roundsList.hidden=!roundsList.innerHTML;
+  // Archivo: jornadas completas del calendario y resúmenes de las antiguas, de la más reciente a la más antigua, sin las futuras.
+  const byId=new Map([...(window.DAILY_CALENDAR?.archive||[]),...DAYS].map(day=>[day.id,day]));
+  const past=[...byId.values()].filter(day=>day.id<=todayKey).sort((a,b)=>a.id<b.id?1:-1);
+  const shown=archiveOpen?past:past.slice(0,ARCHIVE_PREVIEW);
+  $('#archive-count').textContent=past.length;
+  $('#week-list').innerHTML=shown.map(day=>{
+    const done=getGuesses(day).length===3,today=day.id===todayKey;
+    return `<button type="button" class="week-item ${today?'today':''}" data-date="${day.id}" aria-label="Jugar el reto número ${editionNumber(day.id)}, ${day.name} ${prettyDate(day.id)}: ${day.theme}"><span class="week-day">Nº ${editionNumber(day.id)}</span><strong>${day.name}: ${day.theme}${today?'<span class="week-badge">HOY</span>':''}${done?'<span class="week-badge">HECHO</span>':''}</strong><span class="week-icons" aria-hidden="true">${icons(day)}</span><span class="week-date">${prettyDate(day.id)}</span><span class="week-arrow">↗</span></button>`;
   }).join('');
+  const more=$('#archive-more');more.hidden=past.length<=ARCHIVE_PREVIEW;
+  more.textContent=archiveOpen?'Ver solo los últimos días':`Ver todo el archivo (${past.length} días)`;
+}
+async function openDate(id){
+  let day=loadedDays.get(id)||DAYS.find(d=>d.id===id&&d.questions);
+  if(!day){
+    try{const response=await fetch('/api/day?date='+encodeURIComponent(id),{signal:AbortSignal.timeout(8000)});if(!response.ok)throw Error();day=await response.json();loadedDays.set(id,day)}
+    catch{showToast('No se ha podido cargar ese día. Inténtalo de nuevo.');return}
+  }
+  openDay(day);
 }
 function openDay(day){activeDay=day;const guesses=getGuesses(day);activeIndex=Math.min(guesses.length,2);showingResult=false;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);$('#game-shell').hidden=false;document.body.classList.add('modal-open');renderGame();$('#game-close').focus()}
 function closeGame(){toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
 function renderGame(){const guesses=getGuesses(activeDay);if(guesses.length===3&&!showingResult)renderSummary();else if(showingResult)renderResult(guesses);else renderQuestion();$('.game-panel').scrollTop=0}
-function topMarkup(){return `<div class="game-top"><span>${activeDay.name.toUpperCase()} · ${prettyDate(activeDay.id).toUpperCase()}</span><span>${activeIndex+1} / 3</span></div><div class="progress-dots" aria-label="Pregunta ${activeIndex+1} de 3">${[0,1,2].map(i=>`<span class="${i<activeIndex?'done':i===activeIndex?'active':''}"></span>`).join('')}</div>`}
-function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${topMarkup()}<span class="question-tag">${q.tag}</span><h2 id="game-title">${q.title}</h2>${questionMedia(q)}<form id="guess-form"><label class="guess-label" for="guess-input">TU ESTIMACIÓN</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Escribe una cifra" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="button button-coral" type="submit">Confirmar respuesta <span aria-hidden="true">↗</span></button></div><p class="answer-sharing">Tu cifra se comparte de forma anónima para comparar estimaciones.</p></form>`;$('#guess-input').focus()}
+function topMarkup(){return `<div class="game-top"><span>Nº ${editionNumber(activeDay.id)} · ${activeDay.name.toUpperCase()} · ${prettyDate(activeDay.id).toUpperCase()}</span><span>${activeIndex+1} / 3</span></div><div class="progress-dots" aria-label="Pregunta ${activeIndex+1} de 3">${[0,1,2].map(i=>`<span class="${i<activeIndex?'done':i===activeIndex?'active':''}"></span>`).join('')}</div>`}
+function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${topMarkup()}<span class="question-tag">${window.categoryIcon?.(q.category,'cat-icon cat-icon-tag')||''}${q.tag}</span><h2 id="game-title">${q.title}</h2>${questionMedia(q)}<form id="guess-form"><label class="guess-label" for="guess-input">TU ESTIMACIÓN</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Escribe una cifra" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="button button-coral" type="submit">Confirmar respuesta <span aria-hidden="true">↗</span></button></div><p class="answer-sharing">Tu cifra se comparte de forma anónima para comparar estimaciones.</p></form>`;$('#guess-input').focus()}
 function renderResult(guesses){
   const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer),direction=guess<q.answer?'Te quedaste corto':guess>q.answer?'Te pasaste':'¡Exacto!';
   $('#game-content').innerHTML=`${topMarkup()}<span class="question-tag">RESULTADO ${activeIndex+1}</span><h2 id="game-title">${q.title}</h2><div class="result-banner"><span class="label">TU DISTANCIA</span><strong>${format(factor)}×</strong><span>${direction}</span></div><div class="answer-grid"><div class="answer-box"><span class="label">TU RESPUESTA</span><strong>${format(guess)}</strong><small>${q.unit}</small></div><div class="answer-box"><span class="label">REFERENCIA</span><strong>≈ ${format(q.answer)}</strong><small>${q.unit}</small></div></div>${populationMarkup(q)}${reasoningMarkup(q)}${sourceMarkup(q)}<p class="result-comment">Cuanto más cerca de 1×, mejor. Las estimaciones usan las condiciones indicadas en cada reto.</p><button class="button button-dark" id="next-question" type="button">${guesses.length===3?'Ver mi resultado':'Siguiente pregunta'} <span aria-hidden="true">→</span></button>`;
@@ -89,7 +114,8 @@ async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDa
 
 renderWeek();
 ['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
-$('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-day]');if(button)openDay(DAYS[Number(button.dataset.day)])});
+$('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-date]');if(button)openDate(button.dataset.date)});
+$('#archive-more').addEventListener('click',()=>{archiveOpen=!archiveOpen;renderWeek();if(!archiveOpen)$('#semana').scrollIntoView()});
 $('#game-close').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
 $('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});

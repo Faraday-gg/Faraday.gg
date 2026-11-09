@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-28",
+  "name": "Miércoles",
+  "theme": "Wimbledon, Salvator Mundi y Gran Cañón",
+  "questions": [
+    {
+      "id": "archivo-2026-10-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Fresas con nata",
+      "title": "¿Cuántos kilos de fresas se comen en Wimbledon por cada partido de los cuadros principales de individuales y dobles?",
+      "detail": "Repartimos todas las fresas del torneo entre los partidos de los cuatro cuadros principales: individuales y dobles, masculinos y femeninos. Mixtos, juveniles y previa se quedan sin postre.",
+      "unit": "kg",
+      "answer": 89.47368421052632,
+      "math": "En 2017 el público comió 34.000 kg de fresas. Los cuadros individuales tienen 128 jugadores (127 partidos cada uno) y los de dobles 64 parejas (63 partidos): 127 × 2 + 63 × 2 = 380 partidos. 34.000 ÷ 380 ≈ 89,5 kg (Wikipedia).",
+      "referenceExpression": "34000 ÷ (127 × 2 + 63 × 2)",
+      "assumptions": "Dato de fresas de 2017. Si contáramos también mixtos, juveniles, sillas de ruedas y la previa, habría muchos más partidos y la cifra bajaría a la mitad o menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Wimbledon Championships",
+          "url": "https://en.wikipedia.org/wiki/Wimbledon_Championships",
+          "fact": "En 2017 se consumieron 34.000 kg de fresas; individuales con 128 jugadores y dobles con 64 parejas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-28-1.jpg",
+        "alt": "Ración de fresas con nata en Wimbledon",
+        "credit": "Micolo J from Shrewsbury, England",
+        "url": "https://commons.wikimedia.org/wiki/File:Strawberries_and_cream_Wimbledon_2014.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Fresas totales entre partidos",
+        "steps": [
+          "Fresas con nata es Wimbledon. ¿Un cuenco por partido o un camión?",
+          "Un cuadro de 128 jugadores juega 127 partidos; con cuatro cuadros principales salen unos 380. Si se comen decenas de toneladas de fresas, tocan decenas de kilos por partido.",
+          "Con 34.000 kg y 380 partidos salen 89,5 kg: más o menos lo que pesa un tenista con la bolsa de raquetas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Cuadro carísimo",
+      "title": "¿Cuántos años de salario mínimo español costó el Salvator Mundi?",
+      "detail": "Precio de la subasta pasado a euros con el cambio de ese día y comparado con el SMI de 2026 en 14 pagas. Sin gastar un euro en nada más.",
+      "unit": "años",
+      "answer": 22249.415197050334,
+      "math": "Se vendió por 450.312.500 $ el 15 de noviembre de 2017 (Wikipedia). Con el cambio del BCE de ese día, 1 € = 1,1840 $ (BOE), son 380.331.503 €. El SMI de 2026 suma 17.094 € al año (BOE). 380.331.503 ÷ 17.094 ≈ 22.249 años.",
+      "referenceExpression": "450312500 ÷ 1,1840 ÷ 17094",
+      "assumptions": "Mezclamos un precio de 2017 con un salario de 2026, sin ajustar por inflación. Con el SMI de 2017 la cifra sería mucho mayor.",
+      "confidence": "Dato documentado + conversión",
+      "sources": [
+        {
+          "title": "Wikipedia · Salvator Mundi (Leonardo)",
+          "url": "https://es.wikipedia.org/wiki/Salvator_Mundi_(Leonardo)",
+          "fact": "Vendido en Christie's Nueva York el 15 de noviembre de 2017 por 450.312.500 dólares, comisión incluida."
+        },
+        {
+          "title": "BOE · Cambios del euro del 15 de noviembre de 2017",
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-13210",
+          "fact": "1 euro = 1,1840 dólares USA."
+        },
+        {
+          "title": "BOE · Real Decreto 126/2026, salario mínimo interprofesional",
+          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-3815",
+          "fact": "SMI de 1.221 euros al mes y cuantía anual no inferior a 17.094 euros."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-28-2.jpg",
+        "alt": "El Salvator Mundi atribuido a Leonardo da Vinci: Cristo con una esfera de cristal en la mano",
+        "credit": "Leonardo da Vinci",
+        "url": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci,_Salvator_Mundi,_c.1500,_oil_on_walnut,_45.4_%C3%97_65.6_cm.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci,_Salvator_Mundi,_c.1500,_oil_on_walnut,_45.4_%C3%97_65.6_cm.jpg"
+      },
+      "reasoning": {
+        "heading": "Dólares a euros, euros a años de sueldo",
+        "steps": [
+          "El cuadro más caro jamás subastado. Con un sueldo normal, ¿siglos? ¿Milenios?",
+          "450 millones de dólares son unos 380 millones de euros. Un año de SMI ronda los 17.000 €: más de 20.000 años.",
+          "Salen 22.249 años de salario mínimo: habría que empezar a ahorrar antes de que se pintaran los bisontes de Altamira."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Bajada épica",
+      "title": "Bajando 300 m de desnivel por hora, ¿cuántas horas tardarías en llegar al fondo del Gran Cañón?",
+      "detail": "Descenso constante de 300 m por hora desde el borde hasta el río, con la profundidad media del cañón. Las fotos al paisaje no descuentan tiempo.",
+      "unit": "horas",
+      "answer": 5.333333333333333,
+      "math": "La profundidad media del Gran Cañón es de 1 milla, 1,6 km (National Park Service). 1.600 ÷ 300 ≈ 5,3 horas.",
+      "referenceExpression": "1600 ÷ 300",
+      "assumptions": "Profundidad media y ritmo constante. Desde el borde sur hasta el río hay más desnivel en algunos puntos, y los senderos zigzaguean.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "National Park Service · Grand Canyon park statistics",
+          "url": "https://www.nps.gov/grca/learn/management/statistics.htm",
+          "fact": "Profundidad media: 1 milla (1,6 km)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-28-3.jpg",
+        "alt": "Vista del Gran Cañón desde el borde sur con sus capas de roca rojiza",
+        "credit": "Dietmar Rabich",
+        "url": "https://commons.wikimedia.org/wiki/File:Grand_Canyon_(Arizona,_USA),_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Desnivel total entre desnivel por hora",
+        "steps": [
+          "El Gran Cañón parece no tener fondo. ¿Medio día de bajada o una semana?",
+          "Si tiene en torno a kilómetro y medio de profundidad, a 300 m por hora son 5 horas.",
+          "Con 1,6 km salen 5,3 horas. Y luego queda volver a subir, que es bastante peor."
+        ]
+      }
+    }
+  ]
+}

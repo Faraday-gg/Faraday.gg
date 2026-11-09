@@ -1,0 +1,136 @@
+{
+  "id": "2026-09-18",
+  "name": "Viernes",
+  "theme": "Golden Gate, El Perdón y Mónaco",
+  "questions": [
+    {
+      "id": "archivo-2026-09-18-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Alambre a lo grande",
+      "title": "¿Cuántas vueltas a la Tierra darían los alambres de los cables principales del Golden Gate?",
+      "detail": "Dos cables gordos como una persona, hechos de miles de alambres finos. Estira todo ese alambre y dale la vuelta al planeta por el ecuador.",
+      "unit": "vueltas",
+      "answer": 3.2189631014282853,
+      "math": "Los dos cables principales suman 129.000 km de alambre de acero galvanizado. El ecuador mide 2π × 6.378,137 = 40.075 km. 129.000 ÷ 40.075 = 3,22 vueltas.",
+      "referenceExpression": "129000 ÷ (2 × π × 6378,137)",
+      "assumptions": "Alambre estirado en línea, sin empalmes. Vuelta por el ecuador.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Golden Gate Bridge District · Design & Construction Stats",
+          "url": "https://goldengate.org/bridge/history-research/statistics-data/design-construction-stats",
+          "fact": "Longitud total de alambre de acero galvanizado en los dos cables principales: 80.000 millas (129.000 km); cada cable mide 2.332 m."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km (circunferencia ≈ 40.075 km)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-18-1.jpg",
+        "alt": "Cables principales y péndolas del puente Golden Gate vistos de cerca desde la calzada",
+        "credit": "Guillaume Paumier",
+        "url": "https://commons.wikimedia.org/wiki/File:Cables_of_the_Golden_Gate_bridge_in_San_Francisco_63.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Cables por alambres por longitud",
+        "steps": [
+          "Cada cable mide unos 2,3 km y mide casi un metro de grosor, así que dentro caben miles y miles de alambres finos. Con unos 25.000 alambres por cable, dos cables sumarían unos 115.000 km.",
+          "La vuelta al ecuador son unos 40.000 km, así que el alambre daría unas tres vueltas.",
+          "El dato oficial es 129.000 km: 3,22 vueltas a la Tierra. Todo ese alambre cuelga sobre un estrecho de menos de 3 km."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-18-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Molino moderno",
+      "title": "¿Cuántas horas tiene que girar a plena potencia un molino de El Perdón para dar la luz que gasta un hogar en un año?",
+      "detail": "El parque eólico pionero de Navarra, con aerogeneradores de 500 kW. Supón viento perfecto y un hogar español medio, sin calefacción eléctrica ni coche que cargar.",
+      "unit": "horas",
+      "answer": 6.527,
+      "math": "Un hogar español consume entre 2.732 y 3.795 kWh de electricidad al año; tomamos el punto medio, 3.263,5 kWh. Un aerogenerador de 500 kW a plena potencia produce 500 kWh cada hora: 3.263,5 ÷ 500 = 6,53 horas.",
+      "referenceExpression": "(2732 + 3795) ÷ 2 ÷ 500",
+      "assumptions": "Turbina siempre a potencia nominal y sin pérdidas en la red. En la práctica el viento no sopla siempre fuerte y la producción real por hora es menor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Energías Renovables · El primer parque eólico de Acciona cumple 25 años",
+          "url": "https://www.energias-renovables.com/eolica/el-primer-parque-eolico-de-acciona-cumple-20191225",
+          "fact": "El Perdón se conectó en diciembre de 1994 con aerogeneradores de 500 kW de potencia nominal y llegó a 40 turbinas y 20 MW."
+        },
+        {
+          "title": "Endesa · Consumo energético de los hogares en España",
+          "url": "https://www.endesa.com/es/blog/blog-de-endesa/luz/consumo-energetico-hogares-espana",
+          "fact": "El consumo de electricidad por hogar en España está entre 2.732 kWh y 3.795 kWh al año."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-18-2.jpg",
+        "alt": "Aerogeneradores en la sierra de El Perdón, junto a Pamplona, con excursionistas por el camino que dan la escala",
+        "credit": "Ricardo Fernández from Barcelona, España",
+        "url": "https://commons.wikimedia.org/wiki/File:Alto_del_Perd%C3%B3n-richardfdez-02.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Potencia por tiempo es energía",
+        "steps": [
+          "Un hogar gasta unos 300 kWh al mes, unos 3.500 kWh al año. Un molino de 500 kW produce 500 kWh en cada hora de buen viento.",
+          "3.500 ÷ 500 da 7 horas: menos de una jornada de trabajo para alimentar una casa un año entero.",
+          "Con el punto medio del rango, 3.263,5 kWh, salen 6,53 horas. Si el viento lo deja al 30% de su potencia de media, harían falta unas 22 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-18-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Principados de bolsillo",
+      "title": "¿Cuántos Mónacos cabrían en la isla de Ibiza?",
+      "detail": "El segundo país más pequeño del mundo frente a una isla de fiesta y calas. Compara superficies terrestres totales, sin contar el mar ni los yates.",
+      "unit": "Mónacos",
+      "answer": 283.4455445544554,
+      "math": "Ibiza tiene 572,56 km² y Mónaco 2,02 km². 572,56 ÷ 2,02 = 283,4 Mónacos.",
+      "referenceExpression": "572,56 ÷ 2,02",
+      "assumptions": "Superficies totales. Mónaco gana terreno al mar y sus cifras oficiales han ido creciendo hasta unos 2,08 km², con lo que saldrían unos 275.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Ministerio de Asuntos Exteriores · Ficha país de Mónaco",
+          "url": "https://www.exteriores.gob.es/Documents/FichasPais/MONACO_FICHA%20PAIS.pdf",
+          "fact": "Superficie de Mónaco: 2,02 km²."
+        },
+        {
+          "title": "Wikipedia · Ibiza",
+          "url": "https://es.wikipedia.org/wiki/Ibiza",
+          "fact": "Superficie total de la isla: 572,56 km²."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-18-3.jpg",
+        "alt": "Panorámica de Mónaco con edificios apiñados entre la montaña y el puerto",
+        "credit": "Tiia Monto",
+        "url": "https://commons.wikimedia.org/wiki/File:Monaco_panorama_2.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Divide superficies con cuidado de unidades",
+        "steps": [
+          "Mónaco cabe en un paseo largo: unos 2 km². Ibiza es una isla mediana, de unos 40 km de punta a punta.",
+          "Si Ibiza tiene del orden de 500 o 600 km², caben entre 250 y 300 Mónacos.",
+          "Con 572,56 km² y 2,02 km² salen 283,4 Mónacos. Con la cifra de 2,08 km² de Mónaco, serían 275."
+        ]
+      }
+    }
+  ]
+}

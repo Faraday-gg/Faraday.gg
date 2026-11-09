@@ -1,0 +1,126 @@
+{
+  "id": "2026-10-30",
+  "name": "Viernes",
+  "theme": "Terracota, Pisa y lavadora",
+  "questions": [
+    {
+      "id": "archivo-2026-10-30-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Saludo imperial",
+      "title": "Dedicando diez segundos a cada uno, ¿cuántas horas tardarías en saludar a todos los guerreros de terracota de Xi'an?",
+      "detail": "Diez segundos por soldado: una reverencia, un «buenos días» y al siguiente. Cuenta solo los soldados, no los caballos ni los carros, y no pares ni para comer.",
+      "unit": "horas",
+      "answer": 22.22222222222222,
+      "math": "Las estimaciones de 2007 cifran en más de 8.000 los soldados de las tres fosas. 8.000 × 10 s = 80.000 s; 80.000 ÷ 3.600 ≈ 22,2 horas.",
+      "referenceExpression": "8000 × 10 ÷ 3600",
+      "assumptions": "Usamos la estimación redonda de 8.000 figuras; muchas siguen enterradas y sin excavar. Suponemos que todas están accesibles y que no pierdes tiempo caminando entre fosas.",
+      "confidence": "Dato estimado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Terracotta Army",
+          "url": "https://en.wikipedia.org/wiki/Terracotta_Army",
+          "fact": "Según estimaciones de 2007, las tres fosas contienen más de 8.000 soldados, además de 130 carros y más de 600 caballos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-30-1.jpg",
+        "alt": "Filas de guerreros de terracota en la fosa 1 de Xi'an, perdiéndose hacia el fondo",
+        "credit": "Gary Lee Todd, Ph.D.",
+        "url": "https://commons.wikimedia.org/wiki/File:Qin_Terracotta_Army,_Pit_1_09.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Cuenta soldados y conviértelos en tiempo",
+        "steps": [
+          "El ejército de terracota suena a miles de figuras. Si fueran 10.000, a diez segundos cada una tendrías 100.000 segundos.",
+          "Una hora tiene 3.600 segundos, así que 100.000 segundos son casi 28 horas: más de un día entero saludando.",
+          "Con la estimación de unos 8.000 soldados salen 80.000 segundos, 22,2 horas. Si sumaras los caballos, también habría que saludarlos, y la cifra subiría bastante."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-30-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Torre de pelotas",
+      "title": "¿Cuántas pelotas de tenis cabrían dentro de la Torre de Pisa si fuera hueca?",
+      "detail": "Vacía la torre por dentro (ni muros ni escaleras) y llénala de pelotas de 6,7 cm de diámetro. Trátala como un cilindro recto; la inclinación no cambia el volumen, solo los nervios.",
+      "unit": "pelotas",
+      "answer": 42747830.78554742,
+      "math": "Cilindro de 15,484 m de diámetro exterior y 55,86 m de altura: π × 7,742² × 55,86 ≈ 10.519 m³. Una pelota de 6,7 cm ocupa unos 0,000157 m³. Con un 64 % de llenado: 10.519 × 0,64 ÷ 0,000157 ≈ 42,7 millones.",
+      "referenceExpression": "π × 7,742² × 55,86 × 0,64 ÷ (4/3 × π × 0,0335³)",
+      "assumptions": "Modelo de cilindro macizo con el diámetro de la base y la altura del lado bajo. Las esferas iguales amontonadas al azar llenan en torno al 64 % del espacio. Usamos el centro del rango oficial de la ITF (6,54-6,86 cm).",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Leaning Tower of Pisa",
+          "url": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa",
+          "fact": "Altura de 55,86 m en el lado bajo y diámetro exterior de la base de 15,484 m."
+        },
+        {
+          "title": "Wikipedia · Tennis ball",
+          "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+          "fact": "La ITF fija un diámetro oficial de 6,54 a 6,86 cm."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-30-2.jpg",
+        "alt": "La Torre de Pisa inclinada, con sus galerías de arcos de mármol blanco",
+        "credit": "Saffron Blaze",
+        "url": "https://commons.wikimedia.org/wiki/File:The_Leaning_Tower_of_Pisa_SB.jpeg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Volumen de torre entre volumen de pelota",
+        "steps": [
+          "La torre mide unos 55 m de alto y unos 15 m de ancho. Como cilindro: 3 × 7,5² × 55 da unos 9.000-10.000 m³.",
+          "Una pelota de tenis cabe en un cubo de unos 7 cm: unas 3.000 pelotas por metro cúbico si las colocas en cuadrícula. 10.000 × 3.000 son unos 30 millones.",
+          "Con el volumen real de la esfera y un 64 % de llenado aleatorio salen 42,7 millones. Si restaras los muros de más de 2 m de grosor de la base, el hueco real sería bastante menor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-30-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Colada acuática",
+      "title": "¿Cuántas bañeras de agua gasta una familia de cuatro en lavadoras a lo largo de un año?",
+      "detail": "Cinco lavadoras a la semana, todas las semanas del año, con una lavadora moderna de 49 litros por ciclo. La bañera es de 150 litros y nadie se baña con la ropa puesta.",
+      "unit": "bañeras",
+      "answer": 84.93333333333334,
+      "math": "Siemens cita un consumo de 49 litros por ciclo para 10 kg de carga. 5 lavados × 52 semanas = 260 lavados; 260 × 49 = 12.740 litros. 12.740 ÷ 150 ≈ 85 bañeras.",
+      "referenceExpression": "5 × 52 × 49 ÷ 150",
+      "assumptions": "Usamos el consumo de un modelo eficiente; lavadoras antiguas o programas largos gastan más. Cinco lavados semanales y bañera de 150 L son supuestos del modelo.",
+      "confidence": "Dato de fabricante + modelo",
+      "sources": [
+        {
+          "title": "Siemens Electrodomésticos · Consumo de una lavadora",
+          "url": "https://www.siemens-home.bsh-group.com/es/inspiracion/blog/consumo-lavadora",
+          "fact": "Sus lavadoras pueden consumir solo 49 litros por ciclo con una carga de 10 kg."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-30-3.jpg",
+        "alt": "Lavadora Fagor de carga frontal vista de frente, con la puerta redonda cerrada",
+        "credit": "Dany kg",
+        "url": "https://commons.wikimedia.org/wiki/File:Fagor_washing_machine_front_FF6314.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Fagor_washing_machine_front_FF6314.jpg"
+      },
+      "reasoning": {
+        "heading": "Lavados al año por litros por lavado",
+        "steps": [
+          "Cinco coladas semanales son unas 250 al año. Si cada una gasta unos 50 litros, ya llevas 12.500 litros.",
+          "Una bañera llena son unos 150 litros, así que 12.500 entre 150 da algo más de 80 bañeras.",
+          "Con los 49 litros por ciclo de una lavadora eficiente y 260 lavados exactos salen 85 bañeras. Una lavadora vieja que gaste el doble te pondría en unas 170."
+        ]
+      }
+    }
+  ]
+}

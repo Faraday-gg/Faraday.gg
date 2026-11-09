@@ -1,0 +1,131 @@
+{
+  "id": "2026-11-01",
+  "name": "Domingo",
+  "theme": "Perros, Despacito y San Silvestre",
+  "questions": [
+    {
+      "id": "archivo-2026-11-01-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Paseos nacionales",
+      "title": "¿Cuántos paseos de perro se dan en España cada día?",
+      "detail": "Cuenta solo los perros registrados y dales tres salidas diarias a cada uno: mañana, tarde y noche. Si dos perros salen juntos con la misma correa, cuentan como dos paseos.",
+      "unit": "paseos",
+      "answer": 22688679,
+      "math": "El Gobierno contabilizó 7.562.893 perros registrados en 2025. 7.562.893 × 3 paseos = 22.688.679 paseos diarios.",
+      "referenceExpression": "7562893 × 3",
+      "assumptions": "Solo perros registrados; hay perros sin identificar y perros que viven en fincas y no salen con correa. Tres paseos diarios es el supuesto del modelo.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Ministerio de Derechos Sociales, Consumo y Agenda 2030 · Nota de prensa (5 de junio de 2026)",
+          "url": "https://www.dsca.gob.es/gl/comunicacion/notas-prensa/estudio-gobierno-estima-que-espana-hay-mas-15-millones-animales-compania",
+          "fact": "En 2025 había 7.562.893 perros registrados en España, el 50 % de los animales de compañía registrados."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-01-1.jpg",
+        "alt": "Hombre paseando a un perro con correa por un jardín urbano de Lisboa",
+        "credit": "Jules Verne Times Two",
+        "url": "https://commons.wikimedia.org/wiki/File:Man_walking_a_dog,_Jardim_da_Pra%C3%A7a_de_Londres,_Lisbon,_Portugal_julesvernex2.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta perros, no personas",
+        "steps": [
+          "España tiene unos 48 millones de habitantes. Si uno de cada seis hogares tiene perro, quizá haya unos 6 u 8 millones de perros.",
+          "Con 7 millones de perros y tres paseos diarios salen unos 21 millones de paseos: casi uno por cada dos habitantes.",
+          "Con los 7.562.893 perros registrados de 2025 salen 22.688.679 paseos al día. Muchos perros salen solo dos veces, así que la cifra real puede quedarse más cerca de 15 millones."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-01-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Bucle eterno",
+      "title": "¿Cuántos años de reproducción seguida suman las visitas del videoclip de Despacito en YouTube?",
+      "detail": "Pon el videoclip oficial en bucle y no lo quites hasta igualar todas sus visitas. Cada visita ve el vídeo entero, de principio a fin; nada de saltarse la intro.",
+      "unit": "años",
+      "answer": 81934.68660981824,
+      "math": "El 10 de noviembre de 2026 el vídeo oficial marcaba 9.169.014.419 visitas y dura 282 segundos (4:42). 9.169.014.419 × 282 s ≈ 2,59 billones de segundos. Entre 31.557.600 s por año salen unos 81.935 años.",
+      "referenceExpression": "9169014419 × 282 ÷ (365,25 × 86400)",
+      "assumptions": "Todas las visitas ven el vídeo completo, algo que no pasa. El contador sigue subiendo cada día; fijamos la cifra del 10 de noviembre de 2026.",
+      "confidence": "Dato fechado + modelo",
+      "sources": [
+        {
+          "title": "YouTube · Luis Fonsi - Despacito ft. Daddy Yankee",
+          "url": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
+          "fact": "A 10 de noviembre de 2026: 9.169.014.419 visualizaciones y duración de 282 segundos."
+        },
+        {
+          "title": "Wikipedia · List of most-viewed YouTube videos",
+          "url": "https://en.wikipedia.org/wiki/List_of_most-viewed_YouTube_videos",
+          "fact": "Despacito figura con unos 9.110 millones de visitas a 30 de agosto de 2026, entre los vídeos más vistos de la plataforma."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-01-2.jpg",
+        "alt": "Luis Fonsi cantando en un concierto, iluminado sobre el escenario",
+        "credit": "anokarina",
+        "url": "https://commons.wikimedia.org/wiki/File:Luis_Fonsi_in_concert.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Visitas por duración, luego a años",
+        "steps": [
+          "Despacito tiene unos 9.000 millones de visitas. Si cada una dura unos 5 minutos, son 45.000 millones de minutos.",
+          "Un año tiene algo más de medio millón de minutos (525.960). 45.000 millones entre medio millón da unos 90.000 años.",
+          "Con 9.169 millones de visitas y 4:42 exactos salen 81.935 años. Para llegar hoy al final, alguien tendría que haber pulsado play en plena Edad de Hielo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-01-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Vuelta al mundo en chándal",
+      "title": "Sumando los km de todos los corredores de la San Silvestre Vallecana, ¿cuántas vueltas a la Tierra darían?",
+      "detail": "Toma la edición de 2025, suma los 10 km de cada participante y estíralos sobre el ecuador. Todos terminan, nadie se queda en el bar de la esquina y los disfraces no frenan.",
+      "unit": "vueltas",
+      "answer": 10.480344981394417,
+      "math": "En la San Silvestre Vallecana 2025 participaron más de 42.000 corredores. 42.000 × 10 km = 420.000 km. El ecuador mide 2 × π × 6.378,137 ≈ 40.075 km. 420.000 ÷ 40.075 ≈ 10,5 vueltas.",
+      "referenceExpression": "42000 × 10 ÷ (2 × π × 6378,137)",
+      "assumptions": "Usamos la cifra redonda de 42.000 participantes y 10 km para todos, sumando la carrera popular y la internacional. No todos los inscritos llegan a la meta.",
+      "confidence": "Dato aproximado + cálculo",
+      "sources": [
+        {
+          "title": "Marathons.com · San Silvestre Vallecana 2025",
+          "url": "https://www.marathons.com/en/10-km/san-silvestre-vallecana-2025-madrid-celebrates-with-42-000-runners_k6le",
+          "fact": "Más de 42.000 corredores participaron en la edición de 2025, una carrera de 10 km con prueba popular e internacional."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-01-3.jpg",
+        "alt": "Salida de la San Silvestre Vallecana de 2007, con una avenida llena de corredores",
+        "credit": "JuanJaén",
+        "url": "https://commons.wikimedia.org/wiki/File:Salida_San_Silvestre_Vallecana_2007.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Kilómetros totales entre la vuelta al mundo",
+        "steps": [
+          "La San Silvestre reúne a decenas de miles de corredores. Si fueran 40.000, a 10 km cada uno sumarían 400.000 km.",
+          "La vuelta a la Tierra son unos 40.000 km, así que 400.000 km dan unas 10 vueltas.",
+          "Con más de 42.000 corredores en 2025 y los 40.075 km del ecuador salen 10,5 vueltas. Una sola tarde de Nochevieja basta para dar diez vueltas al planeta."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-02",
+  "name": "Viernes",
+  "theme": "Neuronas, pan y Central Park",
+  "questions": [
+    {
+      "id": "archivo-2026-10-02-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Censo cerebral",
+      "title": "Contando una neurona por segundo, ¿cuántos años tardarías en contar las de tu cerebro?",
+      "detail": "Una neurona por segundo, sin dormir, sin comer y sin perder la cuenta. Años de 365,25 días.",
+      "unit": "años",
+      "answer": 2725.17555200649,
+      "math": "El cerebro adulto tiene unos 86.000 millones de neuronas. Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 86.000.000.000 ÷ 31.557.600 ≈ 2.725 años.",
+      "referenceExpression": "86000000000 ÷ 31557600",
+      "assumptions": "La estimación tiene un margen de ±8.000 millones de neuronas, lo que mueve el resultado unos 250 años arriba o abajo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Human brain",
+          "url": "https://en.wikipedia.org/wiki/Human_brain",
+          "fact": "Se estima que el cerebro humano adulto contiene 86 ± 8 miles de millones de neuronas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-02-1.png",
+        "alt": "Ilustración del cerebro humano visto de lado",
+        "credit": "Courtesy of NIAID Ryan Kissinger",
+        "url": "https://commons.wikimedia.org/wiki/File:Brain_Lateral_(NIH_BioArt_60).png",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Brain_Lateral_(NIH_BioArt_60).png"
+      },
+      "reasoning": {
+        "heading": "Un año tiene unos 30 millones de segundos",
+        "steps": [
+          "El cerebro tiene decenas de miles de millones de neuronas, y un año, unos 30 millones de segundos.",
+          "90.000 millones ÷ 30 millones = 3.000 años. Hablamos de milenios.",
+          "Con 86.000 millones y 31.557.600 segundos por año salen 2.725 años: si hubieras empezado en tiempos de los íberos, aún estarías contando. El margen del dato es de unos 250 años."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-02-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "La barra nacional",
+      "title": "¿Cuántas barras de pan se comen en los hogares de España cada día?",
+      "detail": "Barras de 250 g, contando todo el pan que se compra para casa, sea barra, hogaza o de molde. El que se come en bares y restaurantes va aparte.",
+      "unit": "barras",
+      "answer": 14944961.342465753,
+      "math": "En 2025 el consumo doméstico de pan fue de 27,50 kg por persona. Con 49.590.099 habitantes a 1 de enero de 2026: 1.363.727.722 kg al año. Entre 0,25 kg y 365 días: unos 14,9 millones de barras diarias.",
+      "referenceExpression": "27,5 × 49590099 ÷ 0,25 ÷ 365",
+      "assumptions": "Convertimos todo el pan en barras de 250 g y repartimos el consumo por igual entre los días. El dato per cápita es solo de los hogares.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Ministerio de Agricultura, Pesca y Alimentación · Informe del consumo alimentario en España 2025",
+          "url": "https://servicio.mapama.gob.es/ca/dam/jcr:021c103a-f584-4d44-bebf-e1b44344ab11/Informe%20comsumo%202025_en%20l%C3%ADnea_.pdf",
+          "fact": "El consumo per cápita de pan en los hogares en 2025 fue de 27,50 kilos (+0,2 % respecto a 2024)."
+        },
+        {
+          "title": "INE · Estadística Continua de Población, primer trimestre de 2026",
+          "url": "https://ine.es/dyngs/Prensa/es/ECP1T26.htm",
+          "fact": "Población de España a 1 de enero de 2026: 49.590.099 habitantes."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-02-2.jpg",
+        "alt": "Barras de pan recién horneadas apiladas",
+        "credit": "jules / stonesoup",
+        "url": "https://commons.wikimedia.org/wiki/File:Baguettes_-_stonesoup.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Del kilo por persona a las barras por día",
+        "steps": [
+          "Cada persona come en casa unos dos kilos y pico de pan al mes, y en España somos casi 50 millones.",
+          "Con 25 kg al año por persona: 25 × 50 millones = 1.250 millones de kilos. Entre 365 días y 0,25 kg por barra, unos 14 millones de barras.",
+          "Con los 27,50 kg de 2025 y 49.590.099 habitantes salen unos 14,9 millones de barras diarias, una cada tres o cuatro personas. Si sumáramos el pan de bares y restaurantes, la cifra subiría."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-02-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Parques en parque",
+      "title": "¿Cuántas veces cabe el parque del Retiro dentro de Central Park?",
+      "detail": "Dos pulmones verdes frente a frente. Compara la superficie total de ambos parques, con estanques y caminos incluidos.",
+      "unit": "Retiros",
+      "answer": 2.891101664477288,
+      "math": "Central Park ocupa 843 acres: 341,15 ha. El Retiro tiene 118 ha. 341,15 ÷ 118 ≈ 2,9 Retiros.",
+      "referenceExpression": "843 × 0,40468564224 ÷ 118",
+      "assumptions": "Comparamos superficies, no formas: el Retiro no encajaría tal cual dentro del rectángulo de Central Park. Algunas fuentes dan 125 ha para el Retiro según los límites que se cuenten.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Central Park Conservancy · About",
+          "url": "https://www.centralparknyc.org/about",
+          "fact": "Central Park ocupa 843 acres."
+        },
+        {
+          "title": "Turespaña (spain.info) · Parque del Buen Retiro",
+          "url": "https://www.spain.info/es/actividades/visita-parque-buen-retiro-madrid/",
+          "fact": "El Parque del Retiro tiene un total de 118 hectáreas y un perímetro de 4,5 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-02-3.jpg",
+        "alt": "Vista aérea de Central Park, gran rectángulo verde rodeado de rascacielos de Manhattan",
+        "credit": "Nicholas Hartmann",
+        "url": "https://commons.wikimedia.org/wiki/File:2010_New_York_City_Central_Park_aerial.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa los acres a hectáreas",
+        "steps": [
+          "Central Park es famoso por enorme; el Retiro es grande pero más modesto. Intuimos que Central Park es dos o tres veces mayor.",
+          "Un acre son unas 0,4 ha: 843 acres son unas 340 ha. Entre 120 ha del Retiro, casi 3.",
+          "Con las cifras exactas salen 2,89 Retiros. Si usáramos 125 ha para el Retiro, saldrían 2,7."
+        ]
+      }
+    }
+  ]
+}

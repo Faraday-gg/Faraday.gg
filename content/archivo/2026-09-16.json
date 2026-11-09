@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-16",
+  "name": "Miércoles",
+  "theme": "Peral, Times Square y Gasol",
+  "questions": [
+    {
+      "id": "archivo-2026-09-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Submarino pionero",
+      "title": "¿Cuántas horas tardaría el submarino de Isaac Peral en ir de Cartagena a Palma a su velocidad máxima?",
+      "detail": "Un viaje en el submarino eléctrico de 1888, el abuelo de todos los submarinos españoles. Navega en superficie a su velocidad máxima, sin paradas ni recargar baterías, por una ruta de 400 km.",
+      "unit": "horas",
+      "answer": 26.997840172786177,
+      "math": "El Peral alcanzaba 8 nudos en superficie: 8 × 1,852 = 14,816 km/h. Una ruta de 400 km lleva 400 ÷ 14,816 = 27 horas.",
+      "referenceExpression": "400 ÷ (8 × 1,852)",
+      "assumptions": "Ruta de 400 km, algo más larga que la línea recta entre ambas ciudades (unos 385 km). Velocidad máxima constante; sus baterías no daban para tanto de un tirón.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Submarino Peral",
+          "url": "https://es.wikipedia.org/wiki/Submarino_Peral",
+          "fact": "Velocidad: 8 nudos en superficie y 3 nudos en inmersión; botado el 8 de septiembre de 1888."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-16-1.jpg",
+        "alt": "Submarino Peral expuesto en Cartagena, con su casco alargado sobre una base",
+        "credit": "Basilio",
+        "url": "https://commons.wikimedia.org/wiki/File:Peral_Submarine_Cartagena,ES_2011.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Pasa nudos a km/h",
+        "steps": [
+          "Un submarino del siglo XIX no era rápido: piensa en la velocidad de una bicicleta tranquila, unos 15 km/h.",
+          "A 15 km/h, 400 km llevan unas 27 horas. Más de un día entero de travesía.",
+          "Con 8 nudos (14,8 km/h) salen 27 horas exactas, redondeando. En inmersión, a 3 nudos, tardaría casi 72 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Cruce concurrido",
+      "title": "¿Cuántas personas entran en Times Square por minuto, de media, a lo largo del día?",
+      "detail": "El cruce más fotografiado del planeta, contado como si fuera un torniquete. Reparte los peatones diarios por igual en las 24 horas, aunque a las cuatro de la mañana haya menos gente.",
+      "unit": "personas/min",
+      "answer": 152.77777777777777,
+      "math": "En 2024 entraron en Times Square unos 220.000 peatones al día. Un día tiene 1.440 minutos: 220.000 ÷ 1.440 = 152,8 personas por minuto.",
+      "referenceExpression": "220000 ÷ 1440",
+      "assumptions": "Reparto uniforme en 24 horas. En hora punta la cifra se multiplica y de madrugada cae mucho.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Times Square Alliance · Market Research & Data",
+          "url": "https://www.timessquarenyc.org/business-community/market-research-data",
+          "fact": "En 2024 entraron en Times Square unos 220.000 peatones al día; los días de más afluencia llegan a 330.000."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-16-2.jpg",
+        "alt": "Multitud de peatones en Times Square rodeados de pantallas publicitarias",
+        "credit": "Pablo Costa Tirado (…",
+        "url": "https://commons.wikimedia.org/wiki/File:Times_Square_crowd_-_panoramio.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "De peatones al día a peatones al minuto",
+        "steps": [
+          "Times Square recibe cientos de miles de personas al día: piensa en 200.000 como primer intento.",
+          "Un día tiene 1.440 minutos. 200.000 ÷ 1.440 da unas 140 personas por minuto: más de dos por segundo.",
+          "Con los 220.000 peatones diarios de 2024 salen 152,8 personas por minuto. En un día punta de 330.000, serían 229."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "La torre de los puntos",
+      "title": "Si cada punto de Pau Gasol en la NBA fuera un ladrillo de 7 cm apilado, ¿cuántos metros mediría la torre?",
+      "detail": "Una carrera entera de ganchos y tiros a media distancia convertida en obra. Cuenta solo los puntos de temporada regular; cada punto es un ladrillo macizo de 7 cm de grosor.",
+      "unit": "metros",
+      "answer": 1462.5800000000002,
+      "math": "Gasol anotó 20.894 puntos en temporada regular en 18 temporadas. A 7 cm por ladrillo: 20.894 × 0,07 = 1.462,58 m.",
+      "referenceExpression": "20894 × 0,07",
+      "assumptions": "Sin playoffs ni partidos con la selección. Ladrillos apilados sin mortero y sin que la torre se caiga.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Basketball Reference · Pau Gasol",
+          "url": "https://www.basketball-reference.com/players/g/gasolpa01.html",
+          "fact": "Totales de temporada regular: 1.226 partidos y 20.894 puntos en 18 temporadas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-16-3.jpg",
+        "alt": "Pau Gasol machacando el aro con la camiseta de los Lakers",
+        "credit": "Eric Kilby from USA",
+        "url": "https://commons.wikimedia.org/wiki/File:Pau_Gasol_dunk.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Puntos por partido por partidos",
+        "steps": [
+          "Gasol jugó muchísimos años en la NBA anotando bastante: digamos unos 17 puntos por partido durante más de mil partidos. Eso sugiere unos 20.000 puntos.",
+          "20.000 ladrillos de 7 cm son 1.400 metros: más alto que cualquier rascacielos del mundo.",
+          "Con sus 20.894 puntos reales la torre mide 1.462,58 m. Si sumaras los 2.098 puntos de playoffs, pasaría de 1.600 m."
+        ]
+      }
+    }
+  ]
+}

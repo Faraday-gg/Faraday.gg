@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-23",
+  "name": "Miércoles",
+  "theme": "Metro, Big Mac y Correos",
+  "questions": [
+    {
+      "id": "archivo-2026-09-23-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Torniquete loco",
+      "title": "¿Cuántos viajeros entran al Metro de Madrid por cada segundo de servicio?",
+      "detail": "Los tornos de toda la red sumados en uno solo. Cuenta los viajes de 2025 y el horario de 6:00 a 1:30 todos los días del año.",
+      "unit": "viajeros/s",
+      "answer": 28.75541505678492,
+      "math": "En 2025 hubo 736,8 millones de viajes. El servicio va de 6:00 a 1:30: 19,5 horas, 70.200 segundos al día. 736.800.000 ÷ (365 × 70.200) = 28,8 viajeros por segundo.",
+      "referenceExpression": "736800000 ÷ (365 × 19,5 × 3600)",
+      "assumptions": "Mismo horario todos los días; los fines de semana el metro cierra más tarde. Cada viaje cuenta como una entrada.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Metro de Madrid",
+          "url": "https://es.wikipedia.org/wiki/Metro_de_Madrid",
+          "fact": "736,8 millones de viajes en 2025; horario de servicio de 6:00 a 1:30."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-23-1.jpg",
+        "alt": "Andén histórico de la estación de Chamberí del Metro de Madrid, con azulejos publicitarios",
+        "credit": "Emilio J. Rodríguez Posada",
+        "url": "https://commons.wikimedia.org/wiki/File:And%C3%A9n_0-_Estaci%C3%B3n_de_Chamber%C3%AD_(34809014541).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Viajes al año entre segundos abiertos",
+        "steps": [
+          "El Metro mueve unos dos millones de viajes en un día laborable: del orden de 700 millones al año.",
+          "Abre unas 19 horas al día: unos 70.000 segundos. 2 millones ÷ 70.000 da unos 28 viajeros por segundo.",
+          "Con 736,8 millones y 19,5 horas salen 28,8 viajeros por segundo. En hora punta la cifra se multiplica varias veces."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-23-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Índice hamburguesa",
+      "title": "¿Cuántas hamburguesas Big Mac podías comprar en España con un mes de salario mínimo en 2025?",
+      "detail": "La forma más sabrosa de comparar sueldos entre países. Usa el SMI de 2025 en 14 pagas (sin descontar impuestos) y el precio del Big Mac en España en julio de 2025.",
+      "unit": "hamburguesas",
+      "answer": 205.91304347826087,
+      "math": "El SMI de 2025 fue de 1.184 € al mes en 14 pagas. El Big Mac costaba en España 5,75 € en julio de 2025. 1.184 ÷ 5,75 = 205,9 hamburguesas.",
+      "referenceExpression": "1184 ÷ 5,75",
+      "assumptions": "Salario bruto mensual en 14 pagas. Precio de referencia de The Economist; varía según el restaurante.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "BOE · Real Decreto 87/2025, salario mínimo interprofesional para 2025",
+          "url": "https://www.boe.es/eli/es/rd/2025/02/11/87",
+          "fact": "SMI de 1.184 euros al mes, vigente del 1 de enero al 31 de diciembre de 2025."
+        },
+        {
+          "title": "The Economist · datos del índice Big Mac (GitHub)",
+          "url": "https://github.com/TheEconomist/big-mac-data",
+          "fact": "Precio del Big Mac en España: 5,75 € en julio de 2025 y 5,90 € en julio de 2026."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-23-2.jpg",
+        "alt": "Hamburguesa Big Mac sobre fondo blanco",
+        "credit": "Evan-Amos",
+        "url": "https://commons.wikimedia.org/wiki/File:Big_Mac_hamburger.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Sueldo entre precio",
+        "steps": [
+          "El salario mínimo ronda los 1.200 € al mes y un Big Mac, unos 6 €.",
+          "1.200 ÷ 6 = 200 hamburguesas: casi siete al día durante un mes.",
+          "Con 1.184 € y 5,75 € salen 205,9 hamburguesas. Con el sueldo neto, tras cotizaciones, serían algo menos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-23-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Buzón ajetreado",
+      "title": "¿Cuántos envíos reparte Correos por segundo a lo largo de un año?",
+      "detail": "Cartas, paquetes y notificaciones, todo sumado y repartido de forma uniforme las 24 horas de los 365 días, aunque los carteros también descansen.",
+      "unit": "envíos/s",
+      "answer": 33.61237950279046,
+      "math": "Correos gestionó 1.060 millones de envíos en 2025. Un año tiene 31.536.000 segundos: 1.060.000.000 ÷ 31.536.000 = 33,6 envíos por segundo.",
+      "referenceExpression": "1060000000 ÷ (365 × 86400)",
+      "assumptions": "Reparto uniforme en todo el año, incluidas noches y festivos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Correos · Dossier de prensa 2026 (cifras clave de 2025)",
+          "url": "https://cswetwebcorsta01.blob.core.windows.net/uploads/2026/10/Dossier-de-prensa_2026.pdf",
+          "fact": "Envíos totales en 2025: 1.060 millones; 48.141 efectivos medios y 2.353 oficinas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-23-3.jpg",
+        "alt": "Buzón amarillo de Correos en una calle de Alcalá la Real",
+        "credit": "Michelangelo-36",
+        "url": "https://commons.wikimedia.org/wiki/File:Buz%C3%B3n_de_Correos_en_Alcal%C3%A1_la_Real.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "Envíos al año entre segundos del año",
+        "steps": [
+          "Correos reparte cientos de millones de cartas y paquetes al año. Supón unos 1.000 millones.",
+          "Un año tiene unos 31,5 millones de segundos. 1.000 millones ÷ 31,5 millones da unos 32 por segundo.",
+          "Con 1.060 millones de envíos en 2025 salen 33,6 por segundo. Si solo cuentas jornadas laborables de 8 horas, la cifra se multiplica por más de cuatro."
+        ]
+      }
+    }
+  ]
+}

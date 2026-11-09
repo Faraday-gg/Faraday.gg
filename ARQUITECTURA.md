@@ -58,6 +58,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
+  categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
@@ -66,7 +67,8 @@ lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
-content-engine.mjs       Calendario y banco editorial posterior al piloto
+content/archivo/         Jornadas del archivo, una por archivo AAAA-MM-DD.json (9 ago – 8 nov 2026)
+content-engine.mjs       Calendario, archivo, piloto y banco editorial posterior al piloto
 lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
 scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
@@ -80,7 +82,7 @@ runtime/                 Estado local generado; excluido de Git
 
 ## Recorrido de una partida
 
-1. La API lee de Supabase las jornadas de los últimos 30 días con sus preguntas. Si una fecha no está publicada allí o Supabase no responde, recurre a `content-engine.mjs`, que funciona así: calcula la fecha en la zona `Europe/Madrid`. Para el piloto del 9 al 15 de noviembre de 2026 devuelve las jornadas de `dist/questions.json`. Después utiliza un banco editorial finito para generar tres preguntas por día, con referentes distintos, hasta el 14 de diciembre de 2026. La generación es determinista: la misma fecha produce siempre la misma jornada. En local, además, una jornada generada se conserva en `runtime/days/`; en Vercel no se escribe en disco.
+1. La API lee de Supabase las jornadas de los últimos 30 días con sus preguntas. Las más antiguas del archivo van en el calendario solo como resumen (`archive`: fecha, tema y categorías) y el navegador pide la jornada completa a `/api/day` al abrirla. El calendario también indica `first`, la fecha del reto Nº 1, con la que se numeran los retos. Si una fecha no está publicada allí o Supabase no responde, recurre a `content-engine.mjs`, que funciona así: calcula la fecha en la zona `Europe/Madrid`. Del 9 de agosto al 8 de noviembre de 2026 devuelve las jornadas de `content/archivo/`; para el piloto del 9 al 15 de noviembre, las de `dist/questions.json`. Después utiliza un banco editorial finito para generar tres preguntas por día, con referentes distintos, hasta el 14 de diciembre de 2026. La generación es determinista: la misma fecha produce siempre la misma jornada. En local, además, una jornada generada se conserva en `runtime/days/`; en Vercel no se escribe en disco.
 2. `lib/api.mjs` expone `GET /api/calendar`, `GET /api/day?date=AAAA-MM-DD` y `GET /daily-content.js`. En local los sirve `preview-server.mjs` junto con `dist/`; en Vercel, la función `api/index.mjs`. El navegador refresca el calendario al volver a la pestaña y periódicamente mientras está abierta.
 3. `app.js` muestra las preguntas, valida un número positivo y calcula la distancia multiplicativa a la respuesta de referencia: `max(estimación / referencia, referencia / estimación)`. `1×` es una respuesta exacta. La puntuación diaria es la media de las tres distancias.
 4. El navegador guarda la progresión y el bloc en `localStorage`. `community.js` crea y conserva un UUID anónimo por navegador. Al mostrar resultados, envía ese identificador y la estimación a `POST /api/answers`.
@@ -90,7 +92,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Contenido y recursos
 
-Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
+Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [decisión 0008](docs/decisiones/0008-categorias-y-archivo.md)), una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
 
 ## Límites del almacenamiento local
 

@@ -1,0 +1,121 @@
+{
+  "id": "2026-11-03",
+  "name": "Martes",
+  "theme": "Faro, Zeppelin y parmesano",
+  "questions": [
+    {
+      "id": "archivo-2026-11-03-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Destellos romanos",
+      "title": "¿Cuántos destellos emite la Torre de Hércules en un año?",
+      "detail": "El faro romano en activo más famoso guiña el ojo en grupos de cuatro destellos cada 20 segundos. Supón que está encendido 12 horas cada noche, los 365 días, sin fundirse ni una bombilla.",
+      "unit": "destellos",
+      "answer": 3153600,
+      "math": "Característica de la luz: grupo de 4 destellos cada 20 s. 12 h × 3.600 s = 43.200 s por noche, es decir, 2.160 grupos y 8.640 destellos. 8.640 × 365 = 3.153.600 destellos al año.",
+      "referenceExpression": "365 × 12 × 3600 ÷ 20 × 4",
+      "assumptions": "Usamos 12 horas de encendido todas las noches; en Galicia las noches de invierno son más largas que las de verano. No contamos días de mantenimiento.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Ayuntamiento de A Coruña · Torre de Hércules, el faro",
+          "url": "https://www.coruna.gal/the-tower/en/discover-the-tower/the-lighthouse",
+          "fact": "Característica de la luz: GpD(4) de 20 s, luz blanca y alcance de 23 millas náuticas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-03-1.jpg",
+        "alt": "La Torre de Hércules sobre una colina de A Coruña, con la estatua de Breogán y paseantes en primer plano",
+        "credit": "Luis Miguel Bugallo Sánchez (Lmbuga)",
+        "url": "https://commons.wikimedia.org/wiki/File:Torre_de_H%C3%A9rcules_-_DivesGallaecia2012-62.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Destellos por noche, noches por año",
+        "steps": [
+          "Si el faro destella cada pocos segundos, en una noche larga lanzará miles de destellos. Con unos 10.000 por noche, un año daría unos 3,5 millones.",
+          "Cuatro destellos cada 20 segundos son 12 por minuto, 720 por hora. En 12 horas, 8.640.",
+          "8.640 por 365 noches da 3.153.600 destellos. En diciembre la Torre trabaja horas extra y en junio descansa un poco: la media anual se queda parecida."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-03-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Vuelta al mundo en globo",
+      "title": "¿A qué velocidad media dio la vuelta al mundo el Graf Zeppelin en 1929?",
+      "detail": "Cuenta el viaje completo de 1929, de principio a fin, incluidas las escalas para repostar, cenar y saludar a las multitudes. Lo que te pedimos es la media total, no la velocidad de crucero.",
+      "unit": "km/h",
+      "answer": 65.22652186712898,
+      "math": "La vuelta al mundo cubrió 33.234 km en 21 días, 5 horas y 31 minutos, incluidas las escalas. 21 × 24 + 5 + 31/60 ≈ 509,5 h. 33.234 ÷ 509,5 ≈ 65,2 km/h.",
+      "referenceExpression": "33234 ÷ (21 × 24 + 5 + 31 ÷ 60)",
+      "assumptions": "Media sobre el tiempo total, con escalas. Si solo cuentas el tiempo de vuelo (12 días, 12 horas y 13 minutos) la media sube a unos 110 km/h.",
+      "confidence": "Dato histórico + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · LZ 127 Graf Zeppelin",
+          "url": "https://en.wikipedia.org/wiki/LZ_127_Graf_Zeppelin",
+          "fact": "La circunnavegación completa, con escalas, duró 21 días, 5 horas y 31 minutos y cubrió 33.234 km; el tiempo de vuelo fue de 12 días, 12 horas y 13 minutos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-03-2.jpg",
+        "alt": "El dirigible Graf Zeppelin sobrevolando la bahía de Río de Janeiro",
+        "credit": "Jorge Kfuri (1893-1965)",
+        "url": "https://commons.wikimedia.org/wiki/File:LZ_127_Graf_Zeppelin_over_Rio.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:LZ_127_Graf_Zeppelin_over_Rio.jpg"
+      },
+      "reasoning": {
+        "heading": "Distancia total entre horas totales",
+        "steps": [
+          "Una vuelta al mundo por latitudes del norte ronda los 30.000-35.000 km. Tres semanas son unas 500 horas.",
+          "30.000 entre 500 son 60 km/h; 35.000 entre 500, 70. La media estará por ahí, como un coche por carretera secundaria.",
+          "Con 33.234 km y 509,5 horas salen 65,2 km/h. Volando iba mucho más deprisa, pero cada escala era una fiesta multitudinaria que también cuenta en el reloj."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-03-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Leche a lo grande",
+      "title": "¿Cuántos vasos de leche hacen falta para fabricar una rueda de Parmigiano Reggiano?",
+      "detail": "Una rueda entera de parmesano de verdad, de las que se guardan en catedrales de estanterías. Usa vasos de 250 ml y no te bebas ninguno por el camino.",
+      "unit": "vasos",
+      "answer": 2080,
+      "math": "El Consorzio del Parmigiano Reggiano indica unos 520 litros de leche por rueda. 520 ÷ 0,25 = 2.080 vasos.",
+      "referenceExpression": "520 ÷ 0,25",
+      "assumptions": "Usamos la cifra media del Consorzio; cada rueda varía un poco según la leche y su peso final. Vaso de 250 ml exactos.",
+      "confidence": "Dato oficial + cálculo",
+      "sources": [
+        {
+          "title": "Consorzio del Parmigiano Reggiano · Linee guida 2025 (PDF)",
+          "url": "https://backend.parmigianoreggiano.com/uploads/Guidelines_ITA_Pd_V_2025_02a_0d135798fa.pdf",
+          "fact": "Más de 4.000.000 de ruedas al año; unos 520 litros de leche para producir una rueda."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-03-3.jpg",
+        "alt": "Pasillo de un almacén de curación con estanterías altísimas llenas de ruedas de Parmigiano Reggiano",
+        "credit": "Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:Parmigiano_reggiano_factory.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Del litro al vaso",
+        "steps": [
+          "Una rueda de parmesano pesa unos 40 kg, y el queso concentra mucho la leche: harán falta unos diez litros por kilo, unos 400-500 litros.",
+          "Cada litro llena cuatro vasos, así que 500 litros son unos 2.000 vasos.",
+          "Con los 520 litros del Consorzio salen 2.080 vasos. Es decir, la leche de casi seis años bebiendo un vaso diario va a parar a una sola rueda."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-14",
+  "name": "Lunes",
+  "theme": "Acueducto, ducha y Galeón",
+  "questions": [
+    {
+      "id": "archivo-2026-09-14-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Grifo romano",
+      "title": "¿Cuántos litros de agua al día podía llevar a la ciudad el Acueducto de Segovia?",
+      "detail": "Dos mil años de fontanería sin una sola gota de cemento. Suponemos el canal lleno a su caudal máximo durante las 24 horas del día; los romanos no cerraban el grifo por la noche.",
+      "unit": "litros",
+      "answer": 2160000,
+      "math": "El Ayuntamiento de Segovia da un caudal máximo de 20-30 litros por segundo; tomamos el punto medio, 25 L/s. Un día tiene 86.400 segundos: 25 × 86.400 = 2.160.000 litros.",
+      "referenceExpression": "25 × 86400",
+      "assumptions": "Caudal constante e igual al punto medio del intervalo documentado. Es una capacidad máxima del canal, no un consumo medido en época romana.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Junta de Castilla y León / Ayuntamiento de Segovia · folleto «El Acueducto de Segovia, patrimonio de la humanidad»",
+          "url": "https://jcyl.es/jcyl/patrimoniocultural/GuiaLugaresArqueologicos/wp-content/uploads/2022/11/Folleto-acueducto-2.pdf",
+          "fact": "Caudal máximo: 20-30 litros/segundo; canal de 25 × 30 × 30 cm; longitud total de 16.220 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-14-1.jpg",
+        "alt": "Arcos de granito del Acueducto de Segovia sobre la plaza del Azoguejo, con personas a sus pies que dan la escala",
+        "credit": "Bernard Gagnon",
+        "url": "https://commons.wikimedia.org/wiki/File:Aqueduct_of_Segovia_08.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Piensa en un grifo que nunca se cierra",
+        "steps": [
+          "El canal de arriba es pequeño: apenas un palmo de ancho. No transporta un río, sino algo más parecido a una manguera grande. Una primera apuesta podría ser unas decenas de litros por segundo.",
+          "Con 20 L/s, multiplica por 86.400 segundos que tiene un día: salen unos 1,7 millones de litros. Ya sabemos que la respuesta va de millones, no de miles.",
+          "El folleto oficial da un caudal máximo de 20-30 L/s. Con el punto medio, 25 L/s, el acueducto llevaba 2.160.000 litros al día. Si usas el extremo bajo o el alto, la respuesta oscila entre 1,7 y 2,6 millones."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-14-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Piscina a chorros",
+      "title": "¿Cuántas duchas de 8 minutos hacen falta para gastar el agua de una piscina olímpica?",
+      "detail": "Una piscina olímpica vaciada a base de duchas largas cantando en el baño. Cada ducha dura 8 minutos con un caudal de 10 litros por minuto.",
+      "unit": "duchas",
+      "answer": 31250,
+      "math": "Una piscina olímpica nominal tiene 2.500 m³: 2.500.000 litros. Una ducha de 8 minutos a 10 L/min gasta 80 litros. 2.500.000 ÷ 80 = 31.250 duchas.",
+      "referenceExpression": "2500000 ÷ (10 × 8)",
+      "assumptions": "Caudal fijo de 10 L/min, dentro del rango habitual de 8 a 15 L/min. Piscina de 50 × 25 × 2 m llena hasta arriba.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "50 × 25 m con 2 m de profundidad mínima: 2.500 m³ (2,5 millones de litros) de volumen nominal."
+        },
+        {
+          "title": "Endesa · Cómo ahorrar en la ducha",
+          "url": "https://www.endesa.com/es/blog/blog-de-endesa/climatizacion/ahorrar-ducha-eficiente",
+          "fact": "Cada minuto de ducha gasta entre 8 y 15 litros de agua."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-14-2.jpg",
+        "alt": "Alcachofa de ducha cromada con chorros de agua cayendo",
+        "credit": "Nicole-Koehler",
+        "url": "https://commons.wikimedia.org/wiki/File:Shower_head.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Pasa todo a litros y divide",
+        "steps": [
+          "Una piscina olímpica parece un mar, pero sus medidas son conocidas: 50 m de largo, 25 de ancho y unos 2 de fondo. Eso son 2.500 m³.",
+          "Cada metro cúbico son 1.000 litros: 2,5 millones de litros. Una ducha larga gasta del orden de 100 litros, así que esperamos unas 25.000 duchas.",
+          "Con 10 L/min durante 8 minutos, cada ducha gasta 80 litros, y salen 31.250 duchas. Una ducha a 15 L/min bajaría la cifra a unas 20.800; un cabezal ahorrador la subiría mucho."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-14-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Ida y vuelta al Pacífico",
+      "title": "¿Cuántas travesías hizo el Galeón de Manila durante los años que funcionó la ruta?",
+      "detail": "La primera gran ruta comercial que unió Asia y América, sin GPS ni puerto de escala. Cuenta una travesía de ida y otra de vuelta cada año, sin naufragios ni años en blanco.",
+      "unit": "travesías",
+      "answer": 500,
+      "math": "El servicio se inauguró en 1565, con el tornaviaje de Urdaneta, y el último barco zarpó de Acapulco en 1815: 250 años. A dos travesías por año, 250 × 2 = 500 travesías.",
+      "referenceExpression": "(1815 − 1565) × 2",
+      "assumptions": "Un viaje de ida y uno de vuelta al año. En la realidad hubo años con más barcos, años sin galeón y naufragios.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Galeón de Manila",
+          "url": "https://es.wikipedia.org/wiki/Gale%C3%B3n_de_Manila",
+          "fact": "El servicio fue inaugurado en 1565 y el último barco zarpó de Acapulco en 1815."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-14-3.jpg",
+        "alt": "Vitrina con objetos del comercio del Galeón de Manila: un abanico, un mantón bordado, una caja taraceada y una concha de nácar",
+        "credit": "AlejandroLinaresGarcia",
+        "url": "https://commons.wikimedia.org/wiki/File:GoodsManilaGalleonSanDiego.JPG",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta años, no barcos",
+        "steps": [
+          "La ruta nació en el siglo XVI y murió con la independencia de México, a principios del XIX. Eso son unos dos siglos y medio.",
+          "Si cada año sale un barco en cada sentido, 250 años dan unas 500 travesías. El orden de magnitud son cientos, no miles.",
+          "Con 1565 y 1815 como inicio y fin, salen exactamente 500 travesías en el modelo. La cifra real fue irregular: algunos años salieron dos galeones y otros ninguno, y varios se hundieron."
+        ]
+      }
+    }
+  ]
+}

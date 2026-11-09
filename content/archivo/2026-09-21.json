@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-21",
+  "name": "Lunes",
+  "theme": "Crucero, Neptuno y uñas",
+  "questions": [
+    {
+      "id": "archivo-2026-09-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Ciudad flotante",
+      "title": "¿Cuántos cruceros como el Wonder of the Seas harían falta para llevar a toda la población de Cádiz?",
+      "detail": "Una de las ciudades más antiguas de Occidente, embarcada al completo. Cuenta solo pasajeros, con el barco a ocupación doble: dos por camarote, sin camas supletorias.",
+      "unit": "cruceros",
+      "answer": 19.175095919079176,
+      "math": "Cádiz tenía 109.950 habitantes en 2025. El Wonder of the Seas lleva 5.734 pasajeros a ocupación doble. 109.950 ÷ 5.734 = 19,2 cruceros.",
+      "referenceExpression": "109950 ÷ 5734",
+      "assumptions": "Capacidad a ocupación doble. Con todas las camas ocupadas el barco admite unos 7.000 pasajeros y bastarían unos 16.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Wonder of the Seas",
+          "url": "https://en.wikipedia.org/wiki/Wonder_of_the_Seas",
+          "fact": "5.734 pasajeros a ocupación doble; la ficha da hasta 7.084 como máximo y el texto, 6.988."
+        },
+        {
+          "title": "Wikipedia · Cádiz (con datos del INE)",
+          "url": "https://es.wikipedia.org/wiki/C%C3%A1diz",
+          "fact": "Cádiz tiene 109.950 habitantes (INE, 2025)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-21-1.jpg",
+        "alt": "El crucero Wonder of the Seas atracado en el puerto de Málaga, más alto que los edificios cercanos",
+        "credit": "Daniel Capilla",
+        "url": "https://commons.wikimedia.org/wiki/File:Wonder_of_the_Seas_in_M%C3%A1laga_Port_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Una ciudad entre un barco",
+        "steps": [
+          "Los cruceros gigantes llevan varios miles de pasajeros: piensa en unos 6.000.",
+          "Cádiz ronda los 110.000 habitantes. 110.000 ÷ 6.000 da unos 18 barcos.",
+          "Con 5.734 plazas a ocupación doble salen 19,2 cruceros. Si llenas todas las camas, unos 7.000 por barco, bastan 16."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Luz con retraso",
+      "title": "¿Cuántos minutos tarda la luz del Sol en llegar a Neptuno?",
+      "detail": "En Neptuno los amaneceres llegan con un buen retraso. Usa la distancia media entre el Sol y Neptuno y la velocidad de la luz en el vacío.",
+      "unit": "minutos",
+      "answer": 251.0043687178637,
+      "math": "Neptuno orbita a una distancia media de 4.514,953 millones de km. A 299.792,458 km/s, la luz tarda 15.060 segundos: 251 minutos, algo más de cuatro horas.",
+      "referenceExpression": "4514953000 ÷ 299792,458 ÷ 60",
+      "assumptions": "Distancia media (semieje mayor) de la órbita; en el perihelio y el afelio el tiempo varía unos pocos minutos.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "NASA · Neptune Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+          "fact": "Semieje mayor de la órbita de Neptuno: 4.514,953 millones de km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-21-2.jpg",
+        "alt": "Neptuno fotografiado por la sonda Voyager 2, de color azul intenso",
+        "credit": "NASA",
+        "url": "https://commons.wikimedia.org/wiki/File:Neptune_Full.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Neptune_Full.jpg"
+      },
+      "reasoning": {
+        "heading": "Usa la Tierra como regla",
+        "steps": [
+          "La luz del Sol tarda unos 8 minutos en llegar a la Tierra. Neptuno está unas 30 veces más lejos.",
+          "30 × 8 = 240 minutos: unas cuatro horas.",
+          "Con 4.514,953 millones de km salen 251 minutos, unas 4 horas y 11 minutos. Una señal de radio enviada desde allí tarda más o menos lo mismo en llegarnos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Manicura vitalicia",
+      "title": "¿Cuántos centímetros de uña de las manos te cortas en toda tu vida?",
+      "detail": "Todas las uñas que han acabado en la papelera del baño, puestas en fila. Diez uñas, 80 años y la velocidad media de crecimiento; cuenta todo lo que crece, como si lo cortaras todo.",
+      "unit": "cm",
+      "answer": 3359.9999999999995,
+      "math": "Las uñas de las manos crecen de media unos 3,5 mm al mes. En 80 años son 3,5 × 12 × 80 = 3.360 mm por uña; por diez uñas, 33.600 mm: 3.360 cm.",
+      "referenceExpression": "0,35 × 12 × 80 × 10",
+      "assumptions": "Crecimiento constante desde el nacimiento hasta los 80 años. En la vejez las uñas crecen más despacio.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Nail (anatomy)",
+          "url": "https://en.wikipedia.org/wiki/Nail_(anatomy)",
+          "fact": "Las uñas de las manos crecen de media unos 3,5 mm al mes (Yaemsiri y otros, 2010)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-21-3.jpg",
+        "alt": "Primer plano de las uñas de una mano",
+        "credit": "Kommissar",
+        "url": "https://commons.wikimedia.org/wiki/File:Fingernails2.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Fingernails2.jpg"
+      },
+      "reasoning": {
+        "heading": "Milímetros al mes durante décadas",
+        "steps": [
+          "Te cortas las uñas cada semana o dos y cada vez quitas un milímetro o así: unos 3 mm al mes.",
+          "Un año son unos 4 cm por uña; en 80 años, más de 3 m por uña. Con diez uñas, unos 30 m.",
+          "Con 3,5 mm al mes salen 3.360 cm, casi 34 metros: la longitud de una piscina de 25 m y algo más."
+        ]
+      }
+    }
+  ]
+}

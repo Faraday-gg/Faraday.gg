@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-11",
+  "name": "Domingo",
+  "theme": "Concorde, flamencos y hígado",
+  "questions": [
+    {
+      "id": "archivo-2026-10-11-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Supersónico canario",
+      "title": "¿Cuántos minutos tardaría el Concorde en volar de Madrid a Gran Canaria a su velocidad de crucero?",
+      "detail": "El avión supersónico nunca hizo esta ruta, pero soñar es gratis. Vuela en línea recta entre los aeropuertos de Barajas y Gran Canaria a velocidad de crucero constante, sin despegue ni aterrizaje.",
+      "unit": "minutos",
+      "answer": 49.25050534149531,
+      "math": "La distancia ortodrómica entre los dos aeropuertos, calculada con sus coordenadas y un radio terrestre de 6.371 km, es de unos 1.765 km. A 2.150 km/h (Mach 2,02): 1.765 ÷ 2.150 × 60 ≈ 49,3 minutos.",
+      "referenceExpression": "1764,81 ÷ 2150 × 60",
+      "assumptions": "Velocidad de crucero desde el primer al último kilómetro, sin subir, bajar ni esquivar restricciones: el Concorde solo podía ir supersónico sobre el mar. La distancia es la del arco de círculo máximo entre aeropuertos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Concorde",
+          "url": "https://en.wikipedia.org/wiki/Concorde",
+          "fact": "Velocidad media de crucero de Mach 2,02 (2.150 km/h)."
+        },
+        {
+          "title": "Wikipedia · Madrid–Barajas Airport",
+          "url": "https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport",
+          "fact": "Coordenadas del aeropuerto: 40,4722° N, 3,5608° O."
+        },
+        {
+          "title": "Wikipedia · Gran Canaria Airport",
+          "url": "https://en.wikipedia.org/wiki/Gran_Canaria_Airport",
+          "fact": "Coordenadas del aeropuerto: 27,9319° N, 15,3867° O."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-11-1.jpg",
+        "alt": "Concorde de Air France expuesto en el Museo del Aire y del Espacio de Le Bourget, con su morro afilado",
+        "credit": "Pline",
+        "url": "https://commons.wikimedia.org/wiki/File:Concorde_Air_France_Musee_du_Bourget_P1020006.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Distancia entre velocidad, y luego a minutos",
+        "steps": [
+          "Un vuelo normal de Madrid a Gran Canaria dura casi tres horas a unos 800 km/h: la distancia ronda los 1.700-1.800 km.",
+          "El Concorde iba a unos 2.000 km/h, más del doble de rápido. 1.800 ÷ 2.000 = 0,9 horas, unos 54 minutos.",
+          "Con los 1.765 km de línea recta y 2.150 km/h salen 49,3 minutos. En la práctica sumarías unos 20-30 minutos de subida y bajada, y sobre la Península no podría ir supersónico."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-11-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Flamencos de pie",
+      "title": "¿Cuántos flamencos cabrían en la Laguna de Fuente de Piedra si cada uno ocupara un metro cuadrado?",
+      "detail": "Es la laguna más grande de Andalucía y una guardería de flamencos famosa en toda Europa. Dale a cada flamenco un metro cuadrado para estar a la pata coja, con la laguna en su vaso completo.",
+      "unit": "flamencos",
+      "answer": 14750000,
+      "math": "El vaso de la laguna ocupa unas 1.475 ha. Una hectárea son 10.000 m². 1.475 × 10.000 = 14.750.000 m², así que caben 14,75 millones de flamencos.",
+      "referenceExpression": "1475 × 10000",
+      "assumptions": "Usamos la superficie del vaso lagunar, no la de la zona protegida (unas 8.912 ha). Un metro cuadrado por flamenco es una condición del juego: en una colonia real se apiñan mucho más.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Junta de Andalucía · BOJA n.º 144 de 2013, Decreto 70/2013",
+          "url": "https://www.juntadeandalucia.es/boja/2013/144/BOJA13-144-00114-12146-01_00030952.pdf",
+          "fact": "«Con una superficie aproximada de 1.475 ha, es la laguna más grande de Andalucía»; la Reserva y su zona periférica suman unas 8.912 ha."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-11-2.jpg",
+        "alt": "Grupo de flamencos rosados en el agua somera de la Laguna de Fuente de Piedra",
+        "credit": "rjime31",
+        "url": "https://commons.wikimedia.org/wiki/File:Flamencos_Fuente_de_Piedra.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Pasa la laguna a metros cuadrados",
+        "steps": [
+          "Una laguna grande del interior puede medir unos 6 km de largo por 2 de ancho. Eso es un rectángulo de 12 km².",
+          "Un km² son un millón de m², así que 12 km² dan 12 millones de flamencos. Hablamos de millones, no de miles.",
+          "Con las 1.475 ha oficiales salen 14,75 millones de flamencos. La lámina de agua cambia mucho con las lluvias, así que este es el máximo con la laguna llena."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-11-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Filtro de serie",
+      "title": "¿Cuántos litros de sangre pasan por tu hígado en un día?",
+      "detail": "Sin hacer ruido, el hígado recibe sangre de la arteria hepática y de la vena porta a todas horas. Usa un flujo constante de 1,5 litros por minuto, día y noche.",
+      "unit": "litros",
+      "answer": 2160,
+      "math": "El flujo sanguíneo hepático total ronda los 1.200-1.800 ml/min. Con 1,5 L/min y 1.440 minutos al día: 1,5 × 1.440 = 2.160 litros.",
+      "referenceExpression": "1,5 × 1440",
+      "assumptions": "Flujo constante de 1,5 L/min, punto medio del rango habitual en adultos en reposo. El flujo cambia con la postura, las comidas y el ejercicio. Contamos el volumen que pasa, no la sangre que tienes (unos 5 litros, que dan muchas vueltas).",
+      "confidence": "Rango fisiológico + modelo",
+      "sources": [
+        {
+          "title": "Deranged Physiology · Hepatic blood flow",
+          "url": "https://derangedphysiology.com/main/cicm-primary-exam/required-reading/cardiovascular-system/Chapter%20475/hepatic-blood-flow",
+          "fact": "Flujo hepático total de unos 1.200 ml/min, con un rango de 1.200-1.800 ml/min, aproximadamente el 20-25 % del gasto cardiaco."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-11-3.png",
+        "alt": "Ilustración del hígado humano con sus lóbulos y vasos sanguíneos",
+        "credit": "Courtesy of NIAID Ryan Kissinger",
+        "url": "https://commons.wikimedia.org/wiki/File:Human_Liver_(NIH_BioArt_230).png",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Human_Liver_(NIH_BioArt_230).png"
+      },
+      "reasoning": {
+        "heading": "Un caudal pequeño durante muchos minutos",
+        "steps": [
+          "El corazón bombea unos 5 litros por minuto y al hígado le toca una cuarta parte: algo más de 1 litro por minuto.",
+          "Un día tiene 1.440 minutos, casi 1.500. Con 1 L/min serían unos 1.500 litros; con 1,5 L/min, más de 2.000.",
+          "Con 1,5 L/min salen 2.160 litros al día, unas 14 bañeras de 150 litros. Si tomas el extremo bajo del rango (1,2 L/min) son 1.728 litros, y con el alto (1,8 L/min), 2.592."
+        ]
+      }
+    }
+  ]
+}

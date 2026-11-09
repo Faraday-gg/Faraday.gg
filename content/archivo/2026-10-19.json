@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-19",
+  "name": "Lunes",
+  "theme": "Elefante, estadio y manchego",
+  "questions": [
+    {
+      "id": "archivo-2026-10-19-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Buen saque",
+      "title": "¿Cuántas toneladas de comida come un elefante africano a lo largo de su vida?",
+      "detail": "Un elefante glotón que come cada día lo máximo de su ración, 150 kg de hierba, ramas y corteza, y vive 50 años. Sin postre.",
+      "unit": "toneladas",
+      "answer": 2739.375,
+      "math": "Un elefante en libertad come entre 74 y 150 kg al día, y los africanos rara vez pasan de 50 años (Elephant Managers Association). 150 × 365,25 × 50 = 2.739.375 kg ≈ 2.739 toneladas.",
+      "referenceExpression": "150 × 365,25 × 50 ÷ 1000",
+      "assumptions": "Ración máxima todos los días desde el nacimiento, aunque una cría come mucho menos. Con la ración mínima (74 kg) saldría la mitad.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Elephant Managers Association · Preguntas frecuentes sobre elefantes",
+          "url": "https://elephantmanagers.com/Elephants",
+          "fact": "Los elefantes en libertad necesitan unos 74 a 150 kg de comida al día; los africanos rara vez llegan a los 50 años."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-19-1.jpg",
+        "alt": "Elefante africano macho comiendo juncos con la trompa",
+        "credit": "Bernard DUPONT from FRANCE",
+        "url": "https://commons.wikimedia.org/wiki/File:African_Elephant_(Loxodonta_africana)_bull_eating_reeds_..._(31886961200).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Ración diaria por días de vida",
+        "steps": [
+          "Un elefante come como una cuadrilla entera: hablamos de cien kilos y pico al día. A lo largo de toda una vida, la cifra tiene que ser de miles de toneladas.",
+          "Con 150 kg diarios son unas 55 toneladas al año. Por 50 años, unas 2.700 toneladas.",
+          "El cálculo exacto da 2.739 toneladas. Es un techo: las crías comen menos y muchos días el elefante se queda por debajo del máximo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-19-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Culo inquieto",
+      "title": "Si probaras un asiento distinto del Metropolitano cada minuto, sin dormir, ¿cuántos días tardarías en sentarte en todos?",
+      "detail": "Un minuto por asiento, 24 horas al día, sin pausas para el bocadillo. Los palcos también cuentan.",
+      "unit": "días",
+      "answer": 49.175694444444446,
+      "math": "El Riyadh Air Metropolitano tiene un aforo de 70.813 espectadores (Atlético de Madrid, octubre de 2026). Un día tiene 1.440 minutos: 70.813 ÷ 1.440 ≈ 49,2 días.",
+      "referenceExpression": "70813 ÷ 1440",
+      "assumptions": "Tomamos el aforo oficial como número de asientos y no contamos el tiempo de ir de uno a otro.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Atlético de Madrid · El Riyadh Air Metropolitano sigue creciendo",
+          "url": "https://www.atleticodemadrid.com/noticias/el-riyadh-air-metropolitano-sigue-creciendo-para-ofrecer-una-mejor-experiencia-a-nuestros-aficionados",
+          "fact": "Aforo de 70.813 espectadores (noticia del 1 de octubre de 2026)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-19-2.jpg",
+        "alt": "Interior del estadio Metropolitano con las gradas rojas y blancas alrededor del césped",
+        "credit": "Event",
+        "url": "https://commons.wikimedia.org/wiki/File:Wanda_Metropolitano_inside.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Asientos convertidos en minutos",
+        "steps": [
+          "Un estadio grande ronda los 70.000 asientos. A uno por minuto, parece cosa de semanas.",
+          "Un día tiene 1.440 minutos; 70.000 entre 1.440 sale cerca de 50 días.",
+          "Con los 70.813 asientos oficiales son 49,2 días seguidos sin dormir. Con ocho horas de sueño diarias, la gira de asientos se iría a unos 74 días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-19-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Cuñas manchegas",
+      "title": "¿Cuántas cuñas de 250 g saldrían del queso manchego DOP producido en un año?",
+      "detail": "Cortamos toda la producción amparada de un año en cuñas de 250 g, sin mermas ni catas furtivas.",
+      "unit": "cuñas",
+      "answer": 68600104,
+      "math": "Según datos del Ministerio de Agricultura recogidos por Interempresas (agosto de 2022), la DOP Queso Manchego amparó 17.150.026 kg. 17.150.026 ÷ 0,25 ≈ 68,6 millones de cuñas.",
+      "referenceExpression": "17150026 ÷ 0,25",
+      "assumptions": "Usamos una cifra anual reciente (probablemente 2021). La producción varía de un año a otro entre 15 y 17 millones de kilos.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Interempresas · Liderazgo manchego (datos del MAPA)",
+          "url": "https://www.interempresas.net/ovino/396853-Liderazgo-manchego.html",
+          "fact": "La DOP Queso Manchego amparó 17.150.026 kg de queso (tabla con datos del MAPA, artículo del 23/08/2022)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-19-3.jpg",
+        "alt": "Cuña de queso manchego curado con su corteza en zigzag",
+        "credit": "cyclonebill",
+        "url": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Manchego.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Kilos de queso, cuatro cuñas por kilo",
+        "steps": [
+          "Queso manchego hay en cualquier supermercado de España y medio mundo. La DOP producirá millones de kilos, no miles.",
+          "Si son unos 17 millones de kilos y cada kilo da cuatro cuñas, salen unos 68 millones.",
+          "Con los 17.150.026 kg amparados salen 68,6 millones de cuñas: más de una por cada habitante de Francia."
+        ]
+      }
+    }
+  ]
+}

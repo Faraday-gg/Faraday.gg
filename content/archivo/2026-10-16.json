@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-16",
+  "name": "Viernes",
+  "theme": "Siesta, Collserola y cepillo",
+  "questions": [
+    {
+      "id": "archivo-2026-10-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "País de siesta",
+      "title": "Si uno de cada cinco españoles echara una siesta de 20 minutos, ¿cuántos años de sueño sumaría España en un día?",
+      "detail": "Una siesta corta, de las que no dejan marca de almohada. Suma los minutos de todos los que se la echan y conviértelos en años de 365,25 días.",
+      "unit": "años",
+      "answer": 377.1396988364134,
+      "math": "España tenía 49.590.099 habitantes el 1 de enero de 2026. El 20 % son 9.918.020 personas. × 20 min = 198.360.396 minutos. ÷ 60 ÷ 24 ÷ 365,25 ≈ 377 años.",
+      "referenceExpression": "49590099 × 0,2 × 20 ÷ 60 ÷ 24 ÷ 365,25",
+      "assumptions": "El 20 % y los 20 minutos son condiciones del juego, no una estadística de hábitos de sueño. La población es provisional.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Eurostat · demo_gind, población de España",
+          "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=ES&indic_de=JAN&sinceTimePeriod=2025&format=JSON&lang=EN",
+          "fact": "Población a 1 de enero de 2026: 49.590.099 habitantes (provisional)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-16-1.jpg",
+        "alt": "Cuadro de Gustave Courbet: una joven dormida en una hamaca a la sombra de los árboles",
+        "credit": "Gustave Courbet",
+        "url": "https://commons.wikimedia.org/wiki/File:Die_H%C3%A4ngematte.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Die_H%C3%A4ngematte.jpg"
+      },
+      "reasoning": {
+        "heading": "Minutos de siesta hasta llegar a años",
+        "steps": [
+          "En España viven unos 50 millones de personas; uno de cada cinco son 10 millones de siesteros.",
+          "10 millones × 20 minutos = 200 millones de minutos. Un año tiene unos 525.000 minutos: 200 millones entre medio millón dan unos 400 años.",
+          "Con la población de 2026 salen 377 años de sueño en un solo día: casi cuatro siglos de cabezadas. Si la siesta fuera de media hora, serían 566 años."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Mirador al infinito",
+      "title": "¿A cuántos km está el horizonte visto desde el mirador de la Torre de Collserola?",
+      "detail": "La torre de telecomunicaciones de Norman Foster tiene un mirador público sobre la sierra de Collserola. Calcula el horizonte geométrico desde los ojos del visitante, sin montañas ni bruma en medio.",
+      "unit": "km",
+      "answer": 84.48161930266251,
+      "math": "El mirador está a 560 m sobre el nivel del mar. La distancia al horizonte geométrico es d ≈ 3,57 × √h, con h en metros y d en km. 3,57 × √560 ≈ 3,57 × 23,66 ≈ 84,5 km.",
+      "referenceExpression": "3,57 × √560",
+      "assumptions": "Fórmula del horizonte geométrico sobre una Tierra lisa, con el mar al nivel cero. La refracción de la atmósfera lo alarga un poco y las montañas lo tapan en muchas direcciones.",
+      "confidence": "Dato documentado + geometría",
+      "sources": [
+        {
+          "title": "Wikipedia · Torre de Collserola",
+          "url": "https://en.wikipedia.org/wiki/Torre_de_Collserola",
+          "fact": "El mirador público está a 560 m sobre el nivel del mar; la antena alcanza 288,4 m de altura."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-16-2.jpg",
+        "alt": "La Torre de Collserola, una aguja de telecomunicaciones sujeta con tirantes, sobre la sierra de Barcelona",
+        "credit": "Felix König",
+        "url": "https://commons.wikimedia.org/wiki/File:Torre_de_Collserola_2013.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "La raíz cuadrada de la altura manda",
+        "steps": [
+          "Desde la playa, con los ojos a 2 m, el horizonte está a unos 5 km. Al subir, se aleja, pero no en proporción directa.",
+          "La distancia crece con la raíz de la altura: subir 100 veces más alto alarga el horizonte 10 veces. A unos 500 m saldrían unos 80 km.",
+          "Con 560 m sobre el mar, el horizonte geométrico queda a 84,5 km, bastante más allá de la costa. La refracción atmosférica lo alarga un poco, y en días claros se llegan a ver cumbres más lejanas porque sobresalen por encima del horizonte."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Espuma acumulada",
+      "title": "Cepillándote dos veces al día dos minutos, ¿cuántos días enteros pasas en tu vida lavándote los dientes?",
+      "detail": "Cuatro minutos diarios de espuma desde los 3 años hasta los 80, sin saltarte ni una noche. Suma todos los minutos y conviértelos en días de 24 horas.",
+      "unit": "días",
+      "answer": 78.12291666666667,
+      "math": "De los 3 a los 80 años van 77 años. 77 × 365,25 = 28.124,25 días. × 4 min = 112.497 minutos. ÷ 1.440 ≈ 78,1 días.",
+      "referenceExpression": "77 × 365,25 × 4 ÷ 1440",
+      "assumptions": "Dos cepillados diarios de dos minutos exactos, como recomiendan los dentistas, desde los 3 hasta los 80 años. En la vida real mucha gente se cepilla menos tiempo.",
+      "confidence": "Recomendación + modelo",
+      "sources": [
+        {
+          "title": "NHS · How to keep your teeth clean",
+          "url": "https://www.nhs.uk/live-well/healthy-teeth-and-gums/how-to-keep-your-teeth-clean/",
+          "fact": "Cepíllate los dientes dos veces al día, unos 2 minutos cada vez."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-16-3.jpg",
+        "alt": "Cepillo de dientes con una tira de pasta dentífrica sobre las cerdas",
+        "credit": "Thegreenj",
+        "url": "https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Minutos diarios por días de vida",
+        "steps": [
+          "Cuatro minutos al día parece poco. La pregunta es cuántos días se cepilla uno en la vida: casi 80 años de cepillo.",
+          "77 años son unos 28.000 días. Por 4 minutos son unos 112.000 minutos, y un día tiene 1.440: salen unos 78 días.",
+          "Con la cuenta exacta salen 78,1 días, más de dos meses y medio sin parar. Si te cepillas tres veces al día, súmale otro mes."
+        ]
+      }
+    }
+  ]
+}

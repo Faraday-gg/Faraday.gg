@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-12",
+  "name": "Lunes",
+  "theme": "MAREA, calçots y Amazonas",
+  "questions": [
+    {
+      "id": "archivo-2026-10-12-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Cable con antojo",
+      "title": "¿Cuántas películas en alta definición por segundo podría transmitir el cable submarino MAREA a plena capacidad?",
+      "detail": "Una manguera de fibra óptica de 6.600 km une Sopelana (Bizkaia) con Virginia Beach. Cada película en alta definición pesa 5 GB y el cable va a tope, sin que nadie más lo use.",
+      "unit": "películas/s",
+      "answer": 4000,
+      "math": "MAREA se diseñó con una capacidad estimada de 160 Tbps, es decir, 160 × 10¹² bits por segundo. Una película de 5 GB son 5 × 10⁹ × 8 = 4 × 10¹⁰ bits. 1,6 × 10¹⁴ ÷ 4 × 10¹⁰ = 4.000 películas por segundo.",
+      "referenceExpression": "160e12 ÷ (5e9 × 8)",
+      "assumptions": "Usamos la capacidad inicial de diseño, no el tráfico real. Ignoramos protocolos, redundancia y que los pares de fibra se reparten entre varias empresas. Una película «HD» de 5 GB es un tamaño típico, no un estándar.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Microsoft News · Microsoft, Facebook y Telxius inician MAREA en España",
+          "url": "https://news.microsoft.com/es-es/2017/06/13/microsoft-facebook-telxius-inician-marea-espana/",
+          "fact": "Cable de 6.600 km con 8 pares de fibra y un ancho de banda inicial estimado de 160 Tbps."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-12-1.jpg",
+        "alt": "Panorámica de la playa de Sopelana, donde llega a tierra el cable MAREA, con acantilados y mar abierto",
+        "credit": "Theklan",
+        "url": "https://commons.wikimedia.org/wiki/File:Sopelana_hondartza.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Bits del cable entre bits de la película",
+        "steps": [
+          "Hay que pasar todo a bits. Un byte son 8 bits, así que una película de 5 GB son 40.000 millones de bits.",
+          "Si el cable moviera 100 billones de bits por segundo, entrarían 100.000.000.000.000 ÷ 40.000.000.000 = 2.500 películas cada segundo.",
+          "Con los 160 Tbps de diseño salen 4.000 películas por segundo: el catálogo entero de una plataforma en unos instantes. Es capacidad teórica; tu wifi sigue siendo el cuello de botella."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-12-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Babero obligatorio",
+      "title": "¿Cuántos calçots de la IGP Calçot de Valls le tocan a cada habitante de Cataluña en una temporada?",
+      "detail": "Solo cuentan los calçots con la etiqueta numerada de la IGP. Repártelos a partes iguales entre todos los catalanes, también entre los que no soportan mancharse.",
+      "unit": "calçots",
+      "answer": 2.435842941718804,
+      "math": "La temporada pasada se comercializaron 20 millones de calçots con etiqueta IGP. Cataluña tenía 8.210.710 habitantes el 1 de enero de 2026. 20.000.000 ÷ 8.210.710 ≈ 2,44 calçots por persona.",
+      "referenceExpression": "20000000 ÷ 8210710",
+      "assumptions": "Solo contamos calçots certificados por la IGP; se cultivan y comen muchos más sin etiqueta. La cifra de 20 millones es la que da el presidente de la IGP para la temporada 2024-2025, y la población es provisional.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Diari de Tarragona · Entrevista a Isidre Coll, presidente de la IGP Calçot de Valls (6/11/2025)",
+          "url": "https://www.diaridetarragona.com/camp/244280/isidre-coll-president-igp-calcot-valls-temporada-s-allargat-pel-canvi-climatic.html",
+          "fact": "«20 milions de calçots comercialitzats sota l'etiqueta de la IGP»."
+        },
+        {
+          "title": "Idescat · Población de Cataluña",
+          "url": "https://www.idescat.cat/indicadors/?id=aec&n=15223&lang=es",
+          "fact": "8.210.710 habitantes a 1 de enero de 2026 (dato provisional)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-12-2.jpg",
+        "alt": "Calçots asados apilados en una calçotada de Valls",
+        "credit": "flydime",
+        "url": "https://commons.wikimedia.org/wiki/File:Cal%C3%A7otada_a_Valls_(Catalonia).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Producción certificada entre población",
+        "steps": [
+          "Una calçotada normal son docenas de calçots por persona, así que la intuición dice que tocan muchos.",
+          "Pero la IGP certifica del orden de decenas de millones y en Cataluña viven unos 8 millones de personas. 20 entre 8 dan unos 2,5.",
+          "Con 20 millones y 8.210.710 habitantes salen 2,44 calçots por cabeza: no llega ni para mancharse el babero. La mayoría de calçots que se comen no llevan la etiqueta de la IGP."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-12-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Grifo amazónico",
+      "title": "¿Cuántos segundos tarda el Amazonas en verter al mar el agua que consume la Comunidad de Madrid en un día?",
+      "detail": "El río más caudaloso del planeta contra todos los grifos, duchas y riegos madrileños. Usa el caudal medio en la desembocadura y el consumo medio diario de 2025.",
+      "unit": "segundos",
+      "answer": 6.051402012235075,
+      "math": "La Comunidad de Madrid consumió 494,1 hm³ en 2025: 494.100.000 m³ ÷ 365 ≈ 1.353.699 m³ al día. El Amazonas vierte de media 223.700 m³/s. 1.353.699 ÷ 223.700 ≈ 6,05 segundos.",
+      "referenceExpression": "494100000 ÷ 365 ÷ 223700",
+      "assumptions": "Caudal medio constante en el delta y consumo repartido por igual entre los días del año. El caudal del Amazonas varía mucho entre estación seca y húmeda, y las cifras de caudal medio cambian según la fuente.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Comunidad de Madrid · Nota de prensa sobre la situación hidrológica (2/1/2026)",
+          "url": "https://www.comunidad.madrid/press-releases/download/107608",
+          "fact": "Los madrileños emplearon 494,1 hm³ en 2025, frente a 496,4 hm³ en 2024."
+        },
+        {
+          "title": "Wikipedia · Amazon River",
+          "url": "https://en.wikipedia.org/wiki/Amazon_River",
+          "fact": "Caudal medio en el delta del Amazonas: 223.700 m³/s."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-12-3.jpg",
+        "alt": "Imagen de satélite del río Amazonas serpenteando entre la selva",
+        "credit": "NASA",
+        "url": "https://commons.wikimedia.org/wiki/File:Amazon-river-NASA.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Amazon-river-NASA.jpg"
+      },
+      "reasoning": {
+        "heading": "Pasa los dos al mismo idioma: metros cúbicos",
+        "steps": [
+          "Madrid gasta unos 200 litros por persona y día y tiene casi 7 millones de habitantes: unos 1.400 millones de litros, 1,4 millones de m³ diarios.",
+          "El Amazonas vierte unos 200.000 m³ cada segundo. 1.400.000 ÷ 200.000 = 7 segundos.",
+          "Con el consumo de 2025 y un caudal medio de 223.700 m³/s salen unos 6 segundos. En plena crecida serían menos y en estiaje bastantes más, pero siempre menos de lo que tardas en leer esta frase."
+        ]
+      }
+    }
+  ]
+}

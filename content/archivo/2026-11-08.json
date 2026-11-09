@@ -1,0 +1,131 @@
+{
+  "id": "2026-11-08",
+  "name": "Domingo",
+  "theme": "Ascensores, pasos y Bulnes",
+  "questions": [
+    {
+      "id": "archivo-2026-11-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Subir sin escaleras",
+      "title": "¿Cuántos ascensores nuevos se venden en España cada día?",
+      "detail": "Reparte todas las ventas de ascensores de 2024 entre los 365 días del año, domingos y festivos incluidos. Cuentan tanto los de obra nueva como los que se instalan en edificios que nunca tuvieron.",
+      "unit": "ascensores",
+      "answer": 46.92602739726028,
+      "math": "Según la Federación Empresarial Española de Ascensores, en 2024 se vendieron 17.128 ascensores. 17.128 ÷ 365 ≈ 46,9 ascensores al día.",
+      "referenceExpression": "17128 ÷ 365",
+      "assumptions": "Repartimos las ventas por igual en todos los días del año; en realidad se concentran en días laborables. Vender no es instalar: una parte entra en servicio al año siguiente.",
+      "confidence": "Dato sectorial + cálculo",
+      "sources": [
+        {
+          "title": "FEEDA · Estadísticas totales 2024 (PDF)",
+          "url": "https://feeda.es/wp-content/uploads/2025/05/ESTADISTICAS-TOTALES-2024-1-5-1.pdf",
+          "fact": "De los 17.128 ascensores vendidos en 2024, casi 2.400 (más del 14 %) son para edificios existentes."
+        },
+        {
+          "title": "FEEDA · Datos estadísticos del sector en 2024",
+          "url": "https://feeda.es/feeda-publica-los-datos-estadisticos-del-2024-donde-recoge-toda-la-informacion-relevante-dando-a-conocer-como-ha-evolucionado-el-sector-de-la-elevacion/",
+          "fact": "El parque total de ascensores aumentó un 1,52 % respecto a 2023."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-08-1.jpg",
+        "alt": "Ascensor antiguo de estilo modernista con cabina de madera y reja de hierro forjado",
+        "credit": "Jorge Royan",
+        "url": "https://commons.wikimedia.org/wiki/File:Buenos_Aires_-_Art_Nouveau_elevator_-_7028.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Ventas del año entre días del año",
+        "steps": [
+          "Hay ascensores en casi cualquier bloque de pisos, pero el parque crece poco a poco: quizá se vendan entre 10.000 y 20.000 al año.",
+          "Con 15.000 al año, entre 365 días salen unos 40 diarios.",
+          "Con los 17.128 ascensores vendidos en 2024 salen 46,9 al día. Si solo cuentas días laborables, se acercan a 70 diarios."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Vuelta al mundo a pie",
+      "title": "Andando 7.000 pasos al día, ¿cuántas vueltas a la Tierra das en 80 años?",
+      "detail": "7.000 pasos diarios durante 80 años, sin saltarte ni un día de lluvia. Cada paso mide 70 cm, y caminas siempre en línea recta por el ecuador, aunque sea dando vueltas a la cocina.",
+      "unit": "vueltas",
+      "answer": 3.572749604157357,
+      "math": "7.000 × 0,7 m = 4,9 km diarios. 4,9 × 365,25 × 80 ≈ 143.178 km. El ecuador mide 2 × π × 6.378,137 ≈ 40.075 km. 143.178 ÷ 40.075 ≈ 3,6 vueltas.",
+      "referenceExpression": "7000 × 0,7 × 365,25 × 80 ÷ 1000 ÷ (2 × π × 6378,137)",
+      "assumptions": "Ritmo fijo de 7.000 pasos desde el primer día hasta el último, algo imposible para un bebé. El paso de 70 cm es una media de adulto.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-08-2.jpg",
+        "alt": "Gente caminando por una calle peatonal de Copenhague",
+        "credit": "Øyvind Holmstad",
+        "url": "https://commons.wikimedia.org/wiki/File:People_walking_on_a_street_in_Copenhagen.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Kilómetros diarios por días de vida",
+        "steps": [
+          "7.000 pasos de 70 cm son unos 5 km al día. Un año da unos 1.800 km.",
+          "En 80 años, 1.800 × 80 son 144.000 km. La vuelta a la Tierra mide unos 40.000 km: tres vueltas y media.",
+          "Con las cifras exactas salen 143.178 km y 3,6 vueltas. Caminar sin prisa toda la vida te lleva más lejos de lo que parece: más de un tercio del camino a la Luna."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Atajo por el túnel",
+      "title": "¿Cuántas veces más rápido que a pie sube el funicular de Bulnes?",
+      "detail": "Compara el funicular que atraviesa la montaña dentro de un túnel con la subida a pie por la canal del Tejo desde Poncebos. Andarín medio, sin paradas para fotos ni para queso de Cabrales.",
+      "unit": "veces",
+      "answer": 10.714285714285714,
+      "math": "La subida a pie desde Poncebos a Bulnes lleva 1 hora y 15 minutos (75 minutos). El funicular recorre sus 2.227 m en unos 7 minutos. 75 ÷ 7 ≈ 10,7 veces más rápido.",
+      "referenceExpression": "75 ÷ 7",
+      "assumptions": "Comparamos tiempos de trayecto, no velocidades punta. La ficha del funicular da a veces 8 minutos en lugar de 7; con 8 minutos saldría unas 9,4 veces.",
+      "confidence": "Datos documentados + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Funicular de Bulnes",
+          "url": "https://es.wikipedia.org/wiki/Funicular_de_Bulnes",
+          "fact": "Tiene 2.227 m de longitud, salva 402 m de desnivel, circula a 5 m/s y los viajes duran siete minutos."
+        },
+        {
+          "title": "Wikipedia · Bulnes (Cabrales)",
+          "url": "https://es.wikipedia.org/wiki/Bulnes_(Cabrales)",
+          "fact": "La subida a pie por la canal del Tejo desde Poncebos dura 1 hora y 15 minutos, con más de 400 m de desnivel."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-08-3.jpg",
+        "alt": "Entrada de piedra al túnel del funicular de Bulnes, con una puerta de madera y el rótulo «Funicular de Bulnes, año 2001»",
+        "credit": "Dubas from Oviedo, España",
+        "url": "https://commons.wikimedia.org/wiki/File:Funicular_de_Bulnes_(4019783723).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Tiempo andando entre tiempo en funicular",
+        "steps": [
+          "Subir 400 m de desnivel por un sendero de montaña lleva más de una hora a buen paso. Un funicular moderno lo hace en pocos minutos.",
+          "Si andando son unos 70 minutos y en funicular unos 7, el funicular es unas 10 veces más rápido.",
+          "Con los 75 minutos de la ruta y los 7 del funicular sale 10,7 veces. Eso sí, el sendero tiene vistas y el túnel no."
+        ]
+      }
+    }
+  ]
+}

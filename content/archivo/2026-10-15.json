@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-15",
+  "name": "Jueves",
+  "theme": "Oktoberfest, palomitas y Cartuja",
+  "questions": [
+    {
+      "id": "archivo-2026-10-15-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Jarras por minuto",
+      "title": "¿Cuántas jarras de un litro se sirven por minuto en el Oktoberfest de Múnich?",
+      "detail": "Dieciséis días de fiesta, carpas gigantes y camareras que cargan una docena de jarras a la vez. Reparte toda la cerveza en 12 horas de servicio al día, a ritmo constante.",
+      "unit": "jarras/min",
+      "answer": 581.5972222222222,
+      "math": "En 2026 se sirvieron unos 6,7 millones de litros (Maß) en 16 días. Con 12 h de servicio diario hay 16 × 12 × 60 = 11.520 minutos. 6.700.000 ÷ 11.520 ≈ 582 jarras por minuto.",
+      "referenceExpression": "6700000 ÷ (16 × 12 × 60)",
+      "assumptions": "Las 12 horas de servicio son una simplificación: los horarios cambian entre días laborables y fines de semana. La cifra de cerveza es del informe final provisional de la ciudad.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Oktoberfest.de · Informe final provisional 2026",
+          "url": "https://www.oktoberfest.de/en/magazin/oktoberfest-news/vorlaeufiger-schlussbericht-2026",
+          "fact": "Unos 6,7 millones de Maß de cerveza (6,5 millones en 2025), 7,4 millones de visitantes y 16 días de fiesta."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-15-1.jpg",
+        "alt": "Jarra de cristal de un litro (Maß) llena de cerveza con espuma",
+        "credit": "senator86",
+        "url": "https://commons.wikimedia.org/wiki/File:Ma%C3%9F-mug.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "Litros de la fiesta entre minutos de barra",
+        "steps": [
+          "Millones de visitantes bebiendo durante dos semanas largas: pongamos unos 7 millones de litros.",
+          "16 días de 12 horas son unos 11.500 minutos. 7 millones entre 11.500 dan unas 600 jarras por minuto, diez por segundo.",
+          "Con los 6,7 millones de litros de 2026 salen 582 jarras por minuto. Si el servicio durara 10 horas al día, serían casi 700."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-15-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Cine con cubo",
+      "title": "Si cada entrada de cine vendida en España en un año llevara un cubo de palomitas de 5 L, ¿cuántas piscinas olímpicas llenarían?",
+      "detail": "Una entrada, un cubo de 5 litros, sin excepciones ni para los que odian el ruido del crujido. La piscina olímpica tiene 2.500 m³.",
+      "unit": "piscinas",
+      "answer": 145.8,
+      "math": "En 2024 hubo 72,9 millones de espectadores. 72.900.000 × 5 L = 364.500.000 L = 364.500 m³. 364.500 ÷ 2.500 = 145,8 piscinas olímpicas.",
+      "referenceExpression": "72900000 × 5 ÷ 1000 ÷ 2500",
+      "assumptions": "Un cubo por entrada vendida, lleno hasta el borde, y una piscina de 50 × 25 × 2 m. El dato de espectadores es de 2024, el último cerrado que publica el Ministerio de Cultura.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Ministerio de Cultura · Datos de cine 2024 (8/5/2025)",
+          "url": "https://www.cultura.gob.es/actualidad/2025/05/250508-datos-cine.html",
+          "fact": "«El número de espectadores en 2024 se situó en 72,9 millones»."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-15-2.jpg",
+        "alt": "Cubo de cartón lleno de palomitas de cine",
+        "credit": "مانفی",
+        "url": "https://commons.wikimedia.org/wiki/File:Cinema_popcorn_bucket.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Espectadores por litros, y luego a piscinas",
+        "steps": [
+          "En España se venden decenas de millones de entradas al año: pongamos 70 millones.",
+          "70 millones de cubos de 5 L son 350 millones de litros, o 350.000 m³. Entre 2.500 m³ por piscina salen 140 piscinas.",
+          "Con los 72,9 millones de espectadores de 2024 salen 145,8 piscinas olímpicas. Con 100 millones de espectadores serían 200 piscinas: el resultado sube y baja al ritmo de la taquilla."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-15-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Excursión colectiva",
+      "title": "¿Cuántos autobuses urbanos harían falta para llevar a casa a todo el aforo del Estadio de La Cartuja?",
+      "detail": "Final de copa, estadio lleno y nadie quiere ir andando. Usa autobuses de 90 plazas, todos a la vez y en un solo viaje.",
+      "unit": "autobuses",
+      "answer": 793.0444444444445,
+      "math": "La Cartuja tiene 71.374 localidades. 71.374 ÷ 90 ≈ 793,04 autobuses, así que en la práctica harían falta 794.",
+      "referenceExpression": "71374 ÷ 90",
+      "assumptions": "Todos los espectadores van en autobús, cada uno lleno exactamente con 90 personas (sentadas y de pie). No contamos personal, prensa ni jugadores.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Estadio de La Cartuja",
+          "url": "https://en.wikipedia.org/wiki/Estadio_de_La_Cartuja",
+          "fact": "Capacidad de 71.374 asientos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-15-3.jpg",
+        "alt": "Vista general del Estadio de La Cartuja de Sevilla con sus gradas y la cubierta",
+        "credit": "Discober92 (= Alberto Martín)",
+        "url": "https://commons.wikimedia.org/wiki/File:Estadioolimpicosevilla.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Aforo entre plazas por autobús",
+        "steps": [
+          "Un gran estadio español ronda los 70.000 espectadores.",
+          "Un autobús urbano lleno lleva unas 100 personas. 70.000 ÷ 100 = 700 autobuses: cientos, no decenas.",
+          "Con 71.374 localidades y 90 plazas salen 793,04 autobuses, o sea, 794 si nadie se queda en tierra. Puestos en fila, con 12 m por autobús, ocuparían más de 9 km de calle."
+        ]
+      }
+    }
+  ]
+}

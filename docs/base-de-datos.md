@@ -14,8 +14,8 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 
 | Tabla | Sustituye a | Para qué |
 | --- | --- | --- |
-| `public.days` | `runtime/days/*.json` y las jornadas de `dist/questions.json` | Jornadas publicadas, una por fecha. |
-| `public.questions` | Las preguntas de `dist/questions.json` y de `content-engine.mjs` | Preguntas de cada jornada con su cifra de referencia. |
+| `public.days` | `runtime/days/*.json`, las jornadas de `content/archivo/` y las de `dist/questions.json` | Jornadas publicadas, una por fecha. |
+| `public.questions` | Las preguntas de `content/archivo/`, `dist/questions.json` y `content-engine.mjs` | Preguntas de cada jornada con su cifra de referencia. |
 | `public.answers` | `runtime/answers.json` | Estimaciones anónimas de los jugadores. |
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
@@ -41,7 +41,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `id` | `date` | clave primaria | Fecha de la jornada en `Europe/Madrid`. Equivale a `day.id` de la app. |
 | `name` | `text` | obligatorio | Día de la semana mostrado («Lunes»). |
 | `theme` | `text` | por defecto `''` | Lema del día. |
-| `source` | `text` | `piloto` o `banco-editorial` | Origen: `dist/questions.json` o `content-engine.mjs`. |
+| `source` | `text` | `piloto` o `banco-editorial` | Origen: `piloto` para las jornadas escritas a mano (`content/archivo/` y `dist/questions.json`), `banco-editorial` para las de `content-engine.mjs`. El archivo usa `piloto` para no cambiar la restricción de la tabla. |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
 ### `public.questions`
