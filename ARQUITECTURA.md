@@ -33,7 +33,7 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | Esquema `public` | Tablas `days`, `questions` y `answers` y función `daily_scores`, creadas el 9 de noviembre de 2026 (migración `20261109213854_esquema_inicial`). Detalle en [docs/base-de-datos.md](docs/base-de-datos.md). |
 | Acceso | Solo desde el servidor con la clave secreta; la clave pública no da acceso a nada ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)) |
 | Conector MCP para agentes | `supabase-casi-casi` (apunta a este proyecto) |
-| Vercel | Sin proyecto todavía (lo configura Álvaro). Configuración en `vercel.json`, región de funciones `fra1` (Frankfurt). Variables: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Ver [Despliegue](#despliegue-vercel-y-supabase). |
+| Vercel | Cuenta de Álvaro (`sistemavivacegroup`, plan Hobby, ámbito `faraday-game`). Proyecto pendiente de crear y de decidir su propietario ([decisión 0003](docs/decisiones/0003-despliegue-en-vercel.md)). Configuración en `vercel.json`, región de funciones `fra1` (Frankfurt). Variables: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Ver [Despliegue](#despliegue-vercel-y-supabase). |
 
 ### Un solo entorno de Supabase
 
