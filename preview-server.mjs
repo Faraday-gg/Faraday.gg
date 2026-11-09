@@ -6,7 +6,7 @@ import {fileStore,supabaseStore} from './lib/stores.mjs';
 
 // Con SUPABASE_URL y SUPABASE_SECRET_KEY usa Supabase; si no, el archivo local de siempre.
 const store=process.env.SUPABASE_URL&&process.env.SUPABASE_SECRET_KEY
-  ?supabaseStore({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY,table:process.env.ANSWERS_TABLE||'answers'})
+  ?supabaseStore({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY})
   :fileStore(process.env.ANSWERS_FILE||'runtime/answers.json');
 const api=createApi({store});
 const root=path.resolve('dist');

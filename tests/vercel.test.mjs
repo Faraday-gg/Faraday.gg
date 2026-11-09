@@ -9,21 +9,41 @@ import {randomUUID} from 'node:crypto';
 const KEY='sb_secret_prueba',SITE='https://casi.test';
 const daysDirectory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-vercel-'));fs.rmSync(daysDirectory,{recursive:true});
 
-// PostgREST mínimo: filtro in, orden, limit/offset (máximo 1000 filas) e inserción que ignora duplicados.
+// PostgREST mínimo con el esquema de supabase/migrations/20261109213854_esquema_inicial.sql:
+// days ──< questions ──< answers, con sus claves foráneas, únicas y comprobaciones.
+// Filtro in, orden, limit/offset (máximo 1000 filas) e inserción que ignora duplicados.
 function fakeSupabase(){
-  const tables={answers:new Map(),answers_preview:new Map()},calls=[];
+  const tables={days:new Map(),questions:new Map(),answers:new Map()},calls=[];
+  const conflictKeys={days:'id',questions:'id',answers:'question_id,player_hash'};
+  const keyOf=(table,row)=>conflictKeys[table].split(',').map(k=>row[k]).join('|');
+  const reject=(code,message)=>new Response(JSON.stringify({code,message}),{status:409});
+  function violation(table,row){
+    if(table==='days'&&!(/^\d{4}-\d{2}-\d{2}$/.test(row.id)&&row.name&&['piloto','banco-editorial'].includes(row.source)&&typeof row.theme==='string'))return reject('23514','days check');
+    if(table==='questions'){
+      if(!tables.days.has(row.day_id))return reject('23503','questions.day_id → days');
+      if(!(row.position>=1&&row.position<=3&&row.title&&row.unit&&row.answer>0&&row.content&&typeof row.content==='object'&&Number.isInteger(row.revision)))return reject('23514','questions check');
+      if([...tables.questions.values()].some(q=>q.day_id===row.day_id&&q.position===row.position&&q.id!==row.id))return reject('23505','unique (day_id, position)');
+    }
+    if(table==='answers'){
+      if(!tables.questions.has(row.question_id))return reject('23503','answers.question_id → questions');
+      if(!(/^[0-9a-f]{64}$/.test(row.player_hash)&&row.guess>0&&row.guess<=1e30))return reject('23514','answers check');
+    }
+  }
   async function fetch(input,init={}){
     const url=new URL(input),headers=new Headers(init.headers);calls.push({url,method:init.method||'GET',headers});
     if(headers.get('apikey')!==KEY||headers.has('authorization'))return new Response('{"message":"Invalid API key"}',{status:401});
-    const table=tables[url.pathname.match(/^\/rest\/v1\/([a-z_]+)$/)?.[1]];if(!table)return new Response('{}',{status:404});
+    const name=url.pathname.match(/^\/rest\/v1\/([a-z_]+)$/)?.[1],table=tables[name];if(!table)return new Response('{}',{status:404});
     if(init.method==='POST'){
-      assert.equal(url.searchParams.get('on_conflict'),'question_id,player_hash');assert.match(headers.get('prefer'),/resolution=ignore-duplicates/);
-      const row=JSON.parse(init.body),k=row.question_id+'|'+row.player_hash;if(!table.has(k))table.set(k,row);return new Response(null,{status:201});
+      assert.equal(url.searchParams.get('on_conflict'),conflictKeys[name]);assert.match(headers.get('prefer'),/resolution=ignore-duplicates/);
+      const rows=[].concat(JSON.parse(init.body));
+      for(const row of rows){if(table.has(keyOf(name,row)))continue;const error=violation(name,row);if(error)return error}
+      for(const row of rows)if(!table.has(keyOf(name,row)))table.set(keyOf(name,row),row);
+      return new Response(null,{status:201});
     }
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
     const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000),offset=Number(url.searchParams.get('offset')||0);
     const rows=[...table.values()].filter(r=>ids.includes(r.question_id)).sort((a,b)=>(a.question_id+a.player_hash).localeCompare(b.question_id+b.player_hash));
-    return Response.json(rows.slice(offset,offset+limit));
+    return Response.json(rows.slice(offset,offset+limit).map(({question_id,player_hash,guess})=>({question_id,player_hash,guess})));
   }
   return {fetch,tables,calls};
 }
@@ -42,7 +62,7 @@ function rewrite(target){
 }
 
 const supabase=fakeSupabase();
-Object.assign(process.env,{SUPABASE_URL:'https://proyecto.supabase.co/',SUPABASE_SECRET_KEY:KEY,ANSWERS_TABLE:'answers_preview',DAYS_DIRECTORY:daysDirectory});
+Object.assign(process.env,{SUPABASE_URL:'https://proyecto.supabase.co/',SUPABASE_SECRET_KEY:KEY,DAYS_DIRECTORY:daysDirectory});
 const realFetch=globalThis.fetch;globalThis.fetch=supabase.fetch;
 const {default:handler}=await import('../api/index.mjs');
 globalThis.fetch=realFetch;
@@ -87,16 +107,20 @@ try{
   assert.equal((await call('/api/answers')).status,405);
   assert.equal((await call('/api/no-existe')).status,404);
 
-  // Datos en la tabla indicada por ANSWERS_TABLE, con el jugador anonimizado, y la clave solo en apikey.
-  assert.equal(supabase.tables.answers.size,0);assert.equal(supabase.tables.answers_preview.size,8,'3 + 1 + 3 + 1 respuestas válidas');
-  assert([...supabase.tables.answers_preview.values()].every(row=>/^[0-9a-f]{64}$/.test(row.player_hash)&&row.player_hash!==first));
+  // Respuestas guardadas con el jugador anonimizado; jornadas y preguntas publicadas una sola vez.
+  assert.equal(supabase.tables.answers.size,8,'3 + 1 + 3 + 1 respuestas válidas');
+  assert([...supabase.tables.answers.values()].every(row=>/^[0-9a-f]{64}$/.test(row.player_hash)&&row.player_hash!==first));
+  assert.deepEqual([...supabase.tables.days.values()].map(d=>[d.id,d.source]),[['2026-11-09','piloto'],['2026-11-16','banco-editorial']]);
+  assert.equal(supabase.tables.questions.size,6);
+  const pilotQuestion=supabase.tables.questions.get('piloto-v2-1');assert.equal(pilotQuestion.position,1);assert.equal(pilotQuestion.revision,2);assert.equal(pilotQuestion.content.id,'piloto-v2-1');
+  assert.equal(supabase.calls.filter(c=>c.method==='POST'&&c.url.pathname.endsWith('/days')).length,2,'Cada jornada se publica una vez por instancia');
   assert(supabase.calls.every(c=>c.url.origin==='https://proyecto.supabase.co'&&c.headers.get('apikey')===KEY&&!c.headers.has('authorization')));
   assert(!fs.existsSync(daysDirectory),'En Vercel no se escriben jornadas en disco');
 
   // Paginación: PostgREST devuelve como máximo 1000 filas por petición.
   const {supabaseStore}=await import('../lib/stores.mjs');
   const big=fakeSupabase(),store=supabaseStore({url:'https://proyecto.supabase.co',key:KEY,fetch:big.fetch});
-  for(let i=0;i<2500;i++)await store.add('q',String(i).padStart(64,'0'),i+1);
+  for(let i=0;i<2500;i++){const row={question_id:'q',player_hash:String(i).padStart(64,'0'),guess:i+1};big.tables.answers.set('q|'+row.player_hash,row)}
   assert.equal(Object.keys((await store.read(['q'])).q).length,2500);
 
   // Sin variables de entorno: el calendario funciona y las respuestas fallan de forma controlada.
@@ -111,5 +135,5 @@ try{
   for(const route of new Set(fs.readFileSync('dist/community.js','utf8').match(/\/api\/[a-z-]+/g)))assert.equal(rewrite(route).pathname,'/api',route);
   assert.match(fs.readFileSync('dist/index.html','utf8'),/daily-content\.js/);
 
-  console.log('OK: función de Vercel, reescrituras, Supabase simulado (tabla, clave, anonimato, paginación), seguridad y errores.');
+  console.log('OK: función de Vercel, reescrituras, esquema de Supabase simulado (publicación de jornadas, claves foráneas, anonimato, paginación), seguridad y errores.');
 }finally{fs.rmSync(daysDirectory,{recursive:true,force:true})}

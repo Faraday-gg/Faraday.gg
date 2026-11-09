@@ -31,8 +31,8 @@ node tests/vercel.test.mjs
 ## Despliegue: Vercel y Supabase
 
 - Vercel sirve `dist/` como web estática y la API con una única función, `api/index.mjs`. `vercel.json` reescribe `/api/<ruta>` y `/daily-content.js` hacia ella y fija la región `fra1`, junto a la base de datos.
-- Las respuestas se guardan en Supabase (proyecto *Faraday Game*, Frankfurt), mediante su API REST y sin SDK. El esquema está en `supabase/migrations/`.
-- Variables en Vercel (Settings → Environment Variables): `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (clave `sb_secret_...`, solo servidor) y `ANSWERS_TABLE` (`answers` en Production, `answers_preview` en Preview).
+- Las respuestas se guardan en Supabase (proyecto *Faraday Game*, Frankfurt), mediante su API REST y sin SDK. El esquema está en `supabase/migrations/` y se explica en [docs/base-de-datos.md](docs/base-de-datos.md). Hay un solo entorno: local con variables, Preview y producción escriben en la misma base de datos.
+- Variables en Vercel (Settings → Environment Variables): `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (clave `sb_secret_...`, solo servidor).
 - Para probar en local contra Supabase: copia `.env.example` como `.env`, rellena la clave y arranca con `node --env-file=.env preview-server.mjs`.
 
 ## Documentación y colaboración
