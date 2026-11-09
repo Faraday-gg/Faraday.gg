@@ -14,7 +14,7 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
 | Pruebas | `node:assert`, un proceso Node aislado y un Supabase simulado | Integración del servidor local, banco editorial y función de Vercel con Supabase. |
 
-El esquema de Supabase está creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)) y el código que lo usa desde el servidor local y desde Vercel está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). Falta crear el proyecto de Vercel con sus variables de entorno. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
+El esquema de Supabase está creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)) y el código que lo usa desde el servidor local y desde Vercel está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). El proyecto de Vercel `faraday-gg` está creado; falta añadir `SUPABASE_SECRET_KEY` y pasar `preprod` a `main`. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
 
 ## Entornos y servicios
 
@@ -23,7 +23,7 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | Elemento | Valor |
 | --- | --- |
 | Nombre del juego | Casi Casi |
-| Repositorio de GitHub | [`Faraday-gg/Faraday.gg`](https://github.com/Faraday-gg/Faraday.gg), **público**, en la organización gratuita `Faraday-gg` con Luis (`borgesinmas`) y Álvaro (`sistemavivacegroup`) como Owners. Rama por defecto: `preprod`. Ver [decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md). |
+| Repositorio de GitHub | [`Faraday-gg/Faraday.gg`](https://github.com/Faraday-gg/Faraday.gg), **público**, en la organización gratuita `Faraday-gg` con Luis (`borgesinmas`) y Álvaro (`sistemavivacegroup`) como Owners. Rama por defecto: `preprod`. Antes estaba en `borgesinmas/Faraday.gg`, que GitHub redirige. Ver decisiones [0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md) y [0006](docs/decisiones/0006-vercel-hobby-en-la-cuenta-de-alvaro.md). |
 | Organización de Supabase | `Faraday.gg`, plan **FREE** |
 | Proyecto de Supabase | `Faraday Game` |
 | Referencia del proyecto (*project ref*) | `umiqvlccxxafvafroxii` |
@@ -34,7 +34,10 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | Storage | Almacén público `imagenes` con las 21 fotografías (migración `20261109222550_almacen_imagenes`). |
 | Acceso | Solo desde el servidor con la clave secreta; la clave pública no da acceso a nada ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)) |
 | Conector MCP para agentes | `supabase-casi-casi` (apunta a este proyecto) |
-| Vercel | Cuenta de Álvaro (`sistemavivacegroup`, plan Hobby, ámbito `faraday-game`). Proyecto pendiente de crear; al ser el repo público, Hobby lo despliega sin depender del autor de los commits ([decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md)). Configuración en `vercel.json`, región de funciones `fra1` (Frankfurt). Variables: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Ver [Despliegue](#despliegue-vercel-y-supabase). |
+| Proyecto de Vercel | `faraday-gg`, en la cuenta Hobby de Álvaro (`sistemavivacegroup`, ámbito `faraday-game`). Solo él accede al panel. Conectado a `Faraday-gg/Faraday.gg` con la app de Vercel instalada en la organización ([decisión 0006](docs/decisiones/0006-vercel-hobby-en-la-cuenta-de-alvaro.md)). |
+| Producción (Vercel) | Rama `main` → <https://faraday-gg.vercel.app> |
+| Preview de `preprod` | <https://faraday-gg-git-preprod-faraday-game.vercel.app>, que se actualiza con cada merge en `preprod`. Protegida con Vercel Authentication: solo la abre quien tiene sesión en la cuenta de Vercel. |
+| Funciones y variables | Región `fra1` (Frankfurt), según `vercel.json`. Variables en Production y Preview: `SUPABASE_URL` (configurada) y `SUPABASE_SECRET_KEY` (pendiente). Ver [Despliegue](#despliegue-vercel-y-supabase). |
 
 ### Un solo entorno de Supabase
 
@@ -111,11 +114,11 @@ Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo
 
 Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`.
 
-La rama de producción de Vercel debe ser `main`. La rama por defecto del repositorio es `preprod`, y Vercel la tomaría como producción si no se cambia. Las jornadas futuras del banco se calculan al vuelo, sin estado: un cambio en el banco editorial cambia también las fechas aún no jugadas.
+La rama de producción de Vercel es `main`, aunque la rama por defecto del repositorio sea `preprod`. Producción solo tendrá la versión actual cuando `preprod` pase a `main`. Hasta entonces, `faraday-gg.vercel.app` sirve el `main` antiguo, sin `vercel.json`. Las jornadas futuras del banco se calculan al vuelo, sin estado: un cambio en el banco editorial cambia también las fechas aún no jugadas.
 
-El repositorio es público ([decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md)), así que el plan Hobby de Vercel lo despliega aunque los commits sean de distintos autores.
+El repositorio es público y está en la organización `Faraday-gg`. Por eso, en el plan Hobby se despliegan los commits de cualquiera de los dos, aunque el proyecto sea de Álvaro. Ver [decisión 0006](docs/decisiones/0006-vercel-hobby-en-la-cuenta-de-alvaro.md).
 
-Pendiente: crear el proyecto de Vercel, copias de seguridad y retención de datos, y observabilidad más allá de los registros de Vercel.
+Pendiente: añadir `SUPABASE_SECRET_KEY` en Vercel, pasar `preprod` a `main`, decidir si las Preview se abren sin sesión de Vercel, copias de seguridad y retención de datos, y observabilidad más allá de los registros de Vercel.
 
 ## Desarrollo y verificación
 
