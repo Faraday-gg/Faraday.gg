@@ -1,6 +1,6 @@
 # Instrucciones para agentes de IA
 
-Lee también [ARQUITECTURA.md](ARQUITECTURA.md) y [README.md](README.md) antes de modificar el proyecto. Estas reglas son obligatorias para cualquier persona o agente (Claude, Codex, Copilot, Cursor u otro) que cambie este repositorio, y se aplican a todo él.
+Lee también [ARQUITECTURA.md](ARQUITECTURA.md), [README.md](README.md) y [docs/README.md](docs/README.md) antes de modificar el proyecto. Estas reglas son obligatorias para cualquier persona o agente (Claude, Codex, Copilot, Cursor u otro) que cambie este repositorio, y se aplican a todo él.
 
 ## En una frase
 
@@ -18,6 +18,26 @@ Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` medi
 - Una rama por tarea. Nombre en minúsculas, con guiones, sin espacios ni acentos, que diga qué hace: `feat/ranking-semanal`, `fix/imagen-pregunta-18`. Si una tarea mezcla ambas cosas, elige el prefijo de su objetivo principal.
 - No uses nombres que empiecen por `main/` o `preprod/`, ni reutilices una rama ya fusionada: crea otra.
 - GitHub no bloquea los push directos a `main` ni a `preprod` en este repositorio. Lo que lo impide es esta norma, así que cúmplela aunque técnicamente puedas saltártela.
+
+## Trabajo compartido entre Luis y Álvaro
+
+En este proyecto trabajamos dos personas, Luis (`borgesinmas`, propietario del repositorio) y Álvaro, cada una con sus propios agentes. Los dos tenemos que poder saber en todo momento qué ha hecho el otro sin preguntárselo, así que **lo que no está escrito en el repositorio no existe**:
+
+| Dónde | Qué se apunta |
+|---|---|
+| [ARQUITECTURA.md](ARQUITECTURA.md) | Stack, entornos y servicios: proyecto y URL de Supabase, repositorio, Vercel. Se actualiza cuando cambia cualquiera de ellos. |
+| [docs/decisiones/](docs/decisiones/) | Cada decisión técnica o de producto, con el motivo y las alternativas descartadas. |
+| [docs/bitacora/](docs/bitacora/) | Qué se hizo en cada sesión de trabajo y cada cambio o intento en un servicio externo (Supabase, Vercel, GitHub, cuentas), aunque no salga bien. |
+| [docs/ideas/](docs/ideas/) | Propuestas aún sin decidir. |
+| [docs/mejoras/](docs/mejoras/) | Problemas y deuda técnica detectados que no se arreglan en la tarea actual. |
+
+Reglas para agentes:
+
+- Al empezar una tarea, lee la bitácora del mes y las decisiones vigentes para saber qué ha hecho el otro colaborador.
+- Si tocas un servicio externo, añade la entrada en `docs/bitacora/` en la misma PR. Si tomas o cambias una decisión, crea su archivo en `docs/decisiones/`.
+- Todo esto va en Markdown, en español, sin claves, tokens, contraseñas ni datos de jugadores, y entra por PR como el código.
+- **Sincronizar al terminar.** Cuando el colaborador haya hecho varios cambios y la tarea parezca terminada, pregúntale: «¿Quieres sincronizar ya o más tarde?». Si dice que sí, actualiza los `.md` siguiendo [.claude/skills/sincronizar/SKILL.md](.claude/skills/sincronizar/SKILL.md) antes de abrir o actualizar la PR. En Claude Code es la skill `/sincronizar`; los demás agentes siguen el mismo archivo como procedimiento.
+- Supabase tiene **un solo entorno** (`main`, producción): no hay base de datos de preprod. Ver [decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md).
 
 ## Antes de empezar
 
@@ -101,5 +121,6 @@ Si no puedes subir la rama o abrir la PR (por ejemplo, porque no tienes sesión 
 ## Proyecto
 
 - La aplicación actual usa HTML, CSS y JavaScript en `dist/`, un servidor Node.js sin dependencias en `preview-server.mjs` y contenido diario en `content-engine.mjs`.
-- Las respuestas de jugadores se guardan hoy en archivos locales dentro de `runtime/`; no existe todavía una base de datos conectada. Supabase y Vercel son la arquitectura de despliegue prevista, no servicios ya integrados.
+- Las respuestas de jugadores se guardan hoy en archivos locales dentro de `runtime/`; el código todavía no usa ninguna base de datos. El proyecto de Supabase existe pero está vacío y tiene un solo entorno (`main`, producción, sin preprod); sus datos están en [ARQUITECTURA.md](ARQUITECTURA.md#entornos-y-servicios). No apliques migraciones, borres datos ni cambies políticas en Supabase sin confirmación explícita del responsable. Vercel aún no está configurado.
+- Registra en [docs/](docs/README.md) lo que el otro colaborador debe saber: decisiones en `docs/decisiones/`, cambios en servicios externos (Supabase, Vercel, GitHub) en `docs/bitacora/`, propuestas en `docs/ideas/` y deuda técnica en `docs/mejoras/`.
 - No añadas dependencias, servicios externos ni claves nuevas sin dejarlo explicado en la PR.
