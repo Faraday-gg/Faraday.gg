@@ -1,5 +1,6 @@
 # Datos y estado locales; nunca publicar respuestas de jugadores.
 runtime/
+.qa/
 .openai/hosting.json
 
 # Configuración privada y archivos temporales.
