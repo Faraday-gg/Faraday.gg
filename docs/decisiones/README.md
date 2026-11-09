@@ -6,8 +6,10 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | --- | --- | --- | --- |
 | [0001](0001-supabase-un-solo-entorno.md) | Supabase con un solo entorno (`main`), sin preprod | Aceptada | 2026-11-09 |
 | [0002](0002-acceso-a-supabase-solo-desde-el-servidor.md) | Acceso a Supabase solo desde el servidor | Aceptada | 2026-11-09 |
-| [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Aceptada (en parte sustituida por 0004) | 2026-11-09 |
-| [0004](0004-vercel-hobby-y-repositorio-publico.md) | Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
+| [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Aceptada (en parte sustituida por 0006) | 2026-11-09 |
+| [0004](0004-repositorio-publico-en-organizacion.md) | Repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
+| [0005](0005-contenido-servido-desde-supabase.md) | El contenido se sirve desde Supabase | Aceptada | 2026-11-09 |
+| [0006](0006-vercel-hobby-en-la-cuenta-de-alvaro.md) | Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
 
 ## Plantilla
 

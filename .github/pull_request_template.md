@@ -10,6 +10,8 @@
 
 - [ ] `node tests/community.test.mjs`
 - [ ] `node tests/editorial.test.mjs`
+- [ ] `node tests/vercel.test.mjs`
+- [ ] `node tests/publicar.test.mjs`
 - [ ] Revisado en el navegador con `node preview-server.mjs` (si cambia la interfaz)
 
 <!-- Marca las que ejecutaste y pon el resultado. Si alguna no aplica, dilo. -->

@@ -1,6 +1,6 @@
 # 0003. Despliegue en Vercel con una función que usa el esquema de Supabase
 
-- **Estado:** aceptada (PR #7). La [0004](0004-vercel-hobby-y-repositorio-publico.md) la sustituye en parte: propietario del proyecto de Vercel y repositorio.
+- **Estado:** aceptada (PR #7). La [0006](0006-vercel-hobby-en-la-cuenta-de-alvaro.md) la sustituye en parte: propietario del proyecto de Vercel y repositorio.
 - **Fecha:** 2026-11-09
 - **Quién:** Álvaro (con Claude); para revisión de Luis
 
