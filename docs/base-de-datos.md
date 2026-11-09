@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
-- **Estado:** esquema creado; la app **todavía no lo usa** (sigue escribiendo en `runtime/`)
-- **Última actualización:** 2026-11-09, migración `20261109213854_esquema_inicial`
+- **Estado:** esquema creado; la API lo usa a través de `lib/stores.mjs`, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
+- **Última actualización:** 2026-11-09, conexión de la API (rama `feat/despliegue-vercel-supabase`); última migración `20261109213854_esquema_inicial`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -61,9 +61,21 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 
 ### `public.daily_scores(p_day date)`
 
-Devuelve `(player_hash, score)` para cada jugador que ha respondido **todas** las preguntas de la jornada. `score` es la media de las distancias multiplicativas `max(estimación / referencia, referencia / estimación)`; `1` es perfecto. El servidor la usará para sustituir el cálculo de `POST /api/daily-scores` y construir el histograma.
+Devuelve `(player_hash, score)` para cada jugador que ha respondido **todas** las preguntas de la jornada. `score` es la media de las distancias multiplicativas `max(estimación / referencia, referencia / estimación)`; `1` es perfecto. La API todavía no la usa: calcula la puntuación en el servidor a partir de `answers` (ver [mejoras](mejoras/README.md)).
 
 Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 frente a 100 y 10 frente a 10 obtiene 1,5, y quien no completó el día no aparece.
+
+## Uso desde la app
+
+`lib/stores.mjs` accede por la API REST de Supabase (PostgREST), sin SDK, con la clave secreta en la cabecera `apikey`.
+
+- **`POST /api/answers`**:
+  - La primera vez que una instancia recibe una respuesta de una jornada, inserta la jornada en `days` (`source` = `piloto` o `banco-editorial`) y sus tres preguntas en `questions` (`position` 1 a 3, `revision`, y en `content` el objeto completo). Ignora las filas que ya existan.
+  - Después inserta la respuesta en `answers`, ignorando duplicados por `(question_id, player_hash)`, y lee las respuestas de esa pregunta para devolver la distribución.
+  - Si la cifra guardada no coincide con la enviada, responde `409`.
+- **`POST /api/daily-scores`**: lee de `answers` las tres preguntas del día, paginando de 1000 en 1000, y calcula la puntuación igual que en local.
+- **`/api/calendar`, `/api/day` y `/daily-content.js`**: siguen generándose con `content-engine.mjs` y no leen `days` ni `questions`.
+- **Una jornada publicada no se actualiza.** Si más adelante cambia una pregunta de una fecha ya publicada (otro `id` en la misma fecha y posición), insertarla viola `unique (day_id, position)` y la API responde `500` para esa jornada. Se resuelve con una migración o a mano.
 
 ## Seguridad y acceso
 
@@ -72,9 +84,9 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 - El aviso de Supabase «RLS Enabled No Policy» (nivel INFO) es **intencionado** por lo anterior.
 - El aviso «Public Can Execute SECURITY DEFINER Function» se refiere a `public.rls_auto_enable()`, una función que crea Supabase para activar RLS automáticamente en tablas nuevas (disparador de eventos `ensure_rls`). No la hemos creado nosotros y, al ser de tipo `event_trigger`, no se puede ejecutar como RPC. La dejamos como está.
 
-## Variables de entorno previstas
+## Variables de entorno
 
-Se configurarán en Vercel (Álvaro está empezando a montarlo) y en local en un `.env` no versionado. Solo nombres, nunca valores:
+Las usa `lib/stores.mjs`. Se configuran en Vercel, cuyo proyecto está aún sin crear y lo monta Álvaro. Para probar en local contra esta base de datos, van en un `.env` no versionado a partir de `.env.example` (`node --env-file=.env preview-server.mjs`). Atención: hay un solo entorno, así que lo que se responda en local con estas variables queda en producción. Solo nombres, nunca valores:
 
 | Variable | Uso |
 | --- | --- |
@@ -97,8 +109,8 @@ Se configurarán en Vercel (Álvaro está empezando a montarlo) y en local en un
 
 ## Pendiente
 
-- **Conectar la app**: `preview-server.mjs` y las futuras funciones de Vercel siguen usando `runtime/`. Hay que pasar `/api/answers`, `/api/daily-scores`, `/api/day` y `/api/calendar` a Supabase.
-- **Cargar el contenido**: `days` y `questions` están vacías. Hay que cargar la semana piloto y las jornadas del banco editorial (con un script que lea `dist/questions.json` y `content-engine.mjs`).
+- **Conectar la app**: hecho para `/api/answers` y `/api/daily-scores` en `feat/despliegue-vercel-supabase`. El calendario (`/api/calendar`, `/api/day`) sigue saliendo de `content-engine.mjs`. Leerlo de `days` y `questions` queda pendiente si se quiere fijar el contenido ya publicado.
+- **Cargar el contenido**: la API publica cada jornada y sus preguntas al recibir su primera respuesta. Si se quiere tenerlo todo cargado por adelantado, sigue haciendo falta un script que lea `dist/questions.json` y `content-engine.mjs`.
 - **Datos de prueba sin borrar**: las pruebas del 9 de noviembre dejaron la jornada `2000-01-01` (`prueba-agente`), las preguntas `prueba-t1` y `prueba-t2` y 3 respuestas falsas, porque el borrado desde el agente fue bloqueado. Para quitarlas, ejecutar en el SQL Editor del panel:
 
   ```sql

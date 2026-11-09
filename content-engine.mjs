@@ -38,8 +38,9 @@ export function getDay(date,{persist=true,directory=process.env.DAYS_DIRECTORY||
  const day={id:date,name:new Intl.DateTimeFormat('es-ES',{weekday:'long',timeZone:'Europe/Madrid'}).format(new Date(date+'T12:00:00Z')),theme:questions.map(q=>q.tag).join(' · '),questions};
  if(persist){fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file+'.tmp',JSON.stringify(day));fs.renameSync(file+'.tmp',file)}return day;
 }
-export function calendar(date=madridDate()){
+// options se pasa a getDay: {persist:false} evita escribir en disco (p. ej. en Vercel, de solo lectura).
+export function calendar(date=madridDate(),options={}){
  const end=Math.max(Date.parse('2026-11-15T12:00:00Z'),Date.parse(date+'T12:00:00Z'));
- const days=[];for(let i=29;i>=0;i--){const key=new Date(end-i*dayMs).toISOString().slice(0,10),day=getDay(key);if(day)days.push(day)}
- return {date,days,availableThrough:new Date(start+(Math.floor(pool.length/3)-1)*dayMs).toISOString().slice(0,10),generation:'verified-editorial-bank',exhausted:!getDay(date)};
+ const days=[];for(let i=29;i>=0;i--){const key=new Date(end-i*dayMs).toISOString().slice(0,10),day=getDay(key,options);if(day)days.push(day)}
+ return {date,days,availableThrough:new Date(start+(Math.floor(pool.length/3)-1)*dayMs).toISOString().slice(0,10),generation:'verified-editorial-bank',exhausted:!getDay(date,options)};
 }

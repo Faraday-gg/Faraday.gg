@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "outputDirectory": "dist",
+  "regions": ["fra1"],
+  "rewrites": [
+    { "source": "/daily-content.js", "destination": "/api?route=daily-content.js" },
+    { "source": "/api/:route", "destination": "/api?route=:route" }
+  ],
+  "functions": {
+    "api/index.mjs": { "includeFiles": "dist/questions.json" }
+  }
+}
