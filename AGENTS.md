@@ -69,6 +69,7 @@ Reglas para agentes:
   ```bash
   node tests/community.test.mjs
   node tests/editorial.test.mjs
+  node tests/vercel.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.
@@ -120,7 +121,8 @@ Si no puedes subir la rama o abrir la PR (por ejemplo, porque no tienes sesión 
 
 ## Proyecto
 
-- La aplicación actual usa HTML, CSS y JavaScript en `dist/`, un servidor Node.js sin dependencias en `preview-server.mjs` y contenido diario en `content-engine.mjs`.
-- Las respuestas de jugadores se guardan hoy en archivos locales dentro de `runtime/`; el código todavía no usa ninguna base de datos. El proyecto de Supabase existe pero está vacío y tiene un solo entorno (`main`, producción, sin preprod); sus datos están en [ARQUITECTURA.md](ARQUITECTURA.md#entornos-y-servicios). No apliques migraciones, borres datos ni cambies políticas en Supabase sin confirmación explícita del responsable. Vercel aún no está configurado.
+- La aplicación usa HTML, CSS y JavaScript en `dist/` y contenido diario en `content-engine.mjs`. La lógica de la API vive en `lib/api.mjs` y la comparten el servidor local (`preview-server.mjs`) y la función de Vercel (`api/index.mjs`). No hay dependencias de npm.
+- Las respuestas se guardan en `runtime/answers.json` en local y en Supabase en Vercel (`lib/stores.mjs`). Supabase tiene un solo entorno (`main`, producción, sin preprod); sus datos están en [ARQUITECTURA.md](ARQUITECTURA.md#entornos-y-servicios). Los cambios de esquema van como archivo en `supabase/migrations/` dentro de la PR. No apliques migraciones, borres datos ni cambies políticas en Supabase sin confirmación explícita del responsable.
+- La clave secreta de Supabase solo existe en variables de entorno (Vercel o `.env` local). Nunca en el código, en `dist/` ni en el navegador.
 - Registra en [docs/](docs/README.md) lo que el otro colaborador debe saber: decisiones en `docs/decisiones/`, cambios en servicios externos (Supabase, Vercel, GitHub) en `docs/bitacora/`, propuestas en `docs/ideas/` y deuda técnica en `docs/mejoras/`.
 - No añadas dependencias, servicios externos ni claves nuevas sin dejarlo explicado en la PR.
