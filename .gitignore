@@ -1,0 +1,13 @@
+# Datos y estado locales; nunca publicar respuestas de jugadores.
+runtime/
+.openai/hosting.json
+
+# Configuración privada y archivos temporales.
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,170 @@
+{
+  "piloto-v2-1": {
+    "src": "assets/las-canteras.jpg",
+    "alt": "Panorámica de Las Canteras: arena, bañistas y edificios para estimar la escala de la playa",
+    "credit": "Bengt Nyman · Wikimedia Commons",
+    "url": "https://commons.wikimedia.org/wiki/File:Canteras_5335_Pan_(46886275114).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+  },
+  "piloto-v2-2": {
+    "src": "assets/question-2.jpg",
+    "alt": "Fotografía de referencia: International Space Station",
+    "credit": "NASA",
+    "url": "https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg"
+  },
+  "piloto-v2-3": {
+    "src": "assets/question-3.jpg",
+    "alt": "Notas adhesivas de colores junto a bolígrafos y rotuladores que permiten intuir su tamaño",
+    "credit": "Ravi Palwe · Unsplash",
+    "url": "https://unsplash.com/photos/blue-and-black-pen-beside-orange-sticky-notes-I3urDa6z2_4",
+    "license": "Licencia Unsplash",
+    "licenseUrl": "https://unsplash.com/license"
+  },
+  "piloto-v2-4": {
+    "src": "assets/question-4.jpg",
+    "alt": "Interior de la terminal de Madrid-Barajas, con personas como referencia de escala",
+    "credit": "Diego Delso",
+    "url": "https://commons.wikimedia.org/wiki/File:Terminal_4_del_aeropuerto_de_Madrid-Barajas,_Espa%C3%B1a,_2013-01-09,_DD_08.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "piloto-v2-5": {
+    "src": "assets/question-5.jpg",
+    "alt": "Fotografía de referencia: Teide",
+    "credit": "Thomas Wolf, www.foto-tw.de",
+    "url": "https://commons.wikimedia.org/wiki/File:Roque_Cinchado_und_Teide.jpg",
+    "license": "CC BY-SA 3.0 de",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
+  },
+  "piloto-v2-6": {
+    "src": "assets/question-6.jpg",
+    "alt": "Fotografía de referencia: Santiago Bernabéu Stadium",
+    "credit": "Badefa",
+    "url": "https://commons.wikimedia.org/wiki/File:Estadio_Santiago_Bernab%C3%A9u_%E2%80%94_Real_Madrid_Juvenil_A_-_Santiago_Wanderers_Sub-20_(Intercontinental_Sub-20_2026)_%E2%80%94_R%C3%A9cord_de_asistencia_en_un_partido_de_juveniles.jpg",
+    "license": "CC0",
+    "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "piloto-v2-7": {
+    "src": "assets/question-7.jpg",
+    "alt": "Fotografía de referencia: Royal Palace of Madrid",
+    "credit": "Tim Adams",
+    "url": "https://commons.wikimedia.org/wiki/File:Palacio_Real_de_Madrid_Julio_2016_(cropped).jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "piloto-v2-8": {
+    "src": "assets/question-8.jpg",
+    "alt": "Fotografía de referencia: Eiffel Tower",
+    "credit": "Benh LIEU SONG",
+    "url": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg"
+  },
+  "piloto-v2-9": {
+    "src": "assets/question-9.jpg",
+    "alt": "Fotografía de referencia: Sagrada Família",
+    "credit": "Canaan",
+    "url": "https://commons.wikimedia.org/wiki/File:SF_maig_2_cropped.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "piloto-v2-10": {
+    "src": "assets/question-10.jpg",
+    "alt": "Fotografía de referencia: Croquette",
+    "credit": "Jonathan Pincas from Leon, Spain",
+    "url": "https://commons.wikimedia.org/wiki/File:Croquetas_Caseras_(7068664101).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "piloto-v2-11": {
+    "src": "assets/question-11.jpg",
+    "alt": "Fotografía de referencia: Airbus A380",
+    "credit": "Maarten Visser from Capelle aan den IJssel, Nederland",
+    "url": "https://commons.wikimedia.org/wiki/File:A6-EDY_A380_Emirates_31_jan_2013_jfk_(8442269364)_(cropped).jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "piloto-v2-12": {
+    "src": "assets/question-12.jpg",
+    "alt": "Fotografía de referencia: Lego House (Billund)",
+    "credit": "HartOve",
+    "url": "https://commons.wikimedia.org/wiki/File:Lego_House_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "piloto-v2-13": {
+    "src": "assets/question-13.jpg",
+    "alt": "Fotografía de referencia: Rubik's Cube",
+    "credit": "Mike Gonzalez (TheCoffee)",
+    "url": "https://commons.wikimedia.org/wiki/File:Rubiks_cube_solved.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "piloto-v2-14": {
+    "src": "assets/question-14.jpg",
+    "alt": "Fotografía de referencia: Beer",
+    "credit": "KOREA.NET - Official page of the Republic of Korea",
+    "url": "https://commons.wikimedia.org/wiki/File:Jeju_beer_09_(cropped).jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "piloto-v2-15": {
+    "src": "assets/question-15.jpg",
+    "alt": "Participantes durante la Tomatina de Buñol",
+    "credit": "Graham McLellan from London, UK",
+    "url": "https://commons.wikimedia.org/wiki/File:Tomatina_2006.jpg",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "piloto-v2-16": {
+    "src": "assets/question-16.jpg",
+    "alt": "Fotografía de referencia: El Escorial",
+    "credit": "Zvonimir Stamenov",
+    "url": "https://commons.wikimedia.org/wiki/File:Monasterio_de_El_Escorial_en_Madrid.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "piloto-v2-17": {
+    "src": "assets/question-17.jpg",
+    "alt": "Fotografía de referencia: Suez Canal",
+    "credit": "NASA",
+    "url": "https://commons.wikimedia.org/wiki/File:Iss016e019375.jpg",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Iss016e019375.jpg"
+  },
+  "piloto-v2-18": {
+    "src": "assets/question-18.jpg",
+    "alt": "Fotografía de referencia: Nintendo DS",
+    "credit": "Evan-Amos",
+    "url": "https://commons.wikimedia.org/wiki/File:Nintendo-DS-Fat-Blue.png",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Nintendo-DS-Fat-Blue.png"
+  },
+  "piloto-v2-19": {
+    "src": "assets/question-19.jpg",
+    "alt": "Fotografía de referencia: Spanish Christmas Lottery",
+    "credit": "Barcex",
+    "url": "https://commons.wikimedia.org/wiki/File:Madrid_-_Loter%C3%ADa_Navidad_-_141203_110126.jpg",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "piloto-v2-20": {
+    "src": "assets/question-20.jpg",
+    "alt": "Fotografía de referencia: Ocean",
+    "credit": "ABI imagery from NOAA's GOES-18 satellite",
+    "url": "https://commons.wikimedia.org/wiki/File:Pacific_Ocean_as_viewed_from_GOES-18_on_September_23,_2023.jpg",
+    "license": "Public domain",
+    "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pacific_Ocean_as_viewed_from_GOES-18_on_September_23,_2023.jpg"
+  },
+  "piloto-v2-21": {
+    "src": "assets/question-21.jpg",
+    "alt": "Fotografía de referencia: Espresso",
+    "credit": "Lemone",
+    "url": "https://commons.wikimedia.org/wiki/File:Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  }
+}

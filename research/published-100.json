@@ -1,0 +1,1469 @@
+[
+  {
+    "date": "2026-11-09",
+    "id": "q634",
+    "prompt": "How many tickets did Taylor Swift's Eras Tour sell over its 21 month run?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "music"
+      ]
+    },
+    "source": "Taylor Swift Touring, via The NYT",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-09",
+    "id": "q566",
+    "prompt": "Jonathan, a giant tortoise on the island of St Helena, is the oldest known living land animal. How old does he turn in 2026?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "animals"
+      ]
+    },
+    "source": "Guinness World Records",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-09",
+    "id": "q563",
+    "prompt": "When the 2026 FIFA World Cup kicked off, what was the combined age of every player in every squad?",
+    "tags": {
+      "shape": "tally",
+      "measure": "duration",
+      "topics": [
+        "sport",
+        "people"
+      ]
+    },
+    "source": "FIFA squad lists, via RotoWire",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-08",
+    "id": "q588",
+    "prompt": "How many oranges would it take to fill a standard 55 gallon (208 L) oil drum with orange juice?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food"
+      ]
+    },
+    "source": "USDA and the Florida Dept. of Citrus",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-08",
+    "id": "q643",
+    "prompt": "The wandering albatross has the longest wingspan of any living bird. How many unfolded iPhone Duos would it take to span it from wingtip to wingtip?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "tech"
+      ]
+    },
+    "source": "Guinness World Records and Apple",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-08",
+    "id": "q543",
+    "prompt": "In 2025, how many wristwatches did Switzerland export per day, on average?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "money",
+        "places"
+      ]
+    },
+    "source": "Federation of the Swiss Watch Industry, 2025",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-07",
+    "id": "q288",
+    "prompt": "How many times is the word \"bye\" sung in *NSYNC's \"Bye Bye Bye\"?",
+    "tags": {
+      "shape": "trivia",
+      "measure": "count",
+      "topics": [
+        "music"
+      ]
+    },
+    "source": "Genius, Bye Bye Bye lyrics",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-07",
+    "id": "q642",
+    "prompt": "How many Rolex Submariner watches, laid side by side, would it take to stretch across Big Ben's clock face?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "places",
+        "everyday"
+      ]
+    },
+    "source": "UK Parliament and Rolex",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-07",
+    "id": "q628",
+    "prompt": "The Chinese city of Zhuji makes a third of the world's socks. How many pairs does it turn out in a year?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "places",
+        "everyday"
+      ]
+    },
+    "source": "Xinhua",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-06",
+    "id": "q580",
+    "prompt": "How many Crayola crayons, laid flat side by side, would it take to cover a soccer pitch?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "sport",
+        "everyday"
+      ]
+    },
+    "source": "Crayola: regular crayon 3 5/8 by 5/16 in. FIFA Stadium Guidelines: pitch 105 by 68 m",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-06",
+    "id": "q622",
+    "prompt": "Shanghai has more Starbucks stores than any other city on Earth. How many does it have?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "food",
+        "places"
+      ]
+    },
+    "source": "Starbucks China store locator: 1,148 stores in Shanghai, November 2026",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-06",
+    "id": "q605",
+    "prompt": "How many people speak Mandarin Chinese as their first language?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "words",
+        "people"
+      ]
+    },
+    "source": "Ethnologue (2026): 988 million first-language speakers of Mandarin Chinese",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-05",
+    "id": "q636",
+    "prompt": "Lay every string from a Steinway Model D concert grand end to end. How long is all the string?",
+    "tags": {
+      "shape": "scale",
+      "measure": "distance",
+      "topics": [
+        "music"
+      ]
+    },
+    "source": "Our sum of INRIA's Steinway D string lengths (Chabassier and Durufle, 2012)",
+    "confidence": "low"
+  },
+  {
+    "date": "2026-11-05",
+    "id": "q352",
+    "prompt": "How many active lawyers live in Alaska?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people",
+        "places"
+      ]
+    },
+    "source": "Alaska Bar Association membership statistics",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-05",
+    "id": "q589",
+    "prompt": "How many ears of field corn grow on one acre (0.4 hectare) of a typical US cornfield?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food",
+        "nature"
+      ]
+    },
+    "source": "USDA NASS Crop Production, objective yield survey: 28,550 ears per acre (10 States, 2025)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-04",
+    "id": "q552",
+    "prompt": "What is the combined worldwide box office gross of every Pixar feature film, from Toy Story (1995) through Toy Story 5 (2026)?",
+    "tags": {
+      "shape": "tally",
+      "measure": "money",
+      "topics": [
+        "screen",
+        "money"
+      ]
+    },
+    "source": "Box Office Mojo worldwide grosses, all 31 Pixar features summed: $18.7 billion",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-04",
+    "id": "q632",
+    "prompt": "How many bowling pins could you stand upright on one bowling lane, packed side by side as tightly as they fit?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "sport"
+      ]
+    },
+    "source": "USBC Equipment Specifications Manual: lane length and width, pin diameter",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-04",
+    "id": "q598",
+    "prompt": "How much fuel does one of the world's biggest cruise ships burn in a day at sea?",
+    "tags": {
+      "shape": "flow",
+      "measure": "volume",
+      "topics": [
+        "transport"
+      ]
+    },
+    "source": "Marine Insight: ships over 300 meters burn 235 to 250 tonnes a day",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-03",
+    "id": "q600",
+    "prompt": "How many people alive today are 100 years old or older?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people"
+      ]
+    },
+    "source": "United Nations World Population Prospects, via Joseph Chamie (former UN Population Division director), IPS News, May 2026: about 672,000 centenarians in 2026",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-03",
+    "id": "q601",
+    "prompt": "How many iPhones are sold worldwide in 100 seconds?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "tech"
+      ]
+    },
+    "source": "IDC and Omdia smartphone trackers: about 241 to 248 million iPhones shipped in 2025",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-03",
+    "id": "q602",
+    "prompt": "How much money is in a 100 kg (220 lb) stack of $100 bills?",
+    "tags": {
+      "shape": "scale",
+      "measure": "money",
+      "topics": [
+        "money"
+      ]
+    },
+    "source": "US Bureau of Engraving and Printing: every US banknote, whatever the denomination, weighs about 1 gram",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-02",
+    "id": "q477",
+    "prompt": "How many 8 oz (240 ml) cups of coffee can you brew from one arabica coffee tree's yearly harvest?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food",
+        "nature"
+      ]
+    },
+    "source": "Starbucks Coffee Blog, 'Roast Story': each coffee tree produces the equivalent of about a pound of roasted beans per year · Specialty Coffee Association Golden Cup standard: 55 g of coffee per liter of water, about 12 to 14.5 g for an 8 oz (240 ml) cup",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-02",
+    "id": "q554",
+    "prompt": "Roger Federer played tour-level singles from 1998 to 2021. How many different opponents did he face?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "sport",
+        "people"
+      ]
+    },
+    "source": "Ultimate Tennis Statistics, Federer rivalries table: 350 distinct tour-level opponents",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-02",
+    "id": "q547",
+    "prompt": "A PGA Tour pro tees off on the Moon. How far does a normal drive fly?",
+    "tags": {
+      "shape": "scale",
+      "measure": "distance",
+      "topics": [
+        "sport",
+        "space"
+      ]
+    },
+    "source": "Trackman PGA Tour driver averages (171 mph, 10.4°) · NASA lunar gravity 1.62 m/s²",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-01",
+    "id": "q561",
+    "prompt": "How many people live closer to the North Pole than to the equator?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "places",
+        "people"
+      ]
+    },
+    "source": "EU JRC GHSL 2025 population grid: about 670 million people live north of 45°N, 8% of the world",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-11-01",
+    "id": "q591",
+    "prompt": "If all the land on Earth were split evenly among everyone alive, how much land would each person get?",
+    "tags": {
+      "shape": "scale",
+      "measure": "area",
+      "topics": [
+        "places",
+        "people"
+      ]
+    },
+    "source": "CIA World Factbook, 148.94M km² of land ÷ UN WPP 2024, 8.3B people (mid-2026)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-11-01",
+    "id": "q550",
+    "prompt": "How much did the 30 NBA teams pay their players in salaries for the 2025-26 season?",
+    "tags": {
+      "shape": "flow",
+      "measure": "money",
+      "topics": [
+        "sport",
+        "money"
+      ]
+    },
+    "source": "SalarySwish 2025-26 team payrolls, all 30 teams summed: $5.92 billion",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-31",
+    "id": "q577",
+    "prompt": "Garlic is said to keep vampires away. How much garlic did the world grow in 2024?",
+    "tags": {
+      "shape": "flow",
+      "measure": "weight",
+      "topics": [
+        "food"
+      ]
+    },
+    "source": "FAOSTAT (UN FAO), 2024",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-31",
+    "id": "q576",
+    "prompt": "If a skeleton lost both its hands and both its feet (wrists and ankles included), how many bones would be left?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people"
+      ]
+    },
+    "source": "Cleveland Clinic and Kenhub anatomy guides",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-31",
+    "id": "q572",
+    "prompt": "The common vampire bat lives on nothing but blood. How much blood does one bat drink in a year?",
+    "tags": {
+      "shape": "flow",
+      "measure": "volume",
+      "topics": [
+        "animals",
+        "nature"
+      ]
+    },
+    "source": "Philadelphia Zoo colony feeding data (AZA Nutrition Advisory Group)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-30",
+    "id": "q567",
+    "prompt": "How many ruby-throated hummingbirds would it take to weigh as much as a Hummer H2?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "transport"
+      ]
+    },
+    "source": "Journey North hummingbird weights; Hummer H2 factory spec via Auto123",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-30",
+    "id": "q555",
+    "prompt": "Counting every model, from the original Game Boy through the Game Boy Color and every Game Boy Advance, how many Game Boys has Nintendo sold?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "games",
+        "tech"
+      ]
+    },
+    "source": "Nintendo IR dedicated hardware sales: Game Boy 118.69M plus Game Boy Advance 81.51M",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-30",
+    "id": "q559",
+    "prompt": "If every LEGO piece ever made were divided equally among everyone alive today, how many pieces would you get?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "games"
+      ]
+    },
+    "source": "LEGO annual reports, piece counts via TIME and UK IPO · UN World Population Prospects 2024",
+    "confidence": "low"
+  },
+  {
+    "date": "2026-10-29",
+    "id": "q557",
+    "prompt": "How many Haribo Goldbears gummy bears would it take to weigh as much as an average adult male grizzly bear?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "food",
+        "animals"
+      ]
+    },
+    "source": "NPS (Yellowstone): adult male grizzlies average 187 kg (413 lb) · Haribo US: 13 Goldbears per 30 g",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-29",
+    "id": "q556",
+    "prompt": "How many drops of hot sauce are in a standard 2 oz (60 ml) bottle of Tabasco?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food"
+      ]
+    },
+    "source": "McIlhenny Co. Tabasco FAQ: a 2 oz bottle holds at least 720 drops, at 60 drops to a teaspoon",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-29",
+    "id": "q558",
+    "prompt": "Beekeepers buy live bees by the pound. How many honeybees are in 1 pound (450 g) of bees?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "animals"
+      ]
+    },
+    "source": "MAAREC (University of Delaware Extension) package bees guide: each pound is about 3,500 bees",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-28",
+    "id": "q578",
+    "prompt": "How much did the heaviest pumpkin ever grown weigh?",
+    "tags": {
+      "shape": "scale",
+      "measure": "weight",
+      "topics": [
+        "nature",
+        "food"
+      ]
+    },
+    "source": "Guinness World Records, heaviest pumpkin (2026)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-28",
+    "id": "q560",
+    "prompt": "How many people holding hands would it take to circle the outside of Stonehenge's ring of giant standing stones?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "places",
+        "history"
+      ]
+    },
+    "source": "English Heritage: Stonehenge's sarsen circle is 30 m across. 1.5 m of line per person hand to hand is our estimate",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-28",
+    "id": "q565",
+    "prompt": "The London Eye opened to the public in 2000. Counting only its public opening hours, how many full turns has it made since then?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "places"
+      ]
+    },
+    "source": "London Eye's 7,668 turns a year (ITV, Time Out) over 25.8 open years since March 2000",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-27",
+    "id": "q460",
+    "prompt": "How many free throws did Shaquille O'Neal miss in his NBA regular-season career?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "sport"
+      ]
+    },
+    "source": "Basketball-Reference.com, Shaquille O'Neal career totals: 5,935 made of 11,252 free throws attempted in the regular season",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-27",
+    "id": "q569",
+    "prompt": "About how many Pringles are in a full-size 5.2 oz (147 g) can of the Original flavor?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food",
+        "everyday"
+      ]
+    },
+    "source": "Pringles Original label; MEL Magazine hand count, 2021",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-27",
+    "id": "q568",
+    "prompt": "Counting every word, repeats and all, how many words did Shakespeare write across his 38 plays, sonnets and poems?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "words",
+        "history"
+      ]
+    },
+    "source": "Marvin Spevack's Harvard Concordance to Shakespeare, via the Folger Shakespeare Library",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-26",
+    "id": "q485",
+    "prompt": "The Milan Cortina 2026 Winter Olympics gave a medal to every athlete on the podium, one each for every member of a winning team. How much did all those medals weigh in total?",
+    "tags": {
+      "shape": "scale",
+      "measure": "weight",
+      "topics": [
+        "sport",
+        "places"
+      ]
+    },
+    "source": "Milano Cortina 2026 and the Italian State Mint (IPZS), medal unveiling, July 2025: 245 gold, 245 silver and 245 bronze Olympic medals, weighing 506 g, 500 g and 420 g",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-26",
+    "id": "q462",
+    "prompt": "How much revenue did Apple bring in every minute, on average, in its 2025 fiscal year?",
+    "tags": {
+      "shape": "flow",
+      "measure": "money",
+      "topics": [
+        "money",
+        "tech"
+      ]
+    },
+    "source": "Apple Inc. Form 10-K for fiscal 2025 (SEC filing): net sales of $416,161 million for the 52 weeks ended September 27, 2025",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-26",
+    "id": "q517",
+    "prompt": "How long would it take to watch every official James Bond film back to back, from Dr. No (1962) to No Time to Die (2021)?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "screen"
+      ]
+    },
+    "source": "Running times of the 25 official Eon Bond films (BBFC, via Wikipedia): 3,208 minutes",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-25",
+    "id": "q512",
+    "prompt": "How many people speak Portuguese as their first language?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "words",
+        "people"
+      ]
+    },
+    "source": "Ethnologue (2026 edition): about 252 million first-language Portuguese speakers",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-25",
+    "id": "q513",
+    "prompt": "The Soviet Union split into 15 countries in 1991. How many people live in those 15 countries today?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people",
+        "history"
+      ]
+    },
+    "source": "World Bank population estimates for 2024, summed across the 15 former Soviet republics",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-25",
+    "id": "q514",
+    "prompt": "Wembley Stadium is sold out, and every seat holds an adult. How many natural teeth are in the stands?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people",
+        "sport"
+      ]
+    },
+    "source": "Wembley Stadium (90,000 seats) and the Adult Oral Health Survey 2021 (25.4 natural teeth on average)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-24",
+    "id": "q515",
+    "prompt": "How many people work in McDonald's restaurants around the world?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "food",
+        "people"
+      ]
+    },
+    "source": "McDonald's 2025 annual report (10-K): over 2 million in franchised restaurants plus 150,000 staff",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-24",
+    "id": "q520",
+    "prompt": "Not counting the songs, how many words of dialogue are spoken in the original Toy Story (1995)?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "words",
+        "screen"
+      ]
+    },
+    "source": "Toy Story's final-draft screenplay and its subtitle transcript: about 6,900 words of dialogue",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-24",
+    "id": "q456",
+    "prompt": "How many possible 4-digit PIN codes are there?",
+    "tags": {
+      "shape": "trivia",
+      "measure": "count",
+      "topics": [
+        "everyday"
+      ]
+    },
+    "source": "DataGenetics PIN number analysis (Nick Berry, 2012): 10,000 possible codes, 0000 to 9999",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-23",
+    "id": "q445",
+    "prompt": "How many minutes is Harry Potter on screen across all eight Harry Potter films?",
+    "tags": {
+      "shape": "tally",
+      "measure": "duration",
+      "topics": [
+        "screen"
+      ]
+    },
+    "source": "Fan count by IMDb user ninewheels0, via Screen Rant",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-23",
+    "id": "q483",
+    "prompt": "Since the Billboard Hot 100 began in 1958, how many different songs have reached No. 1?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "music"
+      ]
+    },
+    "source": "Billboard Hot 100 chart history (1,195 No. 1s through the chart dated Oct. 24, 2026)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-23",
+    "id": "q521",
+    "prompt": "Writing at an average adult's handwriting speed, how many hours would it take to copy out the whole King James Bible by hand?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "words",
+        "history"
+      ]
+    },
+    "source": "KJV's 3,116,480 letters at 68 a minute, the average adult copying speed (ADVANCE for Occupational Therapy)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-22",
+    "id": "q511",
+    "prompt": "How many people around the world turn 18 today?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "people"
+      ]
+    },
+    "source": "UN World Population Prospects 2024: about 142 million births worldwide in 2008",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-22",
+    "id": "q525",
+    "prompt": "Rowing nonstop at Olympic gold-medal sculling pace, how many days would it take to cross the Atlantic from the Canary Islands to Antigua?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "sport",
+        "nature"
+      ]
+    },
+    "source": "World Rowing, Paris 2024 single sculls (6:37.57); World's Toughest Row course (3,000 mi)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-22",
+    "id": "q510",
+    "prompt": "How many people alive today are identical twins?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people"
+      ]
+    },
+    "source": "Monden, Pison and Smits, Human Reproduction (2021): about 4 identical pairs per 1,000 deliveries",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-21",
+    "id": "q497",
+    "prompt": "How many steps does an average runner take to finish a marathon?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "sport",
+        "people"
+      ]
+    },
+    "source": "RunRepeat global marathon finish-time study (average 4:29:53 in 2018) and Garmin's running dynamics cadence percentiles",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-21",
+    "id": "q474",
+    "prompt": "How many movie screens did the United States have at the end of 2022?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "screen",
+        "places"
+      ]
+    },
+    "source": "National Association of Theatre Owners (now Cinema United), Number of U.S. Movie Screens: 39,007 at the end of 2022",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-21",
+    "id": "q528",
+    "prompt": "If you laid every grain from a 2 lb (900 g) bag of long-grain white rice end to end, how long would the line be?",
+    "tags": {
+      "shape": "scale",
+      "measure": "distance",
+      "topics": [
+        "food",
+        "everyday"
+      ]
+    },
+    "source": "Arkansas Agricultural Experiment Station rice trials (milled long-grain kernel length and weight)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-20",
+    "id": "q531",
+    "prompt": "How many 30 by 60 inch (76 by 152 cm) beach towels would it take to cover the sand on Sydney's Bondi Beach?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "places",
+        "everyday"
+      ]
+    },
+    "source": "NSW State Heritage Register, Bondi Beach Cultural Landscape (about 1 km long, 50 to 100 m wide)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-20",
+    "id": "q526",
+    "prompt": "How many passengers are aboard ocean cruise ships around the world at any given moment?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "transport",
+        "people"
+      ]
+    },
+    "source": "CLIA 2026 State of the Cruise Industry: 37.2M passengers in 2025, 7.0-day average",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-20",
+    "id": "q527",
+    "prompt": "Toyota started selling the Corolla in 1966. By 2026, how many Corollas had it sold worldwide?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "transport"
+      ]
+    },
+    "source": "Toyota Motor Europe, 60 years of Corolla, 2026 (more than 57 million sold)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-19",
+    "id": "q536",
+    "prompt": "In 2017, how many sandwiches did Subway serve worldwide each day?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "food",
+        "money"
+      ]
+    },
+    "source": "Subway corporate boilerplate, 2017: 7 million made-to-order sandwiches a day",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-19",
+    "id": "q532",
+    "prompt": "How many 1.8 oz (51 g) Mars bars would it take to weigh as much as NASA's Curiosity rover?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "food",
+        "space"
+      ]
+    },
+    "source": "NASA Curiosity mission page (899 kg, 1,982 lb) · Mars Wrigley UK standard single bar (51 g)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-19",
+    "id": "q529",
+    "prompt": "How much does one million euros weigh in €100 bills?",
+    "tags": {
+      "shape": "scale",
+      "measure": "weight",
+      "topics": [
+        "money"
+      ]
+    },
+    "source": "Oesterreichische Nationalbank, euro banknote specifications (a €100 note weighs about 1 gram)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-18",
+    "id": "q523",
+    "prompt": "Astronauts have lived on the International Space Station nonstop since November 2000. Adding up every stay, how many person-days had they spent aboard by October 2026?",
+    "tags": {
+      "shape": "tally",
+      "measure": "duration",
+      "topics": [
+        "space",
+        "people"
+      ]
+    },
+    "source": "ISS expedition crew dates (Wikipedia, from NASA records), totalled by us to 1 October 2026",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-18",
+    "id": "q540",
+    "prompt": "In September 2025, how many fully qualified driving instructors were on the official register in Great Britain?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "transport",
+        "people"
+      ]
+    },
+    "source": "DVSA register figures in a Lords written answer: 43,334 in Great Britain, Sep 2025",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-18",
+    "id": "q522",
+    "prompt": "How many different athletes have competed at the Olympic Games, from Athens 1896 through Milan Cortina 2026?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "sport",
+        "people"
+      ]
+    },
+    "source": "Olympedia site statistics: about 176,000 Olympic athletes, 1896 to 2026",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-17",
+    "id": "q533",
+    "prompt": "How many credit cards would it take to cover the surface of Van Gogh's The Starry Night?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "everyday",
+        "history"
+      ]
+    },
+    "source": "MoMA collection entry (oil on canvas, 73.7 x 92.1 cm) · ISO/IEC 7810 ID-1 card, 85.60 x 53.98 mm",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-17",
+    "id": "q464",
+    "prompt": "How much money was sitting unspent on Starbucks gift cards and app balances, plus unredeemed Rewards Stars, at the end of the company's 2025 fiscal year?",
+    "tags": {
+      "shape": "stock",
+      "measure": "money",
+      "topics": [
+        "money",
+        "food"
+      ]
+    },
+    "source": "Starbucks Form 10-K for fiscal 2025 (SEC filing), Note 11 Deferred Revenue: $1,751.7 million in stored value cards and loyalty program at September 28, 2025",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-17",
+    "id": "q524",
+    "prompt": "How many minutes has Cristiano Ronaldo played in his professional career so far, club and country combined?",
+    "tags": {
+      "shape": "tally",
+      "measure": "duration",
+      "topics": [
+        "sport"
+      ]
+    },
+    "source": "messivsronaldo.app all-time career stats, October 2026",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-16",
+    "id": "q534",
+    "prompt": "How many 18.6 oz (527 g) family-size boxes of Lucky Charms would it take to have one marshmallow for every person in the Republic of Ireland?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food",
+        "places"
+      ]
+    },
+    "source": "CSO April 2026 estimate: 5.53M people · 2024 six-box count: about 430 marshmallows per box",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-16",
+    "id": "q463",
+    "prompt": "How many wheels of Parmigiano Reggiano were made in 2025?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "food",
+        "places"
+      ]
+    },
+    "source": "Consorzio del Parmigiano Reggiano 2025 production figures (annual press conference, Milan, March 26, 2026): 4.19 million wheels",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-16",
+    "id": "q465",
+    "prompt": "How many bananas would it take to weigh as much as a wild silverback western lowland gorilla?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "food"
+      ]
+    },
+    "source": "SeaWorld Parks gorilla fact sheet: wild adult male western lowland gorillas weigh about 169.5 kg (374 lb) · Soltani, Alimardani and Omid (2011), physical properties of full-ripe Cavendish bananas: 180.56 g whole fruit",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-15",
+    "id": "q530",
+    "prompt": "How many standard 2x4 LEGO bricks would it take to build a solid, full-size copy of the Great Sphinx of Giza?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "games",
+        "history"
+      ]
+    },
+    "source": "Encyclopaedia Britannica (73 m long, 20 m high) · Wikipedia (19 m wide at the haunches) · LEGO's 8 mm stud, 9.6 mm brick grid",
+    "confidence": "low"
+  },
+  {
+    "date": "2026-10-15",
+    "id": "q425",
+    "prompt": "How many cities in the world are home to 1 million people or more, counting each city and its suburbs as one place?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "places",
+        "people"
+      ]
+    },
+    "source": "citypopulation.de (Thomas Brinkhoff), Major Agglomerations of the World, 1 January 2026: 652 urban agglomerations of 1 million or more · cross-check: UN World Urbanization Prospects 2018 (548 in 2018, projected 706 by 2030)",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-15",
+    "id": "q535",
+    "prompt": "About how many sesame seeds are on the top of a Big Mac bun?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food"
+      ]
+    },
+    "source": "Harper's Index: 178 sesame seeds on the average Big Mac bun",
+    "confidence": "low"
+  },
+  {
+    "date": "2026-10-14",
+    "id": "q504",
+    "prompt": "In 2025, how long did it take Amazon, on average, to sell $1 million worth of stuff?",
+    "tags": {
+      "shape": "flow",
+      "measure": "duration",
+      "topics": [
+        "money",
+        "tech"
+      ]
+    },
+    "source": "Amazon.com Inc. Form 10-K for 2025 (SEC filing): net sales of $716,924 million",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-14",
+    "id": "q541",
+    "prompt": "If you went to a different pub every night, how many years would it take to visit every pub in the UK today?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "food",
+        "places"
+      ]
+    },
+    "source": "British Beer & Pub Association: 44,656 UK pubs in 2025, about 122 years at one a night",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-14",
+    "id": "q469",
+    "prompt": "How many Rubik's Cubes have been sold?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "games",
+        "money"
+      ]
+    },
+    "source": "Spin Master, owner of the Rubik's brand, via Fortune (December 2024): roughly 500 million cubes sold since launch",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-13",
+    "id": "q539",
+    "prompt": "How many PlayStation home consoles (PS1 through PS5, not counting handhelds) has Sony sold?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "games",
+        "tech"
+      ]
+    },
+    "source": "Sony Interactive business data: PS1 102.4M, PS2 160M, PS3 87.4M, PS4 117M, PS5 95M+",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-13",
+    "id": "q538",
+    "prompt": "About how many popcorn kernels are in one 3.2 oz (90 g) bag of microwave popcorn?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "food",
+        "everyday"
+      ]
+    },
+    "source": "Chowhound hand count, 2025: 437 kernels in a 3.2 oz bag · Purdue kernel-size classes",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-13",
+    "id": "q542",
+    "prompt": "If you wrote out the name of every element on the periodic table, how many letters would that be?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "words"
+      ]
+    },
+    "source": "IUPAC element names (aluminium, caesium, sulfur spellings), letters counted across all 118",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-12",
+    "id": "q471",
+    "prompt": "How many pairs of Crocs were sold in 2025?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "everyday",
+        "money"
+      ]
+    },
+    "source": "Crocs, Inc. Form 10-K for 2025: Crocs Brand footwear unit sales of 128.9 million pairs",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-12",
+    "id": "q496",
+    "prompt": "Shrink the entire solar system until the Sun is the size of a basketball. How far away would Earth be?",
+    "tags": {
+      "shape": "scale",
+      "measure": "distance",
+      "topics": [
+        "space",
+        "sport"
+      ]
+    },
+    "source": "NASA Sun Fact Sheet · IAU · NBA Official Rules",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-12",
+    "id": "q446",
+    "prompt": "How many of London's Big Ben tower, stacked end to end, would it take to reach the top of the Burj Khalifa, the world's tallest building?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "places"
+      ]
+    },
+    "source": "CTBUH Skyscraper Center (Burj Khalifa, 828 m); UK Parliament (Elizabeth Tower, 96 m)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-11",
+    "id": "q484",
+    "prompt": "LeBron James is about to start his 24th NBA season, his first with the 76ers. How many different teammates did he have in his first 23 seasons?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "sport",
+        "people"
+      ]
+    },
+    "source": "Basketball-Reference, LeBron James teammates and opponents finder: 250 distinct teammates across his Cavaliers, Heat and Lakers seasons through 2025-26",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-11",
+    "id": "q509",
+    "prompt": "The oldest known living tree is a bristlecone pine in California's White Mountains, dated by counting its growth rings. How many years old is it?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "nature"
+      ]
+    },
+    "source": "Guinness World Records, oldest living individual tree: Methuselah, a Great Basin bristlecone pine (4,856 years as of 2024); Rocky Mountain Tree-Ring Research OLDLIST (Methuselah, crossdated, about 4,850 years)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-11",
+    "id": "q480",
+    "prompt": "Mongolia has more horses than people. How many horses did the country count in its 2025 livestock census?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "places"
+      ]
+    },
+    "source": "National Statistics Office of Mongolia, 2025 livestock census (preliminary results, January 2026): 58.1 million head of livestock, 5.1 million of them horses",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-10",
+    "id": "q487",
+    "prompt": "The first piece of the International Space Station launched in November 1998. By 1 September 2026, how many times had the station circled the Earth?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "space"
+      ]
+    },
+    "source": "Roscosmos, via Interfax, 2025",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-10",
+    "id": "q470",
+    "prompt": "How many likes does Instagram's most-liked post, Messi's 2022 World Cup photo, have today?",
+    "tags": {
+      "shape": "trivia",
+      "measure": "count",
+      "topics": [
+        "screen",
+        "sport"
+      ]
+    },
+    "source": "Instagram like count, via Wikipedia's list of most-liked Instagram posts (2026)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-10",
+    "id": "q178",
+    "prompt": "How many children aged 10 or younger live in the world today?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "people"
+      ]
+    },
+    "source": "United Nations World Population Prospects 2024 age-structure data, cross-checked against UNICEF under-5 population estimates",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-09",
+    "id": "q503",
+    "prompt": "How many days does a container ship take to sail from Shanghai to Rotterdam through the Suez Canal?",
+    "tags": {
+      "shape": "clock",
+      "measure": "duration",
+      "topics": [
+        "transport",
+        "places"
+      ]
+    },
+    "source": "Notteboom, Pallis & Rodrigue, Port Economics, Management and Policy: Routing Options between Shanghai, Rotterdam and New York",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-09",
+    "id": "q489",
+    "prompt": "How many wild elephants lived in Africa at the last full continent-wide count, published in 2016?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "places"
+      ]
+    },
+    "source": "IUCN SSC African Elephant Specialist Group, African Elephant Status Report 2016",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-09",
+    "id": "q476",
+    "prompt": "How many Oreo cookies are sold around the world each day?",
+    "tags": {
+      "shape": "flow",
+      "measure": "count",
+      "topics": [
+        "food",
+        "money"
+      ]
+    },
+    "source": "Mondelez International, 2024",
+    "confidence": "medium"
+  },
+  {
+    "date": "2026-10-08",
+    "id": "q473",
+    "prompt": "How many different names appear in the end credits of Avengers: Endgame (2019)?",
+    "tags": {
+      "shape": "tally",
+      "measure": "count",
+      "topics": [
+        "screen"
+      ]
+    },
+    "source": "Our own count of a fan transcription of the on-screen end credits (JH Movie Collection Wiki): 4,498 entries, 4,419 different names. No published count exists.",
+    "confidence": "low"
+  },
+  {
+    "date": "2026-10-08",
+    "id": "q461",
+    "prompt": "How many of the 193 UN member countries have fewer people than New York City?",
+    "tags": {
+      "shape": "stock",
+      "measure": "count",
+      "topics": [
+        "places",
+        "people"
+      ]
+    },
+    "source": "World Bank World Development Indicators, 2024 population by country · US Census Bureau Vintage 2025 estimate for New York City (8,584,629)",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-08",
+    "id": "q498",
+    "prompt": "How many 12 oz (355 ml) soda cans could you fill with all the blood in an adult human body?",
+    "tags": {
+      "shape": "fit",
+      "measure": "count",
+      "topics": [
+        "people",
+        "everyday"
+      ]
+    },
+    "source": "American Red Cross (1.2 to 1.5 gallons of blood in a 150 to 180 lb adult) and the standard medical average of about 5 liters",
+    "confidence": "high"
+  },
+  {
+    "date": "2026-10-07",
+    "id": "q494",
+    "prompt": "How many oranges would it take to weigh as much as an adult male orangutan?",
+    "tags": {
+      "shape": "scale",
+      "measure": "count",
+      "topics": [
+        "animals",
+        "food"
+      ]
+    },
+    "source": "San Diego Zoo Wildlife Alliance orangutan fact sheet: adult males weigh about 87 kg (192 lb) · USDA FoodData Central, Oranges, raw, with peel (FDC 169919): 1 fruit = 159 g",
+    "confidence": "medium"
+  }
+]
