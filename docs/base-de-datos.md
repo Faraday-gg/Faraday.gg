@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-09, contenido e imágenes en Supabase (rama `feat/contenido-en-supabase`); última migración `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-09, publicación automática en Vercel (rama `feat/publicacion-automatica`); última migración `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -27,7 +27,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Jornadas y preguntas (texto, cifra, fuentes, supuestos, razonamiento, créditos) | **Supabase** (`days`, `questions.content`) | La API las lee de ahí. |
 | Fotografías | **Supabase Storage** (`imagenes`) | `content.image.src` apunta a su URL pública. |
 | Respuestas anónimas | **Supabase** (`answers`) | |
-| Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y se publica con `scripts/publicar-contenido.mjs`. |
+| Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y Vercel lo publica al desplegar producción. |
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
 | Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | No hay cuentas: sin autenticación no se puede asociar a nadie en el servidor. |
 | HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
@@ -91,8 +91,12 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Si la cifra guardada no coincide con la enviada, responde `409`. La API de Supabase devuelve los `double precision` redondeados a 15 cifras significativas, así que la comparación usa una tolerancia relativa de 1e-12; si no, reenviar la misma respuesta con muchos decimales daba `409`.
 - **`POST /api/daily-scores`**: lee de `answers` las tres preguntas del día, paginando de 1000 en 1000, y calcula la puntuación igual que en local.
 - **Probado contra el Supabase real** el 9 de noviembre de 2026 (Luis, con `.env` local): respuestas y distribución, respuesta repetida `200`, otra cifra `409`, puntuación diaria correcta y `409` para un día incompleto. Después de publicar el contenido, la web en local mostró el calendario con `source: supabase` y la foto cargada desde Storage, sin errores en la consola.
-- **Publicar o actualizar el contenido**: `node --env-file=.env scripts/publicar-contenido.mjs` (con `--prueba` solo cuenta). Sube las imágenes de `dist/assets/` a Storage, reescribe `image.src` a su URL pública e inserta o **actualiza** por `id` todas las jornadas del piloto y del banco editorial. Hay que ejecutarlo cada vez que se fusione en `main` un cambio de contenido. Escribe en la única base de datos.
-- **Cambiar una pregunta ya publicada por otra distinta** (otro `id` en la misma fecha y posición) viola `unique (day_id, position)`: el script falla. Hay que borrar antes la pregunta antigua (y sus respuestas) a mano o con una migración.
+- **Publicación del contenido** (`lib/publicar.mjs`). **Es automático**: Vercel la ejecuta en cada despliegue de producción (al fusionar en `main`): `vercel.json` tiene `"buildCommand": "node scripts/publicar-contenido.mjs --vercel"`. Funciona así:
+  - Compara el repositorio con Supabase y **solo sube lo que ha cambiado**: imágenes cuyo MD5 no coincide con el de Storage, y jornadas o preguntas nuevas o con algún campo distinto (el `content` se compara sin tener en cuenta el orden de las claves, que jsonb no conserva). Si no hay cambios, solo lee.
+  - En los despliegues **Preview** (`preprod` y demás ramas) no hace nada, porque comparten base de datos con producción.
+  - Si en producción faltan las variables de Supabase, avisa y deja seguir el despliegue (la web usa el contenido del repositorio como respaldo). Si Supabase falla, **el despliegue falla**, para no publicar una web con contenido a medias.
+  - Si una fecha y posición ya tenía otra pregunta (otro `id`), la retira **solo si no tiene respuestas**. Si las tiene, la base de datos lo impide y la publicación falla explicando qué pregunta es. Nunca borra jornadas ni respuestas.
+  - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
 ## Seguridad y acceso
 
