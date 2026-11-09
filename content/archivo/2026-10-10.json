@@ -1,0 +1,136 @@
+{
+  "id": "2026-10-10",
+  "name": "Sábado",
+  "theme": "Panteón, billetes y Pony Express",
+  "questions": [
+    {
+      "id": "archivo-2026-10-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Cúpula para llenar",
+      "title": "¿Cuántos litros de agua cabrían en una esfera del tamaño de la que encaja bajo la cúpula del Panteón de Roma?",
+      "detail": "El Panteón está diseñado para que dentro quepa una esfera perfecta: tan ancha como alta hasta el óculo. Llena esa esfera imaginaria de agua y no te preocupes por el agujero del techo.",
+      "unit": "litros",
+      "answer": 42507181.692918696,
+      "math": "El diámetro interior es de 43,3 m, así que el radio es 21,65 m. Volumen = 4/3 × π × 21,65³ ≈ 42.507 m³. Cada m³ son 1.000 litros: unos 42,5 millones de litros.",
+      "referenceExpression": "4/3 × π × 21,65³ × 1000",
+      "assumptions": "Esfera geométrica perfecta con el diámetro interior de la rotonda. La forma real del edificio es un cilindro coronado por media esfera, así que el agua de verdad cabría en más volumen.",
+      "confidence": "Dato documentado + geometría",
+      "sources": [
+        {
+          "title": "Wikipedia · Pantheon, Rome",
+          "url": "https://en.wikipedia.org/wiki/Pantheon,_Rome",
+          "fact": "La altura hasta el óculo y el diámetro del círculo interior son iguales, unos 43 m; en otro punto precisa 43,3 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-10-1.jpg",
+        "alt": "Interior del Panteón de Roma con la cúpula de casetones y el óculo, y visitantes pequeños en el suelo",
+        "credit": "Jean-Christophe BENOIST",
+        "url": "https://commons.wikimedia.org/wiki/File:Rome-Pantheon-Interieur1.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "El radio al cubo manda",
+        "steps": [
+          "Una esfera de 40 y pico metros es como un edificio de 14 plantas en forma de pelota. Su volumen es 4/3 × π × r³, más o menos 4 × r³.",
+          "Con un radio de unos 20 m, r³ = 8.000 y 4 × 8.000 = 32.000 m³: decenas de millones de litros.",
+          "Con el radio real de 21,65 m salen unos 42.507 m³, es decir, 42,5 millones de litros. Un metro más de radio cambia el resultado un 14 %: al ir al cubo, cada centímetro cuenta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Cartera europea",
+      "title": "¿Cuántos billetes de euro hay en circulación por cada habitante de la zona del euro?",
+      "detail": "Reparte todos los billetes en circulación, de 5 a 500 euros, a partes iguales entre los habitantes de los 21 países del euro. Bebés incluidos.",
+      "unit": "billetes",
+      "answer": 87.99989675756572,
+      "math": "En septiembre de 2026 había 31.643.075.740 billetes de euro en circulación. La zona del euro (21 países) tenía 359.580.828 habitantes el 1 de enero de 2026. 31.643.075.740 ÷ 359.580.828 ≈ 88 billetes por persona.",
+      "referenceExpression": "31643075740 ÷ 359580828",
+      "assumptions": "Entre un 20 % y un 25 % de los billetes se guarda fuera de la zona del euro, y muchos duermen en cajas fuertes y bancos, así que tu cartera no lleva 88 billetes. La población es provisional.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "BCE · Data Portal, serie BKN.M.U2.NC10.B.ALLD.AS.S.Q",
+          "url": "https://data-api.ecb.europa.eu/service/data/BKN/M.U2.NC10..ALLD.AS..?lastNObservations=1&format=csvdata",
+          "fact": "Circulación neta de billetes, todas las denominaciones, septiembre de 2026: 31.643.075,74 miles de billetes."
+        },
+        {
+          "title": "Eurostat · demo_gind, zona del euro EA21",
+          "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=EA21&indic_de=JAN&sinceTimePeriod=2024&format=JSON&lang=EN",
+          "fact": "Población a 1 de enero de 2026 de la zona del euro de 21 países: 359.580.828 habitantes."
+        },
+        {
+          "title": "BCE · Banknotes in circulation",
+          "url": "https://www.ecb.europa.eu/euro/banknotes/circulation/html/index.en.html",
+          "fact": "Entre el 20 % y el 25 % de los billetes de euro en circulación se encuentran fuera de la zona del euro."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-10-2.jpg",
+        "alt": "Billetes de 50, 100 y 500 euros extendidos en abanico junto a dos tarjetas de pago",
+        "credit": "User:Mattes",
+        "url": "https://commons.wikimedia.org/wiki/File:Euro_bank_notes_centered_(50s,_100s,_500s),_maestro_card,_master_card_%E2%80%94_Mattes_2006-05-12.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Euro_bank_notes_centered_(50s,_100s,_500s),_maestro_card,_master_card_%E2%80%94_Mattes_2006-05-12.jpg"
+      },
+      "reasoning": {
+        "heading": "Billetes del sistema entre personas del sistema",
+        "steps": [
+          "Hay que imaginar cuántos billetes existen. Si en la zona del euro viven unos 350 millones de personas y cada una tuviera unos 50 billetes, habría 17.500 millones.",
+          "El BCE habla de decenas de miles de millones de billetes, unos 30.000 millones. 30.000 millones entre 350 millones dan unos 85 por cabeza.",
+          "Con los datos de septiembre de 2026 salen 88 billetes por habitante, con un valor medio de unos 52 € cada uno. Como hasta un cuarto de ellos está fuera de Europa y otros muchos en reservas, el reparto es teórico."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Relevo galopante",
+      "title": "¿Cuántos caballos de relevo necesitaba el Pony Express para cubrir su ruta de punta a punta?",
+      "detail": "El correo a caballo de 1860 cambiaba de montura cada pocas millas para ir siempre a galope. Usa un caballo fresco cada 12,5 millas (unos 20 km) sobre una ruta de 1.900 millas.",
+      "unit": "caballos",
+      "answer": 152,
+      "math": "La ruta de St. Joseph (Misuri) a Sacramento (California) tenía cerca de 1.900 millas (unos 3.058 km). Con un caballo fresco cada 12,5 millas, punto medio de las 10-15 millas del NPS: 1.900 ÷ 12,5 = 152 caballos.",
+      "referenceExpression": "1900 ÷ 12,5",
+      "assumptions": "Un caballo por tramo para un único envío de punta a punta. El Pony Express tenía muchos más animales en total, porque corría en los dos sentidos y necesitaba reservas. La separación entre postas variaba según el terreno.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "National Park Service · Pony Express NHT, mapas",
+          "url": "https://www.nps.gov/poex/planyourvisit/maps.htm",
+          "fact": "La ruta histórica tiene cerca de 1.900 millas y cruza ocho estados."
+        },
+        {
+          "title": "National Park Service · The First Ride",
+          "url": "https://www.nps.gov/poex/learn/historyculture/the-first-ride.htm",
+          "fact": "El Pony Express se organizó para dar un caballo fresco cada 10-15 millas y un jinete fresco cada 75-100 millas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-10-3.jpg",
+        "alt": "Fotografía antigua del jinete del Pony Express Frank E. Webner montado en su caballo, hacia 1861",
+        "credit": "Autor desconocido · Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:%22Frank_E._Webner,_pony_express_rider,%22_ca._1861_-_NARA_-_513351.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:%22Frank_E._Webner,_pony_express_rider,%22_ca._1861_-_NARA_-_513351.jpg"
+      },
+      "reasoning": {
+        "heading": "Trocea la ruta en tramos de galope",
+        "steps": [
+          "La ruta cruzaba medio Estados Unidos: unas 2.000 millas. Un caballo a galope aguanta unas pocas millas antes de agotarse.",
+          "Si cambias cada 10 millas, son 200 caballos; si cambias cada 20, 100. El resultado está en el centenar largo.",
+          "Con las 1.900 millas del NPS y un relevo cada 12,5 millas salen 152 caballos para un solo viaje. Con relevos cada 10 millas serían 190, y cada 15, unos 127."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "id": "2026-09-20",
+  "name": "Domingo",
+  "theme": "Medalla, Montjuïc y Wright",
+  "questions": [
+    {
+      "id": "archivo-2026-09-20-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Oro con truco",
+      "title": "¿Cuántos euros vale en metal una medalla de oro olímpica?",
+      "detail": "El metal más deseado del deporte es, sobre todo, plata. Supón una medalla de 500 g con los 6 g de oro reglamentarios y el resto plata pura, a precios del 9 de noviembre de 2026.",
+      "unit": "euros",
+      "answer": 1475.1622327360083,
+      "math": "El 9 de noviembre de 2026 el oro cotizaba a 4.143,30 $/onza y la plata a 53,64 $/onza; con 1,1193 $/€ y 31,1035 g por onza: 119,01 €/g de oro y 1,54 €/g de plata. 6 × 119,01 + 494 × 1,54 = 714,07 + 761,09 = 1.475,16 €.",
+      "referenceExpression": "6 × 4143,30 ÷ 1,1193 ÷ 31,1035 + 494 × 53,637 ÷ 1,1193 ÷ 31,1035",
+      "assumptions": "Medalla de 500 g (las de París 2024 pesaban entre 455 y 529 g) y plata al 100%, aunque el reglamento exige como mínimo un 92,5%. Los precios de los metales cambian cada día.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Olympic medal",
+          "url": "https://en.wikipedia.org/wiki/Olympic_medal",
+          "fact": "La medalla de oro se compone al menos en un 92,5% de plata, chapada con 6 gramos de oro."
+        },
+        {
+          "title": "Gold API · precio del oro (XAU)",
+          "url": "https://api.gold-api.com/price/XAU",
+          "fact": "Oro: 4.143,30 $/onza troy (9 de noviembre de 2026, 23:29 UTC)."
+        },
+        {
+          "title": "Gold API · precio de la plata (XAG)",
+          "url": "https://api.gold-api.com/price/XAG",
+          "fact": "Plata: 53,64 $/onza troy (9 de noviembre de 2026, 23:29 UTC)."
+        },
+        {
+          "title": "Banco Central Europeo · tipos de cambio de referencia",
+          "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml",
+          "fact": "9 de noviembre de 2026: 1 € = 1,1193 $."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-20-1.jpg",
+        "alt": "Medalla de oro olímpica de Vancouver 2010 sujeta en la mano, que muestra su tamaño",
+        "credit": "Country wind",
+        "url": "https://commons.wikimedia.org/wiki/File:Olympic_gold_medal_(Vancouver_2010_winter_games).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Olympic_gold_medal_(Vancouver_2010_winter_games).jpg"
+      },
+      "reasoning": {
+        "heading": "Separa el oro de la plata",
+        "steps": [
+          "Una medalla de oro pesa como medio kilo, pero el oro es solo una capa de unos gramos. Casi todo el valor en metal es plata.",
+          "Si el oro va a unos 120 €/g, 6 g son unos 700 €. Casi 500 g de plata a 1,5 €/g suman otros 750 €. Total: unos 1.450 €.",
+          "Con los precios del 9-11-2026 salen 1.475,16 €. Con plata al 92,5% el valor baja unos 57 €; el valor sentimental y de subasta es otra historia."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-20-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Vuelta de balón",
+      "title": "¿Cuántos balones de fútbol en fila darían la vuelta a la calle 1 de la pista del Estadio Olímpico de Montjuïc?",
+      "detail": "La pista de los Juegos de Barcelona 92, recorrida a base de balones tocándose. Balones reglamentarios de 69 cm de circunferencia, en fila sobre la línea de medida de la calle 1.",
+      "unit": "balones",
+      "answer": 1821.213132515822,
+      "math": "La calle 1 de una pista reglamentaria mide 400 m. Un balón de 69 cm de circunferencia tiene 69 ÷ π = 21,96 cm de diámetro. 400 ÷ 0,2196 = 1.821,2 balones.",
+      "referenceExpression": "400 ÷ (0,69 ÷ π)",
+      "assumptions": "Pista estándar de 400 m, medida a 30 cm del bordillo. Balón con circunferencia de 69 cm, el punto medio del reglamento.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "IFAB · Reglas de Juego, regla 2: el balón",
+          "url": "https://www.theifab.com/laws/latest/the-ball/",
+          "fact": "Circunferencia del balón de entre 68 y 70 cm; peso de entre 410 y 450 g al inicio del partido."
+        },
+        {
+          "title": "Wikipedia · Running track",
+          "url": "https://en.wikipedia.org/wiki/Running_track",
+          "fact": "La calle 1 de una pista de competición mide 400 m, medidos a 0,30 m del borde interior."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-20-2.jpg",
+        "alt": "Interior del Estadio Olímpico Lluís Companys de Montjuïc con la pista de atletismo y las gradas",
+        "credit": "Diliff",
+        "url": "https://commons.wikimedia.org/wiki/File:Estadi_Ol%C3%ADmpic_Llu%C3%ADs_Companys_-_Barcelona,_Spain_-_Jan_2007.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "De circunferencia a diámetro",
+        "steps": [
+          "Un balón de fútbol mide algo más de dos palmos de ancho: unos 22 cm.",
+          "400 m entre 0,22 m da unos 1.800 balones. En cada metro caben cuatro y pico.",
+          "Con la circunferencia de 69 cm, el diámetro es 21,96 cm y salen 1.821,2 balones. Con el balón más pequeño permitido, 68 cm, serían 1.848."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-20-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Primer vuelo, muchos vuelos",
+      "title": "¿Cuántos primeros vuelos de los hermanos Wright en fila sumarían la distancia Madrid–Nueva York?",
+      "detail": "Doce segundos de vuelo en 1903 frente a un trayecto transatlántico de hoy. Encadena vuelos de 36,6 m siguiendo la ruta más corta entre los aeropuertos de Barajas y JFK.",
+      "unit": "vuelos",
+      "answer": 157543.63986723672,
+      "math": "El primer vuelo recorrió 120 pies, 36,576 m. La distancia ortodrómica entre Barajas y JFK, calculada con sus coordenadas, es de 5.762,3 km. 5.762.316 ÷ 36,576 = 157.544 vuelos.",
+      "referenceExpression": "5762316 ÷ 36,576",
+      "assumptions": "Distancia calculada sobre una esfera de 6.371 km de radio con las coordenadas de ambos aeropuertos; las rutas reales son algo más largas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Smithsonian National Air and Space Museum · 1903 Wright Flyer",
+          "url": "https://airandspace.si.edu/collection-objects/1903-wright-flyer/nasm_A19610048000",
+          "fact": "El primer vuelo duró 12 segundos y recorrió 36 m (120 pies), con Orville a los mandos."
+        },
+        {
+          "title": "Wikipedia · Aeropuerto Adolfo Suárez Madrid-Barajas",
+          "url": "https://es.wikipedia.org/wiki/Aeropuerto_Adolfo_Su%C3%A1rez_Madrid-Barajas",
+          "fact": "Coordenadas: 40,4722° N, 3,5608° O."
+        },
+        {
+          "title": "Wikipedia · John F. Kennedy International Airport",
+          "url": "https://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport",
+          "fact": "Coordenadas: 40,63972° N, 73,77889° O."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-20-3.jpg",
+        "alt": "Fotografía histórica del primer vuelo del Wright Flyer en 1903, con Wilbur corriendo junto al ala",
+        "credit": "John T. Daniels",
+        "url": "https://commons.wikimedia.org/wiki/File:First_flight2.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:First_flight2.jpg"
+      },
+      "reasoning": {
+        "heading": "Kilómetros entre metros",
+        "steps": [
+          "El primer vuelo fue cortísimo: unos 36 metros, menos que la longitud de un avión de pasajeros actual.",
+          "Madrid–Nueva York ronda los 5.800 km: 5.800.000 m. Entre 36 da unos 160.000 vuelos.",
+          "Con 5.762,3 km y 36,576 m salen 157.544 vuelos. A 12 segundos cada uno, serían unos 22 días de vuelo sin parar."
+        ]
+      }
+    }
+  ]
+}

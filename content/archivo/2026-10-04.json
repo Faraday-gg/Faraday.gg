@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-04",
+  "name": "Domingo",
+  "theme": "Fregona, Halley y QR",
+  "questions": [
+    {
+      "id": "archivo-2026-10-04-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Brazo incansable",
+      "title": "¿Cuántos metros cuadrados friega una fregona a lo largo de su vida útil?",
+      "detail": "Un mocho valiente en un piso normal. Supón 60 m² por sesión, tres sesiones por semana y que lo jubilas a los seis meses, como recomienda el fabricante.",
+      "unit": "m²",
+      "answer": 4680,
+      "math": "El fabricante recomienda cambiar el mocho cada seis meses: unas 26 semanas. 60 m² × 3 sesiones × 26 semanas = 4.680 m², casi media hectárea.",
+      "referenceExpression": "60 × 3 × 26",
+      "assumptions": "La superficie por sesión y la frecuencia son supuestos; en la práctica muchos mochos se usan bastante más de seis meses.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Vileda · Guía de lavado de mochos",
+          "url": "https://www.vileda.co.uk/cleanspiration/product-guides/vileda-mop-heads-washing-guide",
+          "fact": "Recomienda cambiar el cabezal de la fregona cada seis meses para mantener su eficacia."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-04-1.jpg",
+        "alt": "Cubo de fregar azul con escurridor y fregona dentro",
+        "credit": "DracoEssentialis",
+        "url": "https://commons.wikimedia.org/wiki/File:Blue_mop_bucket_with_floral_wringer_1.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Sesiones por semana, semanas por mocho",
+        "steps": [
+          "Un piso medio tiene unas decenas de metros de suelo, y se friega varias veces por semana durante meses.",
+          "Con 60 m², 3 veces por semana y 25 semanas: 60 × 75 = 4.500 m². Hablamos de miles de metros cuadrados.",
+          "Con 26 semanas exactas salen 4.680 m², casi media hectárea o más de medio campo de fútbol. Si el mocho dura un año, se duplica."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-04-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Visitas del cometa",
+      "title": "¿Cuántas veces ha pasado el cometa Halley cerca del Sol desde la fundación de Roma?",
+      "detail": "Desde el 753 a. C. hasta 2026, con un periodo fijo de 76 años. Recuerda que no hubo año cero.",
+      "unit": "pasos",
+      "answer": 36.55263157894737,
+      "math": "Del 753 a. C. al 2026 d. C. van 2.778 años (no hay año 0). 2.778 ÷ 76 ≈ 36,6 vueltas: unos 36 pasos completos.",
+      "referenceExpression": "(753 + 2026 − 1) ÷ 76",
+      "assumptions": "El periodo real oscila entre unos 74,4 y 79,3 años por la gravedad de los planetas, así que el recuento exacto puede variar en uno. El 753 a. C. es la fecha tradicional de la fundación, no un dato histórico seguro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · 1P/Halley",
+          "url": "https://science.nasa.gov/solar-system/comets/1p-halley/",
+          "fact": "Su periodo orbital es de 76 años de media (entre 74,4 y 79,3); su último perihelio fue el 9 de febrero de 1986 y volverá en 2061."
+        },
+        {
+          "title": "Wikipedia · Founding of Rome",
+          "url": "https://en.wikipedia.org/wiki/Founding_of_Rome",
+          "fact": "La cronología de Varrón sitúa la fundación de Roma en el 753 a. C."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-04-2.jpg",
+        "alt": "Cometa Halley con su cola en el cielo nocturno durante su paso de 1986",
+        "credit": "NASA/W. Liller",
+        "url": "https://commons.wikimedia.org/wiki/File:Lspn_comet_halley.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Lspn_comet_halley.jpg"
+      },
+      "reasoning": {
+        "heading": "Cuenta años y divide entre el periodo",
+        "steps": [
+          "Roma se fundó hace unos 2.800 años, y Halley vuelve cada 76. Saldrán unas pocas decenas de visitas.",
+          "2.800 ÷ 76 ≈ 37. El orden es de tres o cuatro decenas.",
+          "Con 2.778 años exactos salen 36,6 vueltas: 36 pasos completos, y el siguiente llegará en 2061. Como el periodo varía unos años de una vuelta a otra, el recuento real puede diferir en uno."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-04-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Pi en cuadraditos",
+      "title": "¿Cuántos códigos QR harían falta para guardar el número pi con un millón de decimales?",
+      "detail": "Códigos QR del tamaño máximo (versión 40) y con la corrección de errores mínima, llenos solo de dígitos. El «3,» inicial no cuenta.",
+      "unit": "códigos",
+      "answer": 141.0636196924813,
+      "math": "Un QR versión 40 con corrección L admite hasta 7.089 dígitos. 1.000.000 ÷ 7.089 ≈ 141,06: en la práctica, 142 códigos, el último casi vacío.",
+      "referenceExpression": "1000000 ÷ 7089",
+      "assumptions": "Usamos la capacidad numérica máxima. Con más corrección de errores, cada código guarda bastante menos y harían falta muchos más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · QR code",
+          "url": "https://en.wikipedia.org/wiki/QR_code",
+          "fact": "La capacidad máxima se da en la versión 40 con corrección L: 7.089 caracteres numéricos."
+        },
+        {
+          "title": "DENSO WAVE · Versiones del código QR",
+          "url": "https://www.qrcode.com/en/about/version.html",
+          "fact": "La versión 40 es la mayor, con 177 × 177 módulos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-04-3.jpg",
+        "alt": "Valla publicitaria en Japón con un gran código QR",
+        "credit": "Nicolas1981",
+        "url": "https://commons.wikimedia.org/wiki/File:Japan-qr-code-billboard.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Dígitos totales entre dígitos por código",
+        "steps": [
+          "Un QR grande guarda unos miles de dígitos; un millón es mucho más. Saldrán más de cien códigos.",
+          "Con 7.000 dígitos por código: 1.000.000 ÷ 7.000 ≈ 143. El orden es de un centenar largo.",
+          "Con los 7.089 dígitos exactos salen 141,06 códigos, es decir, 142 en la práctica. Con la corrección de errores más alta, cada código guardaría menos de la mitad."
+        ]
+      }
+    }
+  ]
+}

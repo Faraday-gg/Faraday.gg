@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-21",
+  "name": "Viernes",
+  "theme": "Colibrí, huevos y Transiberiano",
+  "questions": [
+    {
+      "id": "archivo-2026-08-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Corazón acelerado",
+      "title": "¿Cuántas veces late el corazón de un colibrí en un solo día?",
+      "detail": "Imagina un colibrí despierto y a tope las 24 horas, sin siesta ni letargo nocturno. Cuenta latidos, no cafés.",
+      "unit": "latidos",
+      "answer": 1728000,
+      "math": "Con un ritmo de 1.200 latidos por minuto, cerca del máximo medido de 1.260, salen 1.200 × 60 minutos × 24 horas = 1.728.000 latidos al día.",
+      "referenceExpression": "1200 × 60 × 24",
+      "assumptions": "Suponemos 1.200 latidos por minuto todo el día. En realidad, de noche muchos colibríes entran en letargo y bajan a 50-180 latidos por minuto, así que un día real tiene menos latidos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Hummingbird",
+          "url": "https://en.wikipedia.org/wiki/Hummingbird",
+          "fact": "La frecuencia cardiaca de los colibríes puede llegar a 1.260 latidos por minuto (medida en un colibrí gorjiazul); de día supera los 1.000 y en letargo nocturno baja a unos 50-180."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-21-1.jpg",
+        "alt": "Colibrí suspendido en el aire con las alas difuminadas por la velocidad del aleteo",
+        "credit": "Michelle Goodall from Trinidad, USA",
+        "url": "https://commons.wikimedia.org/wiki/File:Hovering_hummingbird_-b.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Primero el ritmo, luego el reloj",
+        "steps": [
+          "Nuestro corazón late unas 70 veces por minuto. Un pájaro diminuto va muchísimo más rápido: digamos unas mil veces por minuto, más de 15 latidos por segundo.",
+          "Un día tiene 1.440 minutos. Mil latidos por minuto dan casi 1,5 millones al día: hablamos de millones, no de miles.",
+          "Con 1.200 latidos por minuto, cerca del récord medido de 1.260, salen 1.728.000 latidos. Es un techo: de noche el colibrí entra en letargo y su corazón baja a menos de 200 latidos por minuto."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Gallinas a destajo",
+      "title": "¿Cuántas gallinas ponedoras harían falta para todos los huevos que se comen en los hogares españoles en un año?",
+      "detail": "Cuenta solo los huevos que entran en casa: tortillas, fritos y bizcochos incluidos. Cada gallina pone 300 huevos al año y no pide vacaciones.",
+      "unit": "gallinas",
+      "answer": 23417821.57,
+      "math": "En 2024 se consumieron en los hogares 143 huevos por persona (INPROVO). Por los 49.128.297 habitantes (INE, 1 de enero de 2025) salen unos 7.025 millones de huevos; entre 300 huevos por gallina, unos 23,4 millones de gallinas.",
+      "referenceExpression": "143 × 49128297 ÷ 300",
+      "assumptions": "Solo consumo en el hogar, sin hostelería ni industria. Aplicamos la media por persona a toda la población residente y suponemos 300 huevos por gallina y año.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Agronews Castilla y León · Observatorio del Consumo de Huevo (INPROVO)",
+          "url": "https://www.agronewscastillayleon.com/huevo-alimento-fresco-2024",
+          "fact": "En 2024 los hogares españoles consumieron 143 huevos por persona, seis más que en 2023, y unos 420 millones de kilos en total."
+        },
+        {
+          "title": "INE · Censo anual de población 2025",
+          "url": "https://ine.es/dyngs/Prensa/CensoVariables2025.htm",
+          "fact": "La población residente en España a 1 de enero de 2025 era de 49.128.297 habitantes."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-21-2.jpg",
+        "alt": "Dos gallinas picoteando en el suelo, para imaginar un gallinero de millones",
+        "credit": "Animal Freedom",
+        "url": "https://commons.wikimedia.org/wiki/File:Two_hens_(4186781145).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Del huevo a la gallina",
+        "steps": [
+          "En casa caen unos tres huevos por persona a la semana: unos 150 al año. Con unos 49 millones de habitantes, son algo más de 7.000 millones de huevos.",
+          "Si una gallina pone casi un huevo al día, unos 300 al año, dividir 7.000 millones entre 300 da algo más de 23 millones de gallinas.",
+          "Con los 143 huevos por persona de 2024 y la población del INE salen 23.417.822 gallinas. Si sumáramos restaurantes y repostería industrial, el gallinero crecería bastante."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Tren con paciencia",
+      "title": "¿A qué velocidad media va el Transiberiano de Moscú a Vladivostok?",
+      "detail": "Del andén de Moscú al Pacífico sin bajarte. Cuenta las paradas dentro del tiempo de viaje: el samovar no se rellena solo.",
+      "unit": "km/h",
+      "answer": 55.11309523809524,
+      "math": "El tren Rossiya recorre 9.259 km en unos 7 días. 7 × 24 = 168 horas; 9.259 ÷ 168 ≈ 55,1 km/h de media.",
+      "referenceExpression": "9259 ÷ (7 × 24)",
+      "assumptions": "Redondeamos la duración del horario a 7 días justos, con paradas incluidas. El horario cambia según el año y el tren; con 6 días largos la media subiría a algo más de 60 km/h.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Russian Rail · Rossiya Train (002)",
+          "url": "https://www.russianrail.com/train/rossiya",
+          "fact": "El tren Rossiya cubre 9.259 km entre Moscú y Vladivostok en unos 7 días de viaje (horario consultado en noviembre de 2026)."
+        },
+        {
+          "title": "Wikipedia · Trans-Siberian Railway",
+          "url": "https://en.wikipedia.org/wiki/Trans-Siberian_Railway",
+          "fact": "La línea principal mide unos 9.289 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-21-3.jpg",
+        "alt": "Tren del Transiberiano avanzando entre bosques de Siberia",
+        "credit": "Petar Milošević",
+        "url": "https://commons.wikimedia.org/wiki/File:Trans_Sibir.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Distancia larga, reloj más largo",
+        "steps": [
+          "De Moscú al Pacífico hay casi un continente entero: unos 9.000 km. El viaje dura alrededor de una semana.",
+          "Una semana son 168 horas. 9.000 entre 168 da algo más de 50 km/h: más cerca de un regional que de un AVE.",
+          "Con los 9.259 km del Rossiya y 7 días justos salen 55,1 km/h. Las paradas largas en las estaciones bajan mucho la media, aunque el tren vaya más rápido entre ellas."
+        ]
+      }
+    }
+  ]
+}

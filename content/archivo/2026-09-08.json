@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-08",
+  "name": "Martes",
+  "theme": "Prado, Expo 92 y fajo",
+  "questions": [
+    {
+      "id": "archivo-2026-09-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de museo",
+      "title": "Mirando cada cuadro 30 segundos, ¿cuántas horas tardarías en ver toda la colección de pinturas del Prado?",
+      "detail": "Todas las pinturas del inventario, también las que están en almacén o prestadas. Treinta segundos por cuadro, sin cafetería ni tienda de recuerdos.",
+      "unit": "horas",
+      "answer": 71.075,
+      "math": "El inventario del Prado tenía 8.529 pinturas en diciembre de 2025. 8.529 × 30 s = 255.870 s = 71,1 horas.",
+      "referenceExpression": "8529 × 30 ÷ 3600",
+      "assumptions": "30 segundos por pintura, sin pausas ni desplazamientos. Solo se expone una parte de la colección.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Museo del Prado",
+          "url": "https://es.wikipedia.org/wiki/Museo_del_Prado",
+          "fact": "El inventario comprende, a diciembre de 2025, 39.755 piezas, desglosadas en 8.529 pinturas, entre otras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta cuadros y multiplica por medio minuto",
+        "steps": [
+          "El Prado tiene miles de pinturas, aunque solo cuelgan unas 1.700. Pongamos unas 8.000.",
+          "8.000 × 30 s son 240.000 s, unas 67 horas: casi tres días sin dormir.",
+          "Con 8.529 pinturas salen 71,1 horas. Si te quedas cinco minutos ante Las meninas, el maratón no se resiente; si lo haces con todas, necesitas un mes."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-08-1.jpg",
+        "alt": "Fachada del Museo del Prado por la puerta de Velázquez, con la estatua del pintor delante",
+        "credit": "Diego Delso",
+        "url": "https://commons.wikimedia.org/wiki/File:Puerta_de_Vel%C3%A1zquez,_Museo_del_Prado,_Madrid,_Espa%C3%B1a,_2017-05-18,_DD_37.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Sevilla a rebosar",
+      "title": "¿Cuántas visitas recibió de media cada día la Expo 92 de Sevilla?",
+      "detail": "Repartimos todas las visitas de la Exposición Universal entre los días que estuvo abierta. Ojo: cuenta visitas, no personas distintas; Curro saluda igual.",
+      "unit": "visitas",
+      "answer": 237500,
+      "math": "La Expo 92 registró 41,8 millones de visitas en 176 días (del 20 de abril al 12 de octubre de 1992). 41.800.000 ÷ 176 = 237.500 visitas al día.",
+      "referenceExpression": "41800000 ÷ 176",
+      "assumptions": "Media uniforme; los fines de semana y las últimas semanas fueron mucho más concurridos. Una misma persona con pase de temporada cuenta muchas veces.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Exposición Universal de Sevilla (1992)",
+          "url": "https://es.wikipedia.org/wiki/Exposición_Universal_de_Sevilla_(1992)",
+          "fact": "Abrió del 20 de abril al 12 de octubre de 1992, 176 días, y contabilizó 41,8 millones de visitas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide millones entre días",
+        "steps": [
+          "La Expo fue un fenómeno: decenas de millones de visitas en unos seis meses.",
+          "40 millones entre 180 días dan más de 200.000 visitas diarias: como llenar un gran estadio tres veces cada día.",
+          "Con 41,8 millones y 176 días salen 237.500 visitas diarias. Las personas distintas fueron muchas menos, unos 15,5 millones, porque muchos repetían."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-08-2.jpg",
+        "alt": "Recinto de la Expo 92 en la isla de la Cartuja de Sevilla, con pabellones y el río",
+        "credit": "José Luis Filpo Cabana",
+        "url": "https://commons.wikimedia.org/wiki/File:Expo_92._Sevilla_1992-2011.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Alfombra millonaria",
+      "title": "¿Cuántos metros cuadrados cubriría un millón de euros en billetes de 50 € puestos uno al lado del otro?",
+      "detail": "Extiendes los billetes en el suelo sin huecos ni solapes, como baldosas. Ideal para alfombrar el salón y no pisar nunca más.",
+      "unit": "m²",
+      "answer": 215.60000000000002,
+      "math": "Un millón de euros son 20.000 billetes de 50 €. Cada uno mide 140 × 77 mm = 0,01078 m². 20.000 × 0,01078 = 215,6 m².",
+      "referenceExpression": "1000000 ÷ 50 × 0,14 × 0,077",
+      "assumptions": "Billetes sin huecos ni solapes. Las dimensiones son las del billete de 50 €.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · 50 euro note",
+          "url": "https://en.wikipedia.org/wiki/50_euro_note",
+          "fact": "El billete de 50 € mide 140 mm × 77 mm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta billetes y luego superficie",
+        "steps": [
+          "Un millón en billetes de 50 son 20.000 billetes. Cada uno es algo más pequeño que una mano abierta.",
+          "Un billete ocupa algo más de 100 cm²: unos 100 billetes cubren un metro cuadrado. 20.000 billetes darían unos 200 m².",
+          "El cálculo exacto da 215,6 m²: un piso grande o media pista de baloncesto. Con billetes de 20 € la alfombra pasaría de 500 m²."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-08-3.png",
+        "alt": "Los billetes en euros de la serie Europa, entre ellos el naranja de 50 euros",
+        "credit": "Bericht",
+        "url": "https://commons.wikimedia.org/wiki/File:Euro_banknotes,_Europa_series.png",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      }
+    }
+  ]
+}

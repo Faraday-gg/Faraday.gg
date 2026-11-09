@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-24",
+  "name": "Sábado",
+  "theme": "Pelo, Estrecho y agua",
+  "questions": [
+    {
+      "id": "archivo-2026-10-24-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Melena sin tijeras",
+      "title": "Si nunca te cortaras el pelo, ¿cuántos metros mediría tu melena a los 80 años?",
+      "detail": "Un centímetro al mes desde el día en que naces, sin roturas ni caídas. Puro crecimiento teórico: el champú corre de tu cuenta.",
+      "unit": "metros",
+      "answer": 9.6,
+      "math": "El pelo suele crecer al ritmo de un centímetro al mes, según un dermatólogo del Grupo Español de Tricología de la AEDV (Maldita.es). 80 × 12 × 1 cm = 960 cm = 9,6 m.",
+      "referenceExpression": "80 × 12 × 1 ÷ 100",
+      "assumptions": "Crecimiento continuo. En realidad cada pelo crece solo durante su fase de crecimiento, de varios años, y luego se cae, así que casi nadie pasa de un metro.",
+      "confidence": "Dato documentado + modelo teórico",
+      "sources": [
+        {
+          "title": "Maldita.es · ¿Cuánto tarda en crecer el pelo?",
+          "url": "https://maldita.es/malditaciencia/20220302/cuanto-tarda-crecer-pelo/",
+          "fact": "David Saceda, del Grupo Español de Tricología de la AEDV: el pelo suele crecer al ritmo de un centímetro al mes."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-24-1.jpg",
+        "alt": "Mujer de espaldas con una melena larguísima que le llega hasta las piernas",
+        "credit": "Peter van der Sluijs",
+        "url": "https://commons.wikimedia.org/wiki/File:Very_long_hair_woman_and_her_friend_Sri_Lanka.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Centímetros al mes por meses de vida",
+        "steps": [
+          "Una melena que no se corta nunca... ¿llegaría al suelo? ¿Al portal?",
+          "80 años son 960 meses. A un centímetro al mes, casi 10 metros.",
+          "Salen 9,6 m, la altura de un edificio de tres plantas. En la vida real cada pelo se cae al acabar su ciclo, así que esta melena solo existe en la teoría."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-24-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Largos al otro lado",
+      "title": "¿Cuántos largos de piscina olímpica equivalen a cruzar a nado el estrecho de Gibraltar por su punto más estrecho?",
+      "detail": "Línea recta de la punta de Oliveros a punta Cires, sin corrientes ni barcos, en largos de 50 m. Lo de girar en la pared lo dejamos para otro día.",
+      "unit": "largos",
+      "answer": 288,
+      "math": "La anchura mínima del estrecho es de 14,4 km, entre la punta de Oliveros y la punta Cires (Wikipedia). 14.400 ÷ 50 = 288 largos.",
+      "referenceExpression": "14400 ÷ 50",
+      "assumptions": "Trayectoria recta. Los nadadores reales salen de Tarifa y las corrientes los desvían, así que nadan bastante más de 14,4 km.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · Estrecho de Gibraltar",
+          "url": "https://es.wikipedia.org/wiki/Estrecho_de_Gibraltar",
+          "fact": "Anchura mínima de 14,4 km, entre la punta de Oliveros (España) y la punta Cires (Marruecos)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-24-2.jpg",
+        "alt": "Vista en perspectiva del estrecho de Gibraltar con la costa de España y la de Marruecos",
+        "credit": "NASA / JPL / NIMA",
+        "url": "https://commons.wikimedia.org/wiki/File:Strait_of_Gibraltar_perspective.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Strait_of_Gibraltar_perspective.jpg"
+      },
+      "reasoning": {
+        "heading": "Metros de mar entre metros de piscina",
+        "steps": [
+          "Desde Tarifa se ve África ahí mismo, a un paseo. ¿Cien largos? ¿Mil?",
+          "El estrecho mide unos 14 km en su parte más estrecha. A 50 m por largo, 20 largos hacen un kilómetro: unos 280 largos.",
+          "Con 14,4 km salen 288 largos. Las corrientes del Estrecho alargan bastante la travesía real."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-24-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "El grifo sale a cuenta",
+      "title": "¿Cuántas veces es más cara el agua embotellada que la del grifo en Madrid?",
+      "detail": "Comparamos una garrafa de 5 litros a 1 € con el precio medio del metro cúbico de agua en Madrid. Mismo litro, distinto envase.",
+      "unit": "veces",
+      "answer": 135.13513513513513,
+      "math": "El metro cúbico de agua en Madrid cuesta de media 1,48 € (Comunidad de Madrid, enero de 2020). La garrafa de 5 L a 1 € equivale a 200 € por m³. 200 ÷ 1,48 ≈ 135 veces.",
+      "referenceExpression": "(1 ÷ 5 × 1000) ÷ 1,48",
+      "assumptions": "Garrafa de 5 L a 1 €, precio orientativo de supermercado. La tarifa madrileña incluye distribución, alcantarillado y depuración, y lleva años congelada.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Comunidad de Madrid · El agua seguirá con el mismo precio por quinto año consecutivo",
+          "url": "https://www.comunidad.madrid/node/55967",
+          "fact": "El precio medio del metro cúbico de agua en Madrid se sitúa en 1,48 euros (nota del 31 de enero de 2020)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-24-3.jpg",
+        "alt": "Estantería de supermercado llena de botellas y garrafas de agua mineral",
+        "credit": "TCY",
+        "url": "https://commons.wikimedia.org/wiki/File:E.Leclerc_Bellerive-sur-Allier,_rayon_eaux_min%C3%A9rales.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pásalo todo a euros por metro cúbico",
+        "steps": [
+          "El agua del grifo es baratísima, eso lo sabemos. ¿Diez veces? ¿Cien?",
+          "Un metro cúbico son 1.000 litros: 200 garrafas de 5 L, 200 €. En el grifo, un euro y pico.",
+          "Con 1,48 €/m³ salen 135 veces. Si la garrafa cuesta 0,80 €, la diferencia baja a unas 108 veces: sigue siendo de dos cifras largas."
+        ]
+      }
+    }
+  ]
+}

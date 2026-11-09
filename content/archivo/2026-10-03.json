@@ -1,0 +1,131 @@
+{
+  "id": "2026-10-03",
+  "name": "Sábado",
+  "theme": "AVE, céntimos y Lugo",
+  "questions": [
+    {
+      "id": "archivo-2026-10-03-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Parpadeo veloz",
+      "title": "¿Cuántos metros recorre un AVE a velocidad máxima mientras parpadeas?",
+      "detail": "Tren a 300 km/h y un parpadeo lento de 0,3 segundos. Ojo, que en ese tiempo no ves nada.",
+      "unit": "metros",
+      "answer": 25,
+      "math": "300 km/h son 83,33 m/s. En 0,3 s: 83,33 × 0,3 = 25 metros.",
+      "referenceExpression": "300 ÷ 3,6 × 0,3",
+      "assumptions": "Un parpadeo dura entre 0,1 y 0,4 s; elegimos 0,3 s. Con un parpadeo rápido de 0,1 s serían algo más de 8 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Renfe Class 103",
+          "url": "https://en.wikipedia.org/wiki/Renfe_Class_103",
+          "fact": "Los AVE serie 103 circulan con una velocidad máxima en servicio de 300 km/h."
+        },
+        {
+          "title": "Wikipedia · Blinking",
+          "url": "https://en.wikipedia.org/wiki/Blinking",
+          "fact": "Un parpadeo dura de media entre 100 y 150 ms; otras fuentes dan entre 100 y 400 ms."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-03-1.jpg",
+        "alt": "Tren AVE serie 103 de Renfe circulando a gran velocidad por una vía de alta velocidad",
+        "credit": "Kabelleger / David Gubler (http://www.bahnbilder.ch)",
+        "url": "https://commons.wikimedia.org/wiki/File:RENFE_Class_103_Vinaixa.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Pasa los km/h a metros por segundo",
+        "steps": [
+          "300 km/h es rapidísimo, pero un parpadeo es casi nada. Intuimos unas decenas de metros.",
+          "Dividir entre 3,6 pasa de km/h a m/s: 300 ÷ 3,6 ≈ 83 m/s. En un tercio de segundo, unos 28 m.",
+          "Con 0,3 s exactos salen 25 m, más que una piscina de 20 metros. Con un parpadeo de 0,1 s serían 8,3 m."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-03-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Calderilla al peso",
+      "title": "¿Cuántas monedas de un céntimo pesarían lo mismo que un coche utilitario?",
+      "detail": "La hucha definitiva. Supón un coche de 1.200 kg y monedas de un céntimo recién acuñadas.",
+      "unit": "monedas",
+      "answer": 521739.13043478265,
+      "math": "La moneda de 1 céntimo pesa 2,30 g. 1.200 kg son 1.200.000 g. 1.200.000 ÷ 2,30 ≈ 521.739 monedas, que suman unos 5.217 €.",
+      "referenceExpression": "1200000 ÷ 2,3",
+      "assumptions": "El peso del coche es un supuesto redondo; los utilitarios actuales pesan entre 1.000 y 1.400 kg. Las monedas gastadas pierden un poco de masa.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Banco Central Europeo · Monedas en euros",
+          "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.es.html",
+          "fact": "La moneda de 1 céntimo pesa 2,30 g."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-03-2.jpg",
+        "alt": "Moneda de un céntimo de euro sobre una superficie lisa",
+        "credit": "Iamgoingtoregret",
+        "url": "https://commons.wikimedia.org/wiki/File:Irish_1_cent_euro_2008.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa el coche a gramos y divide",
+        "steps": [
+          "Un céntimo pesa unos pocos gramos y un coche más de una tonelada. Saldrán cientos de miles de monedas.",
+          "Con 2,5 g por moneda: 1.200.000 ÷ 2,5 = 480.000. El orden es de medio millón.",
+          "Con los 2,30 g oficiales salen 521.739 monedas. Toda esa montaña de calderilla vale unos 5.217 €, bastante menos que el coche."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-03-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Abrazo romano",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la muralla romana de Lugo?",
+      "detail": "Un abrazo de casi dos mil años. Supón 1,5 m por persona con los brazos abiertos, sin huecos.",
+      "unit": "personas",
+      "answer": 1411.3333333333333,
+      "math": "La muralla romana de Lugo mide 2.117 m. 2.117 ÷ 1,5 ≈ 1.411 personas.",
+      "referenceExpression": "2117 ÷ 1,5",
+      "assumptions": "Usamos la medida de la UNESCO. Otras fuentes dan 2.266 m según cómo se mida; con esa cifra harían falta unas 1.511 personas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "UNESCO · Roman Walls of Lugo",
+          "url": "https://whc.unesco.org/en/list/987/",
+          "fact": "La longitud total de la muralla es de 2.117 m y su altura varía entre 8 y 10 m."
+        },
+        {
+          "title": "Wikipedia · Muralla de Lugo",
+          "url": "https://es.wikipedia.org/wiki/Muralla_de_Lugo",
+          "fact": "Recoge varias medidas: 2.117 m «aunque hay divergencias en la medida», 2.226 m y 2.266 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-03-3.jpg",
+        "alt": "Tramo de la muralla romana de Lugo con sus cubos semicirculares y el paseo de ronda",
+        "credit": "Simon Burchell",
+        "url": "https://commons.wikimedia.org/wiki/File:Muralla_romana_de_Lugo_03.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Perímetro entre envergadura",
+        "steps": [
+          "La muralla rodea el casco viejo de Lugo: unos dos kilómetros. Con los brazos abiertos ocupamos metro y medio.",
+          "2.000 ÷ 1,5 ≈ 1.330 personas. Hablamos de más de mil, no de cien.",
+          "Con los 2.117 m de la UNESCO salen 1.411 personas. Con la medida de 2.266 m serían unas 1.511."
+        ]
+      }
+    }
+  ]
+}

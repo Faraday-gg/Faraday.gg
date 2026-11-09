@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-25",
+  "name": "Martes",
+  "theme": "Hellín, real de a ocho y Giralda",
+  "questions": [
+    {
+      "id": "archivo-2026-08-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Redoble de pasión",
+      "title": "¿Cuántos golpes de tambor suenan en una hora de la Tamborada de Hellín?",
+      "detail": "Todos los tamborileros tocando a la vez, dos golpes por segundo y sin parar ni para beber agua. Los tapones para los oídos van aparte.",
+      "unit": "golpes",
+      "answer": 180000000,
+      "math": "En las tamboradas de Hellín participan cerca de 25.000 tamborileros. A dos golpes por segundo durante 3.600 segundos: 25.000 × 2 × 3.600 = 180 millones de golpes.",
+      "referenceExpression": "25000 × 2 × 3600",
+      "assumptions": "Suponemos que los 25.000 tamborileros tocan a la vez durante toda la hora y a un ritmo fijo de dos golpes por segundo. En la realidad se turnan, descansan y cambian de ritmo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Semana Santa en Hellín",
+          "url": "https://es.wikipedia.org/wiki/Semana_Santa_en_Hell%C3%ADn",
+          "fact": "En las tamboradas de Hellín participan cerca de 25.000 tamborileros; se la describe como la mayor tamborada del mundo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-25-1.jpg",
+        "alt": "Tamborileros con túnica tocando en una calle de Hellín durante la Tamborada",
+        "credit": "Siempremolinicos",
+        "url": "https://commons.wikimedia.org/wiki/File:Tamborrada_de_Hell%C3%ADn_(Albacete).JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Multiplica tambores por segundos",
+        "steps": [
+          "En las grandes tamboradas de Semana Santa se juntan miles de tambores. Una hora son 3.600 segundos, y cada tambor da un par de golpes por segundo.",
+          "Con 10.000 tambores serían 72 millones de golpes; con el doble, más de 140 millones. Estamos en la escala de los cientos de millones.",
+          "Con los cerca de 25.000 tamborileros de Hellín salen 180 millones de golpes en una hora. Como no todos tocan siempre a la vez, es un máximo teórico."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Plata de galeón",
+      "title": "Al precio récord de enero de 2026, ¿cuántos euros valía la plata de un real de a ocho?",
+      "detail": "Fundimos la moneda (solo en la imaginación: los numismáticos pueden respirar) y vendemos la plata pura al precio máximo del 29 de enero de 2026.",
+      "unit": "euros",
+      "answer": 81.4788011094631,
+      "math": "Un real de a ocho pesaba 27,468 g con un 93,055 % de pureza: 25,56 g de plata. Una onza troy son 31,1034768 g, así que contiene 0,822 onzas. A 99,15 €/onza: 0,822 × 99,15 ≈ 81,48 €.",
+      "referenceExpression": "25,56 ÷ 31,1034768 × 99,15",
+      "assumptions": "Usamos el peso nominal; el peso y la ley variaron entre cecas y épocas. El precio es el máximo intradiario en euros del 29 de enero de 2026; la plata cambia de precio cada día. Ignoramos el valor numismático, que suele ser mucho mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Real de a ocho",
+          "url": "https://es.wikipedia.org/wiki/Real_de_a_ocho",
+          "fact": "Peso nominal de 27,468 g con una pureza del 93,055 %: 25,560 g de plata."
+        },
+        {
+          "title": "PrecioOro.com · Precio de la plata en euros",
+          "url": "https://www.preciooro.com/precio-plata-en-euros.html",
+          "fact": "El 29 de enero de 2026 la plata marcó un máximo histórico intradiario de 99,15 euros por onza."
+        },
+        {
+          "title": "Wikipedia · Troy weight",
+          "url": "https://en.wikipedia.org/wiki/Troy_weight",
+          "fact": "Una onza troy equivale exactamente a 31,1034768 g."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-25-2.jpg",
+        "alt": "Moneda de plata de ocho reales con el escudo de la monarquía española",
+        "credit": "Ángel M. Felicísimo from Mérida, España",
+        "url": "https://commons.wikimedia.org/wiki/File:Real_de_a_ocho_(52598010755).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Gramos, onzas y cotización",
+        "steps": [
+          "Un real de a ocho es una moneda gorda, parecida a una medalla: unos 25-30 gramos de plata casi pura. Una onza son unos 31 gramos.",
+          "Así que la moneda lleva unas ocho décimas de onza. Si la onza costara unos 100 €, la plata valdría unos 80 €.",
+          "Con 25,56 g de plata pura y 99,15 €/onza salen 81,48 €. Ese día fue un récord: con la plata a la mitad de precio, la moneda valdría la mitad."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Rampas de caballería",
+      "title": "¿Cuántos metros caminas al subir las rampas de la Giralda?",
+      "detail": "Subida por las rampas, pensadas para que se pudiera subir a caballo. Cuenta cada rampa como un lado entero de la torre, sin pararte a hacer fotos.",
+      "unit": "metros",
+      "answer": 472.5,
+      "math": "La Giralda tiene 35 rampas y su planta cuadrada mide 13,5 m de lado. Si cada rampa recorre un lado: 35 × 13,5 = 472,5 m.",
+      "referenceExpression": "35 × 13,5",
+      "assumptions": "Las rampas van por dentro, entre el núcleo y el muro exterior, así que cada tramo real es algo más corto que el lado exterior de 13,5 m. Tampoco contamos los escalones finales hasta el campanario.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Giralda",
+          "url": "https://es.wikipedia.org/wiki/Giralda",
+          "fact": "La torre tiene 35 rampas; el alminar presenta una planta cuadrada de 13,5 m de lado y la altura total es de 94,69 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-25-3.jpg",
+        "alt": "La Giralda de Sevilla vista desde la calle, para hacerse una idea de su altura",
+        "credit": "Diliff",
+        "url": "https://commons.wikimedia.org/wiki/File:La_Giralda,_Seville,_Spain_-_Sep_2009.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Rampas por lado",
+        "steps": [
+          "La Giralda mide casi 100 m de alto. Subir en rampa suave obliga a caminar varias veces esa altura: quizá medio kilómetro.",
+          "Si la torre tiene unos 13 m de lado y hay unas cuantas decenas de rampas, 30 rampas serían unos 400 m.",
+          "Con 35 rampas y 13,5 m de lado salen 472,5 m. Como las rampas van por dentro, la distancia real es algo menor, pero sigue siendo casi medio kilómetro."
+        ]
+      }
+    }
+  ]
+}

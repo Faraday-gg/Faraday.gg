@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-27",
+  "name": "Jueves",
+  "theme": "Golf, Elcano y Wikipedia",
+  "questions": [
+    {
+      "id": "archivo-2026-08-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Hoyo en muchos",
+      "title": "¿Cuántas pelotas de golf en fila cubrirían la longitud total de los 18 hoyos del Real Club Valderrama?",
+      "detail": "Pelotas reglamentarias tocándose, del primer tee al hoyo 18, en línea recta por cada hoyo. Ojo con el lago: las del 17 se mojan.",
+      "unit": "pelotas",
+      "answer": 149753.9254745723,
+      "math": "El recorrido mide 6.390 m. Una pelota reglamentaria tiene al menos 42,67 mm de diámetro: 6.390 ÷ 0,04267 ≈ 149.754 pelotas.",
+      "referenceExpression": "6390 ÷ 0,04267",
+      "assumptions": "Usamos la longitud oficial del campo y el diámetro mínimo reglamentario. La longitud cambia según las barras de salida.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Valderrama Golf Club",
+          "url": "https://en.wikipedia.org/wiki/Valderrama_Golf_Club",
+          "fact": "Campo de par 71 y 6.390 m (6.990 yardas)."
+        },
+        {
+          "title": "Wikipedia · Golf ball (reglas de The R&A y la USGA)",
+          "url": "https://en.wikipedia.org/wiki/Golf_ball",
+          "fact": "El diámetro de una pelota reglamentaria no puede ser menor de 1,680 pulgadas (42,67 mm)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-27-1.jpg",
+        "alt": "Campo de prácticas del Real Club Valderrama con césped y árboles",
+        "credit": "Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:Valderamma_Driving_Range.JPG",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "Metros entre milímetros",
+        "steps": [
+          "Un campo de 18 hoyos mide unos 6 km. Una pelota de golf tiene unos 4 cm de diámetro.",
+          "En un metro caben unas 25 pelotas; en 6.000 metros, unas 150.000.",
+          "Con los 6.390 m de Valderrama y 42,67 mm por pelota salen 149.754 pelotas. Si lo jugaras desde las barras más adelantadas, sobrarían unas cuantas miles."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Vuelta a buen ritmo",
+      "title": "¿Cuántos kilómetros recorrió de media al día la nao Victoria en la primera vuelta al mundo?",
+      "detail": "Del muelle de Sevilla en 1519 al regreso a Sevilla en 1522. Reparte la distancia entre todos los días, también los de calma chicha y los de reparaciones.",
+      "unit": "km/día",
+      "answer": 52.67911111111111,
+      "math": "La expedición recorrió 32.000 millas náuticas: 32.000 × 1,852 = 59.264 km. Del 10 de agosto de 1519 al 8 de septiembre de 1522 hay 1.125 días: 59.264 ÷ 1.125 ≈ 52,7 km al día.",
+      "referenceExpression": "32000 × 1,852 ÷ 1125",
+      "assumptions": "La distancia de 32.000 millas es una estimación histórica; otras fuentes dan cifras mayores. Repartimos los kilómetros entre todos los días, incluidos los de escala.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Fundación Nao Victoria · Historia de la primera vuelta al mundo",
+          "url": "https://www.fundacionnaovictoria.org/history-nao-victoria/",
+          "fact": "Las naves salieron de Sevilla el 10 de agosto de 1519; la Victoria regresó a Sevilla el 8 de septiembre de 1522 tras 32.000 millas náuticas recorridas."
+        },
+        {
+          "title": "Wikipedia · Nautical mile",
+          "url": "https://en.wikipedia.org/wiki/Nautical_mile",
+          "fact": "La milla náutica internacional equivale exactamente a 1.852 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-27-2.jpg",
+        "alt": "Réplica de la nao Victoria navegando con las velas desplegadas",
+        "credit": "Gnsin",
+        "url": "https://commons.wikimedia.org/wiki/File:Nao_Victoria.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Vuelta al mundo y algo más",
+        "steps": [
+          "La circunferencia de la Tierra son 40.000 km, pero un barco de vela da muchos rodeos: digamos unos 60.000 km. El viaje duró unos tres años.",
+          "Tres años son unos 1.100 días. 60.000 entre 1.100 da unos 55 km al día: poco más que un paseo en bici.",
+          "Con 32.000 millas náuticas (59.264 km) y 1.125 días salen 52,7 km al día. Navegando iba más rápido; las escalas y las calmas bajan la media."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Enciclopedia en folios",
+      "title": "Si imprimieras cada artículo de la Wikipedia en español en un folio, ¿cuántos metros mediría la pila?",
+      "detail": "Un artículo, un folio, por larguísimo que sea. Cada folio mide 0,1 mm de grosor y la pila no se cae.",
+      "unit": "metros",
+      "answer": 214.90030000000002,
+      "math": "La Wikipedia en español tenía 2.149.003 artículos el 10 de noviembre de 2026. 2.149.003 × 0,1 mm = 214.900 mm ≈ 214,9 m.",
+      "referenceExpression": "2149003 × 0,1 ÷ 1000",
+      "assumptions": "Un folio por artículo y 0,1 mm por folio. El número de artículos crece cada día.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia en español · Especial:Estadísticas",
+          "url": "https://es.wikipedia.org/wiki/Especial:Estad%C3%ADsticas",
+          "fact": "Número de artículos: 2.149.003 (consultado el 10 de noviembre de 2026)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-27-3.jpg",
+        "alt": "Pila de paquetes de folios en el suelo, para imaginar una torre de papel",
+        "credit": "Sage Ross (WMF)",
+        "url": "https://commons.wikimedia.org/wiki/File:15_reams_of_paper_stacked_on_the_floor.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta artículos, apila milímetros",
+        "steps": [
+          "La Wikipedia en español tiene millones de artículos: digamos unos 2 millones.",
+          "Un paquete de 500 folios mide unos 5 cm, así que cada folio es una décima de milímetro. Dos millones de folios son 200 metros.",
+          "Con 2.149.003 artículos sale una pila de 214,9 m: más que dos campos de fútbol puestos de pie, uno encima del otro."
+        ]
+      }
+    }
+  ]
+}

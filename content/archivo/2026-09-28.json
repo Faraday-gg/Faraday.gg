@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-28",
+  "name": "Lunes",
+  "theme": "Pádel, Jumbo y naranjas",
+  "questions": [
+    {
+      "id": "archivo-2026-09-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Piso en la pista",
+      "title": "¿Cuántos euros costaría un piso en Madrid capital del tamaño de una pista de pádel?",
+      "detail": "Un salón de 200 m² con paredes de cristal incluidas. Usa la superficie de juego reglamentaria y el precio medio de la vivienda usada en Madrid en diciembre de 2025.",
+      "unit": "euros",
+      "answer": 1164000,
+      "math": "La pista mide 20 × 10 m: 200 m². El precio medio de la vivienda usada en Madrid fue de 5.820 €/m² en diciembre de 2025. 200 × 5.820 = 1.164.000 €.",
+      "referenceExpression": "20 × 10 × 5820",
+      "assumptions": "Es un precio de oferta (lo que piden los anuncios), no de compraventa cerrada ni de tasación, que suelen ser más bajos. Cambia cada mes y muchísimo según el barrio.",
+      "confidence": "Dato documentado con fecha + modelo",
+      "sources": [
+        {
+          "title": "Federación Internacional de Pádel · Reglas del juego",
+          "url": "https://www.fmpadel.com/docs/FIP-Reglamento-Juego.pdf",
+          "fact": "El área de juego es un rectángulo de 10 m de ancho por 20 m de largo (medidas interiores), con una tolerancia del 0,5 %."
+        },
+        {
+          "title": "idealista · precio de la vivienda usada, diciembre de 2025",
+          "url": "https://www.idealista.com/news/node/878742",
+          "fact": "El precio medio de la vivienda usada en Madrid fue de 5.820 €/m² en diciembre de 2025 (informe del 7 de enero de 2026)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-28-1.jpg",
+        "alt": "Pista de pádel exterior con paredes de cristal y red central, vacía",
+        "credit": "Ainali",
+        "url": "https://commons.wikimedia.org/wiki/File:Outdoor_padel_court_Mariestad.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Metros cuadrados por euros el metro",
+        "steps": [
+          "Una pista de pádel es más grande que la mayoría de pisos: unos 200 m². En Madrid, un metro cuadrado cuesta varios miles de euros.",
+          "Con 5.000 €/m², 200 m² costarían un millón. Ya sabemos que el resultado ronda el millón, no los cien mil.",
+          "Con los 5.820 €/m² de diciembre de 2025 sale 1.164.000 €. Es precio de anuncio: en un barrio caro podría pasar de dos millones y en uno asequible quedarse bastante por debajo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Despegue colectivo",
+      "title": "Si todos los Boeing 747 fabricados despegaran a la vez llenos, ¿cuántas personas volarían?",
+      "detail": "Todos los Jumbos de la historia, reunidos y con la tarjeta de embarque lista. Supón 400 plazas por avión, aunque muchos fueran cargueros.",
+      "unit": "personas",
+      "answer": 629600,
+      "math": "Boeing construyó 1.574 aviones 747 en 54 años de producción; el último se entregó en 2023. 1.574 × 400 = 629.600 personas.",
+      "referenceExpression": "1574 × 400",
+      "assumptions": "Muchos 747 eran cargueros sin asientos y la mayoría ya no vuela. Las 400 plazas son una media redonda para una cabina de pasajeros con varias clases.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "AirlineGeeks · Boeing entrega el último 747 a Atlas Air",
+          "url": "https://www.airlinegeeks.com/2023/02/01/boeing-delivers-last-ever-747-to-atlas-air/",
+          "fact": "El programa 747 sumó un total de 1.574 unidades construidas en 54 años de producción en Everett."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-28-2.jpg",
+        "alt": "Boeing 747 de Iberia en pista, con su característica joroba en la parte delantera",
+        "credit": "Iberia Airlines",
+        "url": "https://commons.wikimedia.org/wiki/File:B-747_Iberia.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta aviones y multiplica por asientos",
+        "steps": [
+          "El 747 fue el avión grande por excelencia durante medio siglo. Se fabricaron muchos, pero no decenas de miles: digamos unos 1.500.",
+          "Con 1.500 aviones y 400 plazas salen 600.000 personas, una ciudad mediana entera despegando de golpe.",
+          "Con los 1.574 aparatos construidos salen 629.600 pasajeros. La cifra es teórica: buena parte eran cargueros y la configuración de asientos variaba mucho entre aerolíneas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Zumo para todos",
+      "title": "¿Cuántos vasos de zumo darían todas las naranjas cosechadas en España en una campaña?",
+      "detail": "Un exprimidor del tamaño de la península. Supón que el 40 % del peso de la naranja acaba en zumo, que un litro de zumo pesa un kilo y vasos de 200 ml.",
+      "unit": "vasos",
+      "answer": 5894062000,
+      "math": "La producción provisional de naranja dulce en la campaña 2025/26 fue de 2.947.031 t. El 40 % son 1.178.812.400 kg, unos tantos litros de zumo. Entre 0,2 L por vaso: unos 5.894 millones de vasos.",
+      "referenceExpression": "2947031 × 1000 × 0,4 ÷ 0,2",
+      "assumptions": "Mandamos todas las naranjas al exprimidor, aunque muchas se exportan o se comen enteras. El rendimiento en zumo varía con la variedad y el tamaño; el 40 % es un supuesto redondo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Ministerio de Agricultura, Pesca y Alimentación · Aforo de cítricos 2026/27",
+          "url": "https://www.mapa.gob.es/dam/mapa/contenido/prensa/notas-de-prensa/documentos/documentos-2026/aforo-campa-a-2026-27.pdf",
+          "fact": "Naranja dulce: 2.947.031 t en la campaña 2025/26 (dato provisional) y 2.812.720 t previstas para 2026/27."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-28-3.jpg",
+        "alt": "Campos de naranjos vistos desde lo alto en Paterna, con hileras de árboles hasta el horizonte",
+        "credit": "Goyojona",
+        "url": "https://commons.wikimedia.org/wiki/File:Naranjos_vista_desde_altura_(paterna).jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "De toneladas de fruta a litros de zumo",
+        "steps": [
+          "España es una potencia naranjera: su cosecha se mide en millones de toneladas. Pongamos 3 millones.",
+          "3 millones de toneladas son 3.000 millones de kilos; el 40 % en zumo da 1.200 millones de litros, y a cinco vasos por litro, 6.000 millones de vasos.",
+          "Con las 2.947.031 t de 2025/26 salen 5.894 millones de vasos: casi 120 por cada habitante. La campaña siguiente se prevé algo menor, y el rendimiento en zumo puede mover la cifra un 10 o 20 %."
+        ]
+      }
+    }
+  ]
+}

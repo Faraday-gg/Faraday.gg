@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-17",
+  "name": "Sábado",
+  "theme": "Saturno, taxis NY y Empire",
+  "questions": [
+    {
+      "id": "archivo-2026-10-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Cruzar los anillos",
+      "title": "¿Cuántas horas tardaría un avión a 900 km/h en cruzar de lado a lado los anillos principales de Saturno?",
+      "detail": "Un avión comercial, ningún bache y la tripulación con mucha paciencia. Vuela en línea recta de un borde exterior del anillo A al opuesto, atravesando el planeta como si fuera niebla.",
+      "unit": "horas",
+      "answer": 303.94444444444446,
+      "math": "El borde exterior del anillo A está a 136.775 km del centro de Saturno, así que los anillos principales miden 273.550 km de lado a lado. 273.550 ÷ 900 ≈ 303,9 horas.",
+      "referenceExpression": "2 × 136775 ÷ 900",
+      "assumptions": "Vuelo recto por el diámetro a 900 km/h constantes, cruzando también el planeta. Los anillos principales terminan en el borde del anillo A; los anillos tenues más exteriores, como el E, son mucho más grandes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Rings of Saturn",
+          "url": "https://en.wikipedia.org/wiki/Rings_of_Saturn",
+          "fact": "El anillo A se extiende de 122.170 a 136.775 km del centro de Saturno."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-17-1.jpg",
+        "alt": "Saturno a contraluz fotografiado por la sonda Cassini, con los anillos iluminados formando un gran arco",
+        "credit": "NASA/JPL/Space Science Institute",
+        "url": "https://commons.wikimedia.org/wiki/File:Saturn_eclipse.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Saturn_eclipse.jpg"
+      },
+      "reasoning": {
+        "heading": "Un diámetro enorme a velocidad de avión",
+        "steps": [
+          "Saturno es unas nueve veces más ancho que la Tierra y sus anillos el doble que el planeta: unos 250.000 km.",
+          "A 900 km/h, 250.000 km son unas 280 horas: casi 12 días de vuelo.",
+          "Con los 273.550 km del borde del anillo A salen 303,9 horas, unos 12,7 días. Para dar la vuelta a la Tierra por el ecuador bastarían unas 45 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Amarillo pesado",
+      "title": "¿Cuántas toneladas pesan juntos todos los taxis amarillos con licencia de Nueva York?",
+      "detail": "Cada taxi amarillo necesita su placa metálica, el famoso medallón. Pon todos los taxis en una báscula gigante y supón que cada uno pesa 1,9 toneladas, sin pasajeros ni maletas.",
+      "unit": "toneladas",
+      "answer": 25815.3,
+      "math": "Nueva York tiene 13.587 taxis amarillos, uno por medallón. 13.587 × 1,9 t ≈ 25.815 toneladas.",
+      "referenceExpression": "13587 × 1,9",
+      "assumptions": "Los 1,9 t por taxi son una condición del juego: la flota mezcla modelos híbridos, monovolúmenes y adaptados que pesan entre unas 1,5 y 2,5 t. No todos los medallones están en servicio a la vez.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "NYC Taxi and Limousine Commission · Yellow Cab",
+          "url": "https://www.nyc.gov/site/tlc/businesses/yellow-cab.page",
+          "fact": "«There are 13,587 taxis in New York City» y cada uno debe llevar un medallón."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-17-2.jpg",
+        "alt": "Taxi amarillo de Nueva York circulando por una calle de Manhattan",
+        "credit": "Paulyf12",
+        "url": "https://commons.wikimedia.org/wiki/File:Taxi_in_New_York_showing_its_true_color_of_yellow.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Flota por peso de un coche",
+        "steps": [
+          "Nueva York tiene muchos taxis amarillos, pero menos de lo que parece en las películas: del orden de 10.000 a 15.000.",
+          "Con 13.000 taxis de unas 2 toneladas salen unas 26.000 toneladas: decenas de miles, como un buque mediano.",
+          "Con los 13.587 medallones y 1,9 t por coche salen 25.815 toneladas. El peso medio es la parte incierta: con 1,6 t serían unas 21.700."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Imán de rayos",
+      "title": "¿Cuántos rayos recibe el Empire State Building en una década?",
+      "detail": "El rascacielos actúa como un pararrayos gigante y lo sabe. Usa la media anual que da el propio edificio y supón que todos los años son iguales.",
+      "unit": "rayos",
+      "answer": 250,
+      "math": "El Empire State recibe unos 25 impactos de rayo al año. 25 × 10 = 250 rayos por década.",
+      "referenceExpression": "25 × 10",
+      "assumptions": "Media constante año tras año. En realidad depende de las tormentas de cada verano y algunos años recibe bastantes más o menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Empire State Building · Facts & figures",
+          "url": "https://www.esbnyc.com/about/facts-figures",
+          "fact": "El edificio recibe unos 25 impactos de rayo al año."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-17-3.jpg",
+        "alt": "Rayo cayendo sobre la aguja del Empire State Building durante una tormenta nocturna",
+        "credit": "Hermann Luyken",
+        "url": "https://commons.wikimedia.org/wiki/File:2008.06.07.202332_Lightning_Empire_State_NYC.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Rayos por año, por diez años",
+        "steps": [
+          "Se dice que un rayo nunca cae dos veces en el mismo sitio, pero un rascacielos aislado es la excepción: podría recibir unas decenas al año.",
+          "Si fueran 20 al año, en una década serían 200. Estamos en los cientos.",
+          "Con la media de 25 al año que da el edificio salen 250 rayos por década. Un verano muy tormentoso puede subir esa cifra, y uno seco, bajarla."
+        ]
+      }
+    }
+  ]
+}

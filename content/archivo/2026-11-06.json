@@ -1,0 +1,121 @@
+{
+  "id": "2026-11-06",
+  "name": "Viernes",
+  "theme": "Telégrafo, Vía de la Plata y Burj",
+  "questions": [
+    {
+      "id": "archivo-2026-11-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "WhatsApp de 1850",
+      "title": "Si cada torre tardaba un minuto en repetir la señal, ¿cuántos minutos tardaba un mensaje del telégrafo óptico de Madrid a Irún?",
+      "detail": "Un mensaje viaja de torre en torre por la línea de Castilla de Mathé, y cada torrero tarda un minuto en copiarlo y repetirlo. Día despejado, sin niebla y con todos los torreros despiertos.",
+      "unit": "minutos",
+      "answer": 52,
+      "math": "La primera línea de Mathé, de Madrid a Irún, contaba con 52 torres. A un minuto por torre: 52 × 1 = 52 minutos.",
+      "referenceExpression": "52 × 1",
+      "assumptions": "Contamos un minuto por cada una de las 52 torres, incluida la de salida. En la práctica los mensajes tardaban mucho más por la niebla, las esperas y los mensajes largos.",
+      "confidence": "Dato histórico + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Telégrafo óptico",
+          "url": "https://es.wikipedia.org/wiki/Telégrafo_óptico",
+          "fact": "La primera línea de Mathé, Madrid-Irún, empezó a funcionar el 2 de octubre de 1846 y contaba con 52 torres; un mensaje tardaba unas seis horas en hacer el trayecto."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-06-1.jpg",
+        "alt": "Torre de telegrafía óptica de Torrelodones, un edificio cuadrado de piedra sobre un cerro con matorral",
+        "credit": "Esetena",
+        "url": "https://commons.wikimedia.org/wiki/File:Telegrafo_optico_de_Torrelodones.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta torres, no kilómetros",
+        "steps": [
+          "De Madrid a Irún hay unos 450-500 km por carretera. Si las torres estaban a unos 10 km, harían falta unas 45-50.",
+          "Con unas 50 torres y un minuto por torre, el mensaje tardaría algo menos de una hora.",
+          "Con las 52 torres documentadas salen 52 minutos. La realidad era peor: con niebla, esperas y mensajes largos, el trayecto llevaba unas seis horas. Aun así, ganaba por goleada a los dos o tres días de un jinete."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Paso legionario",
+      "title": "A 30 km por jornada, ¿cuántos días tardaba una legión en ir de Mérida a Astorga por la Vía de la Plata?",
+      "detail": "Una legión en marcha por la calzada romana, con 30 km diarios de sandalia y sin días de descanso. Nada de atajos por la autovía.",
+      "unit": "días",
+      "answer": 15.666666666666666,
+      "math": "La Vía de la Plata recorría 470 km entre Augusta Emerita (Mérida) y Asturica Augusta (Astorga). 470 ÷ 30 ≈ 15,7 días.",
+      "referenceExpression": "470 ÷ 30",
+      "assumptions": "Ritmo constante de 30 km diarios y ningún día de descanso. Una legión con impedimenta podía ir más lenta, y un mensajero a caballo, mucho más deprisa.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Vía de la Plata",
+          "url": "https://es.wikipedia.org/wiki/Vía_de_la_Plata",
+          "fact": "La Vía de la Plata recorría 470 km entre Augusta Emerita (Mérida) y Asturica Augusta (Astorga)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-06-2.jpg",
+        "alt": "Dos caminantes con mochila por un camino de tierra recto de la Vía de la Plata, entre campos de girasoles",
+        "credit": "José Antonio Gil Martínez from Vigo, Spain",
+        "url": "https://commons.wikimedia.org/wiki/File:V%C3%ADa_de_la_Plata_(6093549876).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Distancia entre jornada",
+        "steps": [
+          "Mérida y Astorga están en extremos opuestos del oeste peninsular: unos 450-500 km.",
+          "A 30 km por día, 450 km son 15 días; 500 km, casi 17. Dos semanas largas.",
+          "Con los 470 km de la calzada salen 15,7 días, así que el decimosexto día llegaban a Astorga. Con un día de descanso por semana, la marcha se iría a unos 18 días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Pierna de acero",
+      "title": "Subiendo un escalón por segundo, ¿cuántos minutos tardarías en llegar arriba del Burj Khalifa?",
+      "detail": "El ascensor está averiado y tienes que subir a pie hasta la planta 160 del gigante de Dubái. Un escalón por segundo, sin parar a respirar ni a hacerte fotos.",
+      "unit": "minutos",
+      "answer": 48.483333333333334,
+      "math": "El Burj Khalifa tiene 2.909 escalones desde la planta baja hasta la planta 160. A uno por segundo: 2.909 s ÷ 60 ≈ 48,5 minutos.",
+      "referenceExpression": "2909 ÷ 60",
+      "assumptions": "Ritmo constante de un escalón por segundo durante todo el ascenso, algo que muy pocas piernas aguantan. Solo hasta la planta 160, no hasta la punta de la aguja.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Burj Khalifa",
+          "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+          "fact": "El edificio tiene 2.909 escalones desde la planta baja hasta la planta 160."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-06-3.jpg",
+        "alt": "El Burj Khalifa sobresaliendo muy por encima de los demás rascacielos de Dubái",
+        "credit": "imran shahabuddin",
+        "url": "https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Escalones por planta, plantas hasta arriba",
+        "steps": [
+          "Un piso normal tiene unos 18-20 escalones. Con 160 plantas, saldrían unos 3.000.",
+          "3.000 segundos son 50 minutos: casi una hora subiendo sin parar.",
+          "Con los 2.909 escalones reales salen 48,5 minutos. Llegar arriba a ese ritmo es cosa de atletas: la mayoría necesitaría bastante más y alguna que otra parada."
+        ]
+      }
+    }
+  ]
+}

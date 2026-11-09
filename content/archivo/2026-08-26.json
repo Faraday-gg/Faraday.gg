@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-26",
+  "name": "Miércoles",
+  "theme": "Herbón, grullas y Perseverance",
+  "questions": [
+    {
+      "id": "archivo-2026-08-26-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Unos pican y otros no",
+      "title": "Si uno de cada diez pica, ¿cuántos pimientos picantes salieron de la cosecha DOP Pemento de Herbón de 2016?",
+      "detail": "Pimientos de 10 g y un 10 % de picantes, repartidos al azar. Cuenta la cosecha certificada, no los de la huerta de tu tía.",
+      "unit": "pimientos",
+      "answer": 635000,
+      "math": "La DOP produjo 63.500 kg en 2016: 63.500.000 g. Con pimientos de 10 g son 6.350.000 pimientos; el 10 % picantes da 635.000.",
+      "referenceExpression": "63500000 ÷ 10 × 0,1",
+      "assumptions": "Pimiento medio de 10 g y un 10 % de picantes, como dice el refrán. La producción cambia mucho de un año a otro: en 2015 fueron 73.800 kg.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "FreshPlaza · Spain: Herbon pepper production falls by 14 % (28-10-2016)",
+          "url": "https://www.freshplaza.com/north-america/article/2165824/spain-herbon-pepper-production-falls-by-14/",
+          "fact": "La producción de la DOP Pemento de Herbón cayó un 14 % en 2016, hasta 63.500 kilos, frente a 73.800 en 2015."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-26-1.jpg",
+        "alt": "Plato de pimientos de Padrón fritos con sal gruesa",
+        "credit": "Gordito1869",
+        "url": "https://commons.wikimedia.org/wiki/File:Pimientos_de_Padr%C3%B3n_1.JPG",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "De los kilos a la ruleta",
+        "steps": [
+          "Una denominación de origen pequeña produce decenas de toneladas, no miles. Digamos unas 50 toneladas al año.",
+          "Un pimiento pesa unos 10 gramos: 50 toneladas son 5 millones de pimientos, y uno de cada diez picante deja medio millón.",
+          "Con los 63.500 kg de 2016 salen 635.000 pimientos picantes. En la ruleta del plato, la proporción real depende del calor y de lo tarde que se recojan."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-26-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Fila con alas",
+      "title": "Si las grullas del récord de Gallocanta se pusieran en fila con las alas abiertas, ¿cuántos km mediría?",
+      "detail": "Una grulla detrás de otra, punta de ala con punta de ala y sin pelearse por el sitio. Cada una abre 2,2 m.",
+      "unit": "km",
+      "answer": 297,
+      "math": "El 27 de febrero de 2013 se estimaron 135.000 grullas en la laguna en un solo día. Con 2,2 m de envergadura: 135.000 × 2,2 = 297.000 m = 297 km.",
+      "referenceExpression": "135000 × 2,2 ÷ 1000",
+      "assumptions": "Usamos el récord estimado de un solo día de paso migratorio, no la media del invierno. Envergadura media de 2,2 m dentro del rango de 1,8-2,4 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "iAgua · Gallocanta bate un nuevo récord histórico de grullas (10-03-2013)",
+          "url": "https://www.iagua.es/noticias/biodiversidad/13/03/10/la-laguna-de-gallocanta-bate-un-nuevo-record-historico-de-grullas-censadas-en-un-solo-dia-28165",
+          "fact": "El 27 de febrero de 2013 la laguna alcanzó un total estimado de 135.000 grullas en un solo día (recuentos de SARGA, del Gobierno de Aragón, y de la Asociación de Amigos de la Laguna)."
+        },
+        {
+          "title": "Wikipedia · Grus grus",
+          "url": "https://es.wikipedia.org/wiki/Grus_grus",
+          "fact": "La grulla común tiene una envergadura alar de 180-240 cm."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-26-2.jpg",
+        "alt": "Bandada de grullas en un campo de cultivo",
+        "credit": "Alfonso Garmendia",
+        "url": "https://commons.wikimedia.org/wiki/File:Grullas.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta aves, luego alas",
+        "steps": [
+          "Gallocanta es famosa por las grullas: en los mejores días hay decenas de miles, quizá más de cien mil.",
+          "Cada grulla con las alas abiertas ocupa unos 2 metros. 100.000 grullas serían 200 km de fila.",
+          "Con el récord de 135.000 grullas y 2,2 m por ave salen 297 km de alas abiertas. Es un récord de un solo día de paso: la media del invierno es mucho menor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-26-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Rover sin prisa",
+      "title": "A su velocidad máxima, ¿cuántos días tardaría el rover Perseverance en ir de Madrid a Barcelona por la vía del AVE?",
+      "detail": "Rover marciano siguiendo los 621 km de la línea de alta velocidad, sin parar a coger muestras ni a cargar baterías. Ni siquiera para un bocadillo en Zaragoza.",
+      "unit": "días",
+      "answer": 170.23026315789474,
+      "math": "La velocidad máxima del rover en terreno llano y duro es de 152 m/h (0,152 km/h). 621 km ÷ 0,152 km/h ≈ 4.086 horas; entre 24, unos 170,2 días.",
+      "referenceExpression": "621 ÷ 0,152 ÷ 24",
+      "assumptions": "Velocidad máxima constante, 24 horas al día, sin pausas. En Marte el rover avanza mucho más despacio de media porque se detiene para planificar y analizar el terreno.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Mars 2020 Perseverance: componentes del rover",
+          "url": "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+          "fact": "Su velocidad máxima en terreno llano y duro es de algo menos de 0,1 mph (152 metros por hora)."
+        },
+        {
+          "title": "Wikipedia · Línea de alta velocidad Madrid-Zaragoza-Barcelona-Frontera Francesa",
+          "url": "https://es.wikipedia.org/wiki/L%C3%ADnea_de_alta_velocidad_Madrid-Zaragoza-Barcelona-Frontera_Francesa",
+          "fact": "La línea mide 621 km entre Madrid y Barcelona."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-26-3.jpg",
+        "alt": "Autorretrato del rover Perseverance sobre el suelo rojizo de Marte",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "url": "https://commons.wikimedia.org/wiki/File:Perseverance_selfie,_looking_at_WATSON_(PIA24542).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Perseverance_selfie,_looking_at_WATSON_(PIA24542).jpg"
+      },
+      "reasoning": {
+        "heading": "Velocidad de caracol con prisa",
+        "steps": [
+          "El rover va más despacio que una persona paseando: unos pocos metros por minuto. Madrid–Barcelona son más de 600 km.",
+          "A unos 150 m por hora, 600 km son 4.000 horas: unos 170 días sin parar.",
+          "Con 152 m/h y los 621 km del AVE salen 170,2 días, casi medio año. El AVE tarda unas dos horas y media."
+        ]
+      }
+    }
+  ]
+}

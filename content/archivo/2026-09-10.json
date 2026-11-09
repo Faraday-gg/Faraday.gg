@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-10",
+  "name": "Jueves",
+  "theme": "Montmeló, miel y sidra",
+  "questions": [
+    {
+      "id": "archivo-2026-09-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Vueltas por hora",
+      "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al Circuit de Barcelona-Catalunya en una hora?",
+      "detail": "Una hora a 200 km/h de media en el trazado actual de Fórmula 1, sin paradas en boxes ni coche de seguridad.",
+      "unit": "vueltas",
+      "answer": 42.94610264118531,
+      "math": "El trazado de Fórmula 1 mide 4,657 km. En una hora recorre 200 km. 200 ÷ 4,657 ≈ 42,9 vueltas.",
+      "referenceExpression": "200 ÷ 4,657",
+      "assumptions": "Media constante de 200 km/h; una vuelta rápida real va bastante más deprisa.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Circuit de Barcelona-Catalunya",
+          "url": "https://en.wikipedia.org/wiki/Circuit_de_Barcelona-Catalunya",
+          "fact": "El trazado de Gran Premio sin chicane, que usa la Fórmula 1 desde 2023, mide 4,657 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros por hora entre kilómetros por vuelta",
+        "steps": [
+          "El circuito mide unos 4,5 km. A 200 km/h se recorren 200 km en una hora.",
+          "200 entre 4,5 dan unas 44 vueltas.",
+          "Con los 4,657 km exactos salen 42,9 vueltas. Un Gran Premio entero son 66 vueltas, y los mejores lo terminan en unos 90 minutos."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-10-1.jpg",
+        "alt": "Vista del Circuit de Barcelona-Catalunya en Montmeló con la recta y las gradas",
+        "credit": "Ank Kumar",
+        "url": "https://commons.wikimedia.org/wiki/File:Circuit_de_Catalunya,_Barcelona_(Ank_Kumar)_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Abejas con agenda",
+      "title": "¿Cuántas flores tienen que visitar las abejas para llenar un tarro de 500 g de miel de La Alcarria?",
+      "detail": "Las abejas alcarreñas siguen la regla de sus primas americanas: unos 2 millones de flores por libra de miel (453,6 g). Romero y espliego, a elegir.",
+      "unit": "flores",
+      "answer": 2204622.6218487755,
+      "math": "Hacen falta unos 2 millones de flores por libra de miel (453,59 g). Para 500 g: 2.000.000 × 500 ÷ 453,59 ≈ 2,2 millones de flores.",
+      "referenceExpression": "2000000 × 500 ÷ 453,59237",
+      "assumptions": "Cifra media orientativa; depende mucho del néctar de cada flor. Con flores muy melíferas harían falta menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "University of Illinois Extension · National Honey Bee Day",
+          "url": "https://extension.illinois.edu/blogs/prairies-perennials/2017-08-19-national-honey-bee-day",
+          "fact": "Las abejas visitan aproximadamente 2 millones de flores para hacer una libra de miel."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa de libras a gramos",
+        "steps": [
+          "La miel exige muchísimas visitas: cada gota de néctar es diminuta. Intuición: millones de flores.",
+          "La cifra de referencia es de 2 millones de flores por libra, que son casi 454 g. Medio kilo es un poco más.",
+          "El cálculo da 2,2 millones de flores por tarro. Con flores de romero muy generosas podrían bastar menos; con un mal año, bastantes más."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-10-2.jpg",
+        "alt": "Abeja melífera libando en una flor, el trabajo que se repite millones de veces",
+        "credit": "Luc Viatour",
+        "url": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_2_Luc_Viatour.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    },
+    {
+      "id": "archivo-2026-09-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Culín a culín",
+      "title": "¿Cuántos culines saldrían de la sidra DOP de Asturias elaborada en un año?",
+      "detail": "Toda la sidra elaborada bajo la denominación de origen en 2025, escanciada en culines de 100 ml. Lo que caiga al suelo no cuenta.",
+      "unit": "culines",
+      "answer": 55670560,
+      "math": "En 2025 se elaboraron 5.567.056 litros de sidra DOP. Cada litro da 10 culines de 100 ml: 55.670.560 culines.",
+      "referenceExpression": "5567056 × 1000 ÷ 100",
+      "assumptions": "Culín de 100 ml sin pérdidas. Las cifras anuales varían mucho con la cosecha de manzana.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Tridge · noticia sobre la DOP Sidra de Asturias en 2025",
+          "url": "https://www.tridge.com/news/the-pdo-cider-of-asturias-recorded-in-2025-a-scuguv",
+          "fact": "En 2025 se produjeron 5.567.056 litros de sidra DOP y se emitieron 4.964.000 contraetiquetas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros por diez",
+        "steps": [
+          "La DOP es solo una parte de la sidra asturiana: unos pocos millones de litros al año.",
+          "Con 5 millones de litros y 10 culines por litro salen unos 50 millones de culines.",
+          "Con 5.567.056 litros salen 55,7 millones de culines: más de 50 por cada asturiano. Escanciando bien, claro."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-10-3.jpg",
+        "alt": "Escanciado de sidra en Oviedo: el chorro cae desde lo alto hasta el vaso",
+        "credit": "Hispalois",
+        "url": "https://commons.wikimedia.org/wiki/File:Escanciando_sidra_Oviedo_2015.JPG",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    }
+  ]
+}

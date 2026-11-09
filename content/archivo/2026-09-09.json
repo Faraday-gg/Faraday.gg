@@ -1,0 +1,131 @@
+{
+  "id": "2026-09-09",
+  "name": "Miércoles",
+  "theme": "Millau, Aneto y MareNostrum",
+  "questions": [
+    {
+      "id": "archivo-2026-09-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Viaducto en caravana",
+      "title": "¿Cuántos coches en fila caben sobre el viaducto de Millau?",
+      "detail": "Un solo carril, coches de 4,5 m y un metro de hueco entre uno y otro. Atasco perfecto, a 270 m sobre el río Tarn.",
+      "unit": "coches",
+      "answer": 447.27272727272725,
+      "math": "El tablero mide 2.460 m. Cada coche con su hueco ocupa 4,5 + 1 = 5,5 m. 2.460 ÷ 5,5 ≈ 447 coches.",
+      "referenceExpression": "2460 ÷ (4,5 + 1)",
+      "assumptions": "Un solo carril; el viaducto tiene cuatro, así que en un atasco total cabrían unos 1.800 coches.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Millau Viaduct",
+          "url": "https://en.wikipedia.org/wiki/Millau_Viaduct",
+          "fact": "El tablero mide 2.460 metros de longitud y lleva cuatro carriles de la autopista A75."
+        }
+      ],
+      "reasoning": {
+        "heading": "Mide coches con hueco incluido",
+        "steps": [
+          "El viaducto supera los dos kilómetros. Un coche con su espacio ocupa unos 5 metros.",
+          "2.500 m entre 5 m dan unos 500 coches por carril.",
+          "Con 2.460 m y 5,5 m por coche salen 447. Con los cuatro carriles llenos, unos 1.789: un atasco con vistas."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-09-1.jpg",
+        "alt": "Viaducto de Millau cruzando el valle del Tarn sobre sus pilas atirantadas",
+        "credit": "Vincent",
+        "url": "https://commons.wikimedia.org/wiki/File:Viaduc_de_Millau_1.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Viaduc_de_Millau_1.jpg"
+      }
+    },
+    {
+      "id": "archivo-2026-09-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Pirineo apilado",
+      "title": "¿Cuántos Anetos apilados harían falta para alcanzar la cima del Everest?",
+      "detail": "Ponemos un Aneto encima de otro, medidos desde el nivel del mar, hasta tocar el techo del mundo. Los crampones, por tu cuenta.",
+      "unit": "Anetos",
+      "answer": 2.59954759106933,
+      "math": "El Everest mide 8.848,86 m (medición de 2020) y el Aneto, 3.404 m. 8.848,86 ÷ 3.404 ≈ 2,6 Anetos.",
+      "referenceExpression": "8848,86 ÷ 3404",
+      "assumptions": "Altitudes sobre el nivel del mar. Apilar montañas es, por suerte, imposible.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Mount Everest",
+          "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "fact": "Una medición conjunta de Nepal y China en 2020 le dio 8.848,86 m."
+        },
+        {
+          "title": "Wikipedia · Pico Aneto",
+          "url": "https://es.wikipedia.org/wiki/Pico_Aneto",
+          "fact": "El Aneto tiene una altitud de 3.404 metros sobre el nivel del mar."
+        }
+      ],
+      "reasoning": {
+        "heading": "Redondea ambas alturas",
+        "steps": [
+          "El Aneto ronda los 3.400 m y el Everest se acerca a los 9.000 m.",
+          "9.000 entre 3.400 da algo menos de 3: dos Anetos y medio largo.",
+          "Con las alturas exactas sale 2,6 Anetos. Hace falta un tercer Aneto, pero solo usarías el 60 % de él."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-09-2.jpg",
+        "alt": "El Everest visto desde el Kala Patthar, con la cumbre nevada sobre el Himalaya",
+        "credit": "Photo by Pavel Novak",
+        "url": "https://commons.wikimedia.org/wiki/File:Everest_kalapatthar_crop.jpg",
+        "license": "CC BY-SA 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+      }
+    },
+    {
+      "id": "archivo-2026-09-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Cálculo mental colectivo",
+      "title": "Si toda la humanidad hiciera una operación por segundo, ¿cuántos días tardaría en igualar un segundo del MareNostrum 5?",
+      "detail": "Ocho mil millones de personas haciendo una operación por segundo, sin dormir ni equivocarse. Al otro lado, la partición acelerada del superordenador de Barcelona.",
+      "unit": "días",
+      "answer": 253.61689814814815,
+      "math": "MareNostrum 5 ACC logra 175,30 PFlop/s = 1,753 × 10¹⁷ operaciones por segundo. Entre 8.000 millones de personas: 21.912.500 s ÷ 86.400 ≈ 253,6 días.",
+      "referenceExpression": "175,30 × 10¹⁵ ÷ 8000000000 ÷ 86400",
+      "assumptions": "Rendimiento medido (Rmax) de la partición acelerada en la lista TOP500 de junio de 2026 y población mundial de 8.000 millones. Una «operación» humana no es una operación de coma flotante, pero así nos entendemos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "TOP500 · MareNostrum 5 ACC",
+          "url": "https://www.top500.org/system/180238/",
+          "fact": "En la lista de junio de 2026, MareNostrum 5 ACC tiene un Rmax de 175,30 PFlop/s y un Rpeak de 249,44 PFlop/s."
+        },
+        {
+          "title": "Naciones Unidas · Population",
+          "url": "https://www.un.org/en/global-issues/population",
+          "fact": "La población mundial alcanzó 8.000 millones de personas el 15 de noviembre de 2022."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide trillones entre miles de millones",
+        "steps": [
+          "Un superordenador moderno hace del orden de 10¹⁷ operaciones por segundo; la humanidad entera, 10¹⁰.",
+          "10¹⁷ entre 10¹⁰ son 10⁷ segundos: unos cuatro meses.",
+          "Con 175,30 PFlop/s y 8.000 millones de personas salen 253,6 días. Con el rendimiento teórico máximo (249,44 PFlop/s) serían casi 361 días."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-09-3.jpg",
+        "alt": "El superordenador MareNostrum instalado dentro de la capilla de Torre Girona, en el Barcelona Supercomputing Center",
+        "credit": "Vcarceler",
+        "url": "https://commons.wikimedia.org/wiki/File:BSC-MareNostrum-A.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    }
+  ]
+}

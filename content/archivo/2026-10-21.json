@@ -1,0 +1,126 @@
+{
+  "id": "2026-10-21",
+  "name": "Miércoles",
+  "theme": "N-340, Gutenberg y Harry Potter",
+  "questions": [
+    {
+      "id": "archivo-2026-10-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Carretera con sombra",
+      "title": "Si plantaras un árbol cada diez metros a ambos lados de la N-340, ¿cuántos árboles harían falta?",
+      "detail": "Desde Cádiz hasta Barcelona, a ambos lados de la calzada, un árbol cada 10 m. Pueblos, rotondas y puentes incluidos: los jardineros no se rinden.",
+      "unit": "árboles",
+      "answer": 249600,
+      "math": "La N-340 tiene 1.248 km y fue la nacional más larga de España (Wikipedia). Cada km admite 100 árboles por lado: 1.248 × 2 × 100 = 249.600 árboles.",
+      "referenceExpression": "1248 × 2 × 100",
+      "assumptions": "Longitud histórica completa, aunque hoy varios tramos se han convertido en autovía. No restamos cruces ni tramos urbanos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Carretera N-340",
+          "url": "https://es.wikipedia.org/wiki/N-340",
+          "fact": "Con 1.248 km fue la carretera nacional más larga del país."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-21-1.jpg",
+        "alt": "La N-340 junto al mar en Cala Sardina, Torreguadiaro",
+        "credit": "Ambil",
+        "url": "https://commons.wikimedia.org/wiki/File:N-340_en_Cala_Sardina,_Torreguadiaro.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:N-340_en_Cala_Sardina,_Torreguadiaro.jpg"
+      },
+      "reasoning": {
+        "heading": "Cien árboles por kilómetro y lado",
+        "steps": [
+          "La N-340 recorre toda la costa mediterránea: más de mil kilómetros. Un árbol cada 10 metros parece poco, pero se acumula rápido.",
+          "Un kilómetro admite 100 árboles por lado, 200 en total. Por unos 1.200 km son unos 240.000.",
+          "Con los 1.248 km oficiales salen 249.600 árboles: un bosque lineal de un cuarto de millón."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Imprenta con prisa",
+      "title": "¿Cuántas páginas al día imprimía de media el taller de Gutenberg para terminar su Biblia?",
+      "detail": "Contamos cada página de cada ejemplar de la tirada, y suponemos tres años de trabajo con 300 jornadas cada uno. Cero erratas, por supuesto.",
+      "unit": "páginas/día",
+      "answer": 257.6,
+      "math": "Un ejemplar completo tiene 1.288 páginas y la tirada fue de unos 180 ejemplares (Wikipedia, «Gutenberg Bible»). 1.288 × 180 = 231.840 páginas; entre 3 × 300 = 900 jornadas ≈ 257,6 páginas al día.",
+      "referenceExpression": "1288 × 180 ÷ (3 × 300)",
+      "assumptions": "No se sabe con exactitud cuánto duró la impresión; suponemos tres años (empezó después de 1450 y los primeros ejemplares estaban en 1454-1455). Los historiadores estiman entre 160 y 185 ejemplares.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Gutenberg Bible",
+          "url": "https://en.wikipedia.org/wiki/Gutenberg_Bible",
+          "fact": "Un ejemplar completo tiene 1.288 páginas; una carta de 1455 habla de 158 o 180 ejemplares y los estudiosos estiman entre 160 y 185."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-21-2.jpg",
+        "alt": "Biblia de Gutenberg abierta, con texto en dos columnas, en la Biblioteca Pública de Nueva York",
+        "credit": "Joshua Keller",
+        "url": "https://commons.wikimedia.org/wiki/File:Gutenberg_Bible,_New_York_Public_Library,_USA._Pic_01.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Páginas totales entre jornadas de trabajo",
+        "steps": [
+          "La Biblia es gorda y se imprimieron más de cien ejemplares. Pero en el siglo XV todo iba a mano: ¿decenas de páginas al día?",
+          "Unas 1.300 páginas por 180 ejemplares superan las 230.000 páginas. Repartidas en unos 900 días, salen unas 250 al día.",
+          "El cálculo da 257,6 páginas diarias. Si la tarea duró cuatro años en vez de tres, bajaría a unas 190; con varias prensas trabajando a la vez, el ritmo por prensa era menor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Biblioteca mágica",
+      "title": "¿Cuántas vueltas a la Tierra daría una fila con todos los libros de Harry Potter vendidos?",
+      "detail": "Ponemos los libros en el suelo, uno detrás de otro a lo largo, ocupando 20 cm cada uno. Da igual el tomo: los gordos y los finos cuentan lo mismo.",
+      "unit": "vueltas",
+      "answer": 2.994384256904994,
+      "math": "Se han vendido más de 600 millones de ejemplares (Scholastic). 600 millones × 0,2 m = 120.000 km; entre 40.075 km del ecuador (Wikipedia) ≈ 3 vueltas.",
+      "referenceExpression": "600000000 × 0,2 ÷ 1000 ÷ 40075",
+      "assumptions": "Libro de 20 cm de largo para todas las ediciones; las de bolsillo son más cortas. La cifra de ventas es un mínimo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Scholastic · Harry Potter highlights and milestones",
+          "url": "https://www.scholastic.com/content/newsroom/online-press-kits/harry-potter/harry-potter-highlights-and-milestones.html",
+          "fact": "Se han vendido más de 600 millones de libros de Harry Potter en todo el mundo."
+        },
+        {
+          "title": "Wikipedia · Earth",
+          "url": "https://en.wikipedia.org/wiki/Earth",
+          "fact": "Circunferencia ecuatorial: 40.075,017 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-21-3.jpg",
+        "alt": "Los siete libros de Harry Potter en edición estadounidense, uno junto a otro",
+        "credit": "BrokenSphere",
+        "url": "https://commons.wikimedia.org/wiki/File:Harry_Potter_Books_1-7_without_dust_jackets,_1st_American_eds._1.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Ejemplares por longitud frente al ecuador",
+        "steps": [
+          "Harry Potter es una de las series más vendidas de la historia. ¿Daría la fila para cruzar España o para rodear el planeta?",
+          "Cinco libros de 20 cm hacen un metro; 600 millones de libros son 120 millones de metros, 120.000 km. La Tierra mide 40.000 km de vuelta.",
+          "Salen 2,99 vueltas: casi exactamente tres. Si las ventas reales ya pasan de 600 millones, la tercera vuelta está más que cerrada."
+        ]
+      }
+    }
+  ]
+}

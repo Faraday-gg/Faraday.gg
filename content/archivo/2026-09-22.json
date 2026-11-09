@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-22",
+  "name": "Martes",
+  "theme": "Tutankamón, Feria y plátano",
+  "questions": [
+    {
+      "id": "archivo-2026-09-22-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Inventario faraónico",
+      "title": "Catalogando tres objetos al día, ¿cuántos años tardarías en registrar el ajuar de la tumba de Tutankamón?",
+      "detail": "Howard Carter tardó una década en vaciar la tumba. Tú solo tienes que fichar cada objeto: tres al día, 300 días al año.",
+      "unit": "años",
+      "answer": 5.997777777777777,
+      "math": "El contenido de la tumba se numeró en 5.398 objetos. A tres al día son 1.799,3 días de trabajo; entre 300 días al año: 6 años.",
+      "referenceExpression": "5398 ÷ 3 ÷ 300",
+      "assumptions": "Ritmo constante y cada objeto con la misma dificultad. Una capilla dorada no se cataloga igual que una cuenta de collar.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · KV62 (tumba de Tutankamón)",
+          "url": "https://en.wikipedia.org/wiki/KV62",
+          "fact": "El contenido de la tumba se numeró en 5.398 objetos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-22-1.jpg",
+        "alt": "El Valle de los Reyes, donde está la tumba de Tutankamón, fotografiado por Harry Burton",
+        "credit": "Harry Burton (1879-1940)",
+        "url": "https://commons.wikimedia.org/wiki/File:Burton_Tutankhamun_tomb_photographs_1_009.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Burton_Tutankhamun_tomb_photographs_1_009.jpg"
+      },
+      "reasoning": {
+        "heading": "Objetos entre ritmo",
+        "steps": [
+          "La tumba estaba abarrotada: miles de objetos, de carros a sandalias. Digamos unos 5.000.",
+          "A tres al día, 5.000 objetos son unos 1.700 días. Con 300 días laborables al año, entre cinco y seis años.",
+          "Con 5.398 objetos salen 6 años justos. Carter tardó unos diez en vaciar la tumba, porque además había que conservar cada pieza."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-22-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Caseta a caseta",
+      "title": "Visitando diez casetas por noche, ¿cuántas Ferias de Abril necesitarías para entrar en todas?",
+      "detail": "Un reto de rebujito y sevillanas sin repetir caseta. Cada noche de feria entras en diez casetas distintas, y la feria dura seis noches.",
+      "unit": "ferias",
+      "answer": 17.333333333333332,
+      "math": "La Feria tiene unas 1.040 casetas y dura seis días. A diez casetas por noche, cada feria cubres 60. 1.040 ÷ 60 = 17,3 ferias.",
+      "referenceExpression": "1040 ÷ (10 × 6)",
+      "assumptions": "Seis noches por feria, formato vigente desde 2025. Suponemos que te dejan entrar en todas, también en las privadas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Feria de Abril",
+          "url": "https://es.wikipedia.org/wiki/Feria_de_Abril",
+          "fact": "El número de casetas asciende a 1.040; desde 2025 la feria vuelve a durar seis días, del lunes del pescaíto al domingo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-22-2.jpg",
+        "alt": "Calle del real de la Feria de Abril de Sevilla con casetas a rayas y farolillos",
+        "credit": "No machine-readable author provided. Lobillo assumed (based on copyright claims).",
+        "url": "https://commons.wikimedia.org/wiki/File:FeriaDeAbrilSevilla.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Casetas por feria, ferias por casetas",
+        "steps": [
+          "El real de la Feria es una pequeña ciudad de lona: más de mil casetas.",
+          "Diez por noche durante seis noches son 60 casetas por feria. 1.000 ÷ 60 da unas 17 ferias.",
+          "Con 1.040 casetas salen 17,3 ferias: necesitarías 18 años de feria para completar la colección."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-22-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Ritmo canario",
+      "title": "¿Cuántos plátanos de Canarias se comercializan por segundo a lo largo de un año?",
+      "detail": "Las islas despachando plátanos sin parar, de día y de noche. Toma la producción comercializada de 2011, último año de la serie publicada, y plátanos de 150 g.",
+      "unit": "plátanos/s",
+      "answer": 73.23705902249282,
+      "math": "En 2011 se comercializaron 346.440.584 kg de plátano de Canarias (Península, Canarias y otros destinos). A 150 g por pieza son 2.309,6 millones de plátanos; entre 31.536.000 segundos del año: 73,2 plátanos por segundo.",
+      "referenceExpression": "346440584 ÷ 0,15 ÷ (365 × 86400)",
+      "assumptions": "Producción de 2011; en otros años ha oscilado entre unos 345 y 440 millones de kilos. Plátano medio de 150 g.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Plátano de Canarias (tabla de evolución y destino de la producción)",
+          "url": "https://es.wikipedia.org/wiki/Pl%C3%A1tano_de_Canarias",
+          "fact": "2011: 315.261.422 kg a la Península, 31.025.737 kg a Canarias y 153.425 kg a la UE; en total, 346.440.584 kg."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-22-3.jpg",
+        "alt": "Platanera en La Palma con racimos de plátanos entre las hojas",
+        "credit": "Frank Vincentz",
+        "url": "https://commons.wikimedia.org/wiki/File:Banana_plantation_(Los_Sauces)_01_ies.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Kilos a piezas y piezas a segundos",
+        "steps": [
+          "Canarias produce del orden de cientos de miles de toneladas de plátano al año: digamos 350 millones de kilos.",
+          "Con 150 g por plátano, unos 2.300 millones de piezas. Un año tiene unos 31,5 millones de segundos.",
+          "2.309,6 millones entre 31.536.000 dan 73,2 plátanos por segundo. En un año de 440 millones de kilos, como 1998, serían 93."
+        ]
+      }
+    }
+  ]
+}

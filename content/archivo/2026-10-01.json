@@ -1,0 +1,126 @@
+{
+  "id": "2026-10-01",
+  "name": "Jueves",
+  "theme": "Hórreo, Vendée y Irati",
+  "questions": [
+    {
+      "id": "archivo-2026-10-01-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Granero XXL",
+      "title": "¿Cuántas mazorcas de maíz cabrían en el hórreo de Carnota?",
+      "detail": "Cosecha récord para uno de los hórreos más largos de Galicia. Supón un hueco interior de 34 × 1,5 × 1,8 m y que cada mazorca ocupa 0,5 L contando el aire entre ellas.",
+      "unit": "mazorcas",
+      "answer": 183600,
+      "math": "El hórreo mide unos 34,74 m de largo y 1,90 m de ancho por fuera. Con un interior útil de 34 × 1,5 × 1,8 m = 91,8 m³ = 91.800 L. Entre 0,5 L por mazorca: 183.600 mazorcas.",
+      "referenceExpression": "34 × 1,5 × 1,8 × 1000 ÷ 0,5",
+      "assumptions": "Las medidas interiores y el volumen por mazorca son supuestos; las paredes de piedra y la estructura restan espacio. Lo llenamos hasta el techo, algo que ningún labrador haría.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Páxinas Galegas · Hórreo de Carnota",
+          "url": "https://www.paxinasgalegas.es/fiestas/horreo-de-carnota-carnota-6097.html",
+          "fact": "Mide aproximadamente 34,74 m de largo y 1,90 m de ancho, y se apoya en 22 pares de pies."
+        },
+        {
+          "title": "Wikipedia · Hórreo",
+          "url": "https://en.wikipedia.org/wiki/H%C3%B3rreo",
+          "fact": "Sitúa en Carnota (A Coruña) un hórreo de 35 m de longitud."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-01-1.jpg",
+        "alt": "Hórreo de Carnota, larguísimo granero de piedra sobre pies, con una cruz en el extremo",
+        "credit": "MARC912374",
+        "url": "https://commons.wikimedia.org/wiki/File:H%C3%B3rreo_de_Carnota_2007.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Calcula el volumen y llénalo de maíz",
+        "steps": [
+          "El hórreo es larguísimo pero estrecho: unos 35 m de largo y menos de 2 de ancho. Por dentro caben decenas de metros cúbicos.",
+          "35 × 1,5 × 2 ≈ 100 m³, o 100.000 litros. A medio litro por mazorca, unas 200.000.",
+          "Con el interior de 34 × 1,5 × 1,8 m salen 183.600 mazorcas. Si cada mazorca ocupara un litro con los huecos, la cifra se quedaría en la mitad."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-01-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Vuelta al mundo en patinete",
+      "title": "¿Cuántos días tardarías en recorrer la distancia de la Vendée Globe en patinete eléctrico a 20 km/h sin parar?",
+      "detail": "Patinete mágico que flota, con batería infinita y piloto que no duerme. 20 km/h constantes sobre la distancia teórica de la regata.",
+      "unit": "días",
+      "answer": 93.75,
+      "math": "El recorrido teórico de la Vendée Globe es de 24.300 millas, unos 45.000 km. A 20 km/h son 2.250 horas: 93,75 días.",
+      "referenceExpression": "45000 ÷ 20 ÷ 24",
+      "assumptions": "Usamos la distancia teórica; los barcos reales navegan bastante más buscando viento, a menudo más de 28.000 millas, casi 52.000 km.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Actunautique · Vendée Globe 2024-2025, presentación del recorrido",
+          "url": "https://www.actunautique.com/2024/10/vendee-globe-2024-2025-presentation-du-parcours-de-l-everest-de-la-course-au-large.html",
+          "fact": "La distancia del recorrido teórico es de 45.000 km, es decir, 24.300 millas; los regatistas suelen navegar más de 28.000 millas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-01-2.jpg",
+        "alt": "Velero de regata IMOCA navegando con las velas desplegadas",
+        "credit": "Richard Barley from Foussais-Payre, France",
+        "url": "https://commons.wikimedia.org/wiki/File:IMOCA-Roxy.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Una vuelta al mundo dividida entre una velocidad modesta",
+        "steps": [
+          "La vuelta al mundo por mar ronda los 40.000 km o algo más. A 20 km/h, eso son miles de horas.",
+          "40.000 ÷ 20 = 2.000 horas, unos 83 días. Ya sabemos que hablamos de unos tres meses.",
+          "Con los 45.000 km teóricos salen 93,75 días. Y eso sin contar que los barcos reales recorren muchos más kilómetros que la ruta teórica."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-01-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Bosque de números",
+      "title": "¿Cuántos árboles hay en la Selva de Irati?",
+      "detail": "Censo forestal sin salir de casa. Supón 400 árboles por hectárea, repartidos por igual por todo el bosque.",
+      "unit": "árboles",
+      "answer": 6800000,
+      "math": "La Selva de Irati ocupa unas 17.000 ha. 17.000 × 400 = 6.800.000 árboles.",
+      "referenceExpression": "17000 × 400",
+      "assumptions": "La densidad de 400 árboles por hectárea es un supuesto: hay claros, pastos y zonas muy densas de hayas y abetos jóvenes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Turespaña (spain.info) · Selva de Irati",
+          "url": "https://www.spain.info/es/naturaleza/selva-irati/",
+          "fact": "Superficie: 17.000 hectáreas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-01-3.jpg",
+        "alt": "Hayedo de la Selva de Irati con troncos grises y hojas otoñales",
+        "credit": "Rodelar",
+        "url": "https://commons.wikimedia.org/wiki/File:Selva_de_Irati_03.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Superficie por densidad",
+        "steps": [
+          "Irati es uno de los mayores hayedos de Europa: miles de hectáreas, quizás unas 15.000.",
+          "Con 15.000 ha y 400 árboles por hectárea salen 6 millones. Hablamos de millones de árboles.",
+          "Con las 17.000 ha salen 6,8 millones. La densidad real puede variar mucho de un rodal a otro, así que la cifra es una estimación del orden de magnitud."
+        ]
+      }
+    }
+  ]
+}

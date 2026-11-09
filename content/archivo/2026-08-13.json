@@ -1,0 +1,126 @@
+{
+  "id": "2026-08-13",
+  "name": "Jueves",
+  "theme": "Turrón, Benidorm y Cleopatra",
+  "questions": [
+    {
+      "id": "archivo-2026-08-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Navidad en fila",
+      "title": "¿Cuántos kilómetros mediría una fila con las tabletas de turrón con IGP Jijona y Turrón de Alicante de un año?",
+      "detail": "Corta la producción media anual amparada por las IGP en tabletas de 250 g y 20 cm, y colócalas en fila. Prohibido picar por el camino.",
+      "unit": "km",
+      "answer": 4000,
+      "math": "La producción media amparada es de unos 5 millones de kilos. A 0,25 kg por tableta salen 20 millones de tabletas; × 0,2 m = 4.000.000 m, es decir, 4.000 km.",
+      "referenceExpression": "5000000 ÷ 0,25 × 0,2 ÷ 1000",
+      "assumptions": "Usamos la producción media anual que publica ICEX (sin año concreto) y tabletas iguales de 250 g y 20 cm. Hay formatos de muchos tamaños.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "ICEX · Foods & Wines from Spain · Jijona PGI",
+          "url": "https://www.foodswinesfromspain.com/en/food/products/sweets/jijona-pgi",
+          "fact": "Producción media de 5 millones de kilos; el 55 % se comercializa como Turrón de Alicante y el 45 % como Jijona."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-13-1.jpg",
+        "alt": "Tableta de turrón de Jijona cortada, con su textura blanda de almendra molida",
+        "credit": "Tamorlan",
+        "url": "https://commons.wikimedia.org/wiki/File:Turr%C3%B3n_de_Jijona_(Mallorquina).jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "De kilos a tabletas",
+        "steps": [
+          "Una IGP pequeña pero muy navideña: piensa en millones de kilos al año. Cada kilo son cuatro tabletas de 250 g.",
+          "Con 5 millones de kilos salen 20 millones de tabletas. A 20 cm cada una, cinco tabletas hacen un metro: 4 millones de metros.",
+          "El resultado son 4.000 km. La producción real varía cada campaña, y con ella la longitud de la fila."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Sombrilla con vistas",
+      "title": "¿Cuántas sombrillas cabrían en la playa de Levante de Benidorm?",
+      "detail": "Cubre toda la arena con una sombrilla cada 9 m², como si todo Benidorm bajara a la vez. Sin pasillos, sin socorristas y sin chiringuitos.",
+      "unit": "sombrillas",
+      "answer": 8888.888888888889,
+      "math": "La playa de Levante mide 2.000 m de largo y 40 m de ancho: 80.000 m². Una sombrilla cada 9 m² da unas 8.889 sombrillas.",
+      "referenceExpression": "2000 × 40 ÷ 9",
+      "assumptions": "Modelo rectangular con la anchura de referencia de 40 m; la anchura real cambia por tramos y según la temporada. No es un aforo oficial.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Turespaña · spain.info · Playa de Levante (Benidorm)",
+          "url": "https://www.spain.info/es/playa/playa-levante-benidorm/",
+          "fact": "Longitud: 2.000 m. Anchura: 40 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-13-2.jpg",
+        "alt": "Playa de Levante de Benidorm con su arena llena de sombrillas y los rascacielos detrás",
+        "credit": "Diego Delso",
+        "url": "https://commons.wikimedia.org/wiki/File:Playa_de_Levante,_Benidorm,_Espa%C3%B1a,_2014-07-02,_DD_01.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Calcula la arena, no las sombrillas",
+        "steps": [
+          "La playa de Levante parece de un par de kilómetros, con unas decenas de metros de arena. Eso son decenas de miles de metros cuadrados.",
+          "2 km × 40 m = 80.000 m². Una sombrilla con su sombra y sus toallas pide unos 9 m², así que caben unas 9.000.",
+          "El cálculo da 8.889 sombrillas. Si la anchura fuese de 55 m, como dan otras fichas, pasarías de 12.000: la anchura decide más que la longitud."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Vecina del futuro",
+      "title": "¿Cuántos años separan la construcción de la Gran Pirámide del reinado de Cleopatra?",
+      "detail": "Mide desde la fecha de construcción de referencia de la Gran Pirámide hasta el inicio del reinado de Cleopatra VII. Las dos son «Antiguo Egipto», pero no eran vecinas.",
+      "unit": "años",
+      "answer": 2549,
+      "math": "La Gran Pirámide se construyó hacia el 2600 a. C. y Cleopatra VII empezó a reinar en el 51 a. C. 2.600 − 51 = 2.549 años.",
+      "referenceExpression": "2600 − 51",
+      "assumptions": "Usamos fechas centrales: la construcción tiene incertidumbre de décadas (la datación por radiocarbono da entre 2620 y 2484 a. C.) y Cleopatra reinó del 51 al 30 a. C.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Pyramid of Giza",
+          "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+          "fact": "Se construyó hacia el 2600 a. C. a lo largo de unos 26 años."
+        },
+        {
+          "title": "Wikipedia · Cleopatra",
+          "url": "https://en.wikipedia.org/wiki/Cleopatra",
+          "fact": "Faraona de Egipto del 51 al 30 a. C."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-13-3.jpg",
+        "alt": "Busto de mármol de Cleopatra VII conservado en el Altes Museum de Berlín",
+        "credit": "Louis le Grand",
+        "url": "https://commons.wikimedia.org/wiki/File:Kleopatra-VII.-Altes-Museum-Berlin1.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Kleopatra-VII.-Altes-Museum-Berlin1.jpg"
+      },
+      "reasoning": {
+        "heading": "Pon las dos fechas en la misma regla",
+        "steps": [
+          "Las pirámides parecen de la misma época que Cleopatra, pero las separa una eternidad. Si las pirámides tienen unos 4.500 años y Cleopatra unos 2.000, la distancia ronda los 2.500.",
+          "Pirámide hacia el 2600 a. C., Cleopatra a mediados del siglo I a. C.: restando, unos 2.550 años.",
+          "Con 2600 y 51 a. C., la diferencia es de 2.549 años. Cleopatra vivió más cerca de nuestro tiempo (unos 2.076 años) que de la construcción de la Gran Pirámide."
+        ]
+      }
+    }
+  ]
+}

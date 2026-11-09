@@ -1,0 +1,131 @@
+{
+  "id": "2026-09-26",
+  "name": "Sábado",
+  "theme": "Plutón, Ruta de la Seda y disquete",
+  "questions": [
+    {
+      "id": "archivo-2026-09-26-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Rumbo a Plutón",
+      "title": "¿A cuántos km/h viajó de media la sonda New Horizons hasta su encuentro con Plutón?",
+      "detail": "Nueve años y medio de viaje sin parar a repostar. Cuenta la distancia recorrida por la trayectoria real, no la línea recta, desde el despegue del 19 de enero de 2006 hasta el sobrevuelo del 14 de julio de 2015.",
+      "unit": "km/h",
+      "answer": 58090.67282702859,
+      "math": "NASA cifra el viaje en unos 3.000 millones de millas: 4.828.032.000 km. Entre el 19-1-2006 y el 14-7-2015 hay 3.463 días, es decir, 83.112 horas. 4.828.032.000 ÷ 83.112 ≈ 58.091 km/h.",
+      "referenceExpression": "3000000000 × 1,609344 ÷ 83112",
+      "assumptions": "La distancia de NASA está redondeada («tres mil millones de millas»), así que el resultado es aproximado. Contamos días completos entre las dos fechas y promediamos sobre todo el viaje: la sonda no fue siempre a la misma velocidad.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Misión New Horizons",
+          "url": "https://science.nasa.gov/mission/new-horizons/",
+          "fact": "Lanzamiento el 19 de enero de 2006 y sobrevuelo de Plutón y sus lunas el 14 de julio de 2015."
+        },
+        {
+          "title": "NASA Scientific Visualization Studio · sobrevuelo de Plutón",
+          "url": "https://svs.gsfc.nasa.gov/11913",
+          "fact": "Tras viajar nueve años y medio y tres mil millones de millas, New Horizons sobrevoló Plutón el 14 de julio de 2015."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-26-1.jpg",
+        "alt": "Plutón fotografiado en color por la sonda New Horizons, con su gran llanura clara en forma de corazón",
+        "credit": "NASA / Johns Hopkins University Applied Physics Laboratory / Southwest Research Institute",
+        "url": "https://commons.wikimedia.org/wiki/File:Pluto-01_Stern_03_Pluto_Color_TXT.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pluto-01_Stern_03_Pluto_Color_TXT.jpg"
+      },
+      "reasoning": {
+        "heading": "Divide un camino enorme entre un tiempo larguísimo",
+        "steps": [
+          "Plutón está en los confines del sistema solar: miles de millones de kilómetros, no millones. Una apuesta razonable es unos 5.000 millones de km recorridos en algo más de nueve años.",
+          "Nueve años son unas 80.000 horas (9 × 365 × 24). 5.000 millones entre 80.000 da unos 62.500 km/h. Ya sabemos el orden: decenas de miles de km/h, no cientos ni millones.",
+          "Con los 3.000 millones de millas de NASA (4.828 millones de km) y las 83.112 horas exactas salen unos 58.091 km/h. Es una media: la distancia oficial está redondeada y la velocidad real cambió durante el viaje."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-26-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Caravana sin prisa",
+      "title": "A 30 km diarios, ¿cuántos días tardaba una caravana en recorrer la Ruta de la Seda de Xi'an a Constantinopla?",
+      "detail": "Camellos, mercaderes y ni una gasolinera. Cuenta 30 km por jornada, todos los días, sin paradas largas en caravasares ni desvíos para regatear.",
+      "unit": "días",
+      "answer": 213.33333333333334,
+      "math": "La Ruta de la Seda se extendía más de 6.400 km por tierra. A 30 km por jornada: 6.400 ÷ 30 ≈ 213 días, unos siete meses.",
+      "referenceExpression": "6400 ÷ 30",
+      "assumptions": "Tomamos los 6.400 km terrestres como el trayecto completo de Xi'an (la antigua Chang'an) a Constantinopla. En realidad era una red de caminos con muchos ramales, y las mercancías solían cambiar de manos por tramos en lugar de viajar de punta a punta con la misma caravana.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Silk Road",
+          "url": "https://en.wikipedia.org/wiki/Silk_Road",
+          "fact": "La red se extendía más de 6.400 km (4.000 millas) por tierra."
+        },
+        {
+          "title": "Wikipedia · Ruta de la seda",
+          "url": "https://es.wikipedia.org/wiki/Ruta_de_la_seda",
+          "fact": "Sus rutas comenzaban en Chang'an (actual Xi'an) y entre sus extremos occidentales figuraba Constantinopla."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-26-2.jpg",
+        "alt": "Camello bactriano de dos jorobas en una estepa de Kazajistán, uno de los animales de carga de la Ruta de la Seda",
+        "credit": "Petar Milošević",
+        "url": "https://commons.wikimedia.org/wiki/File:Bactrian_camel_in_Kazakhstan.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero la distancia, luego el paso del camello",
+        "steps": [
+          "De China al Bósforo se cruza media Asia: varios miles de kilómetros. Una primera apuesta sería unos 6.000 km.",
+          "A 30 km diarios, 6.000 km son 200 días. Ya sabemos que hablamos de más de medio año, no de semanas.",
+          "Con los más de 6.400 km de ruta terrestre salen 213 días, unos siete meses sin descanso. En la práctica las caravanas paraban, cambiaban de animales y la mercancía pasaba de mano en mano, así que el viaje real de un fardo de seda era más largo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-26-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Peli en disquetes",
+      "title": "¿Cuántos disquetes de 3,5 pulgadas harían falta para guardar una película de 4 GB?",
+      "detail": "Recupera la caja de disquetes del trastero. Película de 4 GB, cada disquete con su capacidad comercial de 1,44 MB y sin comprimir nada más.",
+      "unit": "disquetes",
+      "answer": 2777.777777777778,
+      "math": "Con 1 GB = 1.000 MB, la película ocupa 4.000 MB. 4.000 ÷ 1,44 ≈ 2.778 disquetes.",
+      "referenceExpression": "4000 ÷ 1,44",
+      "assumptions": "El «1,44 MB» comercial son en realidad 1.474.560 bytes (1.440 KiB). Según la convención de unidades que uses para los 4 GB, el resultado va de unos 2.700 a unos 2.900 disquetes; el orden de magnitud no cambia.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Floppy disk",
+          "url": "https://en.wikipedia.org/wiki/Floppy_disk",
+          "fact": "El disquete de 3,5 pulgadas de alta densidad se comercializó como «1,44 MB» (1.474.560 bytes, 1.440 KB formateados)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-26-3.jpg",
+        "alt": "Disquete de 3,5 pulgadas de la marca Verbatim visto de frente, con su cierre metálico",
+        "credit": "Santeri Viinamäki",
+        "url": "https://commons.wikimedia.org/wiki/File:Verbatim_3%C2%BD-inch_floppy_disk.jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa todo a la misma unidad antes de dividir",
+        "steps": [
+          "Un disquete guarda poco más de un megabyte; una película, varios gigas. Un giga son unos mil megas, así que intuimos miles de disquetes.",
+          "Redondeando a 1,5 MB por disquete: 4.000 ÷ 1,5 ≈ 2.700. La respuesta estará cerca de los tres mil, no de los trescientos.",
+          "Con los 1,44 MB exactos salen 2.778 disquetes, una pila de más de 8 metros si cada uno mide unos 3 mm. Según cómo cuentes los bytes, la cifra baila entre 2.700 y 2.900."
+        ]
+      }
+    }
+  ]
+}

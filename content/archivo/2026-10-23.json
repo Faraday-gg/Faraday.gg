@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-23",
+  "name": "Viernes",
+  "theme": "Cava, Altamira y oca",
+  "questions": [
+    {
+      "id": "archivo-2026-10-23-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Torre de burbujas",
+      "title": "¿Cuántos kilómetros de altura mediría una pila con las botellas de cava vendidas en un año?",
+      "detail": "Apilamos de pie, una sobre otra, todas las botellas de cava vendidas en 2025, de 30 cm cada una. El corcho de abajo aguanta lo que le echen.",
+      "unit": "km",
+      "answer": 57000,
+      "math": "La DO Cava comercializó 190 millones de botellas en 2025 (Consejo Regulador, recogido por Vinetur). 190.000.000 × 0,30 m = 57.000.000 m = 57.000 km.",
+      "referenceExpression": "190000000 × 0,3 ÷ 1000",
+      "assumptions": "Todas las botellas de 75 cl y 30 cm, sin contar formatos pequeños ni mágnum. Las ventas cayeron un 12,8 % respecto a 2024.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Vinetur · La sequía hunde las ventas de Cava en 2025",
+          "url": "https://vinetur.com/2026031997838/la-sequia-hunde-las-ventas-de-cava-en-2025-con-una-caida-del-128.html",
+          "fact": "La DO Cava comercializó 190 millones de botellas en 2025, según su Consejo Regulador."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-23-1.jpg",
+        "alt": "Botella de cava brut con su copa servida",
+        "credit": "Michal Osmenda from Brussels, Belgium",
+        "url": "https://commons.wikimedia.org/wiki/File:Cava_brut_Fuente_de_Alegria_(8337248681).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Botellas por altura, sin que se caiga",
+        "steps": [
+          "Millones de botellas de 30 cm: la torre se va a salir de la atmósfera seguro. ¿Llegará más allá de la Estación Espacial?",
+          "Si son unos 200 millones, a 30 cm son 60.000 km. La Estación Espacial está a unos 400 km.",
+          "Con 190 millones salen 57.000 km: más que una vuelta a la Tierra, y casi una sexta parte del camino a la Luna."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-23-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Abuelos rupestres",
+      "title": "¿Cuántas generaciones nos separan de los primeros pintores de la cueva de Altamira?",
+      "detail": "Una generación cada 25 años, de padres a hijos, desde la primera pintura datada de la cueva hasta hoy.",
+      "unit": "generaciones",
+      "answer": 1424,
+      "math": "Las primeras pinturas de Altamira se han datado en unos 35.600 años antes del presente (Wikipedia, estudio de 2012). 35.600 ÷ 25 = 1.424 generaciones.",
+      "referenceExpression": "35600 ÷ 25",
+      "assumptions": "Generaciones de 25 años; con 30 años saldrían unas 1.190. La datación es una edad mínima y puede cambiar con nuevos estudios.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cueva de Altamira",
+          "url": "https://es.wikipedia.org/wiki/Cueva_de_Altamira",
+          "fact": "Un estudio de 2012 retrasa las primeras pinturas de Altamira al Auriñaciense, unos 35.600 años antes del presente."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-23-2.jpg",
+        "alt": "Réplica de un bisonte pintado en la Neocueva de Altamira",
+        "credit": "Alonso de Mendoza",
+        "url": "https://commons.wikimedia.org/wiki/File:R%C3%A9plica_de_la_pintura_de_un_bisonte_en_la_Neocueva_de_Altamira.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Años de prehistoria entre años por generación",
+        "steps": [
+          "Los pintores de Altamira parecen de otro planeta, pero eran Homo sapiens como nosotros. ¿Cientos o miles de generaciones?",
+          "Unos 36.000 años entre 25 son unas 1.400 generaciones. Cabrían en las gradas de un pabellón.",
+          "Con 35.600 años salen 1.424 generaciones. Cada generación, una persona: cabrían todas en un auditorio mediano."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-23-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "De oca a oca",
+      "title": "¿Cuántas tiradas de dado necesitas de media para recorrer las 63 casillas del juego de la oca?",
+      "detail": "Un solo dado, media de 3,5 por tirada, y ni ocas que te empujen ni pozos, cárceles o calaveras que te frenen.",
+      "unit": "tiradas",
+      "answer": 18,
+      "math": "El tablero clásico tiene 63 casillas (Wikipedia). Un dado da de media (1+2+3+4+5+6) ÷ 6 = 3,5. 63 ÷ 3,5 = 18 tiradas.",
+      "referenceExpression": "63 ÷ 3,5",
+      "assumptions": "Sin casillas especiales ni la regla de llegar exacto a la 63, que en la práctica obliga a rebotar y alarga la partida.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Juego de la oca",
+          "url": "https://es.wikipedia.org/wiki/Juego_de_la_oca",
+          "fact": "Tablero en forma de caracol con 63 casillas; la 63 es el «jardín de la oca»."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-23-3.jpg",
+        "alt": "Tablero antiguo del juego de la oca con sus casillas en espiral",
+        "credit": "Jorge Elías",
+        "url": "https://commons.wikimedia.org/wiki/File:Antonio_Venegas_Arroyo_El_juego_de_la_Oca.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Antonio_Venegas_Arroyo_El_juego_de_la_Oca.jpg"
+      },
+      "reasoning": {
+        "heading": "Casillas entre lo que avanza un dado",
+        "steps": [
+          "Una partida de oca dura un rato largo, pero muchas veces por culpa de los castigos. Sin ellos, ¿cuántas tiradas?",
+          "El dado da entre 1 y 6, de media 3,5. 63 casillas entre 3,5 salen unas 18.",
+          "Exactamente 18 tiradas. Con ocas a favor bajarían; con el pozo, la cárcel y la calavera, mejor no hacer planes para la tarde."
+        ]
+      }
+    }
+  ]
+}

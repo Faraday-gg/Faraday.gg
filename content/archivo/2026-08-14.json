@@ -1,0 +1,126 @@
+{
+  "id": "2026-08-14",
+  "name": "Viernes",
+  "theme": "Arrecife, Trevi y Hubble",
+  "questions": [
+    {
+      "id": "archivo-2026-08-14-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Buceo de fondo",
+      "title": "Nadando a 2 km/h sin parar, ¿cuántos días tardarías en recorrer la Gran Barrera de Coral?",
+      "detail": "Nada de punta a punta del arrecife a 2 km/h, 24 horas al día, sin dormir ni parar a saludar a los peces payaso.",
+      "unit": "días",
+      "answer": 47.916666666666664,
+      "math": "La Gran Barrera de Coral mide unos 2.300 km. A 2 km/h son 1.150 horas; entre 24 h al día, unos 47,9 días.",
+      "referenceExpression": "2300 ÷ 2 ÷ 24",
+      "assumptions": "Trayecto en línea recta a lo largo del arrecife y velocidad constante. Ignoramos corrientes, descansos y que el arrecife es un conjunto de miles de arrecifes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Longest reef",
+          "url": "https://www.guinnessworldrecords.com/world-records/66687-longest-reef.html",
+          "fact": "La Gran Barrera de Coral mide aproximadamente 2.300 km (1.430 millas)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-14-1.jpg",
+        "alt": "Vista aérea de la Gran Barrera de Coral, con arrecifes turquesa sobre el azul oscuro del mar",
+        "credit": "Ank Kumar",
+        "url": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Great_Barrier_Reef_(Ank_Kumar)_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Longitud entre velocidad",
+        "steps": [
+          "El arrecife recorre buena parte de la costa este de Australia: piensa en más de 2.000 km. A paso de nadador tranquilo, eso son semanas.",
+          "2.000 km a 2 km/h son 1.000 horas, unas 42 jornadas de 24 horas. Ya sabemos que es más de un mes.",
+          "Con 2.300 km salen 1.150 horas: 47,9 días sin parar. Con descansos de ocho horas al día te irías a más de 70 días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-14-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Deseos con suelto",
+      "title": "¿Cuántas monedas lanzan los turistas a la Fontana di Trevi cada día?",
+      "detail": "Supón que todo el dinero que acaba en el agua son monedas de 50 céntimos. Una moneda, un deseo; dos, volver a Roma con pareja.",
+      "unit": "monedas",
+      "answer": 7671.232876712329,
+      "math": "En 2016 se arrojaron a la fuente unos 1,4 millones de euros. Entre 365 días son unos 3.836 € diarios; a 0,50 € por moneda, unas 7.671 monedas al día.",
+      "referenceExpression": "1400000 ÷ 365 ÷ 0,5",
+      "assumptions": "Moneda media de 50 céntimos y reparto uniforme en el año. En la fuente caen monedas de todos los valores y países; la recaudación cambia de un año a otro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Trevi Fountain",
+          "url": "https://en.wikipedia.org/wiki/Trevi_Fountain",
+          "fact": "En 2016 se arrojaron a la fuente unos 1,4 millones de euros; se estima que caen unos 3.000 € al día."
+        },
+        {
+          "title": "QuiFinanza · Cosa succede alle monete della Fontana di Trevi?",
+          "url": "https://quifinanza.it/attualita/monete-fontana-di-trevi/799034/",
+          "fact": "En 2022 Cáritas financió proyectos con 1,4 millones de euros procedentes de las monedas de la fuente."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-14-2.jpg",
+        "alt": "Fontana di Trevi en Roma, con el agua turquesa del estanque donde caen las monedas",
+        "credit": "gnuckx",
+        "url": "https://commons.wikimedia.org/wiki/File:Fontana_di_Trevi_-_Italy_-_Roma_-_Creative_Commons_by_gnuckx_(3204230942).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "De euros al año a monedas al día",
+        "steps": [
+          "La fuente recauda del orden de un millón de euros al año. Repartido en 365 días, son unos pocos miles de euros diarios.",
+          "Si cada día caen unos 4.000 € y la moneda media vale 50 céntimos, serían 8.000 monedas.",
+          "Con 1,4 millones al año salen 7.671 monedas diarias. Si la mayoría fueran de 10 céntimos, la cifra se multiplicaría por cinco: el valor de la moneda manda."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-14-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Vueltas de veterano",
+      "title": "¿Cuántas vueltas a la Tierra ha dado el telescopio Hubble desde su lanzamiento en 1990?",
+      "detail": "Cuenta desde el despegue del 24 de abril de 1990 hasta hoy, 14 de agosto de 2026, con una vuelta cada 95 minutos. Ni un día libre en 36 años.",
+      "unit": "vueltas",
+      "answer": 201000.90684210524,
+      "math": "Del 24 de abril de 1990 (12:33 UTC) al 14 de agosto de 2026 pasan unos 13.260 días, 19.095.086 minutos. Entre 95 minutos por órbita: unas 201.001 vueltas.",
+      "referenceExpression": "13260,48 × 1440 ÷ 95",
+      "assumptions": "Período constante de 95 minutos. La órbita ha ido bajando con los años y hoy el período ronda los 94 minutos, así que el número real es algo mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Hubble Space Telescope",
+          "url": "https://en.wikipedia.org/wiki/Hubble_Space_Telescope",
+          "fact": "Lanzado el 24 de abril de 1990 a las 12:33:51 UTC a bordo del Discovery (STS-31); período orbital actual de 94,0 minutos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-14-3.jpg",
+        "alt": "El telescopio espacial Hubble en órbita sobre la Tierra, con sus paneles solares desplegados",
+        "credit": "NASA",
+        "url": "https://commons.wikimedia.org/wiki/File:Hubble_Space_Telescope_over_Earth_(during_the_STS-109_mission).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Hubble_Space_Telescope_over_Earth_(during_the_STS-109_mission).jpg"
+      },
+      "reasoning": {
+        "heading": "Cuenta minutos desde 1990",
+        "steps": [
+          "Una vuelta cada hora y media son unas 15 al día. En 36 años habrá dado cientos de miles de vueltas.",
+          "36 años × 365 días × 15 vueltas ≈ 197.000. El orden de magnitud está claro: unas 200.000.",
+          "Contando los 13.260 días exactos y 95 minutos por vuelta salen 201.001 vueltas. Con el período actual de 94 minutos serían unas 2.000 más."
+        ]
+      }
+    }
+  ]
+}

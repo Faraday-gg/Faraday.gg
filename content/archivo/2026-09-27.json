@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-27",
+  "name": "Domingo",
+  "theme": "Gato, Ávila y Nerja",
+  "questions": [
+    {
+      "id": "archivo-2026-09-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Profesional de la siesta",
+      "title": "¿Cuántos años de su vida pasa durmiendo un gato doméstico?",
+      "detail": "Un gato casero medio, sin contar las horas que finge dormir para ignorarte. Supón 14 horas de sueño al día durante una vida de 13 años.",
+      "unit": "años",
+      "answer": 7.583333333333334,
+      "math": "Un gato duerme de media entre 13 y 14 horas al día, y la esperanza de vida de un gato doméstico ronda los 13 años. 14 ÷ 24 × 13 ≈ 7,6 años dormido.",
+      "referenceExpression": "14 ÷ 24 × 13",
+      "assumptions": "Usamos una media fija para toda la vida, aunque los gatitos y los gatos mayores duermen más. Muchos gatos superan con creces los 13 años.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cat",
+          "url": "https://en.wikipedia.org/wiki/Cat",
+          "fact": "Los gatos duermen entre 12 y 16 horas al día, con 13 o 14 de media; la esperanza de vida de los gatos domésticos era de unos 13 años en 2014 y 2023."
+        },
+        {
+          "title": "Sleep Foundation · How much do cats sleep?",
+          "url": "https://www.sleepfoundation.org/animals-and-sleep/how-much-do-cats-sleep",
+          "fact": "Más de la mitad de los gatos duermen entre 12 y 18 horas al día."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-27-1.jpg",
+        "alt": "Gato dormido y acurrucado en su cama de tela",
+        "credit": "JW2009",
+        "url": "https://commons.wikimedia.org/wiki/File:A_cat_sleeping_in_a_cat_bed.jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+      },
+      "reasoning": {
+        "heading": "Primero la fracción del día, luego la vida entera",
+        "steps": [
+          "Un gato se pasa durmiendo más de medio día. Si duerme algo más de la mitad del tiempo y vive unos 13 años, la respuesta rondará los 7 años.",
+          "14 horas son 14/24 del día, casi el 60 %. El 60 % de 13 años es unos 7,8 años: ya tenemos el orden.",
+          "Con 14 horas exactas salen 7,58 años, más de la mitad de su vida. Con 13 horas al día serían 7 años justos; un gato senior que duerma 18 horas pasaría bastante más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Almenas a ojo",
+      "title": "¿Cuántas almenas tiene la muralla de Ávila?",
+      "detail": "Prohibido subir a contarlas una a una. Supón una almena por cada metro de muralla a lo largo de todo su perímetro.",
+      "unit": "almenas",
+      "answer": 2516,
+      "math": "La muralla de Ávila tiene 2.516 m de perímetro, con 87 torreones y 9 puertas. Con una almena por metro: 2.516 almenas.",
+      "referenceExpression": "2516 ÷ 1",
+      "assumptions": "El reparto de una almena por metro es nuestro modelo, no un recuento oficial: torreones, puertas y tramos restaurados rompen el ritmo regular de almenas y huecos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Turismo de Castilla y León · Subida a la Muralla de Ávila",
+          "url": "https://www.turismocastillayleon.com/es/patrimonio-cultura/murallas-puertas/subida-muralla-avila",
+          "fact": "La muralla tiene 2.516 metros de perímetro, 87 torreones y 9 puertas; el adarve visitable ronda los 1.700 metros."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-27-2.jpg",
+        "alt": "Panorámica de la muralla de Ávila con sus torreones y almenas rodeando la ciudad",
+        "credit": "Ángel M. Felicísimo from Mérida, España",
+        "url": "https://commons.wikimedia.org/wiki/File:Murallas_de_%C3%81vila_(31907724543).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Mide el contorno y reparte las almenas",
+        "steps": [
+          "La muralla rodea todo el casco antiguo: un paseo de unos dos kilómetros y pico. Si cada almena y su hueco ocupan más o menos un metro, saldrán unas pocas miles.",
+          "Con 2,5 km de muralla y una almena por metro: unas 2.500. Ni cientos ni decenas de miles.",
+          "Con el perímetro oficial de 2.516 m, nuestro modelo da 2.516 almenas. Es una estimación: los 87 torreones y las 9 puertas interrumpen la fila, y el ancho real de cada almena varía de un tramo a otro."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Goteo paciente",
+      "title": "Si una columna creciera 1 cm cada siglo, ¿cuántos años tardaría en formarse la gran columna de la Cueva de Nerja?",
+      "detail": "Paciencia geológica: crecimiento constante de 1 cm por siglo, sin parones ni acelerones, de la base a lo más alto.",
+      "unit": "años",
+      "answer": 320000,
+      "math": "La gran columna de la Sala del Cataclismo mide 32 m: 3.200 cm. A 1 cm por siglo son 3.200 siglos, es decir, 320.000 años.",
+      "referenceExpression": "3200 × 100",
+      "assumptions": "El ritmo de 1 cm por siglo es un supuesto; el crecimiento real depende del goteo, del clima y de la química del agua. Además, la columna nace de la unión de una estalactita y una estalagmita que crecen a la vez, así que el tiempo real podría ser menor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guía Repsol · Cueva de Nerja",
+          "url": "https://www.guiarepsol.com/es/viajar/vamos-de-excursion/visita-la-cueva-de-nerja-malaga/",
+          "fact": "Una columna de 32 metros de altura y 18 de diámetro preside la sala; figuró en el Libro Guinness de los Récords."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-27-3.jpg",
+        "alt": "Interior de la Cueva de Nerja con la gran columna de estalactitas a la derecha y la pasarela iluminada de los visitantes al fondo",
+        "credit": "Pedro J Pacheco",
+        "url": "https://commons.wikimedia.org/wiki/File:Gran_columna._Cueva_de_Nerja.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa la altura a centímetros y cuenta siglos",
+        "steps": [
+          "La columna es enorme: más alta que un edificio de diez plantas. Digamos unos 30 m.",
+          "30 m son 3.000 cm, y a un centímetro por siglo son 3.000 siglos: 300.000 años. Hablamos de cientos de miles de años, no de miles.",
+          "Con los 32 m de la columna salen 320.000 años. El resultado depende por completo del ritmo supuesto: con 2 cm por siglo sería la mitad, y estalactita y estalagmita crecían a la vez desde arriba y desde abajo."
+        ]
+      }
+    }
+  ]
+}

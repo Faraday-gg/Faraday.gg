@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-01",
+  "name": "Martes",
+  "theme": "Olivar, ruedas y Plaza Mayor",
+  "questions": [
+    {
+      "id": "archivo-2026-09-01-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Oro líquido",
+      "title": "¿Cuántas piscinas olímpicas llenaría el aceite de oliva que produjo Jaén en 2013?",
+      "detail": "Todo el aceite de una cosecha récord, a piscina llena y sin dejar nada para mojar pan. Cada litro de aceite pesa 0,92 kg.",
+      "unit": "piscinas",
+      "answer": 325.8204347826087,
+      "math": "En 2013 la provincia produjo 749.387 t de aceite. 749.387.000 kg ÷ 0,92 kg/L = 814.551.087 L = 814.551 m³. Una piscina olímpica tiene 2.500 m³: 814.551 ÷ 2.500 ≈ 325,8 piscinas.",
+      "referenceExpression": "749387000 ÷ 0,92 ÷ 1000 ÷ 2500",
+      "assumptions": "Densidad de 0,92 kg/L y piscina de 50 × 25 × 2 m. 2013 fue un año excepcional: en 2014 la provincia produjo 227.050 t.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Provincia de Jaén",
+          "url": "https://es.wikipedia.org/wiki/Provincia_de_Ja%C3%A9n_(Espa%C3%B1a)",
+          "fact": "En 2013 la provincia produjo 3.595.872 t de aceituna de almazara, que rindieron 749.387 t de aceite; en 2014, 227.050 t."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica de 50 × 25 m y 2 m de profundidad contiene unos 2.500.000 litros."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-01-1.jpg",
+        "alt": "Mar de olivos en hileras sobre las lomas de Jaén",
+        "credit": "Allie_Caulfield",
+        "url": "https://commons.wikimedia.org/wiki/File:Olivares_en_Ja%C3%A9n.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Toneladas, litros y piscinas",
+        "steps": [
+          "Jaén produce una parte enorme del aceite de oliva del mundo: en un buen año, cientos de miles de toneladas.",
+          "Con 700.000 t, y sabiendo que el aceite pesa algo menos que el agua, salen unos 760.000 m³. Entre 2.500 m³ por piscina, unas 300 piscinas.",
+          "Con las 749.387 t de 2013 salen 325,8 piscinas olímpicas. En un año flojo como 2014 no llegaría a 100."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-01-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Vueltas de récord",
+      "title": "¿Cuántas vueltas dio cada rueda del Volvo P1800 de Irv Gordon, el coche con más kilómetros del mundo?",
+      "detail": "Un solo coche, un solo dueño y más de cinco millones de kilómetros. Suponemos ruedas de 2 m de circunferencia y que nunca derrapó.",
+      "unit": "vueltas",
+      "answer": 2623437500,
+      "math": "En octubre de 2018 el coche sumaba 3.260.257 millas, 5.246.875 km (5.246.875.000 m). Con ruedas de 2 m de circunferencia: 5.246.875.000 ÷ 2 ≈ 2.623 millones de vueltas.",
+      "referenceExpression": "5246875000 ÷ 2",
+      "assumptions": "Circunferencia de rueda de 2 m, una cifra redonda para un turismo. Contamos las vueltas de la posición de la rueda, aunque los neumáticos se cambiaron muchas veces.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Irv Gordon",
+          "url": "https://en.wikipedia.org/wiki/Irv_Gordon",
+          "fact": "Su Volvo P1800 llegó a 3.260.257 millas (5.246.875 km) en octubre de 2018, un mes antes de su muerte."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-01-2.jpg",
+        "alt": "Volvo P1800 clásico de color claro aparcado",
+        "credit": "Berthold Werner",
+        "url": "https://commons.wikimedia.org/wiki/File:Volvo_P1800_ES_BW_2017-07-16_13-28-01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Kilómetros de récord entre metros de rueda",
+        "steps": [
+          "El récord ronda los cinco millones de kilómetros. Una rueda de coche avanza unos 2 metros por vuelta.",
+          "Cinco millones de km son 5.000 millones de metros: unos 2.500 millones de vueltas.",
+          "Con 5.246.875 km y ruedas de 2 m salen 2.623.437.500 vueltas. Con una rueda algo más pequeña, la cifra subiría un poco."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-01-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Llenazo porticado",
+      "title": "¿Cuántas personas cabrían de pie en la Plaza Mayor de Madrid?",
+      "detail": "Cuatro personas por metro cuadrado, como en la Nochevieja más apretada, y nadie bajo los soportales.",
+      "unit": "personas",
+      "answer": 37600,
+      "math": "La plaza tiene una superficie de 9.400 m². A 4 personas por m²: 9.400 × 4 = 37.600 personas.",
+      "referenceExpression": "9400 × 4",
+      "assumptions": "Usamos la superficie de 9.400 m² que da la fuente; sus medidas exteriores (120,9 × 93,06 m) darían algo más. No descontamos la estatua de Felipe III ni las terrazas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Plaza Mayor de Madrid",
+          "url": "https://es.wikipedia.org/wiki/Plaza_Mayor_de_Madrid",
+          "fact": "La plaza mide 120,9 m de largo por 93,06 m de ancho y tiene una superficie de 9.400 m²."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-01-3.jpg",
+        "alt": "Panorámica de la Plaza Mayor de Madrid con sus soportales y la estatua ecuestre",
+        "credit": "Nemo",
+        "url": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Madrid_(panor%C3%A1mica).jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Superficie por densidad",
+        "steps": [
+          "La Plaza Mayor es un rectángulo de unos 120 × 90 m: algo más de una hectárea, unos 10.000 m².",
+          "A 4 personas por m² caben unas 40.000 personas: la mitad de un estadio grande.",
+          "Con los 9.400 m² de la plaza salen 37.600 personas. Si contaras las medidas exteriores completas, serían unas 45.000."
+        ]
+      }
+    }
+  ]
+}

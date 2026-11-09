@@ -1,0 +1,121 @@
+{
+  "id": "2026-08-19",
+  "name": "Miércoles",
+  "theme": "Billete de 10, La Concha y Atapuerca",
+  "questions": [
+    {
+      "id": "archivo-2026-08-19-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Fila de dieces",
+      "title": "¿Cuántos kilómetros mediría una fila con todos los billetes de 10 € en circulación?",
+      "detail": "Pon en fila, uno detrás de otro por su lado largo de 127 mm, todos los billetes de 10 € en circulación. Que no sople el viento.",
+      "unit": "km",
+      "answer": 406191.13160900003,
+      "math": "Hay unos 3.198.355.367 billetes de 10 € en circulación (abril de 2026). Cada uno mide 127 mm: 3.198.355.367 × 0,127 m ≈ 406.191 km.",
+      "referenceExpression": "3198355367 × 0,127 ÷ 1000",
+      "assumptions": "Dato de circulación de abril de 2026 publicado por el BCE y recogido en Wikipedia; la cifra cambia cada mes. Billetes colocados sin huecos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · 10 euro note",
+          "url": "https://en.wikipedia.org/wiki/10_euro_note",
+          "fact": "Unos 3.198.355.367 billetes de 10 € en circulación en abril de 2026 (dato del BCE); tamaño de 127 × 67 mm."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-19-1.jpg",
+        "alt": "Billetes de 10 euros junto a monedas de 10 céntimos",
+        "credit": "Santeri Viinamäki",
+        "url": "https://commons.wikimedia.org/wiki/File:10_euro_banknotes_and_10_euro_cent_coins_20180207.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Billetes por centímetros",
+        "steps": [
+          "Hay miles de millones de billetes de 10 €. Cada uno mide algo más de una cuarta, así que la fila se va a cientos de miles de kilómetros.",
+          "3.000 millones × 0,13 m ≈ 390.000 km: del orden de la distancia a la Luna.",
+          "Con 3.198 millones de billetes y 127 mm salen 406.191 km: más que la distancia media a la Luna (unos 384.400 km)."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-19-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Codo con codo",
+      "title": "¿Cuántas personas podrían apoyarse a la vez en la barandilla de La Concha?",
+      "detail": "Llena la famosa barandilla blanca a lo largo de la playa de La Concha, con 60 cm por persona. Todos mirando al mar, nadie haciendo fotos de espaldas.",
+      "unit": "personas",
+      "answer": 2250,
+      "math": "La playa de La Concha tiene una longitud media de 1.350 m y la barandilla la acompaña de punta a punta. 1.350 ÷ 0,6 = 2.250 personas.",
+      "referenceExpression": "1350 ÷ 0,6",
+      "assumptions": "Suponemos que la barandilla mide lo mismo que la playa; su trazado real sigue el paseo y puede ser algo más larga. 60 cm de hombro a hombro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Playa de La Concha (San Sebastián)",
+          "url": "https://es.wikipedia.org/wiki/Playa_de_La_Concha_(San_Sebasti%C3%A1n)",
+          "fact": "La playa tiene una longitud media de 1.350 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-19-2.jpg",
+        "alt": "La barandilla blanca de La Concha con la bahía de San Sebastián al fondo",
+        "credit": "Xabier Garmendia",
+        "url": "https://commons.wikimedia.org/wiki/File:Kontxako_baranda._Euskal_Herria.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Longitud entre hombros",
+        "steps": [
+          "La bahía de La Concha mide algo más de un kilómetro. Con poco más de medio metro por persona, caben unas 2.000.",
+          "1.300 m ÷ 0,6 m ≈ 2.170 personas. El orden de magnitud son miles.",
+          "Con 1.350 m salen 2.250 personas. Si cuentas también el tramo del paseo hacia Ondarreta, la cifra crece."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-19-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Línea del tiempo",
+      "title": "Si cada año de antigüedad fuera un milímetro, ¿cuántos metros mediría la línea del tiempo hasta Homo antecessor de Atapuerca?",
+      "detail": "Dibuja una línea en la que cada año es un milímetro, desde hoy hasta los fósiles de Homo antecessor de la Gran Dolina. Toda la historia escrita cabe en el primer palmo.",
+      "unit": "metros",
+      "answer": 800,
+      "math": "Los fósiles de Homo antecessor de la Gran Dolina se han datado en unos 800.000 años. A 1 mm por año: 800.000 mm = 800 m.",
+      "referenceExpression": "800000 × 0,001",
+      "assumptions": "Fecha redonda de 800.000 años; las dataciones citadas van de 772.000 a 949.000 años, así que la línea podría medir entre 772 y 949 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Homo antecessor",
+          "url": "https://es.wikipedia.org/wiki/Homo_antecessor",
+          "fact": "Los fósiles de Gran Dolina se han datado en hace unos 800.000 años; otras dataciones dan 780.000-850.000 y 772.000-949.000 años."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-19-3.jpg",
+        "alt": "Panorámica del yacimiento de Gran Dolina en la sierra de Atapuerca",
+        "credit": "Mario modesto, edited by Fir0002",
+        "url": "https://commons.wikimedia.org/wiki/File:Gran_Dolina-Atapuerca-Panoramica_edit3.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Gran_Dolina-Atapuerca-Panoramica_edit3.jpg"
+      },
+      "reasoning": {
+        "heading": "Convierte años en milímetros",
+        "steps": [
+          "Homo antecessor vivió hace cientos de miles de años. Si son casi un millón, la línea mediría casi un kilómetro.",
+          "Mil años son un metro. 800.000 años son 800 metros: ocho campos de fútbol en fila.",
+          "Con la datación de unos 800.000 años la línea mide 800 m. Los romanos quedarían a 2 m del principio: casi toda la línea es prehistoria."
+        ]
+      }
+    }
+  ]
+}

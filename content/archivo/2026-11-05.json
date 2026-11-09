@@ -1,0 +1,136 @@
+{
+  "id": "2026-11-05",
+  "name": "Jueves",
+  "theme": "Lluvia, Júpiter y atún",
+  "questions": [
+    {
+      "id": "archivo-2026-11-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Paraguas compostelano",
+      "title": "¿Cuántos litros de lluvia caen en un año sobre el municipio de Santiago de Compostela?",
+      "detail": "Toma la lluvia media de un año normal y repártela sobre todo el término municipal. Recuerda que 1 mm de lluvia equivale a 1 litro por metro cuadrado, y que en Santiago la lluvia es arte.",
+      "unit": "litros",
+      "answer": 393157870000,
+      "math": "AEMET da una precipitación media anual de 1.787 mm en el aeropuerto de Santiago (1981-2010). El municipio mide 220,01 km² = 220.010.000 m². 1.787 L/m² × 220.010.000 m² ≈ 393.158 millones de litros.",
+      "referenceExpression": "1787 × 220010000",
+      "assumptions": "Aplicamos la lluvia del observatorio del aeropuerto a todo el municipio; dentro del término llueve más o menos según la zona. Año medio del periodo 1981-2010.",
+      "confidence": "Datos oficiales + modelo",
+      "sources": [
+        {
+          "title": "AEMET · Valores climatológicos normales, Santiago de Compostela Aeropuerto",
+          "url": "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=1428&k=gal",
+          "fact": "Precipitación media anual de unos 1.787 mm en el periodo 1981-2010; diciembre es el mes más lluvioso (261 mm)."
+        },
+        {
+          "title": "Wikipedia · Santiago de Compostela",
+          "url": "https://es.wikipedia.org/wiki/Santiago_de_Compostela",
+          "fact": "El municipio abarca una superficie de 220,01 km²."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-05-1.jpg",
+        "alt": "Plaza del Obradoiro de Santiago de Compostela bajo la lluvia, con el suelo mojado y la catedral al fondo",
+        "credit": "No machine-readable author provided. Yearofthedragon assumed (based on copyright claims).",
+        "url": "https://commons.wikimedia.org/wiki/File:Spain.Santiago.de.Compostela.Obradoiro.Lloviendo.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Milímetros por metros cuadrados",
+        "steps": [
+          "Santiago es de las ciudades más lluviosas de España: más de 1.500 mm al año. Su municipio tiene unos 200 km².",
+          "200 km² son 200 millones de m². Con 1.500 litros por m² salen 300.000 millones de litros.",
+          "Con los 1.787 mm de AEMET y los 220,01 km² del municipio salen unos 393.000 millones de litros. Llenarían unas 157.000 piscinas olímpicas de 2.500 m³."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Mudanza gaseosa",
+      "title": "¿Cuántas Tierras cabrían dentro de Júpiter?",
+      "detail": "Mete planetas Tierra dentro de Júpiter hasta llenarlo. Las Tierras se funden como plastilina y no dejan huecos entre ellas, así que basta con comparar volúmenes.",
+      "unit": "Tierras",
+      "answer": 1321.3319670239382,
+      "math": "Según la NASA, Júpiter tiene un volumen de 143.128 × 10¹⁰ km³ y la Tierra, de 108,321 × 10¹⁰ km³. 143.128 ÷ 108,321 ≈ 1.321 Tierras.",
+      "referenceExpression": "143128 ÷ 108,321",
+      "assumptions": "Comparamos volúmenes, no masas: Júpiter es mucho menos denso que la Tierra. Si fueran canicas rígidas, quedarían huecos y cabrían bastantes menos.",
+      "confidence": "Dato oficial + cálculo",
+      "sources": [
+        {
+          "title": "NASA · Jupiter Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+          "fact": "Volumen de Júpiter: 143.128 × 10¹⁰ km³; relación de volumen Júpiter/Tierra: 1.321,33."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Volumen de la Tierra: 108,321 × 10¹⁰ km³."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-05-2.png",
+        "alt": "Detalle de Júpiter fotografiado por la sonda Juno, con la Gran Mancha Roja y bandas de nubes arremolinadas",
+        "credit": "NASA/JPL-Caltech/MSSS/SwRI/Kevin M. Gill",
+        "url": "https://commons.wikimedia.org/wiki/File:Jupiter_and_the_Great_Red_Spot_-_Juno_Perijove_7.png",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Jupiter_and_the_Great_Red_Spot_-_Juno_Perijove_7.png"
+      },
+      "reasoning": {
+        "heading": "El volumen crece con el cubo del radio",
+        "steps": [
+          "Júpiter es unas 11 veces más ancho que la Tierra. Parece poco, pero el volumen va al cubo.",
+          "11 × 11 × 11 = 1.331. Ya sabemos que hablamos de más de mil Tierras.",
+          "Con los volúmenes de la NASA salen 1.321 Tierras. El achatamiento de Júpiter, que gira muy deprisa, explica por qué no sale exactamente 11 al cubo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Almadraba en piezas",
+      "title": "¿Cuántas piezas de nigiri saldrían de un atún rojo de almadraba de 200 kg?",
+      "detail": "Un atún rojo de 200 kg, como los que se seleccionan en las almadrabas de Cádiz, despiezado sin desperdiciar nada comestible. Cada nigiri lleva 10 g de pescado; el arroz lo pone otro.",
+      "unit": "nigiris",
+      "answer": 11600,
+      "math": "La FAO estima que el atún rojo rinde un 58 % de carne comestible sobre su peso entero. 200 kg × 0,58 = 116 kg = 116.000 g. 116.000 ÷ 10 g = 11.600 nigiris.",
+      "referenceExpression": "200 × 0,58 × 1000 ÷ 10",
+      "assumptions": "Todo lo comestible acaba en nigiris de 10 g, también lo que en la práctica va a tartar, guisos o latas. El rendimiento real depende del corte y del cocinero.",
+      "confidence": "Dato técnico + modelo",
+      "sources": [
+        {
+          "title": "FAO · Yield and nutritional value of the commercially more important fish species (Fisheries Technical Paper 309)",
+          "url": "https://www.fao.org/4/t0219e/t0219e01.htm",
+          "fact": "Para el atún rojo del norte (Thunnus thynnus), la carne comestible supone un 58 % del peso del pez entero."
+        },
+        {
+          "title": "Wikipedia · Almadraba",
+          "url": "https://es.wikipedia.org/wiki/Almadraba",
+          "fact": "Los pescadores seleccionan en la almadraba atunes que pueden pesar unos 200 kilos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-05-3.jpg",
+        "alt": "Ilustración de un atún rojo de perfil, con el lomo azul oscuro y el vientre plateado",
+        "credit": "Autor desconocido · Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:Bluefin-big.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Bluefin-big.jpg"
+      },
+      "reasoning": {
+        "heading": "Primero la carne, luego las piezas",
+        "steps": [
+          "De un pez grande no se come todo: cabeza, espinas y piel pesan mucho. Digamos que aprovechas algo más de la mitad, unos 100-120 kg.",
+          "100 kg son 100.000 g; a 10 g por nigiri salen 10.000 piezas.",
+          "Con el 58 % de rendimiento de la FAO salen 116 kg y 11.600 nigiris. Para comerlos a 10 piezas por persona, invitarías a más de mil comensales."
+        ]
+      }
+    }
+  ]
+}

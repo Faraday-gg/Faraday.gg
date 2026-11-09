@@ -1,0 +1,131 @@
+{
+  "id": "2026-08-23",
+  "name": "Domingo",
+  "theme": "Manhattan, IPv4 y cruceristas",
+  "questions": [
+    {
+      "id": "archivo-2026-08-23-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Todos de pie",
+      "title": "¿Cuántas islas como Manhattan harían falta para que toda la humanidad cupiera de pie?",
+      "detail": "Cuatro personas por metro cuadrado, como en un concierto apretado. Solo vale la superficie de tierra: nadie se queda en el río Hudson.",
+      "unit": "Manhattans",
+      "answer": 34.93524199045672,
+      "math": "8.200 millones de personas a 4 por m² ocupan 2.050 millones de m², es decir, 2.050 km². Manhattan tiene 58,68 km² de tierra: 2.050 ÷ 58,68 ≈ 34,9 Manhattans.",
+      "referenceExpression": "8200000000 ÷ 4 ÷ 58680000",
+      "assumptions": "Población mundial de unos 8.200 millones (ONU, 2024) y densidad de 4 personas por m² repartida de forma uniforme, sin calles ni edificios.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Manhattan",
+          "url": "https://en.wikipedia.org/wiki/Manhattan",
+          "fact": "Superficie de tierra del condado de Nueva York (Manhattan): 58,68 km² (87,69 km² con el agua)."
+        },
+        {
+          "title": "ONU · World Population Prospects 2024",
+          "url": "https://www.un.org/sustainabledevelopment/?p=114007",
+          "fact": "La población mundial era de 8.200 millones de personas en 2024."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-23-1.jpg",
+        "alt": "Vista aérea de Manhattan con sus rascacielos, mirando hacia el sur",
+        "credit": "woo from irvine, ca, USA",
+        "url": "https://commons.wikimedia.org/wiki/File:Manhattan_-_Aerial_view_looking_south.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Primero el área, luego la isla",
+        "steps": [
+          "Somos unos 8.000 millones. Apretados a cuatro por metro cuadrado, necesitamos unos 2.000 millones de metros cuadrados: 2.000 km².",
+          "Manhattan es alargada y estrecha; su tierra firme ronda los 60 km². 2.000 entre 60 da algo más de 30 islas.",
+          "Con 8.200 millones de personas y los 58,68 km² de tierra salen 34,9 Manhattans. Toda la humanidad cabe de pie en un área más pequeña que la provincia de Madrid."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-23-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Direcciones agotadas",
+      "title": "¿Cuántas direcciones IPv4 hay por cada persona del planeta?",
+      "detail": "Reparte todas las direcciones teóricas de IPv4, incluidas las reservadas, a partes iguales. El router de casa no protesta.",
+      "unit": "direcciones",
+      "answer": 0.5237764995121951,
+      "math": "IPv4 usa direcciones de 32 bits: 2³² = 4.294.967.296 direcciones. Entre 8.200 millones de personas: 4.294.967.296 ÷ 8.200.000.000 ≈ 0,52 direcciones por persona.",
+      "referenceExpression": "4294967296 ÷ 8200000000",
+      "assumptions": "Contamos todas las direcciones teóricas, aunque muchas están reservadas y no se usan en Internet. Población mundial de unos 8.200 millones (ONU, 2024).",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · IPv4",
+          "url": "https://en.wikipedia.org/wiki/IPv4",
+          "fact": "IPv4 usa direcciones de 32 bits, lo que limita el espacio a 4.294.967.296 (2³²) direcciones."
+        },
+        {
+          "title": "ONU · World Population Prospects 2024",
+          "url": "https://www.un.org/sustainabledevelopment/?p=114007",
+          "fact": "La población mundial era de 8.200 millones de personas en 2024."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-23-2.jpg",
+        "alt": "Ilustración que compara el tamaño de los espacios de direcciones IPv4 e IPv6 con granos de arena",
+        "credit": "Christopher M Dunn",
+        "url": "https://commons.wikimedia.org/wiki/File:IPv4_vs._IPv6_Address_Size_as_Grains_of_Sand.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta bits, no ordenadores",
+        "steps": [
+          "Una dirección IPv4 son cuatro números del 0 al 255. Eso da unos cuantos miles de millones de combinaciones, aproximadamente 4.000 millones.",
+          "Somos el doble: unos 8.000 millones. Así que sale aproximadamente media dirección por persona.",
+          "Con 2³² = 4.294.967.296 direcciones y 8.200 millones de personas salen 0,52 por cabeza. Por eso existen IPv6 y los routers que comparten una dirección entre toda la casa."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-23-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Desembarco diario",
+      "title": "¿Cuántos cruceristas pasan de media cada día por el puerto de Barcelona?",
+      "detail": "Reparte todos los pasajeros de crucero de 2025 a partes iguales en 365 días, como si en enero hubiera tanto bufé como en agosto.",
+      "unit": "cruceristas",
+      "answer": 10410.95890410959,
+      "math": "El puerto cerró 2025 con 3,8 millones de cruceristas. 3.800.000 ÷ 365 ≈ 10.411 cruceristas al día.",
+      "referenceExpression": "3800000 ÷ 365",
+      "assumptions": "Reparto uniforme en todo el año. La cifra cuenta pasajeros de crucero registrados por el puerto, incluidos los que embarcan o desembarcan al empezar o terminar el viaje; en verano hay muchos más que en invierno.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Hosteltur · Cruceros en España 2025",
+          "url": "https://www.hosteltur.com/173926_cruceros-en-espana-2025-confirma-el-suma-y-sigue-con-record-de-pasajeros-y-barcos.html",
+          "fact": "Barcelona cerró 2025 con 3,8 millones de cruceristas, un 8,7 % más que en 2024 (datos provisionales de Puertos del Estado)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-23-3.jpg",
+        "alt": "Cruceros atracados en la terminal del puerto de Barcelona",
+        "credit": "Salim Virji",
+        "url": "https://commons.wikimedia.org/wiki/File:Cruise-ship_dock,_Port_of_Barcelona.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Del año al día",
+        "steps": [
+          "Barcelona es uno de los grandes puertos de cruceros del Mediterráneo; un buen punto de partida serían unos pocos millones de pasajeros al año.",
+          "Con 3 o 4 millones al año y 365 días, salen alrededor de 10.000 al día, el equivalente a cuatro o cinco barcos grandes.",
+          "Con los 3,8 millones de 2025 salen 10.411 cruceristas al día de media. En temporada alta se superan con facilidad y en invierno quedan muy por debajo."
+        ]
+      }
+    }
+  ]
+}

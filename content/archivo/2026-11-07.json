@@ -1,0 +1,121 @@
+{
+  "id": "2026-11-07",
+  "name": "Sábado",
+  "theme": "Manhattan, Messi y Meninas",
+  "questions": [
+    {
+      "id": "archivo-2026-11-07-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Ganga de 1626",
+      "title": "¿Cuántos dólares serían hoy los 60 florines de la compra de Manhattan con un 7 % de interés compuesto anual?",
+      "detail": "Hoy hace 400 años que Pieter Schaghen escribió la carta que cuenta la compra de Manhattan por 60 florines. Supón que esos florines, unos 1.000 dólares de hoy, se hubieran invertido al 7 % anual de 1626 a 2026, sin crisis ni guerras ni comisiones.",
+      "unit": "dólares",
+      "answer": 566906026887251.2,
+      "math": "El Instituto de Historia Social de Ámsterdam valoró los 60 florines de 1626 en unos 1.000 dólares. Con un 7 % compuesto durante 400 años: 1.000 × 1,07⁴⁰⁰ ≈ 567 billones de dólares (5,67 × 10¹⁴).",
+      "referenceExpression": "1000 × 1,07^400",
+      "assumptions": "Mezclamos a propósito dos cosas: el valor actual del pago y un rendimiento del 7 % durante cuatro siglos, algo que ninguna inversión real ha sostenido. Usamos dólares porque la equivalencia documentada está en dólares.",
+      "confidence": "Dato histórico + modelo extremo",
+      "sources": [
+        {
+          "title": "Wikipedia · Purchase of Manhattan",
+          "url": "https://en.wikipedia.org/wiki/Purchase_of_Manhattan",
+          "fact": "Manhattan se compró por mercancías por valor de 60 florines, según la carta de Pieter Schaghen a los Estados Generales del 7 de noviembre de 1626; el Instituto de Historia Social de Ámsterdam lo estimó en unos 1.000 dólares de 2006."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-07-1.jpg",
+        "alt": "Carta manuscrita de Pieter Schaghen de 1626, en neerlandés antiguo, que menciona la compra de Manhattan",
+        "credit": "Pieter Schaghen [1]",
+        "url": "https://commons.wikimedia.org/wiki/File:Verkoopakte_Manhattan.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Verkoopakte_Manhattan.jpg"
+      },
+      "reasoning": {
+        "heading": "El interés compuesto duplica cada diez años",
+        "steps": [
+          "Al 7 % anual, el dinero se duplica más o menos cada 10 años. En 400 años hay unas 40 duplicaciones.",
+          "2⁴⁰ es algo más de un billón (10¹²). 1.000 dólares × un billón darían unos 1.000 billones: un número con quince cifras.",
+          "La cuenta exacta, 1.000 × 1,07⁴⁰⁰, da unos 567 billones de dólares, porque al 7 % se duplica cada 10,2 años y no cada 10. Un número de quince cifras salido de 60 florines en mercancías: por eso nadie cobra un 7 % durante cuatro siglos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-07-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Aplausos azulgranas",
+      "title": "Si cada gol oficial de Messi con el Barça se celebrara con un minuto de aplausos, ¿cuántos partidos de 90 minutos aplaudirías?",
+      "detail": "Un minuto de ovación por cada gol oficial de Messi con el FC Barcelona, uno detrás de otro. El partido dura 90 minutos justos: ni descanso ni tiempo añadido.",
+      "unit": "partidos",
+      "answer": 7.466666666666667,
+      "math": "Messi marcó 672 goles con el FC Barcelona, récord de goles con un solo club. 672 minutos ÷ 90 ≈ 7,5 partidos.",
+      "referenceExpression": "672 ÷ 90",
+      "assumptions": "Contamos todos los goles oficiales con el primer equipo, en todas las competiciones. El minuto de aplausos por gol es el supuesto del juego.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Lionel Messi",
+          "url": "https://en.wikipedia.org/wiki/Lionel_Messi",
+          "fact": "Con el Barcelona estableció los récords de más goles con un solo club (672) y más goles en LaLiga (474)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-07-2.jpg",
+        "alt": "Lionel Messi con la camiseta azulgrana durante un partido de liga en el Camp Nou",
+        "credit": "Ank Kumar",
+        "url": "https://commons.wikimedia.org/wiki/File:Lionel_Messi_in_a_La_Liga_match_at_Camp_Nou,_Barcelona_(_Ank_Kumar,_Infosys_Limited)_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Goles convertidos en minutos",
+        "steps": [
+          "Messi pasó 17 temporadas en el primer equipo del Barça y en muchas marcó 40 o 50 goles. Algo más de 600 goles parece razonable.",
+          "600 minutos entre 90 son casi 7 partidos enteros.",
+          "Con los 672 goles reales salen 7,5 partidos: siete partidos completos y una primera parte larga aplaudiendo sin parar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-07-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Cuadro filatélico",
+      "title": "¿Cuántos sellos de correos cubrirían Las Meninas?",
+      "detail": "Una idea terrible que ningún conservador del Prado aprobaría: tapar el lienzo entero con sellos de 2,5 × 3 cm, en cuadrícula y sin huecos. La infanta no podría salir a saludar.",
+      "unit": "sellos",
+      "answer": 12029.433333333332,
+      "math": "Las Meninas mide 320,5 × 281,5 cm: 90.220,75 cm². Cada sello ocupa 2,5 × 3 = 7,5 cm². 90.220,75 ÷ 7,5 ≈ 12.029 sellos.",
+      "referenceExpression": "320,5 × 281,5 ÷ (2,5 × 3)",
+      "assumptions": "Medidas del lienzo sin marco y sellos sin dentado que se solape. Comparamos superficies; en el borde habría que recortar algún sello.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Las meninas",
+          "url": "https://es.wikipedia.org/wiki/Las_meninas",
+          "fact": "El lienzo mide 320,5 × 281,5 cm y se conserva en el Museo del Prado."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-07-3.jpg",
+        "alt": "Las Meninas de Velázquez: la infanta Margarita con sus damas, el pintor ante un gran lienzo y un espejo al fondo",
+        "credit": "Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:La_familia_de_Felipe_IV_o_Las_Meninas_(Vel%C3%A1zquez,_Museo_del_Prado_de_Madrid,_1656).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:La_familia_de_Felipe_IV_o_Las_Meninas_(Vel%C3%A1zquez,_Museo_del_Prado_de_Madrid,_1656).jpg"
+      },
+      "reasoning": {
+        "heading": "Superficie del cuadro entre superficie del sello",
+        "steps": [
+          "Las Meninas es enorme: algo más de 3 m de alto por casi 3 m de ancho, unos 9 m².",
+          "9 m² son 90.000 cm². Un sello de unos 7,5 cm² cabe 12.000 veces.",
+          "Con las medidas exactas, 320,5 × 281,5 cm, salen 12.029 sellos. Velázquez se pintó a sí mismo dentro del cuadro; aquí acabaría tapado por una colección filatélica entera."
+        ]
+      }
+    }
+  ]
+}

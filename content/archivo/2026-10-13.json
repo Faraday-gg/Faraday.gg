@@ -1,0 +1,126 @@
+{
+  "id": "2026-10-13",
+  "name": "Martes",
+  "theme": "El Capitán, Sant Jordi y pañales",
+  "questions": [
+    {
+      "id": "archivo-2026-10-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Edificio de granito",
+      "title": "¿Cuántos pisos de 3 m tendría un edificio tan alto como la pared de El Capitán, en Yosemite?",
+      "detail": "Los escaladores tardan días en subirla y algunos duermen colgados a mitad de pared. Mide desde la base hasta la cumbre por su cara más alta y usa plantas de 3 m.",
+      "unit": "pisos",
+      "answer": 304.6666666666667,
+      "math": "El Capitán mide unos 914 m (3.000 pies) de la base a la cumbre por su cara más alta. 914 ÷ 3 ≈ 304,7 pisos.",
+      "referenceExpression": "914 ÷ 3",
+      "assumptions": "La altura de 3.000 pies es una cifra redondeada. Plantas de 3 m exactos, sin vestíbulos altos ni azotea.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · El Capitan",
+          "url": "https://en.wikipedia.org/wiki/El_Capitan",
+          "fact": "Unos 3.000 pies (914 m) de la base a la cumbre por su cara más alta."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-13-1.jpg",
+        "alt": "La pared vertical de granito de El Capitán sobre el valle de Yosemite, con pinos diminutos en la base",
+        "credit": "Mike Murphy (talk · contribs)",
+        "url": "https://commons.wikimedia.org/wiki/File:Yosemite_El_Capitan.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Altura de la pared entre altura de una planta",
+        "steps": [
+          "Es una de las paredes más famosas del mundo: casi un kilómetro de granito vertical.",
+          "Un kilómetro entre plantas de 3 m da unas 333 plantas. Ningún rascacielos se acerca.",
+          "Con los 914 m documentados salen 304,7 pisos. Como la cifra viene de 3.000 pies redondeados, puede bailar unos pocos pisos arriba o abajo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Libros a la carrera",
+      "title": "¿Cuántos libros se venden por minuto en Cataluña el día de Sant Jordi?",
+      "detail": "Rosas, colas de firmas y paradas en cada esquina. Reparte todas las ventas del día en 12 horas de jornada, al mismo ritmo de la mañana a la noche.",
+      "unit": "libros/min",
+      "answer": 2777.777777777778,
+      "math": "Por Sant Jordi 2026 se vendieron 2 millones de ejemplares. 12 horas son 720 minutos. 2.000.000 ÷ 720 ≈ 2.778 libros por minuto.",
+      "referenceExpression": "2000000 ÷ 720",
+      "assumptions": "Ventas repartidas por igual en 12 horas. En realidad hay picos al mediodía y por la tarde, y la cifra de 2 millones está redondeada por la Cambra del Llibre de Catalunya.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Nació · Balance definitivo de Sant Jordi 2026 (Cambra del Llibre de Catalunya)",
+          "url": "https://naciodigital.cat/cultura-i-mitjans/el-catala-no-recula-per-sant-jordi-representa-el-547-dels-llibres-venuts.html",
+          "fact": "Se vendieron 2 millones de ejemplares de 71.000 títulos distintos, con una facturación de 26,7 millones de euros."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-13-2.jpg",
+        "alt": "Paradas de libros llenas de gente en una calle de Barcelona durante la Diada de Sant Jordi",
+        "credit": "Francis Lenn",
+        "url": "https://commons.wikimedia.org/wiki/File:Diada_de_Sant_Jordi_(5647318218).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Ventas del día entre minutos de jornada",
+        "steps": [
+          "Cataluña entera sale a comprar libros: pongamos un par de millones en un solo día.",
+          "Doce horas son 720 minutos, casi 700. Dos millones entre 700 dan unos 2.900 libros por minuto: decenas por segundo.",
+          "Con los 2 millones del balance y 720 minutos salen 2.778 libros por minuto, unos 46 por segundo. En las horas punta el ritmo sería bastante mayor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Cambio constante",
+      "title": "¿Cuántos pañales usa un bebé hasta que deja de llevarlos?",
+      "detail": "Del primer cambio en el hospital a la despedida del último pañal. Cuenta 8 pañales al día el primer año y 6 al día el año y medio siguiente, hasta los 2,5 años.",
+      "unit": "pañales",
+      "answer": 6205,
+      "math": "Primer año: 365 × 8 = 2.920 pañales. Hasta los 2,5 años: 1,5 × 365 × 6 = 3.285. Total: 2.920 + 3.285 = 6.205 pañales.",
+      "referenceExpression": "365 × 8 + 1,5 × 365 × 6",
+      "assumptions": "Los pediatras sitúan el inicio del control de esfínteres entre los 2 y los 3 años; tomamos 2,5. El fabricante da de 12 pañales diarios al nacer a 6-8 a los 9-12 meses; usamos 8 de media el primer año y 6 después, una simplificación.",
+      "confidence": "Recomendaciones + modelo",
+      "sources": [
+        {
+          "title": "Familia y Salud (AEPap) · Control de esfínteres",
+          "url": "https://www.familiaysalud.es/sites/default/files/05.control_esfinteres.pdf",
+          "fact": "«Entre los 2 y 3 años se inicia el control de esfínteres»."
+        },
+        {
+          "title": "Pampers · How many diapers a day",
+          "url": "https://www.pampers.com/en-us/baby/diapering/article/how-many-diapers-a-day",
+          "fact": "De 8 a 12 pañales al día el primer mes, 8-10 de 2 a 4 meses, 7-9 de 5 a 8 meses y 6-8 de 9 a 12 meses."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-13-3.jpg",
+        "alt": "Pañal desechable de bebé, limpio y abierto",
+        "credit": "Kyle Flood from Victoria, British Columbia, Canada",
+        "url": "https://commons.wikimedia.org/wiki/File:Baby_diaper.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Pañales por día, por días de pañal",
+        "steps": [
+          "Un bebé gasta muchos pañales al principio y menos después. Una media de unos 7 al día parece razonable.",
+          "Dos años y medio son unos 900 días. 900 × 7 = 6.300 pañales: miles, no cientos.",
+          "Separando el primer año (8 al día) del resto (6 al día) salen 6.205 pañales. Si el pañal se retira a los 2 años en lugar de a los 2,5, son unos 1.100 menos."
+        ]
+      }
+    }
+  ]
+}

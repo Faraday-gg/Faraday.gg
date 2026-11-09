@@ -1,0 +1,121 @@
+{
+  "id": "2026-09-03",
+  "name": "Jueves",
+  "theme": "Athletic, agua del grifo y PIB",
+  "questions": [
+    {
+      "id": "archivo-2026-09-03-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "La cola rojiblanca",
+      "title": "Si todos los socios del Athletic Club hicieran cola, ¿cuántos kilómetros mediría?",
+      "detail": "Cola india, sin colarse nadie, cada socio ocupando 50 cm. Sí, también los que se quejan del árbitro.",
+      "unit": "km",
+      "answer": 21.8245,
+      "math": "El club tenía 43.649 socios a 30 de junio de 2024. 43.649 × 0,5 m = 21.824,5 m ≈ 21,8 km.",
+      "referenceExpression": "43649 × 0,5 ÷ 1000",
+      "assumptions": "Cada persona ocupa 50 cm de cola. El número de socios cambia cada temporada; usamos el dato de junio de 2024.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Athletic Club",
+          "url": "https://es.wikipedia.org/wiki/Athletic_Club",
+          "fact": "Número de socios: 43.649 (a 30 de junio de 2024)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta personas, luego pasos",
+        "steps": [
+          "San Mamés se llena con unas 50.000 personas, así que los socios serán del orden de decenas de miles.",
+          "Con 40.000 personas a medio metro, la cola mediría 20 km: más o menos de Bilbao a Getxo y vuelta.",
+          "Con los 43.649 socios de 2024 salen 21,8 km. Si la gente se apretujara a 40 cm bajaría a 17,5 km; la lista de espera para hacerse socio la alargaría bastante."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-03-1.jpg",
+        "alt": "Estadio de San Mamés en Bilbao, casa de los socios del Athletic",
+        "credit": "Julen.82",
+        "url": "https://commons.wikimedia.org/wiki/File:San_Mames_Stadium.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-03-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Botellas invisibles",
+      "title": "¿Cuántas botellas de 1,5 L de agua gasta cada español al día en su casa?",
+      "detail": "Ducha, cisterna, fregar y la olla de los garbanzos. Todo el agua que entra en casa, medida en botellas de 1,5 L.",
+      "unit": "botellas",
+      "answer": 85.33333333333333,
+      "math": "Los hogares consumieron 128 litros por habitante y día en 2024. 128 ÷ 1,5 = 85,3 botellas.",
+      "referenceExpression": "128 ÷ 1,5",
+      "assumptions": "Media nacional de 2024: el agua registrada y distribuida a hogares dividida por la población. Varía mucho entre comunidades y entre casas.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "INE · Estadística sobre el suministro y saneamiento del agua, 2024",
+          "url": "https://www.ine.es/dyngs/Prensa/ESSA2024.htm",
+          "fact": "El consumo medio de agua de los hogares fue de 128 litros por habitante y día en 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Piensa en la ducha y la cisterna",
+        "steps": [
+          "Bebemos uno o dos litros, pero en casa gastamos muchísimo más. Un cálculo rápido: una ducha de 5 minutos ya son unos 50 litros.",
+          "Ducha, varias cisternas, cocina y lavadora suman algo más de 100 litros. Eso son unas 70–80 botellas.",
+          "El INE da 128 litros por persona y día en 2024: 85,3 botellas. Una persona que se duche largo o riegue el jardín se dispara; un hogar con jardín y piscina, ni te cuento."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-03-2.jpg",
+        "alt": "Agua saliendo de un grifo, el lugar por donde se escapan las botellas diarias",
+        "credit": "Victor Balter",
+        "url": "https://commons.wikimedia.org/wiki/File:Agua_saliendo_de_un_grifo.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-03-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Economía al segundo",
+      "title": "¿Cuántos euros produce la economía española en cada segundo?",
+      "detail": "Cogemos todo el PIB de 2025 y lo repartimos por igual entre todos los segundos del año, incluidos los de la siesta.",
+      "unit": "euros/s",
+      "answer": 53589.92897006596,
+      "math": "El PIB de 2025 a precios corrientes fue de 1.690.012 millones de euros. Un año tiene 365 × 86.400 = 31.536.000 s. 1.690.012.000.000 ÷ 31.536.000 ≈ 53.590 €/s.",
+      "referenceExpression": "1690012000000 ÷ (365 × 86400)",
+      "assumptions": "Producción repartida uniformemente durante el año. El PIB real se concentra en horas laborables y se revisa con el tiempo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Contabilidad Nacional Anual de España, revisión 2025",
+          "url": "https://www.ine.es/dyngs/Prensa/CNA2025.htm",
+          "fact": "El valor del PIB a precios corrientes para 2025 fue de 1.690.012 millones de euros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide un billón y pico entre 31 millones",
+        "steps": [
+          "El PIB español anda por encima del billón y medio de euros. Un año tiene unos 31,5 millones de segundos.",
+          "1,6 billones entre 30 millones da algo más de 50.000 € por segundo: un coche por segundo, más o menos.",
+          "Con el dato de 2025 (1.690.012 millones) salen 53.590 €/s. Mientras lees esta frase se han producido unos 250.000 euros, aunque no los vayas a ver."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-03-3.jpg",
+        "alt": "Paseo de la Castellana en Madrid, con oficinas donde se mueve parte de la economía",
+        "credit": "Luis García (Zaqarbal)",
+        "url": "https://commons.wikimedia.org/wiki/File:Paseo_de_la_Castellana_(Madrid)_01.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    }
+  ]
+}

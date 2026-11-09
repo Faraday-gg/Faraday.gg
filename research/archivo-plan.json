@@ -1,0 +1,3682 @@
+[
+  {
+    "date": "2026-08-09",
+    "name": "Domingo",
+    "theme": "Azafrán, ballena y Camino",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Oro rojo",
+        "title": "¿Cuántas flores de azafrán hacen falta para reunir un kilo de azafrán?",
+        "unit": "flores",
+        "referent": "Azafrán de La Mancha",
+        "data_needed": "Peso de un estigma seco (DOP Azafrán de La Mancha / FAO)",
+        "model": "3 estigmas por flor; 2 mg por estigma seco",
+        "commons_hint": "Crocus sativus azafrán La Mancha"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Peso pesado del mar",
+        "title": "¿Cuántos coches utilitarios pesarían lo mismo que una ballena azul adulta?",
+        "unit": "coches",
+        "referent": "Ballena azul",
+        "data_needed": "Masa de una ballena azul adulta (NOAA)",
+        "model": "Utilitario de 1.200 kg",
+        "commons_hint": "Blue whale Balaenoptera musculus"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Peregrino contable",
+        "title": "¿Cuántos pasos das en el Camino Francés desde Saint-Jean-Pied-de-Port hasta Santiago?",
+        "unit": "pasos",
+        "referent": "Camino de Santiago Francés",
+        "data_needed": "Longitud del recorrido (Oficina del Peregrino / Xacobeo)",
+        "model": "Paso de 70 cm",
+        "commons_hint": "Camino de Santiago francés peregrinos"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-10",
+    "name": "Lunes",
+    "theme": "Tostadas, glóbulos y Park Güell",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Crujiente rutina",
+        "title": "Con una tostada cada desayuno, ¿cuántas tostadas te comerás en toda tu vida?",
+        "unit": "tostadas",
+        "referent": "Tostadora",
+        "data_needed": "Esperanza de vida en España (INE)",
+        "model": "Una tostada diaria desde los 3 años",
+        "commons_hint": "Toaster toast"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Fábrica roja",
+        "title": "¿Cuántos glóbulos rojos fabrica tu cuerpo cada segundo?",
+        "unit": "glóbulos/s",
+        "referent": "Glóbulos rojos",
+        "data_needed": "Número total y vida media de los hematíes (manuales de hematología)",
+        "model": "25 billones que duran 120 días",
+        "commons_hint": "Red blood cells microscope"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Banco con vistas",
+        "title": "¿Cuántas personas caben sentadas en el banco ondulado del Park Güell?",
+        "unit": "personas",
+        "referent": "Park Güell",
+        "data_needed": "Longitud del banco (Ajuntament de Barcelona)",
+        "model": "50 cm de banco por persona",
+        "commons_hint": "Park Güell banco trencadís"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-11",
+    "name": "Martes",
+    "theme": "Anillos, turistas y maratón",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Maratón de la Tierra Media",
+        "title": "¿Cuántas veces podrías ver la trilogía extendida de El Señor de los Anillos durante un vuelo Madrid–Sídney de 24 horas?",
+        "unit": "veces",
+        "referent": "El Señor de los Anillos (trilogía extendida)",
+        "data_needed": "Duración de las ediciones extendidas (New Line / ediciones oficiales)",
+        "model": "24 horas de vuelo sin dormir",
+        "commons_hint": "Lord of the Rings Hobbiton"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Gasto al minuto",
+        "title": "¿Cuántos euros gastan los turistas internacionales en España por cada minuto del año?",
+        "unit": "euros/min",
+        "referent": "Turismo internacional en España",
+        "data_needed": "Gasto total anual de turistas internacionales (INE, Egatur)",
+        "model": "Reparto uniforme en el año",
+        "commons_hint": "Turistas Plaza de España Sevilla"
+      },
+      {
+        "position": 3,
+        "category": "deportes",
+        "tag": "Kilómetros en equipo",
+        "title": "Sumando lo que corren todos los que terminan el Maratón de Valencia, ¿cuántos kilómetros recorren entre todos?",
+        "unit": "km",
+        "referent": "Maratón Valencia Trinidad Alfonso",
+        "data_needed": "Número de finishers de la última edición (clasificación oficial del maratón)",
+        "model": "Cada finisher recorre exactamente 42,195 km",
+        "commons_hint": "Maratón de Valencia corredores Ciudad de las Artes"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-12",
+    "name": "Miércoles",
+    "theme": "Secuoya, 4K y aparcamiento",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Lápices gigantes",
+        "title": "¿Cuántos lápices saldrían de la madera del tronco del árbol General Sherman?",
+        "unit": "lápices",
+        "referent": "Árbol General Sherman",
+        "data_needed": "Volumen del tronco (National Park Service)",
+        "model": "Cada lápiz usa 6 cm³ de madera",
+        "commons_hint": "General Sherman tree"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Censo en píxeles",
+        "title": "¿Cuántas pantallas 4K harían falta para dar un píxel a cada habitante de España?",
+        "unit": "pantallas",
+        "referent": "Pantalla 4K UHD",
+        "data_needed": "Resolución 3.840 × 2.160 (estándar UHD) y población de España (INE)",
+        "model": "Un píxel por persona",
+        "commons_hint": "4K television screen"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Plazas para todos",
+        "title": "¿Cuántos km² de plazas de aparcamiento ocuparían todos los turismos de España?",
+        "unit": "km²",
+        "referent": "Parque de turismos de España",
+        "data_needed": "Turismos matriculados (DGT, anuario estadístico)",
+        "model": "Plaza de 12 m² por coche",
+        "commons_hint": "Aparcamiento coches"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-13",
+    "name": "Jueves",
+    "theme": "Turrón, Benidorm y Cleopatra",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Navidad en fila",
+        "title": "¿Cuántos kilómetros mediría una fila con las tabletas de turrón con IGP Jijona y Turrón de Alicante de un año?",
+        "unit": "km",
+        "referent": "Turrón de Jijona",
+        "data_needed": "Kilos certificados por año (Consejo Regulador IGP Jijona y Turrón de Alicante)",
+        "model": "Tableta de 250 g y 20 cm de largo",
+        "commons_hint": "Turrón de Jijona"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Sombrilla con vistas",
+        "title": "¿Cuántas sombrillas cabrían en la playa de Levante de Benidorm?",
+        "unit": "sombrillas",
+        "referent": "Playa de Levante de Benidorm",
+        "data_needed": "Longitud y anchura media de la playa (Ayuntamiento de Benidorm / MITECO)",
+        "model": "Una sombrilla cada 9 m²",
+        "commons_hint": "Playa de Levante Benidorm"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Vecina del futuro",
+        "title": "¿Cuántos años separan la construcción de la Gran Pirámide del reinado de Cleopatra?",
+        "unit": "años",
+        "referent": "Cleopatra VII",
+        "data_needed": "Fechas aproximadas de la Gran Pirámide y del reinado de Cleopatra (enciclopedias)",
+        "model": "Fechas centrales aceptadas",
+        "commons_hint": "Cleopatra bust Berlin"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-14",
+    "name": "Viernes",
+    "theme": "Arrecife, Trevi y Hubble",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Buceo de fondo",
+        "title": "Nadando a 2 km/h sin parar, ¿cuántos días tardarías en recorrer la Gran Barrera de Coral?",
+        "unit": "días",
+        "referent": "Gran Barrera de Coral",
+        "data_needed": "Longitud del arrecife (UNESCO / GBRMPA)",
+        "model": "2 km/h, 24 h al día",
+        "commons_hint": "Great Barrier Reef aerial"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Deseos con suelto",
+        "title": "¿Cuántas monedas lanzan los turistas a la Fontana di Trevi cada día?",
+        "unit": "monedas",
+        "referent": "Fontana di Trevi",
+        "data_needed": "Dinero recogido al año (Roma Capitale / Cáritas)",
+        "model": "Moneda media de 50 céntimos",
+        "commons_hint": "Trevi Fountain coins"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Vueltas de veterano",
+        "title": "¿Cuántas vueltas a la Tierra ha dado el telescopio Hubble desde su lanzamiento en 1990?",
+        "unit": "vueltas",
+        "referent": "Telescopio espacial Hubble",
+        "data_needed": "Fecha de lanzamiento y período orbital (NASA)",
+        "model": "Período constante de 95 minutos",
+        "commons_hint": "Hubble Space Telescope"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-15",
+    "name": "Sábado",
+    "theme": "Velas, Libertad y Seat 600",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Soplido acumulado",
+        "title": "¿Cuántas velas habrás soplado en tus tartas de cumpleaños al cumplir 80 años?",
+        "unit": "velas",
+        "referent": "Tarta de cumpleaños",
+        "data_needed": "Edad de referencia de 80 años (INE, esperanza de vida)",
+        "model": "Una vela por año en cada tarta",
+        "commons_hint": "Birthday cake candles"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Nariz de cobre",
+        "title": "Con las proporciones de la Estatua de la Libertad, ¿cuántos metros mediría una persona con su nariz?",
+        "unit": "metros",
+        "referent": "Estatua de la Libertad",
+        "data_needed": "Longitud de la nariz y altura de la figura (National Park Service)",
+        "model": "Proporción nariz / altura humana de 1 a 35",
+        "commons_hint": "Statue of Liberty face"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Caravana de seiscientos",
+        "title": "¿Cuántos kilómetros mediría una fila con todos los Seat 600 fabricados?",
+        "unit": "km",
+        "referent": "Seat 600",
+        "data_needed": "Unidades fabricadas y longitud del coche (SEAT)",
+        "model": "Coches parachoques con parachoques",
+        "commons_hint": "SEAT 600"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-16",
+    "name": "Domingo",
+    "theme": "GTC, sueños y Colón",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Espejito, espejito",
+        "title": "¿Cuántos espejos de baño de 60 × 80 cm suman la superficie del espejo del Gran Telescopio Canarias?",
+        "unit": "espejos",
+        "referent": "Gran Telescopio Canarias",
+        "data_needed": "Superficie colectora del espejo primario (IAC / GRANTECAN)",
+        "model": "Espejo de baño de 0,48 m²",
+        "commons_hint": "Gran Telescopio Canarias"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Cine nocturno",
+        "title": "¿Cuántos sueños tienes a lo largo de 80 años?",
+        "unit": "sueños",
+        "referent": "Sueño REM",
+        "data_needed": "Fases REM por noche (Sociedad Española de Sueño)",
+        "model": "Cinco sueños por noche",
+        "commons_hint": "Sleeping person"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "A toda vela",
+        "title": "¿A cuántos km/h navegó de media la flota de Colón entre La Gomera y Guanahaní?",
+        "unit": "km/h",
+        "referent": "Primer viaje de Colón",
+        "data_needed": "Fechas de salida y llegada y distancia aproximada (enciclopedias / Archivo de Indias)",
+        "model": "Trayectoria recta de 6.000 km",
+        "commons_hint": "Santa María réplica Colón"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-17",
+    "name": "Lunes",
+    "theme": "Vuelta, paella y La Raya",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Etapa de panadería",
+        "title": "¿Cuántas barras de pan puestas en fila cubrirían todo el recorrido de la Vuelta a España 2024?",
+        "unit": "barras",
+        "referent": "Vuelta a España 2024",
+        "data_needed": "Distancia total oficial de la Vuelta 2024 (La Vuelta / ASO)",
+        "model": "Barra de pan de 60 cm colocada punta con punta",
+        "commons_hint": "Vuelta a España 2024 pelotón"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "Arroz a granel",
+        "title": "¿Cuántos granos de arroz lleva una paella valenciana para seis personas?",
+        "unit": "granos",
+        "referent": "Paella valenciana",
+        "data_needed": "Peso medio de un grano de arroz (FAO / DO Arròs de València)",
+        "model": "100 g de arroz por persona; grano de 0,025 g",
+        "commons_hint": "Paella valenciana"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Frontera a pie",
+        "title": "Andando 25 km al día, ¿cuántos días tardarías en recorrer la frontera entre España y Portugal?",
+        "unit": "días",
+        "referent": "Frontera hispano-portuguesa (La Raya)",
+        "data_needed": "Longitud de la frontera (IGN)",
+        "model": "25 km diarios siguiendo la línea",
+        "commons_hint": "Raya hispano-portuguesa Miño frontera"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-18",
+    "name": "Martes",
+    "theme": "Venus, órgano y Gemasolar",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Día interminable",
+        "title": "¿Cuántas horas dura un día sideral de Venus?",
+        "unit": "horas",
+        "referent": "Venus",
+        "data_needed": "Período de rotación de Venus (NASA)",
+        "model": "Rotación sideral, no día solar",
+        "commons_hint": "Venus Magellan"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Afinador paciente",
+        "title": "Afinando un tubo cada dos minutos, ¿cuántas horas tardarías en afinar el órgano del Palau de la Música Catalana?",
+        "unit": "horas",
+        "referent": "Palau de la Música Catalana",
+        "data_needed": "Número de tubos del órgano (Palau de la Música)",
+        "model": "Dos minutos por tubo",
+        "commons_hint": "Palau de la Música Catalana interior"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Espejos al sol",
+        "title": "¿Cuántos campos de fútbol de espejos tiene la central termosolar Gemasolar?",
+        "unit": "campos",
+        "referent": "Central Gemasolar",
+        "data_needed": "Número de heliostatos y superficie de cada uno (Sener / Torresol Energy)",
+        "model": "Campo de 105 × 68 m",
+        "commons_hint": "Gemasolar Fuentes de Andalucía"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-19",
+    "name": "Miércoles",
+    "theme": "Billete de 10, La Concha y Atapuerca",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Imprenta de euros",
+        "title": "¿Cuántos euros cuesta imprimir todos los billetes de 10 € en circulación?",
+        "unit": "euros",
+        "referent": "Billete de 10 euros",
+        "data_needed": "Billetes de 10 € en circulación y coste medio de producción (BCE)",
+        "model": "8 céntimos por billete",
+        "commons_hint": "10 euro banknote"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Codo con codo",
+        "title": "¿Cuántas personas podrían apoyarse a la vez en la barandilla de La Concha?",
+        "unit": "personas",
+        "referent": "Barandilla de La Concha",
+        "data_needed": "Longitud del paseo de La Concha (Ayuntamiento de Donostia)",
+        "model": "60 cm de barandilla por persona",
+        "commons_hint": "Barandilla La Concha San Sebastián"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Línea del tiempo",
+        "title": "Si cada año de antigüedad fuera un milímetro, ¿cuántos metros mediría la línea del tiempo hasta Homo antecessor de Atapuerca?",
+        "unit": "metros",
+        "referent": "Yacimientos de Atapuerca",
+        "data_needed": "Antigüedad de los fósiles de Homo antecessor (Fundación Atapuerca)",
+        "model": "1 mm por año",
+        "commons_hint": "Atapuerca Gran Dolina"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-20",
+    "name": "Jueves",
+    "theme": "Mascletà, nevera y 4004",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Pólvora fallera",
+        "title": "¿Cuántos kilos de pólvora se disparan en todas las mascletàs de la plaza del Ayuntamiento durante las Fallas?",
+        "unit": "kg",
+        "referent": "Mascletà de las Fallas",
+        "data_needed": "Carga máxima por mascletà y número de mascletàs (Ayuntament de València)",
+        "model": "Todas al máximo autorizado",
+        "commons_hint": "Mascletà plaza del Ayuntamiento Valencia"
+      },
+      {
+        "position": 2,
+        "category": "hogar",
+        "tag": "Puerta giratoria",
+        "title": "¿Cuántas veces abrirás la nevera a lo largo de tu vida?",
+        "unit": "veces",
+        "referent": "Frigorífico",
+        "data_needed": "Esperanza de vida en España (INE)",
+        "model": "20 aperturas al día desde los 5 años",
+        "commons_hint": "Refrigerator open"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Chips en miniatura",
+        "title": "¿Cuántos procesadores Intel 4004 harían falta para sumar los transistores de un chip moderno de 50.000 millones?",
+        "unit": "procesadores",
+        "referent": "Intel 4004",
+        "data_needed": "Transistores del 4004 (Intel)",
+        "model": "Chip moderno de 50.000 millones de transistores",
+        "commons_hint": "Intel 4004 chip"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-21",
+    "name": "Viernes",
+    "theme": "Colibrí, huevos y Transiberiano",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Corazón acelerado",
+        "title": "¿Cuántas veces late el corazón de un colibrí en un solo día?",
+        "unit": "latidos",
+        "referent": "Colibrí",
+        "data_needed": "Frecuencia cardíaca en actividad (estudios ornitológicos / Smithsonian)",
+        "model": "1.200 latidos por minuto todo el día",
+        "commons_hint": "Hummingbird hovering"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "Gallinas a destajo",
+        "title": "¿Cuántas gallinas ponedoras harían falta para todos los huevos que se comen en España en un año?",
+        "unit": "gallinas",
+        "referent": "Gallina ponedora",
+        "data_needed": "Consumo de huevos per cápita (MAPA, panel de consumo) y población (INE)",
+        "model": "300 huevos por gallina y año",
+        "commons_hint": "Gallina ponedora"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Tren con paciencia",
+        "title": "¿A qué velocidad media va el Transiberiano de Moscú a Vladivostok?",
+        "unit": "km/h",
+        "referent": "Transiberiano",
+        "data_needed": "Longitud de la línea y duración del viaje (RZD)",
+        "model": "Duración de unos 7 días incluidas paradas",
+        "commons_hint": "Trans-Siberian Railway"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-22",
+    "name": "Sábado",
+    "theme": "Donación, pedales y Mezquita",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Bolsas solidarias",
+        "title": "¿Cuántas bolsas de donación de sangre equivalen a toda la sangre de un adulto?",
+        "unit": "bolsas",
+        "referent": "Donación de sangre",
+        "data_needed": "Volumen extraído en una donación (Cruz Roja / Centro de Transfusión)",
+        "model": "Adulto con 5 L de sangre",
+        "commons_hint": "Blood donation bag"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Pedalear sin fin",
+        "title": "¿Cuántas pedaladas da un ciclista en una etapa llana de 180 km del Tour de Francia?",
+        "unit": "pedaladas",
+        "referent": "Tour de Francia",
+        "data_needed": "Desarrollo típico de un plato 53 × 11 (manuales de ciclismo / UCI)",
+        "model": "Cada pedalada avanza unos 10 m en llano",
+        "commons_hint": "Tour de France peloton"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Plumero monumental",
+        "title": "Si limpiaras una columna cada 15 minutos, ¿cuántas horas tardarías en limpiar todas las de la Mezquita-Catedral de Córdoba?",
+        "unit": "horas",
+        "referent": "Mezquita-Catedral de Córdoba",
+        "data_needed": "Número de columnas conservadas (Cabildo de Córdoba)",
+        "model": "15 minutos por columna",
+        "commons_hint": "Mezquita de Córdoba columnas"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-23",
+    "name": "Domingo",
+    "theme": "Manhattan, IPv4 y cruceristas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Todos de pie",
+        "title": "¿Cuántas islas como Manhattan harían falta para que toda la humanidad cupiera de pie?",
+        "unit": "Manhattans",
+        "referent": "Manhattan",
+        "data_needed": "Superficie de Manhattan (NYC) y población mundial (ONU)",
+        "model": "Cuatro personas por m²",
+        "commons_hint": "Manhattan aerial"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Direcciones agotadas",
+        "title": "¿Cuántas direcciones IPv4 hay por cada persona del planeta?",
+        "unit": "direcciones",
+        "referent": "Protocolo IPv4",
+        "data_needed": "2^32 direcciones (IETF) y población mundial (ONU)",
+        "model": "Todas las direcciones teóricas",
+        "commons_hint": "IPv4 address"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Desembarco diario",
+        "title": "¿Cuántos cruceristas desembarcan de media cada día en el puerto de Barcelona?",
+        "unit": "cruceristas",
+        "referent": "Puerto de Barcelona",
+        "data_needed": "Pasajeros de crucero anuales (Port de Barcelona)",
+        "model": "Reparto uniforme en 365 días",
+        "commons_hint": "Port de Barcelona cruise terminal"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-24",
+    "name": "Lunes",
+    "theme": "Stonehenge, respirar y butano",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Tirar de la cuerda",
+        "title": "¿Cuántas personas hacían falta para arrastrar una de las grandes piedras sarsen de Stonehenge?",
+        "unit": "personas",
+        "referent": "Stonehenge",
+        "data_needed": "Masa media de un sarsen (English Heritage)",
+        "model": "Cada persona arrastra 100 kg sobre trineo y rodillos",
+        "commons_hint": "Stonehenge"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Globos de aire",
+        "title": "¿Cuántos globos de 5 litros llenarías con el aire que respiras en un día?",
+        "unit": "globos",
+        "referent": "Pulmones",
+        "data_needed": "Volumen corriente y frecuencia respiratoria (manuales de fisiología)",
+        "model": "0,5 L por respiración; 15 por minuto",
+        "commons_hint": "Human lungs"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Bombona naranja",
+        "title": "¿Cuántas duchas calientes de 8 minutos salen de una bombona de butano de 12,5 kg?",
+        "unit": "duchas",
+        "referent": "Bombona de butano",
+        "data_needed": "Poder calorífico del butano (Repsol / IDAE)",
+        "model": "80 L por ducha calentados de 15 a 40 °C; caldera del 85 %",
+        "commons_hint": "Bombona butano naranja"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-25",
+    "name": "Martes",
+    "theme": "Calanda, real de a ocho y Giralda",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Redoble de pasión",
+        "title": "¿Cuántos golpes de tambor suenan durante la primera hora de la Rompida de la Hora de Calanda?",
+        "unit": "golpes",
+        "referent": "Rompida de la Hora de Calanda",
+        "data_needed": "Número de tamborileros (Ayuntamiento de Calanda / Ruta del Tambor y Bombo)",
+        "model": "Dos golpes por segundo y tambor",
+        "commons_hint": "Rompida de la Hora Calanda"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Plata de galeón",
+        "title": "¿Cuántos euros valdría hoy la plata de un real de a ocho?",
+        "unit": "euros",
+        "referent": "Real de a ocho",
+        "data_needed": "Peso y ley de la moneda (Museo Casa de la Moneda) y precio de la plata (LBMA, con fecha)",
+        "model": "Plata de ley 0,93",
+        "commons_hint": "Real de a ocho Carlos III"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Rampas de caballería",
+        "title": "¿Cuántos metros caminas al subir las rampas de la Giralda?",
+        "unit": "metros",
+        "referent": "Giralda de Sevilla",
+        "data_needed": "Número de rampas y lado de la torre (Catedral de Sevilla)",
+        "model": "Cada rampa recorre un lado de 13 m",
+        "commons_hint": "Giralda Sevilla"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-26",
+    "name": "Miércoles",
+    "theme": "Padrón, grullas y Perseverance",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Unos pican y otros no",
+        "title": "Si uno de cada diez pica, ¿cuántos pimientos de Padrón picantes salen de la producción anual de la DOP?",
+        "unit": "pimientos",
+        "referent": "Pimientos de Padrón (DOP Pemento de Herbón)",
+        "data_needed": "Producción anual certificada (Consello Regulador Pemento de Herbón)",
+        "model": "Pimiento de 10 g; 10 % picantes",
+        "commons_hint": "Pimientos de Padrón plato"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Fila con alas",
+        "title": "Si todas las grullas que invernan en Gallocanta se pusieran en fila con las alas abiertas, ¿cuántos km mediría?",
+        "unit": "km",
+        "referent": "Laguna de Gallocanta",
+        "data_needed": "Máximo de grullas censadas (Gobierno de Aragón)",
+        "model": "Envergadura de 2,2 m por grulla",
+        "commons_hint": "Grullas Gallocanta"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Rover sin prisa",
+        "title": "A su velocidad máxima, ¿cuántos días tardaría el rover Perseverance en recorrer la distancia entre Madrid y Barcelona?",
+        "unit": "días",
+        "referent": "Rover Perseverance",
+        "data_needed": "Velocidad máxima del rover (NASA JPL)",
+        "model": "Distancia por carretera de 620 km, sin pausas",
+        "commons_hint": "Perseverance rover selfie"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-27",
+    "name": "Jueves",
+    "theme": "Golf, Elcano y Wikipedia",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Hoyo en muchos",
+        "title": "¿Cuántas pelotas de golf en fila cubrirían la longitud total de los 18 hoyos del Real Club Valderrama?",
+        "unit": "pelotas",
+        "referent": "Real Club Valderrama",
+        "data_needed": "Longitud total del campo desde barras de campeonato (web del club)",
+        "model": "Pelota reglamentaria de 42,67 mm de diámetro",
+        "commons_hint": "Valderrama golf course"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Vuelta a buen ritmo",
+        "title": "¿Cuántos kilómetros recorrió de media al día la nao Victoria en la primera vuelta al mundo?",
+        "unit": "km/día",
+        "referent": "Nao Victoria de Elcano",
+        "data_needed": "Fechas de salida y regreso y distancia aproximada del viaje (Archivo de Indias / enciclopedias)",
+        "model": "Distancia total de 70.000 km",
+        "commons_hint": "Nao Victoria réplica"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Enciclopedia en folios",
+        "title": "Si imprimieras cada artículo de la Wikipedia en español en un folio, ¿cuántos metros mediría la pila?",
+        "unit": "metros",
+        "referent": "Wikipedia en español",
+        "data_needed": "Número de artículos (Wikipedia, página de estadísticas)",
+        "model": "Un folio de 0,1 mm por artículo",
+        "commons_hint": "Wikipedia logo"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-28",
+    "name": "Viernes",
+    "theme": "Pulpo, lince y Venecia",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Pulpo a feira",
+        "title": "¿Cuántas raciones de pulpo a feira se sirven en la Festa do Pulpo de O Carballiño?",
+        "unit": "raciones",
+        "referent": "Festa do Pulpo de O Carballiño",
+        "data_needed": "Kilos de pulpo cocinados en la fiesta (Concello de O Carballiño)",
+        "model": "Ración de 250 g de pulpo cocido",
+        "commons_hint": "Pulpo á feira Carballiño"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Dieta de conejo",
+        "title": "¿Cuántas veces su propio peso come en conejos un lince ibérico a lo largo de un año?",
+        "unit": "veces",
+        "referent": "Lince ibérico",
+        "data_needed": "Peso medio del lince y consumo diario (MITECO / LIFE Iberlince)",
+        "model": "Un conejo de 1 kg al día; lince de 12 kg",
+        "commons_hint": "Lynx pardinus"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Puente a puente",
+        "title": "Cruzando tres puentes distintos al día, ¿cuántos días tardarías en cruzar todos los puentes de Venecia?",
+        "unit": "días",
+        "referent": "Puentes de Venecia",
+        "data_needed": "Número de puentes de la ciudad histórica (Comune di Venezia)",
+        "model": "Tres puentes nuevos cada día",
+        "commons_hint": "Venice bridges Rialto canals"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-29",
+    "name": "Sábado",
+    "theme": "Gioconda, Keops y microondas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Mirada exprés",
+        "title": "¿Cuántos segundos de mirada le tocan a cada visitante del Louvre delante de La Gioconda?",
+        "unit": "segundos",
+        "referent": "La Gioconda",
+        "data_needed": "Visitantes anuales del Louvre (Musée du Louvre)",
+        "model": "80 % la ve; 10 h al día, 310 días; uno de cada vez",
+        "commons_hint": "Mona Lisa Louvre"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Ritmo faraónico",
+        "title": "Si la Gran Pirámide se levantó en 20 años, ¿cuántos bloques se colocaban cada hora de trabajo?",
+        "unit": "bloques/h",
+        "referent": "Gran Pirámide de Guiza",
+        "data_needed": "Número estimado de bloques (enciclopedias / egiptología)",
+        "model": "20 años, 300 días al año, 10 horas diarias",
+        "commons_hint": "Great Pyramid of Giza"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Tiovivo de cocina",
+        "title": "¿Cuántas vueltas da al año el plato del microondas de casa?",
+        "unit": "vueltas",
+        "referent": "Microondas",
+        "data_needed": "Velocidad de giro del plato (fabricantes)",
+        "model": "5 vueltas por minuto, 10 minutos al día",
+        "commons_hint": "Microwave oven turntable"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-30",
+    "name": "Domingo",
+    "theme": "Parpadeo, bombilla y Algeciras",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Siesta involuntaria",
+        "title": "¿Cuántas horas pasas al año con los ojos cerrados solo por parpadear?",
+        "unit": "horas",
+        "referent": "Parpadeo",
+        "data_needed": "Frecuencia de parpadeo y duración (estudios de oftalmología)",
+        "model": "15 parpadeos por minuto de 0,3 s; 16 horas despierto",
+        "commons_hint": "Human eye close up"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Luz con factura",
+        "title": "¿Cuántos euros cuesta tener encendida una bombilla LED de 10 W durante todo un año?",
+        "unit": "euros",
+        "referent": "Bombilla LED",
+        "data_needed": "Precio medio del kWh doméstico (CNMC / Eurostat)",
+        "model": "Encendida las 24 horas",
+        "commons_hint": "LED lamp"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Lego portuario",
+        "title": "¿Cuántos kilómetros mediría una fila con todos los contenedores que mueve el puerto de Algeciras en un año?",
+        "unit": "km",
+        "referent": "Puerto de Algeciras",
+        "data_needed": "TEU anuales (Autoridad Portuaria Bahía de Algeciras)",
+        "model": "Un TEU de 6,1 m de largo",
+        "commons_hint": "Puerto de Algeciras contenedores"
+      }
+    ]
+  },
+  {
+    "date": "2026-08-31",
+    "name": "Lunes",
+    "theme": "Webb, Bolt y tortuga",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Ropa de cama espacial",
+        "title": "¿Cuántas sábanas de 150 × 200 cm harían falta para igualar el parasol del telescopio James Webb?",
+        "unit": "sábanas",
+        "referent": "Telescopio espacial James Webb",
+        "data_needed": "Dimensiones del parasol (NASA / ESA)",
+        "model": "Parasol de 21 × 14 m tratado como rectángulo",
+        "commons_hint": "James Webb Space Telescope sunshield"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "El rayo en la Castellana",
+        "title": "A la velocidad media de su récord de 100 m, ¿cuántos minutos tardaría Usain Bolt en recorrer el paseo de la Castellana?",
+        "unit": "minutos",
+        "referent": "Usain Bolt",
+        "data_needed": "Récord mundial de 9,58 s (World Athletics) y longitud de la Castellana (Ayuntamiento de Madrid)",
+        "model": "Bolt mantiene su velocidad media del récord todo el paseo",
+        "commons_hint": "Usain Bolt Berlin 2009"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Prisa ninguna",
+        "title": "¿Cuántos días tardaría una tortuga gigante de Galápagos en cruzar Mallorca de punta a punta?",
+        "unit": "días",
+        "referent": "Tortuga gigante de Galápagos",
+        "data_needed": "Velocidad de marcha (Parque Nacional Galápagos) y anchura máxima de Mallorca",
+        "model": "0,3 km/h durante 8 horas al día",
+        "commons_hint": "Galapagos giant tortoise"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-01",
+    "name": "Martes",
+    "theme": "Olivar, ruedas y Plaza Mayor",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Oro líquido",
+        "title": "¿Cuántas piscinas olímpicas llenaría el aceite de oliva producido en Jaén en una campaña?",
+        "unit": "piscinas",
+        "referent": "Olivares de Jaén",
+        "data_needed": "Producción de aceite de la provincia en una campaña (AICA / Junta de Andalucía)",
+        "model": "Piscina olímpica de 2.500 m³; densidad 0,92 kg/L",
+        "commons_hint": "Olivares Jaén mar de olivos"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Vueltas de taxista",
+        "title": "¿Cuántas vueltas da al año cada rueda de un taxi de Madrid?",
+        "unit": "vueltas",
+        "referent": "Taxi de Madrid",
+        "data_needed": "Kilómetros anuales medios de un taxi (Ayuntamiento de Madrid / estudios del sector)",
+        "model": "Rueda de 2 m de circunferencia",
+        "commons_hint": "Taxi Madrid blanco"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Llenazo porticado",
+        "title": "¿Cuántas personas cabrían de pie en la Plaza Mayor de Madrid?",
+        "unit": "personas",
+        "referent": "Plaza Mayor de Madrid",
+        "data_needed": "Dimensiones de la plaza (Ayuntamiento de Madrid)",
+        "model": "Cuatro personas por m², sin contar la estatua",
+        "commons_hint": "Plaza Mayor Madrid aerial"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-02",
+    "name": "Miércoles",
+    "theme": "Pilas, cerebro y Big Ben",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Coche a pilas",
+        "title": "¿Cuántas pilas AA harían falta para almacenar la energía de la batería de un coche eléctrico de 60 kWh?",
+        "unit": "pilas",
+        "referent": "Pila AA",
+        "data_needed": "Energía de una pila alcalina AA (fabricantes / IEC)",
+        "model": "Pila de 1,5 V y 2,5 Ah",
+        "commons_hint": "AA battery"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Bombilla pensante",
+        "title": "¿Cuántas bombillas LED de 8 W podrías encender con la potencia de tu cerebro?",
+        "unit": "bombillas",
+        "referent": "Consumo energético del cerebro",
+        "data_needed": "Gasto del cerebro, un 20 % de unas 2.000 kcal diarias (estudios de neurociencia)",
+        "model": "Potencia media constante",
+        "commons_hint": "LED bulb"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Reloj insistente",
+        "title": "¿Cuántas campanadas da el Big Ben en un año?",
+        "unit": "campanadas",
+        "referent": "Big Ben",
+        "data_needed": "Patrón de campanadas de las horas (UK Parliament)",
+        "model": "Toca las horas: de 1 a 12 dos veces al día",
+        "commons_hint": "Big Ben Elizabeth Tower"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-03",
+    "name": "Jueves",
+    "theme": "Athletic, agua grifo y PIB",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "La cola rojiblanca",
+        "title": "Si todos los socios del Athletic Club hicieran cola, ¿cuántos kilómetros mediría?",
+        "unit": "km",
+        "referent": "Athletic Club",
+        "data_needed": "Número de socios (memoria anual del club)",
+        "model": "Cada persona ocupa 50 cm en la cola",
+        "commons_hint": "San Mamés Bilbao Athletic"
+      },
+      {
+        "position": 2,
+        "category": "hogar",
+        "tag": "Botellas invisibles",
+        "title": "¿Cuántas botellas de 1,5 L de agua gasta cada español al día en su casa?",
+        "unit": "botellas",
+        "referent": "Consumo de agua en los hogares",
+        "data_needed": "Litros por habitante y día en los hogares (INE, encuesta del agua)",
+        "model": "Botella de 1,5 L",
+        "commons_hint": "Grifo agua cocina"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "Economía al segundo",
+        "title": "¿Cuántos euros produce la economía española en cada segundo?",
+        "unit": "euros/s",
+        "referent": "PIB de España",
+        "data_needed": "PIB anual a precios corrientes (INE)",
+        "model": "Reparto uniforme en el año",
+        "commons_hint": "Ministerio de Economía Madrid"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-04",
+    "name": "Viernes",
+    "theme": "Tren, Minecraft y Olympus",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Del Mataró al AVE",
+        "title": "¿Cuántas veces cabe la primera línea de tren de la península en la red actual de alta velocidad?",
+        "unit": "veces",
+        "referent": "Ferrocarril Barcelona–Mataró",
+        "data_needed": "Longitud de la línea de 1848 (Museu del Ferrocarril) y kilómetros de alta velocidad (ADIF)",
+        "model": "Kilómetros de vía de alta velocidad en servicio",
+        "commons_hint": "Locomotora Mataró réplica"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Mundo cuadrado",
+        "title": "¿Cuántas veces cabe la superficie de la Tierra en un mundo de Minecraft si cada bloque mide 1 m?",
+        "unit": "veces",
+        "referent": "Minecraft",
+        "data_needed": "Límites del mundo jugable (Mojang / Minecraft Wiki) y superficie terrestre (NASA)",
+        "model": "Bloque de 1 m²",
+        "commons_hint": "Minecraft landscape"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Monte sin funicular",
+        "title": "Subiendo 400 m de desnivel por hora, ¿cuántas horas tardarías en coronar el Olympus Mons de Marte?",
+        "unit": "horas",
+        "referent": "Olympus Mons",
+        "data_needed": "Altura sobre la base (NASA)",
+        "model": "400 m de desnivel por hora, sin pausas",
+        "commons_hint": "Olympus Mons Viking"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-05",
+    "name": "Sábado",
+    "theme": "La Robla, Bizkaia y mejillón",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Traviesas a la vista",
+        "title": "¿Cuántas traviesas tiene el ferrocarril de La Robla?",
+        "unit": "traviesas",
+        "referent": "Ferrocarril de La Robla",
+        "data_needed": "Longitud de la línea (Renfe Cercanías AM / Feve)",
+        "model": "Una traviesa cada 60 cm",
+        "commons_hint": "Ferrocarril de La Robla tren"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Transbordador incansable",
+        "title": "¿Cuántos viajes hace al año la barquilla del Puente de Bizkaia?",
+        "unit": "viajes",
+        "referent": "Puente de Bizkaia",
+        "data_needed": "Frecuencia y horario de servicio (Puente Bizkaia)",
+        "model": "Un viaje cada 8 minutos, 20 horas al día",
+        "commons_hint": "Puente de Bizkaia Portugalete"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Batea generosa",
+        "title": "¿Cuántos mejillones salen al año de una batea gallega?",
+        "unit": "mejillones",
+        "referent": "Bateas de la ría de Arousa",
+        "data_needed": "Producción anual y número de bateas (Consello Regulador Mexillón de Galicia)",
+        "model": "Mejillón comercial de 20 g",
+        "commons_hint": "Bateas ría de Arousa"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-06",
+    "name": "Domingo",
+    "theme": "Angliru, Salto Ángel y órbita",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Subida por escalera",
+        "title": "¿Cuántos escalones de 17 cm tendría una escalera que salvara el desnivel del Angliru?",
+        "unit": "escalones",
+        "referent": "Alto del Angliru",
+        "data_needed": "Desnivel de la subida desde Riosa (La Vuelta o Gobierno del Principado)",
+        "model": "Escalón de 17 cm de altura",
+        "commons_hint": "Angliru Asturias carretera"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Caída libre",
+        "title": "Sin rozamiento del aire, ¿cuántos segundos tardaría una gota en caer desde lo alto del Salto Ángel?",
+        "unit": "segundos",
+        "referent": "Salto Ángel",
+        "data_needed": "Altura de la caída (UNESCO / enciclopedias)",
+        "model": "Caída libre con g = 9,8 m/s²",
+        "commons_hint": "Angel Falls Venezuela"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Viaje en el sofá",
+        "title": "¿Cuántos kilómetros recorre la Tierra alrededor del Sol mientras ves un partido de fútbol de 90 minutos?",
+        "unit": "km",
+        "referent": "Órbita de la Tierra",
+        "data_needed": "Velocidad orbital media de la Tierra (NASA)",
+        "model": "Partido de 90 minutos, sin descuento",
+        "commons_hint": "Earth Blue Marble"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-07",
+    "name": "Lunes",
+    "theme": "ALBA, abanico y intestino",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Electrones mareados",
+        "title": "¿Cuántas vueltas por segundo dan los electrones en el anillo del sincrotrón ALBA?",
+        "unit": "vueltas/s",
+        "referent": "Sincrotrón ALBA",
+        "data_needed": "Circunferencia del anillo de almacenamiento (CELLS-ALBA)",
+        "model": "Electrones prácticamente a la velocidad de la luz",
+        "commons_hint": "Sincrotrón ALBA Cerdanyola"
+      },
+      {
+        "position": 2,
+        "category": "hogar",
+        "tag": "Brisa manual",
+        "title": "¿Cuántos golpes de abanico das en un verano sevillano?",
+        "unit": "abanicazos",
+        "referent": "Abanico",
+        "data_needed": "Días con máxima superior a 35 °C en Sevilla (AEMET)",
+        "model": "Dos golpes por segundo, 3 horas en cada día de calor",
+        "commons_hint": "Abanico español"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Tubería interior",
+        "title": "¿Cuántos intestinos delgados en fila harían falta para alcanzar la altura de la Torre Picasso?",
+        "unit": "intestinos",
+        "referent": "Intestino delgado",
+        "data_needed": "Longitud del intestino delgado (manuales de anatomía) y altura de la torre",
+        "model": "Intestino de 6,5 m",
+        "commons_hint": "Small intestine anatomy"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-08",
+    "name": "Martes",
+    "theme": "Prado, Expo 92 y fajo",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Maratón de museo",
+        "title": "Mirando cada cuadro 30 segundos, ¿cuántas horas tardarías en ver toda la colección de pinturas del Prado?",
+        "unit": "horas",
+        "referent": "Museo del Prado",
+        "data_needed": "Número de pinturas de la colección (Museo del Prado)",
+        "model": "30 segundos por pintura, sin pausas",
+        "commons_hint": "Museo del Prado fachada Velázquez"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Sevilla a rebosar",
+        "title": "¿Cuántos visitantes recibió de media cada día la Expo 92 de Sevilla?",
+        "unit": "visitantes",
+        "referent": "Expo 92",
+        "data_needed": "Visitas totales y días de apertura (BIE / archivo de la Expo)",
+        "model": "Media uniforme todos los días",
+        "commons_hint": "Expo 92 Sevilla Isla de la Cartuja"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "Millonario en altura",
+        "title": "¿Cuántos centímetros mediría una pila de billetes de 50 € que sumara un millón de euros?",
+        "unit": "cm",
+        "referent": "Billete de 50 euros",
+        "data_needed": "Grosor de un billete (BCE)",
+        "model": "Billete de 0,11 mm sin aire entre ellos",
+        "commons_hint": "50 euro banknote"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-09",
+    "name": "Miércoles",
+    "theme": "Millau, Aneto y MareNostrum",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Viaducto en caravana",
+        "title": "¿Cuántos coches en fila caben sobre el viaducto de Millau?",
+        "unit": "coches",
+        "referent": "Viaducto de Millau",
+        "data_needed": "Longitud del tablero (Eiffage / gestor del viaducto)",
+        "model": "Coche de 4,5 m más 1 m de hueco, un solo carril",
+        "commons_hint": "Viaduc de Millau"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Pirineo apilado",
+        "title": "¿Cuántos Anetos apilados harían falta para alcanzar la cima del Everest?",
+        "unit": "Anetos",
+        "referent": "Monte Everest",
+        "data_needed": "Altitudes del Everest y del Aneto (IGN / enciclopedias)",
+        "model": "Altura de cada monte sobre el nivel del mar",
+        "commons_hint": "Mount Everest"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Cálculo mental colectivo",
+        "title": "Si toda la humanidad hiciera una operación por segundo, ¿cuántos años tardaría en igualar un segundo del MareNostrum 5?",
+        "unit": "años",
+        "referent": "MareNostrum 5",
+        "data_needed": "Rendimiento máximo (Barcelona Supercomputing Center / TOP500) y población mundial (ONU)",
+        "model": "Una operación por persona y segundo",
+        "commons_hint": "MareNostrum supercomputer BSC"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-10",
+    "name": "Jueves",
+    "theme": "Montmeló, miel y sidra",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Vueltas por hora",
+        "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al Circuit de Barcelona-Catalunya en una hora?",
+        "unit": "vueltas",
+        "referent": "Circuit de Barcelona-Catalunya",
+        "data_needed": "Longitud del trazado de F1 (web del circuito / FIA)",
+        "model": "Velocidad media constante de 200 km/h",
+        "commons_hint": "Circuit de Barcelona-Catalunya aerial"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Abejas con agenda",
+        "title": "¿Cuántas flores tienen que visitar las abejas para llenar un tarro de 500 g de miel de La Alcarria?",
+        "unit": "flores",
+        "referent": "Miel de La Alcarria DOP",
+        "data_needed": "Flores visitadas por kilo de miel (estudios apícolas / FAO)",
+        "model": "Unos 4 millones de flores por kilo",
+        "commons_hint": "Miel de La Alcarria colmenas"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Culín a culín",
+        "title": "¿Cuántos culines saldrían de la sidra DOP de Asturias de un año?",
+        "unit": "culines",
+        "referent": "Sidra de Asturias DOP",
+        "data_needed": "Litros certificados anuales (Consejo Regulador DOP Sidra de Asturias)",
+        "model": "Culín de 100 ml",
+        "commons_hint": "Escanciar sidra Asturias"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "name": "Viernes",
+    "theme": "Voyager, tele y Bolero",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Persecución interestelar",
+        "title": "¿Cuántos años tardaría un coche a 120 km/h en llegar hasta donde está hoy la Voyager 1?",
+        "unit": "años",
+        "referent": "Voyager 1",
+        "data_needed": "Distancia actual a la Tierra (NASA JPL, contador de la misión, con fecha)",
+        "model": "Coche a 120 km/h, sin repostar",
+        "commons_hint": "Voyager spacecraft"
+      },
+      {
+        "position": 2,
+        "category": "hogar",
+        "tag": "Sofá vitalicio",
+        "title": "¿Cuántos años de tu vida pasarás delante del televisor?",
+        "unit": "años",
+        "referent": "Televisor",
+        "data_needed": "Minutos diarios de consumo de televisión (Barlovento / Kantar) y esperanza de vida (INE)",
+        "model": "Consumo medio actual toda la vida",
+        "commons_hint": "Television living room"
+      },
+      {
+        "position": 3,
+        "category": "cultura",
+        "tag": "Redoble obsesivo",
+        "title": "¿Cuántos golpes da la caja en el Bolero de Ravel de principio a fin?",
+        "unit": "golpes",
+        "referent": "Bolero de Ravel",
+        "data_needed": "Número de compases de la partitura (IMSLP / edición Durand)",
+        "model": "12 golpes por compás durante toda la obra",
+        "commons_hint": "Maurice Ravel 1925"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-12",
+    "name": "Sábado",
+    "theme": "Calendario, Rodas y piel",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Días perdidos",
+        "title": "¿Cuántos días se desfasa el calendario juliano respecto a las estaciones cada mil años?",
+        "unit": "días",
+        "referent": "Calendario gregoriano",
+        "data_needed": "Duración del año juliano y del año trópico (Real Observatorio de Madrid)",
+        "model": "Diferencia anual acumulada",
+        "commons_hint": "Inter gravissimas bula 1582"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Arena de postal",
+        "title": "¿Cuántos granos de arena hay en la playa de Rodas de las islas Cíes?",
+        "unit": "granos",
+        "referent": "Playa de Rodas (Islas Cíes)",
+        "data_needed": "Longitud y anchura de la playa (Parque Nacional Illas Atlánticas)",
+        "model": "Capa de arena de 1 m; grano de 0,5 mm",
+        "commons_hint": "Praia de Rodas Illas Cíes"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Envoltorio de papel",
+        "title": "¿Cuántos folios A4 harían falta para cubrir toda tu piel?",
+        "unit": "folios",
+        "referent": "Piel humana",
+        "data_needed": "Superficie corporal de un adulto (fórmulas médicas / MedlinePlus)",
+        "model": "1,8 m² de piel; folio de 0,062 m²",
+        "commons_hint": "Human skin"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-13",
+    "name": "Domingo",
+    "theme": "Elcano buque, BNE y cinco duros",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Velas para tender",
+        "title": "¿Cuántas camisetas extendidas harían falta para igualar la superficie de velas del buque escuela Juan Sebastián de Elcano?",
+        "unit": "camisetas",
+        "referent": "Buque escuela Juan Sebastián de Elcano",
+        "data_needed": "Superficie vélica (Armada Española)",
+        "model": "Camiseta extendida de 0,5 m²",
+        "commons_hint": "Juan Sebastián de Elcano buque escuela velas"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Torre de papel",
+        "title": "Si apilaras todos los libros de la Biblioteca Nacional de España, ¿cuántas veces superarías la altura del Everest?",
+        "unit": "veces",
+        "referent": "Biblioteca Nacional de España",
+        "data_needed": "Número de libros impresos del fondo (BNE, memoria anual)",
+        "model": "Libro de 3 cm de grosor",
+        "commons_hint": "Biblioteca Nacional de España fachada"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "Calderilla de antes",
+        "title": "¿Cuántas monedas de cinco duros harían falta para cambiarlas por un billete de 50 €?",
+        "unit": "monedas",
+        "referent": "Moneda de 25 pesetas",
+        "data_needed": "Tipo de cambio fijo euro-peseta (BCE)",
+        "model": "166,386 pesetas por euro",
+        "commons_hint": "Moneda 25 pesetas"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-14",
+    "name": "Lunes",
+    "theme": "Acueducto, ducha y Galeón",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Grifo romano",
+        "title": "¿Cuántos litros de agua al día llevaba a la ciudad el Acueducto de Segovia?",
+        "unit": "litros",
+        "referent": "Acueducto de Segovia",
+        "data_needed": "Caudal estimado del acueducto (Ayuntamiento de Segovia / estudios)",
+        "model": "Caudal constante las 24 horas",
+        "commons_hint": "Acueducto de Segovia"
+      },
+      {
+        "position": 2,
+        "category": "hogar",
+        "tag": "Piscina a chorros",
+        "title": "¿Cuántas duchas de 8 minutos hacen falta para gastar el agua de una piscina olímpica?",
+        "unit": "duchas",
+        "referent": "Ducha",
+        "data_needed": "Caudal de una ducha estándar (Canal de Isabel II / IDAE)",
+        "model": "10 L por minuto; piscina de 2.500 m³",
+        "commons_hint": "Shower head water"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Ida y vuelta al Pacífico",
+        "title": "¿Cuántas travesías hizo el Galeón de Manila durante los años que funcionó la ruta?",
+        "unit": "travesías",
+        "referent": "Galeón de Manila",
+        "data_needed": "Años de inicio y fin de la ruta (Archivo de Indias)",
+        "model": "Una travesía de ida y otra de vuelta al año",
+        "commons_hint": "Galeón de Manila"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-15",
+    "name": "Martes",
+    "theme": "Panamá, uvas y Niágara",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Esclusas sedientas",
+        "title": "¿Cuántas piscinas olímpicas de agua dulce gasta al día el canal de Panamá para mover barcos?",
+        "unit": "piscinas",
+        "referent": "Canal de Panamá",
+        "data_needed": "Agua por tránsito y tránsitos anuales (Autoridad del Canal de Panamá)",
+        "model": "Piscina de 2.500 m³",
+        "commons_hint": "Panama Canal Miraflores locks"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "Doce campanadas",
+        "title": "¿Cuántos kilos de uvas se comen en España en Nochevieja si cada persona toma sus doce?",
+        "unit": "kg",
+        "referent": "Reloj de la Puerta del Sol",
+        "data_needed": "Población residente en España (INE)",
+        "model": "12 uvas por persona de 6 g cada una",
+        "commons_hint": "Reloj Puerta del Sol Casa de Correos"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Piscinas al minuto",
+        "title": "¿Cuántas piscinas olímpicas caen por las cataratas del Niágara en un minuto?",
+        "unit": "piscinas",
+        "referent": "Cataratas del Niágara",
+        "data_needed": "Caudal medio en temporada turística (Niagara Parks)",
+        "model": "Piscina olímpica de 2.500 m³",
+        "commons_hint": "Niagara Falls Horseshoe"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-16",
+    "name": "Miércoles",
+    "theme": "Peral, Times Square y Gasol",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Submarino pionero",
+        "title": "¿Cuántas horas tardaría el submarino de Isaac Peral en ir de Cartagena a Palma a su velocidad máxima?",
+        "unit": "horas",
+        "referent": "Submarino Peral",
+        "data_needed": "Velocidad máxima en superficie (Museo Naval de Cartagena)",
+        "model": "Ruta recta de 400 km",
+        "commons_hint": "Submarino Peral Cartagena"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Cruce concurrido",
+        "title": "¿Cuántas personas pasan por Times Square en un minuto, de media, a lo largo del día?",
+        "unit": "personas/min",
+        "referent": "Times Square",
+        "data_needed": "Peatones diarios (Times Square Alliance)",
+        "model": "Reparto uniforme en 24 horas",
+        "commons_hint": "Times Square New York"
+      },
+      {
+        "position": 3,
+        "category": "deportes",
+        "tag": "La torre de los puntos",
+        "title": "Si cada punto de Pau Gasol en la NBA fuera un ladrillo de 7 cm apilado, ¿cuántos metros mediría la torre?",
+        "unit": "metros",
+        "referent": "Pau Gasol",
+        "data_needed": "Puntos totales de Gasol en temporada regular de la NBA (NBA.com)",
+        "model": "Ladrillo macizo de 7 cm de grosor",
+        "commons_hint": "Pau Gasol Lakers"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "name": "Jueves",
+    "theme": "Saliva, Robledo y FNMT",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Hacerse la boca agua",
+        "title": "¿Cuántas bañeras llenarías con la saliva que produces a lo largo de tu vida?",
+        "unit": "bañeras",
+        "referent": "Glándulas salivales",
+        "data_needed": "Producción diaria de saliva (manuales de fisiología / MedlinePlus)",
+        "model": "1 L al día durante 80 años; bañera de 150 L",
+        "commons_hint": "Salivary glands diagram"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Paraguas galáctico",
+        "title": "¿Cuántos paraguas abiertos cubrirían la gran antena de 70 m de Robledo de Chavela?",
+        "unit": "paraguas",
+        "referent": "Complejo de Robledo de Chavela (MDSCC)",
+        "data_needed": "Diámetro de la antena DSS-63 (NASA / INTA)",
+        "model": "Paraguas de 1 m de diámetro, como círculos sin solaparse",
+        "commons_hint": "Robledo de Chavela antena DSS-63"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "Fábrica de calderilla",
+        "title": "¿Cuántas monedas acuña por minuto la Fábrica Nacional de Moneda y Timbre?",
+        "unit": "monedas/min",
+        "referent": "Fábrica Nacional de Moneda y Timbre",
+        "data_needed": "Monedas fabricadas al año (FNMT, memoria anual)",
+        "model": "250 días de trabajo de 16 horas",
+        "commons_hint": "FNMT Real Casa de la Moneda"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "name": "Viernes",
+    "theme": "Golden Gate, aerogenerador y Mónaco",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Alambre a lo grande",
+        "title": "¿Cuántas vueltas a la Tierra darían los alambres de los cables principales del Golden Gate?",
+        "unit": "vueltas",
+        "referent": "Puente Golden Gate",
+        "data_needed": "Longitud total de alambre (Golden Gate Bridge District)",
+        "model": "Circunferencia ecuatorial de 40.075 km",
+        "commons_hint": "Golden Gate Bridge"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Molino moderno",
+        "title": "¿Cuántas vueltas da en un día un aerogenerador del parque eólico de El Perdón?",
+        "unit": "vueltas",
+        "referent": "Parque eólico de la Sierra de El Perdón",
+        "data_needed": "Velocidad de giro nominal de sus turbinas (fabricante / Gobierno de Navarra)",
+        "model": "Giro de 25 rpm durante 12 horas al día",
+        "commons_hint": "Sierra del Perdón aerogeneradores"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Principados de bolsillo",
+        "title": "¿Cuántos Mónacos cabrían en la isla de Ibiza?",
+        "unit": "Mónacos",
+        "referent": "Principado de Mónaco",
+        "data_needed": "Superficies de Mónaco (gobierno monegasco) y de Ibiza (IBESTAT)",
+        "model": "Superficie terrestre total",
+        "commons_hint": "Monaco panorama"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-19",
+    "name": "Sábado",
+    "theme": "Hayedo, Quijote y basura",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Lluvia de hojas",
+        "title": "¿Cuántas hojas caen cada otoño en el Hayedo de Montejo?",
+        "unit": "hojas",
+        "referent": "Hayedo de Montejo",
+        "data_needed": "Superficie del hayedo (Comunidad de Madrid / UNESCO)",
+        "model": "200 hayas por hectárea; 100.000 hojas por haya",
+        "commons_hint": "Hayedo de Montejo otoño"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Lectura caballeresca",
+        "title": "Leyendo 250 palabras por minuto, ¿cuántas horas tardarías en leer el Quijote completo?",
+        "unit": "horas",
+        "referent": "Don Quijote de la Mancha",
+        "data_needed": "Número de palabras de las dos partes (Instituto Cervantes / ediciones digitales)",
+        "model": "250 palabras por minuto sin pausas",
+        "commons_hint": "Don Quijote primera edición 1605"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Bolsas al contenedor",
+        "title": "¿Cuántas bolsas de basura de 5 kg saca al año una familia de cuatro personas?",
+        "unit": "bolsas",
+        "referent": "Contenedor de basura",
+        "data_needed": "Residuos municipales por habitante (INE)",
+        "model": "Bolsa de 5 kg",
+        "commons_hint": "Contenedores reciclaje España"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-20",
+    "name": "Domingo",
+    "theme": "Medalla, Montjuïc y Wright",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Oro con truco",
+        "title": "¿Cuántos euros vale en metal una medalla de oro olímpica?",
+        "unit": "euros",
+        "referent": "Medalla de oro olímpica",
+        "data_needed": "Composición de la medalla: 6 g de oro y el resto plata (COI) y precios de los metales (LBMA)",
+        "model": "Medalla de 500 g en total",
+        "commons_hint": "Olympic gold medal"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Vuelta de balón",
+        "title": "¿Cuántos balones de fútbol en fila darían la vuelta a la calle 1 de la pista del Estadio Olímpico de Montjuïc?",
+        "unit": "balones",
+        "referent": "Estadio Olímpico Lluís Companys",
+        "data_needed": "Longitud reglamentaria de la calle 1 de una pista de atletismo (World Athletics, 400 m)",
+        "model": "Balón de talla 5 de 22 cm de diámetro",
+        "commons_hint": "Estadi Olímpic Lluís Companys"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Primer vuelo, muchos vuelos",
+        "title": "¿Cuántos primeros vuelos de los hermanos Wright en fila sumarían la distancia Madrid–Nueva York?",
+        "unit": "vuelos",
+        "referent": "Wright Flyer",
+        "data_needed": "Distancia del primer vuelo (Smithsonian) y distancia ortodrómica Madrid–Nueva York",
+        "model": "36,6 m por vuelo",
+        "commons_hint": "Wright Flyer first flight 1903"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-21",
+    "name": "Lunes",
+    "theme": "Crucero, Neptuno y uñas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Ciudad flotante",
+        "title": "¿Cuántos cruceros como el Wonder of the Seas harían falta para llevar a toda la población de Cádiz?",
+        "unit": "cruceros",
+        "referent": "Wonder of the Seas",
+        "data_needed": "Capacidad máxima de pasajeros (Royal Caribbean) y población de Cádiz (INE)",
+        "model": "Barco lleno, solo pasajeros",
+        "commons_hint": "Wonder of the Seas"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Luz con retraso",
+        "title": "¿Cuántos minutos tarda la luz del Sol en llegar a Neptuno?",
+        "unit": "minutos",
+        "referent": "Neptuno",
+        "data_needed": "Distancia media Sol–Neptuno (NASA)",
+        "model": "Velocidad de la luz de 299.792 km/s",
+        "commons_hint": "Neptune Voyager 2"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Manicura vitalicia",
+        "title": "¿Cuántos centímetros de uña de las manos te cortas en toda tu vida?",
+        "unit": "cm",
+        "referent": "Uñas",
+        "data_needed": "Crecimiento medio de las uñas de las manos (Academia Española de Dermatología)",
+        "model": "3 mm al mes por uña, diez uñas, 80 años",
+        "commons_hint": "Fingernails"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-22",
+    "name": "Martes",
+    "theme": "Tutankamón, Feria y plátano",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Inventario faraónico",
+        "title": "Catalogando tres objetos al día, ¿cuántos años tardarías en registrar el ajuar de la tumba de Tutankamón?",
+        "unit": "años",
+        "referent": "Tumba de Tutankamón",
+        "data_needed": "Número de objetos hallados (Griffith Institute, Universidad de Oxford)",
+        "model": "Tres objetos diarios, 300 días al año",
+        "commons_hint": "Tutankhamun tomb KV62"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Caseta a caseta",
+        "title": "Visitando diez casetas por noche, ¿cuántas Ferias de Abril necesitarías para entrar en todas?",
+        "unit": "ferias",
+        "referent": "Feria de Abril de Sevilla",
+        "data_needed": "Número de casetas y noches de feria (Ayuntamiento de Sevilla)",
+        "model": "Diez casetas por noche, sin repetir",
+        "commons_hint": "Feria de Abril portada"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Ritmo canario",
+        "title": "¿Cuántos plátanos de Canarias se comen por segundo a lo largo de un año?",
+        "unit": "plátanos/s",
+        "referent": "Plátano de Canarias",
+        "data_needed": "Producción anual comercializada (ASPROCAN)",
+        "model": "Plátano de 150 g",
+        "commons_hint": "Plátano de Canarias platanera"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-23",
+    "name": "Miércoles",
+    "theme": "Metro, Big Mac y Correos",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Torniquete loco",
+        "title": "¿Cuántos viajeros entran al Metro de Madrid por cada segundo de servicio?",
+        "unit": "viajeros/s",
+        "referent": "Metro de Madrid",
+        "data_needed": "Viajeros anuales (Metro de Madrid, memoria) y horario de servicio",
+        "model": "19 horas de servicio al día, todo el año",
+        "commons_hint": "Metro de Madrid andén"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Índice hamburguesa",
+        "title": "¿Cuántas hamburguesas Big Mac podrías comprar en España con un mes de salario mínimo?",
+        "unit": "hamburguesas",
+        "referent": "Índice Big Mac",
+        "data_needed": "Precio del Big Mac en la zona del euro (The Economist) y SMI mensual (BOE)",
+        "model": "SMI bruto en 14 pagas",
+        "commons_hint": "Big Mac"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Buzón ajetreado",
+        "title": "¿Cuántos envíos reparte Correos por segundo a lo largo de un año?",
+        "unit": "envíos/s",
+        "referent": "Correos",
+        "data_needed": "Envíos anuales (Correos, informe anual)",
+        "model": "Reparto uniforme en el año",
+        "commons_hint": "Buzón Correos amarillo"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-24",
+    "name": "Jueves",
+    "theme": "Frontón, maratón y Perito Moreno",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Pelotazos en fila",
+        "title": "¿Cuántas pelotas de cesta punta en fila cubrirían la cancha del Frontón Beti Jai?",
+        "unit": "pelotas",
+        "referent": "Frontón Beti Jai",
+        "data_needed": "Longitud de la cancha del frontón (Ayuntamiento de Madrid / Patrimonio)",
+        "model": "Pelota de unos 6 cm de diámetro",
+        "commons_hint": "Frontón Beti Jai Madrid"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Merienda olímpica",
+        "title": "¿Cuántas magdalenas quema un corredor de 70 kg en el Maratón de Nueva York?",
+        "unit": "magdalenas",
+        "referent": "Maratón de Nueva York",
+        "data_needed": "Gasto energético por kg y km corrido (estudios de fisiología del ejercicio)",
+        "model": "1 kcal por kg y km; magdalena de 150 kcal",
+        "commons_hint": "New York City Marathon Verrazzano"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Cubitos patagónicos",
+        "title": "¿Cuántos cubitos de hielo de 3 cm puestos en fila cubrirían el frente del glaciar Perito Moreno?",
+        "unit": "cubitos",
+        "referent": "Glaciar Perito Moreno",
+        "data_needed": "Anchura del frente (Parque Nacional Los Glaciares)",
+        "model": "Cubito de 3 cm de lado",
+        "commons_hint": "Perito Moreno Glacier"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-25",
+    "name": "Viernes",
+    "theme": "Vaticano, Sídney y Chupa Chups",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Estado en el parque",
+        "title": "¿Cuántas Ciudades del Vaticano cabrían dentro de la Casa de Campo de Madrid?",
+        "unit": "Vaticanos",
+        "referent": "Ciudad del Vaticano",
+        "data_needed": "Superficies del Vaticano (Santa Sede) y de la Casa de Campo (Ayuntamiento de Madrid)",
+        "model": "Superficies totales",
+        "commons_hint": "Vatican City aerial"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Tejas sin prisa",
+        "title": "Colocando una teja cada 30 segundos, ¿cuántos días tardarías en cubrir la Ópera de Sídney?",
+        "unit": "días",
+        "referent": "Ópera de Sídney",
+        "data_needed": "Número de tejas de las cubiertas (Sydney Opera House)",
+        "model": "Trabajo 24 horas al día",
+        "commons_hint": "Sydney Opera House roof tiles"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Caramelo planetario",
+        "title": "¿Cuántas vueltas a la Tierra darían, en fila, los Chupa Chups fabricados en un año?",
+        "unit": "vueltas",
+        "referent": "Chupa Chups",
+        "data_needed": "Unidades fabricadas al año (Perfetti Van Melle)",
+        "model": "Caramelo con palo de 11 cm de largo",
+        "commons_hint": "Chupa Chups"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-26",
+    "name": "Sábado",
+    "theme": "Plutón, Ruta de la Seda y disquete",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Rumbo a Plutón",
+        "title": "¿A cuántos km/h viajó de media la sonda New Horizons hasta su encuentro con Plutón?",
+        "unit": "km/h",
+        "referent": "New Horizons y Plutón",
+        "data_needed": "Fechas de lanzamiento y sobrevuelo y distancia recorrida (NASA)",
+        "model": "Velocidad media sobre la trayectoria real",
+        "commons_hint": "Pluto New Horizons"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Caravana sin prisa",
+        "title": "A 30 km diarios, ¿cuántos días tardaba una caravana en recorrer la Ruta de la Seda de Xi'an a Constantinopla?",
+        "unit": "días",
+        "referent": "Ruta de la Seda",
+        "data_needed": "Longitud aproximada de la ruta principal (UNESCO)",
+        "model": "30 km por jornada, sin paradas largas",
+        "commons_hint": "Silk Road caravan camels"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Peli en disquetes",
+        "title": "¿Cuántos disquetes de 3,5 pulgadas harían falta para guardar una película de 4 GB?",
+        "unit": "disquetes",
+        "referent": "Disquete de 3,5 pulgadas",
+        "data_needed": "Capacidad de 1,44 MB (especificación del formato)",
+        "model": "Película de 4 GB sin comprimir más",
+        "commons_hint": "Floppy disk 3.5"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-27",
+    "name": "Domingo",
+    "theme": "Gato, Ávila y Nerja",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Profesional de la siesta",
+        "title": "¿Cuántos años de su vida pasa durmiendo un gato doméstico?",
+        "unit": "años",
+        "referent": "Gato doméstico",
+        "data_needed": "Horas de sueño diarias y esperanza de vida del gato (asociaciones veterinarias)",
+        "model": "14 horas de sueño al día, 15 años de vida",
+        "commons_hint": "Cat sleeping"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Almenas a ojo",
+        "title": "¿Cuántas almenas tiene la muralla de Ávila?",
+        "unit": "almenas",
+        "referent": "Muralla de Ávila",
+        "data_needed": "Perímetro de la muralla (Ayuntamiento de Ávila)",
+        "model": "Una almena cada metro de adarve",
+        "commons_hint": "Muralla de Ávila"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Goteo paciente",
+        "title": "Si una columna creciera 1 cm cada siglo, ¿cuántos años tardaría en formarse la gran columna de la Cueva de Nerja?",
+        "unit": "años",
+        "referent": "Cueva de Nerja",
+        "data_needed": "Altura de la gran columna (Fundación Cueva de Nerja)",
+        "model": "Crecimiento uniforme de 1 cm por siglo",
+        "commons_hint": "Cueva de Nerja columna"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-28",
+    "name": "Lunes",
+    "theme": "Pádel, Jumbo y naranjas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Piso en la pista",
+        "title": "¿Cuántos euros costaría un piso en Madrid capital del tamaño de una pista de pádel?",
+        "unit": "euros",
+        "referent": "Pista de pádel",
+        "data_needed": "Medidas reglamentarias de la pista (FIP) y precio medio del m² en Madrid (Ministerio de Vivienda)",
+        "model": "Pista de 20 × 10 m como superficie de vivienda",
+        "commons_hint": "Padel court"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Despegue colectivo",
+        "title": "Si todos los Boeing 747 fabricados despegaran a la vez llenos, ¿cuántas personas volarían?",
+        "unit": "personas",
+        "referent": "Boeing 747",
+        "data_needed": "Unidades fabricadas (Boeing)",
+        "model": "400 plazas por avión",
+        "commons_hint": "Boeing 747 Jumbo"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Zumo para todos",
+        "title": "¿Cuántos vasos de zumo darían las naranjas recolectadas en la Comunitat Valenciana en un año?",
+        "unit": "vasos",
+        "referent": "Naranjos valencianos",
+        "data_needed": "Producción de naranja de la Comunitat Valenciana (Ministerio de Agricultura)",
+        "model": "40 % de rendimiento en zumo; vaso de 200 ml",
+        "commons_hint": "Naranjos Valencia huerta"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-29",
+    "name": "Martes",
+    "theme": "Esqueleto, Saturn V y Nadal",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Vagón de huesos",
+        "title": "¿Cuántos kilos de esqueleto viajan en un vagón de metro con 150 pasajeros?",
+        "unit": "kg",
+        "referent": "Esqueleto humano",
+        "data_needed": "Fracción del peso corporal que es hueso (manuales de anatomía)",
+        "model": "Pasajero de 70 kg; 15 % de hueso",
+        "commons_hint": "Human skeleton"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Jirafas lunares",
+        "title": "¿Cuántas jirafas apiladas igualarían la altura del cohete Saturn V?",
+        "unit": "jirafas",
+        "referent": "Saturn V",
+        "data_needed": "Altura del cohete (NASA)",
+        "model": "Jirafa adulta de 5 m",
+        "commons_hint": "Saturn V Apollo 11 launch"
+      },
+      {
+        "position": 3,
+        "category": "deportes",
+        "tag": "Horas de tierra batida",
+        "title": "Si cada partido que Nadal ganó en Roland Garros hubiera durado dos horas y media, ¿cuántas horas pasó ganando en París?",
+        "unit": "horas",
+        "referent": "Rafael Nadal en Roland Garros",
+        "data_needed": "Victorias de Nadal en Roland Garros (ATP o Roland Garros)",
+        "model": "Duración media de 2,5 h por partido ganado",
+        "commons_hint": "Rafael Nadal Roland Garros"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-30",
+    "name": "Miércoles",
+    "theme": "Gomera, Mozart y ENIAC",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Silbo en cadena",
+        "title": "¿Cuántos silbadores en cadena harían falta para cruzar La Gomera de norte a sur con silbo gomero?",
+        "unit": "silbadores",
+        "referent": "Silbo gomero",
+        "data_needed": "Alcance del silbo (UNESCO, expediente del patrimonio inmaterial) y dimensiones de la isla",
+        "model": "Un silbador cada 4 km",
+        "commons_hint": "La Gomera Garajonay"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Prisa de genio",
+        "title": "¿Cuántas obras compuso Mozart por año de vida?",
+        "unit": "obras/año",
+        "referent": "Wolfgang Amadeus Mozart",
+        "data_needed": "Número del catálogo Köchel y fechas de nacimiento y muerte (enciclopedias)",
+        "model": "Repartido entre todos los años de su vida",
+        "commons_hint": "Mozart portrait"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Móviles de antaño",
+        "title": "¿Cuántos teléfonos móviles pesarían lo mismo que el ordenador ENIAC?",
+        "unit": "móviles",
+        "referent": "ENIAC",
+        "data_needed": "Masa del ENIAC (Universidad de Pensilvania / Smithsonian)",
+        "model": "Móvil de 200 g",
+        "commons_hint": "ENIAC computer"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "name": "Jueves",
+    "theme": "Hórreo, Vendée y Irati",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Granero XXL",
+        "title": "¿Cuántas mazorcas de maíz cabrían en el hórreo de Carnota?",
+        "unit": "mazorcas",
+        "referent": "Hórreo de Carnota",
+        "data_needed": "Dimensiones del hórreo (Concello de Carnota / Xunta)",
+        "model": "Interior de 34 × 1,5 × 1,8 m; mazorca de 0,5 L con huecos",
+        "commons_hint": "Hórreo de Carnota"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Vuelta al mundo en patinete",
+        "title": "¿Cuántos días tardarías en recorrer la distancia de la Vendée Globe en patinete eléctrico a 20 km/h sin parar?",
+        "unit": "días",
+        "referent": "Vendée Globe",
+        "data_needed": "Distancia teórica del recorrido (organización Vendée Globe)",
+        "model": "Patinete a 20 km/h, 24 h al día",
+        "commons_hint": "Vendée Globe IMOCA start Les Sables"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Bosque de números",
+        "title": "¿Cuántos árboles hay en la Selva de Irati?",
+        "unit": "árboles",
+        "referent": "Selva de Irati",
+        "data_needed": "Superficie del bosque (Gobierno de Navarra)",
+        "model": "400 árboles por hectárea",
+        "commons_hint": "Selva de Irati hayedo"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-02",
+    "name": "Viernes",
+    "theme": "Neuronas, pan y Central Park",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Censo cerebral",
+        "title": "Contando una neurona por segundo, ¿cuántos años tardarías en contar las de tu cerebro?",
+        "unit": "años",
+        "referent": "Cerebro humano",
+        "data_needed": "Número de neuronas, unos 86.000 millones (estudios de neurociencia)",
+        "model": "Una por segundo, sin dormir",
+        "commons_hint": "Human brain"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "La barra nacional",
+        "title": "¿Cuántas barras de pan se comen en España cada día?",
+        "unit": "barras",
+        "referent": "Barra de pan",
+        "data_needed": "Consumo de pan per cápita (MAPA, panel de consumo) y población (INE)",
+        "model": "Barra de 250 g",
+        "commons_hint": "Barra de pan baguette"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Parques en parque",
+        "title": "¿Cuántas veces cabe el parque del Retiro dentro de Central Park?",
+        "unit": "Retiros",
+        "referent": "Central Park",
+        "data_needed": "Superficies de Central Park (NYC Parks) y del Retiro (Ayuntamiento de Madrid)",
+        "model": "Superficies totales de ambos parques",
+        "commons_hint": "Central Park aerial"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-03",
+    "name": "Sábado",
+    "theme": "AVE, céntimos y Lugo",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Parpadeo veloz",
+        "title": "¿Cuántos metros recorre un AVE a velocidad máxima mientras parpadeas?",
+        "unit": "metros",
+        "referent": "AVE (alta velocidad española)",
+        "data_needed": "Velocidad máxima comercial de 300 km/h (Renfe / ADIF)",
+        "model": "Parpadeo de 0,3 segundos",
+        "commons_hint": "AVE Renfe S-103"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Calderilla al peso",
+        "title": "¿Cuántas monedas de un céntimo pesarían lo mismo que un coche utilitario?",
+        "unit": "monedas",
+        "referent": "Moneda de 1 céntimo",
+        "data_needed": "Masa de la moneda (BCE / FNMT)",
+        "model": "Coche de 1.200 kg",
+        "commons_hint": "1 cent euro coin"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Abrazo romano",
+        "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la muralla romana de Lugo?",
+        "unit": "personas",
+        "referent": "Muralla romana de Lugo",
+        "data_needed": "Perímetro de la muralla (Concello de Lugo / UNESCO)",
+        "model": "1,5 m por persona con los brazos abiertos",
+        "commons_hint": "Muralla de Lugo"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-04",
+    "name": "Domingo",
+    "theme": "Fregona, Halley y QR",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Brazo incansable",
+        "title": "¿Cuántos metros cuadrados friega una fregona a lo largo de su vida útil?",
+        "unit": "m²",
+        "referent": "Fregona",
+        "data_needed": "Invento de Manuel Jalón y vida útil de un cabezal (fabricantes / Museo)",
+        "model": "60 m² por sesión, tres sesiones por semana, seis meses",
+        "commons_hint": "Fregona cubo"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Visitas del cometa",
+        "title": "¿Cuántas veces ha pasado el cometa Halley cerca del Sol desde la fundación de Roma?",
+        "unit": "pasos",
+        "referent": "Cometa Halley",
+        "data_needed": "Período orbital (NASA) y fecha tradicional de la fundación de Roma",
+        "model": "Período fijo de 76 años",
+        "commons_hint": "Halley's Comet 1986"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Pi en cuadraditos",
+        "title": "¿Cuántos códigos QR harían falta para guardar el número pi con un millón de decimales?",
+        "unit": "códigos",
+        "referent": "Código QR",
+        "data_needed": "Capacidad numérica máxima de un QR (Denso Wave / ISO 18004)",
+        "model": "7.089 dígitos por código",
+        "commons_hint": "QR code"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-05",
+    "name": "Lunes",
+    "theme": "Ebro, Villena y Picasso",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Mensaje en una botella",
+        "title": "¿Cuántos días tardaría una botella flotando a 2 km/h en bajar el Ebro desde su nacimiento hasta el mar?",
+        "unit": "días",
+        "referent": "Río Ebro",
+        "data_needed": "Longitud del río (Confederación Hidrográfica del Ebro)",
+        "model": "2 km/h constantes, sin presas ni atascos",
+        "commons_hint": "Delta del Ebro río"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Tesoro de la Edad del Bronce",
+        "title": "¿Cuántos euros valdría hoy, al peso, el oro del Tesoro de Villena?",
+        "unit": "euros",
+        "referent": "Tesoro de Villena",
+        "data_needed": "Masa del oro del tesoro (Museo Arqueológico de Villena) y precio del oro (LBMA, con fecha)",
+        "model": "Oro puro, sin valor histórico",
+        "commons_hint": "Tesoro de Villena"
+      },
+      {
+        "position": 3,
+        "category": "cultura",
+        "tag": "Taller incansable",
+        "title": "¿Cuántas obras al día creó Picasso de media durante su vida adulta?",
+        "unit": "obras/día",
+        "referent": "Pablo Picasso",
+        "data_needed": "Total de obras catalogadas (Guinness / Museo Picasso)",
+        "model": "Vida creativa de 75 años",
+        "commons_hint": "Pablo Picasso 1962"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-06",
+    "name": "Martes",
+    "theme": "Salamanca, Doñana y escaleras",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Promociones en serie",
+        "title": "¿Cuántas promociones de cuatro años han pasado por la Universidad de Salamanca desde su fundación?",
+        "unit": "promociones",
+        "referent": "Universidad de Salamanca",
+        "data_needed": "Año de fundación (Universidad de Salamanca)",
+        "model": "Una promoción cada cuatro años",
+        "commons_hint": "Universidad de Salamanca fachada"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Marismas reglamentarias",
+        "title": "¿Cuántos campos de fútbol cabrían en el Parque Nacional de Doñana?",
+        "unit": "campos",
+        "referent": "Parque Nacional de Doñana",
+        "data_needed": "Superficie del parque nacional (MITECO, Red de Parques Nacionales)",
+        "model": "Campo de 105 × 68 m",
+        "commons_hint": "Doñana marismas"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Cuarto sin ascensor",
+        "title": "Viviendo en un cuarto sin ascensor, ¿cuántos metros subes al año?",
+        "unit": "metros",
+        "referent": "Escalera de vecinos",
+        "data_needed": "Altura mínima entre plantas (Código Técnico de la Edificación)",
+        "model": "Planta de 3 m; dos subidas al día",
+        "commons_hint": "Escalera edificio vecinos"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-07",
+    "name": "Miércoles",
+    "theme": "Cráter, Livermore y ADN",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Campos en el cráter",
+        "title": "¿Cuántos campos de fútbol cabrían en el fondo del Meteor Crater de Arizona?",
+        "unit": "campos",
+        "referent": "Meteor Crater",
+        "data_needed": "Diámetro del cráter (USGS)",
+        "model": "Círculo de 1,2 km; campo de 105 × 68 m",
+        "commons_hint": "Meteor Crater Arizona"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Bombilla inmortal",
+        "title": "¿Cuántas horas lleva encendida la bombilla centenaria de Livermore?",
+        "unit": "horas",
+        "referent": "Bombilla centenaria de Livermore",
+        "data_needed": "Año de encendido (Departamento de Bomberos de Livermore)",
+        "model": "Encendida sin interrupción desde 1901",
+        "commons_hint": "Centennial Light Livermore"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Ovillo cósmico",
+        "title": "Si estiraras todo el ADN de tu cuerpo, ¿cuántas veces irías de la Tierra al Sol?",
+        "unit": "veces",
+        "referent": "ADN humano",
+        "data_needed": "Longitud del ADN por célula y número de células (estudios de biología)",
+        "model": "2 m por célula; 37 billones de células",
+        "commons_hint": "DNA double helix"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-08",
+    "name": "Jueves",
+    "theme": "Guggenheim, ajedrez y churros",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Titanio reluciente",
+        "title": "Limpiando una placa de titanio por minuto, ¿cuántas jornadas de 8 horas harían falta para el Guggenheim de Bilbao?",
+        "unit": "jornadas",
+        "referent": "Museo Guggenheim Bilbao",
+        "data_needed": "Número de placas de titanio (Museo Guggenheim Bilbao)",
+        "model": "Una placa por minuto, jornadas de 8 h",
+        "commons_hint": "Guggenheim Bilbao"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Trigo exponencial",
+        "title": "¿Cuántas toneladas de trigo pide la leyenda del tablero de ajedrez, duplicando el grano en cada casilla?",
+        "unit": "toneladas",
+        "referent": "Leyenda de los granos de trigo y el ajedrez",
+        "data_needed": "Peso de un grano de trigo (FAO)",
+        "model": "2^64 − 1 granos de 0,05 g",
+        "commons_hint": "Chessboard wheat grains"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Desayuno desde 1894",
+        "title": "Si en San Ginés se friesen mil churros al día desde su apertura, ¿cuántos churros llevarían?",
+        "unit": "churros",
+        "referent": "Chocolatería San Ginés",
+        "data_needed": "Año de apertura de la chocolatería (web oficial / Ayuntamiento)",
+        "model": "1.000 churros diarios, todos los días del año",
+        "commons_hint": "Chocolatería San Ginés Madrid"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-09",
+    "name": "Viernes",
+    "theme": "Sierra Nevada, Fuente Dé y Vía Láctea",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Esquí sin esquís",
+        "title": "Si bajaras andando por todas las pistas de Sierra Nevada, ¿cuántas horas tardarías?",
+        "unit": "horas",
+        "referent": "Estación de esquí de Sierra Nevada",
+        "data_needed": "Kilómetros esquiables declarados (Cetursa Sierra Nevada)",
+        "model": "Bajada a pie a 4 km/h, sin repetir pista",
+        "commons_hint": "Sierra Nevada ski resort Pradollano"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Ascensor de montaña",
+        "title": "¿A cuántos pisos por segundo te sube el teleférico de Fuente Dé?",
+        "unit": "pisos/s",
+        "referent": "Teleférico de Fuente Dé",
+        "data_needed": "Desnivel y duración del trayecto (Cantur)",
+        "model": "Piso de 3 m",
+        "commons_hint": "Teleférico Fuente Dé"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Contar estrellas",
+        "title": "Contando una estrella por segundo, ¿cuántos años tardarías en contar las estrellas de la Vía Láctea?",
+        "unit": "años",
+        "referent": "Vía Láctea",
+        "data_needed": "Número estimado de estrellas, unos 100.000 millones (NASA / ESA)",
+        "model": "Una estrella por segundo, sin dormir",
+        "commons_hint": "Milky Way Roque de los Muchachos"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-10",
+    "name": "Sábado",
+    "theme": "Panteón, billetes y Pony Express",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Cúpula para llenar",
+        "title": "¿Cuántos litros de agua cabrían en una esfera del tamaño de la que encaja bajo la cúpula del Panteón de Roma?",
+        "unit": "litros",
+        "referent": "Panteón de Roma",
+        "data_needed": "Diámetro interior de la cúpula (enciclopedias / Ministero della Cultura)",
+        "model": "Esfera de 43,3 m de diámetro",
+        "commons_hint": "Pantheon Rome interior dome"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Cartera europea",
+        "title": "¿Cuántos billetes de euro hay en circulación por cada habitante de la zona del euro?",
+        "unit": "billetes",
+        "referent": "Billetes en euros",
+        "data_needed": "Número de billetes en circulación (BCE) y población de la zona del euro (Eurostat)",
+        "model": "Todos los billetes repartidos por igual",
+        "commons_hint": "Euro banknotes"
+      },
+      {
+        "position": 3,
+        "category": "historia",
+        "tag": "Relevo galopante",
+        "title": "¿Cuántos caballos de relevo necesitaba el Pony Express para cubrir su ruta de punta a punta?",
+        "unit": "caballos",
+        "referent": "Pony Express",
+        "data_needed": "Longitud de la ruta (National Park Service)",
+        "model": "Relevo cada 16 km",
+        "commons_hint": "Pony Express rider"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-11",
+    "name": "Domingo",
+    "theme": "Concorde, flamencos y hígado",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Supersónico canario",
+        "title": "¿Cuántos minutos tardaría el Concorde en volar de Madrid a Gran Canaria a su velocidad de crucero?",
+        "unit": "minutos",
+        "referent": "Concorde",
+        "data_needed": "Velocidad de crucero (Air France / British Airways, museos) y distancia Madrid–Gran Canaria",
+        "model": "Crucero constante, sin despegue ni aterrizaje",
+        "commons_hint": "Concorde Air France"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Flamencos de pie",
+        "title": "¿Cuántos flamencos cabrían en la Laguna de Fuente de Piedra si cada uno ocupara un metro cuadrado?",
+        "unit": "flamencos",
+        "referent": "Laguna de Fuente de Piedra",
+        "data_needed": "Superficie de la laguna (Junta de Andalucía)",
+        "model": "Un flamenco por m² con la laguna llena",
+        "commons_hint": "Laguna Fuente de Piedra flamencos"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Filtro de serie",
+        "title": "¿Cuántos litros de sangre filtra tu hígado en un día?",
+        "unit": "litros",
+        "referent": "Hígado",
+        "data_needed": "Flujo sanguíneo hepático por minuto (manuales de fisiología)",
+        "model": "1,4 L por minuto constante",
+        "commons_hint": "Liver anatomy"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-12",
+    "name": "Lunes",
+    "theme": "MAREA, calçots y Amazonas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Cable con antojo",
+        "title": "¿Cuántas películas en alta definición por segundo podría transmitir el cable submarino MAREA a plena capacidad?",
+        "unit": "películas/s",
+        "referent": "Cable submarino MAREA",
+        "data_needed": "Capacidad de diseño del cable (Telxius / Microsoft)",
+        "model": "Película HD de 5 GB",
+        "commons_hint": "Submarine cable landing Sopelana"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "Babero obligatorio",
+        "title": "¿Cuántos calçots de la IGP Calçot de Valls le tocan a cada habitante de Cataluña en una temporada?",
+        "unit": "calçots",
+        "referent": "Calçot de Valls IGP",
+        "data_needed": "Calçots certificados por temporada (Consell Regulador IGP Calçot de Valls) y población (Idescat)",
+        "model": "Reparto a partes iguales",
+        "commons_hint": "Calçotada calçots Valls"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Grifo amazónico",
+        "title": "¿Cuántos segundos tarda el Amazonas en verter al mar el agua que consume Madrid en un día?",
+        "unit": "segundos",
+        "referent": "Río Amazonas",
+        "data_needed": "Caudal medio en la desembocadura (enciclopedias / ANA Brasil) y consumo diario (Canal de Isabel II)",
+        "model": "Caudal medio constante",
+        "commons_hint": "Amazon River aerial"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-13",
+    "name": "Martes",
+    "theme": "El Capitán, Sant Jordi y pañales",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Edificio de granito",
+        "title": "¿Cuántos pisos de 3 m tendría un edificio tan alto como la pared de El Capitán, en Yosemite?",
+        "unit": "pisos",
+        "referent": "El Capitán (Yosemite)",
+        "data_needed": "Altura de la pared desde el valle (National Park Service)",
+        "model": "Planta de 3 m de altura",
+        "commons_hint": "El Capitan Yosemite"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Libros a la carrera",
+        "title": "¿Cuántos libros se venden por minuto en Cataluña el día de Sant Jordi?",
+        "unit": "libros/min",
+        "referent": "Diada de Sant Jordi",
+        "data_needed": "Libros vendidos en la jornada (Gremi de Llibreters de Catalunya)",
+        "model": "Ventas repartidas en 12 horas",
+        "commons_hint": "Sant Jordi Rambla llibres roses"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Cambio constante",
+        "title": "¿Cuántos pañales usa un bebé hasta que deja de llevarlos?",
+        "unit": "pañales",
+        "referent": "Pañal",
+        "data_needed": "Edad media de retirada del pañal (Asociación Española de Pediatría)",
+        "model": "Seis pañales al día hasta los 2,5 años",
+        "commons_hint": "Baby diapers"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-14",
+    "name": "Miércoles",
+    "theme": "Cachalote, Atenas 1896 y lingotes",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Ascensor abisal",
+        "title": "¿Cuántos minutos tarda un cachalote en bajar a 1.000 metros de profundidad?",
+        "unit": "minutos",
+        "referent": "Cachalote",
+        "data_needed": "Velocidad de descenso medida con marcas (estudios de cetáceos / NOAA)",
+        "model": "Descenso vertical a 1,5 m/s",
+        "commons_hint": "Sperm whale Physeter"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Olimpiadas que crecen",
+        "title": "¿Cuántas veces más atletas compitieron en París 2024 que en Atenas 1896?",
+        "unit": "veces",
+        "referent": "Juegos Olímpicos de Atenas 1896",
+        "data_needed": "Número de atletas de ambas ediciones (COI)",
+        "model": "Solo atletas participantes",
+        "commons_hint": "Panathenaic Stadium 1896"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "Cámara del tesoro",
+        "title": "¿Cuántos lingotes de oro de 12,4 kg guarda el Banco de España?",
+        "unit": "lingotes",
+        "referent": "Banco de España",
+        "data_needed": "Toneladas de oro de la reserva (Banco de España / World Gold Council)",
+        "model": "Lingote estándar de 12,4 kg",
+        "commons_hint": "Banco de España sede Cibeles"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-15",
+    "name": "Jueves",
+    "theme": "Oktoberfest, palomitas y Cartuja",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Jarras por minuto",
+        "title": "¿Cuántas jarras de un litro se sirven por minuto en el Oktoberfest de Múnich?",
+        "unit": "jarras/min",
+        "referent": "Oktoberfest de Múnich",
+        "data_needed": "Litros servidos y días de fiesta (Ciudad de Múnich, balance oficial)",
+        "model": "12 horas de servicio al día",
+        "commons_hint": "Oktoberfest Munich Mass beer"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Cine con cubo",
+        "title": "Si cada entrada de cine vendida en España en un año llevara un cubo de palomitas de 5 L, ¿cuántas piscinas olímpicas llenarían?",
+        "unit": "piscinas",
+        "referent": "Cines de España",
+        "data_needed": "Espectadores anuales (ICAA, Ministerio de Cultura)",
+        "model": "Cubo de 5 L; piscina de 2.500 m³",
+        "commons_hint": "Sala de cine butacas"
+      },
+      {
+        "position": 3,
+        "category": "deportes",
+        "tag": "Excursión colectiva",
+        "title": "¿Cuántos autobuses urbanos harían falta para llevar a casa a todo el aforo del Estadio de La Cartuja?",
+        "unit": "autobuses",
+        "referent": "Estadio de La Cartuja",
+        "data_needed": "Aforo oficial del estadio (Junta de Andalucía / sociedad del estadio)",
+        "model": "Autobús de 90 plazas, un solo viaje",
+        "commons_hint": "Estadio de La Cartuja Sevilla"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-16",
+    "name": "Viernes",
+    "theme": "Siesta, Collserola y cepillo",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "País de siesta",
+        "title": "Si uno de cada cinco españoles echara una siesta de 20 minutos, ¿cuántos años de sueño sumaría España en un día?",
+        "unit": "años",
+        "referent": "Siesta",
+        "data_needed": "Población de España (INE)",
+        "model": "20 % de la población; 20 minutos cada uno",
+        "commons_hint": "Siesta hamaca"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Mirador al infinito",
+        "title": "¿A cuántos km está el horizonte visto desde el mirador de la Torre de Collserola?",
+        "unit": "km",
+        "referent": "Torre de Collserola",
+        "data_needed": "Altitud del mirador sobre el nivel del mar (Torre de Collserola)",
+        "model": "Horizonte geométrico: 3,57 × raíz de la altura en m",
+        "commons_hint": "Torre de Collserola"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Espuma acumulada",
+        "title": "Cepillándote dos veces al día dos minutos, ¿cuántos días enteros pasas en tu vida lavándote los dientes?",
+        "unit": "días",
+        "referent": "Cepillado de dientes",
+        "data_needed": "Recomendación de cepillado (Consejo General de Dentistas)",
+        "model": "Desde los 3 hasta los 80 años",
+        "commons_hint": "Toothbrush"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-17",
+    "name": "Sábado",
+    "theme": "Saturno, taxis NY y Empire",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "Cruzar los anillos",
+        "title": "¿Cuántas horas tardaría un avión a 900 km/h en cruzar de lado a lado los anillos principales de Saturno?",
+        "unit": "horas",
+        "referent": "Anillos de Saturno",
+        "data_needed": "Diámetro exterior del anillo A (NASA)",
+        "model": "Vuelo recto a 900 km/h por el diámetro",
+        "commons_hint": "Saturn Cassini rings"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Amarillo pesado",
+        "title": "¿Cuántas toneladas pesan juntos todos los taxis amarillos con licencia de Nueva York?",
+        "unit": "toneladas",
+        "referent": "Taxis amarillos de Nueva York",
+        "data_needed": "Número de licencias o medallones (NYC Taxi and Limousine Commission)",
+        "model": "Taxi de 1,9 toneladas",
+        "commons_hint": "New York yellow taxi"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Imán de rayos",
+        "title": "¿Cuántos rayos recibe el Empire State Building en una década?",
+        "unit": "rayos",
+        "referent": "Empire State Building",
+        "data_needed": "Impactos anuales de media (NOAA / Empire State Realty)",
+        "model": "Media constante año a año",
+        "commons_hint": "Empire State Building lightning"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-18",
+    "name": "Domingo",
+    "theme": "Sáhara, fibra y latidos",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Arena para rato",
+        "title": "¿Cuántas Españas cabrían en el desierto del Sáhara?",
+        "unit": "Españas",
+        "referent": "Desierto del Sáhara",
+        "data_needed": "Superficies del Sáhara (enciclopedias) y de España (INE)",
+        "model": "Superficie total de España",
+        "commons_hint": "Sahara desert dunes"
+      },
+      {
+        "position": 2,
+        "category": "tecnologia",
+        "tag": "Mensaje a Tokio",
+        "title": "¿Cuántos milisegundos tarda la luz por fibra óptica en ir de Madrid a Tokio?",
+        "unit": "ms",
+        "referent": "Fibra óptica",
+        "data_needed": "Velocidad de la luz en el vidrio (unos 200.000 km/s) y distancia por cable",
+        "model": "Recorrido de 13.000 km de cable",
+        "commons_hint": "Optical fiber"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Metrónomo interno",
+        "title": "¿Cuántas veces habrá latido tu corazón al cumplir 80 años?",
+        "unit": "latidos",
+        "referent": "Corazón humano",
+        "data_needed": "Frecuencia cardíaca en reposo (Fundación Española del Corazón)",
+        "model": "70 latidos por minuto de media",
+        "commons_hint": "Human heart anatomy"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-19",
+    "name": "Lunes",
+    "theme": "Elefante, estadio y manchego",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Buen saque",
+        "title": "¿Cuántas toneladas de comida come un elefante africano a lo largo de su vida?",
+        "unit": "toneladas",
+        "referent": "Elefante africano",
+        "data_needed": "Consumo diario y esperanza de vida (WWF / San Diego Zoo)",
+        "model": "150 kg al día durante 60 años",
+        "commons_hint": "African elephant"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Culo inquieto",
+        "title": "Si probaras un asiento distinto del Metropolitano cada minuto, sin dormir, ¿cuántos días tardarías en sentarte en todos?",
+        "unit": "días",
+        "referent": "Estadio Riyadh Air Metropolitano",
+        "data_needed": "Aforo oficial del estadio (web del Atlético de Madrid o LaLiga)",
+        "model": "Un asiento por minuto, 24 h al día, sin descansos",
+        "commons_hint": "Estadio Metropolitano Madrid interior"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Cuñas manchegas",
+        "title": "¿Cuántas cuñas de 250 g saldrían del queso manchego DOP producido en un año?",
+        "unit": "cuñas",
+        "referent": "Queso Manchego DOP",
+        "data_needed": "Kilos certificados anuales (Consejo Regulador Queso Manchego)",
+        "model": "Cuña de 250 g, sin mermas",
+        "commons_hint": "Queso manchego"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-20",
+    "name": "Martes",
+    "theme": "Denario, Muralla China y Finisterre",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Paga de legionario",
+        "title": "¿Cuántos kilos de plata cobraba un legionario romano en 25 años de servicio?",
+        "unit": "kg",
+        "referent": "Denario romano",
+        "data_needed": "Sueldo anual de un legionario y peso del denario (estudios de numismática)",
+        "model": "225 denarios al año de 3,9 g de plata",
+        "commons_hint": "Roman denarius Augustus"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Ronda de guardia",
+        "title": "Andando 20 km al día, ¿cuántos años tardarías en recorrer todos los tramos de la Gran Muralla China?",
+        "unit": "años",
+        "referent": "Gran Muralla China",
+        "data_needed": "Longitud total medida por la Administración Estatal del Patrimonio Cultural de China",
+        "model": "20 km diarios todos los días",
+        "commons_hint": "Great Wall of China Mutianyu"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Rumbo oeste",
+        "title": "¿Cuántas horas tardaría un velero a 10 km/h en navegar del cabo Finisterre a Nueva York?",
+        "unit": "horas",
+        "referent": "Cabo Finisterre",
+        "data_needed": "Distancia ortodrómica Finisterre–Nueva York (cartas náuticas / calculadoras geodésicas)",
+        "model": "10 km/h en línea recta",
+        "commons_hint": "Cabo Fisterra faro"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-21",
+    "name": "Miércoles",
+    "theme": "N-340, Gutenberg y Harry Potter",
+    "questions": [
+      {
+        "position": 1,
+        "category": "transporte",
+        "tag": "Carretera con sombra",
+        "title": "Si plantaras un árbol cada diez metros a ambos lados de la N-340, ¿cuántos árboles harían falta?",
+        "unit": "árboles",
+        "referent": "Carretera N-340",
+        "data_needed": "Longitud de la carretera (Ministerio de Transportes)",
+        "model": "Un árbol cada 10 m en cada lado",
+        "commons_hint": "N-340 carretera"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Imprenta con prisa",
+        "title": "¿Cuántas páginas al día imprimía de media el taller de Gutenberg para terminar su Biblia?",
+        "unit": "páginas/día",
+        "referent": "Biblia de Gutenberg",
+        "data_needed": "Páginas por ejemplar, ejemplares y años de trabajo (Biblioteca del Congreso / enciclopedias)",
+        "model": "Trabajo 300 días al año",
+        "commons_hint": "Gutenberg Bible"
+      },
+      {
+        "position": 3,
+        "category": "cultura",
+        "tag": "Biblioteca mágica",
+        "title": "¿Cuántas vueltas a la Tierra daría una fila con todos los libros de Harry Potter vendidos?",
+        "unit": "vueltas",
+        "referent": "Harry Potter (libros)",
+        "data_needed": "Ejemplares vendidos (Bloomsbury / Scholastic)",
+        "model": "Libro de 20 cm colocado de pie, por su ancho",
+        "commons_hint": "Harry Potter books"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-22",
+    "name": "Jueves",
+    "theme": "Mallorca, Sol y vidrio",
+    "questions": [
+      {
+        "position": 1,
+        "category": "lugares",
+        "tag": "Vuelta a la isla",
+        "title": "Caminando 25 km al día, ¿cuántos días tardarías en recorrer toda la costa de Mallorca?",
+        "unit": "días",
+        "referent": "Costa de Mallorca",
+        "data_needed": "Longitud de costa (Govern de les Illes Balears / IGN)",
+        "model": "25 km diarios siguiendo la línea de costa",
+        "commons_hint": "Mallorca coast Serra de Tramuntana"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "AVE al Sol",
+        "title": "¿Cuántos años tardaría un AVE a 300 km/h en llegar al Sol?",
+        "unit": "años",
+        "referent": "Sol",
+        "data_needed": "Unidad astronómica: 149.597.871 km (IAU)",
+        "model": "Velocidad constante de 300 km/h",
+        "commons_hint": "Sun SDO image"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Contenedor verde",
+        "title": "¿Cuántas botellas de vino recicla de media cada español al año?",
+        "unit": "botellas",
+        "referent": "Contenedor verde de vidrio",
+        "data_needed": "Kilos de vidrio reciclados por habitante (Ecovidrio)",
+        "model": "Botella de 400 g; todo el vidrio cuenta como botellas",
+        "commons_hint": "Contenedor vidrio Ecovidrio"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-23",
+    "name": "Viernes",
+    "theme": "Cava, Altamira y oca",
+    "questions": [
+      {
+        "position": 1,
+        "category": "comida",
+        "tag": "Torre de burbujas",
+        "title": "¿Cuántos kilómetros de altura mediría una pila con las botellas de cava vendidas en un año?",
+        "unit": "km",
+        "referent": "DO Cava",
+        "data_needed": "Botellas vendidas por año (Consejo Regulador DO Cava)",
+        "model": "Botellas de 30 cm apiladas de pie",
+        "commons_hint": "Cava bottles Sant Sadurní"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Abuelos rupestres",
+        "title": "¿Cuántas generaciones nos separan de los primeros pintores de la cueva de Altamira?",
+        "unit": "generaciones",
+        "referent": "Cueva de Altamira",
+        "data_needed": "Antigüedad de las pinturas más antiguas (Museo de Altamira)",
+        "model": "Una generación cada 25 años",
+        "commons_hint": "Cueva de Altamira bisontes"
+      },
+      {
+        "position": 3,
+        "category": "cultura",
+        "tag": "De oca a oca",
+        "title": "¿Cuántas tiradas de dado necesitas de media para recorrer las 63 casillas del juego de la oca?",
+        "unit": "tiradas",
+        "referent": "Juego de la oca",
+        "data_needed": "Número de casillas del tablero clásico",
+        "model": "Media de 3,5 por tirada, sin ocas ni castigos",
+        "commons_hint": "Juego de la oca tablero"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-24",
+    "name": "Sábado",
+    "theme": "Pelo, Estrecho y agua",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cuerpo",
+        "tag": "Melena sin tijeras",
+        "title": "Si nunca te cortaras el pelo, ¿cuántos metros mediría tu melena a los 80 años?",
+        "unit": "metros",
+        "referent": "Cabello humano",
+        "data_needed": "Crecimiento del pelo (Academia Española de Dermatología)",
+        "model": "1 cm al mes, sin roturas",
+        "commons_hint": "Long hair"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Largos al otro lado",
+        "title": "¿Cuántos largos de una piscina olímpica equivalen a cruzar a nado el estrecho de Gibraltar por su punto más estrecho?",
+        "unit": "largos",
+        "referent": "Estrecho de Gibraltar",
+        "data_needed": "Anchura mínima del estrecho, unos 14,4 km (enciclopedias, IHM)",
+        "model": "Largo de 50 m y trayectoria recta, sin corrientes",
+        "commons_hint": "Strait of Gibraltar from space"
+      },
+      {
+        "position": 3,
+        "category": "dinero",
+        "tag": "El grifo sale a cuenta",
+        "title": "¿Cuántas veces es más cara el agua embotellada que la del grifo en Madrid?",
+        "unit": "veces",
+        "referent": "Agua del grifo de Madrid",
+        "data_needed": "Precio del m³ (Canal de Isabel II, tarifas) y precio de la garrafa de 5 L en supermercados",
+        "model": "Garrafa de 5 L a 1 €",
+        "commons_hint": "Canal de Isabel II depósito"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-25",
+    "name": "Domingo",
+    "theme": "Platos, Próxima y Mérida",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Fregadero eterno",
+        "title": "¿Cuántos platos fregarás en toda tu vida?",
+        "unit": "platos",
+        "referent": "Fregadero",
+        "data_needed": "Esperanza de vida en España (INE)",
+        "model": "Cuatro platos al día desde los 12 años",
+        "commons_hint": "Kitchen sink dishes"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Sistema solar de bolsillo",
+        "title": "Si el Sol fuera una naranja de 8 cm, ¿a cuántos km estaría Próxima Centauri?",
+        "unit": "km",
+        "referent": "Próxima Centauri",
+        "data_needed": "Diámetro solar y distancia a Próxima (NASA / ESA)",
+        "model": "Escala con el Sol de 8 cm de diámetro",
+        "commons_hint": "Alpha Centauri Proxima Centauri"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Rebaño romano",
+        "title": "¿Cuántas ovejas en fila cabrían sobre el puente romano de Mérida?",
+        "unit": "ovejas",
+        "referent": "Puente romano de Mérida",
+        "data_needed": "Longitud del puente (Consorcio de Mérida)",
+        "model": "Oveja de 1,2 m de largo, en fila india",
+        "commons_hint": "Puente romano Mérida Guadiana"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-26",
+    "name": "Lunes",
+    "theme": "Reloj atómico, Ámsterdam y cigüeñas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Puntualidad extrema",
+        "title": "¿Cuántos años tendrían que pasar para que el reloj atómico NIST-F1 se desviara un minuto?",
+        "unit": "años",
+        "referent": "Reloj atómico NIST-F1",
+        "data_needed": "Precisión del reloj: un segundo cada 100 millones de años (NIST)",
+        "model": "Error lineal",
+        "commons_hint": "NIST-F1 atomic clock"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Fila de dos ruedas",
+        "title": "Si todas las bicicletas de Ámsterdam se pusieran en fila, ¿cuántos kilómetros mediría?",
+        "unit": "km",
+        "referent": "Bicicletas de Ámsterdam",
+        "data_needed": "Número estimado de bicicletas (Gemeente Amsterdam)",
+        "model": "Bicicleta de 1,8 m de largo",
+        "commons_hint": "Amsterdam bicycles"
+      },
+      {
+        "position": 3,
+        "category": "naturaleza",
+        "tag": "Vecinas en el tejado",
+        "title": "¿Cuántos kilos de ramas soporta el tejado de la colegiata de San Miguel de Alfaro con todos sus nidos de cigüeña?",
+        "unit": "kg",
+        "referent": "Colegiata de San Miguel de Alfaro",
+        "data_needed": "Número de nidos censados (Gobierno de La Rioja / SEO BirdLife)",
+        "model": "Nido medio de 250 kg",
+        "commons_hint": "Alfaro cigüeñas colegiata"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-27",
+    "name": "Martes",
+    "theme": "Luna, jamón y agua",
+    "questions": [
+      {
+        "position": 1,
+        "category": "espacio",
+        "tag": "La Luna se va",
+        "title": "Si la Luna se aleja 3,8 cm cada año, ¿cuántos años tarda en alejarse la altura de un piso de 3 m?",
+        "unit": "años",
+        "referent": "Retrorreflectores del Apolo en la Luna",
+        "data_needed": "Ritmo de alejamiento medido por láser (NASA)",
+        "model": "Ritmo constante de 3,8 cm al año",
+        "commons_hint": "Apollo 11 laser retroreflector"
+      },
+      {
+        "position": 2,
+        "category": "comida",
+        "tag": "Loncha a loncha",
+        "title": "¿Cuántas lonchas finas salen de un jamón ibérico de 8 kg?",
+        "unit": "lonchas",
+        "referent": "Jamón ibérico",
+        "data_needed": "Rendimiento de carne limpia de un jamón (Consorcio / ASICI)",
+        "model": "50 % de rendimiento y loncha de 5 g",
+        "commons_hint": "Jamón ibérico corte"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Botijo humano",
+        "title": "¿Cuántas botellas de 1,5 litros de agua lleva dentro un adulto de 70 kg?",
+        "unit": "botellas",
+        "referent": "Agua corporal",
+        "data_needed": "Porcentaje de agua en el cuerpo adulto (manuales de fisiología)",
+        "model": "60 % de agua; 1 kg = 1 L",
+        "commons_hint": "Water bottles"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-28",
+    "name": "Miércoles",
+    "theme": "Wimbledon, Salvator Mundi y Gran Cañón",
+    "questions": [
+      {
+        "position": 1,
+        "category": "deportes",
+        "tag": "Fresas con nata",
+        "title": "¿Cuántas fresas se comen en Wimbledon por cada partido que se juega en el torneo?",
+        "unit": "fresas",
+        "referent": "Torneo de Wimbledon",
+        "data_needed": "Fresas servidas por edición y número total de partidos (AELTC)",
+        "model": "Todas las categorías del cuadro cuentan como partidos",
+        "commons_hint": "Wimbledon strawberries and cream"
+      },
+      {
+        "position": 2,
+        "category": "dinero",
+        "tag": "Cuadro carísimo",
+        "title": "¿Cuántos años de salario mínimo español costó el Salvator Mundi?",
+        "unit": "años",
+        "referent": "Salvator Mundi",
+        "data_needed": "Precio de la subasta (Christie's) y SMI anual (BOE)",
+        "model": "Cambio dólar-euro del día de la subasta",
+        "commons_hint": "Salvator Mundi Leonardo"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Bajada épica",
+        "title": "Bajando 300 m de desnivel por hora, ¿cuántas horas tardarías en llegar al fondo del Gran Cañón?",
+        "unit": "horas",
+        "referent": "Gran Cañón del Colorado",
+        "data_needed": "Profundidad media del cañón (National Park Service)",
+        "model": "300 m de desnivel por hora",
+        "commons_hint": "Grand Canyon South Rim"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-29",
+    "name": "Jueves",
+    "theme": "Teatro Real, Vespa y RAMAC",
+    "questions": [
+      {
+        "position": 1,
+        "category": "cultura",
+        "tag": "Concierto apretado",
+        "title": "¿Cuántos pianos de cola cabrían en el escenario principal del Teatro Real?",
+        "unit": "pianos",
+        "referent": "Teatro Real de Madrid",
+        "data_needed": "Superficie del escenario principal (Teatro Real)",
+        "model": "Piano de cola de 2,7 × 1,5 m, sin pasillos",
+        "commons_hint": "Teatro Real Madrid"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Avispas a la báscula",
+        "title": "¿Cuántas toneladas pesarían juntas todas las Vespa fabricadas?",
+        "unit": "toneladas",
+        "referent": "Vespa",
+        "data_needed": "Unidades fabricadas (Piaggio)",
+        "model": "Moto de 110 kg",
+        "commons_hint": "Vespa scooter"
+      },
+      {
+        "position": 3,
+        "category": "tecnologia",
+        "tag": "Disco duro de tonelada",
+        "title": "¿Cuántos discos duros IBM RAMAC 350 harían falta para guardar 1 terabyte?",
+        "unit": "discos",
+        "referent": "IBM RAMAC 350",
+        "data_needed": "Capacidad de 3,75 MB (IBM)",
+        "model": "1 TB = 10^12 bytes",
+        "commons_hint": "IBM 350 RAMAC"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-30",
+    "name": "Viernes",
+    "theme": "Terracota, Pisa y lavadora",
+    "questions": [
+      {
+        "position": 1,
+        "category": "historia",
+        "tag": "Saludo imperial",
+        "title": "Dedicando diez segundos a cada uno, ¿cuántas horas tardarías en saludar a todos los guerreros de terracota de Xi'an?",
+        "unit": "horas",
+        "referent": "Guerreros de terracota",
+        "data_needed": "Número estimado de figuras (Museo del Mausoleo de Qin Shi Huang)",
+        "model": "Diez segundos por figura",
+        "commons_hint": "Terracotta Army Xian"
+      },
+      {
+        "position": 2,
+        "category": "arquitectura",
+        "tag": "Torre de pelotas",
+        "title": "¿Cuántas pelotas de tenis cabrían dentro de la Torre de Pisa si fuera hueca?",
+        "unit": "pelotas",
+        "referent": "Torre de Pisa",
+        "data_needed": "Altura y diámetro exterior (Opera della Primaziale Pisana)",
+        "model": "Cilindro hueco; 64 % de llenado",
+        "commons_hint": "Leaning Tower of Pisa"
+      },
+      {
+        "position": 3,
+        "category": "hogar",
+        "tag": "Colada acuática",
+        "title": "¿Cuántas bañeras de agua gasta una familia de cuatro en lavadoras a lo largo de un año?",
+        "unit": "bañeras",
+        "referent": "Lavadora",
+        "data_needed": "Consumo por lavado de una lavadora eficiente (IDAE / etiqueta energética)",
+        "model": "Cinco lavados semanales de 50 L; bañera de 150 L",
+        "commons_hint": "Washing machine"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-31",
+    "name": "Sábado",
+    "theme": "Fort Knox, halcón y Mercurio",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Oro compacto",
+        "title": "¿Cuántos metros cúbicos ocupa todo el oro de Fort Knox?",
+        "unit": "m³",
+        "referent": "Fort Knox",
+        "data_needed": "Toneladas de oro custodiadas (US Mint / Tesoro de EE. UU.)",
+        "model": "Densidad del oro de 19,3 t/m³",
+        "commons_hint": "Fort Knox Bullion Depository"
+      },
+      {
+        "position": 2,
+        "category": "naturaleza",
+        "tag": "Picado a domicilio",
+        "title": "A la velocidad de su picado, ¿cuántos minutos tardaría un halcón peregrino en ir de Madrid a Toledo?",
+        "unit": "minutos",
+        "referent": "Halcón peregrino",
+        "data_needed": "Velocidad máxima en picado (estudios / National Geographic)",
+        "model": "320 km/h sostenidos durante 70 km",
+        "commons_hint": "Peregrine falcon Falco peregrinus"
+      },
+      {
+        "position": 3,
+        "category": "espacio",
+        "tag": "Paseo planetario",
+        "title": "Caminando 30 km al día, ¿cuántos días tardarías en dar la vuelta a Mercurio por su ecuador?",
+        "unit": "días",
+        "referent": "Mercurio",
+        "data_needed": "Radio ecuatorial de Mercurio (NASA)",
+        "model": "30 km diarios, sin cráteres que esquivar",
+        "commons_hint": "Mercury MESSENGER color"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-01",
+    "name": "Domingo",
+    "theme": "Perros, Despacito y San Silvestre",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Paseos nacionales",
+        "title": "¿Cuántos paseos de perro se dan en España cada día?",
+        "unit": "paseos",
+        "referent": "Perro doméstico",
+        "data_needed": "Perros censados (Red Española de Identificación de Animales de Compañía)",
+        "model": "Tres paseos diarios por perro",
+        "commons_hint": "Dog walking street"
+      },
+      {
+        "position": 2,
+        "category": "cultura",
+        "tag": "Bucle eterno",
+        "title": "¿Cuántos años de reproducción seguida suman las visitas del videoclip de Despacito en YouTube?",
+        "unit": "años",
+        "referent": "Despacito",
+        "data_needed": "Visitas del videoclip (contador de YouTube, con fecha) y duración del vídeo",
+        "model": "Cada visita ve el vídeo completo",
+        "commons_hint": "Luis Fonsi Despacito"
+      },
+      {
+        "position": 3,
+        "category": "deportes",
+        "tag": "Vuelta al mundo en chándal",
+        "title": "Sumando los km de todos los corredores de la San Silvestre Vallecana, ¿cuántas vueltas a la Tierra darían?",
+        "unit": "vueltas",
+        "referent": "San Silvestre Vallecana",
+        "data_needed": "Número de inscritos y distancia de 10 km (organización de la carrera)",
+        "model": "Todos completan los 10 km; circunferencia ecuatorial de 40.075 km",
+        "commons_hint": "San Silvestre Vallecana"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-02",
+    "name": "Lunes",
+    "theme": "Baikal, Alhambra y sangre",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Agua de reserva",
+        "title": "¿Cuántos años tardaría España en beberse el lago Baikal?",
+        "unit": "años",
+        "referent": "Lago Baikal",
+        "data_needed": "Volumen del lago (UNESCO) y población española (INE)",
+        "model": "2 L de agua por persona y día",
+        "commons_hint": "Lake Baikal"
+      },
+      {
+        "position": 2,
+        "category": "lugares",
+        "tag": "Puerta giratoria nazarí",
+        "title": "¿Cuántos visitantes entran a la Alhambra por cada minuto de apertura?",
+        "unit": "visitantes/min",
+        "referent": "Alhambra de Granada",
+        "data_needed": "Visitantes anuales (Patronato de la Alhambra y Generalife)",
+        "model": "Abierta 360 días, 11 horas al día",
+        "commons_hint": "Alhambra Granada"
+      },
+      {
+        "position": 3,
+        "category": "cuerpo",
+        "tag": "Bomba incansable",
+        "title": "¿Cuántas piscinas olímpicas llenaría la sangre que bombea tu corazón a lo largo de 80 años?",
+        "unit": "piscinas",
+        "referent": "Gasto cardíaco",
+        "data_needed": "Volumen bombeado por minuto (manuales de fisiología / MedlinePlus)",
+        "model": "5 L por minuto; piscina de 2.500 m³",
+        "commons_hint": "Circulatory system diagram"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-03",
+    "name": "Martes",
+    "theme": "Faro, Zeppelin y parmesano",
+    "questions": [
+      {
+        "position": 1,
+        "category": "arquitectura",
+        "tag": "Destellos romanos",
+        "title": "¿Cuántos destellos emite la Torre de Hércules en un año?",
+        "unit": "destellos",
+        "referent": "Torre de Hércules",
+        "data_needed": "Característica de la luz del faro (Puertos del Estado, libro de faros)",
+        "model": "Encendido 12 horas cada noche",
+        "commons_hint": "Torre de Hércules A Coruña"
+      },
+      {
+        "position": 2,
+        "category": "transporte",
+        "tag": "Vuelta al mundo en globo",
+        "title": "¿A qué velocidad media dio la vuelta al mundo el Graf Zeppelin en 1929?",
+        "unit": "km/h",
+        "referent": "Graf Zeppelin",
+        "data_needed": "Distancia y duración de la vuelta al mundo (Zeppelin Museum)",
+        "model": "Duración total incluidas escalas",
+        "commons_hint": "Graf Zeppelin LZ 127"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Leche a lo grande",
+        "title": "¿Cuántos vasos de leche hacen falta para fabricar una rueda de Parmigiano Reggiano?",
+        "unit": "vasos",
+        "referent": "Parmigiano Reggiano",
+        "data_needed": "Litros de leche por rueda (Consorzio del Parmigiano Reggiano)",
+        "model": "Vaso de 250 ml",
+        "commons_hint": "Parmigiano Reggiano wheels"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-04",
+    "name": "Miércoles",
+    "theme": "GPS, Penny Black y Gran Vía",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "Señal con prisa",
+        "title": "¿Cuántos milisegundos tarda en llegar a tu móvil la señal de un satélite GPS?",
+        "unit": "ms",
+        "referent": "Satélites GPS",
+        "data_needed": "Altitud orbital (GPS.gov)",
+        "model": "Satélite en la vertical; velocidad de la luz",
+        "commons_hint": "GPS satellite"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Sello pionero",
+        "title": "¿Cuántos m² de papel ocuparían todos los Penny Black impresos?",
+        "unit": "m²",
+        "referent": "Penny Black",
+        "data_needed": "Ejemplares impresos (Postal Museum de Londres)",
+        "model": "Sello de 2 × 2,3 cm",
+        "commons_hint": "Penny Black"
+      },
+      {
+        "position": 3,
+        "category": "lugares",
+        "tag": "Atasco de punta a punta",
+        "title": "¿Cuántos taxis en fila ocuparían un carril de la Gran Vía madrileña de principio a fin?",
+        "unit": "taxis",
+        "referent": "Gran Vía de Madrid",
+        "data_needed": "Longitud de la calle (Ayuntamiento de Madrid)",
+        "model": "Taxi de 4,6 m más 1 m de separación",
+        "commons_hint": "Gran Vía Madrid Metrópolis"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-05",
+    "name": "Jueves",
+    "theme": "Lluvia, Júpiter y atún",
+    "questions": [
+      {
+        "position": 1,
+        "category": "naturaleza",
+        "tag": "Paraguas compostelano",
+        "title": "¿Cuántos litros de lluvia caen en un año sobre el municipio de Santiago de Compostela?",
+        "unit": "litros",
+        "referent": "Santiago de Compostela",
+        "data_needed": "Precipitación media anual (AEMET) y superficie municipal (INE)",
+        "model": "1 mm de lluvia = 1 L por m²",
+        "commons_hint": "Santiago de Compostela lluvia"
+      },
+      {
+        "position": 2,
+        "category": "espacio",
+        "tag": "Mudanza gaseosa",
+        "title": "¿Cuántas Tierras cabrían dentro de Júpiter?",
+        "unit": "Tierras",
+        "referent": "Júpiter",
+        "data_needed": "Volúmenes de Júpiter y la Tierra (NASA Planetary Fact Sheet)",
+        "model": "Las Tierras se funden como plastilina, sin huecos",
+        "commons_hint": "Jupiter Juno"
+      },
+      {
+        "position": 3,
+        "category": "comida",
+        "tag": "Almadraba en piezas",
+        "title": "¿Cuántas piezas de nigiri saldrían de un atún rojo de almadraba de 200 kg?",
+        "unit": "nigiris",
+        "referent": "Almadraba de Barbate",
+        "data_needed": "Rendimiento en carne del atún rojo (organizaciones de almadraba / FAO)",
+        "model": "60 % de carne aprovechable; 10 g de pescado por nigiri",
+        "commons_hint": "Almadraba Barbate atún rojo"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-06",
+    "name": "Viernes",
+    "theme": "Telégrafo, Vía de la Plata y Burj",
+    "questions": [
+      {
+        "position": 1,
+        "category": "tecnologia",
+        "tag": "WhatsApp de 1850",
+        "title": "Si cada torre tardaba un minuto en repetir la señal, ¿cuántos minutos tardaba un mensaje del telégrafo óptico de Madrid a Irún?",
+        "unit": "minutos",
+        "referent": "Telégrafo óptico de Mathé",
+        "data_needed": "Número de torres de la línea Madrid–Irún (Ministerio de Cultura / estudios)",
+        "model": "Un minuto por torre",
+        "commons_hint": "Torre telegrafo óptico Mathé"
+      },
+      {
+        "position": 2,
+        "category": "historia",
+        "tag": "Paso legionario",
+        "title": "A 30 km por jornada, ¿cuántos días tardaba una legión en ir de Mérida a Astorga por la Vía de la Plata?",
+        "unit": "días",
+        "referent": "Vía de la Plata",
+        "data_needed": "Longitud del trazado Mérida–Astorga (Red de Cooperación Ruta de la Plata)",
+        "model": "30 km diarios sin descansos",
+        "commons_hint": "Vía de la Plata calzada romana"
+      },
+      {
+        "position": 3,
+        "category": "arquitectura",
+        "tag": "Pierna de acero",
+        "title": "Subiendo un escalón por segundo, ¿cuántos minutos tardarías en llegar arriba del Burj Khalifa?",
+        "unit": "minutos",
+        "referent": "Burj Khalifa",
+        "data_needed": "Número de escalones hasta la planta 160 (Emaar / CTBUH)",
+        "model": "Un escalón por segundo, sin descansos",
+        "commons_hint": "Burj Khalifa"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-07",
+    "name": "Sábado",
+    "theme": "Manhattan, Messi y Meninas",
+    "questions": [
+      {
+        "position": 1,
+        "category": "dinero",
+        "tag": "Ganga de 1626",
+        "title": "¿Cuántos euros serían hoy los 60 florines de la compra de Manhattan con un 7 % de interés compuesto anual?",
+        "unit": "euros",
+        "referent": "Compra de Manhattan",
+        "data_needed": "Precio en florines (documento de Peter Schaghen) y equivalencias históricas",
+        "model": "60 florines = unos 1.000 € de hoy en 1626; 7 % anual",
+        "commons_hint": "Peter Minuit purchase Manhattan"
+      },
+      {
+        "position": 2,
+        "category": "deportes",
+        "tag": "Aplausos azulgranas",
+        "title": "Si cada gol oficial de Messi con el Barça se celebrara con un minuto de aplausos, ¿cuántos partidos de 90 minutos aplaudirías?",
+        "unit": "partidos",
+        "referent": "Lionel Messi en el FC Barcelona",
+        "data_needed": "Goles oficiales con el FC Barcelona (FC Barcelona)",
+        "model": "Un minuto por gol; partido de 90 minutos",
+        "commons_hint": "Lionel Messi FC Barcelona"
+      },
+      {
+        "position": 3,
+        "category": "cultura",
+        "tag": "Cuadro filatélico",
+        "title": "¿Cuántos sellos de correos cubrirían Las Meninas?",
+        "unit": "sellos",
+        "referent": "Las Meninas",
+        "data_needed": "Dimensiones del lienzo (Museo del Prado)",
+        "model": "Sello de 2,5 × 3 cm",
+        "commons_hint": "Las Meninas Velázquez"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-08",
+    "name": "Domingo",
+    "theme": "Ascensores, pasos y Bulnes",
+    "questions": [
+      {
+        "position": 1,
+        "category": "hogar",
+        "tag": "Subir sin escaleras",
+        "title": "¿Cuántos habitantes hay en España por cada ascensor instalado?",
+        "unit": "habitantes",
+        "referent": "Ascensor",
+        "data_needed": "Número de ascensores instalados (FEEDA / sector) y población (INE)",
+        "model": "Todos los ascensores en servicio",
+        "commons_hint": "Ascensor antiguo"
+      },
+      {
+        "position": 2,
+        "category": "cuerpo",
+        "tag": "Vuelta al mundo a pie",
+        "title": "Andando 7.000 pasos al día, ¿cuántas vueltas a la Tierra das en 80 años?",
+        "unit": "vueltas",
+        "referent": "Pasos diarios",
+        "data_needed": "Pasos diarios medios en España (estudios de actividad física / Stanford)",
+        "model": "Paso de 70 cm",
+        "commons_hint": "Walking feet"
+      },
+      {
+        "position": 3,
+        "category": "transporte",
+        "tag": "Atajo por el túnel",
+        "title": "¿Cuántas veces más rápido que a pie sube el funicular de Bulnes?",
+        "unit": "veces",
+        "referent": "Funicular de Bulnes",
+        "data_needed": "Longitud y duración del trayecto (Gobierno de Asturias / Alsa)",
+        "model": "Senderista a 3 km/h por la ruta de 4 km",
+        "commons_hint": "Funicular de Bulnes"
+      }
+    ]
+  }
+]

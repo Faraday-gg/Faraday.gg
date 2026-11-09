@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-13",
+  "name": "Domingo",
+  "theme": "Elcano, BNE y cinco duros",
+  "questions": [
+    {
+      "id": "archivo-2026-09-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Velas para tender",
+      "title": "¿Cuántas camisetas extendidas harían falta para igualar la superficie de velas del buque escuela Juan Sebastián de Elcano?",
+      "detail": "Extendemos camisetas de 0,5 m² cada una hasta igualar todo el velamen del buque. Colada naval a lo grande.",
+      "unit": "camisetas",
+      "answer": 6302,
+      "math": "La superficie del velamen es de 3.151 m², en 20 velas. 3.151 ÷ 0,5 = 6.302 camisetas.",
+      "referenceExpression": "3151 ÷ 0,5",
+      "assumptions": "Camiseta extendida de 0,5 m², delante y detrás contados como una sola superficie.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Armada Española · Dosier del XCVIII crucero de instrucción del Juan Sebastián de Elcano",
+          "url": "https://armada.defensa.gob.es/framework/skins/estaticos/imagenes/unidades/superficie/buqueescuela/DOSSIER_XCVIII_CRUCERO_JSDE.pdf",
+          "fact": "Superficie del velamen: 3.151 m². Total: 20 velas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Piensa en medio campo de fútbol",
+        "steps": [
+          "Un gran velero tiene miles de metros cuadrados de vela. Pongamos unos 3.000 m².",
+          "A medio metro cuadrado por camiseta, 3.000 m² dan 6.000 camisetas.",
+          "Con los 3.151 m² oficiales salen 6.302 camisetas. Con tallas XXL de 0,7 m² bastarían unas 4.500."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-13-1.jpg",
+        "alt": "El buque escuela Juan Sebastián de Elcano navegando con sus cuatro palos",
+        "credit": "Contando Estrelas from Vigo, España / Spain",
+        "url": "https://commons.wikimedia.org/wiki/File:Juan_Sebasti%C3%A1n_Elcano._Buque_escuela-15.jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Torre de papel",
+      "title": "Si apilaras todos los libros impresos de la Biblioteca Nacional de España, ¿cuántas veces superarías la altura del Everest?",
+      "detail": "Monografías modernas, antiguas e incunables, todas en una sola pila. Cada libro mide 3 cm de grosor. No estornudes cerca.",
+      "unit": "veces",
+      "answer": 31.376601053695047,
+      "math": "Según la memoria de 2024, hay 8.878.866 monografías modernas, 372.540 antiguas y 3.499 incunables: 9.254.905 piezas. × 0,03 m = 277.647 m. 277.647 ÷ 8.848,86 ≈ 31,4 Everest.",
+      "referenceExpression": "(8878866 + 372540 + 3499) × 0,03 ÷ 8848,86",
+      "assumptions": "Libro medio de 3 cm. Se cuentan documentos (piezas) del catálogo, no títulos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Biblioteca Nacional de España · Memoria 2024",
+          "url": "https://www.bne.es/sites/default/files/repositorio-archivos/memoria-bne-2024.pdf",
+          "fact": "Número de documentos (piezas): 8.878.866 monografías modernas, 372.540 monografías antiguas y 3.499 incunables."
+        },
+        {
+          "title": "Wikipedia · Mount Everest",
+          "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "fact": "Altura del Everest: 8.848,86 m (medición de 2020)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Libros por centímetros",
+        "steps": [
+          "La BNE guarda millones de libros. Con unos 9 millones y 3 cm cada uno, la pila se dispara.",
+          "9 millones × 3 cm son 270 km de libros: más de 30 Everest.",
+          "Con 9.254.905 piezas salen 277,6 km y 31,4 Everest. Más alto que la Estación Espacial no llega: está a unos 400 km."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-13-2.jpg",
+        "alt": "Fachada neoclásica de la Biblioteca Nacional de España en el paseo de Recoletos de Madrid",
+        "credit": "Jean-Pierre Dalbéra",
+        "url": "https://commons.wikimedia.org/wiki/File:Biblioteca_Nacional_de_Espa%C3%B1a_(Madrid)_09.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Calderilla de antes",
+      "title": "¿Cuántas monedas de cinco duros harían falta para cambiarlas por un billete de 50 €?",
+      "detail": "Cinco duros son 25 pesetas, la moneda del agujero. Usamos el tipo de conversión oficial y fijo; la nostalgia no cotiza.",
+      "unit": "monedas",
+      "answer": 332.772,
+      "math": "1 € = 166,386 pesetas. 50 € = 8.319,3 pesetas. 8.319,3 ÷ 25 = 332,77 monedas de cinco duros.",
+      "referenceExpression": "50 × 166,386 ÷ 25",
+      "assumptions": "Tipo de conversión irrevocable de 1999. En la práctica necesitarías 333 monedas y te sobrarían unos céntimos.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Banco Central Europeo · Introducción del euro",
+          "url": "https://www.ecb.europa.eu/euro/intro/html/index.es.html",
+          "fact": "Tipo de conversión irrevocable: 1 euro = 166,386 pesetas españolas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa euros a pesetas",
+        "steps": [
+          "Un euro eran unas 166 pesetas, así que 50 € son algo más de 8.000 pesetas.",
+          "8.000 pesetas entre 25 son 320 monedas. Un buen saco.",
+          "Con el tipo exacto salen 332,77 monedas. Y el billete cabe en la cartera; las monedas, en un calcetín bien grande."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-13-3.jpg",
+        "alt": "Moneda de 25 pesetas de 1993, la de los cinco duros con agujero central",
+        "credit": "Chencho Q.",
+        "url": "https://commons.wikimedia.org/wiki/File:1993_25_Pesetas.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      }
+    }
+  ]
+}

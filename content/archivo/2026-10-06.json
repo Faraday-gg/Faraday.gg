@@ -1,0 +1,121 @@
+{
+  "id": "2026-10-06",
+  "name": "Martes",
+  "theme": "Salamanca, Doñana y escaleras",
+  "questions": [
+    {
+      "id": "archivo-2026-10-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Promociones en serie",
+      "title": "¿Cuántas promociones de cuatro años han pasado por la Universidad de Salamanca desde su fundación?",
+      "detail": "Una promoción nueva cada cuatro años, de 1218 a 2026, sin pausas ni cierres temporales.",
+      "unit": "promociones",
+      "answer": 202,
+      "math": "La Universidad de Salamanca se fundó en 1218. Hasta 2026 van 808 años: 808 ÷ 4 = 202 promociones.",
+      "referenceExpression": "(2026 − 1218) ÷ 4",
+      "assumptions": "Los estudios medievales no duraban cuatro años y hubo épocas de crisis; el modelo solo mide el paso del tiempo en «carreras».",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Universidad de Salamanca · Historia",
+          "url": "https://www.usal.es/historia",
+          "fact": "Alfonso IX de León creó en 1218 las «scholas Salamanticae», germen de la actual universidad."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-06-1.jpg",
+        "alt": "Fachada plateresca de las Escuelas Mayores de la Universidad de Salamanca",
+        "credit": "Zarateman",
+        "url": "https://commons.wikimedia.org/wiki/File:Salamanca_-_Universidad,_Escuelas_Mayores,_fachada_02.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Años de historia entre años de carrera",
+        "steps": [
+          "Salamanca es una de las universidades más antiguas de Europa: tiene unos ocho siglos.",
+          "800 ÷ 4 = 200 promociones. El orden es de un par de centenares.",
+          "Con la fundación de 1218 salen 808 años y 202 promociones justas. En la realidad, las carreras han cambiado mucho de duración a lo largo de los siglos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Marismas reglamentarias",
+      "title": "¿Cuántos campos de fútbol cabrían en el Parque Nacional de Doñana?",
+      "detail": "Campos de 105 × 68 m, sin gradas ni aparcamiento. Solo el parque nacional, sin el parque natural que lo rodea.",
+      "unit": "campos",
+      "answer": 75983.19327731093,
+      "math": "Doñana ocupa 54.252 ha, es decir, 542.520.000 m². Un campo de 105 × 68 m mide 7.140 m². 542.520.000 ÷ 7.140 ≈ 75.983 campos.",
+      "referenceExpression": "54252 × 10000 ÷ (105 × 68)",
+      "assumptions": "Comparamos superficies sin tener en cuenta la forma. El campo de 105 × 68 m es una medida habitual, no la única permitida.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Ministerio para la Transición Ecológica · Ficha del Parque Nacional de Doñana",
+          "url": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/parques-nacionales/parquenacionaldedonana_tcm30-539906.pdf",
+          "fact": "Superficie total del parque nacional: 54.252 ha, con una zona periférica de protección de 74.278,95 ha."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-06-2.jpg",
+        "alt": "Marismas de Doñana con agua somera, vegetación baja y horizonte llano",
+        "credit": "Dvazquezq",
+        "url": "https://commons.wikimedia.org/wiki/File:Marismas_de_Do%C3%B1ana.jpg",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
+      },
+      "reasoning": {
+        "heading": "Pasa las hectáreas a metros cuadrados",
+        "steps": [
+          "Doñana es enorme: decenas de miles de hectáreas. Un campo de fútbol tiene unos 0,7 ha.",
+          "Con 50.000 ha y 0,7 ha por campo salen unos 70.000 campos.",
+          "Con las 54.252 ha oficiales salen 75.983 campos. Si sumáramos la zona periférica de protección, la cifra más que se duplicaría."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Cuarto sin ascensor",
+      "title": "Viviendo en un cuarto sin ascensor, ¿cuántos metros subes al año?",
+      "detail": "Cuatro plantas por encima de la calle, dos subidas al día, todos los días del año, sin contar las veces que vuelves por las llaves. Supón 3 m por planta.",
+      "unit": "metros",
+      "answer": 8760,
+      "math": "4 plantas × 3 m = 12 m por subida. 12 m × 2 subidas × 365 días = 8.760 m al año, casi 9 km de desnivel.",
+      "referenceExpression": "4 × 3 × 2 × 365",
+      "assumptions": "La altura entre plantas es un supuesto; varía según el edificio. Si no hay ascensor, el Código Técnico limita cada escalón a 17,5 cm, así que 3 m son unos 17 peldaños.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Código Técnico de la Edificación · DB SUA (Seguridad de utilización y accesibilidad)",
+          "url": "https://www.codigotecnico.org/pdf/Documentos/SUA/DBSUA.pdf",
+          "fact": "En tramos rectos la huella mide 28 cm como mínimo; la contrahuella, entre 13 y 18,5 cm, y como máximo 17,5 cm cuando no hay ascensor como alternativa a la escalera."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-06-3.jpg",
+        "alt": "Hueco de escalera de un edificio de viviendas visto desde abajo, con varios tramos de peldaños",
+        "credit": "Warren Apel",
+        "url": "https://commons.wikimedia.org/wiki/File:Stairwell_Het_Nieuwe_Huis_Amsteradm.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Metros por subida, subidas por año",
+        "steps": [
+          "Un cuarto piso está a unos 12 metros de la calle. Subiendo dos veces al día, en un año salen miles de metros.",
+          "12 × 2 × 365 ≈ 8.800 m. El orden es de casi nueve kilómetros en vertical.",
+          "Con 3 m exactos por planta salen 8.760 m al año, unos 50.000 peldaños si cada uno mide 17,5 cm. Cada bajada extra por algo olvidado suma 12 m más."
+        ]
+      }
+    }
+  ]
+}

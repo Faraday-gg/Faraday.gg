@@ -8,6 +8,7 @@
   <title>Faraday.gg — El juego de acertar más o menos</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
   <script src="app.js" defer></script>
@@ -18,7 +19,7 @@
     <a class="brand" href="#inicio" aria-label="Faraday.gg, ir al inicio"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></a>
     <nav class="main-nav" aria-label="Navegación principal">
       <a href="#como-jugar">Cómo se juega</a>
-      <a href="#semana">La semana</a>
+      <a href="#semana">El archivo</a>
     </nav>
     <button class="header-cta" id="header-play" type="button">Jugar <span aria-hidden="true">↗</span></button>
   </header>
@@ -29,6 +30,7 @@
         <div class="eyebrow"><span class="eyebrow-line"></span> <span class="section-kicker">RETO DE HOY</span> · <span id="today-date"></span></div>
         <h1 id="hero-title">La respuesta<br>está <em>por ahí.</em></h1>
         <p class="hero-description">Tres preguntas al día. Sin buscar, solo intuición.</p>
+        <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
         <div class="hero-actions">
           <button class="button button-dark button-play" id="hero-play" type="button">Jugar el reto de hoy <span aria-hidden="true">↗</span></button>
         </div>
@@ -56,8 +58,9 @@
 
     <section class="week-section wrap" id="semana" aria-labelledby="week-title">
       <div class="section-topline"><span>02 / EL ARCHIVO</span><span>3 PREGUNTAS NUEVAS AL DÍA</span></div>
-      <div class="week-heading"><div><h2 id="week-title" class="section-heading">Una semana para<br><em>pensar a lo loco.</em></h2><p>Esta versión piloto permite probar los siete días. Tres preguntas por jornada, con fuentes y cuentas explicadas. Tu progreso se guarda en este navegador y tus cifras se comparten anónimamente para comparar estimaciones.</p></div><div class="week-sticker" aria-hidden="true">7<br><small>DÍAS</small></div></div>
+      <div class="week-heading"><div><h2 id="week-title" class="section-heading">¿Te perdiste<br><em>algún día?</em></h2><p>Juega cualquier reto anterior. Tu progreso se guarda en este navegador.</p></div><div class="week-sticker" aria-hidden="true"><span id="archive-count">7</span><small>DÍAS</small></div></div>
       <div class="week-list" id="week-list"></div>
+      <button class="button secondary-button archive-more" id="archive-more" type="button" hidden></button>
     </section>
 
     <section class="closing wrap"><div class="closing-doodle" aria-hidden="true">∞</div><div><span class="closing-kicker">¿LISTO PARA EQUIVOCARTE CON ESTILO?</span><h2>A ver qué tan<br><em>cerca</em> estás.</h2></div><button class="button button-dark" id="bottom-play" type="button">Jugar ahora <span aria-hidden="true">↗</span></button></section>

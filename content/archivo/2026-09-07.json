@@ -1,0 +1,126 @@
+{
+  "id": "2026-09-07",
+  "name": "Lunes",
+  "theme": "ALBA, abanico e intestino",
+  "questions": [
+    {
+      "id": "archivo-2026-09-07-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Electrones mareados",
+      "title": "¿Cuántas vueltas por segundo dan los electrones en el anillo del sincrotrón ALBA?",
+      "detail": "Los electrones de ALBA van prácticamente a la velocidad de la luz dando vueltas al anillo de almacenamiento. Nada de rotondas: un circuito cerrado y sin semáforos.",
+      "unit": "vueltas/s",
+      "answer": 1115298.0781643472,
+      "math": "El anillo de almacenamiento mide 268,8003 m. A la velocidad de la luz (299.792.458 m/s): 299.792.458 ÷ 268,8003 ≈ 1.115.298 vueltas por segundo.",
+      "referenceExpression": "299792458 ÷ 268,8003",
+      "assumptions": "Electrones de 3 GeV, cuya velocidad difiere de la de la luz en menos de una parte en diez millones.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "ALBA (CELLS) · Storage ring",
+          "url": "https://www.cells.es/en/accelerators/storage-ring",
+          "fact": "El anillo de almacenamiento tiene 268,8003 m de circunferencia y una energía nominal de 3,0 GeV."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide la velocidad de la luz entre el perímetro",
+        "steps": [
+          "La luz recorre 300.000 km por segundo y el anillo mide unos pocos cientos de metros: van a salir muchísimas vueltas.",
+          "300.000.000 m/s entre 270 m dan algo más de un millón de vueltas por segundo.",
+          "Con el perímetro exacto salen 1.115.298 vueltas por segundo. En lo que dura un parpadeo, cada electrón da unas 100.000 vueltas."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-07-1.jpg",
+        "alt": "Edificio del sincrotrón ALBA en Cerdanyola del Vallès, con su forma circular",
+        "credit": "Jordiferrer",
+        "url": "https://commons.wikimedia.org/wiki/File:Sincrotr%C3%B3_Alba_-_2017_-_010.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-07-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Brisa manual",
+      "title": "¿Cuántos golpes de abanico darías en los días de más de 40 °C del verano sevillano de 2026?",
+      "detail": "Contamos solo los días que Sevilla pasó de 40 °C entre junio y agosto de 2026. Abanicas 3 horas cada uno de esos días a dos golpes por segundo. Muñeca de acero obligatoria.",
+      "unit": "abanicazos",
+      "answer": 518400,
+      "math": "Sevilla tuvo 24 días por encima de 40 °C entre junio y agosto de 2026. 24 días × 3 h × 3.600 s × 2 golpes = 518.400 abanicazos.",
+      "referenceExpression": "24 × 3 × 3600 × 2",
+      "assumptions": "Ritmo constante de dos golpes por segundo, tres horas en cada día de más de 40 °C. Los días de 38 °C también invitan a abanicarse, pero aquí no cuentan.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "El Español · balance del verano de 2026 de la Aemet en Sevilla",
+          "url": "https://www.elespanol.com/sevilla/20260915/sevilla-registra-dias-grados-verano-va-aumento-alcanza-sin-masas-aire-africano/1003744383218_0.html",
+          "fact": "Según el balance estival de la Aemet, entre junio y agosto Sevilla soportó 24 días con temperaturas superiores a los 40 grados."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta golpes por hora",
+        "steps": [
+          "Dos golpes por segundo son 7.200 por hora. Tres horas al día: más de 20.000 abanicazos diarios.",
+          "Sevilla suele tener dos o tres decenas de días por encima de 40 °C. Con 25 días saldrían más de medio millón.",
+          "Con los 24 días de 2026 salen 518.400 golpes. El verano de 2025, con 30 días de más de 40 °C, habría dado 648.000."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-07-2.jpg",
+        "alt": "Abanico antiguo extendido expuesto en el Palacio de San Telmo de Sevilla",
+        "credit": "CarlosVdeHabsburgo",
+        "url": "https://commons.wikimedia.org/wiki/File:Abanico_del_Palacio_de_San_Telmo.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      }
+    },
+    {
+      "id": "archivo-2026-09-07-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Tubería interior",
+      "title": "¿Cuántos intestinos delgados en fila harían falta para alcanzar la altura de la Torre Picasso?",
+      "detail": "Estiramos el intestino delgado como una cuerda y lo colgamos desde lo alto del rascacielos. Cada intestino mide 22 pies (unos 6,7 m).",
+      "unit": "intestinos",
+      "answer": 23.413266523502745,
+      "math": "La Torre Picasso mide 157 m. El intestino delgado mide unos 22 pies = 6,7056 m. 157 ÷ 6,7056 ≈ 23,4 intestinos.",
+      "referenceExpression": "157 ÷ (22 × 0,3048)",
+      "assumptions": "Intestino estirado de 22 pies; la longitud real varía bastante de una persona a otra y según cómo se mida.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Cleveland Clinic · Small intestine",
+          "url": "https://my.clevelandclinic.org/health/body/22135-small-intestine",
+          "fact": "El intestino delgado es el tramo más largo del tubo digestivo: mide unos 22 pies."
+        },
+        {
+          "title": "Wikipedia · Torre Picasso",
+          "url": "https://es.wikipedia.org/wiki/Torre_Picasso",
+          "fact": "La torre tiene 43 plantas y 157 metros de altura."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compara una cuerda con un edificio",
+        "steps": [
+          "El intestino delgado es sorprendentemente largo: varios metros, más que una furgoneta. La Torre Picasso supera los 150 m.",
+          "Con 7 m por intestino, 150 m piden algo más de 20 intestinos.",
+          "Con 157 m y 6,7 m por intestino salen 23,4. Si usáramos los 6 m que dan otros manuales, harían falta 26."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-07-3.jpg",
+        "alt": "La Torre Picasso de Madrid, rascacielos blanco de 157 metros, vista de abajo arriba",
+        "credit": "Luis García (Zaqarbal)",
+        "url": "https://commons.wikimedia.org/wiki/File:Torre_Picasso_(Madrid)_03.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      }
+    }
+  ]
+}

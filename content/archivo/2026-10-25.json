@@ -1,0 +1,126 @@
+{
+  "id": "2026-10-25",
+  "name": "Domingo",
+  "theme": "Platos, Próxima y Mérida",
+  "questions": [
+    {
+      "id": "archivo-2026-10-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Fregadero eterno",
+      "title": "¿Cuántos platos fregarás en toda tu vida?",
+      "detail": "Cuatro platos al día desde los 12 años hasta tu esperanza de vida. El lavavajillas no existe y nadie te ayuda. Lo sentimos.",
+      "unit": "platos",
+      "answer": 105206.61,
+      "math": "La esperanza de vida al nacer en España fue de 84,01 años en 2024 (INE). Desde los 12 años: (84,01 − 12) × 365,25 × 4 ≈ 105.207 platos.",
+      "referenceExpression": "(84,01 − 12) × 365,25 × 4",
+      "assumptions": "Ritmo constante de cuatro platos al día, sin vacaciones ni comidas fuera. No contamos vasos, cubiertos ni sartenes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Movimiento natural de la población 2024",
+          "url": "https://www.ine.es/dyngs/Prensa/es/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento se situó en 84,01 años en 2024."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-25-1.jpg",
+        "alt": "Fregadero lleno de platos sucios apilados",
+        "credit": "User:Mysid",
+        "url": "https://commons.wikimedia.org/wiki/File:Dirty_dishes.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Dirty_dishes.jpg"
+      },
+      "reasoning": {
+        "heading": "Días de fregadero por platos al día",
+        "steps": [
+          "Fregar es infinito: siempre hay algo en el fregadero. ¿Decenas de miles de platos?",
+          "Unos 72 años de fregadero son unos 26.000 días. A cuatro platos, más de 100.000.",
+          "Con 84,01 años de esperanza de vida salen 105.207 platos. Si pones lavavajillas la mitad de los días, te ahorras más de 50.000."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Sistema solar de bolsillo",
+      "title": "Si el Sol fuera una naranja de 8 cm, ¿a cuántos km estaría Próxima Centauri?",
+      "detail": "Encogemos el universo hasta que el Sol cabe en el frutero. La estrella más cercana sería otra fruta... en algún sitio.",
+      "unit": "km",
+      "answer": 2285.714285714286,
+      "math": "El Sol mide unos 1,4 millones de km de diámetro (NASA) y Próxima Centauri está a unos 4,22 años luz, unos 40 billones de km (Wikipedia). Escala: 0,08 m ÷ 1.400.000.000 m. 40.000.000.000.000 km × 0,08 ÷ 1.400.000.000 ≈ 2.286 km.",
+      "referenceExpression": "40000000000000 × 0,08 ÷ 1400000000",
+      "assumptions": "Diámetro solar y distancia redondeados. Con la distancia más precisa (4,22 años luz) el resultado apenas cambia unas decenas de km.",
+      "confidence": "Dato documentado + modelo de escala",
+      "sources": [
+        {
+          "title": "NASA Science · Sun facts",
+          "url": "https://science.nasa.gov/sun/facts/",
+          "fact": "El diámetro del Sol es de unos 1,4 millones de kilómetros."
+        },
+        {
+          "title": "Wikipedia · Próxima Centauri",
+          "url": "https://es.wikipedia.org/wiki/Próxima_Centauri",
+          "fact": "Está a 4,22 años luz, unos 40.000.000.000.000 km."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-25-2.jpg",
+        "alt": "Cielo estrellado con Alfa y Beta Centauri brillando y la tenue Próxima Centauri",
+        "credit": "Skatebiker",
+        "url": "https://commons.wikimedia.org/wiki/File:Alpha,_Beta_and_Proxima_Centauri_(1).jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero la escala, luego la distancia",
+        "steps": [
+          "Si el Sol es una naranja, la Tierra sería un grano de arena a unos pocos metros. ¿Y la estrella más cercana? ¿En la otra punta del pueblo?",
+          "La escala es 8 cm por cada 1,4 millones de km: 1 cm equivale a 175.000 km. 40 billones de km entre 175.000 km por cm son 230 millones de cm, unos 2.300 km.",
+          "Salen 2.286 km: con el Sol-naranja en Madrid, Próxima estaría en otro país. Y entre ambas, casi nada."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Rebaño romano",
+      "title": "¿Cuántas ovejas en fila cabrían sobre el puente romano de Mérida?",
+      "detail": "Ovejas en fila india, de 1,2 m cada una del morro a la cola, de un extremo al otro del puente sobre el Guadiana. El pastor se queda en la orilla.",
+      "unit": "ovejas",
+      "answer": 658.3333333333334,
+      "math": "El puente romano sobre el Guadiana mide 790 m incluidos los accesos (Wikipedia). 790 ÷ 1,2 ≈ 658 ovejas.",
+      "referenceExpression": "790 ÷ 1,2",
+      "assumptions": "Ovejas de 1,2 m sin hueco entre ellas. Otras fuentes dan entre 721 m (entre estribos) y 792 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Puente Romano, Mérida",
+          "url": "https://en.wikipedia.org/wiki/Puente_Romano,_M%C3%A9rida",
+          "fact": "Incluidos los accesos, la estructura mide 790 m; entre estribos, 721 m con 60 vanos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-25-3.jpg",
+        "alt": "Puente romano de Mérida con sus arcos de granito sobre el Guadiana",
+        "credit": "Juanje 2712",
+        "url": "https://commons.wikimedia.org/wiki/File:M%C3%A9rida_-_Puente_romano_sobre_el_Guadiana_-_DSC_2172_W.jpg",
+        "license": "CC BY-SA 3.0 es",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
+      },
+      "reasoning": {
+        "heading": "Longitud del puente entre largo de oveja",
+        "steps": [
+          "Es uno de los puentes romanos más largos que se conservan. ¿Cientos de ovejas o miles?",
+          "Si mide unos 800 m y una oveja algo más de un metro, salen unas 650.",
+          "Con 790 m salen 658 ovejas. Contando solo entre estribos, 721 m, serían unas 600."
+        ]
+      }
+    }
+  ]
+}
