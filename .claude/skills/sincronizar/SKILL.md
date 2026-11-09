@@ -49,6 +49,7 @@ Lee antes de editar: `ARQUITECTURA.md`, `README.md`, `AGENTS.md`, `docs/README.m
 | Documento | Actualízalo cuando… |
 |---|---|
 | `docs/bitacora/AAAA-MM.md` | **Siempre.** Una entrada nueva arriba del todo con fecha, quién (colaborador y agente), rama, qué se hizo, qué servicios se tocaron y el resultado. Si el archivo del mes no existe, créalo y añádelo al índice `docs/bitacora/README.md`. |
+| `docs/base-de-datos.md` | Hay una migración nueva en `supabase/migrations/`, se aplicó algo en Supabase o cambian tablas, funciones, permisos o variables de entorno. Actualiza tablas, historial de migraciones, fecha y «Pendiente». Si puedes, comprueba con el conector de Supabase que coincide con la base de datos real. |
 | `ARQUITECTURA.md` | Cambian el stack, la estructura de carpetas, las rutas de la API, el flujo de una partida, los entornos o los servicios (proyecto o URL de Supabase, Vercel, variables de entorno por nombre). |
 | `README.md` | Cambia cómo se arranca, se prueba o se configura la app. |
 | `AGENTS.md` | Cambia una norma de trabajo, de ramas o de comprobaciones. |
