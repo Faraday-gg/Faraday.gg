@@ -1,6 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
+  "buildCommand": "node scripts/publicar-contenido.mjs --vercel",
   "outputDirectory": "dist",
   "regions": ["fra1"],
   "rewrites": [

@@ -70,6 +70,7 @@ Reglas para agentes:
   node tests/community.test.mjs
   node tests/editorial.test.mjs
   node tests/vercel.test.mjs
+  node tests/publicar.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.
@@ -125,6 +126,6 @@ Si no puedes subir la rama o abrir la PR (por ejemplo, porque no tienes sesión 
 - Las respuestas se guardan en `runtime/answers.json` en local y en Supabase en Vercel (`lib/stores.mjs`). Supabase tiene un solo entorno (`main`, producción, sin preprod); sus datos están en [ARQUITECTURA.md](ARQUITECTURA.md#entornos-y-servicios) y el esquema en [docs/base-de-datos.md](docs/base-de-datos.md). Los cambios de esquema van como migración en `supabase/migrations/` y se documentan en ese archivo en la misma PR. No apliques migraciones, borres datos ni cambies políticas en Supabase sin confirmación explícita del responsable.
 - La clave secreta de Supabase solo existe en variables de entorno (Vercel o `.env` local). Nunca en el código, en `dist/` ni en el navegador. Cuando se cree el proyecto de Vercel, documéntalo en ARQUITECTURA.md.
 - Registra en [docs/](docs/README.md) lo que el otro colaborador debe saber: decisiones en `docs/decisiones/`, cambios en servicios externos (Supabase, Vercel, GitHub) en `docs/bitacora/`, propuestas en `docs/ideas/` y deuda técnica en `docs/mejoras/`.
-- El contenido (jornadas, preguntas e imágenes) se sirve desde Supabase. Se edita en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`, y se publica con `node --env-file=.env scripts/publicar-contenido.mjs` solo con confirmación del responsable y después de fusionar el cambio en `main`. Anótalo en la bitácora.
+- El contenido (jornadas, preguntas e imágenes) se sirve desde Supabase. Se edita en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`, y se publica solo: el despliegue de producción de Vercel (al fusionar en `main`) ejecuta `scripts/publicar-contenido.mjs`, que sube únicamente lo que ha cambiado. Las Preview no publican. No lo ejecutes a mano sin confirmación del responsable.
 - El repositorio es público: no escribas en él datos personales, claves ni nada que no deba verse.
 - No añadas dependencias, servicios externos ni claves nuevas sin dejarlo explicado en la PR.

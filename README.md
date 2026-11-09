@@ -26,6 +26,7 @@ Pruebas (usan archivos temporales y un Supabase simulado; no tocan datos reales)
 node tests/community.test.mjs
 node tests/editorial.test.mjs
 node tests/vercel.test.mjs
+node tests/publicar.test.mjs
 ```
 
 ## Despliegue: Vercel y Supabase
@@ -37,10 +38,10 @@ node tests/vercel.test.mjs
 
 ## Contenido en Supabase
 
-Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`, y se publican con:
+Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `dist/questions.json`, `content-engine.mjs` y `dist/assets/`. **No hay que publicarlas a mano**: al fusionar en `main`, el despliegue de producción de Vercel sube a Supabase solo lo que ha cambiado (`buildCommand` de `vercel.json`). Para revisar qué cambiaría o publicar sin esperar a Vercel:
 
 ```sh
-node --env-file=.env scripts/publicar-contenido.mjs
+node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
 
 Detalle en [docs/base-de-datos.md](docs/base-de-datos.md).

@@ -8,7 +8,7 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | --- | --- | --- |
 | Interfaz | HTML5, CSS y JavaScript del navegador, sin framework ni empaquetador | Presentación, navegación del juego, calculadora, notas y gráficos SVG. |
 | API | Node.js con módulos ES y librerías estándar, sin dependencias de npm | `lib/api.mjs` genera el calendario y atiende respuestas y puntuaciones. La usan el servidor local (`preview-server.mjs`) y la función de Vercel (`api/index.mjs`). |
-| Contenido | Supabase (`days`, `questions`, Storage `imagenes`); origen editorial en JSON y módulos JavaScript | La API sirve las jornadas, preguntas e imágenes desde Supabase. Se editan en el repositorio y se publican con `scripts/publicar-contenido.mjs`. |
+| Contenido | Supabase (`days`, `questions`, Storage `imagenes`); origen editorial en JSON y módulos JavaScript | La API sirve las jornadas, preguntas e imágenes desde Supabase. Se editan en el repositorio; Vercel los publica al desplegar producción (`scripts/publicar-contenido.mjs`). |
 | Persistencia compartida | Supabase (Postgres) en Vercel; archivos JSON en `runtime/` en local | Respuestas anónimas por pregunta y jugador. `lib/stores.mjs` ofrece los dos almacenes con la misma interfaz. |
 | Despliegue | Vercel: web estática de `dist/` y una función Node en `fra1` | Configurado en `vercel.json`. |
 | Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
@@ -64,7 +64,8 @@ api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
 content-engine.mjs       Calendario y banco editorial posterior al piloto
-scripts/publicar-contenido.mjs  Publica jornadas, preguntas e imágenes en Supabase
+lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
+scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
 tests/                   Integración del servidor local, contenido editorial y función de Vercel
 docs/                    Decisiones, bitácora, ideas, mejoras y base de datos (Markdown)
@@ -86,7 +87,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Contenido y recursos
 
-Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase con `node --env-file=.env scripts/publicar-contenido.mjs`, que también sube las fotos de `dist/assets/` a Storage. **Tras fusionar en `main` un cambio de contenido, hay que volver a ejecutar el script**; si no, la web seguirá mostrando la versión anterior. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
+Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
 
 ## Límites del almacenamiento local
 
@@ -126,9 +127,9 @@ node preview-server.mjs
 node tests/community.test.mjs
 node tests/editorial.test.mjs
 node tests/vercel.test.mjs
-# Publicar el contenido en Supabase (escribe en producción):
+node tests/publicar.test.mjs
+# Qué cambiaría en Supabase (no escribe nada; la publicación real la hace Vercel):
 node --env-file=.env scripts/publicar-contenido.mjs --prueba
-node --env-file=.env scripts/publicar-contenido.mjs
 ```
 
 El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_FILE` permiten ajustar el entorno local. Con `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (por ejemplo, `node --env-file=.env preview-server.mjs`, a partir de `.env.example`) usa Supabase en lugar del archivo. Las pruebas usan archivos temporales y un Supabase simulado: no modifican `runtime/answers.json` ni la base de datos. El flujo de colaboración y las ramas están definidos en `AGENTS.md`.

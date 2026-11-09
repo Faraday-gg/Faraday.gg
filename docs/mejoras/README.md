@@ -13,5 +13,5 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Copias de seguridad, observabilidad y control de acceso de administración | No existen en la implementación actual. | Pendiente |
 | Calcular la distribución de respuestas en la base de datos | Hoy la función lee todas las respuestas de la pregunta en cada envío (paginadas de 1000 en 1000). Vale para el piloto, no para miles de jugadores. Se puede usar la función `daily_scores` de la base de datos ([base-de-datos.md](../base-de-datos.md)). | Pendiente |
 | Proteger las ramas `main` y `preprod` en GitHub | GitHub no bloquea hoy los push directos; solo lo impide la norma de [AGENTS.md](../AGENTS.md). | Pendiente |
-| Publicar el contenido automáticamente al fusionar en `main` | Hoy `scripts/publicar-contenido.mjs` se ejecuta a mano; se puede olvidar. Una GitHub Action con la clave como secreto lo haría solo. | Pendiente |
+| Publicar el contenido automáticamente al fusionar en `main` | Antes había que ejecutar `scripts/publicar-contenido.mjs` a mano. | Hecha en `feat/publicacion-automatica`: lo hace el build de producción de Vercel |
 | Caché del calendario | Cada carga consulta Supabase. Con tráfico real conviene cachear unos minutos. | Pendiente |
