@@ -7,13 +7,45 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | Capa | Tecnología | Función |
 | --- | --- | --- |
 | Interfaz | HTML5, CSS y JavaScript del navegador, sin framework ni empaquetador | Presentación, navegación del juego, calculadora, notas y gráficos SVG. |
-| Servidor | Node.js con módulos ES y librerías estándar (`http`, `fs`, `path`, `crypto`) | Sirve `dist/`, genera el calendario y expone las rutas de respuestas y puntuaciones. |
-| Contenido | JSON y módulos JavaScript | Preguntas piloto, respuestas de referencia, fuentes, supuestos, imágenes y banco editorial diario. |
-| Persistencia compartida actual | Archivos JSON en `runtime/` | Respuestas anónimas y jornadas generadas para una sola instancia del servidor. |
+| API | Node.js con módulos ES y librerías estándar, sin dependencias de npm | `lib/api.mjs` genera el calendario y atiende respuestas y puntuaciones. La usan el servidor local (`preview-server.mjs`) y la función de Vercel (`api/index.mjs`). |
+| Contenido | Supabase (`days`, `questions`, Storage `imagenes`); origen editorial en JSON y módulos JavaScript | La API sirve las jornadas, preguntas e imágenes desde Supabase. Se editan en el repositorio; Vercel los publica al desplegar producción (`scripts/publicar-contenido.mjs`). |
+| Persistencia compartida | Supabase (Postgres) en Vercel; archivos JSON en `runtime/` en local | Respuestas anónimas por pregunta y jugador. `lib/stores.mjs` ofrece los dos almacenes con la misma interfaz. |
+| Despliegue | Vercel: web estática de `dist/` y una función Node en `fra1` | Configurado en `vercel.json`. |
 | Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
-| Pruebas | `node:assert` y un proceso Node aislado | Prueba de integración de la API de respuestas y su persistencia. |
+| Pruebas | `node:assert`, un proceso Node aislado y un Supabase simulado | Integración del servidor local, banco editorial y función de Vercel con Supabase. |
 
-No hay base de datos, SDK de Supabase, integración con Vercel ni despliegue de producción configurados en este repositorio. Tampoco hay autenticación de usuarios ni cuentas personales.
+El esquema de Supabase está creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)) y el código que lo usa desde el servidor local y desde Vercel está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). Falta crear el proyecto de Vercel con sus variables de entorno. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
+
+## Entornos y servicios
+
+Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identificadores públicos; **nunca** claves, tokens ni contraseñas. Las claves se consultan en el panel de Supabase y, cuando el código las necesite, irán en variables de entorno fuera de Git.
+
+| Elemento | Valor |
+| --- | --- |
+| Nombre del juego | Casi Casi |
+| Repositorio de GitHub | [`Faraday-gg/Faraday.gg`](https://github.com/Faraday-gg/Faraday.gg), **público**, en la organización gratuita `Faraday-gg` con Luis (`borgesinmas`) y Álvaro (`sistemavivacegroup`) como Owners. Rama por defecto: `preprod`. Ver [decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md). |
+| Organización de Supabase | `Faraday.gg`, plan **FREE** |
+| Proyecto de Supabase | `Faraday Game` |
+| Referencia del proyecto (*project ref*) | `umiqvlccxxafvafroxii` |
+| URL de la API | `https://umiqvlccxxafvafroxii.supabase.co` |
+| Panel del proyecto | <https://supabase.com/dashboard/project/umiqvlccxxafvafroxii> |
+| Rama de base de datos | `main` (*production*), la única que existe |
+| Esquema `public` | Tablas `days`, `questions` y `answers` y función `daily_scores` (migración `20261109213854_esquema_inicial`). Contienen todo el contenido: 36 jornadas y 108 preguntas. Detalle en [docs/base-de-datos.md](docs/base-de-datos.md). |
+| Storage | Almacén público `imagenes` con las 21 fotografías (migración `20261109222550_almacen_imagenes`). |
+| Acceso | Solo desde el servidor con la clave secreta; la clave pública no da acceso a nada ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)) |
+| Conector MCP para agentes | `supabase-casi-casi` (apunta a este proyecto) |
+| Vercel | Cuenta de Álvaro (`sistemavivacegroup`, plan Hobby, ámbito `faraday-game`). Proyecto pendiente de crear; al ser el repo público, Hobby lo despliega sin depender del autor de los commits ([decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md)). Configuración en `vercel.json`, región de funciones `fra1` (Frankfurt). Variables: `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Ver [Despliegue](#despliegue-vercel-y-supabase). |
+
+### Un solo entorno de Supabase
+
+Supabase **no tiene entorno de preprod**: todo trabaja contra la base de datos `main` del proyecto `Faraday Game`. El 9 de noviembre de 2026 se intentó crear una rama de Supabase llamada `preprod` y no fue posible porque las ramas de base de datos (*branching*) solo están disponibles en el plan Pro y la organización está en el plan gratuito. Las alternativas (pasar a Pro o crear un segundo proyecto gratuito) se descartaron por ahora. El detalle y sus consecuencias están en [docs/decisiones/0001-supabase-un-solo-entorno.md](docs/decisiones/0001-supabase-un-solo-entorno.md).
+
+En la práctica:
+
+- La rama `preprod` de Git sigue existiendo y sigue siendo obligatoria para el código (ver [AGENTS.md](AGENTS.md)), pero **apunta a la misma base de datos que producción**.
+- Todo cambio de esquema se escribe como migración SQL versionada en `supabase/migrations/`, se documenta en [docs/base-de-datos.md](docs/base-de-datos.md) y se revisa en su PR. Lo normal es aplicarla en Supabase después de aceptar la PR; si el responsable pide aplicarla antes, se anota en la bitácora. Ningún agente aplica migraciones, borra datos ni cambia políticas en Supabase sin confirmación explícita del responsable.
+- Las pruebas automáticas no escriben en Supabase: siguen usando archivos temporales o datos de prueba locales.
+- Cada cambio aplicado a Supabase se anota en [docs/bitacora/](docs/bitacora/) para que los dos sepamos qué hay en la base de datos.
 
 ## Mapa del repositorio
 
@@ -23,13 +55,21 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
-  questions.json         Preguntas piloto y respuestas de referencia
-  questions.js           Copia de las preguntas piloto para el navegador
-  assets/                Fotografías e icono
-preview-server.mjs       Servidor HTTP y API local
+  questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
+  questions.js           Copia de respaldo de las preguntas piloto para el navegador
+  assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
+lib/api.mjs              Lógica de la API (Request → Response), compartida
+lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
+api/index.mjs            Función de Vercel para toda la API
+vercel.json              Directorio público, región, reescrituras y archivos de la función
+preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
 content-engine.mjs       Calendario y banco editorial posterior al piloto
+lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
+scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
-tests/community.test.mjs Prueba de integración del servidor
+tests/                   Integración del servidor local, contenido editorial y función de Vercel
+docs/                    Decisiones, bitácora, ideas, mejoras y base de datos (Markdown)
+supabase/migrations/     Migraciones SQL de la base de datos, en orden de versión
 runtime/                 Estado local generado; excluido de Git
 ```
 
@@ -37,34 +77,45 @@ runtime/                 Estado local generado; excluido de Git
 
 ## Recorrido de una partida
 
-1. `content-engine.mjs` calcula la fecha en la zona `Europe/Madrid`. Para el piloto del 9 al 15 de noviembre de 2026 devuelve las jornadas de `dist/questions.json`. Después utiliza un banco editorial finito para generar tres preguntas por día, con referentes distintos, hasta el 14 de diciembre de 2026. Una jornada generada se conserva en `runtime/days/` para mantener estable su contenido en esa instancia.
-2. `preview-server.mjs` sirve los archivos de `dist/` y expone `GET /api/calendar`, `GET /api/day?date=AAAA-MM-DD` y `GET /daily-content.js`. El navegador refresca el calendario al volver a la pestaña y periódicamente mientras está abierta.
+1. La API lee de Supabase las jornadas de los últimos 30 días con sus preguntas. Si una fecha no está publicada allí o Supabase no responde, recurre a `content-engine.mjs`, que funciona así: calcula la fecha en la zona `Europe/Madrid`. Para el piloto del 9 al 15 de noviembre de 2026 devuelve las jornadas de `dist/questions.json`. Después utiliza un banco editorial finito para generar tres preguntas por día, con referentes distintos, hasta el 14 de diciembre de 2026. La generación es determinista: la misma fecha produce siempre la misma jornada. En local, además, una jornada generada se conserva en `runtime/days/`; en Vercel no se escribe en disco.
+2. `lib/api.mjs` expone `GET /api/calendar`, `GET /api/day?date=AAAA-MM-DD` y `GET /daily-content.js`. En local los sirve `preview-server.mjs` junto con `dist/`; en Vercel, la función `api/index.mjs`. El navegador refresca el calendario al volver a la pestaña y periódicamente mientras está abierta.
 3. `app.js` muestra las preguntas, valida un número positivo y calcula la distancia multiplicativa a la respuesta de referencia: `max(estimación / referencia, referencia / estimación)`. `1×` es una respuesta exacta. La puntuación diaria es la media de las tres distancias.
 4. El navegador guarda la progresión y el bloc en `localStorage`. `community.js` crea y conserva un UUID anónimo por navegador. Al mostrar resultados, envía ese identificador y la estimación a `POST /api/answers`.
-5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador en `runtime/answers.json`; y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
+5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador (en `runtime/answers.json` o en Supabase); y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
 
-El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas solo se comparte entre usuarios del mismo proceso y del mismo archivo de datos. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
+El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
 
 ## Contenido y recursos
 
-Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas listas para jugar viven en `dist/questions.json`. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
+Cada pregunta incluye una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
 
-## Límites de la implementación local
+## Límites del almacenamiento local
 
-`runtime/answers.json` y `runtime/days/` son archivos del servidor, no una base de datos. El servidor escribe respuestas mediante un archivo temporal y cambio de nombre, lo que facilita la persistencia local, pero el diseño supone una única instancia con almacenamiento persistente. Una web puramente estática no puede atender `/api/answers` ni compartir respuestas. El sistema actual tampoco define migraciones, copias de seguridad, control de acceso de administración ni observabilidad de producción.
+`runtime/answers.json` y `runtime/days/` son archivos del servidor, no una base de datos. El servidor escribe respuestas mediante un archivo temporal y cambio de nombre, lo que sirve para desarrollo, pero supone una única instancia con disco persistente. En Vercel se usa Supabase.
 
-## Arquitectura prevista: Supabase y Vercel
+## Despliegue: Vercel y Supabase
 
-La intención es desplegar la web en **Vercel** y utilizar **Supabase** como base de datos compartida. Esta migración está pendiente; no se deben describir estos servicios como activos hasta que haya código, configuración y pruebas que lo demuestren.
+**Vercel** sirve `dist/` como web estática y toda la API con una única función, `api/index.mjs`, como recomienda Vercel para funciones sin framework. `vercel.json` define:
 
-Propuesta de trabajo, sujeta a diseño y revisión antes de implementarla:
+- `outputDirectory: dist`. Solo se publica la web: no se exponen `runtime/`, `research/`, `docs/` ni el código del servidor.
+- Reescrituras de `/api/<ruta>` y `/daily-content.js` hacia `/api?route=<ruta>`.
+- Región `fra1` (Frankfurt), la misma que la base de datos. En el plan Hobby solo se admite una región.
+- `includeFiles` para que la función lleve `dist/questions.json`.
 
-1. Mantener la web de `dist/` como frontend desplegado en Vercel. Convertir las rutas HTTP actuales en funciones o rutas de servidor compatibles con Vercel; `preview-server.mjs` puede seguir sirviendo de entorno local si comparte la lógica de negocio.
-2. Crear en Supabase un esquema para preguntas/jornadas publicadas y respuestas por pregunta e identificador anónimo. Definir claves únicas para evitar respuestas duplicadas y políticas de acceso apropiadas. La lógica de cálculo y validación de referencias debe ejecutarse en el servidor, sin exponer credenciales privilegiadas al navegador.
-3. Sustituir las lecturas y escrituras de `runtime/` por consultas persistentes. Evitar depender del sistema de archivos de las funciones de Vercel para estado compartido. Planificar la migración de cualquier dato local que se decida conservar, con una revisión de privacidad previa.
-4. Configurar variables de entorno por entorno, pruebas de integración con el nuevo almacenamiento y despliegues de prueba desde `preprod`. Promover a producción desde `main` solo después de revisar y aceptar la PR correspondiente.
+**Supabase** guarda las respuestas con el esquema descrito en [docs/base-de-datos.md](docs/base-de-datos.md) (migración `20261109213854_esquema_inicial`):
 
-Supabase y Vercel aún no tienen proyecto, esquema, variables de entorno ni canalización de despliegue definidos aquí. Las decisiones concretas de tablas, políticas, región y despliegue deben documentarse cuando se implementen.
+- El calendario, las preguntas y las imágenes salen de Supabase (ver [docs/base-de-datos.md](docs/base-de-datos.md#uso-desde-la-app)). `answers` exige que la pregunta exista en `questions`; si una jornada aún no estuviera publicada, la API la publica al recibir su primera respuesta.
+- La función accede con la clave secreta (`sb_secret_...`, rol `service_role`) por la API REST de Supabase, sin SDK ([decisión 0002](docs/decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md)). Pagina las lecturas porque PostgREST limita cada respuesta a 1000 filas.
+- Una respuesta repetida se ignora en la base de datos (única por `question_id` y `player_hash`). Si la cifra cambia, la API responde 409, como en local.
+- Preprod y producción comparten base de datos ([decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md)). Las respuestas enviadas desde un despliegue Preview de Vercel se mezclan con las reales.
+
+Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`.
+
+La rama de producción de Vercel debe ser `main`. La rama por defecto del repositorio es `preprod`, y Vercel la tomaría como producción si no se cambia. Las jornadas futuras del banco se calculan al vuelo, sin estado: un cambio en el banco editorial cambia también las fechas aún no jugadas.
+
+El repositorio es público ([decisión 0004](docs/decisiones/0004-repositorio-publico-en-organizacion.md)), así que el plan Hobby de Vercel lo despliega aunque los commits sean de distintos autores.
+
+Pendiente: crear el proyecto de Vercel, copias de seguridad y retención de datos, y observabilidad más allá de los registros de Vercel.
 
 ## Desarrollo y verificación
 
@@ -74,6 +125,11 @@ Se requiere Node.js con soporte para módulos ES, `fetch`, `crypto.randomUUID` y
 node preview-server.mjs
 # Abrir http://127.0.0.1:4173
 node tests/community.test.mjs
+node tests/editorial.test.mjs
+node tests/vercel.test.mjs
+node tests/publicar.test.mjs
+# Qué cambiaría en Supabase (no escribe nada; la publicación real la hace Vercel):
+node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
 
-El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_FILE` permiten ajustar el entorno local. La prueba usa un archivo temporal aislado y no modifica `runtime/answers.json`. El flujo de colaboración y las ramas están definidos en `AGENTS.md`.
+El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_FILE` permiten ajustar el entorno local. Con `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (por ejemplo, `node --env-file=.env preview-server.mjs`, a partir de `.env.example`) usa Supabase en lugar del archivo. Las pruebas usan archivos temporales y un Supabase simulado: no modifican `runtime/answers.json` ni la base de datos. El flujo de colaboración y las ramas están definidos en `AGENTS.md`.
