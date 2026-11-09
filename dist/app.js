@@ -33,8 +33,8 @@ function art(kind){
 }
 function renderWeek(){
   $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
-  $('.section-kicker').innerHTML='<span class="dot"></span> '+(currentDay?'TRES RETOS PARA HOY':'NUEVA EDICIÓN EN PREPARACIÓN');
-  ['#header-play','#hero-play','#today-play','#bottom-play'].forEach(selector=>$(selector).disabled=!currentDay);
+  $('.section-kicker').textContent=currentDay?'RETO DE HOY':'NUEVA EDICIÓN EN PREPARACIÓN';
+  ['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).disabled=!currentDay);
   if(!currentDay)$('#hero-play').textContent='Retos en preparación';
   $('#week-list').innerHTML=DAYS.map((day,index)=>{
     const done=getGuesses(day).length===3;
@@ -88,7 +88,7 @@ function showToast(message){const toast=$('#toast');toast.textContent=message;to
 async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Casi Casi · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado de Casi Casi',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
 renderWeek();
-['#header-play','#hero-play','#today-play','#bottom-play'].forEach(selector=>$(selector).addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
+['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
 $('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-day]');if(button)openDay(DAYS[Number(button.dataset.day)])});
 $('#game-close').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
