@@ -9,7 +9,7 @@ const storePath=path.resolve(process.env.ANSWERS_FILE||'runtime/answers.json');
 const questions=new Map(JSON.parse(fs.readFileSync(path.join(root,'questions.json'),'utf8')).flatMap(d=>d.questions).map(q=>[q.id,q]));
 function loadCalendar(){const data=calendar();for(const day of data.days)for(const q of day.questions)questions.set(q.id,q);return data}
 loadCalendar();
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif'};
 let records={};
 try{records=JSON.parse(fs.readFileSync(storePath,'utf8'))}catch(error){if(error.code!=='ENOENT')throw error}
 function json(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data))}

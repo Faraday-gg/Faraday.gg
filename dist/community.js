@@ -28,7 +28,7 @@ async function loadDailyDistribution(day,guesses){
     const response=await fetch('/api/daily-scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date:day.id,player}),signal:AbortSignal.timeout(8000)});if(!response.ok)throw Error('Sin comparación');
     const data=await response.json();if(!chart.isConnected)return;
     chart.innerHTML=dailyScoreSvg(data);
-    caption.textContent=data.count?`Tu posición entre ${format(data.count)} ${data.count===1?'participante que ha':'participantes que han'} completado este día.${data.count>=5?` Tu puntuación es mejor que el ${data.closerPercent}% de esta muestra.`:' La muestra aún es pequeña.'}`:'Tu marcador ya está situado. La distribución aparecerá cuando otros jugadores completen las tres preguntas.';
+    caption.textContent=data.count?`Comparación con ${format(data.count)} otros ${data.count===1?'participante que ha':'participantes que han'} completado este día.${data.count>=5?` Tu puntuación es mejor que el ${data.closerPercent}% de esta muestra.`:' La muestra aún es pequeña.'}`:'Tu marcador ya está situado. La distribución aparecerá cuando otros jugadores completen las tres preguntas.';
   }catch{if(caption.isConnected)caption.textContent='No se ha podido consultar la distribución diaria. Tu puntuación está guardada.'}
 }
 function dailyScoreSvg(data){
