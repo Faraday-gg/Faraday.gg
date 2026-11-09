@@ -27,7 +27,7 @@ En este proyecto trabajamos dos personas, Luis (`borgesinmas`, propietario del r
 |---|---|
 | [ARQUITECTURA.md](ARQUITECTURA.md) | Stack, entornos y servicios: proyecto y URL de Supabase, repositorio, Vercel. Se actualiza cuando cambia cualquiera de ellos. |
 | [docs/decisiones/](docs/decisiones/) | Cada decisión técnica o de producto, con el motivo y las alternativas descartadas. |
-| [docs/bitacora/](docs/bitacora/) | Cada cambio o intento en un servicio externo (Supabase, Vercel, GitHub, cuentas), aunque no salga bien. |
+| [docs/bitacora/](docs/bitacora/) | Qué se hizo en cada sesión de trabajo y cada cambio o intento en un servicio externo (Supabase, Vercel, GitHub, cuentas), aunque no salga bien. |
 | [docs/ideas/](docs/ideas/) | Propuestas aún sin decidir. |
 | [docs/mejoras/](docs/mejoras/) | Problemas y deuda técnica detectados que no se arreglan en la tarea actual. |
 
@@ -36,6 +36,7 @@ Reglas para agentes:
 - Al empezar una tarea, lee la bitácora del mes y las decisiones vigentes para saber qué ha hecho el otro colaborador.
 - Si tocas un servicio externo, añade la entrada en `docs/bitacora/` en la misma PR. Si tomas o cambias una decisión, crea su archivo en `docs/decisiones/`.
 - Todo esto va en Markdown, en español, sin claves, tokens, contraseñas ni datos de jugadores, y entra por PR como el código.
+- **Sincronizar al terminar.** Cuando el colaborador haya hecho varios cambios y la tarea parezca terminada, pregúntale: «¿Quieres sincronizar ya o más tarde?». Si dice que sí, actualiza los `.md` siguiendo [.claude/skills/sincronizar/SKILL.md](.claude/skills/sincronizar/SKILL.md) antes de abrir o actualizar la PR. En Claude Code es la skill `/sincronizar`; los demás agentes siguen el mismo archivo como procedimiento.
 - Supabase tiene **un solo entorno** (`main`, producción): no hay base de datos de preprod. Ver [decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md).
 
 ## Antes de empezar
