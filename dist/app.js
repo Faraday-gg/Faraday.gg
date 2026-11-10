@@ -62,7 +62,7 @@ window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()})
 function renderGame(){
   const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
-  $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;
+  $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
   if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;
 }
