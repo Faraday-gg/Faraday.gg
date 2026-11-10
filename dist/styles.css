@@ -211,6 +211,45 @@
 .game-shell .daily-you-label{fill:var(--g-bg)}
 .game-shell[data-view=summary] .daily-you-line{stroke:var(--g-fg)}
 
+/* Tarjeta: todo el juego vive en un recuadro centrado, con la paleta de cada paso (decisión 0011).
+   Fuera de la tarjeta, la página queda neutra (crema). */
+.game-shell{background:var(--cream)}
+.game-bar{background:var(--cream);grid-template-columns:44px 1fr 44px}
+.game-back{color:var(--ink)}
+.game-back:hover{background:#ebe5d7}
+.game-brand{justify-self:center;display:flex;align-items:center;gap:7px;font:700 18px var(--display);letter-spacing:-.06em;color:var(--ink)}
+.game-brand .brand-mark{width:24px;height:24px;font-size:21px}
+.game-stage{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:clamp(8px,4vh,48px) 16px 48px}
+.game-card{width:min(600px,100%);background:var(--g-bg);color:var(--g-fg);border-radius:28px;padding:22px clamp(22px,5vw,40px) clamp(26px,5vw,40px);box-shadow:0 1px 2px #20263014,0 18px 40px -18px #20263059}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 -10px 28px}
+.card-head .game-steps{justify-content:flex-start}
+.game-content{width:auto;margin:0;padding:0;flex:none;display:block}
+.game-content.is-question{padding:0}
+.game-content h2{font-size:clamp(26px,3.6vw,38px);margin:0 0 36px}
+.result-question{font-size:15px;margin:0 0 14px}
+.result-score strong{font-size:clamp(56px,9vw,84px)}
+.result-numbers{margin:22px 0 8px}
+.population{margin:22px 0 0;padding:20px 0 0;border-top:1px solid var(--g-line)}
+.population h3,.card-more .reasoning h3{font:700 15px var(--display);letter-spacing:-.01em;margin:0}
+.card-more{margin-top:20px;border-top:1px solid var(--g-line);padding-top:16px}
+.card-more>summary{cursor:pointer;font-size:14px;font-weight:700;color:var(--g-fg);list-style-position:inside}
+.card-more>*:not(summary){margin-top:18px}
+.card-more .reasoning h3{margin-bottom:10px}
+.card-more .sources summary{font-size:14px}
+.card-more .question-photo img{max-height:320px}
+.card-next{width:100%;margin-top:26px;padding:17px 26px}
+.is-summary .daily-score-visual{min-height:190px}
+.is-summary .summary-score{padding:40px 0 56px;font-size:clamp(64px,10vw,96px)}
+.is-summary .summary-list{margin-bottom:24px}
+.is-summary .summary-actions>*{flex:1}
+@media(max-width:760px){
+  .game-stage{padding:4px 10px 28px}
+  .game-card{border-radius:22px;padding:16px 18px 22px}
+  .card-head{margin:0 -6px 22px}
+  .game-step .cat-icon{display:none}
+  .game-content h2{font-size:clamp(25px,7vw,32px)}
+}
+
 /* Categorías: icono por pregunta en la portada, el archivo y el juego. */
 .cat-icon{display:inline-grid;place-items:center;width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);color:var(--ink);flex:none}
 .cat-icon svg{width:20px;height:20px}

@@ -73,10 +73,18 @@
       <section class="game-panel">
         <header class="game-bar">
           <button class="game-back" id="game-close" type="button" aria-label="Volver al inicio">←</button>
-          <nav class="game-steps" id="game-steps" aria-label="Preguntas del reto"></nav>
-          <span class="game-edition" id="game-edition"></span>
+          <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+          <span></span>
         </header>
-        <div class="game-content" id="game-content"></div>
+        <div class="game-stage">
+          <article class="game-card">
+            <div class="card-head">
+              <nav class="game-steps" id="game-steps" aria-label="Preguntas del reto"></nav>
+              <span class="game-edition" id="game-edition"></span>
+            </div>
+            <div class="game-content" id="game-content"></div>
+          </article>
+        </div>
       </section>
       <aside class="workspace-panel" id="workspace-panel" aria-label="Calculadora y notas" hidden>
         <div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
