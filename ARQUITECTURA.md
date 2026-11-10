@@ -68,6 +68,7 @@ api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
 content/archivo/         Jornadas del archivo, una por archivo AAAA-MM-DD.json (9 ago – 8 nov 2026)
+content/banco-base.json  Las 21 preguntas del piloto tal como se publicaron, base fija del banco editorial
 content-engine.mjs       Calendario, archivo, piloto y banco editorial posterior al piloto
 lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
 scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
@@ -92,7 +93,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Contenido y recursos
 
-Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [decisión 0008](docs/decisiones/0008-categorias-y-archivo.md)), una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
+Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [decisión 0008](docs/decisiones/0008-categorias-y-archivo.md)), una foto solo si ayuda a imaginar la escala (entre el 15 y el 20 % de las preguntas, [decisión 0013](docs/decisiones/0013-preguntas-de-cultura-general.md)), una cifra de referencia, unidad, explicación del cálculo, supuestos y enlaces a fuentes. La investigación editorial vive en `research/`; las preguntas se escriben en `dist/questions.json` y `content-engine.mjs` y se publican en Supabase, junto con las fotos de `dist/assets/` (a Storage), **automáticamente en cada despliegue de producción de Vercel**: `vercel.json` ejecuta `scripts/publicar-contenido.mjs --vercel` como `buildCommand`. Solo sube lo que ha cambiado y no actúa en las Preview, que comparten base de datos con producción. Los scripts de investigación preparan contenido e imágenes, pero pueden depender de servicios externos y no forman parte de la ejecución habitual de la app. Las imágenes publicadas en `dist/assets/` tienen créditos y enlaces de licencia visibles en la interfaz; cualquier sustitución debe conservar una licencia compatible y su atribución.
 
 ## Límites del almacenamiento local
 
