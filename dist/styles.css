@@ -536,3 +536,26 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
 @keyframes faq-open{from{opacity:0;transform:translateY(-6px)}}
 @media(max-width:760px){.faq-item summary{font-size:17px;padding:16px 16px}.faq-item summary:after{width:30px;height:30px;font-size:19px}.faq-item p{padding:0 16px 18px;font-size:15px}}
 @media(prefers-reduced-motion:reduce){.faq-item[open] p{animation:none}}
+
+/* Portada: las tarjetas de ejemplo se animan al pasar el ratón. Se enderezan y suben, las cifras cuentan
+   hasta su valor (app.js) y la gráfica crece barra a barra. Curvas suaves, sin rebotes. */
+.demo{transition:transform .6s cubic-bezier(.22,1,.36,1),box-shadow .6s cubic-bezier(.22,1,.36,1)}
+.demo:hover,.home-step-flip .demo:hover{transform:translateY(-8px) rotate(0) scale(1.025);box-shadow:0 1px 2px #20263014,0 36px 60px -28px #20263080}
+.demo-guess,.demo-btn,.demo-icon{transition:border-color .4s,color .4s,transform .5s cubic-bezier(.22,1,.36,1)}
+.demo-question:hover .demo-guess{border-bottom-color:#23395b;color:#202630aa}
+.demo-question:hover .demo-btn{transform:translateX(-4px)}
+.demo-question:hover .demo-icon{transform:rotate(-8deg)}
+.demo-verdict strong,.demo-ledger b,.demo-score,.demo-rows b{font-variant-numeric:tabular-nums}
+.demo-bars i{transform-origin:bottom}
+.demo-result:hover .demo-bars i{animation:demo-rise .8s cubic-bezier(.22,1,.36,1) both}
+.demo-bars i:nth-child(2){animation-delay:35ms}.demo-bars i:nth-child(3){animation-delay:70ms}.demo-bars i:nth-child(4){animation-delay:105ms}.demo-bars i:nth-child(5){animation-delay:140ms}
+.demo-bars i:nth-child(6){animation-delay:175ms}.demo-bars i:nth-child(7){animation-delay:210ms}.demo-bars i:nth-child(8){animation-delay:245ms}.demo-bars i:nth-child(9){animation-delay:280ms}.demo-bars i:nth-child(10){animation-delay:315ms}
+.demo-result:hover .demo-bars .you{animation:demo-rise .8s cubic-bezier(.22,1,.36,1) 105ms both,demo-glow 1.2s ease-out .7s}
+.demo-result:hover .demo-verdict span{animation:demo-pop .6s cubic-bezier(.22,1,.36,1) .5s both}
+.demo-summary:hover .demo-rows li{animation:demo-slide .6s cubic-bezier(.22,1,.36,1) both}
+.demo-rows li:nth-child(2){animation-delay:90ms}.demo-rows li:nth-child(3){animation-delay:180ms}
+@keyframes demo-rise{from{transform:scaleY(.08)}}
+@keyframes demo-glow{40%{box-shadow:0 0 16px 2px #ffdb70b3}}
+@keyframes demo-pop{from{transform:scale(.85);opacity:.4}}
+@keyframes demo-slide{from{transform:translateX(-12px);opacity:.25}}
+@media(prefers-reduced-motion:reduce){.demo *{animation:none!important}}

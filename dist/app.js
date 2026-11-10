@@ -182,3 +182,28 @@ $('#game-content').addEventListener('click',event=>{const id=event.target.closes
 $('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
 $('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});
+
+// Portada: al pasar el ratón por una tarjeta de ejemplo, sus cifras cuentan desde cero hasta su valor.
+(() => {
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const format=(n,decimals)=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:decimals,maximumFractionDigits:decimals,useGrouping:'always'}).format(n);
+  document.querySelectorAll('.demo').forEach(card=>{
+    const numbers=[...card.querySelectorAll('.demo-verdict strong,.demo-ledger b,.demo-score,.demo-rows b')].map(el=>{
+      const text=el.textContent.trim(),match=text.match(/^([\d.,]+)(.*)$/);
+      if(!match) return null;
+      const decimals=(match[1].split(',')[1]||'').length;
+      return {el,text,suffix:match[2],decimals,value:parseFloat(match[1].replace(/\./g,'').replace(',','.'))};
+    }).filter(Boolean);
+    if(!numbers.length) return;
+    let frame=0;
+    card.addEventListener('pointerenter',()=>{
+      cancelAnimationFrame(frame);const start=performance.now(),duration=900;
+      const tick=(now)=>{
+        const t=Math.max(0,Math.min(1,(now-start)/duration)),eased=1-Math.pow(1-t,3);
+        numbers.forEach(n=>{n.el.textContent=t<1?format(n.value*eased,n.decimals)+n.suffix:n.text});
+        if(t<1) frame=requestAnimationFrame(tick);
+      };
+      frame=requestAnimationFrame(tick);
+    });
+  });
+})();
