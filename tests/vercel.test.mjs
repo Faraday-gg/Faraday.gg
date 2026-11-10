@@ -50,6 +50,7 @@ function fakeSupabase(){
       return Response.json(rows.map(d=>embed?{id:d.id,name:d.name,theme:d.theme,questions:[...tables.questions.values()].filter(q=>q.day_id===d.id).map(({id,position,content})=>({id,position,content}))}:{id:d.id}));
     }
     if(name==='questions'){const q=tables.questions.get((url.searchParams.get('id')||'').replace(/^eq\./,''));return Response.json(q?[{day_id:q.day_id}]:[])}
+    if(url.searchParams.has('player_hash')){const player=url.searchParams.get('player_hash').replace(/^eq./,'');return Response.json([...table.values()].filter(r=>r.player_hash===player).map(({question_id,guess})=>({question_id,guess:Number(guess.toPrecision(15))})))}
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
     const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000),offset=Number(url.searchParams.get('offset')||0);
     const rows=[...table.values()].filter(r=>ids.includes(r.question_id)).sort((a,b)=>(a.question_id+a.player_hash).localeCompare(b.question_id+b.player_hash));
@@ -77,11 +78,11 @@ const realFetch=globalThis.fetch;globalThis.fetch=supabase.fetch;
 const {default:handler}=await import('../api/index.mjs');
 globalThis.fetch=realFetch;
 
-async function call(target,{method='GET',body,origin=SITE}={}){
+async function call(target,{method='GET',body,origin=SITE,cookie}={}){
   const url=rewrite(target);assert.equal(url.pathname,'/api',`vercel.json debe llevar ${target} a la función`);
-  const headers={host:'casi.test','x-forwarded-host':'casi.test'};if(origin)headers.origin=origin;if(body!==undefined)headers['content-type']='application/json';
+  const headers={host:'casi.test','x-forwarded-host':'casi.test'};if(origin)headers.origin=origin;if(body!==undefined)headers['content-type']='application/json';if(cookie)headers.cookie=cookie;
   const response=await handler.fetch(new Request(url,{method,headers,body:body===undefined?undefined:typeof body==='string'?body:JSON.stringify(body)}));
-  const text=await response.text();return {status:response.status,type:response.headers.get('content-type'),text,data:/json/.test(response.headers.get('content-type'))?JSON.parse(text):undefined};
+  const text=await response.text();return {status:response.status,headers:response.headers,type:response.headers.get('content-type'),text,data:/json/.test(response.headers.get('content-type'))?JSON.parse(text):undefined};
 }
 const post=(player,guess,question='piloto-v2-1')=>call('/api/answers',{method:'POST',body:{player,guess,question}});
 const daily=player=>call('/api/daily-scores',{method:'POST',body:{date:'2026-11-09',player}});
@@ -114,6 +115,18 @@ try{
   assert.equal((await post(precise,long,tomorrow.questions[1].id)).status,200);
   assert.equal((await post(precise,long,tomorrow.questions[1].id)).status,200,'Reenviar la misma cifra no es un conflicto');
   assert.equal((await post(precise,long*1.01,tomorrow.questions[1].id)).status,409,'Una cifra distinta sí lo es');
+
+  // Jugador sin registro: cookie propia con el identificador anónimo y recuperación del progreso.
+  const jugador=(body,cookie,origin)=>call('/api/jugador',{method:'POST',body,cookie,origin});
+  let j=await jugador({});assert.equal(j.status,200);assert.match(j.data.player,/^[0-9a-f-]{36}$/);assert.equal(j.data.recovered,false);
+  assert.equal(j.headers.get('set-cookie'),`faraday_jugador=${j.data.player}; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax; Secure`);
+  j=await jugador({player:first},'faraday_jugador='+second);assert.equal(j.data.player,first,'El identificador del navegador manda sobre la cookie');assert.equal(j.data.recovered,false);assert.equal(j.data.progress,undefined);
+  j=await jugador({},'otra=1; faraday_jugador='+first);assert.equal(j.data.player,first);assert.equal(j.data.recovered,true);
+  assert.deepEqual(j.data.progress,{'2026-11-09':[100000,60000,4700]},'Se recupera el progreso guardado en Supabase');
+  j=await jugador({},'faraday_jugador='+precise);assert.deepEqual(j.data.progress,{},'Un día con huecos no se recupera');
+  j=await jugador({},'faraday_jugador=no-vale');assert.equal(j.data.recovered,false);assert.notEqual(j.data.player,'no-vale');
+  assert.equal((await jugador({},undefined,'https://otro.test')).status,403);
+  assert.equal((await call('/api/jugador')).status,405);
 
   // Seguridad y errores.
   assert.equal((await call('/api/answers',{method:'POST',body:{player:first,guess:1,question:'piloto-v2-1'},origin:'https://otro.test'})).status,403);

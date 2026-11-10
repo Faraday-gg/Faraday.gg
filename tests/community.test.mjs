@@ -30,5 +30,8 @@ try{
   assert.equal((await post(randomUUID(),100,tomorrow.questions[0].id)).status,200,'Las nuevas preguntas admiten respuestas');
   server.kill();await once(server,'exit');await start();
   r=await post(first,100000);assert.equal(r.data.count,2,'Las respuestas sobreviven al reinicio');
-  console.log('OK: muestra real, exclusión propia, idempotencia, validación, archivo privado, imagen y persistencia.');
+  const jugador=await fetch('http://127.0.0.1:4174/api/jugador',{method:'POST',headers:{'Content-Type':'application/json',cookie:'faraday_jugador='+first},body:'{}'});
+  assert.equal(jugador.headers.get('set-cookie'),`faraday_jugador=${first}; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax`,'En local (http) la cookie no lleva Secure');
+  assert.deepEqual((await jugador.json()).progress,{'2026-11-09':[100000,60000,4700]},'La cookie recupera el progreso del archivo local');
+  console.log('OK: muestra real, exclusión propia, idempotencia, validación, archivo privado, imagen, persistencia y cookie de jugador.');
 }finally{if(server){server.kill();await once(server,'exit').catch(()=>{})}if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}
