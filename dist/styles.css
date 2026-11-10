@@ -225,6 +225,12 @@
 .game-shell[data-view=question]{--g-bg:#ff6548;--g-fg:#202630;--g-accent:#23395b;--g-on-accent:#fff8ec}
 .game-shell[data-view=result]{--g-bg:#23395b;--g-fg:#fff8ec;--g-accent:#ffdb70;--g-on-accent:#23395b}
 .game-shell[data-view=summary]{--g-bg:#ffdb70;--g-fg:#202630;--g-accent:#ff6548;--g-on-accent:#202630}
+/* Tarjeta de pregunta según la categoría (decisión 0018): seis tonos vivos, todos con texto tinta (≥ 5,2:1) y acento azul noche. */
+.game-shell[data-view=question][data-tone=mostaza]{--g-bg:#ffb627}
+.game-shell[data-view=question][data-tone=verde]{--g-bg:#2fd67b}
+.game-shell[data-view=question][data-tone=cian]{--g-bg:#3fc5f0}
+.game-shell[data-view=question][data-tone=violeta]{--g-bg:#b49bff}
+.game-shell[data-view=question][data-tone=rosa]{--g-bg:#ff7aa8}
 .game-bar{background:var(--g-bg)}
 .game-back{color:var(--g-fg)}
 .game-back:hover,.game-step:not(:disabled):hover,.game-secondary:hover,.summary-row:hover{background:var(--g-hover)}

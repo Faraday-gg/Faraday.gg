@@ -21,6 +21,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
 | [0016](0016-menu-y-archivo-en-calendario.md) | Menú hamburguesa en el juego y archivo en calendario | Aceptada | 2026-11-10 |
 | [0017](0017-jornada-diaria-generada-con-openai.md) | La jornada de cada día se genera sola con la API de OpenAI | Aceptada (pendiente de configurar) | 2026-11-10 |
+| [0018](0018-color-de-la-pregunta-por-categoria.md) | Color de la tarjeta de pregunta según su categoría (seis tonos) | Aceptada | 2026-11-10 |
 
 ## Plantilla
 
