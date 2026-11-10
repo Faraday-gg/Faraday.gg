@@ -13,7 +13,14 @@ function questionMedia(q){
   return `<figure class="question-photo"><a href="${photo.src}" target="_blank" rel="noopener" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="eager"></a><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
 }
 function sourceMarkup(q){return `<details class="sources"><summary>Fuentes y supuestos</summary><p class="source-confidence">${q.confidence} · Comprobado el 09/11/2026</p><ul>${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)} ↗</a><p>${escapeHtml(s.fact)}</p></li>`).join('')}</ul><p class="source-assumptions"><strong>Qué estamos suponiendo</strong>${escapeHtml(q.assumptions)}</p></details>`}
-function populationMarkup(q){return `<section class="population" aria-label="Distribución de respuestas"><h3>Así respondieron los demás</h3><div id="population-${q.id}" aria-live="polite"><p class="population-status">Cargando respuestas…</p></div></section>`}
+function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`}
+// Panel «Cómo se calcula»: el razonamiento paso a paso, la cuenta de referencia, la foto y las fuentes.
+function explainMarkup(q){
+  const steps=q.reasoning?`<ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol>`:`<p>${escapeHtml(q.math)}</p>`;
+  const sum=q.referenceExpression?`<p class="explain-sum"><code>${escapeHtml(q.referenceExpression)}</code><strong>≈ ${format(q.answer)} ${escapeHtml(q.unit)}</strong></p>`:'';
+  const sources=`<ul class="explain-sources">${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a></li>`).join('')}</ul>`;
+  return `<div class="explain-head"><h3>Cómo se calcula</h3><button type="button" class="game-back" id="explain-close" aria-label="Cerrar">×</button></div><p class="explain-question">${escapeHtml(q.title)}</p>${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}<h4>Fuentes</h4>${sources}`;
+}
 function compactNumber(value){return new Intl.NumberFormat('es-ES',{notation:value>=1e12?'scientific':'compact',maximumFractionDigits:1}).format(value)}
 function reasoningMarkup(q){
   if(!q.reasoning)return `<section class="reasoning"><h3>Cómo se calcula</h3><p>${escapeHtml(q.math)}</p></section>`;
@@ -49,8 +56,9 @@ async function loadDistribution(q,guess){
     const response=await fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q.id,player:playerId(),guess}),signal:AbortSignal.timeout(8000)});
     if(!response.ok)throw Error('Servidor no disponible');
     const data=await response.json();if(!target.isConnected)return;
-    target.innerHTML=distributionSvg(q,guess,data)+`<div class="population-legend"><span><i class="legend-other"></i>Otras respuestas</span><span><i class="legend-answer"></i>Referencia</span><span><i class="legend-you"></i>Tú</span></div><p class="population-status">${data.count?`${format(data.count)} ${data.count===1?'respuesta anónima de otro jugador':'respuestas anónimas de otros jugadores'}.${data.count<5?' Muestra pequeña; aún no dibujamos una curva suavizada.':` Tu estimación fue más cercana que el ${data.closerPercent}% de esta muestra.`}`:'Aún no hay respuestas de otros jugadores. La tuya ya está registrada; la distribución aparecerá cuando participen más personas.'}</p><div class="population-footer"><span>Tu respuesta queda fuera del histograma.</span><button type="button" data-refresh-distribution="${q.id}">Actualizar ↻</button></div>`;
-  }catch{if(target.isConnected)target.innerHTML='<p class="population-status">La comparación no está disponible ahora. Tus resultados siguen guardados en este navegador. El gráfico necesita el servidor de respuestas.</p>'}
+    target.innerHTML=distributionSvg(q,guess,data);
+    const rank=document.getElementById(`rank-${q.id}`);if(rank)rank.textContent=data.count?`Más cerca que el ${data.closerPercent}% de ${format(data.count)} ${data.count===1?'jugador':'jugadores'}`:'Eres de los primeros en responder';
+  }catch{if(target.isConnected)target.innerHTML='<p class="population-status">Comparación no disponible ahora.</p>'}
 }
 function distributionSvg(q,guess,data){
   const {low,high,bins,count}=data,position=value=>20+(Math.log10(value/q.answer)-low)/(high-low)*520;

@@ -250,6 +250,51 @@
   .game-content h2{font-size:clamp(25px,7vw,32px)}
 }
 
+/* Tarjeta de respuesta (decisión 0012): multiplicador, tu cifra frente a la real y la distribución. Nada más a la vista. */
+.game-card{position:relative}
+.verdict{display:grid;grid-template-columns:auto 1fr;align-items:end;column-gap:16px;row-gap:6px}
+.verdict-x{grid-row:span 2;font:700 clamp(64px,11vw,104px)/.9 var(--display);letter-spacing:-.06em;color:var(--g-accent)}
+.verdict-chip{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:30px;background:var(--g-fg);color:var(--g-bg);font-size:14px;font-weight:700}
+.verdict-rank{font-size:14px;color:var(--g-muted);min-height:20px}
+.ledger{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:26px 0 0}
+.ledger>div{padding:14px 16px;border-radius:16px;background:var(--g-hover)}
+.ledger .ledger-real{background:var(--g-fg);color:var(--g-bg)}
+.ledger dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.ledger dd{margin:6px 0 0;font:700 clamp(24px,4vw,34px)/1.05 var(--display);letter-spacing:-.04em;overflow-wrap:anywhere}
+.ledger-unit{grid-column:1/-1;margin:2px 0 0;font-size:13px;color:var(--g-muted);text-align:right}
+.is-result .population{margin:14px 0 0;padding:0;border:0}
+.is-result .distribution-svg{margin-top:0}
+.card-actions{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-top:18px}
+.explain-toggle{height:50px;border:0;border-radius:50px;background:var(--g-hover);color:var(--g-fg);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.explain-toggle:hover,.explain-toggle[aria-expanded=true]{background:color-mix(in srgb,var(--g-fg) 16%,transparent)}
+.explain-toggle span{transition:transform .2s}
+.explain-toggle[aria-expanded=true] span{transform:rotate(180deg)}
+.card-actions .game-primary{height:50px;padding:0 24px}
+.explain-panel[hidden]{display:none}
+.explain-panel{position:absolute;left:12px;right:12px;bottom:84px;top:64px;overflow:auto;z-index:4;border-radius:22px;background:var(--g-fg);color:var(--g-bg);padding:18px 22px 22px;box-shadow:0 20px 40px -20px #0008}
+.explain-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.explain-head h3{margin:0;font:700 17px var(--display)}
+.explain-panel .game-back{color:var(--g-bg);width:36px;height:36px}
+.explain-panel .game-back:hover{background:color-mix(in srgb,var(--g-bg) 14%,transparent)}
+.explain-question{margin:6px 0 14px;font-size:14px;line-height:1.5;opacity:.75}
+.explain-steps{margin:0;padding-left:20px}
+.explain-steps li{font-size:15px;line-height:1.6;margin:0 0 10px}
+.explain-sum{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;margin:14px 0;padding:12px 0;border-top:1px dashed color-mix(in srgb,var(--g-bg) 40%,transparent);border-bottom:1px dashed color-mix(in srgb,var(--g-bg) 40%,transparent);font-size:14px}
+.explain-sum code{font-size:13px;overflow-wrap:anywhere}
+.explain-note{font-size:13px;line-height:1.55;opacity:.75;margin:0 0 14px}
+.explain-panel .question-photo img{max-height:220px;border-radius:12px}
+.explain-panel .question-photo figcaption{color:inherit;opacity:.7}
+.explain-panel h4{margin:16px 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.explain-sources{margin:0;padding-left:18px;font-size:14px;line-height:1.5}
+.explain-sources a,.explain-panel figcaption a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:760px){
+  .verdict-x{font-size:clamp(56px,17vw,80px)}
+  .ledger>div{padding:12px}
+  .card-actions{grid-template-columns:auto 1fr;}
+  .card-actions .game-primary{grid-column:1/-1;width:100%}
+  .explain-panel{position:fixed;inset:auto 0 0 0;top:12dvh;border-radius:22px 22px 0 0;z-index:105}
+}
+
 /* Categorías: icono por pregunta en la portada, el archivo y el juego. */
 .cat-icon{display:inline-grid;place-items:center;width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);color:var(--ink);flex:none}
 .cat-icon svg{width:20px;height:20px}
