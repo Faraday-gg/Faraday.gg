@@ -1,48 +1,40 @@
 {
   "id": "2026-10-29",
   "name": "Jueves",
-  "theme": "Teatro Real, Vespa y RAMAC",
+  "theme": "Macarena, Vespa y RAMAC",
   "questions": [
     {
       "id": "archivo-2026-10-29-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cultura",
-      "tag": "Concierto apretado",
-      "title": "¿Cuántos pianos de cola cabrían en el escenario del Teatro Real?",
-      "detail": "Ópera cancelada: hoy toca un concierto para cientos de pianos y ningún pianista. Usa pianos de cola de 2,7 × 1,5 m, encajados como un Tetris perfecto y sin pasillos para el afinador.",
-      "unit": "pianos",
-      "answer": 353.08641975308643,
-      "math": "La ficha técnica del Teatro Real da un escenario de 1.430 m². Cada piano ocupa 2,7 × 1,5 = 4,05 m². 1.430 ÷ 4,05 ≈ 353 pianos.",
-      "referenceExpression": "1430 ÷ (2,7 × 1,5)",
-      "assumptions": "Tratamos el piano como un rectángulo y el escenario como superficie útil completa. En la realidad la curva del piano deja huecos y la maquinaria escénica tiene plataformas a distintas alturas.",
+      "tag": "Baile transatlántico",
+      "title": "¿Cuántas veces podrías bailar La Macarena durante un vuelo de Madrid a Buenos Aires?",
+      "detail": "Vuelo directo nocturno, auriculares puestos y la versión de los Bayside Boys en bucle. Baila desde que despega hasta que aterriza, sin pausa para la cena. El pasajero de al lado no ha sido consultado.",
+      "unit": "veces",
+      "answer": 182.14285714285714,
+      "math": "Un vuelo de Iberia sale de Madrid a las 23:55 y llega a Ezeiza a las 8:40 hora local; con 4 horas de diferencia en invierno, son 12 h 45 min (765 min). La Macarena de los Bayside Boys dura 4:12 (4,2 min). 765 ÷ 4,2 ≈ 182 veces.",
+      "referenceExpression": "12,75 × 60 ÷ 4,2",
+      "assumptions": "Duración calculada con el horario de Iberia de diciembre de 2020 y la diferencia horaria de invierno (Madrid UTC+1, Buenos Aires UTC−3). El tiempo de vuelo real varía con el viento. Remix de los Bayside Boys de 4:12; la versión original de 1993 dura 4:09.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Metalocus · Los engranajes del Teatro Real al descubierto",
-          "url": "https://www.metalocus.es/es/noticias/los-engranajes-del-teatro-real-al-descubierto",
-          "fact": "Ficha técnica de la caja escénica: boca de 18 × 14 m y escenario de 1.430 m²."
+          "title": "Aviacionline · Iberia aumentará frecuencias entre Madrid y Buenos Aires (7/12/2020)",
+          "url": "https://aviacionline.com/iberia-aumentara-frecuencias-entre-madrid-y-buenos-aires",
+          "fact": "El vuelo IB 6841 sale de Madrid a las 23:55 y llega a Buenos Aires-Ezeiza a las 08:40 del día siguiente."
         },
         {
-          "title": "Wikipedia · Teatro Real",
-          "url": "https://en.wikipedia.org/wiki/Teatro_Real",
-          "fact": "Tras la remodelación, el teatro cuenta con un escenario de 1.430 m²."
+          "title": "Wikipedia · Macarena (canción)",
+          "url": "https://es.wikipedia.org/wiki/Macarena_(canci%C3%B3n)",
+          "fact": "La versión original de 1993 dura 4:09 y el Bayside Boys Remix, 4:12."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-29-1.jpg",
-        "alt": "Vista vertical de la caja escénica del Teatro Real, con la enorme altura de la tramoya sobre el escenario",
-        "credit": "Fss.fer",
-        "url": "https://commons.wikimedia.org/wiki/File:Caja_escenica_Teatro_Real.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Mide el suelo y luego el piano",
+        "heading": "Minutos de vuelo entre minutos de canción",
         "steps": [
-          "Un escenario de ópera grande puede rondar los 30 × 40 m si sumas los laterales y el fondo: unos 1.200 m² a ojo.",
-          "Un piano de cola ocupa unos 4 m². 1.200 entre 4 da unos 300: hablamos de cientos de pianos, no de decenas ni de miles.",
-          "Con los 1.430 m² de la ficha técnica y 4,05 m² por piano salen 353. Si contaras solo el espacio bajo la boca de 18 m, la cifra caería mucho: el truco del Teatro Real es todo lo que esconde detrás y a los lados."
+          "Cruzar el Atlántico hasta Buenos Aires son unas 12 o 13 horas. La Macarena dura unos 4 minutos.",
+          "12 horas son 720 minutos; entre 4 minutos, unas 180 Macarenas. El orden es de centenares.",
+          "Con 12 h 45 min de vuelo y 4:12 por canción salen unas 182 veces. Con viento de cara, alguna más."
         ]
       }
     },
@@ -51,36 +43,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Avispas a la báscula",
-      "title": "¿Cuántas toneladas pesarían juntas todas las Vespa fabricadas?",
-      "detail": "Reúne en una báscula gigante todas las Vespa salidas de fábrica desde 1946 hasta abril de 2021. Cada una pesa 110 kg en vacío; los pilotos se quedan tomando un café.",
-      "unit": "toneladas",
-      "answer": 2090000,
-      "math": "Piaggio anunció en abril de 2021 que la Vespa alcanzaba los 19 millones de unidades producidas. 19.000.000 × 110 kg = 2.090.000.000 kg = 2.090.000 toneladas.",
-      "referenceExpression": "19000000 × 110 ÷ 1000",
-      "assumptions": "Usamos el hito de 19 millones de 2021, aunque la producción ha seguido después. El peso de 110 kg es una media del modelo: una Vespa 50 pesa menos y una GTS bastante más.",
+      "tag": "Moto contra torre",
+      "title": "¿Cuántas Vespas pesarían lo mismo que la torre Eiffel?",
+      "detail": "Una báscula gigante: en un lado, la estructura de hierro de la torre Eiffel; en el otro, Vespas Primavera 125 a punto para arrancar. Cuenta solo el hierro de la torre, sin ascensores ni tiendas. Aparcar todas en París ya es otro problema.",
+      "unit": "Vespas",
+      "answer": 55303.030303030304,
+      "math": "El hierro de la torre Eiffel pesa 7.300 toneladas. Una Vespa Primavera 125 pesa 132 kg en orden de marcha (0,132 t). 7.300 ÷ 0,132 ≈ 55.303 Vespas.",
+      "referenceExpression": "7300 ÷ 0,132",
+      "assumptions": "Solo la estructura de hierro pudelado; con ascensores, tiendas y antenas la torre pesa unas 10.100 toneladas y harían falta unas 76.500 Vespas. Vespa Primavera 125 de 2025-2026, con 132 kg.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Piaggio Group · Nota de prensa del 75.º aniversario (22 de abril de 2021)",
-          "url": "https://www.piaggiogroup.com/en/archive/press-releases/it-celebrates-its-75k-birthday-vespa-surpasses-milestone-19-million-units",
-          "fact": "Vespa alcanza el hito de 19 millones de unidades producidas desde 1946."
+          "title": "Wikipedia · Eiffel Tower",
+          "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+          "fact": "El hierro pudelado de la torre pesa 7.300 toneladas; con ascensores, tiendas y antenas, unas 10.100."
+        },
+        {
+          "title": "1000PS · Vespa Primavera 125 (RED)",
+          "url": "https://www.1000ps.com/en-gb/model/10010/vespa-primavera-125-red",
+          "fact": "Peso en orden de marcha («kerb weight») de 132 kg en los modelos de 2025 y 2026."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-29-2.jpg",
-        "alt": "Vespa roja aparcada en una calle de Asís, con la fortaleza Rocca Maggiore al fondo",
-        "credit": "Marco Ober",
-        "url": "https://commons.wikimedia.org/wiki/File:Red_Vespa_scooter_in_front_of_Rocca_Maggiore,_Assisi.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Cuenta motos, luego multiplica por el peso",
+        "heading": "Toneladas de hierro entre peso de moto",
         "steps": [
-          "La Vespa lleva casi 80 años en producción y se ve en medio mundo. Decenas de millones parece una apuesta sensata; digamos 20 millones.",
-          "20 millones por 100 kg son 2.000 millones de kg, es decir, unos 2 millones de toneladas.",
-          "Con los 19 millones que anunció Piaggio en 2021 y 110 kg por moto salen 2.090.000 toneladas. Y la báscula sigue subiendo con cada Vespa que sale de Pontedera."
+          "La torre Eiffel es de hierro pero muy calada: unas 7.000 toneladas. Una Vespa pesa algo más de 100 kg.",
+          "7.000 toneladas entre 0,1 t salen 70.000 Vespas. El orden es de decenas de miles.",
+          "Con 7.300 t y 132 kg por Vespa salen unas 55.303. Si se pesa la torre completa, con ascensores y tiendas, harían falta unas 76.500."
         ]
       }
     },

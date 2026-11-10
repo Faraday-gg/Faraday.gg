@@ -1,43 +1,48 @@
 {
   "id": "2026-11-03",
   "name": "Martes",
-  "theme": "Faro, Zeppelin y parmesano",
+  "theme": "Moáis, Zeppelin y parmesano",
   "questions": [
     {
       "id": "archivo-2026-11-03-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Destellos romanos",
-      "title": "¿Cuántos destellos emite la Torre de Hércules en un año?",
-      "detail": "El faro romano en activo más famoso guiña el ojo en grupos de cuatro destellos cada 20 segundos. Supón que está encendido 12 horas cada noche, los 365 días, sin fundirse ni una bombilla.",
-      "unit": "destellos",
-      "answer": 3153600,
-      "math": "Característica de la luz: grupo de 4 destellos cada 20 s. 12 h × 3.600 s = 43.200 s por noche, es decir, 2.160 grupos y 8.640 destellos. 8.640 × 365 = 3.153.600 destellos al año.",
-      "referenceExpression": "365 × 12 × 3600 ÷ 20 × 4",
-      "assumptions": "Usamos 12 horas de encendido todas las noches; en Galicia las noches de invierno son más largas que las de verano. No contamos días de mantenimiento.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Gigantes de piedra",
+      "title": "¿Cuántos moáis de la Isla de Pascua pesarían lo mismo que la Estatua de la Libertad con su base de hormigón?",
+      "detail": "En un plato de una balanza gigante, la estatua de Nueva York (cobre y armazón) con su enorme cimentación de hormigón. En el otro, moáis de peso medio, de 12,5 toneladas cada uno. Pesos del Servicio de Parques Nacionales de EE. UU.",
+      "unit": "moáis",
+      "answer": 1981.8720703936,
+      "math": "El Servicio de Parques Nacionales da 176.000 libras de cobre, 440.000 de armazón y 54 millones de libras de cimentación de hormigón: 54.616.000 libras ≈ 24.773 toneladas. 24.773 ÷ 12,5 ≈ 1.982 moáis.",
+      "referenceExpression": "(176000 + 440000 + 54000000) × 0,45359237 ÷ 1000 ÷ 12,5",
+      "assumptions": "Moái medio de 12,5 t; los hay mucho más ligeros y el más pesado que se llegó a levantar pesa 86 t. Contamos la estatua y la cimentación de hormigón con las cifras del NPS.",
+      "confidence": "Dato documentado + cálculo",
       "sources": [
         {
-          "title": "Ayuntamiento de A Coruña · Torre de Hércules, el faro",
-          "url": "https://www.coruna.gal/the-tower/en/discover-the-tower/the-lighthouse",
-          "fact": "Característica de la luz: GpD(4) de 20 s, luz blanca y alcance de 23 millas náuticas."
+          "title": "National Park Service · Statue Statistics",
+          "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm",
+          "fact": "Peso del cobre: 176.000 libras; peso del armazón: 440.000 libras; peso de la cimentación de hormigón: 54.000.000 libras."
+        },
+        {
+          "title": "Wikipedia · Moai",
+          "url": "https://en.wikipedia.org/wiki/Moai",
+          "fact": "Los moáis miden de media unos 4 m y suelen pesar unas 12,5 toneladas; se conocen más de 900 y el más pesado erigido, en Ahu Tongariki, pesa 86 toneladas."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-11-03-1.jpg",
-        "alt": "La Torre de Hércules sobre una colina de A Coruña, con la estatua de Breogán y paseantes en primer plano",
-        "credit": "Luis Miguel Bugallo Sánchez (Lmbuga)",
-        "url": "https://commons.wikimedia.org/wiki/File:Torre_de_H%C3%A9rcules_-_DivesGallaecia2012-62.jpg",
+        "alt": "Moái en primer plano y, al fondo, la hilera de quince moáis de Ahu Tongariki sobre su plataforma de piedra, en la Isla de Pascua",
+        "credit": "Bjørn Christian Tørrissen",
+        "url": "https://commons.wikimedia.org/wiki/File:Ahu-Tongariki-and-Traveling-Moai.jpg",
         "license": "CC BY-SA 3.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       },
       "reasoning": {
-        "heading": "Destellos por noche, noches por año",
+        "heading": "Casi todo el peso está bajo sus pies",
         "steps": [
-          "Si el faro destella cada pocos segundos, en una noche larga lanzará miles de destellos. Con unos 10.000 por noche, un año daría unos 3,5 millones.",
-          "Cuatro destellos cada 20 segundos son 12 por minuto, 720 por hora. En 12 horas, 8.640.",
-          "8.640 por 365 noches da 3.153.600 destellos. En diciembre la Torre trabaja horas extra y en junio descansa un poco: la media anual se queda parecida."
+          "La estatua de cobre es hueca y pesa unos cientos de toneladas, pero su base de hormigón es una montaña: decenas de miles de toneladas.",
+          "Si el conjunto ronda las 25.000 toneladas y un moái pesa unas 12, salen unos 2.000 moáis.",
+          "Con las cifras del NPS (24.773 t) y 12,5 t por moái salen 1.982: más del doble de los moáis que se conocen en toda la isla. La estatua sola, sin la base, equivale a apenas 22."
         ]
       }
     },
@@ -100,14 +105,6 @@
           "fact": "Más de 4.000.000 de ruedas al año; unos 520 litros de leche para producir una rueda."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-03-3.jpg",
-        "alt": "Pasillo de un almacén de curación con estanterías altísimas llenas de ruedas de Parmigiano Reggiano",
-        "credit": "Wikimedia Commons",
-        "url": "https://commons.wikimedia.org/wiki/File:Parmigiano_reggiano_factory.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-      },
       "reasoning": {
         "heading": "Del litro al vaso",
         "steps": [

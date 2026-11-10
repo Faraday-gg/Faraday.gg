@@ -1,48 +1,43 @@
 {
   "id": "2026-10-01",
   "name": "Jueves",
-  "theme": "Hórreo, Vendée y Irati",
+  "theme": "Coliseo, patinete y árboles",
   "questions": [
     {
       "id": "archivo-2026-10-01-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Granero XXL",
-      "title": "¿Cuántas mazorcas de maíz cabrían en el hórreo de Carnota?",
-      "detail": "Cosecha récord para uno de los hórreos más largos de Galicia. Supón un hueco interior de 34 × 1,5 × 1,8 m y que cada mazorca ocupa 0,5 L contando el aire entre ellas.",
-      "unit": "mazorcas",
-      "answer": 183600,
-      "math": "El hórreo mide unos 34,74 m de largo y 1,90 m de ancho por fuera. Con un interior útil de 34 × 1,5 × 1,8 m = 91,8 m³ = 91.800 L. Entre 0,5 L por mazorca: 183.600 mazorcas.",
-      "referenceExpression": "34 × 1,5 × 1,8 × 1000 ÷ 0,5",
-      "assumptions": "Las medidas interiores y el volumen por mazorca son supuestos; las paredes de piedra y la estructura restan espacio. Lo llenamos hasta el techo, algo que ningún labrador haría.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Gradas romanas",
+      "title": "Si cada espectador ocupaba 40 cm de grada, ¿cuántos kilómetros de grada tenía el Coliseo de Roma?",
+      "detail": "El Coliseo lleno con 50.000 espectadores, la estimación moderna de su aforo, sentados codo con codo. Cada uno ocupa 40 cm de grada; los leones no cuentan.",
+      "unit": "km",
+      "answer": 20,
+      "math": "Con 50.000 espectadores a 0,4 m cada uno: 20.000 m de grada, es decir, 20 km.",
+      "referenceExpression": "50000 × 0,4 ÷ 1000",
+      "assumptions": "El aforo es una estimación: las cifras van de 50.000 a 80.000 según la época, y un catálogo antiguo hablaba de 87.000. Con 80.000 serían 32 km.",
+      "confidence": "Modelo aproximado",
       "sources": [
         {
-          "title": "Páxinas Galegas · Hórreo de Carnota",
-          "url": "https://www.paxinasgalegas.es/fiestas/horreo-de-carnota-carnota-6097.html",
-          "fact": "Mide aproximadamente 34,74 m de largo y 1,90 m de ancho, y se apoya en 22 pares de pies."
-        },
-        {
-          "title": "Wikipedia · Hórreo",
-          "url": "https://en.wikipedia.org/wiki/H%C3%B3rreo",
-          "fact": "Sitúa en Carnota (A Coruña) un hórreo de 35 m de longitud."
+          "title": "Wikipedia · Colosseum",
+          "url": "https://en.wikipedia.org/wiki/Colosseum",
+          "fact": "Se estima que el Coliseo podía albergar entre 50.000 y 80.000 espectadores; las estimaciones modernas lo sitúan en unos 50.000."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-10-01-1.jpg",
-        "alt": "Hórreo de Carnota, larguísimo granero de piedra sobre pies, con una cruz en el extremo",
-        "credit": "MARC912374",
-        "url": "https://commons.wikimedia.org/wiki/File:H%C3%B3rreo_de_Carnota_2007.jpg",
+        "alt": "Interior del Coliseo de Roma, con los anillos de gradas y los subterráneos de la arena",
+        "credit": "Colin",
+        "url": "https://commons.wikimedia.org/wiki/File:Colosseum_interior_2012.jpg",
         "license": "CC BY-SA 3.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       },
       "reasoning": {
-        "heading": "Calcula el volumen y llénalo de maíz",
+        "heading": "Espectadores por anchura de asiento",
         "steps": [
-          "El hórreo es larguísimo pero estrecho: unos 35 m de largo y menos de 2 de ancho. Por dentro caben decenas de metros cúbicos.",
-          "35 × 1,5 × 2 ≈ 100 m³, o 100.000 litros. A medio litro por mazorca, unas 200.000.",
-          "Con el interior de 34 × 1,5 × 1,8 m salen 183.600 mazorcas. Si cada mazorca ocupara un litro con los huecos, la cifra se quedaría en la mitad."
+          "El Coliseo era el gran estadio de Roma: decenas de miles de personas, como un campo de fútbol grande.",
+          "50.000 personas a menos de medio metro cada una son unos 20 km de banco corrido.",
+          "Con 50.000 × 0,4 m salen 20 km: casi un medio maratón de banco corrido."
         ]
       }
     },
@@ -52,35 +47,27 @@
       "verifiedAt": "2026-11-10",
       "category": "deportes",
       "tag": "Vuelta al mundo en patinete",
-      "title": "¿Cuántos días tardarías en recorrer la distancia de la Vendée Globe en patinete eléctrico a 20 km/h sin parar?",
-      "detail": "Patinete mágico que flota, con batería infinita y piloto que no duerme. 20 km/h constantes sobre la distancia teórica de la regata.",
+      "title": "A 20 km/h sin parar, ¿cuántos días tardarías en dar la vuelta al mundo en patinete eléctrico?",
+      "detail": "Una vuelta completa por el ecuador, en patinete eléctrico a 20 km/h constantes, sin dormir, sin cargar la batería y con un puente imaginario sobre los océanos.",
       "unit": "días",
-      "answer": 93.75,
-      "math": "El recorrido teórico de la Vendée Globe es de 24.300 millas, unos 45.000 km. A 20 km/h son 2.250 horas: 93,75 días.",
-      "referenceExpression": "45000 ÷ 20 ÷ 24",
-      "assumptions": "Usamos la distancia teórica; los barcos reales navegan bastante más buscando viento, a menudo más de 28.000 millas, casi 52.000 km.",
+      "answer": 83.4896,
+      "math": "El radio ecuatorial de la Tierra es de 6.378,137 km: la circunferencia es 2 × π × 6.378,137 = 40.075 km. A 20 km/h son 2.003,8 horas; entre 24: 83,49 días.",
+      "referenceExpression": "2 × π × 6378,137 ÷ 20 ÷ 24",
+      "assumptions": "Ruta ideal por el ecuador, sin paradas ni rodeos. Por carretera real habría que añadir mares, montañas y muchas recargas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Actunautique · Vendée Globe 2024-2025, presentación del recorrido",
-          "url": "https://www.actunautique.com/2024/10/vendee-globe-2024-2025-presentation-du-parcours-de-l-everest-de-la-course-au-large.html",
-          "fact": "La distancia del recorrido teórico es de 45.000 km, es decir, 24.300 millas; los regatistas suelen navegar más de 28.000 millas."
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-01-2.jpg",
-        "alt": "Velero de regata IMOCA navegando con las velas desplegadas",
-        "credit": "Richard Barley from Foussais-Payre, France",
-        "url": "https://commons.wikimedia.org/wiki/File:IMOCA-Roxy.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Una vuelta al mundo dividida entre una velocidad modesta",
+        "heading": "Circunferencia entre velocidad",
         "steps": [
-          "La vuelta al mundo por mar ronda los 40.000 km o algo más. A 20 km/h, eso son miles de horas.",
-          "40.000 ÷ 20 = 2.000 horas, unos 83 días. Ya sabemos que hablamos de unos tres meses.",
-          "Con los 45.000 km teóricos salen 93,75 días. Y eso sin contar que los barcos reales recorren muchos más kilómetros que la ruta teórica."
+          "La vuelta al mundo mide unos 40.000 km. A 20 km/h recorres 480 km al día sin parar.",
+          "40.000 ÷ 480 = 83 días: un poco más que los 80 días de Phileas Fogg.",
+          "Con 40.075 km salen 83,49 días: tres días y medio más que en la novela de Julio Verne."
         ]
       }
     },
@@ -89,36 +76,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Bosque de números",
-      "title": "¿Cuántos árboles hay en la Selva de Irati?",
-      "detail": "Censo forestal sin salir de casa. Supón 400 árboles por hectárea, repartidos por igual por todo el bosque.",
+      "tag": "Bosque por cabeza",
+      "title": "¿Cuántos árboles hay en la Tierra por cada persona?",
+      "detail": "Todos los árboles del planeta según el mayor recuento hecho hasta ahora, repartidos entre los habitantes de 2026. Toca a muchos: ve pensando dónde colgar la hamaca.",
       "unit": "árboles",
-      "answer": 6800000,
-      "math": "La Selva de Irati ocupa unas 17.000 ha. 17.000 × 400 = 6.800.000 árboles.",
-      "referenceExpression": "17000 × 400",
-      "assumptions": "La densidad de 400 árboles por hectárea es un supuesto: hay claros, pastos y zonas muy densas de hayas y abetos jóvenes.",
+      "answer": 366.2651,
+      "math": "Un estudio de 2015 estimó que hay 3,04 billones de árboles. Con unos 8.300 millones de personas en 2026: 3.040.000 ÷ 8.300 = 366,3 árboles por persona.",
+      "referenceExpression": "3040000000000 ÷ 8300000000",
+      "assumptions": "El recuento de árboles es de 2015 y es una estimación con margen; desde entonces se han talado miles de millones. La población de 2026 es aproximada.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Turespaña (spain.info) · Selva de Irati",
-          "url": "https://www.spain.info/es/naturaleza/selva-irati/",
-          "fact": "Superficie: 17.000 hectáreas."
+          "title": "Wikipedia · Tree",
+          "url": "https://en.wikipedia.org/wiki/Tree",
+          "fact": "Según una estimación de 2015 (Crowther y otros, Nature), hay 3,04 billones de árboles en el mundo."
+        },
+        {
+          "title": "Wikipedia · World population",
+          "url": "https://en.wikipedia.org/wiki/World_population",
+          "fact": "En 2026 la población mundial es de aproximadamente 8.300 millones de personas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-01-3.jpg",
-        "alt": "Hayedo de la Selva de Irati con troncos grises y hojas otoñales",
-        "credit": "Rodelar",
-        "url": "https://commons.wikimedia.org/wiki/File:Selva_de_Irati_03.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Superficie por densidad",
+        "heading": "Árboles entre personas",
         "steps": [
-          "Irati es uno de los mayores hayedos de Europa: miles de hectáreas, quizás unas 15.000.",
-          "Con 15.000 ha y 400 árboles por hectárea salen 6 millones. Hablamos de millones de árboles.",
-          "Con las 17.000 ha salen 6,8 millones. La densidad real puede variar mucho de un rodal a otro, así que la cifra es una estimación del orden de magnitud."
+          "Los bosques cubren casi un tercio de la tierra firme: tiene que haber billones de árboles, no miles de millones.",
+          "Si hay unos 3 billones y somos 8.000 millones, tocamos a unos 375 árboles cada uno.",
+          "Con 3,04 billones y 8.300 millones de personas salen 366,3 árboles: un bosquecillo propio por cabeza."
         ]
       }
     }

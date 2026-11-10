@@ -1,43 +1,35 @@
 {
   "id": "2026-10-22",
   "name": "Jueves",
-  "theme": "Mallorca, Sol y vidrio",
+  "theme": "Cuba, Sol y vidrio",
   "questions": [
     {
       "id": "archivo-2026-10-22-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Vuelta a la isla",
-      "title": "Caminando 25 km al día, ¿cuántos días tardarías en recorrer toda la costa de Mallorca?",
-      "detail": "Sigues la línea de costa medida en el mapa, 25 km por jornada, sin atajos por el interior. Las calas no se saltan, aunque apetezca quedarse.",
+      "tag": "Costa caribeña",
+      "title": "Caminando 25 km al día, ¿cuántos días tardarías en recorrer toda la costa de Cuba?",
+      "detail": "Sales de La Habana con sombrero y chancletas y vas bordeando la isla de Cuba hasta volver al punto de partida. Camina 25 km al día siguiendo la línea de costa oficial. Los cayos y la Isla de la Juventud se quedan para otras vacaciones.",
       "unit": "días",
-      "answer": 25.04,
-      "math": "La costa de Mallorca mide 626 km sin islotes ni obras portuarias (Balaguer, Monografies de la Societat d'Història Natural de les Balears, 2007). 626 ÷ 25 ≈ 25 días.",
-      "referenceExpression": "626 ÷ 25",
-      "assumptions": "La longitud de una costa depende de la escala con la que se mida; a pie, rodeando cada roca, sería más larga. Los acantilados de la Tramuntana no se pueden recorrer andando.",
-      "confidence": "Dato documentado + división",
+      "answer": 229.84,
+      "math": "La isla de Cuba tiene 5.746 km de costa. 5.746 ÷ 25 ≈ 230 días.",
+      "referenceExpression": "5746 ÷ 25",
+      "assumptions": "Solo la isla principal, sin los cayos ni la Isla de la Juventud. La longitud de una costa depende de la escala con que se mida: a pie, con cada recoveco, el camino sería más largo.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "UIB · Inventari quantitatiu de les costes rocoses de Mallorca (Balaguer, 2007)",
-          "url": "https://ibdigital.uib.es/greenstone/library/collection/monografiesHistoriaNatural/document/MonografiesSHNB_2007vol014p201",
-          "fact": "La costa de Mallorca mide 626 km, sin contar los islotes ni las estructuras artificiales de puertos y clubes náuticos."
+          "title": "Wikipedia · Geografía de Cuba",
+          "url": "https://es.wikipedia.org/wiki/Geograf%C3%ADa_de_Cuba",
+          "fact": "La isla de Cuba tiene 104.338 km² y 5.746 km de costa."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-22-1.jpg",
-        "alt": "Costa oeste de Mallorca con acantilados que caen al mar",
-        "credit": "Twilight Tea",
-        "url": "https://commons.wikimedia.org/wiki/File:Western_coast_of_Mallorca_-_panoramio.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "El perímetro de una isla se mide a trozos",
+        "heading": "Costa entre etapa diaria",
         "steps": [
-          "Mallorca se cruza en coche en una hora, pero su costa está llena de calas y cabos. ¿Una semana? ¿Un mes?",
-          "Un contorno redondo de 100 km de diámetro mediría unos 300 km; los entrantes y salientes lo pueden doblar. Con 600 km, a 25 km diarios son 24 días.",
-          "Con los 626 km medidos salen 25 días justos. Con una regla más fina, que siguiera cada roca, la costa se alargaría y la caminata también."
+          "Cuba es larga y estrecha: más de 1.000 km de punta a punta. Rodearla son al menos dos lados largos, unos 2.500 km, más todas las curvas.",
+          "Con las curvas de la costa, pongamos 5.000 km. A 25 km al día salen unos 200 días: más de medio año.",
+          "Con los 5.746 km oficiales salen unos 230 días. Siguiendo a pie cada cala y cada bahía, el paseo sería todavía más largo."
         ]
       }
     },
@@ -46,15 +38,15 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "AVE al Sol",
-      "title": "¿Cuántos años tardaría un AVE a 300 km/h en llegar al Sol?",
-      "detail": "Vía recta, sin paradas en Zaragoza y a 300 km/h constantes. El aire acondicionado del vagón hace milagros.",
+      "tag": "Escapada solar",
+      "title": "¿Cuántos años tardaría un coche a 120 km/h en llegar al Sol?",
+      "detail": "Una autopista recta hasta el Sol, sin peajes ni gasolineras, y tú al límite de velocidad de una autopista española. Usa la distancia media de la Tierra al Sol. Lleva crema solar, mucha.",
       "unit": "años",
-      "answer": 56.88564556240018,
-      "math": "La unidad astronómica mide exactamente 149.597.870,7 km (UAI, resolución B2 de 2012, recogida en Wikipedia). 149.597.870,7 ÷ 300 = 498.660 horas; ÷ 24 ÷ 365,25 ≈ 56,9 años.",
-      "referenceExpression": "149597870,7 ÷ 300 ÷ 24 ÷ 365,25",
-      "assumptions": "Distancia media Tierra–Sol y velocidad constante. La órbita es ligeramente elíptica: entre enero y julio la distancia cambia unos 5 millones de km.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 142.21411390600045,
+      "math": "La distancia media al Sol es de 149.597.870,7 km. 149.597.870,7 ÷ 120 ≈ 1.246.649 horas. ÷ 24 ÷ 365,25 ≈ 142,2 años.",
+      "referenceExpression": "149597870,7 ÷ 120 ÷ 24 ÷ 365,25",
+      "assumptions": "Velocidad constante de 120 km/h sin una sola parada y distancia de una unidad astronómica (la media; en enero estamos un 1,7 % más cerca y en julio un 1,7 % más lejos).",
+      "confidence": "Dato científico",
       "sources": [
         {
           "title": "Wikipedia · Astronomical unit",
@@ -62,20 +54,12 @@
           "fact": "La UAI fijó en 2012 la unidad astronómica en exactamente 149.597.870.700 metros."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-22-2.jpg",
-        "alt": "El Sol fotografiado por el observatorio SDO de la NASA en ultravioleta",
-        "credit": "NASA/SDO (AIA)",
-        "url": "https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:The_Sun_by_the_Atmospheric_Imaging_Assembly_of_NASA%27s_Solar_Dynamics_Observatory_-_20100819.jpg"
-      },
       "reasoning": {
-        "heading": "La distancia al Sol en horas de tren",
+        "heading": "Distancia entre velocidad",
         "steps": [
-          "El Sol está lejísimos, pero un AVE es rápido. ¿Siglos o años?",
-          "150 millones de km entre 300 km/h son 500.000 horas. Un año tiene unas 8.800 horas: algo menos de 60 años.",
-          "El cálculo exacto da 56,9 años. Si sales al nacer, llegas a tiempo para jubilarte... en el Sol."
+          "El Sol está a unos 150 millones de km. A 120 km/h recorres unos 1.000.000 de km al año (120 × 8.766 horas).",
+          "150 millones entre 1 millón dan unos 150 años: ni tus nietos llegarían.",
+          "Con la unidad astronómica exacta salen 142,2 años. Si salieras en enero, cuando la Tierra está más cerca, te ahorrarías unos dos años y medio."
         ]
       }
     },
@@ -100,14 +84,6 @@
           "fact": "En 2024 cada ciudadano depositó 19,1 kg de vidrio en el contenedor verde, unos 65 envases por persona (datos de Ecovidrio)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-22-3.jpg",
-        "alt": "Una persona deposita envases en un contenedor verde de vidrio",
-        "credit": "Ecovidrio",
-        "url": "https://commons.wikimedia.org/wiki/File:Utilizando_el_contenedor_de_Ecovidrio.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Kilos de vidrio entre el peso de una botella",
         "steps": [

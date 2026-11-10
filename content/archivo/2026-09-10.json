@@ -1,44 +1,36 @@
 {
   "id": "2026-09-10",
   "name": "Jueves",
-  "theme": "Montmeló, miel y sidra",
+  "theme": "Mónaco, abejas y Nutella",
   "questions": [
     {
       "id": "archivo-2026-09-10-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Vueltas por hora",
-      "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al Circuit de Barcelona-Catalunya en una hora?",
-      "detail": "Una hora a 200 km/h de media en el trazado actual de Fórmula 1, sin paradas en boxes ni coche de seguridad.",
+      "tag": "Carrusel de lujo",
+      "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al circuito de Mónaco en una hora?",
+      "detail": "Una hora a 200 km/h de media por las calles de Montecarlo, sin paradas en boxes, sin coche de seguridad y sin chocar con ningún yate. En carrera real, Mónaco es mucho más lento.",
       "unit": "vueltas",
-      "answer": 42.94610264118531,
-      "math": "El trazado de Fórmula 1 mide 4,657 km. En una hora recorre 200 km. 200 ÷ 4,657 ≈ 42,9 vueltas.",
-      "referenceExpression": "200 ÷ 4,657",
-      "assumptions": "Media constante de 200 km/h; una vuelta rápida real va bastante más deprisa.",
+      "answer": 59.934073,
+      "math": "El circuito de Mónaco mide 3,337 km. En una hora a 200 km/h se recorren 200 km. 200 ÷ 3,337 ≈ 59,9 vueltas.",
+      "referenceExpression": "200 ÷ 3,337",
+      "assumptions": "Velocidad media constante de 200 km/h, irreal en Mónaco: en carrera la media ronda bastante menos por sus curvas lentas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Circuit de Barcelona-Catalunya",
-          "url": "https://en.wikipedia.org/wiki/Circuit_de_Barcelona-Catalunya",
-          "fact": "El trazado de Gran Premio sin chicane, que usa la Fórmula 1 desde 2023, mide 4,657 km."
+          "title": "Formula 1 · Monaco Grand Prix",
+          "url": "https://www.formula1.com/en/racing/2025/monaco",
+          "fact": "Longitud del circuito de Mónaco: 3,337 km."
         }
       ],
       "reasoning": {
-        "heading": "Kilómetros por hora entre kilómetros por vuelta",
+        "heading": "Distancia de una hora entre una vuelta",
         "steps": [
-          "El circuito mide unos 4,5 km. A 200 km/h se recorren 200 km en una hora.",
-          "200 entre 4,5 dan unas 44 vueltas.",
-          "Con los 4,657 km exactos salen 42,9 vueltas. Un Gran Premio entero son 66 vueltas, y los mejores lo terminan en unos 90 minutos."
+          "Mónaco es el circuito más corto del calendario: algo más de 3 km entre casinos y puertos.",
+          "A 200 km/h recorres 200 km en una hora. 200 entre 3 dan unas 65 vueltas.",
+          "Con los 3,337 km oficiales salen 59,9 vueltas en una hora. En la vida real nadie mantiene esa media entre la curva del hotel y el puerto: los pilotos van mucho más despacio."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-10-1.jpg",
-        "alt": "Vista del Circuit de Barcelona-Catalunya en Montmeló con la recta y las gradas",
-        "credit": "Ank Kumar",
-        "url": "https://commons.wikimedia.org/wiki/File:Circuit_de_Catalunya,_Barcelona_(Ank_Kumar)_01.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     },
     {
@@ -46,15 +38,15 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Abejas con agenda",
-      "title": "¿Cuántas flores tienen que visitar las abejas para llenar un tarro de 500 g de miel de La Alcarria?",
-      "detail": "Las abejas alcarreñas siguen la regla de sus primas americanas: unos 2 millones de flores por libra de miel (453,6 g). Romero y espliego, a elegir.",
+      "tag": "Trabajo de colmena",
+      "title": "¿Cuántas flores tienen que visitar las abejas para llenar un tarro de 500 g de miel?",
+      "detail": "Un tarro normal de medio kilo, de la miel que prefieras. La regla de los apicultores: unos 2 millones de flores por cada libra de miel (453,6 g). Las abejas no cobran horas extra.",
       "unit": "flores",
-      "answer": 2204622.6218487755,
+      "answer": 2204622.621849,
       "math": "Hacen falta unos 2 millones de flores por libra de miel (453,59 g). Para 500 g: 2.000.000 × 500 ÷ 453,59 ≈ 2,2 millones de flores.",
       "referenceExpression": "2000000 × 500 ÷ 453,59237",
-      "assumptions": "Cifra media orientativa; depende mucho del néctar de cada flor. Con flores muy melíferas harían falta menos.",
-      "confidence": "Dato documentado + modelo",
+      "assumptions": "Proporción divulgativa media; varía según la flor y la cantidad de néctar de cada una.",
+      "confidence": "Dato divulgativo + modelo",
       "sources": [
         {
           "title": "University of Illinois Extension · National Honey Bee Day",
@@ -63,20 +55,12 @@
         }
       ],
       "reasoning": {
-        "heading": "Pasa de libras a gramos",
+        "heading": "Pasa de libras a tarros",
         "steps": [
-          "La miel exige muchísimas visitas: cada gota de néctar es diminuta. Intuición: millones de flores.",
-          "La cifra de referencia es de 2 millones de flores por libra, que son casi 454 g. Medio kilo es un poco más.",
-          "El cálculo da 2,2 millones de flores por tarro. Con flores de romero muy generosas podrían bastar menos; con un mal año, bastantes más."
+          "Una sola abeja apenas fabrica una cucharadita de miel en toda su vida. Un tarro entero necesita muchísimas visitas a flores: piensa en millones.",
+          "Si una libra son unos 2 millones de flores y un tarro de medio kilo es algo más que una libra, la respuesta ronda los 2 millones largos.",
+          "Con la proporción exacta salen 2.204.623 flores. Si visitaran una por segundo sin parar, tardarían más de 25 días."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-10-2.jpg",
-        "alt": "Abeja melífera libando en una flor, el trabajo que se repite millones de veces",
-        "credit": "Luc Viatour",
-        "url": "https://commons.wikimedia.org/wiki/File:Apis_mellifera_2_Luc_Viatour.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
       }
     },
     {
@@ -84,37 +68,29 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Culín a culín",
-      "title": "¿Cuántos culines saldrían de la sidra DOP de Asturias elaborada en un año?",
-      "detail": "Toda la sidra elaborada bajo la denominación de origen en 2025, escanciada en culines de 100 ml. Lo que caiga al suelo no cuenta.",
-      "unit": "culines",
-      "answer": 55670560,
-      "math": "En 2025 se elaboraron 5.567.056 litros de sidra DOP. Cada litro da 10 culines de 100 ml: 55.670.560 culines.",
-      "referenceExpression": "5567056 × 1000 ÷ 100",
-      "assumptions": "Culín de 100 ml sin pérdidas. Las cifras anuales varían mucho con la cosecha de manzana.",
+      "tag": "Tarros por minuto",
+      "title": "¿Cuántos tarros de Nutella de 750 g se fabrican en el mundo cada minuto?",
+      "detail": "Convertimos toda la producción mundial de Nutella de un año en tarros de 750 g y la repartimos entre los minutos del año. Con el dato de 2013, el último que da Wikipedia; hoy seguramente son más. Las cucharas, aparte.",
+      "unit": "tarros/min",
+      "answer": 887.874176,
+      "math": "En 2013 se produjeron unas 350.000 toneladas de Nutella: 350 millones de kg. En tarros de 0,75 kg son 466.666.667 tarros. Un año tiene 525.600 minutos: 466.666.667 ÷ 525.600 ≈ 888 tarros por minuto.",
+      "referenceExpression": "350000000 ÷ 0,75 ÷ (365 × 24 × 60)",
+      "assumptions": "Producción de 2013 repartida de forma uniforme entre todos los minutos del año, como si toda se envasara en tarros de 750 g. La producción actual probablemente es mayor.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Tridge · noticia sobre la DOP Sidra de Asturias en 2025",
-          "url": "https://www.tridge.com/news/the-pdo-cider-of-asturias-recorded-in-2025-a-scuguv",
-          "fact": "En 2025 se produjeron 5.567.056 litros de sidra DOP y se emitieron 4.964.000 contraetiquetas."
+          "title": "Wikipedia · Nutella",
+          "url": "https://en.wikipedia.org/wiki/Nutella",
+          "fact": "La producción mundial de Nutella en 2013 fue de unas 350.000 toneladas."
         }
       ],
       "reasoning": {
-        "heading": "Litros por diez",
+        "heading": "De toneladas a tarros y de años a minutos",
         "steps": [
-          "La DOP es solo una parte de la sidra asturiana: unos pocos millones de litros al año.",
-          "Con 5 millones de litros y 10 culines por litro salen unos 50 millones de culines.",
-          "Con 5.567.056 litros salen 55,7 millones de culines: más de 50 por cada asturiano. Escanciando bien, claro."
+          "Nutella se vende en todo el mundo: la producción va de cientos de miles de toneladas al año.",
+          "350.000 toneladas son unos 470 millones de tarros de 750 g. Un año tiene medio millón de minutos: salen cerca de mil tarros por minuto.",
+          "El cálculo exacto da 888 tarros cada minuto, unos 15 por segundo. Mientras lees esta frase, ya han salido otra treintena."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-10-3.jpg",
-        "alt": "Escanciado de sidra en Oviedo: el chorro cae desde lo alto hasta el vaso",
-        "credit": "Hispalois",
-        "url": "https://commons.wikimedia.org/wiki/File:Escanciando_sidra_Oviedo_2015.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     }
   ]

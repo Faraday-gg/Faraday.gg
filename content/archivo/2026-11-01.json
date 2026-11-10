@@ -1,43 +1,35 @@
 {
   "id": "2026-11-01",
   "name": "Domingo",
-  "theme": "Perros, Despacito y San Silvestre",
+  "theme": "Perro, Despacito y Phelps",
   "questions": [
     {
       "id": "archivo-2026-11-01-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Paseos nacionales",
-      "title": "¿Cuántos paseos de perro se dan en España cada día?",
-      "detail": "Cuenta solo los perros registrados y dales tres salidas diarias a cada uno: mañana, tarde y noche. Si dos perros salen juntos con la misma correa, cuentan como dos paseos.",
-      "unit": "paseos",
-      "answer": 22688679,
-      "math": "El Gobierno contabilizó 7.562.893 perros registrados en 2025. 7.562.893 × 3 paseos = 22.688.679 paseos diarios.",
-      "referenceExpression": "7562893 × 3",
-      "assumptions": "Solo perros registrados; hay perros sin identificar y perros que viven en fincas y no salen con correa. Tres paseos diarios es el supuesto del modelo.",
-      "confidence": "Dato oficial + modelo",
+      "tag": "Paseos de una vida",
+      "title": "¿Cuántos kilómetros camina un perro con sus paseos a lo largo de toda su vida?",
+      "detail": "Un perro mediano que vive 12 años y sale dos veces al día, todos los días, a dar un paseo de 1,5 km. Las paradas para oler cada farola no suman distancia.",
+      "unit": "km",
+      "answer": 13140,
+      "math": "El American Kennel Club sitúa la vida media de los perros medianos entre 10 y 13 años; tomamos 12. 2 paseos × 1,5 km × 365 días × 12 años = 13.140 km.",
+      "referenceExpression": "2 × 1,5 × 365 × 12",
+      "assumptions": "Dos paseos diarios de 1,5 km son un supuesto del modelo: un perro grande y activo camina bastante más y uno pequeño, menos. No restamos los meses de cachorro ni los paseos más cortos de la vejez.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Ministerio de Derechos Sociales, Consumo y Agenda 2030 · Nota de prensa (5 de junio de 2026)",
-          "url": "https://www.dsca.gob.es/gl/comunicacion/notas-prensa/estudio-gobierno-estima-que-espana-hay-mas-15-millones-animales-compania",
-          "fact": "En 2025 había 7.562.893 perros registrados en España, el 50 % de los animales de compañía registrados."
+          "title": "American Kennel Club · How Long Do Dogs Live?",
+          "url": "https://www.akc.org/expert-advice/health/how-long-do-dogs-live/",
+          "fact": "La vida media de las razas medianas es de 10 a 13 años; la de las pequeñas, de 10 a 15, y la de las grandes, de 8 a 12."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-01-1.jpg",
-        "alt": "Hombre paseando a un perro con correa por un jardín urbano de Lisboa",
-        "credit": "Jules Verne Times Two",
-        "url": "https://commons.wikimedia.org/wiki/File:Man_walking_a_dog,_Jardim_da_Pra%C3%A7a_de_Londres,_Lisbon,_Portugal_julesvernex2.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Cuenta perros, no personas",
+        "heading": "Kilómetros al día por días de vida",
         "steps": [
-          "España tiene unos 48 millones de habitantes. Si uno de cada seis hogares tiene perro, quizá haya unos 6 u 8 millones de perros.",
-          "Con 7 millones de perros y tres paseos diarios salen unos 21 millones de paseos: casi uno por cada dos habitantes.",
-          "Con los 7.562.893 perros registrados de 2025 salen 22.688.679 paseos al día. Muchos perros salen solo dos veces, así que la cifra real puede quedarse más cerca de 15 millones."
+          "Dos paseos al día de un kilómetro y pico suman unos 3 km diarios. En un año, 3 × 365 ≈ 1.100 km.",
+          "Un perro mediano vive algo más de diez años: 1.100 × 12 ≈ 13.000 km.",
+          "Con 3 km exactos al día y 12 años salen 13.140 km, un tercio de la vuelta a la Tierra (unos 40.000 km). Y su dueño, con la correa, camina exactamente lo mismo."
         ]
       }
     },
@@ -67,14 +59,6 @@
           "fact": "Despacito figura con unos 9.110 millones de visitas a 30 de agosto de 2026, entre los vídeos más vistos de la plataforma."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-01-2.jpg",
-        "alt": "Luis Fonsi cantando en un concierto, iluminado sobre el escenario",
-        "credit": "anokarina",
-        "url": "https://commons.wikimedia.org/wiki/File:Luis_Fonsi_in_concert.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
         "heading": "Visitas por duración, luego a años",
         "steps": [
@@ -89,41 +73,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Vuelta al mundo en chándal",
-      "title": "Sumando los km de todos los corredores de la San Silvestre Vallecana, ¿cuántas vueltas a la Tierra darían?",
-      "detail": "Toma la edición de 2025, suma los 10 km de cada participante y estíralos sobre el ecuador. Todos terminan, nadie se queda en el bar de la esquina y los disfraces no frenan.",
-      "unit": "vueltas",
-      "answer": 10.480344981394417,
-      "math": "En la San Silvestre Vallecana 2025 participaron más de 42.000 corredores. 42.000 × 10 km = 420.000 km. El ecuador mide 2 × π × 6.378,137 ≈ 40.075 km. 420.000 ÷ 40.075 ≈ 10,5 vueltas.",
-      "referenceExpression": "42000 × 10 ÷ (2 × π × 6378,137)",
-      "assumptions": "Usamos la cifra redonda de 42.000 participantes y 10 km para todos, sumando la carrera popular y la internacional. No todos los inscritos llegan a la meta.",
-      "confidence": "Dato aproximado + cálculo",
+      "tag": "Brazadas de oro",
+      "title": "¿Cuántos kilómetros nadaba Michael Phelps en un año de entrenamiento?",
+      "detail": "Toma el volumen de sus temporadas fuertes: 80.000 metros a la semana durante 50 semanas al año. Las dos semanas que faltan son para comer pasta y dormir.",
+      "unit": "km",
+      "answer": 4000,
+      "math": "Su entrenador, Bob Bowman, describía semanas de entre 70.000 y 80.000 yardas y metros. Con 80 km semanales y 50 semanas: 80 × 50 = 4.000 km.",
+      "referenceExpression": "80 × 50",
+      "assumptions": "Bowman habla de una mezcla de yardas y metros: si todo fueran yardas, serían unos 73 km por semana. Las 50 semanas de entrenamiento al año son un supuesto del modelo.",
+      "confidence": "Dato aproximado + modelo",
       "sources": [
         {
-          "title": "Marathons.com · San Silvestre Vallecana 2025",
-          "url": "https://www.marathons.com/en/10-km/san-silvestre-vallecana-2025-madrid-celebrates-with-42-000-runners_k6le",
-          "fact": "Más de 42.000 corredores participaron en la edición de 2025, una carrera de 10 km con prueba popular e internacional."
-        },
-        {
-          "title": "NASA · Earth Fact Sheet",
-          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
-          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
+          "title": "Swimming World · Bob Bowman on working with Michael Phelps (archivo de 2003)",
+          "url": "https://www.swimmingworldmagazine.com/news/training-michael-phelps-bob-bowman-on-working-with-his-prized-pupil-swimming-technique-archive-2003/",
+          "fact": "Bowman describe el programa de otoño de Phelps como una mezcla de 70.000 a 80.000 yardas y metros por semana."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-01-3.jpg",
-        "alt": "Salida de la San Silvestre Vallecana de 2007, con una avenida llena de corredores",
-        "credit": "JuanJaén",
-        "url": "https://commons.wikimedia.org/wiki/File:Salida_San_Silvestre_Vallecana_2007.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
-        "heading": "Kilómetros totales entre la vuelta al mundo",
+        "heading": "Semana tipo por semanas de trabajo",
         "steps": [
-          "La San Silvestre reúne a decenas de miles de corredores. Si fueran 40.000, a 10 km cada uno sumarían 400.000 km.",
-          "La vuelta a la Tierra son unos 40.000 km, así que 400.000 km dan unas 10 vueltas.",
-          "Con más de 42.000 corredores en 2025 y los 40.075 km del ecuador salen 10,5 vueltas. Una sola tarde de Nochevieja basta para dar diez vueltas al planeta."
+          "Un nadador de élite entrena dos veces al día, unos 10 o 12 km diarios. Seis o siete días a la semana dan unos 70 u 80 km.",
+          "Con 80 km semanales y unas 50 semanas al año salen unos 4.000 km.",
+          "80 × 50 = 4.000 km, que en una piscina olímpica son 80.000 largos de 50 m cada año: más de 200 al día."
         ]
       }
     }

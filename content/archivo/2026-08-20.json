@@ -1,43 +1,35 @@
 {
   "id": "2026-08-20",
   "name": "Jueves",
-  "theme": "Mascletà, nevera y 4004",
+  "theme": "Chavo, nevera y 4004",
   "questions": [
     {
       "id": "archivo-2026-08-20-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cultura",
-      "tag": "Pólvora fallera",
-      "title": "¿Cuántos kilos de pólvora se disparan en todas las mascletàs de la plaza del Ayuntamiento durante las Fallas?",
-      "detail": "Suma las 19 mascletàs del 1 al 19 de marzo, todas al límite de 120 kg. Los tapones para los oídos van aparte.",
-      "unit": "kg",
-      "answer": 2280,
-      "math": "En la plaza del Ayuntamiento se disparan 19 mascletàs, del 1 al 19 de marzo, con un límite de 120 kg cada una: 19 × 120 = 2.280 kg.",
-      "referenceExpression": "19 × 120",
-      "assumptions": "Todas las mascletàs al máximo autorizado. El límite se refiere a la carga de materia explosiva, y alguna edición especial lo ha superado (en 2024 se permitieron 330 kg el día 19).",
+      "tag": "Maratón de la vecindad",
+      "title": "¿Cuántas horas tardarías en ver todos los capítulos de El Chavo del Ocho?",
+      "detail": "Todos los capítulos emitidos entre 1973 y 1980, uno detrás de otro y cada uno en su media hora de programa. Fue sin querer queriendo.",
+      "unit": "horas",
+      "answer": 145,
+      "math": "Se emitieron 290 capítulos y cada uno ocupaba un programa de media hora: 290 × 30 min = 8.700 min; 8.700 ÷ 60 = 145 horas.",
+      "referenceExpression": "290 × 30 ÷ 60",
+      "assumptions": "Contamos 290 capítulos, la cifra del texto de la Wikipedia en español (la ficha dice 312 y la tabla de temporadas suma 295, porque se cuentan distinto las partes y las repeticiones). Cada capítulo ocupa la media hora del programa; sin anuncios cada uno dura algo menos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Mascletà",
-          "url": "https://es.wikipedia.org/wiki/Masclet%C3%A0",
-          "fact": "En la plaza del Ayuntamiento hay 19 mascletàs entre el 1 y el 19 de marzo; el límite actual es de 120 kilos por mascletà."
+          "title": "Wikipedia · El Chavo del 8",
+          "url": "https://es.wikipedia.org/wiki/El_Chavo_del_8",
+          "fact": "Se emitió entre el 26 de febrero de 1973 y el 7 de enero de 1980 en programas de media hora; en total se transmitieron 290 capítulos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-20-1.jpg",
-        "alt": "Humo y estruendo de una mascletà en la plaza del Ayuntamiento de Valencia",
-        "credit": "Vicente Mocholi Grau",
-        "url": "https://commons.wikimedia.org/wiki/File:Masclet%C3%A1_en_Valencia_Fallas_2023.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Mascletàs por kilos",
+        "heading": "Capítulos por media hora",
         "steps": [
-          "Hay una mascletà diaria durante casi tres semanas y cada una es un terremoto de pólvora de cien kilos largos. Eso sugiere un par de toneladas.",
-          "20 mascletàs × 100 kg = 2.000 kg. Ya sabemos que hablamos de toneladas.",
-          "Con 19 mascletàs y 120 kg salen 2.280 kg. Es un máximo: no todas llegan al límite y alguna especial lo ha superado."
+          "Siete años de serie, con decenas de capítulos por temporada: unos cuantos cientos de episodios de menos de una hora. Eso son cientos de horas, no miles.",
+          "300 capítulos × media hora = 150 horas. Unos seis días seguidos sin dormir delante del barril.",
+          "Con 290 capítulos de media hora salen 145 horas. Sin los anuncios bajaría un poco, pero la torta de jamón no se perdona."
         ]
       }
     },
@@ -46,14 +38,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Puerta giratoria",
-      "title": "¿Cuántas veces abrirás la nevera a lo largo de tu vida?",
-      "detail": "Veinte aperturas al día, desde los 5 años hasta la esperanza de vida media en España. Las que solo son para mirar también cuentan.",
-      "unit": "veces",
-      "answer": 577168.05,
-      "math": "La esperanza de vida al nacer es de 84,01 años (INE, 2024). Desde los 5 años quedan 79,01 años × 365,25 días × 20 aperturas ≈ 577.168 veces.",
-      "referenceExpression": "(84,01 − 5) × 365,25 × 20",
-      "assumptions": "Veinte aperturas diarias es una suposición del juego, no una estadística. Contamos desde los 5 años hasta la esperanza de vida media al nacer.",
+      "tag": "¿Qué había aquí?",
+      "title": "Si cada vez que abres la nevera miras dentro diez segundos, ¿cuántos días de tu vida pasarás mirando la nevera?",
+      "detail": "Veinte aperturas al día desde los 5 años hasta la esperanza de vida media en España, diez segundos cada una. La comida no aparece por mirar más.",
+      "unit": "días",
+      "answer": 66.80185763888889,
+      "math": "La esperanza de vida al nacer es de 84,01 años (INE, 2024). Desde los 5 años quedan 79,01 años × 365,25 días × 20 aperturas ≈ 577.168 aperturas. Por 10 segundos son 5.771.681 s; entre los 86.400 s de un día ≈ 66,8 días.",
+      "referenceExpression": "(84,01 − 5) × 365,25 × 20 × 10 ÷ 86.400",
+      "assumptions": "Veinte aperturas diarias y diez segundos por apertura son suposiciones del juego, no estadísticas. Contamos desde los 5 años hasta la esperanza de vida media al nacer.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -62,20 +54,12 @@
           "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-20-2.jpg",
-        "alt": "Nevera abierta llena de comida en sus baldas",
-        "credit": "Bretwa",
-        "url": "https://commons.wikimedia.org/wiki/File:Food_into_a_refrigerator_-_20111002.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
-        "heading": "Días por aperturas",
+        "heading": "Segundos que se convierten en días",
         "steps": [
-          "Si abres la nevera unas veinte veces al día, en un año son más de 7.000. En toda una vida, cientos de miles.",
-          "80 años × 7.300 aperturas al año ≈ 584.000. Ya tenemos el orden de magnitud: más de medio millón.",
-          "Con 79,01 años de nevera y 20 aperturas diarias salen 577.168 veces. Si eres de las que abren «solo a mirar», súmale lo que quieras."
+          "Diez segundos parecen nada, pero veinte veces al día durante ochenta años se acumulan. Seguro que son más de unos pocos días.",
+          "20 × 10 s = 200 s al día, unos 3 minutos. 3 minutos × 365 × 80 años ≈ 88.000 minutos, unos 60 días.",
+          "Con 79,01 años de nevera salen 66,8 días: más de dos meses de tu vida con la puerta abierta y la luz encendida."
         ]
       }
     },
@@ -100,14 +84,6 @@
           "fact": "El Intel 4004 contenía 2.300 transistores."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-20-3.jpg",
-        "alt": "Ampliación del diseño interno del chip Intel 4004, con sus pistas y transistores",
-        "credit": "Wolfgang Stief from Tittmoning, Germany",
-        "url": "https://commons.wikimedia.org/wiki/File:Intel_4004_Chip_Layout_(29983532570).jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
         "heading": "Divide transistores entre transistores",
         "steps": [

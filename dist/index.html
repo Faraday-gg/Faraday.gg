@@ -11,64 +11,69 @@
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
+  <script src="archive.js" defer></script>
   <script src="app.js" defer></script>
   <script src="community.js" defer></script>
 </head>
 <body>
-  <header class="site-header wrap">
-    <a class="brand" href="#inicio" aria-label="Faraday.gg, ir al inicio"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></a>
-    <nav class="main-nav" aria-label="Navegación principal">
-      <a href="#como-jugar">Cómo se juega</a>
-      <a href="#semana">El archivo</a>
-      <a href="#faq">Preguntas</a>
-    </nav>
-    <button class="header-cta" id="header-play" type="button">Jugar <span aria-hidden="true">↗</span></button>
-  </header>
+  <main id="inicio" class="home">
+    <section class="home-hero" aria-labelledby="hero-title">
+      <div class="home-card-top"><span class="home-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><span class="section-kicker">RETO DE HOY</span></div>
+      <h1 id="hero-title">La respuesta<br>está <em>por ahí.</em></h1>
+      <p class="home-date" id="today-date"></p>
+      <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
+      <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
+    </section>
 
-  <main id="inicio">
-    <section class="hero wrap" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <div class="eyebrow"><span class="eyebrow-line"></span> <span class="section-kicker">RETO DE HOY</span> · <span id="today-date"></span></div>
-        <h1 id="hero-title">La respuesta<br>está <em>por ahí.</em></h1>
-        <p class="hero-description">Tres preguntas al día. Sin buscar, solo intuición.</p>
-        <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
-        <div class="hero-actions">
-          <button class="button button-dark button-play" id="hero-play" type="button">Jugar el reto de hoy <span aria-hidden="true">↗</span></button>
+    <section class="home-how" id="como-jugar" aria-labelledby="how-title">
+      <h2 id="how-title" class="home-title"><mark>Cómo se juega</mark></h2>
+
+      <article class="home-step">
+        <div class="home-step-copy">
+          <h3><mark>01. Haz tu estimación</mark></h3>
+          <p>Sin buscar en internet. Solo intuición, cuentas de servilleta y una calculadora por si la necesitas.</p>
         </div>
-      </div>
-      <div class="hero-art" aria-hidden="true">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="big-question">¿<span>?</span></div>
-        <div class="art-spark spark-two">✦</div>
-      </div>
-    </section>
-
-    <div class="ticker" aria-hidden="true"><div>PIENSA · CALCULA · ADIVINA · RÍETE UN POCO · PIENSA · CALCULA · ADIVINA · RÍETE UN POCO ·</div></div>
-
-    <section class="how-section" id="como-jugar" aria-labelledby="how-title">
-      <div class="wrap">
-        <div class="section-topline"><span>01 / LAS REGLAS</span><span>FÁCIL DE EMPEZAR</span></div>
-        <h2 id="how-title" class="section-heading">Piensa en grande.<br><em>Responde en números.</em></h2>
-        <div class="steps">
-          <article class="step-card"><span class="step-num">01</span><div class="step-icon">?</div><h3>Lee la pregunta</h3><p>Una situación curiosa y una cifra escondida. Cada día hay tres retos distintos.</p></article>
-          <article class="step-card"><span class="step-num">02</span><div class="step-icon step-icon-yellow">≈</div><h3>Haz tu estimación</h3><p>Abre el bloc para calcular, apuntar ideas y revisar tus cuentas. Después confirma tu cifra.</p></article>
-          <article class="step-card"><span class="step-num">03</span><div class="step-icon step-icon-blue">×</div><h3>Mira cuánto te acercaste</h3><p>Descubre una forma de calcularlo y tu distancia respecto a la respuesta.</p></article>
+        <div class="demo demo-question" aria-hidden="true">
+          <div class="demo-head"><span>P1 / 3</span><span>Faraday.gg</span></div>
+          <p class="demo-q">¿Cuántas toallas de playa harían falta para cubrir la Plaza de España de Sevilla?</p>
+          <div class="demo-guess"><span>Tu cifra</span><small>toallas</small></div>
+          <div class="demo-actions"><span class="demo-icon">▦</span><span class="demo-btn">Confirmar ✓</span></div>
         </div>
-      </div>
+      </article>
+
+      <article class="home-step home-step-flip">
+        <div class="home-step-copy">
+          <h3><mark>02. Mira cuánto te acercaste</mark></h3>
+          <p>Te enseñamos la respuesta y tu puntuación: cuántas veces te has alejado de la cifra real. Y una forma de calcularla.</p>
+        </div>
+        <div class="demo demo-result" aria-hidden="true">
+          <div class="demo-head"><span>P1 / 3</span><span>Faraday.gg</span></div>
+          <div class="demo-verdict"><strong>1,67×</strong><span>Te quedaste corto</span></div>
+          <div class="demo-ledger"><div><small>Tu cifra</small><b>20.000</b></div><div class="real"><small>La real</small><b>33.333</b></div></div>
+          <div class="demo-bars"><i style="height:18%"></i><i style="height:34%"></i><i style="height:58%"></i><i class="you" style="height:80%"></i><i style="height:100%"></i><i style="height:86%"></i><i style="height:62%"></i><i style="height:40%"></i><i style="height:24%"></i><i style="height:12%"></i></div>
+        </div>
+      </article>
+
+      <article class="home-step">
+        <div class="home-step-copy">
+          <h3><mark>03. Compara tu día</mark></h3>
+          <p>Al terminar las tres preguntas verás tu puntuación del día y cómo quedas frente al resto de jugadores.</p>
+        </div>
+        <div class="demo demo-summary" aria-hidden="true">
+          <div class="demo-head"><span>Reto de hoy</span><span>Faraday.gg</span></div>
+          <strong class="demo-score">1,82×</strong>
+          <ul class="demo-rows"><li>Toallas en la Plaza de España <b>1,67×</b></li><li>Jamones como la Estación Espacial <b>2,10×</b></li><li>Pósits sobre La Última Cena <b>1,70×</b></li></ul>
+        </div>
+      </article>
     </section>
 
-    <section class="week-section wrap" id="semana" aria-labelledby="week-title">
-      <div class="section-topline"><span>02 / EL ARCHIVO</span><span>3 PREGUNTAS NUEVAS AL DÍA</span></div>
-      <div class="week-heading"><div><h2 id="week-title" class="section-heading">¿Te perdiste<br><em>algún día?</em></h2><p>Juega cualquier reto anterior. Tu progreso se guarda en este navegador.</p></div><div class="week-sticker" aria-hidden="true"><span id="archive-count">7</span><small>DÍAS</small></div></div>
-      <div class="week-list" id="week-list"></div>
-      <button class="button secondary-button archive-more" id="archive-more" type="button" hidden></button>
+    <section class="home-archive" id="archivo" aria-labelledby="archive-title">
+      <h2 id="archive-title" class="home-title"><mark>El archivo</mark></h2>
+      <p class="home-archive-note">Todos los retos desde el Nº 1, para jugarlos cuando quieras. Tu progreso se guarda en este navegador.</p>
+      <div id="home-archive"></div>
     </section>
-
-    <section class="closing wrap"><div class="closing-doodle" aria-hidden="true">∞</div><div><span class="closing-kicker">¿LISTO PARA EQUIVOCARTE CON ESTILO?</span><h2>A ver qué tan<br><em>cerca</em> estás.</h2></div><button class="button button-dark" id="bottom-play" type="button">Jugar ahora <span aria-hidden="true">↗</span></button></section>
-
-    <section class="faq-section wrap" id="faq" aria-labelledby="faq-title">
-      <div class="section-topline"><span>03 / PREGUNTAS FRECUENTES</span><span>LO QUE SUELE PREGUNTARSE</span></div>
-      <h2 id="faq-title" class="section-heading">¿Dudas?<br><em>Casi todas aquí.</em></h2>
+    <section class="home-faq" id="faq" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="home-title"><mark>Preguntas frecuentes</mark></h2>
       <div class="faq-list">
         <details class="faq-item"><summary>¿Qué es Faraday.gg?</summary><p>Un juego diario de estimación. Cada día hay tres preguntas cuya respuesta es una cifra: no se trata de saberla, sino de razonar hasta acercarte lo más posible.</p></details>
         <details class="faq-item"><summary>¿Puedo buscar la respuesta en internet?</summary><p>Poder, puedes, pero pierde la gracia. La idea es usar la intuición y hacer cuentas: para eso tienes el bloc de ideas con calculadora y notas dentro del juego.</p></details>
@@ -79,25 +84,31 @@
     </section>
   </main>
 
-  <footer class="footer wrap"><span class="brand footer-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><p>Tres estimaciones nuevas cada día. Las fuentes y los supuestos se revelan al responder.</p><a href="#inicio">Volver arriba ↑</a></footer>
+  <footer class="home-footer"><span class="home-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><p>Tres estimaciones nuevas cada día.</p></footer>
 
   <div class="game-shell" id="game-shell" hidden>
-    <div class="game-backdrop"></div>
     <div class="game-layout" id="game-layout" role="dialog" aria-modal="true" aria-labelledby="game-title">
       <section class="game-panel">
-        <div class="game-header">
-          <div class="game-brand"><span class="brand-mark">≈</span> Faraday.gg</div>
-          <div class="game-header-actions">
-            <button class="icon-button" id="game-close" type="button" aria-label="Cerrar juego">×</button>
-          </div>
+        <header class="game-bar">
+          <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
+          <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+          <span></span>
+        </header>
+        <div class="game-stage">
+          <article class="game-card">
+            <div class="card-head">
+              <nav class="game-steps" id="game-steps" aria-label="Preguntas del reto"></nav>
+              <span class="game-edition" id="game-edition"></span>
+            </div>
+            <div class="game-content" id="game-content"></div>
+          </article>
         </div>
-        <div class="game-content" id="game-content"></div>
       </section>
       <aside class="workspace-panel" id="workspace-panel" aria-label="Calculadora y notas" hidden>
-        <div class="workspace-head"><div><span>MI BLOC DE IDEAS</span><h2>Haz cuentas.<br><em>Apunta todo.</em></h2></div><button class="icon-button workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
+        <div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
         <div class="workspace-body">
           <section class="workspace-section" aria-labelledby="calculator-title">
-            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3><span>01 / 02</span></div>
+            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3></div>
             <label class="sr-only" for="scratch-expression">Operación matemática</label>
             <div class="scratch-display"><input id="scratch-expression" type="text" inputmode="decimal" autocomplete="off" placeholder="24 × 2 × 220"><output id="scratch-result" aria-live="polite">=</output></div>
             <div class="calc-keys" id="calc-keys" aria-label="Teclas de calculadora">
@@ -109,17 +120,28 @@
             </div>
           </section>
           <section class="workspace-section" aria-labelledby="notes-title">
-            <div class="workspace-section-head"><h3 id="notes-title">Mi nota</h3><span>02 / 02</span></div>
-            <p class="workspace-help">Escribe ideas, listas o párrafos. Pulsa Enter para cambiar de línea.</p>
+            <div class="workspace-section-head"><h3 id="notes-title">Notas</h3></div>
             <div class="note-toolbar"><button type="button" id="insert-bullet">+ Viñeta</button><button type="button" id="insert-paragraph">¶ Párrafo</button><button type="button" id="clear-note" class="clear-note">Borrar nota</button></div>
             <label class="sr-only" for="scratch-note">Nota de este día</label>
             <textarea id="scratch-note" rows="7" placeholder="Por ejemplo:&#10;24 personas × 2 cafés...&#10;¿Y si son más?"></textarea>
-            <p class="save-note">Guardado en este navegador · Nota de este día</p>
+            <p class="save-note">Se guarda en este navegador.</p>
           </section>
-          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial de cálculos</h3><button type="button" id="clear-history">Borrar historial</button></div><ol id="history-list" aria-live="polite"></ol></section>
+          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial</h3><button type="button" id="clear-history">Borrar</button></div><ol id="history-list" aria-live="polite"></ol></section>
         </div>
       </aside>
     </div>
+  </div>
+  <div class="menu-drawer" id="menu-drawer" aria-hidden="true" inert>
+    <div class="menu-scrim" data-menu-close></div>
+    <nav class="menu-panel" aria-label="Menú">
+      <div class="menu-head"><span class="home-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><button class="game-back" type="button" data-menu-close aria-label="Cerrar menú">×</button></div>
+      <div class="menu-links">
+        <button type="button" class="menu-link menu-link-today" id="menu-today"><span>Reto de hoy</span><small id="menu-today-number"></small></button>
+        <button type="button" class="menu-link" id="menu-home"><span>Volver al inicio</span><small aria-hidden="true">↩</small></button>
+      </div>
+      <h2 class="menu-title">El archivo</h2>
+      <div id="menu-archive"></div>
+    </nav>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>

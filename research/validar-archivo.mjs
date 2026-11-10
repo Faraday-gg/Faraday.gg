@@ -1,5 +1,6 @@
 // Valida jornadas del archivo antes de darlas por buenas.
 //   node research/validar-archivo.mjs 2026-08-09 2026-08-20   (rango de fechas, ambos incluidos)
+// La foto es opcional: solo la llevan las preguntas en las que ayuda a imaginar la escala (15–20 %).
 import fs from 'node:fs';
 const [from,to=from]=process.argv.slice(2);
 if(!/^\d{4}-\d{2}-\d{2}$/.test(from||''))throw Error('Uso: node research/validar-archivo.mjs DESDE [HASTA]');
@@ -26,9 +27,12 @@ for(let t=Date.parse(from+'T12:00:00Z');t<=Date.parse(to+'T12:00:00Z');t+=864000
     if(!Number.isFinite(q.answer)||q.answer<=0)p('answer debe ser un número positivo');
     if(!Array.isArray(q.sources)||!q.sources.length||!q.sources.every(s=>s.title&&s.fact&&/^https:\/\//.test(s.url)))p('fuentes incompletas (title, url https, fact)');
     if(q.reasoning?.steps?.length!==3||!q.reasoning.heading)p('reasoning necesita heading y 3 steps');
-    const img=q.image||{};
-    if(!new RegExp(`^assets/archivo-${id}-${i+1}\\.(jpg|png)$`).test(img.src||'')||!fs.existsSync('dist/'+img.src))p('falta la foto dist/assets/archivo-'+id+'-'+(i+1)+'.jpg (o .png)');
-    if(!img.alt||!img.credit||!img.license||!/^https:\/\//.test(img.url||''))p('foto sin alt, credit, license o url');
+    // La foto es opcional: solo la llevan las preguntas en las que ayuda a imaginar la escala (15–20 %).
+    const img=q.image;
+    if(img!==undefined){
+      if(!new RegExp(`^assets/archivo-${id}-${i+1}\\.(jpg|png)$`).test(img.src||'')||!fs.existsSync('dist/'+img.src))p('la foto debe ser dist/assets/archivo-'+id+'-'+(i+1)+'.jpg (o .png) y existir');
+      if(!img.alt||!img.credit||!img.license||!/^https:\/\//.test(img.url||''))p('foto sin alt, credit, license o url');
+    }
   });
 }
 if(errors.length){console.log(errors.join('\n'));process.exitCode=1}else console.log(`OK: ${count} preguntas válidas entre ${from} y ${to}.`);

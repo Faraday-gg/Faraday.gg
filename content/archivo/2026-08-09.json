@@ -47,35 +47,32 @@
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
       "tag": "Peso pesado del mar",
-      "title": "¿Cuántos coches utilitarios pesarían lo mismo que una ballena azul adulta?",
-      "detail": "Compara la ballena azul más grande documentada con utilitarios de 1.200 kg. No hace falta subirla a la báscula del taller.",
-      "unit": "coches",
-      "answer": 124.73790174999999,
-      "math": "NOAA indica que la ballena azul alcanza hasta 330.000 libras. 330.000 × 0,4536 kg ≈ 149.685 kg. Entre 1.200 kg por coche: unos 125 utilitarios.",
-      "referenceExpression": "330000 × 0,45359237 ÷ 1200",
-      "assumptions": "Tomamos el peso máximo citado por NOAA, propio de las ballenas azules antárticas más grandes. Las del Atlántico Norte y el Pacífico Norte son más ligeras, y el utilitario de 1.200 kg es un valor redondo.",
+      "title": "¿Cuántos hipopótamos pesarían lo mismo que una ballena azul adulta?",
+      "detail": "Pon en un platillo de la balanza la ballena azul más grande documentada y en el otro, hipopótamos adultos de peso medio. Que nadie le diga al hipopótamo que es el ligero del combate.",
+      "unit": "hipopótamos",
+      "answer": 101.13883925675675,
+      "math": "NOAA indica que la ballena azul llega a 330.000 libras: 330.000 × 0,4536 ≈ 149.685 kg. Un hipopótamo macho adulto pesa de media 1.480 kg: 149.685 ÷ 1.480 ≈ 101 hipopótamos.",
+      "referenceExpression": "330000 × 0,45359237 ÷ 1480",
+      "assumptions": "Tomamos el peso máximo de la ballena azul (las antárticas más grandes) y el peso medio de un hipopótamo macho. Con hembras, de 1.365 kg de media, harían falta unas 110; con una ballena azul más pequeña, bastante menos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "NOAA Fisheries · Blue Whale",
           "url": "https://www.fisheries.noaa.gov/species/blue-whale",
-          "fact": "Peso de hasta 330.000 libras y longitud de hasta 110 pies (las más grandes, en el Antártico)."
+          "fact": "Peso de hasta 330.000 libras y longitud de hasta 110 pies."
+        },
+        {
+          "title": "Wikipedia · Hippopotamus",
+          "url": "https://en.wikipedia.org/wiki/Hippopotamus",
+          "fact": "El peso medio de un adulto ronda las 1,48 t en los machos y 1,365 t en las hembras."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-09-2.jpg",
-        "alt": "Ballena azul nadando en superficie, con el lomo alargado asomando sobre el agua",
-        "credit": "NOAA Fisheries (TBjornstad 11:17, 18 April 2007 (UTC))",
-        "url": "https://commons.wikimedia.org/wiki/File:Blue_Whale_001_body_bw.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Blue_Whale_001_body_bw.jpg"
-      },
       "reasoning": {
-        "heading": "Pasa la ballena a toneladas",
+        "heading": "Dos gigantes en la misma báscula",
         "steps": [
-          "Una ballena azul mide como dos autobuses en fila. Si pesara unas 100 toneladas, cabrían unos 80 coches de 1.200 kg.",
-          "El récord suele rondar las 150 toneladas. 150.000 kg entre 1.200 kg dan 125: un aparcamiento mediano lleno.",
-          "NOAA da hasta 330.000 libras, unos 149.685 kg, que equivalen a 124,7 utilitarios. Es el máximo: una ballena azul del Atlántico Norte se quedaría bastante por debajo."
+          "Un hipopótamo pesa como un coche grande, más o menos una tonelada y media. Una ballena azul ronda las 100-150 toneladas: hablamos de unos cien hipopótamos.",
+          "150.000 kg entre 1.500 kg por hipopótamo dan exactamente 100. El orden de magnitud está claro: un rebaño de tres cifras.",
+          "Con los datos reales, 149.685 kg de ballena entre 1.480 kg de hipopótamo dan 101,1. Un hipopótamo es una bestia de 1,5 toneladas y aun así hace falta un centenar para igualar a la ballena."
         ]
       }
     },
@@ -100,14 +97,6 @@
           "fact": "La tabla de la variante de Valcarlos sitúa San Juan Pie de Puerto a 785 km de Santiago; desde Roncesvalles, 764 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-09-3.jpg",
-        "alt": "Sendero del Camino Francés entre árboles en Galicia, con la pista de tierra que siguen los peregrinos",
-        "credit": "Simon Burchell",
-        "url": "https://commons.wikimedia.org/wiki/File:Camino_Franc%C3%A9s,_Boente_03.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Primero kilómetros, luego pasos",
         "steps": [

@@ -34,14 +34,6 @@
           "fact": "50 × 25 m con 2 m de profundidad mínima: 2.500 m³ (2,5 millones de litros) de volumen nominal."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-15-1.jpg",
-        "alt": "Esclusas de Miraflores del canal de Panamá con un barco dentro de una de las cámaras",
-        "credit": "User:Stan Shebs",
-        "url": "https://commons.wikimedia.org/wiki/File:Panama_Canal_Miraflores_Locks.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Agua por barco por barcos al día",
         "steps": [
@@ -56,14 +48,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Doce campanadas",
-      "title": "¿Cuántos kilos de uvas se comen en España en Nochevieja si cada persona toma sus doce?",
-      "detail": "Todo el país masticando a la vez frente al reloj de la Puerta del Sol. Cuenta a toda la población residente, bebés incluidos, con 12 uvas de 6 gramos cada una.",
-      "unit": "kg",
-      "answer": 3570939.072,
-      "math": "España tenía 49.596.376 residentes a 1 de enero de 2026. Doce uvas de 6 g son 72 g por persona: 49.596.376 × 0,072 = 3.570.939 kg.",
-      "referenceExpression": "49596376 × 12 × 6 ÷ 1000",
-      "assumptions": "Todos los residentes se comen sus doce uvas y cada uva pesa 6 g. Ni bebés que pasan ni quien se atraganta en la séptima.",
+      "tag": "Uvas en camión",
+      "title": "¿Cuántos camiones de 20 toneladas harían falta para llevar las uvas que se comen en España en Nochevieja?",
+      "detail": "Todo el país masticando a la vez frente al reloj de la Puerta del Sol. Cuenta a toda la población residente, bebés incluidos, con 12 uvas de 6 gramos cada una, y camiones cargados con 20 toneladas.",
+      "unit": "camiones",
+      "answer": 178.546954,
+      "math": "España tenía 49.596.376 residentes a 1 de enero de 2026. Doce uvas de 6 g son 72 g por persona: 49.596.376 × 0,072 = 3.570.939 kg. Entre 20.000 kg por camión: 178,5 camiones.",
+      "referenceExpression": "49596376 × 12 × 6 ÷ 1000 ÷ 20000",
+      "assumptions": "Todos los residentes comen sus doce uvas. Uva media de 6 g y camiones cargados con 20 toneladas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -72,20 +64,12 @@
           "fact": "Población residente en España a 1 de enero de 2026: 49.596.376 personas (dato provisional)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-15-2.jpg",
-        "alt": "Reloj de la Casa de Correos en la Puerta del Sol de Madrid",
-        "credit": "Albeins",
-        "url": "https://commons.wikimedia.org/wiki/File:Reloj_de_la_Puerta_del_Sol.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Una persona, doce uvas, cincuenta millones de veces",
+        "heading": "Uvas por persona, personas por país",
         "steps": [
-          "Doce uvas pesan poco: unos 70 gramos, lo que cabe en una mano. La gracia está en multiplicarlo por todo el país.",
-          "Con unos 50 millones de personas, 50.000.000 × 0,07 kg dan unos 3,5 millones de kilos. Hablamos de miles de toneladas.",
-          "Con 49.596.376 residentes y 72 g por persona salen 3.570.939 kg, unas 3.571 toneladas. Si las uvas pesan 5 g en vez de 6, la cifra baja casi un 17%."
+          "Doce uvas pesan poco, unos 70 gramos. Pero somos casi 50 millones.",
+          "50 millones × 70 g son unos 3,5 millones de kilos: 3.500 toneladas. Entre 20 t por camión, unos 175 camiones.",
+          "Con la población exacta salen 3.571 toneladas y 178,5 camiones, así que harían falta 179. Todo para comérselo en doce segundos."
         ]
       }
     },
@@ -115,14 +99,6 @@
           "fact": "50 × 25 m con 2 m de profundidad mínima: 2.500 m³ (2,5 millones de litros) de volumen nominal."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-15-3.jpg",
-        "alt": "Cataratas Horseshoe del Niágara vistas desde el lado canadiense, con la nube de espuma al pie",
-        "credit": "Gzzz",
-        "url": "https://commons.wikimedia.org/wiki/File:Horseshoe_Falls_-_Niagara_Falls_Canada.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Convierte el caudal a minutos",
         "steps": [

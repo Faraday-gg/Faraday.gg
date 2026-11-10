@@ -24,14 +24,6 @@
           "fact": "En 2017 se consumieron 34.000 kg de fresas; individuales con 128 jugadores y dobles con 64 parejas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-28-1.jpg",
-        "alt": "Ración de fresas con nata en Wimbledon",
-        "credit": "Micolo J from Shrewsbury, England",
-        "url": "https://commons.wikimedia.org/wiki/File:Strawberries_and_cream_Wimbledon_2014.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
         "heading": "Fresas totales entre partidos",
         "steps": [
@@ -46,46 +38,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Cuadro carísimo",
-      "title": "¿Cuántos años de salario mínimo español costó el Salvator Mundi?",
-      "detail": "Precio de la subasta pasado a euros con el cambio de ese día y comparado con el SMI de 2026 en 14 pagas. Sin gastar un euro en nada más.",
+      "tag": "Pizza de museo",
+      "title": "Con lo que costó el Salvator Mundi, ¿cuántos años podrías comer una pizza al día?",
+      "detail": "El cuadro más caro jamás subastado, cambiado por pizzas grandes de queso, una al día. Usa el precio medio de una pizza grande de queso en Estados Unidos. Leonardo era de Vinci, no de Nápoles, pero seguro que lo entendería.",
       "unit": "años",
-      "answer": 22249.415197050334,
-      "math": "Se vendió por 450.312.500 $ el 15 de noviembre de 2017 (Wikipedia). Con el cambio del BCE de ese día, 1 € = 1,1840 $ (BOE), son 380.331.503 €. El SMI de 2026 suma 17.094 € al año (BOE). 380.331.503 ÷ 17.094 ≈ 22.249 años.",
-      "referenceExpression": "450312500 ÷ 1,1840 ÷ 17094",
-      "assumptions": "Mezclamos un precio de 2017 con un salario de 2026, sin ajustar por inflación. Con el SMI de 2017 la cifra sería mucho mayor.",
-      "confidence": "Dato documentado + conversión",
+      "answer": 63748.10923373445,
+      "math": "El Salvator Mundi se vendió en 2017 por 450.312.500 $, comisiones incluidas. Una pizza grande de queso costaba de media 19,34 $ en EE. UU. 450.312.500 ÷ 19,34 ≈ 23,3 millones de pizzas. ÷ 365,25 ≈ 63.748 años.",
+      "referenceExpression": "450312500 ÷ 19,34 ÷ 365,25",
+      "assumptions": "Precio medio de una pizza grande de queso en EE. UU. según el estudio de Clever Real Estate publicado en febrero de 2024, sin inflación futura ni propinas. Una pizza diaria, todos los días.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Wikipedia · Salvator Mundi (Leonardo)",
-          "url": "https://es.wikipedia.org/wiki/Salvator_Mundi_(Leonardo)",
-          "fact": "Vendido en Christie's Nueva York el 15 de noviembre de 2017 por 450.312.500 dólares, comisión incluida."
+          "url": "https://en.wikipedia.org/wiki/Salvator_Mundi_(Leonardo)",
+          "fact": "Vendido en Christie's en 2017 por 400 millones de dólares más 50.312.500 en comisiones: unos 450,3 millones."
         },
         {
-          "title": "BOE · Cambios del euro del 15 de noviembre de 2017",
-          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2017-13210",
-          "fact": "1 euro = 1,1840 dólares USA."
-        },
-        {
-          "title": "BOE · Real Decreto 126/2026, salario mínimo interprofesional",
-          "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-3815",
-          "fact": "SMI de 1.221 euros al mes y cuantía anual no inferior a 17.094 euros."
+          "title": "CNBC en NBC Miami · New York City has the nation's most expensive pizza (17/2/2024)",
+          "url": "https://www.nbcmiami.com/news/business/money-report/new-york-city-has-the-nations-most-expensive-pizza-heres-how-your-city-stacks-up/3236688/?amp=1",
+          "fact": "El precio medio de una pizza grande de queso en EE. UU. es de 19,34 $, un 4 % más que el año anterior (Clever Real Estate)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-28-2.jpg",
-        "alt": "El Salvator Mundi atribuido a Leonardo da Vinci: Cristo con una esfera de cristal en la mano",
-        "credit": "Leonardo da Vinci",
-        "url": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci,_Salvator_Mundi,_c.1500,_oil_on_walnut,_45.4_%C3%97_65.6_cm.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Leonardo_da_Vinci,_Salvator_Mundi,_c.1500,_oil_on_walnut,_45.4_%C3%97_65.6_cm.jpg"
-      },
       "reasoning": {
-        "heading": "Dólares a euros, euros a años de sueldo",
+        "heading": "Precio del cuadro entre pizzas al año",
         "steps": [
-          "El cuadro más caro jamás subastado. Con un sueldo normal, ¿siglos? ¿Milenios?",
-          "450 millones de dólares son unos 380 millones de euros. Un año de SMI ronda los 17.000 €: más de 20.000 años.",
-          "Salen 22.249 años de salario mínimo: habría que empezar a ahorrar antes de que se pintaran los bisontes de Altamira."
+          "El cuadro costó unos 450 millones de dólares. Una pizza grande ronda los 20 $.",
+          "450 millones entre 20 son 22,5 millones de pizzas. A 365 al año, unos 60.000 años: desde antes de que el ser humano llegara a Europa.",
+          "Con 19,34 $ por pizza salen 63.748 años. Con pizzas de Nueva York, las más caras del país, serían bastantes menos."
         ]
       }
     },
@@ -110,14 +89,6 @@
           "fact": "Profundidad media: 1 milla (1,6 km)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-28-3.jpg",
-        "alt": "Vista del Gran Cañón desde el borde sur con sus capas de roca rojiza",
-        "credit": "Dietmar Rabich",
-        "url": "https://commons.wikimedia.org/wiki/File:Grand_Canyon_(Arizona,_USA),_South_Rim_nahe_Tusayan_--_2012_--_6042.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Desnivel total entre desnivel por hora",
         "steps": [

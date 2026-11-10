@@ -46,14 +46,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "El rayo en la Castellana",
-      "title": "A la velocidad media de su récord de 100 m, ¿cuántos minutos tardaría Usain Bolt en recorrer el paseo de la Castellana?",
-      "detail": "Bolt mantiene la velocidad media de su récord durante todo el paseo, sin semáforos ni turistas. Una ficción deportiva con la Castellana cortada.",
-      "unit": "minutos",
-      "answer": 10.059,
-      "math": "Récord mundial: 100 m en 9,58 s (Berlín, 2009), una media de 10,44 m/s. La Castellana mide 6,3 km: 6.300 ÷ 10,44 ≈ 603,5 s ≈ 10,06 minutos.",
-      "referenceExpression": "6300 ÷ (100 ÷ 9,58) ÷ 60",
-      "assumptions": "Mantenemos la velocidad media del récord, incluida la salida, durante 6,3 km. Ningún humano aguanta esa velocidad más de unos segundos.",
+      "tag": "Paseo relámpago",
+      "title": "A la velocidad media de su récord de 100 m, ¿cuántos segundos tardaría Usain Bolt en recorrer La Rambla de Barcelona?",
+      "detail": "Bolt corre toda La Rambla, de la plaza de Catalunya al monumento a Colón, a la velocidad media de su récord de 100 m. Sin estatuas humanas, sin terrazas y sin pararse a por un helado.",
+      "unit": "segundos",
+      "answer": 114.96,
+      "math": "Récord mundial: 100 m en 9,58 s (Berlín, 2009), una media de 10,44 m/s. La Rambla mide 1,2 km: 1.200 ÷ 10,44 ≈ 115 s.",
+      "referenceExpression": "1200 ÷ (100 ÷ 9,58)",
+      "assumptions": "Mantiene la velocidad media del récord, incluida la salida, durante 1,2 km. Ningún humano aguanta ese ritmo más allá de unos 200 m.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -62,25 +62,17 @@
           "fact": "Usain Bolt tiene el récord mundial de 100 m con 9,58 s (Estadio Olímpico de Berlín, 16 de agosto de 2009)."
         },
         {
-          "title": "Wikipedia · Paseo de la Castellana",
-          "url": "https://es.wikipedia.org/wiki/Paseo_de_la_Castellana",
-          "fact": "El paseo mide 6,3 km."
+          "title": "Wikipedia · La Rambla, Barcelona",
+          "url": "https://en.wikipedia.org/wiki/La_Rambla,_Barcelona",
+          "fact": "La Rambla mide 1,2 km y une la plaza de Catalunya con el monumento a Colón."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-31-2.jpg",
-        "alt": "Usain Bolt haciendo su gesto del rayo",
-        "credit": "Brunel University",
-        "url": "https://commons.wikimedia.org/wiki/File:Usain_Bolt_Lightning_pose.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Velocidad de récord, distancia de avenida",
+        "heading": "Doce récords de 100 m seguidos",
         "steps": [
-          "Bolt va a algo más de 10 metros por segundo. La Castellana mide unos 6 km.",
-          "6.000 metros a 10 m/s son 600 segundos: unos 10 minutos.",
-          "Con 9,58 s en 100 m y 6,3 km salen 10,06 minutos. En la vida real, un buen maratoniano tarda unos 18 minutos en esa distancia."
+          "Bolt corre 100 m en menos de 10 s. La Rambla es un paseo de algo más de un kilómetro.",
+          "1.200 m son 12 tramos de 100 m: unos 12 × 10 = 120 s, un par de minutos.",
+          "A 10,44 m/s tarda 115 s: menos de lo que tardas tú en pedir una horchata."
         ]
       }
     },
@@ -89,14 +81,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Prisa ninguna",
-      "title": "¿Cuántos días tardaría una tortuga gigante de Galápagos en recorrer el Camí de Cavalls de Menorca?",
-      "detail": "Vuelta completa a Menorca por el antiguo camino de ronda, a 0,3 km/h y 8 horas de marcha al día. El resto, siesta y lechuga.",
+      "tag": "Maratón sin prisa",
+      "title": "¿Cuántos días tardaría una tortuga gigante de Galápagos en terminar un maratón?",
+      "detail": "La tortuga corre un maratón a 0,3 km/h sin parar ni de día ni de noche. Ni avituallamientos ni siestas: solo determinación y caparazón.",
       "unit": "días",
-      "answer": 77.08333333333334,
-      "math": "El Camí de Cavalls mide 185 km. A 0,3 km/h durante 8 horas, la tortuga avanza 2,4 km al día: 185 ÷ 2,4 ≈ 77,1 días.",
-      "referenceExpression": "185 ÷ (0,3 × 8)",
-      "assumptions": "Velocidad constante de 0,3 km/h y 8 horas de marcha diarias, sin cuestas ni desvíos. En libertad, las tortugas caminan mucho menos al día.",
+      "answer": 5.860417,
+      "math": "Un maratón mide 42,195 km. A 0,3 km/h: 42,195 ÷ 0,3 ≈ 140,7 horas. 140,7 ÷ 24 ≈ 5,86 días.",
+      "referenceExpression": "42,195 ÷ 0,3 ÷ 24",
+      "assumptions": "Velocidad constante de 0,3 km/h, observada en tortugas caminando, durante 24 horas al día. En libertad descansan muchas horas y apenas recorren unos cientos de metros diarios.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -105,25 +97,17 @@
           "fact": "Se las ha observado caminar a 0,3 km/h."
         },
         {
-          "title": "Wikipedia · Camí de Cavalls",
-          "url": "https://es.wikipedia.org/wiki/Cam%C3%AD_de_Cavalls",
-          "fact": "El Camí de Cavalls tiene una longitud de 185 km dividida en 20 etapas."
+          "title": "Wikipedia · Marathon",
+          "url": "https://en.wikipedia.org/wiki/Marathon",
+          "fact": "La distancia oficial del maratón es de 42,195 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-31-3.jpg",
-        "alt": "Tortuga gigante de Galápagos caminando por la hierba en la isla de Santa Cruz",
-        "credit": "Charles J. Sharp",
-        "url": "https://commons.wikimedia.org/wiki/File:Gal%C3%A1pagos_tortoise_(Chelonoidis_nigra)_Santa_Cruz.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Despacito y con horario",
+        "heading": "Paso de tortuga, reloj de maratón",
         "steps": [
-          "Una tortuga gigante camina mucho más despacio que una persona: unos pocos cientos de metros por hora. Dar la vuelta a Menorca es casi 200 km.",
-          "A 0,3 km/h y 8 horas al día recorre unos 2,4 km diarios. 200 km entre 2,4 dan unos 80 días.",
-          "Con los 185 km del camino salen 77,1 días: casi tres meses. Una persona andando hace el camino en unas 20 etapas."
+          "Una tortuga gigante camina mucho más despacio que una persona: unos pocos cientos de metros por hora.",
+          "A 0,3 km/h necesita unas 140 horas para 42 km. Un día tiene 24 horas: unos 6 días.",
+          "Salen 5,86 días sin dormir. Un corredor popular acaba en unas 4 horas: la tortuga llega casi una semana después de que hayan desmontado la meta."
         ]
       }
     }

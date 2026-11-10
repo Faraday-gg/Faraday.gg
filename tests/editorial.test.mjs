@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {getDay,madridDate} from '../content-engine.mjs';
-const baseline=JSON.parse(fs.readFileSync('dist/questions.json','utf8')).flatMap(d=>d.questions);
+const baseline=JSON.parse(fs.readFileSync('content/banco-base.json','utf8'));
 assert.equal(baseline.length,21);assert(baseline.every(q=>q.image&&fs.existsSync('dist/'+q.image.src)&&q.reasoning?.steps.length===3&&q.referenceExpression));
 const ids=new Set(),titles=new Set();
 for(let i=0;i<29;i++){
@@ -32,10 +32,13 @@ console.log('OK: 21 fotos y razonamientos; 29 ediciones nuevas, 87 preguntas dis
       assert(q.title&&q.unit&&q.tag&&q.math&&q.assumptions&&q.confidence&&q.referenceExpression,`${q.id}: campos editoriales`);
       assert(q.sources.length&&q.sources.every(s=>/^https:\/\//.test(s.url)&&s.title&&s.fact),`${q.id}: fuentes con enlace`);
       assert.equal(q.reasoning?.steps?.length,3,`${q.id}: razonamiento en tres pasos`);
-      assert(q.image&&fs.existsSync('dist/'+q.image.src)&&q.image.alt&&q.image.credit&&q.image.license&&/^https:\/\//.test(q.image.url),`${q.id}: foto con atribución`);
+      if(q.image)assert(fs.existsSync('dist/'+q.image.src)&&q.image.alt&&q.image.credit&&q.image.license&&/^https:\/\//.test(q.image.url),`${q.id}: foto con atribución`);
     }
   }
+  // Solo llevan foto las preguntas en las que ayuda a imaginar la escala.
+  const all=editorialDays.flatMap(d=>d.questions),photos=all.filter(q=>q.image).length/all.length;
+  assert(photos>=.15&&photos<=.20,`Entre el 15 y el 20 % de las preguntas escritas a mano llevan foto (ahora, ${Math.round(photos*100)} %)`);
   for(const day of archive){assert(day.id<'2026-11-09',`${day.id}: el archivo va antes del piloto`);assert(fs.existsSync(`content/archivo/${day.id}.json`))}
   for(let i=1;i<editorialDays.length;i++)assert.equal(Date.parse(editorialDays[i].id)-Date.parse(editorialDays[i-1].id),86400000,'Jornadas editoriales consecutivas');
-  console.log(`OK: ${editorialDays.length} jornadas editoriales desde ${FIRST_DAY} (${archive.length} de archivo), con categoría válida y foto.`);
+  console.log(`OK: ${editorialDays.length} jornadas editoriales desde ${FIRST_DAY} (${archive.length} de archivo), con categoría válida; ${Math.round(photos*100)} % con foto.`);
 }

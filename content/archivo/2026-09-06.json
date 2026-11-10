@@ -1,44 +1,36 @@
 {
   "id": "2026-09-06",
   "name": "Domingo",
-  "theme": "Angliru, Salto Ángel y órbita",
+  "theme": "Kilimanjaro, Salto Ángel y Clásico",
   "questions": [
     {
       "id": "archivo-2026-09-06-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Subida por escalera",
-      "title": "¿Cuántos escalones de 17 cm tendría una escalera que salvara el desnivel del Angliru?",
-      "detail": "Cambiamos la carretera por una escalera recta con escalones de 17 cm. Los ciclistas no lo agradecerían; las piernas, tampoco.",
+      "tag": "Escalera al cielo",
+      "title": "¿Cuántos escalones de 17 cm tendría una escalera desde el mar hasta la cima del Kilimanjaro?",
+      "detail": "Una escalera recta desde el nivel del mar hasta la cima del Kilimanjaro, con escalones de 17 cm. Los porteadores agradecerían un ascensor.",
       "unit": "escalones",
-      "answer": 7447.058823529411,
-      "math": "La subida salva 1.266 m de desnivel. 1.266 ÷ 0,17 ≈ 7.447 escalones.",
-      "referenceExpression": "1266 ÷ 0,17",
-      "assumptions": "Escalones idénticos de 17 cm; solo cuenta el desnivel, no los 12,5 km de recorrido.",
+      "answer": 34676.470588,
+      "math": "El pico Uhuru, la cima del Kilimanjaro, está a 5.895 m. 5.895 ÷ 0,17 ≈ 34.676 escalones.",
+      "referenceExpression": "5895 ÷ 0,17",
+      "assumptions": "Escalones idénticos de 17 cm desde el nivel del mar; solo cuenta la altitud, no el recorrido. Mediciones posteriores dan entre 5.892 y 5.902 m.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Alto de l'Angliru",
-          "url": "https://en.wikipedia.org/wiki/Alto_de_l%27Angliru",
-          "fact": "La subida mide 12,5 km con un 10,13 % de media y un desnivel de 1.266 m; la cima está a 1.573 m."
+          "title": "Wikipedia · Mount Kilimanjaro",
+          "url": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
+          "fact": "El Servicio de Parques Nacionales de Tanzania y la UNESCO dan para el pico Uhuru una altura de 5.895 m."
         }
       ],
       "reasoning": {
-        "heading": "Divide el desnivel entre la altura del escalón",
+        "heading": "Altura entre escalón",
         "steps": [
-          "El Angliru sube algo más de 1.200 metros. Un escalón normal tiene unos 17 cm: seis escalones por metro.",
-          "1.200 m × 6 escalones dan unos 7.000 escalones.",
-          "Con los 1.266 m de desnivel salen 7.447 escalones. Para comparar: unos 40 rascacielos de escaleras seguidos, con rampas del 23 % de regalo."
+          "El Kilimanjaro, el techo de África, roza los 6.000 m. Un escalón mide un palmo escaso.",
+          "Unos 6.000 m entre 0,17 m son unos 35.000 escalones.",
+          "Salen 34.676 escalones: a 100 escalones al día, tardarías casi un año en coronar."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-06-1.jpg",
-        "alt": "El Angliru visto desde el Monsacro, con la sierra del Aramo en el horizonte",
-        "credit": "Wikimedia Commons",
-        "url": "https://commons.wikimedia.org/wiki/File:El_angliru_desde_el_Monsacro.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
       }
     },
     {
@@ -46,30 +38,27 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Caída libre",
-      "title": "Sin rozamiento del aire, ¿cuántos segundos tardaría una gota en caer el gran salto del Salto Ángel?",
-      "detail": "La gota cae por el tramo vertical ininterrumpido de la cascada, sin aire que la frene. En la vida real se pulveriza en niebla mucho antes.",
-      "unit": "segundos",
-      "answer": 12.833311246557546,
-      "math": "El salto vertical ininterrumpido mide 807 m. En caída libre, t = √(2h/g) = √(2 × 807 ÷ 9,8) ≈ 12,8 s.",
-      "referenceExpression": "√(2 × 807 ÷ 9,8)",
-      "assumptions": "Caída libre con g = 9,8 m/s² y sin aire. Solo el salto principal de 807 m; la cascada completa mide 979 m con rápidos incluidos.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Caída de récord",
+      "title": "¿Cuántas Estatuas de la Libertad apiladas harían falta para igualar la caída del Salto Ángel?",
+      "detail": "Apilamos Estatuas de la Libertad, con pedestal y antorcha incluidos (93 m cada una), hasta igualar la caída total del Salto Ángel. La antorcha de la última, mojada.",
+      "unit": "estatuas",
+      "answer": 10.528014,
+      "math": "El Salto Ángel tiene 979 m de altura total. La Estatua de la Libertad mide 92,99 m del suelo a la antorcha. 979 ÷ 92,99 ≈ 10,5 estatuas.",
+      "referenceExpression": "979 ÷ 92,99",
+      "assumptions": "Altura total de la cascada, con rápidos incluidos; la caída ininterrumpida mide 807 m (8,7 estatuas). La estatua cuenta con su pedestal.",
+      "confidence": "Dato documentado",
       "sources": [
         {
           "title": "Wikipedia · Angel Falls",
           "url": "https://en.wikipedia.org/wiki/Angel_Falls",
           "fact": "El Salto Ángel tiene 979 m de altura total, con una caída ininterrumpida de 807 m."
+        },
+        {
+          "title": "National Park Service · Statue of Liberty statistics",
+          "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm",
+          "fact": "Del suelo a la punta de la antorcha mide 305 pies y 1 pulgada (92,99 m)."
         }
       ],
-      "reasoning": {
-        "heading": "Usa la fórmula de caída libre",
-        "steps": [
-          "Desde casi un kilómetro de altura, la intuición dice que la gota tarda bastante: quizá medio minuto.",
-          "En caída libre, en 10 s se recorren 490 m; en 13 s, unos 830 m. Así que la respuesta está cerca de 13 s.",
-          "Con 807 m salen 12,8 s. Con aire de verdad la gota alcanzaría pronto su velocidad límite y tardaría varios minutos, si no se evapora antes."
-        ]
-      },
       "image": {
         "src": "assets/archivo-2026-09-06-2.jpg",
         "alt": "El Salto Ángel cayendo desde la meseta del Auyantepui en Canaima, Venezuela",
@@ -77,6 +66,14 @@
         "url": "https://commons.wikimedia.org/wiki/File:Salto_del_Angel-Canaima-Venezuela03.JPG",
         "license": "CC BY 3.0",
         "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Una estatua de 93 m como regla",
+        "steps": [
+          "El Salto Ángel es la cascada más alta del mundo: casi un kilómetro de caída. La Estatua de la Libertad, con pedestal, ronda los 90 m.",
+          "1.000 m entre unos 90 m da algo más de 10 estatuas.",
+          "Salen 10,5 Estatuas de la Libertad. Y la cascada no necesita antorcha: ya brilla sola."
+        ]
       }
     },
     {
@@ -84,15 +81,15 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Viaje en el sofá",
-      "title": "¿Cuántos kilómetros recorre la Tierra alrededor del Sol mientras ves un partido de fútbol de 90 minutos?",
-      "detail": "Noventa minutos justos, sin descuento ni prórroga. Tú no te mueves del sofá, pero el planeta sí.",
+      "tag": "Clásico orbital",
+      "title": "¿Cuántos kilómetros recorre la Tierra alrededor del Sol mientras dura un Clásico entre el Real Madrid y el Barça?",
+      "detail": "Noventa minutos de Clásico entre el Real Madrid y el Barça, sin descuento ni descanso. Tú no te mueves del sofá, pero la Tierra sigue a lo suyo alrededor del Sol.",
       "unit": "km",
       "answer": 160812,
       "math": "La velocidad orbital media de la Tierra es de 29,78 km/s. 90 minutos son 5.400 s. 29,78 × 5.400 = 160.812 km.",
       "referenceExpression": "29,78 × 90 × 60",
-      "assumptions": "Velocidad orbital media constante. La Tierra va algo más rápido en enero y algo más despacio en julio.",
-      "confidence": "Dato documentado",
+      "assumptions": "Velocidad orbital media constante y 90 minutos justos. La Tierra va algo más rápido en enero y algo más despacio en julio; con descanso y descuento, el viaje se alarga.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "NASA · Earth Fact Sheet",
@@ -101,20 +98,12 @@
         }
       ],
       "reasoning": {
-        "heading": "Empieza por los kilómetros por segundo",
+        "heading": "Velocidad orbital por noventa minutos",
         "steps": [
-          "La Tierra viaja a unos 30 km/s alrededor del Sol: muchísimo más rápido que cualquier balón.",
-          "90 minutos son 5.400 segundos. 30 × 5.400 = 162.000 km, unas cuatro vueltas a la Tierra.",
-          "Con 29,78 km/s salen 160.812 km. Un partido con siete minutos de descuento sumaría otros 12.500 km."
+          "La Tierra viaja alrededor del Sol a unos 30 km por segundo, aunque no lo notes ni en un penalti.",
+          "90 minutos son 5.400 s. 30 km/s × 5.400 s son unos 160.000 km.",
+          "Salen 160.812 km: cuatro vueltas a la Tierra mientras discutes si era fuera de juego."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-06-3.jpg",
-        "alt": "La Tierra completa fotografiada desde el espacio, la «canica azul» del Apolo 17",
-        "credit": "NASA · tripulación del Apolo 17",
-        "url": "https://commons.wikimedia.org/wiki/File:The_Blue_Marble.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:The_Blue_Marble.jpg"
       }
     }
   ]

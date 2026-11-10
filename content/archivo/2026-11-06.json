@@ -1,43 +1,35 @@
 {
   "id": "2026-11-06",
   "name": "Viernes",
-  "theme": "Telégrafo, Vía de la Plata y Burj",
+  "theme": "Correos, legión y Burj",
   "questions": [
     {
       "id": "archivo-2026-11-06-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "WhatsApp de 1850",
-      "title": "Si cada torre tardaba un minuto en repetir la señal, ¿cuántos minutos tardaba un mensaje del telégrafo óptico de Madrid a Irún?",
-      "detail": "Un mensaje viaja de torre en torre por la línea de Castilla de Mathé, y cada torrero tarda un minuto en copiarlo y repetirlo. Día despejado, sin niebla y con todos los torreros despiertos.",
-      "unit": "minutos",
-      "answer": 52,
-      "math": "La primera línea de Mathé, de Madrid a Irún, contaba con 52 torres. A un minuto por torre: 52 × 1 = 52 minutos.",
-      "referenceExpression": "52 × 1",
-      "assumptions": "Contamos un minuto por cada una de las 52 torres, incluida la de salida. En la práctica los mensajes tardaban mucho más por la niebla, las esperas y los mensajes largos.",
-      "confidence": "Dato histórico + modelo",
+      "tag": "Bandeja de entrada",
+      "title": "¿Cuántos correos electrónicos se envían en el mundo cada segundo?",
+      "detail": "Cuenta todos los correos enviados y recibidos en el mundo en un día de 2024, spam y boletines incluidos, y repártelos por igual entre sus 86.400 segundos.",
+      "unit": "correos/s",
+      "answer": 4185185.185185185,
+      "math": "The Radicati Group estima 361.600 millones de correos enviados y recibidos al día en 2024. 361.600.000.000 ÷ 86.400 s ≈ 4,19 millones de correos por segundo.",
+      "referenceExpression": "361600000000 ÷ 86400",
+      "assumptions": "Es la estimación de una consultora, no un recuento. El tráfico real se concentra en horario laboral, así que en algunos segundos se envían bastantes más.",
+      "confidence": "Estimación publicada + cálculo",
       "sources": [
         {
-          "title": "Wikipedia · Telégrafo óptico",
-          "url": "https://es.wikipedia.org/wiki/Telégrafo_óptico",
-          "fact": "La primera línea de Mathé, Madrid-Irún, empezó a funcionar el 2 de octubre de 1846 y contaba con 52 torres; un mensaje tardaba unas seis horas en hacer el trayecto."
+          "title": "Drag · Email statistics (cita a The Radicati Group, Email Statistics Report 2024-2028)",
+          "url": "https://www.dragapp.com/blog/email-statistics/",
+          "fact": "Radicati contabiliza 361.600 millones de correos enviados y recibidos al día en 2024 y prevé 424.200 millones en 2028."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-06-1.jpg",
-        "alt": "Torre de telegrafía óptica de Torrelodones, un edificio cuadrado de piedra sobre un cerro con matorral",
-        "credit": "Esetena",
-        "url": "https://commons.wikimedia.org/wiki/File:Telegrafo_optico_de_Torrelodones.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Cuenta torres, no kilómetros",
+        "heading": "De correos al día a correos por segundo",
         "steps": [
-          "De Madrid a Irún hay unos 450-500 km por carretera. Si las torres estaban a unos 10 km, harían falta unas 45-50.",
-          "Con unas 50 torres y un minuto por torre, el mensaje tardaría algo menos de una hora.",
-          "Con las 52 torres documentadas salen 52 minutos. La realidad era peor: con niebla, esperas y mensajes largos, el trayecto llevaba unas seis horas. Aun así, ganaba por goleada a los dos o tres días de un jinete."
+          "Piensa en cuántos correos recibes al día entre trabajo, tiendas y spam: fácilmente decenas. Con miles de millones de usuarios, el total diario se va a cientos de miles de millones.",
+          "Si son unos 350.000 millones al día y un día tiene 86.400 segundos, salen unos 4 millones por segundo.",
+          "Con la cifra de Radicati para 2024, 361.600 millones, salen 4,19 millones por segundo. Mientras lees esta frase se han enviado unos 20 millones."
         ]
       }
     },
@@ -46,36 +38,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Paso legionario",
-      "title": "A 30 km por jornada, ¿cuántos días tardaba una legión en ir de Mérida a Astorga por la Vía de la Plata?",
-      "detail": "Una legión en marcha por la calzada romana, con 30 km diarios de sandalia y sin días de descanso. Nada de atajos por la autovía.",
+      "tag": "Paso romano",
+      "title": "A 20 millas romanas por jornada, ¿cuántos días tardaba una legión en recorrer la Vía Apia de Roma a Brindisi?",
+      "detail": "La legión marcha al paso militar que exigía Vegecio, 20 millas romanas por jornada, de Roma hasta el tacón de la bota por la Vía Apia, sin días de descanso. Las sandalias no se gastan.",
       "unit": "días",
-      "answer": 15.666666666666666,
-      "math": "La Vía de la Plata recorría 470 km entre Augusta Emerita (Mérida) y Asturica Augusta (Astorga). 470 ÷ 30 ≈ 15,7 días.",
-      "referenceExpression": "470 ÷ 30",
-      "assumptions": "Ritmo constante de 30 km diarios y ningún día de descanso. Una legión con impedimenta podía ir más lenta, y un mensajero a caballo, mucho más deprisa.",
+      "answer": 18.239508700102355,
+      "math": "La Vía Apia mide unos 540 km. El tramo Roma-Capua tenía 132 millas romanas, 195,4 km, así que una milla romana mide 1,48 km y 20 millas son 29,6 km. 540 ÷ 29,6 ≈ 18,2 días.",
+      "referenceExpression": "540 ÷ (20 × 195,4 ÷ 132)",
+      "assumptions": "Vegecio pedía 20 millas en cinco horas de verano a los reclutas; en campaña los ejércitos solían avanzar menos y descansaban. Aquí marchan todos los días sin parar.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Vía de la Plata",
-          "url": "https://es.wikipedia.org/wiki/Vía_de_la_Plata",
-          "fact": "La Vía de la Plata recorría 470 km entre Augusta Emerita (Mérida) y Asturica Augusta (Astorga)."
+          "title": "Wikipedia · Appian Way",
+          "url": "https://en.wikipedia.org/wiki/Appian_Way",
+          "fact": "La vía mide 540 km; el tramo de Roma a Capua tenía 132 millas romanas (195,4 km)."
+        },
+        {
+          "title": "Vegecio · De re militari, libro I (traducción inglesa, Internet Archive)",
+          "url": "https://archive.org/stream/pdfy-sOkC3FmoLlr4C6zz/The+Military+Institutions+Of+The+Romans+%5BDe+Re+Militari%5D_djvu.txt",
+          "fact": "Los soldados debían marchar con el paso militar común veinte millas en cinco horas de verano, y con el paso largo, veinticuatro."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-06-2.jpg",
-        "alt": "Dos caminantes con mochila por un camino de tierra recto de la Vía de la Plata, entre campos de girasoles",
-        "credit": "José Antonio Gil Martínez from Vigo, Spain",
-        "url": "https://commons.wikimedia.org/wiki/File:V%C3%ADa_de_la_Plata_(6093549876).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Distancia entre jornada",
+        "heading": "Calzada larga, paso firme",
         "steps": [
-          "Mérida y Astorga están en extremos opuestos del oeste peninsular: unos 450-500 km.",
-          "A 30 km por día, 450 km son 15 días; 500 km, casi 17. Dos semanas largas.",
-          "Con los 470 km de la calzada salen 15,7 días, así que el decimosexto día llegaban a Astorga. Con un día de descanso por semana, la marcha se iría a unos 18 días."
+          "La Vía Apia cruza media Italia, de Roma al tacón de la bota; digamos unos 500 km. Una legión a pie hacía jornadas de unos 30 km.",
+          "500 ÷ 30 ≈ 17 días.",
+          "Con los 540 km y las 20 millas romanas de Vegecio (29,6 km) salen 18,2 días: unas dos semanas y media de sandalia sin un solo día libre."
         ]
       }
     },
@@ -100,14 +89,6 @@
           "fact": "El edificio tiene 2.909 escalones desde la planta baja hasta la planta 160."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-06-3.jpg",
-        "alt": "El Burj Khalifa sobresaliendo muy por encima de los demás rascacielos de Dubái",
-        "credit": "imran shahabuddin",
-        "url": "https://commons.wikimedia.org/wiki/File:Burj_Khalifa_(worlds_tallest_building)_and_the_Dubai_skyline_(25781049892).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
         "heading": "Escalones por planta, plantas hasta arriba",
         "steps": [
