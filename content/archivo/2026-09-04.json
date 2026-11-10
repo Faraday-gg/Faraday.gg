@@ -1,49 +1,36 @@
 {
   "id": "2026-09-04",
   "name": "Viernes",
-  "theme": "Tren, Minecraft y Olympus",
+  "theme": "Chasquis, Minecraft y Olympus",
   "questions": [
     {
       "id": "archivo-2026-09-04-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Del Mataró al AVE",
-      "title": "¿Cuántas veces cabe la primera línea de tren de la península en la red actual de alta velocidad?",
-      "detail": "Comparamos la línea Barcelona–Mataró de 1848 con todos los kilómetros de alta velocidad en servicio en España. El humo de la locomotora no cuenta.",
-      "unit": "veces",
-      "answer": 136.5635738831615,
-      "math": "La línea de 1848 medía 29,1 km. La red de alta velocidad tenía 3.974 km en servicio en septiembre de 2024. 3.974 ÷ 29,1 ≈ 136,6 veces.",
-      "referenceExpression": "3974 ÷ 29,1",
-      "assumptions": "Kilómetros de infraestructura de alta velocidad en servicio a septiembre de 2024; la red sigue creciendo.",
-      "confidence": "Dato documentado",
+      "tag": "Correo inca",
+      "title": "¿Cuántos días tardaban los chasquis incas en llevar un mensaje corriendo de Cuzco a Quito?",
+      "detail": "Los chasquis corrían por relevos por el Camino del Inca, de posta en posta, día y noche. Un cronista del siglo XVI calculó cuánto avanzaban al día; los mensajes no admitían devolución.",
+      "unit": "días",
+      "answer": 10,
+      "math": "Polo de Ondegardo cifra en 500 leguas (unos 2.500 km) el camino de Cuzco a Quito, y escribió que los chasquis cubrían unas 50 leguas (unos 250 km) entre un día y una noche. 500 ÷ 50 = 10 días.",
+      "referenceExpression": "500 ÷ 50",
+      "assumptions": "Ritmo constante de 50 leguas diarias según el cronista Polo de Ondegardo, con la legua de unos 5 km. El propio Ondegardo dice que la ida y vuelta Quito–Cuzco se hacía en menos de 20 días, lo que cuadra con nuestro cálculo.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Ferrocarril Barcelona-Mataró",
-          "url": "https://es.wikipedia.org/wiki/Ferrocarril_Barcelona-Mataró",
-          "fact": "Inaugurado el 28 de octubre de 1848, contaba con una longitud de 29,1 km."
-        },
-        {
-          "title": "Wikipedia · Alta velocidad ferroviaria en España",
-          "url": "https://es.wikipedia.org/wiki/Alta_velocidad_ferroviaria_en_España",
-          "fact": "En septiembre de 2024 la red tenía en servicio 3.974 kilómetros de infraestructuras."
+          "title": "Wikipedia · Chasqui",
+          "url": "https://en.wikipedia.org/wiki/Chasqui",
+          "fact": "Según Polo de Ondegardo, los mensajeros cubrían unas 50 leguas entre un día y una noche, y las 500 leguas de Quito a Cuzco se podían recorrer en menos de 20 días ida y vuelta."
         }
       ],
       "reasoning": {
-        "heading": "Compara un trayecto corto con un país",
+        "heading": "Relevos a la carrera por los Andes",
         "steps": [
-          "La primera línea unía dos ciudades cercanas: unos 30 km. La red de AVE cruza España en todas direcciones: miles de kilómetros.",
-          "4.000 km entre 30 km dan algo más de 130 veces.",
-          "Con los datos exactos, 3.974 ÷ 29,1 = 136,6 veces. Cada nuevo tramo inaugurado sube la cifra; en 1848, el viaje a Mataró ya parecía cosa del futuro."
+          "De Cuzco a Quito hay miles de kilómetros de montaña. Un correo a pie suena a meses.",
+          "Pero los chasquis se pasaban el mensaje cada pocos kilómetros y no paraban: unos 250 km al día. 2.500 km entre 250 dan unos 10 días.",
+          "Salen 10 días: un mensaje inca cruzaba los Andes más rápido que muchas cartas certificadas de hoy."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-04-1.jpg",
-        "alt": "Réplica de la locomotora del tren de Mataró ante las naves del Museo del Ferrocarril de Cataluña",
-        "credit": "archivo fotografico del museo del ferrocarril de Catalunya Espai 360",
-        "url": "https://commons.wikimedia.org/wiki/File:Maratoynave.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     },
     {
@@ -79,14 +66,6 @@
           "60.000 km al cuadrado son 3.600 millones de km². La Tierra ronda 500 millones de km²: cabe unas 7 veces.",
           "El cálculo fino da 7,06 Tierras. Y aun así, la mayoría de jugadores no pasa de su casa de madera y la mina de al lado."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-04-2.png",
-        "alt": "Captura de un paisaje de Minecraft con bloques, árboles y relieve cuadriculado",
-        "credit": "Xbox México",
-        "url": "https://commons.wikimedia.org/wiki/File:Minecraft_Beta_1.8.1_Gameplay_Screenshot.png",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       }
     },
     {
@@ -94,30 +73,27 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Monte sin funicular",
-      "title": "Subiendo 400 m de desnivel por hora, ¿cuántas horas tardarías en coronar el Olympus Mons de Marte?",
-      "detail": "Partes del nivel de referencia marciano y subes 400 m por hora sin parar a comer. Trae oxígeno: allí no hay chiringuitos.",
-      "unit": "horas",
-      "answer": 53.2175,
-      "math": "Olympus Mons alcanza 21.287 m sobre el nivel de referencia de Marte (medición MOLA). 21.287 ÷ 400 = 53,2 horas.",
-      "referenceExpression": "21287 ÷ 400",
-      "assumptions": "Usamos la altura sobre el nivel de referencia marciano. Desde las llanuras de Amazonis el desnivel se acerca a 26 km, lo que alargaría la excursión a unas 65 horas.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Monte de monte",
+      "title": "¿Cuántos Everest apilados harían falta para igualar la altura del Olympus Mons de Marte?",
+      "detail": "Apilamos Everest, cumbre sobre cumbre, hasta igualar la altura del Olympus Mons sobre el nivel de referencia de Marte. Los sherpas cobran aparte.",
+      "unit": "Everest",
+      "answer": 2.405621,
+      "math": "El Olympus Mons alcanza 21.287 m sobre el nivel de referencia de Marte (medición MOLA). El Everest mide 8.848,86 m. 21.287 ÷ 8.848,86 ≈ 2,41 Everest.",
+      "referenceExpression": "21287 ÷ 8848,86",
+      "assumptions": "Comparamos la altura del volcán sobre el nivel de referencia marciano con la del Everest sobre el nivel del mar. Medido desde las llanuras que lo rodean, el desnivel se acerca a 26 km: casi 3 Everest.",
+      "confidence": "Dato documentado",
       "sources": [
         {
           "title": "Wikipedia · Olympus Mons",
           "url": "https://en.wikipedia.org/wiki/Olympus_Mons",
           "fact": "Según el altímetro MOLA, mide 21,287 km sobre el nivel de referencia; desde las llanuras de Amazonis el desnivel se acerca a 26 km."
+        },
+        {
+          "title": "Wikipedia · Mount Everest",
+          "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "fact": "Su altura, medida en 2020 por Nepal y China, es de 8.848,86 m."
         }
       ],
-      "reasoning": {
-        "heading": "Compáralo con el Everest",
-        "steps": [
-          "Olympus Mons es el volcán más alto conocido: más del doble que el Everest. Apostaríamos por unos 20 km.",
-          "20.000 m a 400 m por hora son 50 horas: más de dos días sin dormir.",
-          "Con los 21.287 m medidos por MOLA salen 53,2 horas. Si empiezas desde las llanuras de alrededor, súmale medio día largo."
-        ]
-      },
       "image": {
         "src": "assets/archivo-2026-09-04-3.jpg",
         "alt": "Vista de Olympus Mons, el enorme volcán marciano con su caldera en la cumbre",
@@ -125,6 +101,14 @@
         "url": "https://commons.wikimedia.org/wiki/File:Olympus_Mons_alt.jpg",
         "license": "Public domain",
         "licenseUrl": "https://commons.wikimedia.org/wiki/File:Olympus_Mons_alt.jpg"
+      },
+      "reasoning": {
+        "heading": "La montaña más alta de la Tierra como regla",
+        "steps": [
+          "El Olympus Mons es el volcán más alto del sistema solar. El Everest roza los 9 km.",
+          "Si el volcán marciano supera los 20 km, caben algo más de dos Everest.",
+          "Con 21.287 m salen 2,41 Everest: en Marte el techo del mundo se queda en primer piso."
+        ]
       }
     }
   ]

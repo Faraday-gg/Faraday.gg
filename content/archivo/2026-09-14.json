@@ -1,7 +1,7 @@
 {
   "id": "2026-09-14",
   "name": "Lunes",
-  "theme": "Acueducto, ducha y Galeón",
+  "theme": "Acueducto, duchas y Galeón",
   "questions": [
     {
       "id": "archivo-2026-09-14-1",
@@ -9,13 +9,13 @@
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
       "tag": "Grifo romano",
-      "title": "¿Cuántos litros de agua al día podía llevar a la ciudad el Acueducto de Segovia?",
-      "detail": "Dos mil años de fontanería sin una sola gota de cemento. Suponemos el canal lleno a su caudal máximo durante las 24 horas del día; los romanos no cerraban el grifo por la noche.",
-      "unit": "litros",
-      "answer": 2160000,
-      "math": "El Ayuntamiento de Segovia da un caudal máximo de 20-30 litros por segundo; tomamos el punto medio, 25 L/s. Un día tiene 86.400 segundos: 25 × 86.400 = 2.160.000 litros.",
-      "referenceExpression": "25 × 86400",
-      "assumptions": "Caudal constante e igual al punto medio del intervalo documentado. Es una capacidad máxima del canal, no un consumo medido en época romana.",
+      "title": "¿Cuántas bañeras al día podía llenar el Acueducto de Segovia?",
+      "detail": "Dos mil años de fontanería sin una gota de cemento. Suponemos el canal a su caudal máximo durante las 24 horas y bañeras de 150 litros. Los romanos no cerraban el grifo por la noche.",
+      "unit": "bañeras",
+      "answer": 14400,
+      "math": "El Ayuntamiento de Segovia da un caudal máximo de 20-30 L/s; tomamos el punto medio, 25 L/s. En un día: 25 × 86.400 = 2.160.000 litros. Entre 150 L por bañera: 14.400 bañeras.",
+      "referenceExpression": "25 × 86400 ÷ 150",
+      "assumptions": "Caudal constante e igual al punto medio del intervalo documentado; es una capacidad máxima del canal, no un consumo medido en época romana. Bañera de 150 L.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -35,9 +35,9 @@
       "reasoning": {
         "heading": "Piensa en un grifo que nunca se cierra",
         "steps": [
-          "El canal de arriba es pequeño: apenas un palmo de ancho. No transporta un río, sino algo más parecido a una manguera grande. Una primera apuesta podría ser unas decenas de litros por segundo.",
-          "Con 20 L/s, multiplica por 86.400 segundos que tiene un día: salen unos 1,7 millones de litros. Ya sabemos que la respuesta va de millones, no de miles.",
-          "El folleto oficial da un caudal máximo de 20-30 L/s. Con el punto medio, 25 L/s, el acueducto llevaba 2.160.000 litros al día. Si usas el extremo bajo o el alto, la respuesta oscila entre 1,7 y 2,6 millones."
+          "El canal de arriba es pequeño, apenas un palmo de ancho: más una manguera grande que un río. Pongamos unas decenas de litros por segundo.",
+          "Con 20 L/s, un día de 86.400 segundos da 1,7 millones de litros: más de 10.000 bañeras.",
+          "Con 25 L/s salen 2.160.000 litros y 14.400 bañeras al día. Con el extremo bajo serían 11.520 y con el alto, 17.280."
         ]
       }
     },
@@ -46,14 +46,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Piscina a chorros",
-      "title": "¿Cuántas duchas de 8 minutos hacen falta para gastar el agua de una piscina olímpica?",
-      "detail": "Una piscina olímpica vaciada a base de duchas largas cantando en el baño. Cada ducha dura 8 minutos con un caudal de 10 litros por minuto.",
-      "unit": "duchas",
-      "answer": 31250,
-      "math": "Una piscina olímpica nominal tiene 2.500 m³: 2.500.000 litros. Una ducha de 8 minutos a 10 L/min gasta 80 litros. 2.500.000 ÷ 80 = 31.250 duchas.",
-      "referenceExpression": "2500000 ÷ (10 × 8)",
-      "assumptions": "Caudal fijo de 10 L/min, dentro del rango habitual de 8 a 15 L/min. Piscina de 50 × 25 × 2 m llena hasta arriba.",
+      "tag": "Ducha olímpica",
+      "title": "Duchándote ocho minutos cada día, ¿cuántos años tardarías en gastar el agua de una piscina olímpica?",
+      "detail": "Una ducha diaria de 8 minutos a 10 litros por minuto, cantando en el baño, hasta vaciar una piscina olímpica. Sin saltarte un día, ni siquiera en vacaciones.",
+      "unit": "años",
+      "answer": 85.616438,
+      "math": "Una piscina olímpica nominal tiene 2.500 m³: 2.500.000 litros. Cada ducha gasta 8 × 10 = 80 litros, así que hacen falta 31.250 duchas. A una al día: 31.250 ÷ 365 ≈ 85,6 años.",
+      "referenceExpression": "2500000 ÷ (8 × 10) ÷ 365",
+      "assumptions": "Caudal de 10 L/min, en la parte baja del rango de 8 a 15 L/min. Una ducha diaria, sin años bisiestos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -67,20 +67,12 @@
           "fact": "Cada minuto de ducha gasta entre 8 y 15 litros de agua."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-14-2.jpg",
-        "alt": "Alcachofa de ducha cromada con chorros de agua cayendo",
-        "credit": "Nicole-Koehler",
-        "url": "https://commons.wikimedia.org/wiki/File:Shower_head.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Pasa todo a litros y divide",
+        "heading": "Cuenta duchas y pásalas a años",
         "steps": [
-          "Una piscina olímpica parece un mar, pero sus medidas son conocidas: 50 m de largo, 25 de ancho y unos 2 de fondo. Eso son 2.500 m³.",
-          "Cada metro cúbico son 1.000 litros: 2,5 millones de litros. Una ducha larga gasta del orden de 100 litros, así que esperamos unas 25.000 duchas.",
-          "Con 10 L/min durante 8 minutos, cada ducha gasta 80 litros, y salen 31.250 duchas. Una ducha a 15 L/min bajaría la cifra a unas 20.800; un cabezal ahorrador la subiría mucho."
+          "Una ducha de ocho minutos gasta lo que medio bidón grande: unos 80 litros. Una piscina olímpica tiene millones de litros.",
+          "2,5 millones entre 80 dan unas 30.000 duchas. A una por día, unos 80 o 90 años.",
+          "El cálculo exacto da 85,6 años: toda una vida de duchas. Con un caudal de 15 L/min te sobraría media vida: 57 años."
         ]
       }
     },
@@ -105,14 +97,6 @@
           "fact": "El servicio fue inaugurado en 1565 y el último barco zarpó de Acapulco en 1815."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-14-3.jpg",
-        "alt": "Vitrina con objetos del comercio del Galeón de Manila: un abanico, un mantón bordado, una caja taraceada y una concha de nácar",
-        "credit": "AlejandroLinaresGarcia",
-        "url": "https://commons.wikimedia.org/wiki/File:GoodsManilaGalleonSanDiego.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Cuenta años, no barcos",
         "steps": [

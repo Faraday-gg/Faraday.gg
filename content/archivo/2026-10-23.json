@@ -1,43 +1,40 @@
 {
   "id": "2026-10-23",
   "name": "Viernes",
-  "theme": "Cava, Altamira y oca",
+  "theme": "Champán, Altamira y oca",
   "questions": [
     {
       "id": "archivo-2026-10-23-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Torre de burbujas",
-      "title": "¿Cuántos kilómetros de altura mediría una pila con las botellas de cava vendidas en un año?",
-      "detail": "Apilamos de pie, una sobre otra, todas las botellas de cava vendidas en 2025, de 30 cm cada una. El corcho de abajo aguanta lo que le echen.",
+      "tag": "Torre burbujeante",
+      "title": "Si apilaras todas las botellas de champán vendidas en un año, ¿cuántos kilómetros mediría la pila?",
+      "detail": "Todas las botellas de champán expedidas en 2025, de pie una sobre otra, sin que se caiga ninguna. Usa la altura de una botella champenoise estándar de 75 cl. El último en descorcharla, que la mire desde abajo.",
       "unit": "km",
-      "answer": 57000,
-      "math": "La DO Cava comercializó 190 millones de botellas en 2025 (Consejo Regulador, recogido por Vinetur). 190.000.000 × 0,30 m = 57.000.000 m = 57.000 km.",
-      "referenceExpression": "190000000 × 0,3 ÷ 1000",
-      "assumptions": "Todas las botellas de 75 cl y 30 cm, sin contar formatos pequeños ni mágnum. Las ventas cayeron un 12,8 % respecto a 2024.",
+      "answer": 79800,
+      "math": "En 2025 se expidieron unos 266 millones de botellas de champán. Una botella de 75 cl mide 30 cm. 266.000.000 × 0,30 m = 79.800.000 m ≈ 79.800 km.",
+      "referenceExpression": "266000000 × 0,3 ÷ 1000",
+      "assumptions": "Todas las botellas de 75 cl y 30 cm, aunque una parte son magnums o medias botellas. Cifras provisionales de expediciones de 2025 publicadas por el Comité Champagne en enero de 2026.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Vinetur · La sequía hunde las ventas de Cava en 2025",
-          "url": "https://vinetur.com/2026031997838/la-sequia-hunde-las-ventas-de-cava-en-2025-con-una-caida-del-128.html",
-          "fact": "La DO Cava comercializó 190 millones de botellas en 2025, según su Consejo Regulador."
+          "title": "Vinetur · Champagne shipments fall 2% globally (22/1/2026)",
+          "url": "https://www.vinetur.com/fr/2026012295281/champagne-shipments-fall-2-globally-as-us-market-defies-downturn-with-1-sales-growth.html",
+          "fact": "Según el Comité Champagne, las expediciones mundiales de champán bajaron un 2 % en 2025, hasta 266 millones de botellas."
+        },
+        {
+          "title": "Saverglass · Eco Design 75 cl couronne champ 29",
+          "url": "https://saverglass.com/en/our-products/catalog-sparkling-wine/eco-design-75-cl-couronne-champ-29",
+          "fact": "Botella champenoise de 75 cl con una altura de 300 mm."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-23-1.jpg",
-        "alt": "Botella de cava brut con su copa servida",
-        "credit": "Michal Osmenda from Brussels, Belgium",
-        "url": "https://commons.wikimedia.org/wiki/File:Cava_brut_Fuente_de_Alegria_(8337248681).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Botellas por altura, sin que se caiga",
+        "heading": "Botellas por altura",
         "steps": [
-          "Millones de botellas de 30 cm: la torre se va a salir de la atmósfera seguro. ¿Llegará más allá de la Estación Espacial?",
-          "Si son unos 200 millones, a 30 cm son 60.000 km. La Estación Espacial está a unos 400 km.",
-          "Con 190 millones salen 57.000 km: más que una vuelta a la Tierra, y casi una sexta parte del camino a la Luna."
+          "Se venden centenares de millones de botellas de champán al año; pongamos 300 millones. Cada una mide unos 30 cm.",
+          "300 millones × 0,3 m = 90 millones de metros, 90.000 km: más de dos vueltas a la Tierra si la tumbaras.",
+          "Con las 266 millones de botellas de 2025 salen 79.800 km, casi una quinta parte del camino a la Luna."
         ]
       }
     },
@@ -100,14 +97,6 @@
           "fact": "Tablero en forma de caracol con 63 casillas; la 63 es el «jardín de la oca»."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-23-3.jpg",
-        "alt": "Tablero antiguo del juego de la oca con sus casillas en espiral",
-        "credit": "Jorge Elías",
-        "url": "https://commons.wikimedia.org/wiki/File:Antonio_Venegas_Arroyo_El_juego_de_la_Oca.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Antonio_Venegas_Arroyo_El_juego_de_la_Oca.jpg"
-      },
       "reasoning": {
         "heading": "Casillas entre lo que avanza un dado",
         "steps": [

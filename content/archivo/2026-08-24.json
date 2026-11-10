@@ -1,21 +1,21 @@
 {
   "id": "2026-08-24",
   "name": "Lunes",
-  "theme": "Stonehenge, respirar y butano",
+  "theme": "Stonehenge, piñatas y Coca-Cola",
   "questions": [
     {
       "id": "archivo-2026-08-24-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Tirar de la cuerda",
-      "title": "¿Cuántas personas hacían falta para arrastrar una de las grandes piedras sarsen de Stonehenge?",
-      "detail": "Piedra sobre un trineo de madera con rodillos y todos tirando a la vez. Cada persona mueve 100 kg; los que solo dan ánimos no cuentan.",
-      "unit": "personas",
-      "answer": 250,
-      "math": "Un sarsen medio de Stonehenge pesa 25 toneladas (25.000 kg). Si cada persona arrastra 100 kg: 25.000 ÷ 100 = 250 personas.",
-      "referenceExpression": "25000 ÷ 100",
-      "assumptions": "Las 25 «tons» de English Heritage se toman como 25.000 kg. Suponemos 100 kg por persona con trineo y rodillos; el rendimiento real depende del terreno, la pendiente y la técnica.",
+      "tag": "Mudanza neolítica",
+      "title": "¿Cuántos equipos de fútbol completos hacían falta para arrastrar una de las grandes piedras de Stonehenge?",
+      "detail": "Un sarsen medio sobre un trineo de madera, con once jugadores por equipo y cada uno moviendo 100 kg. Los suplentes y el árbitro no tiran.",
+      "unit": "equipos",
+      "answer": 22.727272727272727,
+      "math": "Un sarsen medio pesa 25 toneladas (25.000 kg). A 100 kg por persona: 25.000 ÷ 100 = 250 personas; entre 11 por equipo ≈ 22,7 equipos.",
+      "referenceExpression": "25.000 ÷ 100 ÷ 11",
+      "assumptions": "Las 25 «tons» de English Heritage se toman como 25.000 kg. Los 100 kg por persona con trineo y rodillos son una suposición del juego; depende del terreno y la técnica.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -24,20 +24,12 @@
           "fact": "El sarsen medio de Stonehenge pesa 25 toneladas; el más grande, la Heel Stone, unas 30."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-24-1.jpg",
-        "alt": "Las grandes piedras de Stonehenge en la llanura de Salisbury, con visitantes al fondo para comparar el tamaño",
-        "credit": "Diego Delso",
-        "url": "https://commons.wikimedia.org/wiki/File:Stonehenge,_Condado_de_Wiltshire,_Inglaterra,_2014-08-12,_DD_08.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Pesa la piedra, reparte la cuerda",
+        "heading": "Toneladas entre once",
         "steps": [
-          "Una de esas piedras es más alta que dos personas y muy gruesa: debe pesar como varios coches juntos, unas 20 o 30 toneladas.",
-          "Con unas 25 toneladas y unos 100 kg por persona, salen unas 250 personas: una cuadrilla de pueblo entero, no un grupo de amigos.",
-          "English Heritage da 25 toneladas de media, así que el modelo deja 250 personas. Con mejores rodillos o un camino preparado, bastarían menos."
+          "Una piedra que pesa como cuatro elefantes necesita cientos de brazos. Unas cuantas plantillas, desde luego.",
+          "25.000 kg ÷ 100 kg = 250 personas; entre 10 serían 25 equipos.",
+          "Con equipos de 11 salen 22,7 equipos: una liga entera y algo más tirando de la misma cuerda."
         ]
       }
     },
@@ -46,14 +38,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Globos de aire",
-      "title": "¿Cuántos globos de 5 litros llenarías con el aire que respiras en un día?",
-      "detail": "Respiración tranquila, sin correr ni soplar velas. Cada globo admite 5 litros y ni uno más.",
-      "unit": "globos",
-      "answer": 2160,
-      "math": "En reposo se mueven unos 0,5 litros por respiración. A 15 respiraciones por minuto: 0,5 × 15 × 1.440 minutos = 10.800 litros al día; entre 5 litros, 2.160 globos.",
-      "referenceExpression": "0,5 × 15 × 1440 ÷ 5",
-      "assumptions": "Ritmo constante de 15 respiraciones por minuto y 500 ml por respiración todo el día, también durmiendo. Con ejercicio el volumen se dispara.",
+      "tag": "Fiesta de pulmones",
+      "title": "¿Cuántas piñatas llenarías con el aire que respiras en un día?",
+      "detail": "Respiración tranquila todo el día y piñatas redondas de 40 cm de diámetro. Los caramelos se los quitamos para que quepa el aire.",
+      "unit": "piñatas",
+      "answer": 322.28875976108804,
+      "math": "En reposo movemos unos 0,5 litros por respiración. A 15 respiraciones por minuto: 0,5 × 15 × 1.440 = 10.800 litros al día. Una piñata esférica de 40 cm tiene 4/3 × π × 20³ ≈ 33.510 cm³ ≈ 33,5 litros: 10.800 ÷ 33,5 ≈ 322 piñatas.",
+      "referenceExpression": "0,5 × 15 × 1.440 ÷ (4/3 × π × 0,2³ × 1.000)",
+      "assumptions": "Ritmo constante de 15 respiraciones por minuto y 500 ml por respiración todo el día, también durmiendo. La piñata esférica de 40 cm es una suposición del juego; con ejercicio el aire se dispara.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -64,23 +56,15 @@
         {
           "title": "Wikipedia · Respiratory rate",
           "url": "https://en.wikipedia.org/wiki/Respiratory_rate",
-          "fact": "La frecuencia respiratoria de un adulto en reposo ronda las 12-18 respiraciones por minuto."
+          "fact": "La frecuencia respiratoria típica de un adulto sano en reposo es de 12-15 respiraciones por minuto."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-24-2.jpg",
-        "alt": "Racimo de globos de colores, para imaginar cuánto aire cabe en ellos",
-        "credit": "Ibrahim Husain Meraj",
-        "url": "https://commons.wikimedia.org/wiki/File:Colorful_balloons_01.JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Una bocanada por un día",
+        "heading": "Litros de aire entre piñatas",
         "steps": [
-          "Cada respiración tranquila es poca cosa: medio litro, el contenido de una botella pequeña de agua. Respiramos más o menos una vez cada cuatro segundos.",
-          "Son unas 15 por minuto: 7,5 litros por minuto, unos 450 litros por hora y más de 10.000 al día.",
-          "Con 0,5 litros y 15 respiraciones por minuto salen 10.800 litros: 2.160 globos de 5 litros. Si un día subes muchas escaleras, añade unos cuantos más."
+          "Respiramos medio litro cada pocos segundos, todo el día. Eso suma miles de litros, y una piñata grande guarda unas decenas.",
+          "10.000 litros ÷ 30 litros ≈ 330. El orden de magnitud: unos cientos de piñatas.",
+          "Con 10.800 litros y piñatas de 33,5 litros salen 322. Dale, dale, dale: tienes para todo el año de cumpleaños."
         ]
       }
     },
@@ -89,46 +73,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Bombona naranja",
-      "title": "¿Cuántas duchas calientes de 8 minutos salen de una bombona de butano de 12,5 kg?",
-      "detail": "Cada ducha gasta 80 litros de agua que el calentador sube de 15 a 40 °C. El calentador aprovecha el 85 % del gas, y el último en ducharse no se queda sin agua caliente.",
-      "unit": "duchas",
-      "answer": 58.18863527724665,
-      "math": "La bombona tiene 12,5 kg × 12,73 kWh/kg = 159,1 kWh; con un 85 % de rendimiento quedan 135,3 kWh útiles. Calentar 80 L de 15 a 40 °C pide 80 × 4.184 J × 25 = 8,37 MJ = 2,32 kWh. 135,3 ÷ 2,32 ≈ 58,2 duchas.",
-      "referenceExpression": "12,5 × 12,73 × 0,85 ÷ (80 × 4184 × 25 ÷ 3600000)",
-      "assumptions": "Ducha de 8 minutos con 10 L/min, agua de red a 15 °C, ducha a 40 °C y calentador con un 85 % de rendimiento. Tomamos 1 litro de agua = 1 kg.",
+      "tag": "Dulce burbuja",
+      "title": "¿Cuántas cucharillas de azúcar lleva una botella de 2 litros de Coca-Cola?",
+      "detail": "Coca-Cola original, con azúcar, y cucharillas rasas como las que usa la OMS para explicar el azúcar. Sin removerlas en el café.",
+      "unit": "cucharillas",
+      "answer": 50.879999999999995,
+      "math": "Coca-Cola original lleva 10,6 g de azúcares por 100 ml: en 2.000 ml hay 212 g. La OMS equipara 50 g de azúcar a unas 12 cucharillas rasas (≈4,17 g cada una): 212 ÷ (50 ÷ 12) ≈ 50,9 cucharillas.",
+      "referenceExpression": "10,6 × 20 ÷ (50 ÷ 12)",
+      "assumptions": "Usamos la etiqueta británica (10,6 g/100 ml); la receta puede variar un poco según el país. La equivalencia de la OMS es aproximada («unas 12 cucharillas»).",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Papernest · Propano vs. butano",
-          "url": "https://www.papernest.es/comparador-gas/propano-vs-butano/",
-          "fact": "Poder calorífico del butano: 12,73 kWh/kg."
+          "title": "Coca-Cola Reino Unido · Coca-Cola Original Taste",
+          "url": "https://www.coca-cola.com/gb/en/brands/coca-cola-original-taste",
+          "fact": "Coca-Cola Original Taste lleva 10,6 g de azúcares por 100 ml."
         },
         {
-          "title": "Repsol · Duración de una bombona de butano",
-          "url": "https://www.repsol.es/particulares/asesoramiento-consumo/duracion-bombona-de-butano-en-estufa/",
-          "fact": "La bombona tradicional contiene 12,5 kg (12.500 g) de gas."
-        },
-        {
-          "title": "Wikipedia · Specific heat capacity",
-          "url": "https://en.wikipedia.org/wiki/Specific_heat_capacity",
-          "fact": "Calor específico del agua líquida: unos 4.184 J/(kg·K) a 20 °C."
+          "title": "OMS · Alimentación sana (nota descriptiva)",
+          "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet",
+          "fact": "50 g de azúcares libres equivalen a unas 12 cucharillas rasas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-24-3.jpg",
-        "alt": "Bombona de butano naranja junto a un portal de Madrid",
-        "credit": "Tamorlan",
-        "url": "https://commons.wikimedia.org/wiki/File:Bombona_de_butano_-_Madrid.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Energía de la bombona contra energía del agua",
+        "heading": "Gramos de azúcar entre cucharillas",
         "steps": [
-          "Una bombona dura unas semanas en una casa con calentador de butano. Si en casa se ducha la familia a diario, un primer número serían unas decenas de duchas.",
-          "El butano da unos 12-13 kWh por kilo: la bombona guarda unos 150 kWh. Calentar 80 litros 25 grados pide algo más de 2 kWh. Salen unas 60 duchas.",
-          "Con 12,73 kWh/kg, un 85 % de rendimiento y 4.184 J por kilo y grado salen 58,2 duchas. Duchas más cortas o agua menos caliente estiran mucho la bombona."
+          "Un refresco lleva unos diez gramos de azúcar por cada vaso pequeño, y la botella es enorme. Habrá decenas de cucharillas.",
+          "10 g × 20 = 200 g; entre 4 g por cucharilla, unas 50.",
+          "Con 212 g y 4,17 g por cucharilla salen 50,9 cucharillas. Medio azucarero en una sola botella."
         ]
       }
     }

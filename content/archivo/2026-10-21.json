@@ -1,43 +1,45 @@
 {
   "id": "2026-10-21",
   "name": "Miércoles",
-  "theme": "N-340, Gutenberg y Harry Potter",
+  "theme": "Piloto, Gutenberg y Harry Potter",
   "questions": [
     {
       "id": "archivo-2026-10-21-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Carretera con sombra",
-      "title": "Si plantaras un árbol cada diez metros a ambos lados de la N-340, ¿cuántos árboles harían falta?",
-      "detail": "Desde Cádiz hasta Barcelona, a ambos lados de la calzada, un árbol cada 10 m. Pueblos, rotondas y puentes incluidos: los jardineros no se rinden.",
-      "unit": "árboles",
-      "answer": 249600,
-      "math": "La N-340 tiene 1.248 km y fue la nacional más larga de España (Wikipedia). Cada km admite 100 árboles por lado: 1.248 × 2 × 100 = 249.600 árboles.",
-      "referenceExpression": "1248 × 2 × 100",
-      "assumptions": "Longitud histórica completa, aunque hoy varios tramos se han convertido en autovía. No restamos cruces ni tramos urbanos.",
+      "tag": "Kilometraje de cabina",
+      "title": "¿Cuántas veces podría ir y volver a la Luna un piloto de avión con lo que vuela en toda su carrera?",
+      "detail": "Un piloto de aerolínea con una carrera de 35 años, volando el promedio mensual de su profesión. Supón 800 km/h de media contando despegues y aterrizajes. Las millas para el programa de fidelidad no se las dan, por desgracia.",
+      "unit": "viajes",
+      "answer": 32.778355879292405,
+      "math": "Un piloto de aerolínea vuela de media 75 horas al mes: 75 × 12 × 35 = 31.500 horas en su carrera. 31.500 × 800 km/h = 25,2 millones de km. Ir y volver a la Luna son 2 × 384.400 = 768.800 km. 25.200.000 ÷ 768.800 ≈ 32,8 viajes.",
+      "referenceExpression": "75 × 12 × 35 × 800 ÷ (2 × 384400)",
+      "assumptions": "Carrera de 35 años volando todos los meses la media de 75 horas. Velocidad media de 800 km/h, algo por debajo del crucero (830–900 km/h) por los tramos de subida, bajada y rodaje. Distancia media Tierra-Luna.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Carretera N-340",
-          "url": "https://es.wikipedia.org/wiki/N-340",
-          "fact": "Con 1.248 km fue la carretera nacional más larga del país."
+          "title": "U.S. Bureau of Labor Statistics · Airline and Commercial Pilots",
+          "url": "https://www.bls.gov/ooh/transportation-and-material-moving/airline-and-commercial-pilots.htm",
+          "fact": "Los pilotos de aerolínea vuelan una media de 75 horas al mes."
+        },
+        {
+          "title": "Wikipedia · Cruise (aeronautics)",
+          "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+          "fact": "Los reactores de pasillo único cruzan a unos 830 km/h y los de fuselaje ancho a unos 900 km/h."
+        },
+        {
+          "title": "NASA · Moon Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+          "fact": "Semieje mayor de la órbita lunar: 384.400 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-21-1.jpg",
-        "alt": "La N-340 junto al mar en Cala Sardina, Torreguadiaro",
-        "credit": "Ambil",
-        "url": "https://commons.wikimedia.org/wiki/File:N-340_en_Cala_Sardina,_Torreguadiaro.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:N-340_en_Cala_Sardina,_Torreguadiaro.jpg"
-      },
       "reasoning": {
-        "heading": "Cien árboles por kilómetro y lado",
+        "heading": "Horas de vuelo por velocidad entre viaje lunar",
         "steps": [
-          "La N-340 recorre toda la costa mediterránea: más de mil kilómetros. Un árbol cada 10 metros parece poco, pero se acumula rápido.",
-          "Un kilómetro admite 100 árboles por lado, 200 en total. Por unos 1.200 km son unos 240.000.",
-          "Con los 1.248 km oficiales salen 249.600 árboles: un bosque lineal de un cuarto de millón."
+          "Un piloto vuela unas mil horas al año y trabaja unas tres décadas: unas 30.000 horas.",
+          "A unos 800 km/h, son 24 millones de kilómetros. La Luna, ida y vuelta, está a unos 770.000 km: salen unas 30 veces.",
+          "Con 75 horas al mes durante 35 años salen 31.500 horas y 32,8 viajes. Con una carrera más corta o más horas en tierra, serían unos 25."
         ]
       }
     },
@@ -62,14 +64,6 @@
           "fact": "Un ejemplar completo tiene 1.288 páginas; una carta de 1455 habla de 158 o 180 ejemplares y los estudiosos estiman entre 160 y 185."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-21-2.jpg",
-        "alt": "Biblia de Gutenberg abierta, con texto en dos columnas, en la Biblioteca Pública de Nueva York",
-        "credit": "Joshua Keller",
-        "url": "https://commons.wikimedia.org/wiki/File:Gutenberg_Bible,_New_York_Public_Library,_USA._Pic_01.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
         "heading": "Páginas totales entre jornadas de trabajo",
         "steps": [
@@ -105,14 +99,6 @@
           "fact": "Circunferencia ecuatorial: 40.075,017 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-21-3.jpg",
-        "alt": "Los siete libros de Harry Potter en edición estadounidense, uno junto a otro",
-        "credit": "BrokenSphere",
-        "url": "https://commons.wikimedia.org/wiki/File:Harry_Potter_Books_1-7_without_dust_jackets,_1st_American_eds._1.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Ejemplares por longitud frente al ecuador",
         "steps": [

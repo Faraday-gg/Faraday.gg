@@ -1,7 +1,7 @@
 {
   "id": "2026-08-18",
   "name": "Martes",
-  "theme": "Venus, órgano y Gemasolar",
+  "theme": "Venus, Beatles y Popocatépetl",
   "questions": [
     {
       "id": "archivo-2026-08-18-1",
@@ -24,14 +24,6 @@
           "fact": "Período de rotación sideral: −5.832,6 horas; duración del día: 2.802,0 horas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-18-1.jpg",
-        "alt": "Globo de Venus generado con datos de radar de la sonda Magallanes",
-        "credit": "NASA/JPL",
-        "url": "https://commons.wikimedia.org/wiki/File:Venus_globe.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Venus_globe.jpg"
-      },
       "reasoning": {
         "heading": "Venus gira despacísimo",
         "steps": [
@@ -46,36 +38,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cultura",
-      "tag": "Afinador paciente",
-      "title": "Afinando un tubo cada dos minutos, ¿cuántas horas tardarías en afinar el órgano del Auditorio Nacional de Música?",
-      "detail": "Repasa uno a uno todos los tubos del gran órgano de la sala sinfónica, a dos minutos por tubo y sin descansos. El público, mejor que espere fuera.",
+      "tag": "Maratón de Liverpool",
+      "title": "¿Cuántas horas tardarías en escuchar toda la discografía de estudio de los Beatles?",
+      "detail": "Escucha seguidos los 13 discos de estudio de los Beatles y el recopilatorio Past Masters, tal como salieron en la caja remasterizada de 2009. Sin saltar canciones, ni siquiera Revolution 9.",
       "unit": "horas",
-      "answer": 190,
-      "math": "El órgano del Auditorio Nacional de Música, obra de Gerhard Grenzing, tiene 5.700 tubos. A 2 minutos por tubo: 11.400 minutos, es decir, 190 horas.",
-      "referenceExpression": "5700 × 2 ÷ 60",
-      "assumptions": "Dos minutos por tubo, todos iguales. En la práctica muchos tubos no necesitan retoque en cada afinación y los de lengüeta se ajustan más a menudo.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 10.325833333333334,
+      "math": "La caja estéreo de 2009, con todos los álbumes de los Beatles, dura 10 h 19 min 33 s. En horas: 10 + 19 ÷ 60 + 33 ÷ 3.600 ≈ 10,33 horas.",
+      "referenceExpression": "10 + 19 ÷ 60 + 33 ÷ 3600",
+      "assumptions": "Contamos la discografía oficial publicada mientras existió el grupo, que reúne 213 canciones del catálogo principal. La caja incluye la banda sonora orquestal de Yellow Submarine y alguna canción repetida, y deja fuera los directos y las grabaciones publicadas después.",
+      "confidence": "Dato documentado + conversión",
       "sources": [
         {
-          "title": "Wikipedia · Auditorio Nacional de Música",
-          "url": "https://es.wikipedia.org/wiki/Auditorio_Nacional_de_M%C3%BAsica",
-          "fact": "La sala sinfónica tiene un órgano de 5.700 tubos del especialista Gerhard Grenzing."
+          "title": "Wikipedia · List of songs recorded by the Beatles",
+          "url": "https://en.wikipedia.org/wiki/List_of_songs_recorded_by_the_Beatles",
+          "fact": "El catálogo principal consta de 213 canciones: 188 originales y 25 versiones."
+        },
+        {
+          "title": "Wikipedia · The Beatles Stereo Box Set",
+          "url": "https://en.wikipedia.org/wiki/The_Beatles_Stereo_Box_Set",
+          "fact": "La caja con todos los álbumes de la discografía (13 discos de estudio y Past Masters) dura 10:19:33."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-18-2.jpg",
-        "alt": "Tubos metálicos de un órgano de iglesia alineados por tamaños",
-        "credit": "Jiří Sedláček - Frettie",
-        "url": "https://commons.wikimedia.org/wiki/File:Reed-pipes_of_church_organ_in_church_of_Saint_Martin_in_T%C5%99eb%C3%AD%C4%8D,_T%C5%99eb%C3%AD%C4%8D_District.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Tubos por minutos",
+        "heading": "Canciones cortas, catálogo largo",
         "steps": [
-          "Un órgano de concierto grande tiene miles de tubos. Si son unos 5.000 a dos minutos, son 10.000 minutos.",
-          "10.000 minutos son unas 167 horas: una semana entera sin dormir o un mes de jornadas laborales.",
-          "Con 5.700 tubos salen 190 horas. Por eso los organeros afinan solo lo que hace falta y no el instrumento entero antes de cada concierto."
+          "Los Beatles grabaron unas 200 canciones y casi todas duran menos de tres minutos. 200 × 3 minutos son 600 minutos: unas 10 horas.",
+          "213 canciones a 2,8 minutos de media dan 596 minutos, casi exactamente 10 horas.",
+          "La caja completa dura 10 h 19 min 33 s: 10,33 horas. Te cabe en un vuelo de Madrid a Nueva York con escala, y te sobra para cantar Hey Jude dos veces."
         ]
       }
     },
@@ -84,36 +73,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Espejos al sol",
-      "title": "¿Cuántos campos de fútbol de espejos tiene la central termosolar Gemasolar?",
-      "detail": "Suma la superficie de todos los heliostatos de la central de Fuentes de Andalucía y mídela en campos de 105 × 68 m. Prohibido jugar con gafas de sol.",
-      "unit": "campos",
-      "answer": 44.53781512605042,
-      "math": "Gemasolar tiene 2.650 heliostatos de 120 m² cada uno: 318.000 m². Un campo de 105 × 68 m mide 7.140 m²: 318.000 ÷ 7.140 ≈ 44,5 campos.",
-      "referenceExpression": "2650 × 120 ÷ (105 × 68)",
-      "assumptions": "Usamos la superficie de apertura de cada heliostato; la misma fuente cita un total de 30,5 ha, algo menor. El campo de fútbol es de medidas reglamentarias habituales.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Torre de móviles",
+      "title": "¿Cuántos iPhone tumbados uno sobre otro alcanzarían la cima del Popocatépetl?",
+      "detail": "Apila iPhone 17, de 7,95 mm de grosor, desde el nivel del mar hasta la cima del volcán mexicano. Sin funda, que engorda.",
+      "unit": "iPhone",
+      "answer": 680880.5031446541,
+      "math": "El Popocatépetl alcanza 5.413 m sobre el nivel del mar. Un iPhone 17 mide 7,95 mm de grosor (0,00795 m): 5.413 ÷ 0,00795 ≈ 680.881 iPhone.",
+      "referenceExpression": "5413 ÷ 0,00795",
+      "assumptions": "Contamos desde el nivel del mar, no desde la base del volcán. La altitud del Popocatépetl varía según la fuente (5.400 a 5.450 m) y cambia con la actividad del cráter.",
+      "confidence": "Dato oficial + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Gemasolar Thermosolar Plant",
-          "url": "https://en.wikipedia.org/wiki/Gemasolar_Thermosolar_Plant",
-          "fact": "2.650 heliostatos con 120 m² de apertura cada uno; superficie total de apertura citada de 30,5 ha."
+          "title": "Wikipedia · Popocatépetl",
+          "url": "https://es.wikipedia.org/wiki/Popocat%C3%A9petl",
+          "fact": "Altitud de 5.413 m sobre el nivel del mar (carta topográfica del INEGI, 2012)."
+        },
+        {
+          "title": "Apple · iPhone 17 · Especificaciones técnicas",
+          "url": "https://www.apple.com/iphone-17/specs/",
+          "fact": "Grosor: 7,95 mm."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-18-3.jpg",
-        "alt": "Central termosolar Gemasolar con su torre central rodeada de espejos",
-        "credit": "Redfive",
-        "url": "https://commons.wikimedia.org/wiki/File:Gemasolar.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Espejos sumados",
+        "heading": "Milímetros contra montaña",
         "steps": [
-          "La central es un círculo enorme de espejos alrededor de una torre: miles de espejos del tamaño de una casa. A ojo, decenas de campos de fútbol.",
-          "2.500 espejos × 100 m² = 250.000 m²; un campo tiene unos 7.000 m², así que salen unos 35.",
-          "Con 2.650 heliostatos de 120 m² son 318.000 m²: 44,5 campos. Si usas las 30,5 ha de apertura citadas, salen 42,7."
+          "Un móvil mide menos de un centímetro de grosor, así que cada metro de volcán pide más de cien móviles.",
+          "Con unos 8 mm por móvil salen 125 por metro. 5.400 m × 125 dan unos 675.000 iPhone.",
+          "Con los 5.413 m del INEGI y los 7,95 mm de Apple salen 680.881 iPhone. Una torre de más de cinco kilómetros de pantallas, y sin cobertura arriba."
         ]
       }
     }

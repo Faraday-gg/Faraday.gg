@@ -8,14 +8,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Oro compacto",
-      "title": "¿Cuántos metros cúbicos ocupa todo el oro de Fort Knox?",
-      "detail": "Funde todos los lingotes del depósito más famoso del mundo en un único bloque macizo, sin huecos entre barras. Densidad del oro: 19,3 toneladas por metro cúbico. Las cámaras de seguridad no entran en el cálculo.",
-      "unit": "m³",
-      "answer": 237.46113989637306,
-      "math": "El Tesoro de EE. UU. registraba en julio de 2020 unos 147,34 millones de onzas troy en Fort Knox, unas 4.583 toneladas. 4.583 t ÷ 19,3 t/m³ ≈ 237 m³.",
-      "referenceExpression": "4583 ÷ 19,3",
-      "assumptions": "Usamos la cifra del informe del Tesoro de julio de 2020 y oro puro de 19,3 g/cm³. Las barras reales no son oro puro al 100 % y dejan huecos al apilarse.",
+      "tag": "Baño de oro",
+      "title": "¿Cuántas bañeras llenaría todo el oro de Fort Knox?",
+      "detail": "Funde todos los lingotes del depósito más famoso del mundo y viértelos en bañeras de 150 litros, llenas hasta el borde. Densidad del oro: 19,3 toneladas por metro cúbico. Nadie se mete dentro: cada bañera pesaría casi tres toneladas.",
+      "unit": "bañeras",
+      "answer": 1583.0742659758205,
+      "math": "El Tesoro de EE. UU. registraba en julio de 2020 unos 147,34 millones de onzas troy en Fort Knox, unas 4.583 toneladas. 4.583 t ÷ 19,3 t/m³ ≈ 237,5 m³. 237,5 m³ ÷ 0,15 m³ ≈ 1.583 bañeras.",
+      "referenceExpression": "4583 ÷ 19,3 ÷ 0,15",
+      "assumptions": "Usamos la cifra del informe del Tesoro de julio de 2020 y oro puro de 19,3 g/cm³. La bañera de 150 litros es un supuesto del modelo; las barras reales no son oro puro al 100 %.",
       "confidence": "Dato documentado + cálculo",
       "sources": [
         {
@@ -26,23 +26,15 @@
         {
           "title": "Wikipedia · Gold",
           "url": "https://en.wikipedia.org/wiki/Gold",
-          "fact": "Densidad del oro: unos 19,3 g/cm³ (19,283 g/cm³ a 20 °C)."
+          "fact": "Densidad del oro: unos 19,3 g/cm³."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-31-1.jpg",
-        "alt": "Edificio blanco del depósito de oro de Fort Knox visto a lo lejos, entre árboles y una gran explanada",
-        "credit": "Kevyn Jacobs",
-        "url": "https://commons.wikimedia.org/wiki/File:FortKnoxGoldVault.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:FortKnoxGoldVault.jpg"
-      },
       "reasoning": {
         "heading": "El oro pesa muchísimo y ocupa poquísimo",
         "steps": [
-          "Fort Knox guarda miles de toneladas de oro; digamos unas 5.000. Un metro cúbico de agua pesa 1 tonelada, y el oro es casi 20 veces más denso.",
-          "5.000 entre 20 da 250 m³: un cubo de algo más de 6 m de lado. Cabe en un salón grande.",
-          "Con las 4.583 toneladas del informe del Tesoro y 19,3 t/m³ salen 237 m³, un cubo de unos 6,2 m de lado. Todo el oro más vigilado del planeta cabría en una casa de dos plantas."
+          "Fort Knox guarda miles de toneladas de oro; digamos unas 5.000. El oro es casi 20 veces más denso que el agua, así que cada metro cúbico pesa unas 20 toneladas.",
+          "5.000 entre 20 da 250 m³. Una bañera de 150 litros es 0,15 m³, así que caben unas 6 o 7 por metro cúbico: 250 × 6,7 ≈ 1.700 bañeras.",
+          "Con las 4.583 toneladas del Tesoro y 19,3 t/m³ salen 237,5 m³ y 1.583 bañeras. Todo el oro más vigilado del planeta cabría en los baños de un par de hoteles grandes."
         ]
       }
     },
@@ -51,41 +43,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Picado a domicilio",
-      "title": "A la velocidad de su picado, ¿cuántos minutos tardaría un halcón peregrino en ir de Madrid a Toledo?",
-      "detail": "Imagina un halcón capaz de mantener la velocidad de su picado en horizontal durante los 71 km entre las dos ciudades. Usa 200 millas por hora (unos 322 km/h) y nada de paradas para comer palomas.",
+      "tag": "Picado internacional",
+      "title": "A la velocidad de su picado, ¿cuántos minutos tardaría un halcón peregrino en cruzar el Canal de la Mancha?",
+      "detail": "Imagina un halcón que mantiene en horizontal la velocidad de su picado más rápido citado, 389 km/h, durante los 33,2 km del paso de Calais, el tramo más estrecho entre Inglaterra y Francia. Sin viento en contra ni control de pasaportes.",
       "unit": "minutos",
-      "answer": 13.235206394655213,
-      "math": "National Geographic indica que el picado puede superar las 200 millas por hora: 200 × 1,609 ≈ 321,9 km/h. Toledo está a 71 km de Madrid. 71 ÷ 321,9 × 60 ≈ 13,2 minutos.",
-      "referenceExpression": "71 ÷ (200 × 1,609344) × 60",
-      "assumptions": "Ningún halcón vuela en llano a su velocidad de picado: eso solo lo consigue cayendo. Usamos la distancia de 71 km entre ciudades como trayecto recto.",
+      "answer": 5.120822622107969,
+      "math": "El paso de Calais mide 33,2 km entre South Foreland (Inglaterra) y el cabo Gris-Nez (Francia). El picado más rápido citado es de 389 km/h. 33,2 ÷ 389 × 60 ≈ 5,1 minutos.",
+      "referenceExpression": "33,2 ÷ 389 × 60",
+      "assumptions": "Ningún halcón vuela en llano a su velocidad de picado. Los 389 km/h se midieron en 2005 en un picado de un halcón adiestrado; la mayor velocidad medida con radar de forma fiable es de 184 km/h, con la que tardaría casi 11 minutos.",
       "confidence": "Dato documentado + modelo imposible",
       "sources": [
         {
-          "title": "National Geographic · Peregrine falcon",
-          "url": "https://www.nationalgeographic.com/animals/birds/facts/peregrine-falcon",
-          "fact": "Tras divisar la presa, el halcón peregrino se lanza en un picado que puede superar las 200 millas por hora."
+          "title": "Wikipedia · Peregrine falcon",
+          "url": "https://en.wikipedia.org/wiki/Peregrine_falcon",
+          "fact": "La mayor velocidad de picado medida de forma fiable es de 184 km/h; en un programa de National Geographic de 2005 se registró un picado de 389 km/h."
         },
         {
-          "title": "Wikipedia · Toledo",
-          "url": "https://es.wikipedia.org/wiki/Toledo",
-          "fact": "Toledo se encuentra a 71 km de Madrid."
+          "title": "Wikipedia · Strait of Dover",
+          "url": "https://en.wikipedia.org/wiki/Strait_of_Dover",
+          "fact": "La distancia más corta para cruzar el estrecho es de 33,2 km, de South Foreland, cerca de Dover, al cabo Gris-Nez."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-31-2.jpg",
-        "alt": "Halcón peregrino despegando de una roca con las alas abiertas",
-        "credit": "Partonez",
-        "url": "https://commons.wikimedia.org/wiki/File:Peregrine_Falcon_taking_Flight_from_Roundham_Head.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Distancia entre velocidad, y luego a minutos",
         "steps": [
-          "Un coche por autovía tarda unos 45 minutos en ir de Madrid a Toledo. Un halcón en picado va unas tres veces más rápido que ese coche.",
-          "A 300 km/h recorres 5 km cada minuto; 70 km son unos 14 minutos.",
-          "Con 71 km y 321,9 km/h salen 13,2 minutos. Llegaría antes de que se te enfriara el café, aunque tendría que caer desde una altura imposible para mantener ese ritmo."
+          "El Canal de la Mancha en su punto más estrecho mide unos 30 km: en días claros se ve Francia desde los acantilados de Dover. Un halcón en picado va a unos 400 km/h.",
+          "A 400 km/h recorres casi 7 km por minuto; 30 km son algo menos de 5 minutos.",
+          "Con 33,2 km y 389 km/h salen 5,1 minutos. Cambiaría de país en lo que dura una canción, aunque solo alcanza esa velocidad cayendo en picado."
         ]
       }
     },
@@ -110,14 +94,6 @@
           "fact": "Radio ecuatorial de Mercurio: 2.440,5 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-31-3.jpg",
-        "alt": "Mercurio en color realzado fotografiado por la sonda MESSENGER, cubierto de cráteres",
-        "credit": "NASA / Johns Hopkins University Applied Physics Laboratory / Carnegie Institution of Washington",
-        "url": "https://commons.wikimedia.org/wiki/File:Mercury_in_color_-_Prockter07_centered.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mercury_in_color_-_Prockter07_centered.jpg"
-      },
       "reasoning": {
         "heading": "Calcula la cintura del planeta",
         "steps": [

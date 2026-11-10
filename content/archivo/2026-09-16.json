@@ -1,43 +1,35 @@
 {
   "id": "2026-09-16",
   "name": "Miércoles",
-  "theme": "Peral, Times Square y Gasol",
+  "theme": "Roomba, Times Square y Jordan",
   "questions": [
     {
       "id": "archivo-2026-09-16-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Submarino pionero",
-      "title": "¿Cuántas horas tardaría el submarino de Isaac Peral en ir de Cartagena a Palma a su velocidad máxima?",
-      "detail": "Un viaje en el submarino eléctrico de 1888, el abuelo de todos los submarinos españoles. Navega en superficie a su velocidad máxima, sin paradas ni recargar baterías, por una ruta de 400 km.",
-      "unit": "horas",
-      "answer": 26.997840172786177,
-      "math": "El Peral alcanzaba 8 nudos en superficie: 8 × 1,852 = 14,816 km/h. Una ruta de 400 km lleva 400 ÷ 14,816 = 27 horas.",
-      "referenceExpression": "400 ÷ (8 × 1,852)",
-      "assumptions": "Ruta de 400 km, algo más larga que la línea recta entre ambas ciudades (unos 385 km). Velocidad máxima constante; sus baterías no daban para tanto de un tirón.",
+      "tag": "Aspiradora viajera",
+      "title": "¿Cuántos kilómetros recorre en un año un robot aspirador que limpia una hora al día?",
+      "detail": "Un Roomba que barre una hora diaria a su velocidad máxima de avance, sin frenar en las esquinas ni quedarse atascado bajo el sofá. Los gatos que viajan encima no pagan billete.",
+      "unit": "km",
+      "answer": 657,
+      "math": "Un Roomba avanza como mucho a 500 mm/s, 0,5 m/s. En una hora recorre 0,5 × 3.600 = 1.800 m. En un año: 1.800 × 365 = 657.000 m = 657 km.",
+      "referenceExpression": "0,5 × 3600 × 365 ÷ 1000",
+      "assumptions": "Velocidad máxima constante; en la práctica frena, gira y se detiene, así que el recorrido real es menor. Una hora de limpieza diaria todo el año.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Submarino Peral",
-          "url": "https://es.wikipedia.org/wiki/Submarino_Peral",
-          "fact": "Velocidad: 8 nudos en superficie y 3 nudos en inmersión; botado el 8 de septiembre de 1888."
+          "title": "Quanser · Roomba Drive (documentación técnica)",
+          "url": "https://docs.quanser.com/quarc/documentation/roomba_drive_block.html",
+          "fact": "Las velocidades máximas de avance y retroceso del Roomba son 500 mm/s y −500 mm/s."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-16-1.jpg",
-        "alt": "Submarino Peral expuesto en Cartagena, con su casco alargado sobre una base",
-        "credit": "Basilio",
-        "url": "https://commons.wikimedia.org/wiki/File:Peral_Submarine_Cartagena,ES_2011.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "Pasa nudos a km/h",
+        "heading": "Pasa los milímetros por segundo a kilómetros",
         "steps": [
-          "Un submarino del siglo XIX no era rápido: piensa en la velocidad de una bicicleta tranquila, unos 15 km/h.",
-          "A 15 km/h, 400 km llevan unas 27 horas. Más de un día entero de travesía.",
-          "Con 8 nudos (14,8 km/h) salen 27 horas exactas, redondeando. En inmersión, a 3 nudos, tardaría casi 72 horas."
+          "Un robot aspirador avanza a paso tranquilo: medio metro por segundo, más despacio que una persona andando.",
+          "Medio metro por segundo son 1,8 km en una hora. Por 365 días, unos 650 km.",
+          "El cálculo da 657 km al año: algo más que ir de Madrid a Lisboa por carretera, barriendo el arcén. Con los frenazos reales, algo menos."
         ]
       }
     },
@@ -62,14 +54,6 @@
           "fact": "En 2024 entraron en Times Square unos 220.000 peatones al día; los días de más afluencia llegan a 330.000."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-16-2.jpg",
-        "alt": "Multitud de peatones en Times Square rodeados de pantallas publicitarias",
-        "credit": "Pablo Costa Tirado (…",
-        "url": "https://commons.wikimedia.org/wiki/File:Times_Square_crowd_-_panoramio.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "De peatones al día a peatones al minuto",
         "steps": [
@@ -84,36 +68,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "La torre de los puntos",
-      "title": "Si cada punto de Pau Gasol en la NBA fuera un ladrillo de 7 cm apilado, ¿cuántos metros mediría la torre?",
-      "detail": "Una carrera entera de ganchos y tiros a media distancia convertida en obra. Cuenta solo los puntos de temporada regular; cada punto es un ladrillo macizo de 7 cm de grosor.",
+      "tag": "Torre de canastas",
+      "title": "Si cada punto de Michael Jordan en la NBA fuera un ladrillo de LEGO apilado, ¿cuántos metros mediría la torre?",
+      "detail": "Un ladrillo LEGO estándar por cada punto que anotó Jordan en temporada regular, de 9,6 mm de alto sin contar los tetones. Los playoffs y los anuncios de zapatillas, fuera.",
       "unit": "metros",
-      "answer": 1462.5800000000002,
-      "math": "Gasol anotó 20.894 puntos en temporada regular en 18 temporadas. A 7 cm por ladrillo: 20.894 × 0,07 = 1.462,58 m.",
-      "referenceExpression": "20894 × 0,07",
-      "assumptions": "Sin playoffs ni partidos con la selección. Ladrillos apilados sin mortero y sin que la torre se caiga.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 310.0032,
+      "math": "Jordan anotó 32.292 puntos en temporada regular. Cada ladrillo LEGO mide 9,6 mm de alto. 32.292 × 9,6 = 310.003,2 mm ≈ 310 m.",
+      "referenceExpression": "32292 × 9,6 ÷ 1000",
+      "assumptions": "Solo temporada regular. Altura nominal de 9,6 mm por ladrillo, sin contar los tetones, que encajan en el de arriba.",
+      "confidence": "Dato documentado",
       "sources": [
         {
-          "title": "Basketball Reference · Pau Gasol",
-          "url": "https://www.basketball-reference.com/players/g/gasolpa01.html",
-          "fact": "Totales de temporada regular: 1.226 partidos y 20.894 puntos en 18 temporadas."
+          "title": "Wikipedia · Michael Jordan",
+          "url": "https://en.wikipedia.org/wiki/Michael_Jordan",
+          "fact": "Estadísticas de carrera en la NBA (temporada regular): 32.292 puntos, 30,1 por partido."
+        },
+        {
+          "title": "Orionrobots · LEGO specifications",
+          "url": "https://orionrobots.co.uk/wiki/lego_specifications.html",
+          "fact": "Un ladrillo LEGO estándar mide 9,6 mm de alto sin contar los tetones (9,582 mm medidos)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-16-3.jpg",
-        "alt": "Pau Gasol machacando el aro con la camiseta de los Lakers",
-        "credit": "Eric Kilby from USA",
-        "url": "https://commons.wikimedia.org/wiki/File:Pau_Gasol_dunk.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
-        "heading": "Puntos por partido por partidos",
+        "heading": "Cuenta puntos, apila centímetros",
         "steps": [
-          "Gasol jugó muchísimos años en la NBA anotando bastante: digamos unos 17 puntos por partido durante más de mil partidos. Eso sugiere unos 20.000 puntos.",
-          "20.000 ladrillos de 7 cm son 1.400 metros: más alto que cualquier rascacielos del mundo.",
-          "Con sus 20.894 puntos reales la torre mide 1.462,58 m. Si sumaras los 2.098 puntos de playoffs, pasaría de 1.600 m."
+          "Jordan metió más de 30.000 puntos. Un ladrillo LEGO mide un centímetro escaso.",
+          "30.000 centímetros son 300 metros: una torre de verdad, no un juguete.",
+          "Con 32.292 puntos y 9,6 mm por ladrillo sale una torre de 310 m: casi la altura de la torre Eiffel con su antena (330 m). Para pisar el ladrillo de arriba haría falta saltar como Jordan."
         ]
       }
     }

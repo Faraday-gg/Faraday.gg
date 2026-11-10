@@ -29,14 +29,6 @@
           "fact": "Superficie de España: 505.983 km² (dato de 2016, fuente Eurostat)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-18-1.jpg",
-        "alt": "Dunas de arena del Sáhara egipcio que se pierden hasta el horizonte",
-        "credit": "Vyacheslav Argenberg",
-        "url": "https://commons.wikimedia.org/wiki/File:Sand_dunes_in_the_desert,_Sahara_Desert,_Dakhla_Oasis,_Egypt.jpg",
-        "license": "CC BY 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-      },
       "reasoning": {
         "heading": "Compara mapas: el Sáhara es casi tan grande como Estados Unidos",
         "steps": [
@@ -77,14 +69,6 @@
           "fact": "Coordenadas: 35,68972° N, 139,69222° E."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-18-2.jpg",
-        "alt": "Corte de un cable de fibra óptica con las fibras de colores asomando",
-        "credit": "Asurnipal",
-        "url": "https://commons.wikimedia.org/wiki/File:Optical_fiber_cable-02ASD.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "La luz es rápida, pero en el vidrio va con freno de mano",
         "steps": [
@@ -115,14 +99,6 @@
           "fact": "En un adulto sano en reposo oscila entre 60 y 100 latidos por minuto."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-18-3.jpg",
-        "alt": "Ilustración anatómica de la cara anterior del corazón humano",
-        "credit": "Patrick J. Lynch, medical illustrator",
-        "url": "https://commons.wikimedia.org/wiki/File:Heart_anterior_exterior_view.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
-      },
       "reasoning": {
         "heading": "Minutos de vida por latidos por minuto",
         "steps": [

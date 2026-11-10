@@ -1,7 +1,7 @@
 {
   "id": "2026-10-17",
   "name": "Sábado",
-  "theme": "Saturno, taxis NY y Empire",
+  "theme": "Saturno, taxis y Empire",
   "questions": [
     {
       "id": "archivo-2026-10-17-1",
@@ -24,14 +24,6 @@
           "fact": "El anillo A se extiende de 122.170 a 136.775 km del centro de Saturno."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-17-1.jpg",
-        "alt": "Saturno a contraluz fotografiado por la sonda Cassini, con los anillos iluminados formando un gran arco",
-        "credit": "NASA/JPL/Space Science Institute",
-        "url": "https://commons.wikimedia.org/wiki/File:Saturn_eclipse.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Saturn_eclipse.jpg"
-      },
       "reasoning": {
         "heading": "Un diámetro enorme a velocidad de avión",
         "steps": [
@@ -46,36 +38,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Amarillo pesado",
-      "title": "¿Cuántas toneladas pesan juntos todos los taxis amarillos con licencia de Nueva York?",
-      "detail": "Cada taxi amarillo necesita su placa metálica, el famoso medallón. Pon todos los taxis en una báscula gigante y supón que cada uno pesa 1,9 toneladas, sin pasajeros ni maletas.",
-      "unit": "toneladas",
-      "answer": 25815.3,
-      "math": "Nueva York tiene 13.587 taxis amarillos, uno por medallón. 13.587 × 1,9 t ≈ 25.815 toneladas.",
-      "referenceExpression": "13587 × 1,9",
-      "assumptions": "Los 1,9 t por taxi son una condición del juego: la flota mezcla modelos híbridos, monovolúmenes y adaptados que pesan entre unas 1,5 y 2,5 t. No todos los medallones están en servicio a la vez.",
-      "confidence": "Dato oficial + modelo",
+      "tag": "Atasco en el puente",
+      "title": "¿Cuántos taxis amarillos en fila cabrían a lo largo del puente de Brooklyn?",
+      "detail": "Un atasco perfecto: taxis de Nueva York parachoques con parachoques de punta a punta del puente, accesos incluidos. Usa la longitud total del puente y la de un Toyota Camry, uno de los modelos más habituales de la flota. Los cláxones, por cuenta de la casa.",
+      "unit": "taxis",
+      "answer": 375.81967213114757,
+      "math": "El puente de Brooklyn mide 1.834 m con sus accesos. Un Toyota Camry mide unos 4,88 m. 1.834 ÷ 4,88 ≈ 376 taxis por carril.",
+      "referenceExpression": "1834 ÷ 4,88",
+      "assumptions": "Una sola fila, sin hueco entre coches, todos Toyota Camry de 4,88 m. La longitud del puente incluye los accesos entre Park Row (Manhattan) y Sands Street (Brooklyn). Con un metro de separación entre coches cabrían unos 312.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "NYC Taxi and Limousine Commission · Yellow Cab",
-          "url": "https://www.nyc.gov/site/tlc/businesses/yellow-cab.page",
-          "fact": "«There are 13,587 taxis in New York City» y cada uno debe llevar un medallón."
+          "title": "Wikipedia · Brooklyn Bridge",
+          "url": "https://en.wikipedia.org/wiki/Brooklyn_Bridge",
+          "fact": "Mide 6.016 pies (1.834 m) incluidos los accesos; el vano principal tiene 486,3 m."
+        },
+        {
+          "title": "Wikipedia · Toyota Camry (XV70)",
+          "url": "https://en.wikipedia.org/wiki/Toyota_Camry_(XV70)",
+          "fact": "Longitud total de 4.880 a 4.910 mm según la versión."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-17-2.jpg",
-        "alt": "Taxi amarillo de Nueva York circulando por una calle de Manhattan",
-        "credit": "Paulyf12",
-        "url": "https://commons.wikimedia.org/wiki/File:Taxi_in_New_York_showing_its_true_color_of_yellow.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Flota por peso de un coche",
+        "heading": "Longitud del puente entre largo del taxi",
         "steps": [
-          "Nueva York tiene muchos taxis amarillos, pero menos de lo que parece en las películas: del orden de 10.000 a 15.000.",
-          "Con 13.000 taxis de unas 2 toneladas salen unas 26.000 toneladas: decenas de miles, como un buque mediano.",
-          "Con los 13.587 medallones y 1,9 t por coche salen 25.815 toneladas. El peso medio es la parte incierta: con 1,6 t serían unas 21.700."
+          "El puente de Brooklyn es largo pero se cruza andando en media hora: menos de 2 km. Un taxi sedán mide unos 5 m.",
+          "2.000 m entre 5 m dan 400 taxis. El orden es de centenares.",
+          "Con 1.834 m y 4,88 m por Camry salen unos 376 taxis por fila. Si se dejara un metro entre coches, como en un atasco real, serían unos 312."
         ]
       }
     },
@@ -100,14 +89,6 @@
           "fact": "El edificio recibe unos 25 impactos de rayo al año."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-17-3.jpg",
-        "alt": "Rayo cayendo sobre la aguja del Empire State Building durante una tormenta nocturna",
-        "credit": "Hermann Luyken",
-        "url": "https://commons.wikimedia.org/wiki/File:2008.06.07.202332_Lightning_Empire_State_NYC.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Rayos por año, por diez años",
         "steps": [

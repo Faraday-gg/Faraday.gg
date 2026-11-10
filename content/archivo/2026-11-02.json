@@ -1,22 +1,22 @@
 {
   "id": "2026-11-02",
   "name": "Lunes",
-  "theme": "Baikal, Alhambra y sangre",
+  "theme": "Baikal, Alhambra y bombeo",
   "questions": [
     {
       "id": "archivo-2026-11-02-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Agua de reserva",
-      "title": "¿Cuántos años tardaría España en beberse el lago Baikal?",
-      "detail": "Todo el país se pone a dieta exclusiva de agua siberiana: 2 litros por persona y día, sin lluvia que rellene el lago ni ríos que le aporten agua. La población no cambia en todo ese tiempo.",
+      "tag": "Sorbo siberiano",
+      "title": "¿Cuántos años tardaría toda la humanidad en beberse el lago Baikal?",
+      "detail": "Toda la humanidad, 8.200 millones de personas, bebe solo agua del Baikal: 2 litros por cabeza al día. Mientras tanto, los ríos no le aportan ni una gota más.",
       "unit": "años",
-      "answer": 649130.4228039483,
-      "math": "El Baikal contiene 23.615,39 km³, es decir, 23.615.390.000.000.000 litros. España tenía 49.801.559 habitantes a 1 de julio de 2026; a 2 L diarios beben 49.801.559 × 2 × 365,25 ≈ 36.380 millones de litros al año. División: unos 649.000 años.",
-      "referenceExpression": "23615,39 × 10^12 ÷ (49801559 × 2 × 365,25)",
-      "assumptions": "El lago no recibe agua nueva ni se evapora, y la población se mantiene fija. Los 2 litros por persona y día son un supuesto del modelo.",
-      "confidence": "Datos documentados + modelo",
+      "answer": 3945.103575008353,
+      "math": "El Baikal contiene 23.615,39 km³, es decir, 23.615.390.000.000.000 litros. La humanidad (unos 8.200 millones de personas a mediados de 2024) bebe 8.200 millones × 2 L × 365 ≈ 5,99 billones de litros al año. División: unos 3.945 años.",
+      "referenceExpression": "23615,39 × 1000000000000 ÷ (8200000000 × 2 × 365)",
+      "assumptions": "Población constante de 8.200 millones (dato de la ONU para mediados de 2024) y 2 litros diarios por persona. El Baikal se recarga con sus ríos; aquí lo ignoramos.",
+      "confidence": "Dato documentado + cálculo",
       "sources": [
         {
           "title": "Wikipedia · Lake Baikal",
@@ -24,25 +24,17 @@
           "fact": "El lago contiene 23.615,39 km³ de agua."
         },
         {
-          "title": "INE · Estadística Continua de Población, segundo trimestre de 2026",
-          "url": "https://ine.es/dyngs/Prensa/es/ECP2T26.htm",
-          "fact": "La población de España se situó en 49.801.559 habitantes a 1 de julio de 2026 (dato provisional)."
+          "title": "Noticias ONU · World Population Prospects 2024",
+          "url": "https://news.un.org/en/story/2024/07/1151971",
+          "fact": "La población mundial llegó a casi 8.200 millones de personas a mediados de 2024."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-02-1.jpg",
-        "alt": "Orilla rocosa del lago Baikal con agua muy transparente y montañas al fondo",
-        "credit": "Vladislav Bezrukov",
-        "url": "https://commons.wikimedia.org/wiki/File:On_the_Baikal_shore.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Pasa el lago a litros y el país a litros por año",
+        "heading": "Un lago enorme frente a una sed enorme",
         "steps": [
-          "El Baikal es el lago más profundo del mundo: decenas de miles de km³. Cada km³ son un billón de litros, así que hablamos de unos 20.000 billones de litros.",
-          "50 millones de personas a 2 litros diarios beben 100 millones de litros al día, unos 36.000 millones al año. 20.000 billones entre 36.000 millones da más de medio millón de años.",
-          "Con los 23.615 km³ y la población de 2026 salen 649.000 años. Ni siquiera con toda la humanidad bebiendo se acabaría en una vida: el Baikal es una despensa de agua a escala geológica."
+          "El Baikal es el lago más profundo del mundo; digamos que guarda unos 20.000 km³. Cada km³ son un billón de litros.",
+          "Unos 8.000 millones de personas a 2 litros diarios beben unos 6 billones de litros al año. 20.000 billones entre 6 billones da unos 3.300 años.",
+          "Con los 23.615 km³ medidos y 8.200 millones de personas salen unos 3.945 años. Para terminar hoy habría que haber empezado en plena Edad del Bronce."
         ]
       }
     },
@@ -67,14 +59,6 @@
           "fact": "Con datos provisionales de la Junta de Andalucía, la Alhambra encabeza la lista con 2.726.871 visitantes en 2025."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-02-2.jpg",
-        "alt": "Panorámica alargada de la Alhambra al atardecer, con sus murallas y torres sobre la colina",
-        "credit": "Jebulon",
-        "url": "https://commons.wikimedia.org/wiki/File:Alhambra_in_the_evening.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Alhambra_in_the_evening.jpg"
-      },
       "reasoning": {
         "heading": "Visitas del año entre minutos abiertos",
         "steps": [
@@ -110,14 +94,6 @@
           "fact": "Piscina de 50 × 25 m; con 2 m de profundidad nominal contiene 2.500 m³."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-11-02-3.jpg",
-        "alt": "Ilustración anatómica del corazón humano visto de frente, con sus grandes vasos",
-        "credit": "Patrick J. Lynch, medical illustrator",
-        "url": "https://commons.wikimedia.org/wiki/File:Heart_anterior_exterior_view.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
-      },
       "reasoning": {
         "heading": "Litros por minuto, minutos por vida",
         "steps": [

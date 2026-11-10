@@ -1,43 +1,35 @@
 {
   "id": "2026-09-19",
   "name": "Sábado",
-  "theme": "Hayedo, Quijote y basura",
+  "theme": "Camello, Quijote y basura",
   "questions": [
     {
       "id": "archivo-2026-09-19-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Lluvia de hojas",
-      "title": "¿Cuántas hojas caen cada otoño en el Hayedo de Montejo?",
-      "detail": "Uno de los hayedos más al sur de Europa, en plena sierra madrileña. Supón 200 hayas adultas por hectárea y 100.000 hojas por árbol, y que todas caen.",
-      "unit": "hojas",
-      "answer": 5000000000,
-      "math": "El hayedo ocupa 250 hectáreas. Con 200 hayas por hectárea son 50.000 árboles; con 100.000 hojas cada uno, 50.000 × 100.000 = 5.000 millones de hojas.",
-      "referenceExpression": "250 × 200 × 100000",
-      "assumptions": "Densidad de árboles y hojas por árbol son supuestos del modelo, no recuentos: la masa mezcla hayas con robles y otras especies, y una haya grande puede tener varias veces más hojas.",
-      "confidence": "Modelo aproximado",
+      "tag": "Barra libre",
+      "title": "¿Cuántas latas de refresco llenaría el agua que puede beberse un camello sediento de una sentada?",
+      "detail": "Un camello que llega seco al abrevadero y bebe hasta hartarse, en una sola sesión. Cuenta latas normales de 33 cl, sin gas y sin hielo: él no es exigente.",
+      "unit": "latas",
+      "answer": 439.3939,
+      "math": "Un camello puede beber hasta 145 litros de agua en una sola sesión. Entre 0,33 litros por lata: 145 ÷ 0,33 = 439,4 latas.",
+      "referenceExpression": "145 ÷ 0,33",
+      "assumptions": "Se toma el máximo que cita el zoo de San Diego; un camello que no esté deshidratado bebe mucho menos. Latas de 33 cl llenas hasta arriba.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Comunidad de Madrid · Bibliografía del Hayedo de Montejo",
-          "url": "https://www.comunidad.madrid/medio-ambiente/bibliografia-hayedo-montejo",
-          "fact": "El Hayedo de Montejo tiene una superficie de 250 hectáreas."
+          "title": "San Diego Zoo · Camel",
+          "url": "https://animals.sandiegozoo.org/animals/camel",
+          "fact": "Un camello puede beber hasta 32 galones (145 litros) de agua en una sola sesión."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-19-1.jpg",
-        "alt": "Hayedo de Montejo en otoño, con el suelo cubierto de hojas ocres",
-        "credit": "Miriela Rodriguez",
-        "url": "https://commons.wikimedia.org/wiki/File:Hayedo_de_Montejo_de_la_Sierra._Oto%C3%B1o.jpg",
-        "license": "CC BY-SA 3.0 es",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
-      },
       "reasoning": {
-        "heading": "Superficie, árboles y hojas por árbol",
+        "heading": "Bañera de camello, latas de bar",
         "steps": [
-          "El hayedo es pequeño para ser un bosque famoso: unos cientos de hectáreas, menos que un barrio grande.",
-          "Si cada hectárea tiene un par de centenares de árboles, hablamos de decenas de miles de hayas. Cada una tiene decenas de miles de hojas o más.",
-          "Con 250 ha, 200 árboles/ha y 100.000 hojas por árbol salen 5.000 millones. Es un orden de magnitud: con árboles más grandes podría duplicarse."
+          "Un camello sediento no bebe un vaso: bebe como para llenar una bañera pequeña. Pongamos 100 litros.",
+          "Una lata tiene 0,33 litros, así que caben tres latas por litro: 100 litros serían unas 300 latas.",
+          "Con los 145 litros que puede tragarse de una vez salen 439,4 latas: más de 18 cajas de 24."
         ]
       }
     },
@@ -62,14 +54,6 @@
           "fact": "Recuento propio del texto completo de las dos partes, sin la licencia del proyecto: 383.640 palabras."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-19-2.jpg",
-        "alt": "Ejemplares de la primera y la segunda parte del Quijote",
-        "credit": "Miguelazo84",
-        "url": "https://commons.wikimedia.org/wiki/File:Quijote1y2.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Palabras por página por páginas",
         "steps": [
@@ -84,36 +68,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Bolsas al contenedor",
-      "title": "¿Cuántas bolsas de basura de 5 kg saca al año una familia de cuatro personas?",
-      "detail": "Las bajadas al contenedor de toda una familia durante un año, reciclaje incluido. Cada bolsa pesa 5 kg y la familia genera la media española por persona.",
-      "unit": "bolsas",
-      "answer": 371.44,
-      "math": "En 2023 se recogieron 464,3 kg de residuos municipales por habitante. Cuatro personas generan 1.857,2 kg; entre 5 kg por bolsa: 371,4 bolsas.",
-      "referenceExpression": "464,3 × 4 ÷ 5",
-      "assumptions": "La media por habitante incluye residuos de comercios y servicios recogidos por los ayuntamientos, así que la cifra doméstica real es algo menor.",
+      "tag": "Bolsas de peso",
+      "title": "¿Cuántos osos polares pesaría la basura que saca en un año una familia de cuatro?",
+      "detail": "Toda la basura de un año de una familia de cuatro, reciclaje incluido, con la media española por persona. Compárala con un oso polar macho de 450 kg, que tampoco cabe en el contenedor.",
+      "unit": "osos polares",
+      "answer": 4.1271,
+      "math": "En 2023 se recogieron en España 464,3 kg de residuos municipales por habitante. Cuatro personas suman 1.857,2 kg; entre 450 kg por oso: 4,13 osos polares.",
+      "referenceExpression": "464,3 × 4 ÷ 450",
+      "assumptions": "La media por habitante incluye residuos de comercios y servicios que recogen los ayuntamientos, así que la cifra de un hogar es algo menor. Un macho adulto pesa entre 300 y 800 kg; 450 kg es un oso mediano.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "INE · Estadística sobre recogida y tratamiento de residuos urbanos 2023",
           "url": "https://ine.es/dyngs/Prensa/ERTR2023.htm",
           "fact": "En 2023 se recogieron 464,3 kilogramos de residuos municipales por habitante."
+        },
+        {
+          "title": "Wikipedia · Polar bear",
+          "url": "https://en.wikipedia.org/wiki/Polar_bear",
+          "fact": "Los machos adultos pesan entre 300 y 800 kg; las hembras, entre 150 y 300 kg."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-19-3.jpg",
-        "alt": "Contenedores de basura y reciclaje en una calle",
-        "credit": "WikiMario.16",
-        "url": "https://commons.wikimedia.org/wiki/File:IMG_Basura.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Kilos por persona, personas por casa",
+        "heading": "Kilos por persona, osos por familia",
         "steps": [
-          "Una persona tira alrededor de un kilo de basura al día, sumando envases, papel y orgánico: unos 400 kg al año.",
-          "Una familia de cuatro rondaría 1.600 kg: 320 bolsas de 5 kg, casi una al día.",
-          "Con los 464,3 kg por habitante de 2023 salen 371,4 bolsas. Como esa media incluye residuos de comercios, tu familia probablemente saque algo menos."
+          "Una persona tira cerca de un kilo de basura al día: unos 400 kg al año, casi un oso polar por cabeza.",
+          "Cuatro personas son unos 1.600 kg, así que la familia rondaría los 3 o 4 osos.",
+          "Con los 464,3 kg por habitante de 2023 salen 1.857 kg: 4,13 osos de 450 kg bajando al contenedor."
         ]
       }
     }

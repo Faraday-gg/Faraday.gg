@@ -1,7 +1,7 @@
 {
   "id": "2026-10-26",
   "name": "Lunes",
-  "theme": "Reloj atómico, Ámsterdam y cigüeñas",
+  "theme": "Reloj atómico, Ámsterdam y koala",
   "questions": [
     {
       "id": "archivo-2026-10-26-1",
@@ -29,14 +29,6 @@
           "fact": "El NIST-F2 es unas tres veces más preciso que el NIST-F1."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-26-1.jpg",
-        "alt": "Reloj atómico de fuente de cesio NIST-F2, sucesor del NIST-F1, en su laboratorio",
-        "credit": "National Institute of Standards and Technology - Physics Laboratory: Time and Frequency Division",
-        "url": "https://commons.wikimedia.org/wiki/File:NIST-F2_cesium_fountain_atomic_clock.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:NIST-F2_cesium_fountain_atomic_clock.jpg"
-      },
       "reasoning": {
         "heading": "Segundos de error por años por segundo",
         "steps": [
@@ -51,36 +43,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Fila de dos ruedas",
-      "title": "Si todas las bicicletas de Ámsterdam se pusieran en fila, ¿cuántos kilómetros mediría?",
-      "detail": "Todas las bicis de los hogares de Ámsterdam, rueda con rueda, 1,8 m cada una. Las del fondo de los canales no cuentan.",
-      "unit": "km",
-      "answer": 1524.6,
-      "math": "En 2015 los hogares de Ámsterdam tenían 847.000 bicicletas (CBS, recogido en Wikipedia). 847.000 × 1,8 m = 1.524.600 m ≈ 1.525 km.",
-      "referenceExpression": "847000 × 1,8 ÷ 1000",
-      "assumptions": "Bicicleta de 1,8 m sin huecos. El dato es de 2015 y solo cuenta las bicis de hogares; otras estimaciones hablan de 880.000.",
+      "tag": "Pedaleando hasta Madrid",
+      "title": "Si todas las bicicletas de Ámsterdam se pusieran en fila, ¿cuántas veces cubrirían la distancia de Ámsterdam a Madrid?",
+      "detail": "Las bicis de todos los hogares de Ámsterdam, rueda con rueda, en una fila recta hacia el sur. Cuenta 1,8 m por bicicleta y la distancia en línea recta entre los centros de las dos ciudades. Las que acaban en los canales, que son unas cuantas cada año, no cuentan.",
+      "unit": "veces",
+      "answer": 1.0294395678595543,
+      "math": "En 2015 los hogares de Ámsterdam tenían 847.000 bicicletas. 847.000 × 1,8 m ≈ 1.525 km. La distancia en línea recta de Ámsterdam a Madrid es de unos 1.481 km. 1.525 ÷ 1.481 ≈ 1,03 veces.",
+      "referenceExpression": "847000 × 1,8 ÷ 1000 ÷ 1481",
+      "assumptions": "Bicicletas de 1,8 m de largo sin hueco entre ellas. Distancia ortodrómica calculada con las coordenadas de ambas ciudades sobre una Tierra de 6.371 km de radio; por carretera son bastantes más kilómetros.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Wikipedia · Cycling in Amsterdam",
           "url": "https://en.wikipedia.org/wiki/Cycling_in_Amsterdam",
           "fact": "En 2015 los 442.693 hogares de Ámsterdam tenían 847.000 bicicletas (dato de la oficina estadística CBS)."
+        },
+        {
+          "title": "Wikipedia · Amsterdam",
+          "url": "https://en.wikipedia.org/wiki/Amsterdam",
+          "fact": "Coordenadas: 52°22′22″ N, 4°53′37″ E."
+        },
+        {
+          "title": "Wikipedia · Madrid",
+          "url": "https://en.wikipedia.org/wiki/Madrid",
+          "fact": "Coordenadas: 40°25′01″ N, 3°42′12″ O."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-26-2.jpg",
-        "alt": "Aparcamiento de bicicletas en Ámsterdam con cientos de bicis amontonadas",
-        "credit": "Tezd",
-        "url": "https://commons.wikimedia.org/wiki/File:Amsterdam_bicycle_parking.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Bicis por metro y medio largo",
+        "heading": "Bicis por largo entre distancia",
         "steps": [
-          "En Ámsterdam hay más bicis que personas. Una fila con todas ¿saldría de Holanda?",
-          "Unas 850.000 bicis a casi 2 m son unos 1.500 km: más o menos de Ámsterdam a Madrid.",
-          "Con 847.000 bicis salen 1.525 km. La fila saldría de los Países Bajos y cruzaría media Europa."
+          "Ámsterdam tiene más bicis que habitantes: cerca de un millón. Cada una mide casi 2 m.",
+          "Un millón de bicis de 1,8 m son 1.800 km. Madrid está a unos 1.500 km en línea recta: más o menos una vez.",
+          "Con 847.000 bicis salen 1.525 km frente a 1.481 km: la fila llega a Madrid y sobran 44 km, casi hasta Aranjuez."
         ]
       }
     },
@@ -89,41 +83,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Vecinas en el tejado",
-      "title": "¿Cuántos kilos de ramas soporta el tejado de la colegiata de San Miguel de Alfaro con todos sus nidos de cigüeña?",
-      "detail": "Cien nidos de 250 kg de media, sin contar a las cigüeñas ni a sus crías. El arquitecto del siglo XVI no lo vio venir.",
+      "tag": "Menú de eucalipto",
+      "title": "¿Cuántos kilos de hojas de eucalipto come un koala en un año?",
+      "detail": "Un koala adulto, todos los días el mismo menú y sin postre. Usa el punto medio del consumo diario que da la Australian Koala Foundation. Duerme casi todo el día para digerirlo, cosa comprensible.",
       "unit": "kg",
-      "answer": 25000,
-      "math": "La colegiata tenía unos 100 nidos según el plan de manejo 2013-2016 (Ecoticias). SEO/BirdLife explica que un nido puede pesar cientos de kilos (Vozpópuli). Con 250 kg de media: 100 × 250 = 25.000 kg.",
-      "referenceExpression": "100 × 250",
-      "assumptions": "Nido medio de 250 kg; los grandes pasan de 500 kg y los nuevos pesan mucho menos. El número de nidos varía cada año y se descargan para aligerar el tejado.",
-      "confidence": "Dato documentado + modelo aproximado",
+      "answer": 127.74999999999999,
+      "math": "Un koala come entre 200 y 500 g de hojas al día; el punto medio son 350 g. 0,35 kg × 365 ≈ 127,8 kg al año.",
+      "referenceExpression": "0,35 × 365",
+      "assumptions": "Consumo constante de 350 g diarios (punto medio del intervalo de 200 a 500 g). Solo las hojas que se come, no las que arranca y descarta, que pueden ser muchas más.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Ecoticias · Reordenarán la colonia de cigüeñas de la colegiata de Alfaro",
-          "url": "https://www.ecoticias.com/naturaleza/86895_noticia-medio-ambiente-rioja-reordenaran-ciguena-colegiata-alfaro",
-          "fact": "La colegiata de San Miguel tenía 100 nidos (artículo de diciembre de 2013)."
-        },
-        {
-          "title": "Vozpópuli · Por San Blas, la cigüeña verás",
-          "url": "https://www.vozpopuli.com/ciencia/san-blas-basura-atiborraras_0_995601796.html",
-          "fact": "Un biólogo de SEO/BirdLife: los nidos pueden llegar a pesar cientos de kilos."
+          "title": "Australian Koala Foundation · Koala diet and digestion",
+          "url": "https://savethekoala.com/about-koalas/koalas-diet-digestion/",
+          "fact": "Cada koala come aproximadamente entre 200 y 500 gramos de hojas al día."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-26-3.jpg",
-        "alt": "Tejado de la colegiata de Alfaro cubierto de nidos de cigüeña",
-        "credit": "Zarateman",
-        "url": "https://commons.wikimedia.org/wiki/File:Alfaro_-_Colegiata,_cig%C3%BCe%C3%B1as_08.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
-        "heading": "Nidos por peso medio de nido",
+        "heading": "Ración diaria por días del año",
         "steps": [
-          "Un nido de cigüeña parece un montón de palitos, pero se reutiliza año tras año. ¿Kilos o toneladas?",
-          "Un centenar de nidos de unos cientos de kilos suman decenas de toneladas.",
-          "Con 100 nidos de 250 kg salen 25.000 kg, lo que pesan unos 20 coches. Por eso se descargan de material de vez en cuando."
+          "Un koala pesa como un niño pequeño y come unos pocos cientos de gramos de hojas al día. Pongamos 300 g.",
+          "300 g × 365 días son unos 110 kg: el peso de una persona grande en hojas.",
+          "Con los 350 g del punto medio salen 127,8 kg. Según el koala, entre 73 kg (200 g al día) y 183 kg (500 g al día)."
         ]
       }
     }

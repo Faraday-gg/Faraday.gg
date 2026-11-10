@@ -1,21 +1,21 @@
 {
   "id": "2026-10-11",
   "name": "Domingo",
-  "theme": "Concorde, flamencos y hígado",
+  "theme": "Concorde, charrán y hígado",
   "questions": [
     {
       "id": "archivo-2026-10-11-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Supersónico canario",
-      "title": "¿Cuántos minutos tardaría el Concorde en volar de Madrid a Gran Canaria a su velocidad de crucero?",
-      "detail": "El avión supersónico nunca hizo esta ruta, pero soñar es gratis. Vuela en línea recta entre los aeropuertos de Barajas y Gran Canaria a velocidad de crucero constante, sin despegue ni aterrizaje.",
+      "tag": "Supersónico a Buenos Aires",
+      "title": "A velocidad de crucero, ¿cuántos minutos tardaría el Concorde en ir de Madrid a Buenos Aires?",
+      "detail": "Línea recta sobre la esfera terrestre entre Barajas y Ezeiza, todo el trayecto a la velocidad media de crucero del Concorde. Sin despegue, aterrizaje ni preocuparnos por el depósito.",
       "unit": "minutos",
-      "answer": 49.25050534149531,
-      "math": "La distancia ortodrómica entre los dos aeropuertos, calculada con sus coordenadas y un radio terrestre de 6.371 km, es de unos 1.765 km. A 2.150 km/h (Mach 2,02): 1.765 ÷ 2.150 × 60 ≈ 49,3 minutos.",
-      "referenceExpression": "1764,81 ÷ 2150 × 60",
-      "assumptions": "Velocidad de crucero desde el primer al último kilómetro, sin subir, bajar ni esquivar restricciones: el Concorde solo podía ir supersónico sobre el mar. La distancia es la del arco de círculo máximo entre aeropuertos.",
+      "answer": 281.453915814776,
+      "math": "La distancia ortodrómica entre los dos aeropuertos, calculada con sus coordenadas y un radio terrestre de 6.371 km, es de unos 10.085 km. A 2.150 km/h (Mach 2,02): 10.085 ÷ 2.150 × 60 ≈ 281 minutos.",
+      "referenceExpression": "10085,4 ÷ 2150 × 60",
+      "assumptions": "Suponemos crucero desde el primer al último minuto; en la realidad, despegar, subir y bajar añade tiempo, y el Concorde habría tenido que repostar por el camino.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -24,30 +24,22 @@
           "fact": "Velocidad media de crucero de Mach 2,02 (2.150 km/h)."
         },
         {
-          "title": "Wikipedia · Madrid–Barajas Airport",
+          "title": "Wikipedia · Adolfo Suárez Madrid–Barajas Airport",
           "url": "https://en.wikipedia.org/wiki/Adolfo_Su%C3%A1rez_Madrid%E2%80%93Barajas_Airport",
-          "fact": "Coordenadas del aeropuerto: 40,4722° N, 3,5608° O."
+          "fact": "Coordenadas del aeropuerto: 40,47222° N, 3,56083° O."
         },
         {
-          "title": "Wikipedia · Gran Canaria Airport",
-          "url": "https://en.wikipedia.org/wiki/Gran_Canaria_Airport",
-          "fact": "Coordenadas del aeropuerto: 27,9319° N, 15,3867° O."
+          "title": "Wikipedia · Ministro Pistarini International Airport",
+          "url": "https://en.wikipedia.org/wiki/Ministro_Pistarini_International_Airport",
+          "fact": "Coordenadas del aeropuerto de Ezeiza: 34,82222° S, 58,53583° O."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-11-1.jpg",
-        "alt": "Concorde de Air France expuesto en el Museo del Aire y del Espacio de Le Bourget, con su morro afilado",
-        "credit": "Pline",
-        "url": "https://commons.wikimedia.org/wiki/File:Concorde_Air_France_Musee_du_Bourget_P1020006.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-      },
       "reasoning": {
-        "heading": "Distancia entre velocidad, y luego a minutos",
+        "heading": "Distancia entre velocidad",
         "steps": [
-          "Un vuelo normal de Madrid a Gran Canaria dura casi tres horas a unos 800 km/h: la distancia ronda los 1.700-1.800 km.",
-          "El Concorde iba a unos 2.000 km/h, más del doble de rápido. 1.800 ÷ 2.000 = 0,9 horas, unos 54 minutos.",
-          "Con los 1.765 km de línea recta y 2.150 km/h salen 49,3 minutos. En la práctica sumarías unos 20-30 minutos de subida y bajada, y sobre la Península no podría ir supersónico."
+          "Madrid–Buenos Aires son unas 12 horas en un avión normal, a unos 850 km/h: unos 10.000 km. El Concorde volaba a más del doble de la velocidad del sonido.",
+          "10.000 km ÷ 2.000 km/h = 5 horas, unos 300 minutos.",
+          "Con 10.085 km y 2.150 km/h salen 281 minutos, menos de cinco horas: el mismo viaje que hoy dura media noche, en lo que tardas en ver dos películas."
         ]
       }
     },
@@ -56,36 +48,41 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Flamencos de pie",
-      "title": "¿Cuántos flamencos cabrían en la Laguna de Fuente de Piedra si cada uno ocupara un metro cuadrado?",
-      "detail": "Es la laguna más grande de Andalucía y una guardería de flamencos famosa en toda Europa. Dale a cada flamenco un metro cuadrado para estar a la pata coja, con la laguna en su vaso completo.",
-      "unit": "flamencos",
-      "answer": 14750000,
-      "math": "El vaso de la laguna ocupa unas 1.475 ha. Una hectárea son 10.000 m². 1.475 × 10.000 = 14.750.000 m², así que caben 14,75 millones de flamencos.",
-      "referenceExpression": "1475 × 10000",
-      "assumptions": "Usamos la superficie del vaso lagunar, no la de la zona protegida (unas 8.912 ha). Un metro cuadrado por flamenco es una condición del juego: en una colonia real se apiñan mucho más.",
-      "confidence": "Dato oficial + modelo",
+      "tag": "Millas de pájaro",
+      "title": "¿Cuántas veces podría ir y volver a la Luna un charrán ártico con lo que vuela en toda su vida?",
+      "detail": "Un charrán ártico, pájaro de menos de 125 g que viaja cada año del Ártico a la Antártida y vuelta, durante 30 años de vida. Viajes de ida y vuelta a la distancia media de la Luna.",
+      "unit": "viajes",
+      "answer": 2.7666493236212277,
+      "math": "Los charranes seguidos con geolocalizadores recorrieron de media 70.900 km al año. En 30 años: 70.900 × 30 = 2.127.000 km. Ir y volver a la Luna son 2 × 384.400 = 768.800 km. 2.127.000 ÷ 768.800 ≈ 2,77 viajes.",
+      "referenceExpression": "70900 × 30 ÷ (2 × 384400)",
+      "assumptions": "El estudio cifra la distancia anual entre 59.500 y 81.600 km según el ave, y la vida «de más de 30 años»; sus autores redondean a unos tres viajes de ida y vuelta.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Junta de Andalucía · BOJA n.º 144 de 2013, Decreto 70/2013",
-          "url": "https://www.juntadeandalucia.es/boja/2013/144/BOJA13-144-00114-12146-01_00030952.pdf",
-          "fact": "«Con una superficie aproximada de 1.475 ha, es la laguna más grande de Andalucía»; la Reserva y su zona periférica suman unas 8.912 ha."
+          "title": "Egevang et al., PNAS 2010 · Tracking of Arctic terns Sterna paradisaea reveals longest animal migration",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2836663/",
+          "fact": "La distancia media anual de migración fue de 70.900 km (entre 59.500 y 81.600); como pueden vivir más de 30 años, en su vida superarían los 2,4 millones de km."
+        },
+        {
+          "title": "NASA · Moon Facts",
+          "url": "https://science.nasa.gov/moon/facts/",
+          "fact": "La Luna está de media a 384.400 km de la Tierra."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-10-11-2.jpg",
-        "alt": "Grupo de flamencos rosados en el agua somera de la Laguna de Fuente de Piedra",
-        "credit": "rjime31",
-        "url": "https://commons.wikimedia.org/wiki/File:Flamencos_Fuente_de_Piedra.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+        "alt": "Charrán ártico, un ave pequeña y blanca de pico rojo y capirote negro",
+        "credit": "TRinaud",
+        "url": "https://commons.wikimedia.org/wiki/File:Arctic_tern_(Sterna_paradisaea)_2023_01.jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
       },
       "reasoning": {
-        "heading": "Pasa la laguna a metros cuadrados",
+        "heading": "Suma vuelos de toda una vida",
         "steps": [
-          "Una laguna grande del interior puede medir unos 6 km de largo por 2 de ancho. Eso es un rectángulo de 12 km².",
-          "Un km² son un millón de m², así que 12 km² dan 12 millones de flamencos. Hablamos de millones, no de miles.",
-          "Con las 1.475 ha oficiales salen 14,75 millones de flamencos. La lámina de agua cambia mucho con las lluvias, así que este es el máximo con la laguna llena."
+          "El charrán ártico va de polo a polo cada año: decenas de miles de kilómetros por temporada, durante décadas.",
+          "70.000 km × 30 años = 2,1 millones de km. Ir y volver a la Luna son unos 770.000 km: casi 3 viajes.",
+          "Con 70.900 km al año salen 2,77 viajes de ida y vuelta: un pájaro que pesa como una manzana, más viajero que cualquier astronauta."
         ]
       }
     },
@@ -94,36 +91,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Filtro de serie",
-      "title": "¿Cuántos litros de sangre pasan por tu hígado en un día?",
-      "detail": "Sin hacer ruido, el hígado recibe sangre de la arteria hepática y de la vena porta a todas horas. Usa un flujo constante de 1,5 litros por minuto, día y noche.",
-      "unit": "litros",
-      "answer": 2160,
-      "math": "El flujo sanguíneo hepático total ronda los 1.200-1.800 ml/min. Con 1,5 L/min y 1.440 minutos al día: 1,5 × 1.440 = 2.160 litros.",
-      "referenceExpression": "1,5 × 1440",
-      "assumptions": "Flujo constante de 1,5 L/min, punto medio del rango habitual en adultos en reposo. El flujo cambia con la postura, las comidas y el ejercicio. Contamos el volumen que pasa, no la sangre que tienes (unos 5 litros, que dan muchas vueltas).",
-      "confidence": "Rango fisiológico + modelo",
+      "tag": "Depuradora interna",
+      "title": "¿Cuántas bañeras de sangre pasan por tu hígado cada día?",
+      "detail": "Un adulto en reposo, durante 24 horas. Bañeras domésticas llenas hasta arriba, de las que tardan un buen rato en llenarse.",
+      "unit": "bañeras",
+      "answer": 14.89655172413793,
+      "math": "El flujo de sangre por el hígado ronda los 1.200-1.800 ml/min. Con 1,5 L/min y 1.440 minutos al día: 1,5 × 1.440 = 2.160 litros. Una bañera llena son unos 145 litros. 2.160 ÷ 145 ≈ 14,9 bañeras.",
+      "referenceExpression": "1,5 × 1440 ÷ 145",
+      "assumptions": "Usamos el punto medio del flujo hepático y una bañera media. Con 1,2 L/min saldrían 11,9 bañeras; con 1,8 L/min, 17,9.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Deranged Physiology · Hepatic blood flow",
           "url": "https://derangedphysiology.com/main/cicm-primary-exam/required-reading/cardiovascular-system/Chapter%20475/hepatic-blood-flow",
-          "fact": "Flujo hepático total de unos 1.200 ml/min, con un rango de 1.200-1.800 ml/min, aproximadamente el 20-25 % del gasto cardiaco."
+          "fact": "El hígado recibe un flujo total de unos 1.200-1.800 ml/min, alrededor del 25 % del gasto cardiaco."
+        },
+        {
+          "title": "iAgua · Darse una ducha en la Comunidad de Madrid cuesta 66 céntimos",
+          "url": "https://www.iagua.es/blogs/facts-and-figures/darse-ducha-comunidad-madrid-cuesta-66-centimos",
+          "fact": "Con datos de tarifas de Canal de Isabel II, hacen falta unos 145 litros para llenar la bañera de casa."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-11-3.png",
-        "alt": "Ilustración del hígado humano con sus lóbulos y vasos sanguíneos",
-        "credit": "Courtesy of NIAID Ryan Kissinger",
-        "url": "https://commons.wikimedia.org/wiki/File:Human_Liver_(NIH_BioArt_230).png",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Human_Liver_(NIH_BioArt_230).png"
-      },
       "reasoning": {
-        "heading": "Un caudal pequeño durante muchos minutos",
+        "heading": "De litros por minuto a bañeras por día",
         "steps": [
-          "El corazón bombea unos 5 litros por minuto y al hígado le toca una cuarta parte: algo más de 1 litro por minuto.",
-          "Un día tiene 1.440 minutos, casi 1.500. Con 1 L/min serían unos 1.500 litros; con 1,5 L/min, más de 2.000.",
-          "Con 1,5 L/min salen 2.160 litros al día, unas 14 bañeras de 150 litros. Si tomas el extremo bajo del rango (1,2 L/min) son 1.728 litros, y con el alto (1,8 L/min), 2.592."
+          "El corazón bombea unos 5 litros por minuto y una cuarta parte pasa por el hígado: algo más de 1 litro por minuto.",
+          "1,5 L × 1.440 minutos ≈ 2.000 litros al día. Entre 150 L por bañera, unas 13-14 bañeras.",
+          "Con 2.160 litros y bañeras de 145 L salen 14,9 bañeras: tu hígado se da quince baños al día y ni se arruga."
         ]
       }
     }

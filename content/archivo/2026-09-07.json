@@ -1,44 +1,44 @@
 {
   "id": "2026-09-07",
   "name": "Lunes",
-  "theme": "ALBA, abanico e intestino",
+  "theme": "CERN, hilo dental y intestino",
   "questions": [
     {
       "id": "archivo-2026-09-07-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Electrones mareados",
-      "title": "¿Cuántas vueltas por segundo dan los electrones en el anillo del sincrotrón ALBA?",
-      "detail": "Los electrones de ALBA van prácticamente a la velocidad de la luz dando vueltas al anillo de almacenamiento. Nada de rotondas: un circuito cerrado y sin semáforos.",
+      "tag": "Vueltas cuánticas",
+      "title": "¿Cuántas vueltas por segundo dan los protones en el Gran Colisionador de Hadrones del CERN?",
+      "detail": "Los protones del LHC dan vueltas a un anillo de 26.659 m bajo la frontera entre Francia y Suiza, a casi la velocidad de la luz. Un circuito sin curvas peligrosas ni radares.",
       "unit": "vueltas/s",
-      "answer": 1115298.0781643472,
-      "math": "El anillo de almacenamiento mide 268,8003 m. A la velocidad de la luz (299.792.458 m/s): 299.792.458 ÷ 268,8003 ≈ 1.115.298 vueltas por segundo.",
-      "referenceExpression": "299792458 ÷ 268,8003",
-      "assumptions": "Electrones de 3 GeV, cuya velocidad difiere de la de la luz en menos de una parte en diez millones.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 11245.450242,
+      "math": "El anillo mide 26.659 m. Los protones van prácticamente a la velocidad de la luz, 299.792.458 m/s. 299.792.458 ÷ 26.659 ≈ 11.245 vueltas por segundo.",
+      "referenceExpression": "299792458 ÷ 26659",
+      "assumptions": "Protones a la velocidad de la luz: a plena energía difieren de ella en menos de una parte por millón. El CERN da la misma cifra, 11.245 vueltas por segundo.",
+      "confidence": "Dato documentado",
       "sources": [
         {
-          "title": "ALBA (CELLS) · Storage ring",
-          "url": "https://www.cells.es/en/accelerators/storage-ring",
-          "fact": "El anillo de almacenamiento tiene 268,8003 m de circunferencia y una energía nominal de 3,0 GeV."
+          "title": "CERN · The Large Hadron Collider",
+          "url": "https://home.cern/science/accelerators/large-hadron-collider",
+          "fact": "Circunferencia: 26.659 m. Número de vueltas por segundo: 11.245. Los haces viajan casi a la velocidad de la luz."
         }
       ],
-      "reasoning": {
-        "heading": "Divide la velocidad de la luz entre el perímetro",
-        "steps": [
-          "La luz recorre 300.000 km por segundo y el anillo mide unos pocos cientos de metros: van a salir muchísimas vueltas.",
-          "300.000.000 m/s entre 270 m dan algo más de un millón de vueltas por segundo.",
-          "Con el perímetro exacto salen 1.115.298 vueltas por segundo. En lo que dura un parpadeo, cada electrón da unas 100.000 vueltas."
-        ]
-      },
       "image": {
         "src": "assets/archivo-2026-09-07-1.jpg",
-        "alt": "Edificio del sincrotrón ALBA en Cerdanyola del Vallès, con su forma circular",
-        "credit": "Jordiferrer",
-        "url": "https://commons.wikimedia.org/wiki/File:Sincrotr%C3%B3_Alba_-_2017_-_010.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        "alt": "Imagen de satélite de la zona de Ginebra con un círculo amarillo que marca el anillo de 27 km del LHC junto al aeropuerto y el lago Lemán",
+        "credit": "NASA/METI/AIST/Japan Space Systems, and U.S./Japan ASTER Science Team",
+        "url": "https://commons.wikimedia.org/wiki/File:CERN_Collider,_France-Switzerland_(ASTER).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:CERN_Collider,_France-Switzerland_(ASTER).jpg"
+      },
+      "reasoning": {
+        "heading": "La luz en un circuito de 27 km",
+        "steps": [
+          "La luz recorre 300.000 km en un segundo. El anillo del LHC mide unos 27 km: le cabe muchas veces.",
+          "300.000 entre 27 da algo más de 10.000 vueltas por segundo.",
+          "Salen 11.245 vueltas por segundo: un protón da más vueltas al anillo en un parpadeo que tú a la manzana en toda tu vida."
+        ]
       }
     },
     {
@@ -46,37 +46,34 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Brisa manual",
-      "title": "¿Cuántos golpes de abanico darías en los días de más de 40 °C del verano sevillano de 2026?",
-      "detail": "Contamos solo los días que Sevilla pasó de 40 °C entre junio y agosto de 2026. Abanicas 3 horas cada uno de esos días a dos golpes por segundo. Muñeca de acero obligatoria.",
-      "unit": "abanicazos",
-      "answer": 518400,
-      "math": "Sevilla tuvo 24 días por encima de 40 °C entre junio y agosto de 2026. 24 días × 3 h × 3.600 s × 2 golpes = 518.400 abanicazos.",
-      "referenceExpression": "24 × 3 × 3600 × 2",
-      "assumptions": "Ritmo constante de dos golpes por segundo, tres horas en cada día de más de 40 °C. Los días de 38 °C también invitan a abanicarse, pero aquí no cuentan.",
+      "tag": "Sonrisa kilométrica",
+      "title": "Si usaras hilo dental cada noche, ¿cuántos kilómetros gastarías en toda tu vida?",
+      "detail": "Usas hilo dental cada noche, sin excusas, durante los 73,3 años de esperanza de vida mundial. Cada vez cortas los 18 pulgadas (45,72 cm) que recomiendan los dentistas.",
+      "unit": "km",
+      "answer": 12.232157,
+      "math": "Cada uso son 45,72 cm. Al año: 0,4572 × 365 ≈ 166,9 m. En 73,3 años: 166,9 × 73,3 ≈ 12.232 m ≈ 12,2 km.",
+      "referenceExpression": "0,4572 × 365 × 73,3 ÷ 1000",
+      "assumptions": "Un uso diario de 18 pulgadas toda la vida, incluso de bebé, y esperanza de vida mundial de 2023. Empezando a los 10 años serían unos 10,5 km.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "El Español · balance del verano de 2026 de la Aemet en Sevilla",
-          "url": "https://www.elespanol.com/sevilla/20260915/sevilla-registra-dias-grados-verano-va-aumento-alcanza-sin-masas-aire-africano/1003744383218_0.html",
-          "fact": "Según el balance estival de la Aemet, entre junio y agosto Sevilla soportó 24 días con temperaturas superiores a los 40 grados."
+          "title": "American Dental Association · MouthHealthy · Flossing",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/flossing",
+          "fact": "Recomienda cortar unas 18 pulgadas de hilo dental en cada uso."
+        },
+        {
+          "title": "OMS · Life expectancy and healthy life expectancy",
+          "url": "https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates/ghe-life-expectancy-and-healthy-life-expectancy",
+          "fact": "La esperanza de vida mundial subió a 73,3 años en 2023."
         }
       ],
       "reasoning": {
-        "heading": "Cuenta golpes por hora",
+        "heading": "Medio metro diario durante una vida",
         "steps": [
-          "Dos golpes por segundo son 7.200 por hora. Tres horas al día: más de 20.000 abanicazos diarios.",
-          "Sevilla suele tener dos o tres decenas de días por encima de 40 °C. Con 25 días saldrían más de medio millón.",
-          "Con los 24 días de 2026 salen 518.400 golpes. El verano de 2025, con 30 días de más de 40 °C, habría dado 648.000."
+          "Cada noche usas poco hilo, menos de medio metro. Pero una vida tiene muchas noches.",
+          "Medio metro al día son unos 170 m al año; en 70 y pico años, más de 10 km.",
+          "Salen 12,2 km de hilo dental: casi un recorrido de 10K con su vuelta de calentamiento."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-07-2.jpg",
-        "alt": "Abanico antiguo extendido expuesto en el Palacio de San Telmo de Sevilla",
-        "credit": "CarlosVdeHabsburgo",
-        "url": "https://commons.wikimedia.org/wiki/File:Abanico_del_Palacio_de_San_Telmo.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       }
     },
     {
@@ -84,14 +81,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Tubería interior",
-      "title": "¿Cuántos intestinos delgados en fila harían falta para alcanzar la altura de la Torre Picasso?",
-      "detail": "Estiramos el intestino delgado como una cuerda y lo colgamos desde lo alto del rascacielos. Cada intestino mide 22 pies (unos 6,7 m).",
+      "tag": "Tripa porteña",
+      "title": "¿Cuántos intestinos delgados en fila harían falta para igualar la altura del Obelisco de Buenos Aires?",
+      "detail": "Estiramos intestinos delgados como cuerdas y los colgamos uno tras otro desde la punta del Obelisco de Buenos Aires. Cada intestino mide 22 pies (6,7 m). Nadie mira desde la 9 de Julio, por favor.",
       "unit": "intestinos",
-      "answer": 23.413266523502745,
-      "math": "La Torre Picasso mide 157 m. El intestino delgado mide unos 22 pies = 6,7056 m. 157 ÷ 6,7056 ≈ 23,4 intestinos.",
-      "referenceExpression": "157 ÷ (22 × 0,3048)",
-      "assumptions": "Intestino estirado de 22 pies; la longitud real varía bastante de una persona a otra y según cómo se mida.",
+      "answer": 10.066213,
+      "math": "El Obelisco mide 67,5 m. El intestino delgado mide unos 22 pies = 6,7056 m. 67,5 ÷ 6,7056 ≈ 10,07 intestinos.",
+      "referenceExpression": "67,5 ÷ (22 × 0,3048)",
+      "assumptions": "Intestino estirado de 22 pies; la longitud real varía bastante entre personas y según cómo se mida.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -100,26 +97,26 @@
           "fact": "El intestino delgado es el tramo más largo del tubo digestivo: mide unos 22 pies."
         },
         {
-          "title": "Wikipedia · Torre Picasso",
-          "url": "https://es.wikipedia.org/wiki/Torre_Picasso",
-          "fact": "La torre tiene 43 plantas y 157 metros de altura."
+          "title": "Wikipedia · Obelisco de Buenos Aires",
+          "url": "https://es.wikipedia.org/wiki/Obelisco_de_Buenos_Aires",
+          "fact": "Su altura es de 67,5 m."
         }
       ],
-      "reasoning": {
-        "heading": "Compara una cuerda con un edificio",
-        "steps": [
-          "El intestino delgado es sorprendentemente largo: varios metros, más que una furgoneta. La Torre Picasso supera los 150 m.",
-          "Con 7 m por intestino, 150 m piden algo más de 20 intestinos.",
-          "Con 157 m y 6,7 m por intestino salen 23,4. Si usáramos los 6 m que dan otros manuales, harían falta 26."
-        ]
-      },
       "image": {
         "src": "assets/archivo-2026-09-07-3.jpg",
-        "alt": "La Torre Picasso de Madrid, rascacielos blanco de 157 metros, vista de abajo arriba",
-        "credit": "Luis García (Zaqarbal)",
-        "url": "https://commons.wikimedia.org/wiki/File:Torre_Picasso_(Madrid)_03.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+        "alt": "El Obelisco de Buenos Aires visto desde abajo, con peatones y la bandera argentina a su lado",
+        "credit": "Dibumartinez23",
+        "url": "https://commons.wikimedia.org/wiki/File:Obelisco_de_Buenos_Aires,_Avenida_9_de_Julio.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Del monumento a la tripa",
+        "steps": [
+          "El Obelisco es como un edificio de unos 20 pisos. El intestino delgado mide varios metros.",
+          "Unos 70 m entre unos 7 m dan unos 10 intestinos.",
+          "Salen 10,07 intestinos: diez personas bastarían para vestir el Obelisco de tripas. Mejor no se lo cuentes a nadie en la cena."
+        ]
       }
     }
   ]

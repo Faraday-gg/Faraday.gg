@@ -1,43 +1,40 @@
 {
   "id": "2026-08-26",
   "name": "Miércoles",
-  "theme": "Herbón, grullas y Perseverance",
+  "theme": "Reaper, hormigas y Perseverance",
   "questions": [
     {
       "id": "archivo-2026-08-26-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Unos pican y otros no",
-      "title": "Si uno de cada diez pica, ¿cuántos pimientos picantes salieron de la cosecha DOP Pemento de Herbón de 2016?",
-      "detail": "Pimientos de 10 g y un 10 % de picantes, repartidos al azar. Cuenta la cosecha certificada, no los de la huerta de tu tía.",
-      "unit": "pimientos",
-      "answer": 635000,
-      "math": "La DOP produjo 63.500 kg en 2016: 63.500.000 g. Con pimientos de 10 g son 6.350.000 pimientos; el 10 % picantes da 635.000.",
-      "referenceExpression": "63500000 ÷ 10 × 0,1",
-      "assumptions": "Pimiento medio de 10 g y un 10 % de picantes, como dice el refrán. La producción cambia mucho de un año a otro: en 2015 fueron 73.800 kg.",
+      "tag": "Pica que pica",
+      "title": "¿Cuántos jalapeños tendrías que comerte para igualar el picante de un solo chile Carolina Reaper?",
+      "detail": "Sumamos unidades Scoville: el Carolina Reaper de su récord Guinness contra jalapeños de 5.000 SHU. Ten un vaso de leche cerca.",
+      "unit": "jalapeños",
+      "answer": 328.2366,
+      "math": "El Carolina Reaper certificado por Guinness promedió 1.641.183 SHU. Con jalapeños de 5.000 SHU: 1.641.183 ÷ 5.000 ≈ 328 jalapeños.",
+      "referenceExpression": "1.641.183 ÷ 5.000",
+      "assumptions": "El picante no se suma de verdad al comer varios chiles; es una comparación de escalas. Jalapeño de 5.000 SHU, en la parte suave de su rango (4.000-8.500). El Reaper fue el chile más picante del mundo hasta 2023, cuando lo superó el Pepper X.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "FreshPlaza · Spain: Herbon pepper production falls by 14 % (28-10-2016)",
-          "url": "https://www.freshplaza.com/north-america/article/2165824/spain-herbon-pepper-production-falls-by-14/",
-          "fact": "La producción de la DOP Pemento de Herbón cayó un 14 % en 2016, hasta 63.500 kilos, frente a 73.800 en 2015."
+          "title": "Wikipedia · Carolina Reaper",
+          "url": "https://en.wikipedia.org/wiki/Carolina_Reaper",
+          "fact": "En la certificación de Guinness, un lote promedió 1.641.183 SHU; en 2023 el Pepper X le quitó el título de chile más picante."
+        },
+        {
+          "title": "Wikipedia · Jalapeño",
+          "url": "https://en.wikipedia.org/wiki/Jalape%C3%B1o",
+          "fact": "Los jalapeños suelen tener entre 4.000 y 8.500 unidades Scoville."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-26-1.jpg",
-        "alt": "Plato de pimientos de Padrón fritos con sal gruesa",
-        "credit": "Gordito1869",
-        "url": "https://commons.wikimedia.org/wiki/File:Pimientos_de_Padr%C3%B3n_1.JPG",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "De los kilos a la ruleta",
+        "heading": "Scoville entre Scoville",
         "steps": [
-          "Una denominación de origen pequeña produce decenas de toneladas, no miles. Digamos unas 50 toneladas al año.",
-          "Un pimiento pesa unos 10 gramos: 50 toneladas son 5 millones de pimientos, y uno de cada diez picante deja medio millón.",
-          "Con los 63.500 kg de 2016 salen 635.000 pimientos picantes. En la ruleta del plato, la proporción real depende del calor y de lo tarde que se recojan."
+          "Un jalapeño pica, pero el Reaper está en otra liga: cientos de veces más. Saldrán cientos de jalapeños.",
+          "1,6 millones ÷ 5.000 ≈ 320. El orden de magnitud: unos pocos cientos.",
+          "Con 1.641.183 SHU salen 328 jalapeños. Con jalapeños más bravos, de 8.000 SHU, bastarían unos 205."
         ]
       }
     },
@@ -46,41 +43,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Fila con alas",
-      "title": "Si las grullas del récord de Gallocanta se pusieran en fila con las alas abiertas, ¿cuántos km mediría?",
-      "detail": "Una grulla detrás de otra, punta de ala con punta de ala y sin pelearse por el sitio. Cada una abre 2,2 m.",
-      "unit": "km",
-      "answer": 297,
-      "math": "El 27 de febrero de 2013 se estimaron 135.000 grullas en la laguna en un solo día. Con 2,2 m de envergadura: 135.000 × 2,2 = 297.000 m = 297 km.",
-      "referenceExpression": "135000 × 2,2 ÷ 1000",
-      "assumptions": "Usamos el récord estimado de un solo día de paso migratorio, no la media del invierno. Envergadura media de 2,2 m dentro del rango de 1,8-2,4 m.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Reparto de hormigas",
+      "title": "Si repartiéramos todas las hormigas del planeta, ¿cuántas le tocarían a cada persona?",
+      "detail": "Con el recuento de un estudio de 2022 y la población mundial de 2024, a partes iguales. No se admiten devoluciones.",
+      "unit": "hormigas",
+      "answer": 2439024.3902439023,
+      "math": "Un estudio de 2022 estima unos 20.000 billones de hormigas (2 × 10¹⁶). Entre 8.200 millones de personas: 2 × 10¹⁶ ÷ 8,2 × 10⁹ ≈ 2.439.024 hormigas por persona.",
+      "referenceExpression": "20.000.000.000.000.000 ÷ 8.200.000.000",
+      "assumptions": "La cifra de hormigas es una estimación conservadora con mucha incertidumbre; E. O. Wilson había estimado entre 1.000 y 10.000 billones. Población mundial de 2024 (ONU).",
+      "confidence": "Estimación científica + modelo",
       "sources": [
         {
-          "title": "iAgua · Gallocanta bate un nuevo récord histórico de grullas (10-03-2013)",
-          "url": "https://www.iagua.es/noticias/biodiversidad/13/03/10/la-laguna-de-gallocanta-bate-un-nuevo-record-historico-de-grullas-censadas-en-un-solo-dia-28165",
-          "fact": "El 27 de febrero de 2013 la laguna alcanzó un total estimado de 135.000 grullas en un solo día (recuentos de SARGA, del Gobierno de Aragón, y de la Asociación de Amigos de la Laguna)."
+          "title": "Wikipedia · Ant",
+          "url": "https://en.wikipedia.org/wiki/Ant",
+          "fact": "Un estudio de 2022 estimó unos 20.000 billones (20 quadrillion) de hormigas en la Tierra, con 12 megatoneladas de carbono seco."
         },
         {
-          "title": "Wikipedia · Grus grus",
-          "url": "https://es.wikipedia.org/wiki/Grus_grus",
-          "fact": "La grulla común tiene una envergadura alar de 180-240 cm."
+          "title": "ONU · World Population Prospects 2024",
+          "url": "https://www.un.org/sustainabledevelopment/?p=114007",
+          "fact": "La población mundial era de 8.200 millones de personas en 2024."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-26-2.jpg",
-        "alt": "Bandada de grullas en un campo de cultivo",
-        "credit": "Alfonso Garmendia",
-        "url": "https://commons.wikimedia.org/wiki/File:Grullas.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Cuenta aves, luego alas",
+        "heading": "Hormigas entre personas",
         "steps": [
-          "Gallocanta es famosa por las grullas: en los mejores días hay decenas de miles, quizá más de cien mil.",
-          "Cada grulla con las alas abiertas ocupa unos 2 metros. 100.000 grullas serían 200 km de fila.",
-          "Con el récord de 135.000 grullas y 2,2 m por ave salen 297 km de alas abiertas. Es un récord de un solo día de paso: la media del invierno es mucho menor."
+          "Hay hormigas en cualquier jardín, en cualquier bosque y en casi cualquier cocina. Seguro que nos tocan muchísimas: millones.",
+          "2 × 10¹⁶ ÷ 10¹⁰ = 2 × 10⁶. Unos dos millones por cabeza.",
+          "Con 8.200 millones de personas salen 2.439.024 hormigas. Unos cuantos hormigueros solo para ti."
         ]
       }
     },
@@ -110,14 +99,6 @@
           "fact": "La línea mide 621 km entre Madrid y Barcelona."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-26-3.jpg",
-        "alt": "Autorretrato del rover Perseverance sobre el suelo rojizo de Marte",
-        "credit": "NASA/JPL-Caltech/MSSS",
-        "url": "https://commons.wikimedia.org/wiki/File:Perseverance_selfie,_looking_at_WATSON_(PIA24542).jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Perseverance_selfie,_looking_at_WATSON_(PIA24542).jpg"
-      },
       "reasoning": {
         "heading": "Velocidad de caracol con prisa",
         "steps": [
