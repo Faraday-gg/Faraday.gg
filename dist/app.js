@@ -95,11 +95,22 @@ function renderResult(guesses){
   const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
   $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
 <div class="verdict verdict-${verdict[0]}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
-<dl class="ledger"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd></div><p class="ledger-unit">${q.unit}</p></dl>
+<dl class="ledger"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <section class="explain-panel" id="explain-panel" hidden aria-label="Cómo se calcula">${explainMarkup(q)}</section>`;
-  loadDistribution(q,guess);$('#next-question').focus()
+  animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
+}
+function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
+// El multiplicador sube desde 1× hasta su valor en escala logarítmica, para que 2× y 961.538× tarden lo mismo.
+function animateTimes(element,factor){
+  if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const start=performance.now(),duration=Math.min(1600,700+Math.log10(factor)*160),end=Math.log10(factor);
+  element.classList.add('counting');
+  const step=now=>{if(!element.isConnected)return;const t=Math.min(1,(now-start)/duration),eased=1-(1-t)**3;element.textContent=times(t<1?10**(end*eased):factor);if(t<1)requestAnimationFrame(step);else element.classList.remove('counting')};
+  element.textContent=times(1);requestAnimationFrame(step);
+  // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
+  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting')){element.textContent=times(factor);element.classList.remove('counting')}},duration+250);
 }
 function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle');if(!panel)return false;open??=panel.hidden;panel.hidden=!open;button.setAttribute('aria-expanded',String(open));$('.game-card').classList.toggle('explaining',open);if(open)panel.scrollTop=0;return true}
 function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>`;loadDailyDistribution(activeDay,guesses)}

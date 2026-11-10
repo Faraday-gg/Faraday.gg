@@ -15,6 +15,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0010](0010-juego-a-pantalla-completa.md) | Juego a pantalla completa, centrado en la pregunta | Aceptada; la parte de pantalla completa la sustituye la 0011 | 2026-11-10 |
 | [0011](0011-juego-en-tarjeta.md) | El juego dentro de una tarjeta | Aceptada | 2026-11-10 |
 | [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
+| [0013](0013-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
 
 ## Plantilla
 

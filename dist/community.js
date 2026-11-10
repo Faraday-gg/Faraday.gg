@@ -52,21 +52,38 @@ setInterval(refreshDailyCalendar,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDailyCalendar()});
 async function loadDistribution(q,guess){
   const target=document.getElementById(`population-${q.id}`);if(!target)return;
+  const rank=document.getElementById(`rank-${q.id}`),factor=Math.max(guess/q.answer,q.answer/guess);
+  let data=null;
   try{
     const response=await fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q.id,player:playerId(),guess}),signal:AbortSignal.timeout(8000)});
-    if(!response.ok)throw Error('Servidor no disponible');
-    const data=await response.json();if(!target.isConnected)return;
-    target.innerHTML=distributionSvg(q,guess,data);
-    const rank=document.getElementById(`rank-${q.id}`);if(rank)rank.textContent=data.count?`Más cerca que el ${data.closerPercent}% de ${format(data.count)} ${data.count===1?'jugador':'jugadores'}`:'Eres de los primeros en responder';
-  }catch{if(target.isConnected)target.innerHTML='<p class="population-status">Comparación no disponible ahora.</p>'}
+    if(response.ok)data=await response.json();
+  }catch{}
+  if(!target.isConnected)return;
+  if(data&&data.count>=SIM_MIN){
+    target.innerHTML=distributionSvg(q,guess,{...data,simulated:false});
+    if(rank)rank.textContent=`Más cerca que el ${data.closerPercent}% de ${format(data.count)} jugadores`;
+    return;
+  }
+  const logs=simulatedLogs(q),low=-1,high=1,bins=Array(26).fill(0);
+  for(const value of logs)if(value>=low&&value<=high)bins[Math.min(25,Math.floor((value-low)/(high-low)*26))]++;
+  const farther=logs.filter(value=>Math.abs(value)>Math.log10(factor)).length;
+  target.innerHTML=distributionSvg(q,guess,{bins,low,high,count:logs.length,simulated:true});
+  if(rank)rank.textContent=`Más cerca que el ${Math.round(farther/logs.length*100)}% · simulación`;
 }
-function distributionSvg(q,guess,data){
-  const {low,high,bins,count}=data,position=value=>20+(Math.log10(value/q.answer)-low)/(high-low)*520;
-  const max=Math.max(1,...bins),height=110,base=166,barWidth=520/bins.length;
-  const bars=bins.map((n,i)=>n?`<rect x="${20+i*barWidth+1}" y="${base-n/max*height}" width="${barWidth-2}" height="${n/max*height}" rx="2"><title>${n} respuestas entre ${compactNumber(q.answer*10**(low+i/bins.length*(high-low)))} y ${compactNumber(q.answer*10**(low+(i+1)/bins.length*(high-low)))}</title></rect>`:'').join('');
-  let curve='';
-  if(count>=5){const values=Array.from({length:97},(_,i)=>{const x=i/96*bins.length;return bins.reduce((sum,n,j)=>sum+n*Math.exp(-.5*((x-j-.5)/1.15)**2),0)}),peak=Math.max(...values);curve=`<path class="density-line" d="${values.map((v,i)=>`${i?'L':'M'}${20+i/96*520},${base-v/peak*height}`).join(' ')}"/>`}
-  const own=position(guess),answer=position(q.answer);
-  return `<svg class="distribution-svg" viewBox="0 0 560 220" role="img" aria-label="${count} respuestas de otros jugadores. Tu estimación ${format(guess)}; referencia ${format(q.answer)}. Las barras muestran frecuencias en escala logarítmica."><path class="chart-grid" d="M20 56H540M20 111H540M20 166H540"/><g class="distribution-bars">${bars}</g>${curve}<path class="reference-line" d="M${answer} 48V174"/><path class="guess-line" d="M${own} 35V174"/><rect class="you-tag" x="${Math.max(20,Math.min(498,own-21))}" y="10" width="42" height="24" rx="12"/><text class="you-tag-text" x="${Math.max(41,Math.min(519,own))}" y="27" text-anchor="middle">Tú</text><text class="axis-label" x="20" y="197">${compactNumber(q.answer*10**low)}</text><text class="axis-label answer-axis" x="${answer}" y="197" text-anchor="middle">${compactNumber(q.answer)}</text><text class="axis-label" x="540" y="197" text-anchor="end">${compactNumber(q.answer*10**high)}</text><text class="axis-caption" x="${answer}" y="214" text-anchor="middle">referencia</text>${count?'':'<text class="chart-empty-label" x="280" y="100" text-anchor="middle">Esperando más estimaciones</text>'}</svg>`;
+// Muestra simulada (decisión 0013): mientras haya menos de SIM_MIN respuestas reales, el gráfico usa
+// estimaciones simuladas, siempre las mismas para cada pregunta, y lo dice en el propio gráfico. Nunca se guardan.
+const SIM_MIN=30,SIM_SIZE=600;
+function seededRandom(text){let h=1779033703^text.length;for(let i=0;i<text.length;i++){h=Math.imul(h^text.charCodeAt(i),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}}
+function simulatedLogs(q){
+  // log10(estimación / referencia): campana algo desplazada hacia abajo (se suele subestimar) y con colas más anchas.
+  const random=seededRandom(q.id),normal=()=>Math.sqrt(-2*Math.log(1-random()))*Math.cos(2*Math.PI*random());
+  return Array.from({length:SIM_SIZE},()=>random()<.82?-.06+.42*normal():-.25+1.05*normal());
+}
+function distributionSvg(q,guess,{bins,low,high,count,simulated}){
+  const position=value=>20+(value-low)/(high-low)*520,ownLog=Math.log10(guess/q.answer),max=Math.max(1,...bins),height=120,base=166,barWidth=520/bins.length;
+  const bars=bins.map((n,i)=>n?`<rect x="${(20+i*barWidth+1.5).toFixed(1)}" y="${(base-n/max*height).toFixed(1)}" width="${(barWidth-3).toFixed(1)}" height="${(n/max*height).toFixed(1)}" rx="3"/>`:'').join('');
+  const outside=ownLog<low?'left':ownLog>high?'right':'',own=outside==='left'?20:outside==='right'?540:position(ownLog),answer=position(0);
+  const label=outside==='left'?'‹ Tú':outside==='right'?'Tú ›':'Tú',tagWidth=outside?50:40,tagX=Math.max(20,Math.min(540-tagWidth,own-tagWidth/2));
+  return `<svg class="distribution-svg" viewBox="0 0 560 214" role="img" aria-label="${simulated?'Distribución simulada':count+' respuestas de otros jugadores'}. Tu estimación ${format(guess)}; referencia ${format(q.answer)}. Escala logarítmica."><path class="chart-grid" d="M20 166H540"/><g class="distribution-bars">${bars}</g><path class="reference-line" d="M${answer} 40V172"/><path class="guess-line" d="M${own} 36V172"/><rect class="you-tag" x="${tagX}" y="10" width="${tagWidth}" height="24" rx="12"/><text class="you-tag-text" x="${tagX+tagWidth/2}" y="27" text-anchor="middle">${label}</text><text class="axis-label" x="20" y="192">${compactNumber(q.answer*10**low)}</text><text class="axis-label answer-axis" x="${answer}" y="192" text-anchor="middle">${compactNumber(q.answer)}</text><text class="axis-label" x="540" y="192" text-anchor="end">${compactNumber(q.answer*10**high)}</text><text class="axis-caption" x="${answer}" y="209" text-anchor="middle">real</text>${simulated?'<text class="chart-sim-label" x="540" y="22" text-anchor="end">simulación</text>':''}</svg>`;
 }
 document.addEventListener('click',event=>{const button=event.target.closest('[data-refresh-distribution]');if(!button)return;const index=activeDay.questions.findIndex(q=>q.id===button.dataset.refreshDistribution);if(index>=0)loadDistribution(activeDay.questions[index],getGuesses(activeDay)[index])});
