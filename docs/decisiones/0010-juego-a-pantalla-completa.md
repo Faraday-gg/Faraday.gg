@@ -7,7 +7,7 @@
 El juego se abría en una ventana modal sobre la portada, con mucho texto, etiquetas de color, sombras y la foto dentro de un marco azul. Luis pidió una experiencia más limpia y profesional, en la que lo importante sea la pregunta y jugar, y fácil de recorrer entre preguntas.
 
 ## Decisión
-- Al jugar, el juego ocupa toda la pantalla, con el fondo de la web y sin ventana. La barra superior solo lleva: volver (←), los pasos 1, 2, 3 y Total, y el número del reto.
+- Al jugar, el juego ocupa toda la pantalla, sin ventana, con el color de cada paso (ver la paleta abajo). La barra superior solo lleva: volver (←), los pasos 1, 2, 3 y Total, y el número del reto.
 - **Pantalla de pregunta:** solo la pregunta, el campo de la cifra con su unidad, el botón del bloc y «Confirmar». Sin etiqueta de tema, sin foto y sin textos de ayuda.
 - **Pantalla de resultado:** la distancia en grande, las dos cifras y «Siguiente pregunta» arriba. Debajo, separados por líneas finas, la distribución, «Cómo se calcula», la foto y «Fuentes y supuestos».
 - **La foto** se ve sin marco ni fondo: tamaño natural, esquinas redondeadas y con su crédito y licencia. Sigue sin recortarse.
