@@ -500,3 +500,20 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
 .menu-title{font:700 15px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:30px 0 14px}
 @media(max-width:560px){.menu-panel{border-radius:0}}
 @media(prefers-reduced-motion:reduce){.arc-tile,.arc-today,.arc-picked,.arc-peek-card,.arc.is-rolling .arc-dice svg{animation:none!important}.arc:not(.is-visible) .arc-tile{opacity:1}}
+
+/* Preguntas frecuentes: al final de la portada, desplegables con el estilo de la portada sencilla. */
+.home-faq{width:min(720px,100%);margin:0 auto;padding-bottom:40px}
+.faq-list{display:grid;gap:10px}
+.faq-item{background:var(--paper);border:1.5px solid var(--line);border-radius:20px;transition:border-color .2s,box-shadow .2s}
+.faq-item:hover,.faq-item[open]{border-color:var(--ink)}
+.faq-item[open]{box-shadow:0 14px 28px -20px #20263080}
+.faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 22px;font:700 20px var(--display);letter-spacing:-.03em}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:after{content:'+';flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:500 22px/1 var(--font);background:var(--cream);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.faq-item:hover summary:after{background:var(--yellow)}
+.faq-item[open] summary:after{transform:rotate(45deg);background:var(--coral)}
+.faq-item p{margin:0;padding:0 64px 22px 22px;color:#4d5359;font-size:16px;line-height:1.7}
+.faq-item[open] p{animation:faq-open .3s cubic-bezier(.22,1,.36,1)}
+@keyframes faq-open{from{opacity:0;transform:translateY(-6px)}}
+@media(max-width:760px){.faq-item summary{font-size:17px;padding:16px 16px}.faq-item summary:after{width:30px;height:30px;font-size:19px}.faq-item p{padding:0 16px 18px;font-size:15px}}
+@media(prefers-reduced-motion:reduce){.faq-item[open] p{animation:none}}

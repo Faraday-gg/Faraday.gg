@@ -1,10 +1,29 @@
 // Cifras documentadas y respuestas anónimas del servidor que sirve esta app.
 let anonymousPlayer;
+const PLAYER_KEY='casi-casi:anonymous-player',validPlayer=id=>/^[a-f0-9-]{36}$/i.test(id||'');
+// Al cargar, el servidor guarda el identificador en una cookie propia (sin registro, sin IP ni huella).
+// Si el navegador perdió localStorage (Safari lo vacía a los 7 días sin visitas), la cookie lo devuelve
+// junto con las respuestas guardadas, y se rellenan los días que no tengan progreso local.
+const playerReady=(async()=>{
+  let stored=null;try{stored=localStorage.getItem(PLAYER_KEY)}catch{}
+  try{
+    const response=await fetch('/api/jugador',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(validPlayer(stored)?{player:stored}:{}),credentials:'same-origin',signal:AbortSignal.timeout(8000)});
+    if(!response.ok)return;
+    const data=await response.json();if(validPlayer(stored)||!validPlayer(data.player)||anonymousPlayer)return;
+    anonymousPlayer=data.player;try{localStorage.setItem(PLAYER_KEY,anonymousPlayer)}catch{}
+    let restored=0;
+    for(const [date,guesses] of Object.entries(data.progress||{})){
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Array.isArray(guesses)||!guesses.length||!guesses.every(n=>Number.isFinite(n)&&n>0))continue;
+      try{if(localStorage.getItem(`casi-casi:v2:${date}`))continue;localStorage.setItem(`casi-casi:v2:${date}`,JSON.stringify(guesses.slice(0,3)));restored++}catch{}
+    }
+    if(restored){if(typeof renderWeek==='function')renderWeek();if(typeof showToast==='function')showToast(`Hemos recuperado tu progreso de ${restored} ${restored===1?'día':'días'}.`)}
+  }catch{}
+})();
 function playerId(){
   if(anonymousPlayer)return anonymousPlayer;
-  try{anonymousPlayer=localStorage.getItem('casi-casi:anonymous-player')}catch{}
-  if(!/^[a-f0-9-]{36}$/i.test(anonymousPlayer||''))anonymousPlayer=crypto.randomUUID();
-  try{localStorage.setItem('casi-casi:anonymous-player',anonymousPlayer)}catch{}
+  try{anonymousPlayer=localStorage.getItem(PLAYER_KEY)}catch{}
+  if(!validPlayer(anonymousPlayer))anonymousPlayer=crypto.randomUUID();
+  try{localStorage.setItem(PLAYER_KEY,anonymousPlayer)}catch{}
   return anonymousPlayer;
 }
 function questionMedia(q){
@@ -29,7 +48,7 @@ function reasoningMarkup(q){
 async function loadDailyDistribution(day,guesses){
   const chart=document.getElementById('daily-score-chart'),caption=document.getElementById('daily-score-caption');if(!chart||!caption)return;
   try{
-    const player=playerId();
+    await playerReady;const player=playerId();
     const saved=await Promise.all(day.questions.map((q,i)=>fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q.id,player,guess:guesses[i]}),signal:AbortSignal.timeout(8000)})));
     if(saved.some(response=>!response.ok))throw Error('No se pudo sincronizar el día');
     const response=await fetch('/api/daily-scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date:day.id,player}),signal:AbortSignal.timeout(8000)});if(!response.ok)throw Error('Sin comparación');
@@ -55,6 +74,7 @@ async function loadDistribution(q,guess){
   const rank=document.getElementById(`rank-${q.id}`),factor=Math.max(guess/q.answer,q.answer/guess);
   let data=null;
   try{
+    await playerReady;
     const response=await fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:q.id,player:playerId(),guess}),signal:AbortSignal.timeout(8000)});
     if(response.ok)data=await response.json();
   }catch{}
