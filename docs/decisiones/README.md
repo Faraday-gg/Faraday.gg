@@ -14,7 +14,9 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0008](0008-categorias-y-archivo.md) | Categorías con icono y archivo desde el 9 de agosto de 2026 | Aceptada (fotos sustituidas por 0013) | 2026-11-10 |
 | [0010](0010-juego-a-pantalla-completa.md) | Juego a pantalla completa, centrado en la pregunta | Aceptada; la parte de pantalla completa la sustituye la 0011 | 2026-11-10 |
 | [0011](0011-juego-en-tarjeta.md) | El juego dentro de una tarjeta | Aceptada | 2026-11-10 |
+| [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
 | [0013](0013-preguntas-de-cultura-general.md) | Preguntas de cultura general, referentes conocidos y foto solo cuando ayuda | Aceptada | 2026-11-10 |
+| [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
 
 ## Plantilla
 
