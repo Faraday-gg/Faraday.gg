@@ -1,53 +1,43 @@
 {
   "id": "2026-09-30",
   "name": "Miércoles",
-  "theme": "Gomera, Mozart y ENIAC",
+  "theme": "Titicaca, Mozart y ENIAC",
   "questions": [
     {
       "id": "archivo-2026-09-30-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Silbo en cadena",
-      "title": "¿Cuántos silbadores en cadena harían falta para cruzar La Gomera de norte a sur con silbo gomero?",
-      "detail": "Un mensaje de costa a costa sin cobertura, solo a silbidos. Supón un silbador cada 4 km en línea recta y cuenta a los de los dos extremos.",
-      "unit": "silbadores",
-      "answer": 7,
-      "math": "La Gomera es casi redonda y mide unos 22 km de diámetro. 22 ÷ 4 = 5,5 tramos, que redondeamos a 6. Con un silbador en cada extremo de cada tramo: 6 + 1 = 7 silbadores.",
-      "referenceExpression": "⌈22 ÷ 4⌉ + 1",
-      "assumptions": "Usamos el diámetro como si fuera el trayecto norte-sur en línea recta. El silbo puede llegar hasta 5 km, pero depende del viento y del relieve; 4 km por relevo es un margen prudente.",
+      "tag": "Corro en el altiplano",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear el lago Titicaca?",
+      "detail": "Un corro siguiendo toda la orilla del lago, entre Perú y Bolivia, a 3.800 metros de altura. Cada persona ocupa 1,5 m con los brazos abiertos; el mal de altura va aparte.",
+      "unit": "personas",
+      "answer": 750000,
+      "math": "La orilla del lago mide 1.125 km, es decir, 1.125.000 m. A 1,5 m por persona: 750.000 personas.",
+      "referenceExpression": "1125000 ÷ 1,5",
+      "assumptions": "La longitud de una costa depende de cuánto detalle se mida; la cifra es una referencia. 1,5 m por persona es una envergadura de adulto.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · La Gomera",
-          "url": "https://en.wikipedia.org/wiki/La_Gomera",
-          "fact": "La isla es de origen volcánico, aproximadamente circular y de unos 22 km de diámetro."
-        },
-        {
-          "title": "Wikipedia · Silbo Gomero",
-          "url": "https://en.wikipedia.org/wiki/Silbo_Gomero",
-          "fact": "El silbo permitía intercambiar mensajes a distancias de hasta cinco kilómetros."
-        },
-        {
-          "title": "UNESCO · Patrimonio cultural inmaterial: el silbo gomero",
-          "url": "https://ich.unesco.org/en/RL/whistled-language-of-the-island-of-la-gomera-canary-islands-the-silbo-gomero-00172",
-          "fact": "El silbo sustituye cada vocal o consonante del español por un silbido que se distingue por su tono y por ser continuo o interrumpido."
+          "title": "Wikipedia · Lake Titicaca",
+          "url": "https://en.wikipedia.org/wiki/Lake_Titicaca",
+          "fact": "Longitud de la orilla: 1.125 km (el artículo advierte que no es una medida bien definida)."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-09-30-1.jpg",
-        "alt": "Silbador gomero haciendo una demostración de silbo con los dedos en la boca",
-        "credit": "Diego Delso",
-        "url": "https://commons.wikimedia.org/wiki/File:Demostraci%C3%B3n_de_silbo_gomero,_La_Gomera,_Espa%C3%B1a,_2012-12-14,_DD_01.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        "alt": "El lago Titicaca visto desde la orilla boliviana, con los Andes nevados al fondo",
+        "credit": "Anthony Lacoste",
+        "url": "https://commons.wikimedia.org/wiki/File:Lake_Titicaca_on_the_Andes_from_Bolivia.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       },
       "reasoning": {
-        "heading": "Mide la isla y reparte los relevos",
+        "heading": "Orilla entre brazos abiertos",
         "steps": [
-          "La Gomera es pequeña: se cruza en coche en menos de una hora. Pongamos unos 20 km de lado a lado.",
-          "Con relevos cada 4 km, 20 km son 5 tramos y 6 silbadores. Hablamos de un puñado, no de decenas.",
-          "Con los 22 km de diámetro salen 5,5 tramos: hacen falta 6 y, por tanto, 7 silbadores. Si aprovechan el alcance máximo de 5 km, bastarían 6; los barrancos pueden obligar a poner alguno más."
+          "El Titicaca es enorme, casi un mar: su orilla tiene más de mil kilómetros con todas sus bahías.",
+          "Con los brazos abiertos una persona ocupa metro y medio; en 1.000 km caben unas 670.000 personas.",
+          "Con 1.125 km salen 750.000 personas: tres cuartos de millón de manos entrelazadas por dos."
         ]
       }
     },
@@ -77,14 +67,6 @@
           "fact": "Nació el 27 de enero de 1756 y murió el 5 de diciembre de 1791; completó más de 800 obras."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-30-2.jpg",
-        "alt": "Retrato al óleo de Wolfgang Amadeus Mozart con casaca roja, pintado por Barbara Krafft",
-        "credit": "Barbara Krafft",
-        "url": "https://commons.wikimedia.org/wiki/File:Wolfgang-amadeus-mozart_1.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Wolfgang-amadeus-mozart_1.jpg"
-      },
       "reasoning": {
         "heading": "Reparte el catálogo entre los años vividos",
         "steps": [

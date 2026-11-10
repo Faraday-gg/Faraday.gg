@@ -295,7 +295,7 @@
   .explain-panel{position:fixed;inset:auto 0 0 0;top:12dvh;border-radius:22px 22px 0 0;z-index:105}
 }
 
-/* Cifras (decisión 0013): Manrope con números tabulares y sin apretar las letras. */
+/* Cifras (decisión 0014): Manrope con números tabulares y sin apretar las letras. */
 :root{--num:'Manrope','DM Sans',Arial,sans-serif}
 .verdict-x,.ledger dd,.summary-score,.summary-row strong,.result-numbers dd{font-family:var(--num);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em}
 .verdict-x{font-weight:800;font-size:clamp(56px,10vw,92px);line-height:1}

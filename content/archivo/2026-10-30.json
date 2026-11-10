@@ -105,14 +105,6 @@
           "fact": "Sus lavadoras pueden consumir solo 49 litros por ciclo con una carga de 10 kg."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-30-3.jpg",
-        "alt": "Lavadora Fagor de carga frontal vista de frente, con la puerta redonda cerrada",
-        "credit": "Dany kg",
-        "url": "https://commons.wikimedia.org/wiki/File:Fagor_washing_machine_front_FF6314.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Fagor_washing_machine_front_FF6314.jpg"
-      },
       "reasoning": {
         "heading": "Lavados al año por litros por lavado",
         "steps": [

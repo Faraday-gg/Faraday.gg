@@ -1,43 +1,40 @@
 {
   "id": "2026-08-30",
   "name": "Domingo",
-  "theme": "Parpadeo, bombilla y Algeciras",
+  "theme": "Parpadeo, iPhone y portacontenedores",
   "questions": [
     {
       "id": "archivo-2026-08-30-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Siesta involuntaria",
-      "title": "¿Cuántas horas pasas al año con los ojos cerrados solo por parpadear?",
-      "detail": "Solo cuentan los parpadeos de las 16 horas que estás despierto: dormir no vale. Cada parpadeo cierra los ojos 0,15 s.",
-      "unit": "horas",
-      "answer": 248.2,
-      "math": "Un adulto parpadea unas 17 veces por minuto y cada parpadeo dura unos 100-150 ms. 17 × 60 × 16 horas = 16.320 parpadeos al día; × 365 = 5.956.800; × 0,15 s = 893.520 s ≈ 248,2 horas.",
-      "referenceExpression": "17 × 60 × 16 × 365 × 0,15 ÷ 3600",
-      "assumptions": "Ritmo de 17 parpadeos por minuto, medido en laboratorio; leyendo o ante una pantalla se parpadea mucho menos. Duración de 0,15 s, el extremo alto de los 100-150 ms.",
+      "tag": "Atraco a ciegas",
+      "title": "Con el tiempo que pasas al año con los ojos cerrados por parpadear, ¿cuántas veces podrías ver La casa de papel entera?",
+      "detail": "Parpadeas 17 veces por minuto durante las 16 horas que estás despierto, y cada parpadeo te deja a oscuras 0,15 s. La serie: 41 capítulos de 50 minutos. Atraco perfecto: ni lo ves venir.",
+      "unit": "veces",
+      "answer": 7.26439,
+      "math": "17 parpadeos × 60 min × 16 h = 16.320 al día; × 365 = 5.956.800 al año; × 0,15 s = 893.520 s ≈ 248,2 horas. La casa de papel tiene 41 episodios de unos 50 minutos: 2.050 min ≈ 34,2 horas. 248,2 ÷ 34,2 ≈ 7,26 veces.",
+      "referenceExpression": "17 × 60 × 16 × 365 × 0,15 ÷ (41 × 50 × 60)",
+      "assumptions": "Ritmo de 17 parpadeos por minuto, medido en laboratorio (ante una pantalla se parpadea menos), y 0,15 s por parpadeo, el extremo alto de 100-150 ms. Serie de 41 episodios de 50 minutos según la ficha de Wikipedia; Netflix la reeditó en 48 capítulos y algunos duran más.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Wikipedia · Blinking",
           "url": "https://en.wikipedia.org/wiki/Blinking",
           "fact": "Los adultos parpadean unas 17 veces por minuto en laboratorio; cada parpadeo dura de media 100-150 ms."
+        },
+        {
+          "title": "Wikipedia · La casa de papel",
+          "url": "https://es.wikipedia.org/wiki/La_casa_de_papel",
+          "fact": "La serie tiene 41 episodios en 2 temporadas (5 partes), de unos 50 minutos de duración."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-30-1.jpg",
-        "alt": "Primer plano de un ojo humano con pestañas",
-        "credit": "Qirille",
-        "url": "https://commons.wikimedia.org/wiki/File:Human_eye_close_up_2.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Pequeños apagones que suman",
+        "heading": "Suma décimas de segundo hasta llenar un maratón de series",
         "steps": [
-          "Parpadeamos sin darnos cuenta, unas 15 o 20 veces por minuto, y cada parpadeo es rapidísimo: una décima de segundo y pico.",
-          "Unos 16.000 parpadeos al día a 0,15 s dan unos 40 minutos diarios: más de 200 horas al año.",
-          "Con 17 parpadeos por minuto y 0,15 s salen 248,2 horas: más de diez días enteros a oscuras. Delante del móvil parpadeas menos, así que la cifra baja."
+          "Un parpadeo no dura nada, pero das miles cada hora. Al año tienen que sumar bastantes horas a oscuras.",
+          "Unos 6 millones de parpadeos de 0,15 s son casi 900.000 s: unas 250 horas. Una serie larga dura unas 30 o 40 horas.",
+          "Salen 248 horas con los ojos cerrados, que dan para ver La casa de papel entera 7,26 veces. El Profesor lo habría planeado mejor."
         ]
       }
     },
@@ -46,36 +43,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Luz con factura",
-      "title": "¿Cuántos euros cuesta tener encendida una bombilla LED de 10 W durante todo un año?",
-      "detail": "Encendida las 24 horas, todos los días, como la luz del pasillo que nadie apaga. Precio medio de la luz doméstica, impuestos incluidos.",
+      "tag": "Factura de bolsillo",
+      "title": "¿Cuántos euros cuesta la electricidad para cargar un iPhone cada día durante un año?",
+      "detail": "Cargas un iPhone 16 de cero a cien cada día del año. El cargador pierde un 20 % por el camino y pagas la luz al precio medio de los hogares españoles.",
       "unit": "euros",
-      "answer": 20.148,
-      "math": "10 W × 8.760 horas = 87,6 kWh al año. Al precio medio de 0,23 €/kWh: 87,6 × 0,23 ≈ 20,15 €.",
-      "referenceExpression": "10 × 24 × 365 ÷ 1000 × 0,23",
-      "assumptions": "Precio medio doméstico en España del segundo semestre de 2024 según Eurostat. La factura real depende de la tarifa, la potencia contratada y la hora de consumo.",
+      "answer": 1.394242,
+      "math": "La batería del iPhone 16 guarda 13,84 Wh. Con un 20 % de pérdidas: 13,84 × 1,2 ≈ 16,6 Wh por carga. × 365 = 6.062 Wh ≈ 6,06 kWh al año. A 0,23 €/kWh: 6,06 × 0,23 ≈ 1,39 €.",
+      "referenceExpression": "13,84 × 1,2 × 365 × 0,23 ÷ 1000",
+      "assumptions": "Una carga completa al día y un 20 % de pérdidas en el cargador, una cifra redonda supuesta. Precio medio doméstico en España del segundo semestre de 2024 según Eurostat; la factura real depende de la tarifa.",
       "confidence": "Dato documentado + modelo",
       "sources": [
+        {
+          "title": "Wikipedia · iPhone 16",
+          "url": "https://en.wikipedia.org/wiki/IPhone_16",
+          "fact": "La batería del iPhone 16 es de 13,84 Wh (3.561 mAh)."
+        },
         {
           "title": "Idealista · Spain’s low electricity prices in 2025",
           "url": "https://www.idealista.com/en/news/node/866969",
           "fact": "Según Eurostat, el precio medio de la electricidad para los hogares en España en el segundo semestre de 2024 fue de unos 0,23 €/kWh."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-30-2.jpg",
-        "alt": "Varias bombillas LED de distintos tipos sobre una mesa",
-        "credit": "Geoffrey.landis at English Wikipedia",
-        "url": "https://commons.wikimedia.org/wiki/File:LED_bulbs.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "Vatios por horas, luego por precio",
+        "heading": "Una batería pequeña por un precio diminuto",
         "steps": [
-          "Una bombilla LED gasta poquísimo. Un año tiene casi 9.000 horas.",
-          "10 W durante 9.000 horas son 90 kWh. A unos 20-25 céntimos el kWh, salen unos 20 €.",
-          "Con 8.760 horas y 0,23 €/kWh salen 20,15 €. Una bombilla incandescente de 60 W gastaría seis veces más."
+          "El móvil parece un devorador de enchufes, pero su batería es pequeña: mucho menos que una bombilla encendida todo el día.",
+          "Unos 15 Wh al día son unos 5 o 6 kWh al año. A unos 20 céntimos el kWh, la cuenta no llega ni a un par de euros.",
+          "Sale 1,39 € al año: menos que un café. Lo caro del iPhone no es cargarlo."
         ]
       }
     },
@@ -84,20 +78,20 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Lego portuario",
-      "title": "¿Cuántos kilómetros mediría una fila con todos los contenedores que mueve el puerto de Algeciras en un año?",
-      "detail": "Cada TEU es un contenedor de 20 pies (6,1 m). Los ponemos en fila india, sin huecos y sin grúas que estorben.",
+      "tag": "Tetris flotante",
+      "title": "Si pusieras en fila todos los contenedores del mayor portacontenedores del mundo, ¿cuántos kilómetros mediría?",
+      "detail": "El MSC Irina, el portacontenedores con más capacidad del mundo, cargado a tope de contenedores de 20 pies (6,1 m). Los bajamos todos y los ponemos en fila india por la carretera.",
       "unit": "km",
-      "answer": 28902.41,
-      "math": "En 2025 el puerto movió 4.738.100 TEU. Cada TEU mide 6,1 m: 4.738.100 × 6,1 = 28.902.410 m ≈ 28.902 km.",
-      "referenceExpression": "4738100 × 6,1 ÷ 1000",
-      "assumptions": "Contamos cada TEU como un contenedor de 20 pies, aunque muchos son de 40 pies (2 TEU) y un mismo contenedor puede contarse al descargarlo y al cargarlo.",
+      "answer": 148.5106,
+      "math": "El MSC Irina tiene capacidad para 24.346 TEU, y cada TEU es un contenedor de 20 pies de 6,1 m. 24.346 × 6,1 = 148.510,6 m ≈ 148,5 km.",
+      "referenceExpression": "24346 × 6,1 ÷ 1000",
+      "assumptions": "Capacidad máxima nominal en TEU, contando todos como contenedores de 20 pies; en la práctica muchos son de 40 pies (2 TEU), lo que daría la misma longitud. Récord de la clase Irina a enero de 2024.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Lloyd’s List · One Hundred Container Ports: Algeciras",
-          "url": "https://www.lloydslist.com/LL1157868/46-Algeciras-Spain",
-          "fact": "Tráfico de 2025: 4.738.100 TEU, un 0,5 % más que en 2024 (4.712.793 TEU)."
+          "title": "Wikipedia · List of largest container ships",
+          "url": "https://en.wikipedia.org/wiki/List_of_largest_container_ships",
+          "fact": "La clase MSC Irina (MSC Irina, MSC Loreto y otros) tiene una capacidad máxima de 24.346 TEU y 399,9 m de eslora; es la mayor a enero de 2024."
         },
         {
           "title": "Wikipedia · Twenty-foot equivalent unit",
@@ -107,18 +101,18 @@
       ],
       "image": {
         "src": "assets/archivo-2026-08-30-3.jpg",
-        "alt": "Grúas de contenedores en el puerto de Algeciras",
-        "credit": "Tom Taylor from London, United Kingdom",
-        "url": "https://commons.wikimedia.org/wiki/File:Cranes_in_the_Port_of_Algeciras_02.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        "alt": "El portacontenedores MSC Irina atracado junto a las grúas del puerto, con su cubierta llena de contenedores apilados",
+        "credit": "Giridharseeman",
+        "url": "https://commons.wikimedia.org/wiki/File:MSC_IRINA_Trivandrum_Port.jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
       },
       "reasoning": {
-        "heading": "Millones de cajas de seis metros",
+        "heading": "Desapila el barco y estíralo",
         "steps": [
-          "Algeciras es el mayor puerto de contenedores de España: mueve unos cuantos millones de TEU al año.",
-          "Con 5 millones de TEU de 6 m salen 30.000 km: casi tres cuartos de la vuelta a la Tierra.",
-          "Con los 4.738.100 TEU de 2025 y 6,1 m por TEU salen 28.902 km. Es más de dos tercios de la vuelta al ecuador, que mide unos 40.000 km."
+          "El barco mide unos 400 m, pero lleva contenedores apilados a lo alto y a lo ancho: decenas de miles.",
+          "Unos 24.000 contenedores de 6 m son unos 144.000 m: bastante más de 100 km de fila.",
+          "Con 24.346 TEU salen 148,5 km de contenedores: tres maratones y medio de contenedores, en un solo barco."
         ]
       }
     }

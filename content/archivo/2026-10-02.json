@@ -1,7 +1,7 @@
 {
   "id": "2026-10-02",
   "name": "Viernes",
-  "theme": "Neuronas, pan y Central Park",
+  "theme": "Neuronas, baguettes Francia y Central Park",
   "questions": [
     {
       "id": "archivo-2026-10-02-1",
@@ -24,14 +24,6 @@
           "fact": "Se estima que el cerebro humano adulto contiene 86 ± 8 miles de millones de neuronas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-02-1.png",
-        "alt": "Ilustración del cerebro humano visto de lado",
-        "credit": "Courtesy of NIAID Ryan Kissinger",
-        "url": "https://commons.wikimedia.org/wiki/File:Brain_Lateral_(NIH_BioArt_60).png",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Brain_Lateral_(NIH_BioArt_60).png"
-      },
       "reasoning": {
         "heading": "Un año tiene unos 30 millones de segundos",
         "steps": [
@@ -46,41 +38,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "La barra nacional",
-      "title": "¿Cuántas barras de pan se comen en los hogares de España cada día?",
-      "detail": "Barras de 250 g, contando todo el pan que se compra para casa, sea barra, hogaza o de molde. El que se come en bares y restaurantes va aparte.",
-      "unit": "barras",
-      "answer": 14944961.342465753,
-      "math": "En 2025 el consumo doméstico de pan fue de 27,50 kg por persona. Con 49.590.099 habitantes a 1 de enero de 2026: 1.363.727.722 kg al año. Entre 0,25 kg y 365 días: unos 14,9 millones de barras diarias.",
-      "referenceExpression": "27,5 × 49590099 ÷ 0,25 ÷ 365",
-      "assumptions": "Convertimos todo el pan en barras de 250 g y repartimos el consumo por igual entre los días. El dato per cápita es solo de los hogares.",
+      "tag": "Crujiente nacional",
+      "title": "¿Cuántas baguettes se comen en Francia cada segundo?",
+      "detail": "Todas las baguettes que se comen en Francia en un año, repartidas por igual entre todos sus segundos, de día y de noche, domingos incluidos. Las migas que caen al suelo no cuentan.",
+      "unit": "baguettes/s",
+      "answer": 190.1285268841737,
+      "math": "En Francia se consumen unos 6.000 millones de baguettes al año. Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 6.000.000.000 ÷ 31.557.600 ≈ 190 baguettes por segundo.",
+      "referenceExpression": "6000000000 ÷ 31557600",
+      "assumptions": "Repartimos el consumo por igual entre todos los segundos del año, aunque en realidad se concentra en desayunos y comidas. Los 6.000 millones son una cifra redonda.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Ministerio de Agricultura, Pesca y Alimentación · Informe del consumo alimentario en España 2025",
-          "url": "https://servicio.mapama.gob.es/ca/dam/jcr:021c103a-f584-4d44-bebf-e1b44344ab11/Informe%20comsumo%202025_en%20l%C3%ADnea_.pdf",
-          "fact": "El consumo per cápita de pan en los hogares en 2025 fue de 27,50 kilos (+0,2 % respecto a 2024)."
-        },
-        {
-          "title": "INE · Estadística Continua de Población, primer trimestre de 2026",
-          "url": "https://ine.es/dyngs/Prensa/es/ECP1T26.htm",
-          "fact": "Población de España a 1 de enero de 2026: 49.590.099 habitantes."
+          "title": "France.fr (web oficial de turismo de Francia) · 5 minutes pour tout savoir sur le pain français",
+          "url": "https://www.france.fr/fr/actualite/liste/5-minutes-pour-tout-savoir-sur-le-pain-francais",
+          "fact": "Los franceses consumen 6.000 millones de baguettes al año: casi un centenar por habitante, bebés incluidos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-02-2.jpg",
-        "alt": "Barras de pan recién horneadas apiladas",
-        "credit": "jules / stonesoup",
-        "url": "https://commons.wikimedia.org/wiki/File:Baguettes_-_stonesoup.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Del kilo por persona a las barras por día",
+        "heading": "Un año tiene unos 30 millones de segundos",
         "steps": [
-          "Cada persona come en casa unos dos kilos y pico de pan al mes, y en España somos casi 50 millones.",
-          "Con 25 kg al año por persona: 25 × 50 millones = 1.250 millones de kilos. Entre 365 días y 0,25 kg por barra, unos 14 millones de barras.",
-          "Con los 27,50 kg de 2025 y 49.590.099 habitantes salen unos 14,9 millones de barras diarias, una cada tres o cuatro personas. Si sumáramos el pan de bares y restaurantes, la cifra subiría."
+          "Francia tiene unos 68 millones de habitantes y la baguette es casi sagrada: pongamos que cada uno se come un centenar al año, dos por semana.",
+          "100 × 60 millones = 6.000 millones al año. Entre 30 millones de segundos salen unas 200 por segundo.",
+          "Con 6.000 millones y 31.557.600 segundos salen 190 baguettes por segundo: mientras lees esta pregunta, Francia ya se ha zampado un millar."
         ]
       }
     },
@@ -89,14 +68,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Parques en parque",
-      "title": "¿Cuántas veces cabe el parque del Retiro dentro de Central Park?",
-      "detail": "Dos pulmones verdes frente a frente. Compara la superficie total de ambos parques, con estanques y caminos incluidos.",
-      "unit": "Retiros",
-      "answer": 2.891101664477288,
-      "math": "Central Park ocupa 843 acres: 341,15 ha. El Retiro tiene 118 ha. 341,15 ÷ 118 ≈ 2,9 Retiros.",
-      "referenceExpression": "843 × 0,40468564224 ÷ 118",
-      "assumptions": "Comparamos superficies, no formas: el Retiro no encajaría tal cual dentro del rectángulo de Central Park. Algunas fuentes dan 125 ha para el Retiro según los límites que se cuenten.",
+      "tag": "Pulmón verde",
+      "title": "¿Cuántos campos de fútbol caben en Central Park?",
+      "detail": "Campos reglamentarios de 105 × 68 m, los que recomienda la FIFA. Cuenta toda la superficie del parque de Nueva York, con lagos, caminos y zoo incluidos. Las ardillas hacen de árbitras.",
+      "unit": "campos",
+      "answer": 477.8011154178151,
+      "math": "Central Park ocupa 843 acres. Un acre son 4.046,86 m², así que el parque mide unos 3.411.500 m². Un campo de 105 × 68 m ocupa 7.140 m². 3.411.500 ÷ 7.140 ≈ 477,8 campos.",
+      "referenceExpression": "843 × 4046,8564224 ÷ (105 × 68)",
+      "assumptions": "Comparamos superficies, no formas: el parque es un rectángulo larguísimo y con lagos, así que en la práctica no cabrían todos los campos tal cual.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -105,25 +84,17 @@
           "fact": "Central Park ocupa 843 acres."
         },
         {
-          "title": "Turespaña (spain.info) · Parque del Buen Retiro",
-          "url": "https://www.spain.info/es/actividades/visita-parque-buen-retiro-madrid/",
-          "fact": "El Parque del Retiro tiene un total de 118 hectáreas y un perímetro de 4,5 km."
+          "title": "Wikipedia · Football pitch",
+          "url": "https://en.wikipedia.org/wiki/Football_pitch",
+          "fact": "La FIFA recomienda que el terreno de juego mida exactamente 105 m de largo y 68 m de ancho."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-02-3.jpg",
-        "alt": "Vista aérea de Central Park, gran rectángulo verde rodeado de rascacielos de Manhattan",
-        "credit": "Nicholas Hartmann",
-        "url": "https://commons.wikimedia.org/wiki/File:2010_New_York_City_Central_Park_aerial.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Pasa los acres a hectáreas",
+        "heading": "Pasa los acres a metros cuadrados",
         "steps": [
-          "Central Park es famoso por enorme; el Retiro es grande pero más modesto. Intuimos que Central Park es dos o tres veces mayor.",
-          "Un acre son unas 0,4 ha: 843 acres son unas 340 ha. Entre 120 ha del Retiro, casi 3.",
-          "Con las cifras exactas salen 2,89 Retiros. Si usáramos 125 ha para el Retiro, saldrían 2,7."
+          "Central Park mide unos 4 km de largo por casi 1 km de ancho: unos 3,4 millones de m², a ojo.",
+          "Un campo de fútbol tiene unos 7.000 m². 3,4 millones ÷ 7.000 ≈ 500 campos.",
+          "Con 843 acres (3.411.500 m²) y campos de 7.140 m² salen 478 campos: medio millar de partidos a la vez en pleno Manhattan."
         ]
       }
     }

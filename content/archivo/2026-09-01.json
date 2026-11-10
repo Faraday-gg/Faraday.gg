@@ -1,7 +1,7 @@
 {
   "id": "2026-09-01",
   "name": "Martes",
-  "theme": "Olivar, ruedas y Plaza Mayor",
+  "theme": "Aceite, Volvo y Zócalo",
   "questions": [
     {
       "id": "archivo-2026-09-01-1",
@@ -9,19 +9,24 @@
       "verifiedAt": "2026-11-10",
       "category": "comida",
       "tag": "Oro líquido",
-      "title": "¿Cuántas piscinas olímpicas llenaría el aceite de oliva que produjo Jaén en 2013?",
-      "detail": "Todo el aceite de una cosecha récord, a piscina llena y sin dejar nada para mojar pan. Cada litro de aceite pesa 0,92 kg.",
+      "title": "¿Cuántas piscinas olímpicas llenaría el aceite de oliva que produce España en un año?",
+      "detail": "Todo el aceite de oliva de la campaña española 2024/25, a piscina olímpica llena. Sin dejar ni una gota para el pan con tomate. Cada litro de aceite pesa 0,911 kg.",
       "unit": "piscinas",
-      "answer": 325.8204347826087,
-      "math": "En 2013 la provincia produjo 749.387 t de aceite. 749.387.000 kg ÷ 0,92 kg/L = 814.551.087 L = 814.551 m³. Una piscina olímpica tiene 2.500 m³: 814.551 ÷ 2.500 ≈ 325,8 piscinas.",
-      "referenceExpression": "749387000 ÷ 0,92 ÷ 1000 ÷ 2500",
-      "assumptions": "Densidad de 0,92 kg/L y piscina de 50 × 25 × 2 m. 2013 fue un año excepcional: en 2014 la provincia produjo 227.050 t.",
+      "answer": 623.198244,
+      "math": "La campaña 2024/25 produjo 1.419.334 t de aceite. 1.419.334.000 kg ÷ 0,911 kg/L ≈ 1.558 millones de litros = 1.557.996 m³. Una piscina olímpica tiene 2.500 m³: 1.557.996 ÷ 2.500 ≈ 623 piscinas.",
+      "referenceExpression": "1419334000 ÷ 0,911 ÷ 1000 ÷ 2500",
+      "assumptions": "Producción total de la campaña con datos del Ministerio de Agricultura a 30 de septiembre de 2025. Densidad de 0,911 kg/L (gravedad específica a 20 °C) y piscina de 50 × 25 × 2 m. La cosecha cambia mucho de un año a otro.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Provincia de Jaén",
-          "url": "https://es.wikipedia.org/wiki/Provincia_de_Ja%C3%A9n_(Espa%C3%B1a)",
-          "fact": "En 2013 la provincia produjo 3.595.872 t de aceituna de almazara, que rindieron 749.387 t de aceite; en 2014, 227.050 t."
+          "title": "Agronews Castilla y León · Existencias de aceite de oliva (31-10-2025)",
+          "url": "https://www.agronewscastillayleon.com/existencias-aceite-oliva-3/",
+          "fact": "Según el informe mensual del Ministerio de Agricultura, con datos a 30 de septiembre, la campaña 2024/25 tuvo una producción total de 1.419.334 toneladas."
+        },
+        {
+          "title": "Wikipedia · Olive oil",
+          "url": "https://en.wikipedia.org/wiki/Olive_oil",
+          "fact": "Gravedad específica del aceite de oliva a 20 °C: 0,911."
         },
         {
           "title": "Wikipedia · Olympic-size swimming pool",
@@ -29,20 +34,12 @@
           "fact": "Una piscina olímpica de 50 × 25 m y 2 m de profundidad contiene unos 2.500.000 litros."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-01-1.jpg",
-        "alt": "Mar de olivos en hileras sobre las lomas de Jaén",
-        "credit": "Allie_Caulfield",
-        "url": "https://commons.wikimedia.org/wiki/File:Olivares_en_Ja%C3%A9n.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Toneladas, litros y piscinas",
+        "heading": "Pasa de toneladas a piscinas",
         "steps": [
-          "Jaén produce una parte enorme del aceite de oliva del mundo: en un buen año, cientos de miles de toneladas.",
-          "Con 700.000 t, y sabiendo que el aceite pesa algo menos que el agua, salen unos 760.000 m³. Entre 2.500 m³ por piscina, unas 300 piscinas.",
-          "Con las 749.387 t de 2013 salen 325,8 piscinas olímpicas. En un año flojo como 2014 no llegaría a 100."
+          "España es el mayor productor de aceite de oliva del mundo: más de un millón de toneladas en un buen año.",
+          "Una tonelada de aceite ocupa algo más de un metro cúbico. Millón y medio de m³ entre 2.500 m³ por piscina dan unos cientos de piscinas.",
+          "Con 1.419.334 t salen 623 piscinas olímpicas. Para nadar en ellas, mejor estilo croqueta."
         ]
       }
     },
@@ -67,14 +64,6 @@
           "fact": "Su Volvo P1800 llegó a 3.260.257 millas (5.246.875 km) en octubre de 2018, un mes antes de su muerte."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-01-2.jpg",
-        "alt": "Volvo P1800 clásico de color claro aparcado",
-        "credit": "Berthold Werner",
-        "url": "https://commons.wikimedia.org/wiki/File:Volvo_P1800_ES_BW_2017-07-16_13-28-01.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Kilómetros de récord entre metros de rueda",
         "steps": [
@@ -89,36 +78,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Llenazo porticado",
-      "title": "¿Cuántas personas cabrían de pie en la Plaza Mayor de Madrid?",
-      "detail": "Cuatro personas por metro cuadrado, como en la Nochevieja más apretada, y nadie bajo los soportales.",
+      "tag": "Plaza a reventar",
+      "title": "¿Cuántas personas cabrían de pie en el Zócalo de Ciudad de México?",
+      "detail": "Llenamos el Zócalo de Ciudad de México como en el concierto más multitudinario: 4 personas por metro cuadrado, apretados pero sin subirse al asta de la bandera.",
       "unit": "personas",
-      "answer": 37600,
-      "math": "La plaza tiene una superficie de 9.400 m². A 4 personas por m²: 9.400 × 4 = 37.600 personas.",
-      "referenceExpression": "9400 × 4",
-      "assumptions": "Usamos la superficie de 9.400 m² que da la fuente; sus medidas exteriores (120,9 × 93,06 m) darían algo más. No descontamos la estatua de Felipe III ni las terrazas.",
+      "answer": 230400,
+      "math": "La plaza mide 240 × 240 m = 57.600 m². A 4 personas por m²: 57.600 × 4 = 230.400 personas.",
+      "referenceExpression": "240 × 240 × 4",
+      "assumptions": "Superficie de 57.600 m² que da la fuente, toda ocupable. Cuatro personas por metro cuadrado es una multitud muy apretada; no descontamos el asta central ni escenarios.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Plaza Mayor de Madrid",
-          "url": "https://es.wikipedia.org/wiki/Plaza_Mayor_de_Madrid",
-          "fact": "La plaza mide 120,9 m de largo por 93,06 m de ancho y tiene una superficie de 9.400 m²."
+          "title": "Wikipedia · Zócalo",
+          "url": "https://en.wikipedia.org/wiki/Z%C3%B3calo",
+          "fact": "El Zócalo actual de Ciudad de México mide 57.600 m² (240 × 240 m)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-01-3.jpg",
-        "alt": "Panorámica de la Plaza Mayor de Madrid con sus soportales y la estatua ecuestre",
-        "credit": "Nemo",
-        "url": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Madrid_(panor%C3%A1mica).jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Superficie por densidad",
+        "heading": "Superficie por densidad de multitud",
         "steps": [
-          "La Plaza Mayor es un rectángulo de unos 120 × 90 m: algo más de una hectárea, unos 10.000 m².",
-          "A 4 personas por m² caben unas 40.000 personas: la mitad de un estadio grande.",
-          "Con los 9.400 m² de la plaza salen 37.600 personas. Si contaras las medidas exteriores completas, serían unas 45.000."
+          "El Zócalo es una de las plazas más grandes del mundo: un cuadrado de unos cuantos campos de fútbol.",
+          "Si mide unos 240 m de lado son unos 60.000 m². A 4 personas por m² caben más de 200.000.",
+          "Salen 230.400 personas: una ciudad mediana entera de pie en una sola plaza."
         ]
       }
     }

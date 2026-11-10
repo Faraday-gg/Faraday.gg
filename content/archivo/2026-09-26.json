@@ -8,41 +8,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Rumbo a Plutón",
-      "title": "¿A cuántos km/h viajó de media la sonda New Horizons hasta su encuentro con Plutón?",
-      "detail": "Nueve años y medio de viaje sin parar a repostar. Cuenta la distancia recorrida por la trayectoria real, no la línea recta, desde el despegue del 19 de enero de 2006 hasta el sobrevuelo del 14 de julio de 2015.",
-      "unit": "km/h",
-      "answer": 58090.67282702859,
-      "math": "NASA cifra el viaje en unos 3.000 millones de millas: 4.828.032.000 km. Entre el 19-1-2006 y el 14-7-2015 hay 3.463 días, es decir, 83.112 horas. 4.828.032.000 ÷ 83.112 ≈ 58.091 km/h.",
-      "referenceExpression": "3000000000 × 1,609344 ÷ 83112",
-      "assumptions": "La distancia de NASA está redondeada («tres mil millones de millas»), así que el resultado es aproximado. Contamos días completos entre las dos fechas y promediamos sobre todo el viaje: la sonda no fue siempre a la misma velocidad.",
+      "tag": "Vuelo sin escalas",
+      "title": "¿Cuántos años tardaría un avión comercial a 900 km/h en llegar a Plutón?",
+      "detail": "Un avión de pasajeros que vuela a 900 km/h sin parar desde el Sol hasta Plutón, a su distancia media. Sin repostar, sin turbulencias y con el carrito de bebidas pasando cada hora.",
+      "unit": "años",
+      "answer": 747.8389,
+      "math": "Plutón está de media a 5.900 millones de km del Sol. A 900 km/h hacen falta 6.555.556 horas; entre 8.766 horas por año: 747,8 años.",
+      "referenceExpression": "5900000000 ÷ 900 ÷ 8766",
+      "assumptions": "Distancia media desde el Sol, no desde la Tierra; la órbita de Plutón es muy excéntrica y la distancia real varía entre unos 4.400 y 7.400 millones de km.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "NASA · Misión New Horizons",
-          "url": "https://science.nasa.gov/mission/new-horizons/",
-          "fact": "Lanzamiento el 19 de enero de 2006 y sobrevuelo de Plutón y sus lunas el 14 de julio de 2015."
-        },
-        {
-          "title": "NASA Scientific Visualization Studio · sobrevuelo de Plutón",
-          "url": "https://svs.gsfc.nasa.gov/11913",
-          "fact": "Tras viajar nueve años y medio y tres mil millones de millas, New Horizons sobrevoló Plutón el 14 de julio de 2015."
+          "title": "NASA · Pluto: Facts",
+          "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+          "fact": "De media, Plutón está a 5.900 millones de km del Sol (3.700 millones de millas, 39 UA)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-26-1.jpg",
-        "alt": "Plutón fotografiado en color por la sonda New Horizons, con su gran llanura clara en forma de corazón",
-        "credit": "NASA / Johns Hopkins University Applied Physics Laboratory / Southwest Research Institute",
-        "url": "https://commons.wikimedia.org/wiki/File:Pluto-01_Stern_03_Pluto_Color_TXT.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pluto-01_Stern_03_Pluto_Color_TXT.jpg"
-      },
       "reasoning": {
-        "heading": "Divide un camino enorme entre un tiempo larguísimo",
+        "heading": "Distancia entre velocidad",
         "steps": [
-          "Plutón está en los confines del sistema solar: miles de millones de kilómetros, no millones. Una apuesta razonable es unos 5.000 millones de km recorridos en algo más de nueve años.",
-          "Nueve años son unas 80.000 horas (9 × 365 × 24). 5.000 millones entre 80.000 da unos 62.500 km/h. Ya sabemos el orden: decenas de miles de km/h, no cientos ni millones.",
-          "Con los 3.000 millones de millas de NASA (4.828 millones de km) y las 83.112 horas exactas salen unos 58.091 km/h. Es una media: la distancia oficial está redondeada y la velocidad real cambió durante el viaje."
+          "Un avión cruza el Atlántico en unas 8 horas; Plutón está a miles de millones de km, casi un millón de veces más lejos.",
+          "A 900 km/h se recorren unos 8 millones de km al año: 6.000 millones entre 8 millones son unos 750 años.",
+          "Con 5.900 millones de km salen 747,8 años: si hubiera despegado en tiempos de Alfonso X, aún no habría llegado."
         ]
       }
     },
@@ -72,14 +59,6 @@
           "fact": "Sus rutas comenzaban en Chang'an (actual Xi'an) y entre sus extremos occidentales figuraba Constantinopla."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-26-2.jpg",
-        "alt": "Camello bactriano de dos jorobas en una estepa de Kazajistán, uno de los animales de carga de la Ruta de la Seda",
-        "credit": "Petar Milošević",
-        "url": "https://commons.wikimedia.org/wiki/File:Bactrian_camel_in_Kazakhstan.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Primero la distancia, luego el paso del camello",
         "steps": [
@@ -94,14 +73,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Peli en disquetes",
-      "title": "¿Cuántos disquetes de 3,5 pulgadas harían falta para guardar una película de 4 GB?",
-      "detail": "Recupera la caja de disquetes del trastero. Película de 4 GB, cada disquete con su capacidad comercial de 1,44 MB y sin comprimir nada más.",
+      "tag": "Videojuego en disquetes",
+      "title": "¿Cuántos disquetes de 3,5 pulgadas harían falta para instalar un videojuego moderno de 100 GB?",
+      "detail": "Un videojuego actual de 100 GB copiado en disquetes clásicos de «1,44 MB». Cuenta 1 GB como 1.000 MB y sin comprimir nada; ve preparando el café para el cambio de disco.",
       "unit": "disquetes",
-      "answer": 2777.777777777778,
-      "math": "Con 1 GB = 1.000 MB, la película ocupa 4.000 MB. 4.000 ÷ 1,44 ≈ 2.778 disquetes.",
-      "referenceExpression": "4000 ÷ 1,44",
-      "assumptions": "El «1,44 MB» comercial son en realidad 1.474.560 bytes (1.440 KiB). Según la convención de unidades que uses para los 4 GB, el resultado va de unos 2.700 a unos 2.900 disquetes; el orden de magnitud no cambia.",
+      "answer": 69444.4444,
+      "math": "100 GB son 100.000 MB. Cada disquete guarda 1,44 MB: 100.000 ÷ 1,44 = 69.444,4 disquetes.",
+      "referenceExpression": "100000 ÷ 1,44",
+      "assumptions": "Unidades comerciales: el «1,44 MB» del disquete son en realidad 1.474.560 bytes; con bytes exactos saldrían unos 67.800. Hacen falta 69.445 disquetes enteros.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -110,20 +89,12 @@
           "fact": "El disquete de 3,5 pulgadas de alta densidad se comercializó como «1,44 MB» (1.474.560 bytes, 1.440 KB formateados)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-26-3.jpg",
-        "alt": "Disquete de 3,5 pulgadas de la marca Verbatim visto de frente, con su cierre metálico",
-        "credit": "Santeri Viinamäki",
-        "url": "https://commons.wikimedia.org/wiki/File:Verbatim_3%C2%BD-inch_floppy_disk.jpg",
-        "license": "CC BY 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-      },
       "reasoning": {
-        "heading": "Pasa todo a la misma unidad antes de dividir",
+        "heading": "Gigas entre megas",
         "steps": [
-          "Un disquete guarda poco más de un megabyte; una película, varios gigas. Un giga son unos mil megas, así que intuimos miles de disquetes.",
-          "Redondeando a 1,5 MB por disquete: 4.000 ÷ 1,5 ≈ 2.700. La respuesta estará cerca de los tres mil, no de los trescientos.",
-          "Con los 1,44 MB exactos salen 2.778 disquetes, una pila de más de 8 metros si cada uno mide unos 3 mm. Según cómo cuentes los bytes, la cifra baila entre 2.700 y 2.900."
+          "Un disquete apenas guarda una foto de móvil: algo más de un mega.",
+          "100 GB son 100.000 MB; a casi 1,5 MB por disco, unas 70.000 unidades.",
+          "Exacto: 100.000 ÷ 1,44 = 69.444,4. Cambiando un disco cada 30 segundos tardarías 24 días en instalarlo."
         ]
       }
     }

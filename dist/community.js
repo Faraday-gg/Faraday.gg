@@ -70,7 +70,7 @@ async function loadDistribution(q,guess){
   target.innerHTML=distributionSvg(q,guess,{bins,low,high,count:logs.length,simulated:true});
   if(rank)rank.textContent=`Más cerca que el ${Math.round(farther/logs.length*100)}% · simulación`;
 }
-// Muestra simulada (decisión 0013): mientras haya menos de SIM_MIN respuestas reales, el gráfico usa
+// Muestra simulada (decisión 0014): mientras haya menos de SIM_MIN respuestas reales, el gráfico usa
 // estimaciones simuladas, siempre las mismas para cada pregunta, y lo dice en el propio gráfico. Nunca se guardan.
 const SIM_MIN=30,SIM_SIZE=600;
 function seededRandom(text){let h=1779033703^text.length;for(let i=0;i<text.length;i++){h=Math.imul(h^text.charCodeAt(i),3432918353);h=h<<13|h>>>19}return()=>{h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296}}

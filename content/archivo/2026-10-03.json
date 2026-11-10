@@ -1,7 +1,7 @@
 {
   "id": "2026-10-03",
   "name": "Sábado",
-  "theme": "AVE, céntimos y Lugo",
+  "theme": "AVE, céntimos y Chichén Itzá",
   "questions": [
     {
       "id": "archivo-2026-10-03-1",
@@ -29,14 +29,6 @@
           "fact": "Un parpadeo dura de media entre 100 y 150 ms; otras fuentes dan entre 100 y 400 ms."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-03-1.jpg",
-        "alt": "Tren AVE serie 103 de Renfe circulando a gran velocidad por una vía de alta velocidad",
-        "credit": "Kabelleger / David Gubler (http://www.bahnbilder.ch)",
-        "url": "https://commons.wikimedia.org/wiki/File:RENFE_Class_103_Vinaixa.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Pasa los km/h a metros por segundo",
         "steps": [
@@ -51,36 +43,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Calderilla al peso",
-      "title": "¿Cuántas monedas de un céntimo pesarían lo mismo que un coche utilitario?",
-      "detail": "La hucha definitiva. Supón un coche de 1.200 kg y monedas de un céntimo recién acuñadas.",
+      "tag": "Elefante de calderilla",
+      "title": "¿Cuántas monedas de un céntimo pesarían lo mismo que un elefante africano?",
+      "detail": "Un elefante africano de sabana macho y adulto, de los que pesan unas 6 toneladas. En el otro platillo de la balanza, monedas de 1 céntimo de euro, sin monedero.",
       "unit": "monedas",
-      "answer": 521739.13043478265,
-      "math": "La moneda de 1 céntimo pesa 2,30 g. 1.200 kg son 1.200.000 g. 1.200.000 ÷ 2,30 ≈ 521.739 monedas, que suman unos 5.217 €.",
-      "referenceExpression": "1200000 ÷ 2,3",
-      "assumptions": "El peso del coche es un supuesto redondo; los utilitarios actuales pesan entre 1.000 y 1.400 kg. Las monedas gastadas pierden un poco de masa.",
+      "answer": 2608695.652173913,
+      "math": "Un macho adulto de elefante africano de sabana pesa de media 6,0 toneladas: 6.000.000 g. La moneda de 1 céntimo pesa 2,30 g. 6.000.000 ÷ 2,30 ≈ 2.608.696 monedas, que suman unos 26.087 €.",
+      "referenceExpression": "6000000 ÷ 2,3",
+      "assumptions": "Usamos el peso medio de un macho adulto en buenas condiciones; las hembras pesan la mitad, unas 3 toneladas, y darían la mitad de monedas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Banco Central Europeo · Monedas en euros",
           "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.es.html",
-          "fact": "La moneda de 1 céntimo pesa 2,30 g."
+          "fact": "La moneda de 1 céntimo pesa 2,30 g y mide 16,25 mm de diámetro."
+        },
+        {
+          "title": "Wikipedia · African bush elephant",
+          "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+          "fact": "Los machos adultos pesan de media 6,0 toneladas en condiciones óptimas; las hembras, 3,0 toneladas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-03-2.jpg",
-        "alt": "Moneda de un céntimo de euro sobre una superficie lisa",
-        "credit": "Iamgoingtoregret",
-        "url": "https://commons.wikimedia.org/wiki/File:Irish_1_cent_euro_2008.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Pasa el coche a gramos y divide",
+        "heading": "Pasa las toneladas a gramos",
         "steps": [
-          "Un céntimo pesa unos pocos gramos y un coche más de una tonelada. Saldrán cientos de miles de monedas.",
-          "Con 2,5 g por moneda: 1.200.000 ÷ 2,5 = 480.000. El orden es de medio millón.",
-          "Con los 2,30 g oficiales salen 521.739 monedas. Toda esa montaña de calderilla vale unos 5.217 €, bastante menos que el coche."
+          "Un elefante pesa como unos cuantos coches, varias toneladas. Una moneda de céntimo apenas pesa un par de gramos.",
+          "6 toneladas son 6 millones de gramos. Entre 2 g por moneda, unos 3 millones de monedas.",
+          "Con 2,30 g por moneda salen 2.608.696 céntimos: unos 26.000 €. Mucho dinero para tan poca calderilla, y ni así compras un elefante."
         ]
       }
     },
@@ -89,41 +78,36 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Abrazo romano",
-      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la muralla romana de Lugo?",
-      "detail": "Un abrazo de casi dos mil años. Supón 1,5 m por persona con los brazos abiertos, sin huecos.",
+      "tag": "Corro maya",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la pirámide de Kukulcán en Chichén Itzá?",
+      "detail": "Un corro de adultos con los brazos estirados, cogidos de la mano y pegados a la base cuadrada de El Castillo, la gran pirámide de Chichén Itzá. Cada persona ocupa 1,5 m de corro. Prohibido subir por las escaleras.",
       "unit": "personas",
-      "answer": 1411.3333333333333,
-      "math": "La muralla romana de Lugo mide 2.117 m. 2.117 ÷ 1,5 ≈ 1.411 personas.",
-      "referenceExpression": "2117 ÷ 1,5",
-      "assumptions": "Usamos la medida de la UNESCO. Otras fuentes dan 2.266 m según cómo se mida; con esa cifra harían falta unas 1.511 personas.",
+      "answer": 147.46666666666667,
+      "math": "La base cuadrada de la pirámide mide 55,3 m de lado: su perímetro es 4 × 55,3 = 221,2 m. Con 1,5 m por persona: 221,2 ÷ 1,5 ≈ 147,5, es decir, unas 148 personas.",
+      "referenceExpression": "4 × 55,3 ÷ 1,5",
+      "assumptions": "La envergadura de un adulto se parece a su altura (unos 1,6-1,7 m); al darse la mano se pierde un poco, así que usamos 1,5 m por persona. No contamos las escalinatas que sobresalen de cada lado.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "UNESCO · Roman Walls of Lugo",
-          "url": "https://whc.unesco.org/en/list/987/",
-          "fact": "La longitud total de la muralla es de 2.117 m y su altura varía entre 8 y 10 m."
-        },
-        {
-          "title": "Wikipedia · Muralla de Lugo",
-          "url": "https://es.wikipedia.org/wiki/Muralla_de_Lugo",
-          "fact": "Recoge varias medidas: 2.117 m «aunque hay divergencias en la medida», 2.226 m y 2.266 m."
+          "title": "Wikipedia · El Castillo, Chichén Itzá",
+          "url": "https://en.wikipedia.org/wiki/El_Castillo,_Chichen_Itza",
+          "fact": "La base cuadrada mide 55,3 m de lado; la pirámide tiene 24 m de altura, más 6 m del templo de la cima."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-10-03-3.jpg",
-        "alt": "Tramo de la muralla romana de Lugo con sus cubos semicirculares y el paseo de ronda",
-        "credit": "Simon Burchell",
-        "url": "https://commons.wikimedia.org/wiki/File:Muralla_romana_de_Lugo_03.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+        "alt": "Pirámide de Kukulcán (El Castillo) en Chichén Itzá, con sus escalinatas y su base cuadrada sobre la explanada",
+        "credit": "Bjørn Christian Tørrissen",
+        "url": "https://commons.wikimedia.org/wiki/File:Chichen-Itza-Castillo-Seen-From-East.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       },
       "reasoning": {
-        "heading": "Perímetro entre envergadura",
+        "heading": "Primero el perímetro, después las personas",
         "steps": [
-          "La muralla rodea el casco viejo de Lugo: unos dos kilómetros. Con los brazos abiertos ocupamos metro y medio.",
-          "2.000 ÷ 1,5 ≈ 1.330 personas. Hablamos de más de mil, no de cien.",
-          "Con los 2.117 m de la UNESCO salen 1.411 personas. Con la medida de 2.266 m serían unas 1.511."
+          "La pirámide es grande pero no tanto como las de Egipto: su base tendrá unos 50 m de lado.",
+          "Cuatro lados de 50 m son 200 m. Con 1,5 m por persona, unas 130 personas.",
+          "Con 55,3 m de lado salen 221,2 m de perímetro y 147,5 personas: cabe un corro de unas 148, como tres autobuses de turistas bien avenidos."
         ]
       }
     }

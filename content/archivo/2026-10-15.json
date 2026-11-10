@@ -1,7 +1,7 @@
 {
   "id": "2026-10-15",
   "name": "Jueves",
-  "theme": "Oktoberfest, palomitas y Cartuja",
+  "theme": "Oktoberfest, Avatar y Bombonera",
   "questions": [
     {
       "id": "archivo-2026-10-15-1",
@@ -24,14 +24,6 @@
           "fact": "Unos 6,7 millones de Maß de cerveza (6,5 millones en 2025), 7,4 millones de visitantes y 16 días de fiesta."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-15-1.jpg",
-        "alt": "Jarra de cristal de un litro (Maß) llena de cerveza con espuma",
-        "credit": "senator86",
-        "url": "https://commons.wikimedia.org/wiki/File:Ma%C3%9F-mug.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
-      },
       "reasoning": {
         "heading": "Litros de la fiesta entre minutos de barra",
         "steps": [
@@ -46,36 +38,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cultura",
-      "tag": "Cine con cubo",
-      "title": "Si cada entrada de cine vendida en España en un año llevara un cubo de palomitas de 5 L, ¿cuántas piscinas olímpicas llenarían?",
-      "detail": "Una entrada, un cubo de 5 litros, sin excepciones ni para los que odian el ruido del crujido. La piscina olímpica tiene 2.500 m³.",
+      "tag": "Palomitas de Pandora",
+      "title": "Si cada entrada vendida de Avatar llevara un cubo de palomitas de 5 L, ¿cuántas piscinas olímpicas llenarían?",
+      "detail": "La película más taquillera de la historia, una entrada por espectador y un cubo XXL de 5 litros para cada uno. Calcula las entradas dividiendo la recaudación mundial entre el precio medio de la entrada en Estados Unidos en 2010. Los azules de Pandora no comen palomitas, así que tocan a más.",
       "unit": "piscinas",
-      "answer": 145.8,
-      "math": "En 2024 hubo 72,9 millones de espectadores. 72.900.000 × 5 L = 364.500.000 L = 364.500 m³. 364.500 ÷ 2.500 = 145,8 piscinas olímpicas.",
-      "referenceExpression": "72900000 × 5 ÷ 1000 ÷ 2500",
-      "assumptions": "Un cubo por entrada vendida, lleno hasta el borde, y una piscina de 50 × 25 × 2 m. El dato de espectadores es de 2024, el último cerrado que publica el Ministerio de Cultura.",
-      "confidence": "Dato oficial + modelo",
+      "answer": 735.5247064150943,
+      "math": "Avatar recaudó 2.923.710.708 $ en todo el mundo. A 7,95 $ por entrada son unos 368 millones de entradas. 368 millones × 5 L ≈ 1.839 millones de litros. Una piscina olímpica tiene 2,5 millones de litros: 1.839 ÷ 2,5 ≈ 736 piscinas.",
+      "referenceExpression": "2923710708 ÷ 7,95 × 5 ÷ 2500000",
+      "assumptions": "Se usa el precio medio de la entrada en EE. UU. a comienzos de 2010, cuando Avatar seguía en cartel, para todas las entradas del mundo; las de 3D eran más caras y en otros países los precios varían mucho, así que el número de entradas es solo aproximado. Incluye los reestrenos posteriores. Piscina olímpica de 50 × 25 × 2 m.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Ministerio de Cultura · Datos de cine 2024 (8/5/2025)",
-          "url": "https://www.cultura.gob.es/actualidad/2025/05/250508-datos-cine.html",
-          "fact": "«El número de espectadores en 2024 se situó en 72,9 millones»."
+          "title": "Box Office Mojo · Avatar (2009)",
+          "url": "https://www.boxofficemojo.com/title/tt0499549/",
+          "fact": "Recaudación mundial de 2.923.710.708 $ (785 millones en EE. UU. y 2.138 millones en el resto del mundo)."
+        },
+        {
+          "title": "TheWrap · NATO: 3D Drives Record Ticket Price Bump (4/5/2010)",
+          "url": "https://www.thewrap.com/nato-3d-drives-record-ticket-price-bump-16986/",
+          "fact": "Según la asociación de exhibidores NATO, el precio medio de la entrada en EE. UU. era de 7,95 $ en el primer trimestre de 2010."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica de 2 m de profundidad tiene 2.500 m³, es decir, 2,5 millones de litros."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-15-2.jpg",
-        "alt": "Cubo de cartón lleno de palomitas de cine",
-        "credit": "مانفی",
-        "url": "https://commons.wikimedia.org/wiki/File:Cinema_popcorn_bucket.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Espectadores por litros, y luego a piscinas",
+        "heading": "Entradas por cubos entre piscinas",
         "steps": [
-          "En España se venden decenas de millones de entradas al año: pongamos 70 millones.",
-          "70 millones de cubos de 5 L son 350 millones de litros, o 350.000 m³. Entre 2.500 m³ por piscina salen 140 piscinas.",
-          "Con los 72,9 millones de espectadores de 2024 salen 145,8 piscinas olímpicas. Con 100 millones de espectadores serían 200 piscinas: el resultado sube y baja al ritmo de la taquilla."
+          "Avatar recaudó casi 3.000 millones de dólares. Con entradas de unos 10 $, son unos 300 millones de espectadores.",
+          "300 millones de cubos de 5 L son 1.500 millones de litros; entre 2,5 millones por piscina, unas 600 piscinas. El orden es de centenares.",
+          "Con 2.924 millones de dólares y 7,95 $ por entrada salen unos 736 piscinas. Si el precio medio mundial fuera más alto, como en las salas 3D, saldrían menos."
         ]
       }
     },
@@ -84,36 +78,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Excursión colectiva",
-      "title": "¿Cuántos autobuses urbanos harían falta para llevar a casa a todo el aforo del Estadio de La Cartuja?",
-      "detail": "Final de copa, estadio lleno y nadie quiere ir andando. Usa autobuses de 90 plazas, todos a la vez y en un solo viaje.",
+      "tag": "Vuelta a casa",
+      "title": "¿Cuántos autobuses urbanos harían falta para llevar a casa a todo el aforo de La Bombonera?",
+      "detail": "Termina el partido de Boca, nadie tiene coche y todos quieren volver en autobús, apretados como en hora punta. Usa el aforo del estadio y un autobús urbano de 12 m lleno hasta el máximo que permite el fabricante. Cantar por el camino está permitido.",
       "unit": "autobuses",
-      "answer": 793.0444444444445,
-      "math": "La Cartuja tiene 71.374 localidades. 71.374 ÷ 90 ≈ 793,04 autobuses, así que en la práctica harían falta 794.",
-      "referenceExpression": "71374 ÷ 90",
-      "assumptions": "Todos los espectadores van en autobús, cada uno lleno exactamente con 90 personas (sentadas y de pie). No contamos personal, prensa ni jugadores.",
+      "answer": 498.64406779661016,
+      "math": "La Bombonera tiene un aforo de 58.840 espectadores. Un autobús urbano eléctrico de 12 m lleva como máximo 118 pasajeros. 58.840 ÷ 118 ≈ 499 autobuses.",
+      "referenceExpression": "58840 ÷ 118",
+      "assumptions": "Estadio lleno y autobuses cargados al máximo legal (la mayoría de pasajeros, de pie). Con autobuses con más asientos y menos sitio para ir de pie, harían falta bastantes más.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Estadio de La Cartuja",
-          "url": "https://en.wikipedia.org/wiki/Estadio_de_La_Cartuja",
-          "fact": "Capacidad de 71.374 asientos."
+          "title": "Wikipedia · Estadio Alberto J. Armando",
+          "url": "https://es.wikipedia.org/wiki/Estadio_Alberto_J._Armando",
+          "fact": "Capacidad de 58.840 espectadores."
+        },
+        {
+          "title": "EPD International · Mercedes-Benz eCitaro",
+          "url": "https://environdec.com/library/epd9794",
+          "fact": "Autobús urbano eléctrico de 12 m y tres puertas con capacidad máxima de 118 pasajeros."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-15-3.jpg",
-        "alt": "Vista general del Estadio de La Cartuja de Sevilla con sus gradas y la cubierta",
-        "credit": "Discober92 (= Alberto Martín)",
-        "url": "https://commons.wikimedia.org/wiki/File:Estadioolimpicosevilla.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Aforo entre plazas por autobús",
+        "heading": "Aforo entre plazas de autobús",
         "steps": [
-          "Un gran estadio español ronda los 70.000 espectadores.",
-          "Un autobús urbano lleno lleva unas 100 personas. 70.000 ÷ 100 = 700 autobuses: cientos, no decenas.",
-          "Con 71.374 localidades y 90 plazas salen 793,04 autobuses, o sea, 794 si nadie se queda en tierra. Puestos en fila, con 12 m por autobús, ocuparían más de 9 km de calle."
+          "La Bombonera es mítica pero no gigante: unas 60.000 personas. Un autobús urbano lleno hasta los topes lleva unas 100.",
+          "60.000 entre 100 son 600 autobuses. El orden es de centenares: una caravana de varios kilómetros.",
+          "Con 58.840 espectadores y 118 plazas por autobús salen unos 499 autobuses. Con autobuses más pequeños o menos apretados se pasaría de 600."
         ]
       }
     }

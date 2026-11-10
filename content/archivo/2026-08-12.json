@@ -1,27 +1,27 @@
 {
   "id": "2026-08-12",
   "name": "Miércoles",
-  "theme": "Secuoya, 4K y aparcamiento",
+  "theme": "Secuoya, píxeles y autobuses",
   "questions": [
     {
       "id": "archivo-2026-08-12-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Lápices gigantes",
-      "title": "¿Cuántos lápices saldrían de la madera del tronco del árbol General Sherman?",
-      "detail": "Convierte todo el tronco del árbol más voluminoso del mundo en lápices de 6 cm³ de madera cada uno. Es un experimento mental: el árbol se queda donde está.",
+      "tag": "Árbol de colegio",
+      "title": "¿Cuántos lápices saldrían del tronco de la secuoya General Sherman, el árbol más grande del mundo?",
+      "detail": "Usa solo el tronco del General Sherman, la secuoya de California que es el árbol más grande del planeta por volumen, y lápices de 6 cm³ de madera. Las ramas, para la chimenea (es broma: está protegido).",
       "unit": "lápices",
       "answer": 247766666.66666666,
-      "math": "El National Park Service da al tronco del General Sherman unos 1.486,6 m³. Eso son 1.486.600.000 cm³; entre 6 cm³ por lápiz, unos 247,8 millones de lápices.",
+      "math": "El National Park Service da al tronco unos 1.486,6 m³, es decir, 1.486.600.000 cm³. Entre 6 cm³ de madera por lápiz: unos 247,8 millones de lápices.",
       "referenceExpression": "1486,6 × 1000000 ÷ 6",
-      "assumptions": "Aprovechamos el 100 % del volumen del tronco, sin serrín ni corteza perdida, y cada lápiz usa 6 cm³ de madera.",
-      "confidence": "Dato documentado + modelo",
+      "assumptions": "Suponemos que toda la madera del tronco se aprovecha y que cada lápiz necesita unos 6 cm³. En la práctica se pierde mucha madera al serrar, y no se puede talar: es un árbol protegido de un parque nacional.",
+      "confidence": "Dato oficial + modelo",
       "sources": [
         {
           "title": "National Park Service · The General Sherman Tree",
           "url": "https://www.nps.gov/seki/learn/nature/sherman.htm",
-          "fact": "Volumen del tronco: unos 52.500 pies cúbicos (1.486,6 m³); altura 83,8 m; diámetro máximo en la base 11,1 m."
+          "fact": "El árbol más grande del mundo por volumen: unos 52.500 pies cúbicos (1.486,6 m³) de tronco; 83,8 m de altura."
         }
       ],
       "image": {
@@ -33,11 +33,11 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       },
       "reasoning": {
-        "heading": "Piensa en metros cúbicos de madera",
+        "heading": "Del tronco a la caja de lápices",
         "steps": [
-          "El tronco es tan alto como un edificio de 25 plantas y tan ancho como un salón. Fácilmente pasa de mil metros cúbicos.",
-          "Un metro cúbico son un millón de centímetros cúbicos; a 6 cm³ por lápiz da unos 170.000 lápices. Con 1.000 m³ ya serían 170 millones.",
-          "Con los 1.486,6 m³ del NPS salen 247.766.667 lápices. En la práctica perderías mucha madera al serrar: es el máximo teórico."
+          "El General Sherman mide más de 80 m de alto y 11 m de ancho en la base. Un tronco así tiene más de mil metros cúbicos de madera.",
+          "Un lápiz es un palito de unos 18 cm por 0,7 cm de grosor: unos 6 cm³. Un metro cúbico da para unos 170.000 lápices.",
+          "Con los 1.486,6 m³ del Parque Nacional salen 247,8 millones de lápices: uno para cada alumno de Europa y de sobra para repetir."
         ]
       }
     },
@@ -46,41 +46,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Censo en píxeles",
-      "title": "¿Cuántas pantallas 4K harían falta para dar un píxel a cada habitante de España?",
-      "detail": "Asigna un píxel de una pantalla UHD de 3.840 × 2.160 a cada residente en España. Nadie puede quejarse de que su píxel es más pequeño.",
+      "tag": "Un píxel por cabeza",
+      "title": "¿Cuántas pantallas 4K harían falta para dar un píxel a cada habitante del planeta?",
+      "detail": "Cada persona del mundo recibe un píxel de una tele 4K UHD de 3.840 × 2.160. Los gatos de internet no cuentan.",
       "unit": "pantallas",
-      "answer": 6.004238884066358,
-      "math": "Una pantalla 4K UHD tiene 3.840 × 2.160 = 8.294.400 píxeles. España tenía 49.801.559 habitantes el 1 de julio de 2026: 49.801.559 ÷ 8.294.400 ≈ 6,004 pantallas.",
-      "referenceExpression": "49801559 ÷ (3840 × 2160)",
-      "assumptions": "Población provisional del INE a 1 de julio de 2026 y resolución estándar UHD; cada píxel cuenta como uno aunque tenga tres subpíxeles de color.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 1000.6751543209876,
+      "math": "Una pantalla 4K UHD tiene 3.840 × 2.160 = 8.294.400 píxeles. La población mundial ronda los 8.300 millones en 2026: 8.300.000.000 ÷ 8.294.400 ≈ 1.001 pantallas.",
+      "referenceExpression": "8300000000 ÷ (3840 × 2160)",
+      "assumptions": "Tomamos unos 8.300 millones de habitantes en 2026, una cifra redondeada que crece cada día. La ONU dio por superados los 8.000 millones en noviembre de 2022; con esa cifra saldrían 965 pantallas.",
+      "confidence": "Dato aproximado + cálculo",
       "sources": [
         {
-          "title": "INE · Estadística Continua de Población, 2.º trimestre de 2026",
-          "url": "https://www.ine.es/dyngs/Prensa/ECP2T26.htm",
-          "fact": "La población residente en España se situó en 49.801.559 habitantes a 1 de julio de 2026 (dato provisional)."
+          "title": "Wikipedia · World population",
+          "url": "https://en.wikipedia.org/wiki/World_population",
+          "fact": "En 2026 la población mundial ronda los 8.300 millones de personas."
+        },
+        {
+          "title": "Naciones Unidas · Population",
+          "url": "https://www.un.org/en/global-issues/population",
+          "fact": "La población mundial alcanzó los 8.000 millones el 15 de noviembre de 2022."
         },
         {
           "title": "Wikipedia · 4K resolution",
           "url": "https://en.wikipedia.org/wiki/4K_resolution",
-          "fact": "La resolución de 3.840 × 2.160 es la resolución 4K dominante en la industria de consumo."
+          "fact": "El 4K UHD de consumo mide 3.840 × 2.160 píxeles: 8.294.400 en total."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-12-2.png",
-        "alt": "Comparación de tamaños de resolución de pantalla: 8K, 4K, 2K, UHD y HD",
-        "credit": "Libron",
-        "url": "https://commons.wikimedia.org/wiki/File:8K,_4K,_2K,_UHD,_HD.png",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
-        "heading": "Cuenta píxeles por pantalla",
+        "heading": "Millones contra millones",
         "steps": [
-          "Una pantalla 4K tiene millones de píxeles y España, decenas de millones de personas. La respuesta debería ser un número pequeño.",
-          "3.840 × 2.160 se acerca a 4.000 × 2.000 = 8 millones. 50 millones entre 8 millones dan algo más de 6.",
-          "El cálculo exacto da 6,004 pantallas: con seis te faltarían unos 35.000 píxeles. Cuando la población crezca un poco más, la séptima pantalla tendrá más inquilinos."
+          "Una tele 4K tiene unos 8 millones de píxeles y en el mundo somos unos 8.000 millones: la cuenta pinta a mil.",
+          "3.840 × 2.160 son 8.294.400 píxeles exactos. 8.000 millones entre 8,3 millones dan unas 965 pantallas.",
+          "Con los 8.300 millones de 2026 salen 1.001 pantallas: un millar de teles basta para darle a cada persona del planeta su píxel."
         ]
       }
     },
@@ -89,36 +86,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Plazas para todos",
-      "title": "¿Cuántos km² de plazas de aparcamiento ocuparían todos los turismos de España?",
-      "detail": "Aparca cada turismo del parque español en su propia plaza de 12 m², sin calles ni rampas. Encontrar sitio ya es otro juego.",
-      "unit": "km²",
-      "answer": 309.461844,
-      "math": "La DGT contabiliza 25.788.487 turismos en el parque de 2025. Con 12 m² por plaza: 309.461.844 m², es decir, unos 309,5 km².",
-      "referenceExpression": "25788487 × 12 ÷ 1000000",
-      "assumptions": "Plaza de 12 m² por coche y solo superficie de plazas, sin viales de acceso. El parque de la DGT incluye vehículos dados de alta que no siempre circulan.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Torre de dos pisos",
+      "title": "¿Cuántos autobuses londinenses de dos pisos apilados igualarían la altura de la noria London Eye?",
+      "detail": "Apila autobuses rojos New Routemaster, de 4,39 m de alto, hasta llegar a lo más alto de la noria de 135 m. Prohibido bajarse en marcha.",
+      "unit": "autobuses",
+      "answer": 30.751708428246015,
+      "math": "La London Eye mide 135 m. Un New Routemaster de dos pisos mide 4,39 m de alto: 135 ÷ 4,39 ≈ 30,8 autobuses.",
+      "referenceExpression": "135 ÷ 4,39",
+      "assumptions": "Apilamos autobuses del modelo New Routemaster sin holgura entre ellos. Otros autobuses londinenses de dos pisos miden alrededor de 4,4 m, así que el resultado apenas cambia.",
+      "confidence": "Dato documentado + división",
       "sources": [
         {
-          "title": "DGT · Anuario Estadístico General 2025 (tabla 16, parque de vehículos por tipos)",
-          "url": "https://www.dgt.es/export/sites/web-DGT/.galleries/downloads/dgt-en-cifras/publicaciones/Anuario_Estadistico_General/Anuario-General-2025.pdf",
-          "fact": "Parque de turismos en 2025: 25.788.487."
+          "title": "Wikipedia · London Eye",
+          "url": "https://en.wikipedia.org/wiki/London_Eye",
+          "fact": "La estructura mide 135 m de altura."
+        },
+        {
+          "title": "Wikipedia · New Routemaster",
+          "url": "https://en.wikipedia.org/wiki/New_Routemaster",
+          "fact": "El nuevo autobús Routemaster de dos pisos mide 4,39 m de alto y 11,23 m de largo."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-12-3.jpg",
-        "alt": "Gran aparcamiento en superficie lleno de coches en filas, visto desde arriba",
-        "credit": "Tony Webster from Portland, Oregon, United States",
-        "url": "https://commons.wikimedia.org/wiki/File:Surface_Parking_Lot,_Downtown_Minneapolis_(433836865).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Un coche, una plaza",
+        "heading": "Autobús sobre autobús",
         "steps": [
-          "En España hay más de 20 millones de coches. Si cada uno necesita unos 10 m², hablamos de cientos de millones de metros cuadrados.",
-          "25 millones × 12 m² = 300 millones de m², que son 300 km²: más o menos la superficie de un municipio grande.",
-          "Con los 25.788.487 turismos de la DGT salen 309,5 km². Si sumas pasillos y rampas, un aparcamiento real necesita casi el doble."
+          "Un autobús de dos pisos mide más o menos lo que un edificio de un piso y medio, algo más de 4 m. La noria parece un edificio de 40 plantas.",
+          "Con 135 m de noria y unos 4,5 m por autobús salen 30: una torre de unos 30 autobuses.",
+          "Con los 4,39 m del New Routemaster salen 30,8 autobuses. Para el último, ni el conductor más valiente."
         ]
       }
     }

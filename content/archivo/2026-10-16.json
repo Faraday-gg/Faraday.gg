@@ -1,7 +1,7 @@
 {
   "id": "2026-10-16",
   "name": "Viernes",
-  "theme": "Siesta, Collserola y cepillo",
+  "theme": "Siesta, horizonte y cepillo",
   "questions": [
     {
       "id": "archivo-2026-10-16-1",
@@ -24,14 +24,6 @@
           "fact": "Población a 1 de enero de 2026: 49.590.099 habitantes (provisional)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-16-1.jpg",
-        "alt": "Cuadro de Gustave Courbet: una joven dormida en una hamaca a la sombra de los árboles",
-        "credit": "Gustave Courbet",
-        "url": "https://commons.wikimedia.org/wiki/File:Die_H%C3%A4ngematte.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Die_H%C3%A4ngematte.jpg"
-      },
       "reasoning": {
         "heading": "Minutos de siesta hasta llegar a años",
         "steps": [
@@ -46,36 +38,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Mirador al infinito",
-      "title": "¿A cuántos km está el horizonte visto desde el mirador de la Torre de Collserola?",
-      "detail": "La torre de telecomunicaciones de Norman Foster tiene un mirador público sobre la sierra de Collserola. Calcula el horizonte geométrico desde los ojos del visitante, sin montañas ni bruma en medio.",
+      "tag": "Ventanilla al infinito",
+      "title": "¿A cuántos kilómetros está el horizonte visto desde la ventanilla de un avión a 11.000 metros?",
+      "detail": "Estás en la ventanilla, el carrito de las bebidas acaba de pasar y miras a lo lejos. Supón un avión a 11.000 m de altitud de crucero, la Tierra como una esfera perfecta y un cielo sin nubes ni bruma. Calcula el horizonte geométrico, sin la ayuda de la refracción del aire.",
       "unit": "km",
-      "answer": 84.48161930266251,
-      "math": "El mirador está a 560 m sobre el nivel del mar. La distancia al horizonte geométrico es d ≈ 3,57 × √h, con h en metros y d en km. 3,57 × √560 ≈ 3,57 × 23,66 ≈ 84,5 km.",
-      "referenceExpression": "3,57 × √560",
-      "assumptions": "Fórmula del horizonte geométrico sobre una Tierra lisa, con el mar al nivel cero. La refracción de la atmósfera lo alarga un poco y las montañas lo tapan en muchas direcciones.",
-      "confidence": "Dato documentado + geometría",
+      "answer": 374.3821576945141,
+      "math": "La distancia al horizonte es d ≈ √(2Rh). Con R = 6.371 km y h = 11 km: √(2 × 6.371 × 11) = √140.162 ≈ 374 km.",
+      "referenceExpression": "√(2 × 6371 × 11)",
+      "assumptions": "Tierra esférica de radio medio 6.371 km, sin relieve. Se ignora la refracción atmosférica, que alarga el horizonte alrededor de un 8 %. En la práctica, la bruma suele impedir ver tan lejos.",
+      "confidence": "Dato científico + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Torre de Collserola",
-          "url": "https://en.wikipedia.org/wiki/Torre_de_Collserola",
-          "fact": "El mirador público está a 560 m sobre el nivel del mar; la antena alcanza 288,4 m de altura."
+          "title": "Wikipedia · Cruise (aeronautics)",
+          "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+          "fact": "La altitud de crucero típica de los aviones comerciales va de 31.000 a 38.000 pies (9.400 a 11.600 m)."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio medio volumétrico de la Tierra: 6.371 km."
+        },
+        {
+          "title": "Wikipedia · Horizon",
+          "url": "https://en.wikipedia.org/wiki/Horizon",
+          "fact": "La distancia al horizonte geométrico es √(2Rh + h²), que para alturas pequeñas frente al radio se reduce a √(2Rh)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-16-2.jpg",
-        "alt": "La Torre de Collserola, una aguja de telecomunicaciones sujeta con tirantes, sobre la sierra de Barcelona",
-        "credit": "Felix König",
-        "url": "https://commons.wikimedia.org/wiki/File:Torre_de_Collserola_2013.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "La raíz cuadrada de la altura manda",
+        "heading": "Raíz de la altura por el radio",
         "steps": [
-          "Desde la playa, con los ojos a 2 m, el horizonte está a unos 5 km. Al subir, se aleja, pero no en proporción directa.",
-          "La distancia crece con la raíz de la altura: subir 100 veces más alto alarga el horizonte 10 veces. A unos 500 m saldrían unos 80 km.",
-          "Con 560 m sobre el mar, el horizonte geométrico queda a 84,5 km, bastante más allá de la costa. La refracción atmosférica lo alarga un poco, y en días claros se llegan a ver cumbres más lejanas porque sobresalen por encima del horizonte."
+          "Desde la playa, con los ojos a menos de 2 m, el horizonte está a unos 5 km. Desde un avión, a 11 km de altura, tiene que estar muchísimo más lejos.",
+          "El horizonte crece con la raíz de la altura: 11.000 m es unas 6.000 veces más alto que 1,8 m, y la raíz de 6.000 es unos 77. 5 km × 77 ≈ 385 km: centenares de kilómetros.",
+          "Con √(2 × 6.371 × 11) salen 374 km, más que de Madrid a Valencia en línea recta. Con la refracción del aire serían unos 400 km."
         ]
       }
     },
@@ -100,14 +94,6 @@
           "fact": "Cepíllate los dientes dos veces al día, unos 2 minutos cada vez."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-16-3.jpg",
-        "alt": "Cepillo de dientes con una tira de pasta dentífrica sobre las cerdas",
-        "credit": "Thegreenj",
-        "url": "https://commons.wikimedia.org/wiki/File:Toothpasteonbrush.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-      },
       "reasoning": {
         "heading": "Minutos diarios por días de vida",
         "steps": [

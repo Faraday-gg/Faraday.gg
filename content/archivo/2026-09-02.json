@@ -1,23 +1,28 @@
 {
   "id": "2026-09-02",
   "name": "Miércoles",
-  "theme": "Pilas, cerebro y Big Ben",
+  "theme": "Tesla, cerebro y Big Ben",
   "questions": [
     {
       "id": "archivo-2026-09-02-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "tecnologia",
-      "tag": "Coche a pilas",
-      "title": "¿Cuántas pilas AA harían falta para almacenar la energía de la batería de un coche eléctrico de 60 kWh?",
-      "detail": "Cambiamos la batería del coche por pilas del súper. Cada pila AA alcalina guarda 1,5 V × 2,5 Ah. Ni cables, ni soldaduras, ni pensar en el maletero.",
+      "tag": "Pilas de coche",
+      "title": "¿Cuántas pilas AA harían falta para igualar la batería de un Tesla Model 3?",
+      "detail": "Cambiamos la batería de un Tesla Model 3 Long Range de 75 kWh por pilas AA del súper de 1,5 V y 2.500 mAh. Ni cables ni soldaduras: solo un maletero muy pesado.",
       "unit": "pilas",
-      "answer": 16000,
-      "math": "Una pila de 1,5 V y 2.500 mAh guarda 1,5 × 2,5 = 3,75 Wh. La batería del coche tiene 60 kWh = 60.000 Wh. 60.000 ÷ 3,75 = 16.000 pilas.",
-      "referenceExpression": "60000 ÷ (1,5 × 2,5)",
-      "assumptions": "Pila alcalina con 2.500 mAh, dentro del rango típico de 1.700–2.850 mAh. La capacidad real baja mucho con consumos altos, así que en un coche rendirían bastante menos.",
+      "answer": 20000,
+      "math": "Una pila AA de 1,5 V y 2.500 mAh guarda 1,5 × 2,5 = 3,75 Wh. La batería del coche tiene 75 kWh = 75.000 Wh. 75.000 ÷ 3,75 = 20.000 pilas.",
+      "referenceExpression": "75000 ÷ (1,5 × 2,5)",
+      "assumptions": "Batería de 75 kWh del Model 3 Long Range hasta 2020; las versiones actuales van de unos 57,5 a 82 kWh. Pila alcalina de 2.500 mAh, dentro del rango típico de 1.700–2.850 mAh; con consumos altos rendiría mucho menos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
+        {
+          "title": "Wikipedia · Tesla Model 3",
+          "url": "https://en.wikipedia.org/wiki/Tesla_Model_3",
+          "fact": "El Model 3 Long Range montaba una batería de 75 kWh hasta 2020 y de 82 kWh desde 2021."
+        },
         {
           "title": "Wikipedia · AA battery",
           "url": "https://en.wikipedia.org/wiki/AA_battery",
@@ -25,20 +30,12 @@
         }
       ],
       "reasoning": {
-        "heading": "Pasa todo a vatios hora",
+        "heading": "Pequeños vatios-hora contra un coche entero",
         "steps": [
-          "Una pila AA parece poca cosa y un coche eléctrico, un mundo. Intuitivamente diríamos miles de pilas, quizá decenas de miles.",
-          "La energía de una pila es voltaje por carga: 1,5 V por unos 2,5 Ah dan menos de 4 Wh. 60 kWh son 60.000 Wh, así que hablamos de unas 15.000–20.000 pilas.",
-          "Con 3,75 Wh por pila salen exactamente 16.000. Si usas pilas más generosas (2,85 Ah) bajarías a unas 14.000; con consumos fuertes, la pila rinde menos y harían falta más."
+          "Una pila AA guarda muy poca energía: unos pocos vatios-hora. Un coche eléctrico guarda decenas de miles.",
+          "75.000 Wh entre unos 4 Wh por pila dan unas 19.000 pilas: decenas de miles.",
+          "Salen 20.000 pilas, y de un solo uso: el Tesla al menos se recarga."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-02-1.jpg",
-        "alt": "Pilas AA alcalinas en fila, del tamaño de un dedo, para imaginar cuántas llenarían un coche",
-        "credit": "Threecharlie",
-        "url": "https://commons.wikimedia.org/wiki/File:Varta_Industrial_Alkaline_AA_batteries.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       }
     },
     {
@@ -69,14 +66,6 @@
           "2.000 kcal al día equivalen a unos 100 W de media para todo el cuerpo. El 20 % de eso son unos 20 W: dos bombillas LED y media.",
           "Con el cálculo fino salen 19,4 W y 2,42 bombillas de 8 W. Si comes más o menos, la cifra se mueve en proporción; lo que no cambia es que tu cerebro gasta menos que un portátil."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-02-2.jpg",
-        "alt": "Varias bombillas LED de distintos tamaños, la vara de medir de la potencia cerebral",
-        "credit": "Geoffrey.landis at English Wikipedia",
-        "url": "https://commons.wikimedia.org/wiki/File:LED_bulbs.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       }
     },
     {
@@ -84,14 +73,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Reloj insistente",
-      "title": "¿Cuántas campanadas da el Big Ben en un año?",
-      "detail": "Solo cuentan los toques de la gran campana que marca las horas: una vez a la una, doce a las doce, y vuelta a empezar. Los cuartos no cuentan. Año de 365 días sin obras ni averías.",
-      "unit": "campanadas",
-      "answer": 56940,
-      "math": "De la 1 a las 12 suman 1 + 2 + … + 12 = 78 campanadas. Dos vueltas al día dan 156. 156 × 365 = 56.940 campanadas.",
-      "referenceExpression": "2 × (12 × 13 ÷ 2) × 365",
-      "assumptions": "Solo la gran campana de las horas, todos los días del año. Se ignoran las paradas por restauración, como el silencio de 2017 a 2022.",
+      "tag": "Campanadas a granel",
+      "title": "¿Para cuántas Nocheviejas de doce uvas darían las campanadas que suenan en el Big Ben en un año?",
+      "detail": "La gran campana del Big Ben da una campanada a la una, dos a las dos… y doce a las doce, dos veces al día, todo el año. Cada Nochevieja necesita doce campanadas, una por uva.",
+      "unit": "Nocheviejas",
+      "answer": 4745,
+      "math": "De la 1 a las 12 suman 1 + 2 + … + 12 = 78 campanadas. Dos vueltas al día: 156. × 365 = 56.940 campanadas al año. 56.940 ÷ 12 = 4.745 Nocheviejas.",
+      "referenceExpression": "78 × 2 × 365 ÷ 12",
+      "assumptions": "Solo la gran campana de las horas, todos los días del año; los cuartos no cuentan. Se ignoran las paradas por restauración, como el silencio de 2017 a 2022.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -101,20 +90,12 @@
         }
       ],
       "reasoning": {
-        "heading": "Suma las horas antes de multiplicar",
+        "heading": "Suma las horas y reparte en uvas",
         "steps": [
-          "Un reloj que da la hora suena mucho: a ojo, decenas de campanadas al día, decenas de miles al año.",
-          "Las horas del 1 al 12 suman 78. Como el reloj da dos vueltas al día, son 156 campanadas diarias, y por 365 días quedamos cerca de 57.000.",
-          "El total exacto es 56.940. Si añadieras los cuartos, el número se dispararía; y en los años de restauración (2017–2022) el Big Ben se quedó casi mudo."
+          "El Big Ben da muchas campanadas: cada hora, tantas como marca el reloj.",
+          "Una vuelta de 12 horas son 78 campanadas; al día, unas 150; al año, más de 50.000. Entre 12 uvas, unos pocos miles de Nocheviejas.",
+          "Salen 4.745 Nocheviejas: uvas para celebrar el fin de año hasta el siglo LXVIII."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-02-3.jpg",
-        "alt": "La torre Elizabeth del Palacio de Westminster con la esfera del reloj del Big Ben",
-        "credit": "Diliff",
-        "url": "https://commons.wikimedia.org/wiki/File:Clock_Tower_-_Palace_of_Westminster,_London_-_September_2006.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
       }
     }
   ]

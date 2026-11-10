@@ -1,43 +1,40 @@
 {
   "id": "2026-10-25",
   "name": "Domingo",
-  "theme": "Platos, Próxima y Mérida",
+  "theme": "Platos, Próxima y Harbour Bridge",
   "questions": [
     {
       "id": "archivo-2026-10-25-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Fregadero eterno",
-      "title": "¿Cuántos platos fregarás en toda tu vida?",
-      "detail": "Cuatro platos al día desde los 12 años hasta tu esperanza de vida. El lavavajillas no existe y nadie te ayuda. Lo sentimos.",
-      "unit": "platos",
-      "answer": 105206.61,
-      "math": "La esperanza de vida al nacer en España fue de 84,01 años en 2024 (INE). Desde los 12 años: (84,01 − 12) × 365,25 × 4 ≈ 105.207 platos.",
-      "referenceExpression": "(84,01 − 12) × 365,25 × 4",
-      "assumptions": "Ritmo constante de cuatro platos al día, sin vacaciones ni comidas fuera. No contamos vasos, cubiertos ni sartenes.",
+      "tag": "Torre de vajilla",
+      "title": "Si apilaras todos los platos que fregarás en tu vida, ¿cuántos Burj Khalifa de alto mediría la torre?",
+      "detail": "Desde los 12 años friegas cuatro platos al día (desayuno, comida, cena y el del postre que nadie confiesa) y los apilas en vez de guardarlos. Usa la esperanza de vida en España y platos de 2 cm de grosor. Lavavajillas no vale.",
+      "unit": "Burj Khalifa",
+      "answer": 2.541222463768116,
+      "math": "La esperanza de vida al nacer en España fue de 84,01 años en 2024. Desde los 12: 72,01 × 365,25 × 4 ≈ 105.207 platos. 105.207 × 0,02 m ≈ 2.104 m. 2.104 ÷ 828 ≈ 2,54 Burj Khalifa.",
+      "referenceExpression": "(84,01 − 12) × 365,25 × 4 × 0,02 ÷ 828",
+      "assumptions": "Cuatro platos al día todos los días desde los 12 años hasta la esperanza de vida media. Platos de 2 cm de grosor apilados sin hueco. Burj Khalifa con su altura arquitectónica de 828 m.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "INE · Movimiento natural de la población 2024",
           "url": "https://www.ine.es/dyngs/Prensa/es/MNP2024.htm",
           "fact": "La esperanza de vida al nacimiento se situó en 84,01 años en 2024."
+        },
+        {
+          "title": "Wikipedia · Burj Khalifa",
+          "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+          "fact": "Altura arquitectónica de 828 m."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-25-1.jpg",
-        "alt": "Fregadero lleno de platos sucios apilados",
-        "credit": "User:Mysid",
-        "url": "https://commons.wikimedia.org/wiki/File:Dirty_dishes.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Dirty_dishes.jpg"
-      },
       "reasoning": {
-        "heading": "Días de fregadero por platos al día",
+        "heading": "Platos por grosor entre rascacielos",
         "steps": [
-          "Fregar es infinito: siempre hay algo en el fregadero. ¿Decenas de miles de platos?",
-          "Unos 72 años de fregadero son unos 26.000 días. A cuatro platos, más de 100.000.",
-          "Con 84,01 años de esperanza de vida salen 105.207 platos. Si pones lavavajillas la mitad de los días, te ahorras más de 50.000."
+          "Cuatro platos al día durante unos 70 años son unos 100.000 platos.",
+          "100.000 platos de 2 cm hacen una pila de 2 km. El Burj Khalifa mide algo menos de 1 km: salen dos o tres.",
+          "Con 84,01 años de esperanza de vida salen 105.207 platos, 2.104 m y 2,54 Burj Khalifa. Con platos hondos, más gruesos, la torre crecería."
         ]
       }
     },
@@ -67,14 +64,6 @@
           "fact": "Está a 4,22 años luz, unos 40.000.000.000.000 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-25-2.jpg",
-        "alt": "Cielo estrellado con Alfa y Beta Centauri brillando y la tenue Próxima Centauri",
-        "credit": "Skatebiker",
-        "url": "https://commons.wikimedia.org/wiki/File:Alpha,_Beta_and_Proxima_Centauri_(1).jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Primero la escala, luego la distancia",
         "steps": [
@@ -89,36 +78,36 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Rebaño romano",
-      "title": "¿Cuántas ovejas en fila cabrían sobre el puente romano de Mérida?",
-      "detail": "Ovejas en fila india, de 1,2 m cada una del morro a la cola, de un extremo al otro del puente sobre el Guadiana. El pastor se queda en la orilla.",
+      "tag": "Rebaño en Sídney",
+      "title": "¿Cuántas ovejas en fila cabrían sobre el puente de la bahía de Sídney?",
+      "detail": "Australia tiene muchas más ovejas que personas, así que alguna tendrá que cruzar la bahía. Ponlas en una sola fila, morro con cola, a lo largo de todo el puente. Supón que cada oveja ocupa 1,2 m. Contarlas antes de dormir queda prohibido.",
       "unit": "ovejas",
-      "answer": 658.3333333333334,
-      "math": "El puente romano sobre el Guadiana mide 790 m incluidos los accesos (Wikipedia). 790 ÷ 1,2 ≈ 658 ovejas.",
-      "referenceExpression": "790 ÷ 1,2",
-      "assumptions": "Ovejas de 1,2 m sin hueco entre ellas. Otras fuentes dan entre 721 m (entre estribos) y 792 m.",
+      "answer": 957.5,
+      "math": "El Sydney Harbour Bridge mide 1.149 m de longitud total. Una oveja adulta ocupa unos 1,2 m. 1.149 ÷ 1,2 ≈ 958 ovejas.",
+      "referenceExpression": "1149 ÷ 1,2",
+      "assumptions": "Una sola fila sin huecos. Ovejas adultas de 1,2 m de morro a cola; los corderos ocupan menos. Longitud total del puente con sus accesos; solo el arco mide 503 m.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Puente Romano, Mérida",
-          "url": "https://en.wikipedia.org/wiki/Puente_Romano,_M%C3%A9rida",
-          "fact": "Incluidos los accesos, la estructura mide 790 m; entre estribos, 721 m con 60 vanos."
+          "title": "Wikipedia · Sydney Harbour Bridge",
+          "url": "https://en.wikipedia.org/wiki/Sydney_Harbour_Bridge",
+          "fact": "Longitud total de 1.149 m; el arco tiene un vano de unos 503 m."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-10-25-3.jpg",
-        "alt": "Puente romano de Mérida con sus arcos de granito sobre el Guadiana",
-        "credit": "Juanje 2712",
-        "url": "https://commons.wikimedia.org/wiki/File:M%C3%A9rida_-_Puente_romano_sobre_el_Guadiana_-_DSC_2172_W.jpg",
-        "license": "CC BY-SA 3.0 es",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
+        "alt": "El puente de la bahía de Sídney de noche, con su arco de acero iluminado entre dos pilonos de piedra sobre el agua",
+        "credit": "JJ Harrison (https://www.jjharrison.com.au/)",
+        "url": "https://commons.wikimedia.org/wiki/File:Sydney_Harbour_Bridge_from_Circular_Quay.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       },
       "reasoning": {
         "heading": "Longitud del puente entre largo de oveja",
         "steps": [
-          "Es uno de los puentes romanos más largos que se conservan. ¿Cientos de ovejas o miles?",
-          "Si mide unos 800 m y una oveja algo más de un metro, salen unas 650.",
-          "Con 790 m salen 658 ovejas. Contando solo entre estribos, 721 m, serían unas 600."
+          "El puente de Sídney es enorme pero se cruza andando en un cuarto de hora: algo más de 1 km. Una oveja mide poco más de un metro.",
+          "1.000 m entre 1 m dan unas 1.000 ovejas. El orden es el millar.",
+          "Con 1.149 m y 1,2 m por oveja salen unas 958. Solo bajo el arco cabrían unas 420."
         ]
       }
     }

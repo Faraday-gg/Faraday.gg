@@ -1,7 +1,7 @@
 {
   "id": "2026-10-19",
   "name": "Lunes",
-  "theme": "Elefante, estadio y manchego",
+  "theme": "Elefante, Camp Nou y M&M's",
   "questions": [
     {
       "id": "archivo-2026-10-19-1",
@@ -24,14 +24,6 @@
           "fact": "Los elefantes en libertad necesitan unos 74 a 150 kg de comida al día; los africanos rara vez llegan a los 50 años."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-19-1.jpg",
-        "alt": "Elefante africano macho comiendo juncos con la trompa",
-        "credit": "Bernard DUPONT from FRANCE",
-        "url": "https://commons.wikimedia.org/wiki/File:African_Elephant_(Loxodonta_africana)_bull_eating_reeds_..._(31886961200).jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
         "heading": "Ración diaria por días de vida",
         "steps": [
@@ -47,35 +39,27 @@
       "verifiedAt": "2026-11-10",
       "category": "deportes",
       "tag": "Culo inquieto",
-      "title": "Si probaras un asiento distinto del Metropolitano cada minuto, sin dormir, ¿cuántos días tardarías en sentarte en todos?",
-      "detail": "Un minuto por asiento, 24 horas al día, sin pausas para el bocadillo. Los palcos también cuentan.",
+      "title": "Probando un asiento distinto cada minuto, sin dormir, ¿cuántos días tardarías en sentarte en todos los del Camp Nou?",
+      "detail": "Un asiento, un minuto, siguiente. Sin pausas para comer ni para ver un partido. Usa el aforo previsto del Spotify Camp Nou cuando terminen las obras. Lleva cojín: vas a necesitarlo.",
       "unit": "días",
-      "answer": 49.175694444444446,
-      "math": "El Riyadh Air Metropolitano tiene un aforo de 70.813 espectadores (Atlético de Madrid, octubre de 2026). Un día tiene 1.440 minutos: 70.813 ÷ 1.440 ≈ 49,2 días.",
-      "referenceExpression": "70813 ÷ 1440",
-      "assumptions": "Tomamos el aforo oficial como número de asientos y no contamos el tiempo de ir de uno a otro.",
-      "confidence": "Dato documentado + división",
+      "answer": 72.22222222222223,
+      "math": "El Camp Nou terminado tendrá unas 104.000 localidades. Un día tiene 1.440 minutos. 104.000 ÷ 1.440 ≈ 72,2 días.",
+      "referenceExpression": "104000 ÷ 1440",
+      "assumptions": "Aforo final previsto tras las obras (en marzo de 2026 el estadio admitía unos 62.000 espectadores). Un minuto exacto por asiento, incluido el paseo hasta el siguiente, las 24 horas del día.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Atlético de Madrid · El Riyadh Air Metropolitano sigue creciendo",
-          "url": "https://www.atleticodemadrid.com/noticias/el-riyadh-air-metropolitano-sigue-creciendo-para-ofrecer-una-mejor-experiencia-a-nuestros-aficionados",
-          "fact": "Aforo de 70.813 espectadores (noticia del 1 de octubre de 2026)."
+          "title": "StadiumDB · Camp Nou officially receives 1C license (10/3/2026)",
+          "url": "https://stadiumdb.com/news/2026/03/spain_camp_nou_officially_receives_1c_license_stadium_capacity_increases_to_62000_spectators",
+          "fact": "Con la licencia 1C el estadio admite unos 62.000 espectadores; terminado podrá acoger hasta unos 104.000."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-19-2.jpg",
-        "alt": "Interior del estadio Metropolitano con las gradas rojas y blancas alrededor del césped",
-        "credit": "Event",
-        "url": "https://commons.wikimedia.org/wiki/File:Wanda_Metropolitano_inside.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Asientos convertidos en minutos",
+        "heading": "Asientos entre minutos del día",
         "steps": [
-          "Un estadio grande ronda los 70.000 asientos. A uno por minuto, parece cosa de semanas.",
-          "Un día tiene 1.440 minutos; 70.000 entre 1.440 sale cerca de 50 días.",
-          "Con los 70.813 asientos oficiales son 49,2 días seguidos sin dormir. Con ocho horas de sueño diarias, la gira de asientos se iría a unos 74 días."
+          "El Camp Nou es el estadio más grande de Europa: unas 100.000 localidades. Un día tiene 1.440 minutos.",
+          "100.000 entre 1.440 dan unos 70 días. Más de dos meses sin dormir: el orden es de decenas de días.",
+          "Con las 104.000 localidades previstas salen 72,2 días. Con el aforo de marzo de 2026, unos 62.000, bastarían 43 días."
         ]
       }
     },
@@ -84,36 +68,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Cuñas manchegas",
-      "title": "¿Cuántas cuñas de 250 g saldrían del queso manchego DOP producido en un año?",
-      "detail": "Cortamos toda la producción amparada de un año en cuñas de 250 g, sin mermas ni catas furtivas.",
-      "unit": "cuñas",
-      "answer": 68600104,
-      "math": "Según datos del Ministerio de Agricultura recogidos por Interempresas (agosto de 2022), la DOP Queso Manchego amparó 17.150.026 kg. 17.150.026 ÷ 0,25 ≈ 68,6 millones de cuñas.",
-      "referenceExpression": "17150026 ÷ 0,25",
-      "assumptions": "Usamos una cifra anual reciente (probablemente 2021). La producción varía de un año a otro entre 15 y 17 millones de kilos.",
-      "confidence": "Dato documentado + división",
+      "tag": "Bote de feria",
+      "title": "¿Cuántos M&M's caben en una botella de agua de 1,5 litros?",
+      "detail": "El clásico concurso de feria: adivina cuántos caramelos hay en el bote y te lo llevas. Usa M&M's de chocolate con leche normales, echados a granel y bien agitados. El cuello de la botella dificulta la tarea; ignóralo con elegancia.",
+      "unit": "M&M's",
+      "answer": 1577.129700690714,
+      "math": "Un M&M normal es un elipsoide aplanado de 1,34 × 0,693 cm, unos 0,65 cm³. Echados al azar ocupan el 68,5 % del espacio. 1.500 cm³ × 0,685 ÷ 0,6515 ≈ 1.577 M&M's.",
+      "referenceExpression": "1500 × 0,685 ÷ 0,6515",
+      "assumptions": "Volumen de cada caramelo calculado como elipsoide de revolución, 4/3·π·0,67²·0,3465 ≈ 0,65 cm³. Se supone que se llena todo el volumen de la botella; el cuello y las paredes quitan algo de espacio, así que en una botella real caben algo menos.",
+      "confidence": "Dato científico + modelo",
       "sources": [
         {
-          "title": "Interempresas · Liderazgo manchego (datos del MAPA)",
-          "url": "https://www.interempresas.net/ovino/396853-Liderazgo-manchego.html",
-          "fact": "La DOP Queso Manchego amparó 17.150.026 kg de queso (tabla con datos del MAPA, artículo del 23/08/2022)."
+          "title": "Donev et al., «Improving the Density of Jammed Disordered Packings Using Ellipsoids», Science 2004 (versión de la autora en NYU)",
+          "url": "https://math.nyu.edu/inmemoriam/donev/Packing/JammedMM.pdf",
+          "fact": "Los M&M's normales miden 1,34 × 0,693 cm de ejes y al echarlos al azar ocupan un 68,5 % ± 1 % del volumen."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-19-3.jpg",
-        "alt": "Cuña de queso manchego curado con su corteza en zigzag",
-        "credit": "cyclonebill",
-        "url": "https://commons.wikimedia.org/wiki/File:Flickr_-_cyclonebill_-_Manchego.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
-        "heading": "Kilos de queso, cuatro cuñas por kilo",
+        "heading": "Volumen útil entre volumen de un caramelo",
         "steps": [
-          "Queso manchego hay en cualquier supermercado de España y medio mundo. La DOP producirá millones de kilos, no miles.",
-          "Si son unos 17 millones de kilos y cada kilo da cuatro cuñas, salen unos 68 millones.",
-          "Con los 17.150.026 kg amparados salen 68,6 millones de cuñas: más de una por cada habitante de Francia."
+          "Un M&M ocupa menos que un garbanzo: algo más de medio centímetro cúbico. La botella tiene 1.500 cm³.",
+          "Si llenaran la botella sin huecos cabrían unos 2.300; con los huecos entre caramelos, algo más de la mitad o dos tercios. El orden es de un millar y pico.",
+          "Con 0,65 cm³ por caramelo y el 68,5 % de llenado medido con M&M's reales salen unos 1.577. Las esferas dejan más hueco: si fueran bolitas, cabrían menos."
         ]
       }
     }
