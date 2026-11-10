@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Geist:wght@200;300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{--cream:#f7f3e9;--paper:#fffdf7;--ink:#202630;--muted:#666a6d;--coral:#ff6548;--yellow:#ffdb70;--blue:#b9d6e1;--line:#d8d2c6;--font:'DM Sans',Arial,sans-serif;--display:'Space Grotesk',Arial,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #5586a5;outline-offset:3px}.wrap{width:min(1180px,calc(100% - 64px));margin-inline:auto}
 /* Portada (decisión 0015): sencilla, como una tarjeta del juego. El reto de hoy arriba y los tres pasos con su tarjeta de ejemplo. */
@@ -39,19 +39,19 @@
 .demo-btn{background:#23395b;color:#fff8ec;border-radius:40px;padding:11px 20px;font-size:13px;font-weight:800}
 .demo-result{background:#23395b;color:#fff8ec}
 .demo-verdict{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.demo-verdict strong{font:800 60px/1 'Manrope','DM Sans',sans-serif;color:var(--yellow);letter-spacing:-.02em}
+.demo-verdict strong{font:300 60px/1 var(--num);color:var(--yellow);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .demo-verdict span{background:#fff8ec;color:#23395b;border-radius:30px;padding:5px 11px;font-size:12px;font-weight:800}
 .demo-ledger{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
 .demo-ledger div{background:#fff8ec17;border-radius:14px;padding:10px 12px}.demo-ledger .real{background:#fff8ec;color:#23395b}
 .demo-ledger small{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
-.demo-ledger b{font:800 22px 'Manrope','DM Sans',sans-serif}
+.demo-ledger b{font:400 22px var(--num);font-variant-numeric:tabular-nums}
 .demo-bars{display:flex;align-items:flex-end;gap:4px;height:64px}
 .demo-bars i{flex:1;background:#fff8ec4d;border-radius:3px 3px 0 0}.demo-bars .you{background:var(--yellow)}
 .demo-summary{background:var(--yellow);color:var(--ink)}
-.demo-score{display:block;font:800 72px/1 'Manrope','DM Sans',sans-serif;letter-spacing:-.02em;margin:4px 0 18px}
+.demo-score{display:block;font:300 72px/1 var(--num);letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:4px 0 18px}
 .demo-rows{list-style:none;margin:0;padding:0;border-top:1px solid #20263033}
 .demo-rows li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #20263033;font-size:13px}
-.demo-rows b{font-family:'Manrope','DM Sans',sans-serif}
+.demo-rows b{font-family:var(--num);font-weight:500}
 .home-archive{width:min(720px,100%);margin:0 auto;padding-bottom:40px}
 .home-archive-note{text-align:center;color:#4d5359;margin:0 0 30px;font-size:16px;line-height:1.6}
 .home-footer{width:min(1040px,calc(100% - 32px));margin:0 auto;padding:40px 0 56px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -358,13 +358,26 @@
   .explain-panel{position:fixed;inset:auto 0 0 0;top:12dvh;border-radius:22px 22px 0 0;z-index:105}
 }
 
-/* Cifras (decisión 0014): Manrope con números tabulares y sin apretar las letras. */
-:root{--num:'Manrope','DM Sans',Arial,sans-serif}
-.verdict-x,.ledger dd,.summary-score,.summary-row strong,.result-numbers dd{font-family:var(--num);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.01em}
-.verdict-x{font-weight:800;font-size:clamp(56px,10vw,92px);line-height:1}
-.verdict-x.counting{opacity:.92}
-.ledger dd{font-weight:800;font-size:clamp(22px,3.6vw,30px);letter-spacing:0}
-.summary-score{font-weight:800;letter-spacing:-.02em}
+/* Cifras (decisión 0020): Geist fina, con números tabulares, para que las cifras respiren. */
+:root{--num:'Geist','DM Sans',Arial,sans-serif;--ease-calm:cubic-bezier(.22,1,.36,1)}
+.verdict-x,.ledger dd,.summary-score,.summary-row strong,.result-numbers dd{font-family:var(--num);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.02em}
+.verdict-x{display:inline-block;font-weight:300;font-size:clamp(56px,10vw,92px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
+.ledger dd{font-weight:400;font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em}
+.summary-score{font-weight:300;letter-spacing:-.04em}
+.summary-row strong{font-weight:500}
+/* Entrada del resultado: todo aparece despacio y en orden, sin saltos. */
+@keyframes calm-rise{from{opacity:0;transform:translateY(10px)}}
+@keyframes calm-focus{from{opacity:0;filter:blur(8px);transform:translateY(6px)}}
+@keyframes calm-grow{from{transform:scaleY(0)}}
+.verdict-x{animation:calm-focus .9s var(--ease-calm) both}
+.verdict-chip{animation:calm-rise .7s var(--ease-calm) .25s both}
+.verdict-rank:not(:empty){animation:calm-rise .7s var(--ease-calm) both}
+.ledger>div{animation:calm-rise .8s var(--ease-calm) .35s both}
+.ledger>div+div{animation-delay:.45s}
+.ledger-unit{animation:calm-rise .8s var(--ease-calm) .55s both}
+.game-shell .distribution-bars rect{transform-box:fill-box;transform-origin:50% 100%;animation:calm-grow .9s var(--ease-calm) both;animation-delay:calc(var(--i,0) * 18ms)}
+.game-shell .distribution-svg .guess-line,.game-shell .distribution-svg .reference-line,.game-shell .distribution-svg .you-tag,.game-shell .distribution-svg .you-tag-text{animation:calm-rise .7s var(--ease-calm) .4s both}
+@media(prefers-reduced-motion:reduce){.verdict-x,.verdict-chip,.verdict-rank,.ledger>div,.ledger-unit,.game-shell .distribution-bars rect,.game-shell .distribution-svg *{animation:none!important}}
 .ledger-source{margin:8px 0 0;font-size:12px;line-height:1.4;opacity:.8}
 .ledger-source a{color:inherit;text-decoration:underline;text-underline-offset:2px}
 .game-shell .distribution-bars rect{fill:color-mix(in srgb,var(--g-fg) 32%,transparent)}

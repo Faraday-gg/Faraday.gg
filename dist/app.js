@@ -90,15 +90,20 @@ ${populationMarkup(q)}
   animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
 }
 function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
-// El multiplicador sube desde 1× hasta su valor en escala logarítmica, para que 2× y 961.538× tarden lo mismo.
+// El multiplicador sube desde 1× hasta su valor en escala logarítmica, para que 2× y 961.538× tarden lo mismo (decisión 0020):
+// siempre con los decimales de la cifra final y su ancho reservado, para que no baile, y frenando despacio al llegar.
 function animateTimes(element,factor){
   if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  const start=performance.now(),duration=Math.min(1600,700+Math.log10(factor)*160),end=Math.log10(factor);
+  const final=times(factor),digits=(final.split(',')[1]||'').replace(/D/g,'').length,
+    fmt=new Intl.NumberFormat('es-ES',{minimumFractionDigits:digits,maximumFractionDigits:digits,useGrouping:'always'}),
+    start=performance.now()+120,duration=Math.min(2200,1300+Math.log10(factor)*180),end=Math.log10(factor);
+  element.style.minWidth=element.getBoundingClientRect().width+'px';
   element.classList.add('counting');
-  const step=now=>{if(!element.isConnected)return;const t=Math.min(1,(now-start)/duration),eased=1-(1-t)**3;element.textContent=times(t<1?10**(end*eased):factor);if(t<1)requestAnimationFrame(step);else element.classList.remove('counting')};
-  element.textContent=times(1);requestAnimationFrame(step);
+  const finish=()=>{element.textContent=final;element.classList.remove('counting')};
+  const step=now=>{if(!element.isConnected)return;const t=Math.max(0,Math.min(1,(now-start)/duration));if(t<1){element.textContent=fmt.format(10**(end*(1-(1-t)**4)))+'×';requestAnimationFrame(step)}else finish()};
+  element.textContent=fmt.format(1)+'×';requestAnimationFrame(step);
   // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
-  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting')){element.textContent=times(factor);element.classList.remove('counting')}},duration+250);
+  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+400);
 }
 function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle');if(!panel)return false;open??=panel.hidden;panel.hidden=!open;button.setAttribute('aria-expanded',String(open));$('.game-card').classList.toggle('explaining',open);if(open)panel.scrollTop=0;return true}
 function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>`;loadDailyDistribution(activeDay,guesses)}
