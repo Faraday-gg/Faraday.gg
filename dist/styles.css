@@ -160,6 +160,57 @@
   .summary-actions>*{flex:1}
 }
 
+/* Paleta por pantalla (decisión 0010): tres colores cada una, encadenados.
+   El acento de una pantalla es el fondo de la siguiente: coral → azul noche → amarillo → coral (el reto de mañana). */
+.game-shell{--g-bg:var(--cream);--g-fg:var(--ink);--g-accent:var(--ink);--g-on-accent:var(--paper);
+  --g-muted:color-mix(in srgb,var(--g-fg) 68%,transparent);--g-line:color-mix(in srgb,var(--g-fg) 22%,transparent);--g-hover:color-mix(in srgb,var(--g-fg) 9%,transparent);
+  background:var(--g-bg);color:var(--g-fg)}
+.game-shell[data-view=question]{--g-bg:#ff6548;--g-fg:#202630;--g-accent:#23395b;--g-on-accent:#fff8ec}
+.game-shell[data-view=result]{--g-bg:#23395b;--g-fg:#fff8ec;--g-accent:#ffdb70;--g-on-accent:#23395b}
+.game-shell[data-view=summary]{--g-bg:#ffdb70;--g-fg:#202630;--g-accent:#ff6548;--g-on-accent:#202630}
+.game-bar{background:var(--g-bg)}
+.game-back{color:var(--g-fg)}
+.game-back:hover,.game-step:not(:disabled):hover,.game-secondary:hover,.summary-row:hover{background:var(--g-hover)}
+.game-step{color:var(--g-muted)}
+.game-step.done{color:var(--g-fg)}
+.game-step:disabled{color:color-mix(in srgb,var(--g-fg) 38%,transparent)}
+.game-step[aria-current=step]{background:var(--g-fg);color:var(--g-bg)}
+.game-edition,.result-question,.result-numbers dt,.result-numbers small,.population-status,.population-footer,.population-legend,.reference-calculation,.question-photo figcaption,.sources li p,.source-confidence,.source-assumptions,.daily-population-caption,.guess-unit{color:var(--g-muted)}
+.population-footer button,.reference-calculation summary,.sources summary,.source-assumptions strong{color:var(--g-fg)}
+.reasoning li,.reasoning p{color:var(--g-fg)}
+.guess-row{border-bottom-color:var(--g-fg)}
+.guess-row:focus-within{border-bottom-color:var(--g-accent)}
+.guess-row input{color:var(--g-fg)}
+.guess-row input::placeholder{color:color-mix(in srgb,var(--g-fg) 42%,transparent)}
+.form-error{color:var(--g-fg)}
+.game-primary{background:var(--g-accent);border-color:var(--g-accent);color:var(--g-on-accent)}
+.game-primary:hover{background:color-mix(in srgb,var(--g-accent) 85%,var(--g-fg))}
+.game-secondary{border-color:var(--g-fg);color:var(--g-fg)}
+.workspace-launch{border-color:color-mix(in srgb,var(--g-fg) 35%,transparent);color:var(--g-fg)}
+.workspace-launch:hover,.workspace-launch[aria-expanded=true]{border-color:var(--g-fg);background:var(--g-hover)}
+.result-score strong{color:var(--g-accent)}
+.result-more,.result-more>*,.summary-list,.summary-row{border-color:var(--g-line)}
+.summary-row{color:var(--g-fg)}
+.reference-calculation code{background:var(--g-hover);color:var(--g-fg)}
+.summary-score{color:var(--g-fg);text-shadow:3px 3px 0 var(--g-bg),-2px -2px 0 var(--g-bg)}
+.game-shell .chart-grid{stroke:var(--g-line)}
+.game-shell .distribution-bars{fill:color-mix(in srgb,var(--g-fg) 30%,transparent);stroke:none}
+.game-shell .density-line{stroke:color-mix(in srgb,var(--g-fg) 70%,transparent)}
+.game-shell .reference-line{stroke:var(--g-fg)}
+.game-shell .guess-line,.game-shell .daily-you-line{stroke:var(--g-accent)}
+.game-shell .you-tag{fill:var(--g-accent)}
+.game-shell .you-tag-text{fill:var(--g-on-accent)}
+.game-shell .axis-label,.game-shell .axis-caption,.game-shell .chart-empty-label{fill:var(--g-muted)}
+.game-shell .answer-axis{fill:var(--g-fg)}
+.game-shell .legend-other{background:color-mix(in srgb,var(--g-fg) 30%,transparent)}
+.game-shell .legend-answer{background:var(--g-fg)}
+.game-shell .legend-you{background:var(--g-accent)}
+.game-shell .daily-bars{fill:color-mix(in srgb,var(--g-fg) 22%,transparent);opacity:1}
+.game-shell .daily-density{stroke:color-mix(in srgb,var(--g-fg) 45%,transparent);opacity:1}
+.game-shell .daily-you-pill{fill:var(--g-fg)}
+.game-shell .daily-you-label{fill:var(--g-bg)}
+.game-shell[data-view=summary] .daily-you-line{stroke:var(--g-fg)}
+
 /* Categorías: icono por pregunta en la portada, el archivo y el juego. */
 .cat-icon{display:inline-grid;place-items:center;width:34px;height:34px;border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);color:var(--ink);flex:none}
 .cat-icon svg{width:20px;height:20px}
