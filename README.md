@@ -36,6 +36,7 @@ node tests/generar.test.mjs
 - Las respuestas se guardan en Supabase (proyecto *Faraday Game*, Frankfurt), mediante su API REST y sin SDK. El esquema está en `supabase/migrations/` y se explica en [docs/base-de-datos.md](docs/base-de-datos.md). Hay un solo entorno: local con variables, Preview y producción escriben en la misma base de datos.
 - Variables en Vercel (Settings → Environment Variables): `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (clave `sb_secret_...`, solo servidor).
 - Para probar en local contra Supabase: copia `.env.example` como `.env`, rellena la clave y arranca con `node --env-file=.env preview-server.mjs`.
+- Para ver la jornada que generaría OpenAI para mañana, sin guardar nada: añade `OPENAI_API_KEY` al `.env` y ejecuta `node --env-file=.env scripts/generar-jornada.mjs --prueba` ([decisión 0017](docs/decisiones/0017-jornada-diaria-generada-con-openai.md)).
 
 ## Contenido en Supabase
 
