@@ -71,9 +71,11 @@ content/archivo/         Jornadas del archivo, una por archivo AAAA-MM-DD.json (
 content/banco-base.json  Las 21 preguntas del piloto tal como se publicaron, base fija del banco editorial
 content-engine.mjs       Calendario, archivo, piloto y banco editorial posterior al piloto
 lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
+lib/generar.mjs          Generación de la jornada de mañana con la API de OpenAI (decisión 0017)
+scripts/generar-jornada.mjs  La ejecuta a mano (--prueba para verla sin guardar)
 scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
-tests/                   Integración del servidor local, contenido editorial y función de Vercel
+tests/                   Integración del servidor local, contenido editorial, función de Vercel, publicación y generación
 docs/                    Decisiones, bitácora, ideas, mejoras y base de datos (Markdown)
 supabase/migrations/     Migraciones SQL de la base de datos, en orden de versión
 runtime/                 Estado local generado; excluido de Git
@@ -115,7 +117,9 @@ Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [de
 - Una respuesta repetida se ignora en la base de datos (única por `question_id` y `player_hash`). Si la cifra cambia, la API responde 409, como en local.
 - Preprod y producción comparten base de datos ([decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md)). Las respuestas enviadas desde un despliegue Preview de Vercel se mezclan con las reales.
 
-Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`.
+Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Solo en Production, para la generación diaria: `OPENAI_API_KEY`, `CRON_SECRET` y, opcional, `OPENAI_MODEL`.
+
+**Generación diaria** ([decisión 0017](docs/decisiones/0017-jornada-diaria-generada-con-openai.md)): a las 00:01 de Madrid, `pg_cron` de Supabase (migración `20261110120000_jornadas_generadas`) llama con `pg_net` a `/api/generar-dia`, y el cron de Vercel (`vercel.json`, 23:30 UTC) hace de respaldo. La ruta exige `Authorization: Bearer CRON_SECRET` y crea la jornada de mañana con `lib/generar.mjs`: 3 preguntas escritas por OpenAI con búsqueda web (un día de cada dos, una de actualidad), validadas y guardadas en Supabase con `source = 'ia'`. Si la jornada ya existe, no hace nada. Solo sustituye jornadas del banco sin respuestas y `lib/publicar.mjs` no toca las generadas. `maxDuration` de la función: 300 s.
 
 La rama de producción de Vercel es `main`, aunque la rama por defecto del repositorio sea `preprod`. Producción se actualiza cada vez que `preprod` pasa a `main`. Una variable de entorno nueva solo llega a los despliegues posteriores: tras añadirla hay que volver a desplegar. Las jornadas futuras del banco se calculan al vuelo, sin estado: un cambio en el banco editorial cambia también las fechas aún no jugadas.
 
@@ -134,6 +138,7 @@ node tests/community.test.mjs
 node tests/editorial.test.mjs
 node tests/vercel.test.mjs
 node tests/publicar.test.mjs
+node tests/generar.test.mjs
 # Qué cambiaría en Supabase (no escribe nada; la publicación real la hace Vercel):
 node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```

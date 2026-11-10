@@ -20,6 +20,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
 | [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
 | [0016](0016-menu-y-archivo-en-calendario.md) | Menú hamburguesa en el juego y archivo en calendario | Aceptada | 2026-11-10 |
+| [0017](0017-jornada-diaria-generada-con-openai.md) | La jornada de cada día se genera sola con la API de OpenAI | Aceptada (pendiente de configurar) | 2026-11-10 |
 
 ## Plantilla
 
