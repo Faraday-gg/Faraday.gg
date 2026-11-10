@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-09, clave en Vercel, prueba real desde la Preview y borrado de los datos de prueba (rama `feat/documentar-clave-y-previews`); última migración `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.

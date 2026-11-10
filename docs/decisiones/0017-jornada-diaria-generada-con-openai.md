@@ -1,6 +1,6 @@
 # 0017 — La jornada de cada día se genera sola con la API de OpenAI
 
-- **Estado:** aceptada (pendiente de configurar en Vercel y Supabase)
+- **Estado:** aceptada (pendiente de configurar en Vercel y Supabase: [pasos para activarla](../mejoras/activar-jornada-diaria.md))
 - **Fecha:** 2026-11-10
 - **Quién:** Luis, con Claude Code; para conocimiento de Álvaro
 - **Modifica:** la [decisión 0013](0013-preguntas-de-cultura-general.md) en lo del banco automático congelado, y la [decisión 0005](0005-contenido-servido-desde-supabase.md) en que el repositorio es el único origen del contenido
