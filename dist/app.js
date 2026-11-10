@@ -40,7 +40,7 @@ function art(kind){
 function renderWeek(){
   $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
   $('.section-kicker').textContent=currentDay?'RETO Nº '+editionNumber(todayKey):'NUEVA EDICIÓN EN PREPARACIÓN';
-  ['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).disabled=!currentDay);
+  document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
   if(!currentDay)$('#hero-play').textContent='Retos en preparación';
   const roundsList=$('#hero-rounds');
   roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
@@ -150,7 +150,7 @@ function showToast(message){const toast=$('#toast');toast.textContent=message;to
 async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
 renderWeek();
-['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
+document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
 $('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-date]');if(button)openDate(button.dataset.date)});
 $('#archive-more').addEventListener('click',()=>{archiveOpen=!archiveOpen;renderWeek();if(!archiveOpen)$('#semana').scrollIntoView()});
 $('#game-close').addEventListener('click',closeGame);
