@@ -17,11 +17,12 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0011](0011-juego-en-tarjeta.md) | El juego dentro de una tarjeta | Aceptada | 2026-11-10 |
 | [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
 | [0013](0013-preguntas-de-cultura-general.md) | Preguntas de cultura general, referentes conocidos y foto solo cuando ayuda | Aceptada | 2026-11-10 |
-| [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
+| [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada (cifras y animación revisadas en 0020) | 2026-11-10 |
 | [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
 | [0016](0016-menu-y-archivo-en-calendario.md) | Menú hamburguesa en el juego y archivo en calendario | Aceptada | 2026-11-10 |
 | [0017](0017-jornada-diaria-generada-con-openai.md) | La jornada de cada día se genera sola con la API de OpenAI | Aceptada (pendiente de configurar) | 2026-11-10 |
 | [0018](0018-color-de-la-pregunta-por-categoria.md) | Color de la tarjeta de pregunta según su categoría (seis tonos) | Aceptada | 2026-11-10 |
+| [0020](0020-multiplicador-suave-y-cifras-geist.md) | Multiplicador suave y cifras en Geist | Aceptada | 2026-11-10 |
 
 ## Plantilla
 
