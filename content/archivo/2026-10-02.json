@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-02",
+  "name": "Viernes",
+  "theme": "Neuronas, baguettes Francia y Central Park",
+  "questions": [
+    {
+      "id": "archivo-2026-10-02-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Censo cerebral",
+      "title": "Contando una neurona por segundo, ¿cuántos años tardarías en contar las de tu cerebro?",
+      "detail": "Una neurona por segundo, sin dormir, sin comer y sin perder la cuenta. Años de 365,25 días.",
+      "unit": "años",
+      "answer": 2725.17555200649,
+      "math": "El cerebro adulto tiene unos 86.000 millones de neuronas. Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 86.000.000.000 ÷ 31.557.600 ≈ 2.725 años.",
+      "referenceExpression": "86000000000 ÷ 31557600",
+      "assumptions": "La estimación tiene un margen de ±8.000 millones de neuronas, lo que mueve el resultado unos 250 años arriba o abajo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Human brain",
+          "url": "https://en.wikipedia.org/wiki/Human_brain",
+          "fact": "Se estima que el cerebro humano adulto contiene 86 ± 8 miles de millones de neuronas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un año tiene unos 30 millones de segundos",
+        "steps": [
+          "El cerebro tiene decenas de miles de millones de neuronas, y un año, unos 30 millones de segundos.",
+          "90.000 millones ÷ 30 millones = 3.000 años. Hablamos de milenios.",
+          "Con 86.000 millones y 31.557.600 segundos por año salen 2.725 años: si hubieras empezado en tiempos de los íberos, aún estarías contando. El margen del dato es de unos 250 años."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-02-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Crujiente nacional",
+      "title": "¿Cuántas baguettes se comen en Francia cada segundo?",
+      "detail": "Todas las baguettes que se comen en Francia en un año, repartidas por igual entre todos sus segundos, de día y de noche, domingos incluidos. Las migas que caen al suelo no cuentan.",
+      "unit": "baguettes/s",
+      "answer": 190.1285268841737,
+      "math": "En Francia se consumen unos 6.000 millones de baguettes al año. Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 6.000.000.000 ÷ 31.557.600 ≈ 190 baguettes por segundo.",
+      "referenceExpression": "6000000000 ÷ 31557600",
+      "assumptions": "Repartimos el consumo por igual entre todos los segundos del año, aunque en realidad se concentra en desayunos y comidas. Los 6.000 millones son una cifra redonda.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "France.fr (web oficial de turismo de Francia) · 5 minutes pour tout savoir sur le pain français",
+          "url": "https://www.france.fr/fr/actualite/liste/5-minutes-pour-tout-savoir-sur-le-pain-francais",
+          "fact": "Los franceses consumen 6.000 millones de baguettes al año: casi un centenar por habitante, bebés incluidos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un año tiene unos 30 millones de segundos",
+        "steps": [
+          "Francia tiene unos 68 millones de habitantes y la baguette es casi sagrada: pongamos que cada uno se come un centenar al año, dos por semana.",
+          "100 × 60 millones = 6.000 millones al año. Entre 30 millones de segundos salen unas 200 por segundo.",
+          "Con 6.000 millones y 31.557.600 segundos salen 190 baguettes por segundo: mientras lees esta pregunta, Francia ya se ha zampado un millar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-02-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Pulmón verde",
+      "title": "¿Cuántos campos de fútbol caben en Central Park?",
+      "detail": "Campos reglamentarios de 105 × 68 m, los que recomienda la FIFA. Cuenta toda la superficie del parque de Nueva York, con lagos, caminos y zoo incluidos. Las ardillas hacen de árbitras.",
+      "unit": "campos",
+      "answer": 477.8011154178151,
+      "math": "Central Park ocupa 843 acres. Un acre son 4.046,86 m², así que el parque mide unos 3.411.500 m². Un campo de 105 × 68 m ocupa 7.140 m². 3.411.500 ÷ 7.140 ≈ 477,8 campos.",
+      "referenceExpression": "843 × 4046,8564224 ÷ (105 × 68)",
+      "assumptions": "Comparamos superficies, no formas: el parque es un rectángulo larguísimo y con lagos, así que en la práctica no cabrían todos los campos tal cual.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Central Park Conservancy · About",
+          "url": "https://www.centralparknyc.org/about",
+          "fact": "Central Park ocupa 843 acres."
+        },
+        {
+          "title": "Wikipedia · Football pitch",
+          "url": "https://en.wikipedia.org/wiki/Football_pitch",
+          "fact": "La FIFA recomienda que el terreno de juego mida exactamente 105 m de largo y 68 m de ancho."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los acres a metros cuadrados",
+        "steps": [
+          "Central Park mide unos 4 km de largo por casi 1 km de ancho: unos 3,4 millones de m², a ojo.",
+          "Un campo de fútbol tiene unos 7.000 m². 3,4 millones ÷ 7.000 ≈ 500 campos.",
+          "Con 843 acres (3.411.500 m²) y campos de 7.140 m² salen 478 campos: medio millar de partidos a la vez en pleno Manhattan."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-06",
+  "name": "Martes",
+  "theme": "Oxford, Old Faithful y escaleras",
+  "questions": [
+    {
+      "id": "archivo-2026-10-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Promociones milenarias",
+      "title": "¿Cuántas promociones de cuatro años han pasado por la Universidad de Oxford desde que empezó a dar clases?",
+      "detail": "Promociones de cuatro años, una detrás de otra y sin huecos, desde las primeras clases documentadas hasta 2026. Ni pandemias ni guerras: aquí no repite nadie.",
+      "unit": "promociones",
+      "answer": 232.5,
+      "math": "En Oxford ya se enseñaba en 1096. Hasta 2026 van 2026 − 1096 = 930 años. 930 ÷ 4 = 232,5 promociones.",
+      "referenceExpression": "(2026 − 1096) ÷ 4",
+      "assumptions": "Se sabe que en Oxford había enseñanza «de alguna forma» en 1096, pero no cuándo nació la universidad como tal; la cifra es un orden de magnitud.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · University of Oxford",
+          "url": "https://en.wikipedia.org/wiki/University_of_Oxford",
+          "fact": "Se sabe que en Oxford ya existía enseñanza de alguna forma en 1096, aunque no está claro cuándo nació la universidad."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta los siglos y divide entre cuatro",
+        "steps": [
+          "Oxford es la universidad más antigua del mundo anglosajón: empezó a dar clases hace más de 900 años, en plena Edad Media.",
+          "900 años ÷ 4 = 225 promociones.",
+          "De 1096 a 2026 van 930 años: 232,5 promociones. La mitad de la última aún está con los exámenes."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Géiser puntual",
+      "title": "¿Cuántas veces entra en erupción al año el géiser Old Faithful de Yellowstone?",
+      "detail": "Un año de 365,25 días y una erupción cada intervalo medio, sin vacaciones ni días de pereza. Los turistas que aplauden cada chorro van aparte.",
+      "unit": "erupciones",
+      "answer": 5844,
+      "math": "Un año tiene 365,25 × 24 × 60 = 525.960 minutos. El intervalo medio entre erupciones es de unos 90 minutos. 525.960 ÷ 90 ≈ 5.844 erupciones.",
+      "referenceExpression": "525960 ÷ 90",
+      "assumptions": "El intervalo real varía entre 50 y 127 minutos y ha ido alargándose con los años; usamos la media de 90 minutos que da el Servicio de Parques Nacionales.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "National Park Service · Old Faithful Geyser",
+          "url": "https://www.nps.gov/articles/old-faithful-geyser.htm",
+          "fact": "Su intervalo medio entre erupciones es de unos 90 minutos, con variaciones entre 50 y 127 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un año tiene medio millón de minutos",
+        "steps": [
+          "Old Faithful es famoso por puntual: entra en erupción cada hora y media, más o menos.",
+          "Eso son unas 16 erupciones al día. 16 × 365 ≈ 5.800 al año.",
+          "Con 525.960 minutos al año y 90 minutos de media salen 5.844 erupciones: unas 16 al día, más puntual que muchos trenes."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Everest doméstico",
+      "title": "Viviendo en un cuarto piso sin ascensor, ¿cuántas veces subes al año la altura del Everest?",
+      "detail": "Subes a pie dos veces al día, todos los días del año, cuatro plantas de 3 m cada una. Bajar no cuenta, que es cuesta abajo. Sherpa no incluido.",
+      "unit": "Everest",
+      "answer": 0.9899580284918057,
+      "math": "4 plantas × 3 m = 12 m por subida. 12 m × 2 subidas × 365 días = 8.760 m al año. El Everest mide 8.848,86 m. 8.760 ÷ 8.848,86 ≈ 0,99 Everest.",
+      "referenceExpression": "4 × 3 × 2 × 365 ÷ 8848,86",
+      "assumptions": "Una planta de 3 m equivale a unos 17 peldaños de 17,5 cm, la contrahuella máxima del Código Técnico cuando no hay ascensor. Quien suba más veces al día o viva más alto conquista el Everest antes de Nochevieja.",
+      "confidence": "Estimación con supuestos",
+      "sources": [
+        {
+          "title": "Código Técnico de la Edificación · DB SUA",
+          "url": "https://www.codigotecnico.org/pdf/Documentos/SUA/DBSUA.pdf",
+          "fact": "En tramos rectos la contrahuella mide entre 13 y 18,5 cm, y como máximo 17,5 cm cuando no hay ascensor como alternativa a la escalera."
+        },
+        {
+          "title": "Wikipedia · Mount Everest",
+          "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "fact": "Su altitud oficial es de 8.848,86 m, según la medición conjunta de Nepal y China de 2020."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del rellano a la cumbre",
+        "steps": [
+          "Cuatro pisos son unos 12 m. Parece poco, pero lo subes cientos de veces al año.",
+          "12 m × 2 × 365 ≈ 9.000 m. El Everest mide casi 9.000 m: más o menos uno.",
+          "Con 8.760 m y 8.848,86 m sale 0,99 Everest: te quedas a 89 m de la cima. Con subir a por el pan un par de domingos, coronas."
+        ]
+      }
+    }
+  ]
+}

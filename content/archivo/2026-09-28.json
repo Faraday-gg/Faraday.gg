@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-28",
+  "name": "Lunes",
+  "theme": "Manhattan piso, 747 y naranjas",
+  "questions": [
+    {
+      "id": "archivo-2026-09-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Pista de lujo",
+      "title": "¿Cuántos dólares costaría un piso en Manhattan del tamaño de una pista de tenis?",
+      "detail": "Un piso de Manhattan con la superficie de una pista de tenis de dobles (23,77 × 10,97 m), al precio mediano por pie cuadrado del tercer trimestre de 2026. Sin raqueta, sin recogepelotas.",
+      "unit": "dólares",
+      "answer": 4058576.6893,
+      "math": "La pista mide 23,77 × 10,97 m = 260,76 m², que son 2.806,8 pies cuadrados (10,7639 ft² por m²). A 1.446 $/ft²: 4.058.577 dólares.",
+      "referenceExpression": "1446 × 23,77 × 10,97 × 10,7639",
+      "assumptions": "Precio mediano por pie cuadrado de todos los pisos vendidos en el trimestre; el precio medio y el de obra nueva son bastante más altos. Precios de mercado que cambian cada trimestre.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Milton Coste · Manhattan Q3 2026 market report",
+          "url": "https://miltoncoste.com/reports/manhattan-q3-2026",
+          "fact": "Precio mediano por pie cuadrado de los pisos de Manhattan en el tercer trimestre de 2026: 1.446 $, un 5,9 % más que un año antes (datos de UrbanDigs)."
+        },
+        {
+          "title": "Wikipedia · Tennis court",
+          "url": "https://en.wikipedia.org/wiki/Tennis_court",
+          "fact": "La pista mide 23,77 m de largo y 10,97 m de ancho en dobles."
+        }
+      ],
+      "reasoning": {
+        "heading": "Superficie por precio del pie cuadrado",
+        "steps": [
+          "Una pista de tenis es enorme para ser un piso: unos 260 m², como cuatro pisos normales.",
+          "En Manhattan el pie cuadrado cuesta unos 1.500 $; 260 m² son unos 2.800 pies: más de 4 millones.",
+          "Con 1.446 $/ft² salen 4.058.577 $. Y la pista sin gradas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Estadios en el aire",
+      "title": "Si todos los Boeing 747 fabricados despegaran a la vez llenos, ¿cuántos estadios de 80.000 personas vaciarían?",
+      "detail": "Los 1.574 Jumbos que salieron de la fábrica, despegando juntos con 400 pasajeros cada uno. Cuenta estadios de 80.000 espectadores, como una gran final, que se quedarían sin público.",
+      "unit": "estadios",
+      "answer": 7.87,
+      "math": "Boeing fabricó 1.574 aviones 747. Con 400 pasajeros cada uno: 629.600 personas. Entre 80.000 por estadio: 7,87 estadios.",
+      "referenceExpression": "1574 × 400 ÷ 80000",
+      "assumptions": "400 plazas es una configuración típica de pasajeros; muchos 747 fueron cargueros sin pasajeros y otros llevaban más de 500. Estadio de 80.000 espectadores.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "AirlineGeeks · Boeing entrega el último 747 a Atlas Air",
+          "url": "https://www.airlinegeeks.com/2023/02/01/boeing-delivers-last-ever-747-to-atlas-air/",
+          "fact": "El programa 747 sumó un total de 1.574 unidades construidas en 54 años de producción en Everett."
+        }
+      ],
+      "reasoning": {
+        "heading": "Aviones por asientos entre aforo",
+        "steps": [
+          "Se fabricaron unos 1.500 Jumbos y cada uno lleva unas 400 personas: unas 600.000 en total.",
+          "Un gran estadio tiene 80.000 asientos: 600.000 ÷ 80.000 = 7,5 estadios.",
+          "Con 1.574 aviones salen 629.600 pasajeros y 7,87 estadios: casi ocho finales de Mundial sin nadie en la grada."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Baño vitamínico",
+      "title": "¿Cuántas naranjas harían falta para llenar una bañera de zumo?",
+      "detail": "Una bañera normal llena con 150 litros de zumo recién exprimido, con naranjas medianas exprimidas a mano. Sin pulpa en el desagüe y sin echar agua para alargarlo.",
+      "unit": "naranjas",
+      "answer": 1828.2254,
+      "math": "Según el USDA, una naranja da 86 g de zumo y una taza de zumo (236,6 ml) pesa 248 g, así que cada naranja da 86 ÷ 248 × 0,2366 = 0,0820 L. 150 ÷ 0,0820 = 1.828,2 naranjas.",
+      "referenceExpression": "150 ÷ (86 ÷ 248 × 0,2366)",
+      "assumptions": "Bañera de 150 L, un baño lleno sin persona dentro. El rendimiento varía mucho con la variedad y el tamaño de la naranja.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "USDA FoodData Central · Orange juice, raw",
+          "url": "https://fdc.nal.usda.gov/food-details/169098/nutrients",
+          "fact": "Una naranja da 86 g de zumo; una taza (236,6 ml) de zumo pesa 248 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros de bañera entre zumo por naranja",
+        "steps": [
+          "Una naranja da como mucho medio vaso de zumo: unos 80 ml.",
+          "150 litros son 150.000 ml: 150.000 ÷ 80 ≈ 1.900 naranjas.",
+          "Con 0,0820 L por naranja salen 1.828: unas 18 cajas de naranjas y una tarde entera exprimiendo."
+        ]
+      }
+    }
+  ]
+}

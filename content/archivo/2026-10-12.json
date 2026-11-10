@@ -1,0 +1,133 @@
+{
+  "id": "2026-10-12",
+  "name": "Lunes",
+  "theme": "Cable submarino, tacos y Amazonas",
+  "questions": [
+    {
+      "id": "archivo-2026-10-12-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Atlántico en HD",
+      "title": "¿Cuántas películas en alta definición por segundo cabían en el cable que en 2017 se estrenó como el más potente del Atlántico?",
+      "detail": "El cable submarino MAREA, de Sopelana (Bizkaia) a Virginia Beach (EE. UU.), a su capacidad de diseño. Películas de 2 horas en HD. Las palomitas no viajan por fibra.",
+      "unit": "películas/s",
+      "answer": 3333.3333333333335,
+      "math": "MAREA se inauguró con una capacidad estimada de 160 Tbps: 1,6 × 10¹⁴ bits por segundo. Una hora de vídeo HD gasta hasta 3 GB, así que una película de 2 horas son 6 GB = 6 × 10⁹ × 8 = 4,8 × 10¹⁰ bits. 1,6 × 10¹⁴ ÷ 4,8 × 10¹⁰ ≈ 3.333 películas por segundo.",
+      "referenceExpression": "160e12 ÷ (2 × 3e9 × 8)",
+      "assumptions": "Usamos la capacidad de diseño anunciada en 2017 y el consumo máximo de vídeo HD de Netflix. Desde entonces se han tendido cables transatlánticos aún más potentes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Microsoft News · Microsoft, Facebook y Telxius inician MAREA en España (13 de junio de 2017)",
+          "url": "https://news.microsoft.com/es-es/2017/06/13/microsoft-facebook-telxius-inician-marea-espana/",
+          "fact": "Cable de 6.600 km entre Virginia Beach y Sopelana, con 8 pares de fibra y un ancho de banda inicial estimado de 160 Tbps: el cable transatlántico de mayor capacidad construido hasta entonces."
+        },
+        {
+          "title": "Netflix · How to control how much data Netflix uses",
+          "url": "https://help.netflix.com/en/node/87",
+          "fact": "El vídeo en HD consume hasta 3 GB por hora; el SD, hasta 1 GB, y el Ultra HD, hasta 7 GB."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-12-1.jpg",
+        "alt": "Secciones de cables submarinos de fibra óptica junto a una moneda de 25 centavos: los más finos miden menos de 2 cm de grosor",
+        "credit": "Lonnie Hagadorn",
+        "url": "https://commons.wikimedia.org/wiki/File:Submarine_Optical_Cables.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa los terabits a películas",
+        "steps": [
+          "Una película en HD ocupa unos pocos gigas, y el cable mueve más de cien billones de bits por segundo.",
+          "160 Tbps son unos 20 TB por segundo. Entre unos 6 GB por película, unas 3.000 películas.",
+          "Con 160 Tbps y películas de 6 GB salen 3.333 por segundo: en un parpadeo, el catálogo de un videoclub entero cruza el Atlántico."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-12-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Trompo generoso",
+      "title": "¿Cuántos tacos al pastor salen de un trompo de 50 kilos?",
+      "detail": "Un trompo de los grandes, con 50 kg de carne de cerdo adobada y su piña en lo alto, despachado taco a taco por un taquero sin prisa ni tacañería.",
+      "unit": "tacos",
+      "answer": 1250,
+      "math": "Según un chef de Grupo Califa, un trompo de 50 a 100 kg da para entre 1.250 y 2.500 tacos: unos 25 tacos por kilo. 50 × 25 = 1.250 tacos.",
+      "referenceExpression": "50 × 2500 ÷ 100",
+      "assumptions": "Cada taquería sirve a su manera: con la cuenta de otro taquero, 32 tacos por kilo, saldrían 1.600. Contamos unos 40 g de carne por taco.",
+      "confidence": "Estimación con supuestos",
+      "sources": [
+        {
+          "title": "Milenio · ¿Sabes cuántos kilos de carne tiene un trompo de tacos al pastor?",
+          "url": "https://www.milenio.com/estilo/gastronomia/sabes-cuantos-kilos-de-carne-tiene-un-trompo-de-tacos-al-pastor",
+          "fact": "El chef José Carlos Palos, de Grupo Califa, dice que un trompo va de 50 a 100 kilos de carne de cerdo y da para entre 1.250 y 2.500 tacos."
+        },
+        {
+          "title": "American Industrial Magazine · El pastorero, uno de los oficios más deliciosos del país",
+          "url": "https://www.americanindustrialmagazine.com/blogs/restaurantes/un-abrazo-el-pastorero-uno-de-los-oficios-mas-deliciosos-del-pais-pastorero-con-38-anos-de-experiencia-cuenta-la-evolucion-de-los-tacos-al-pastor-y-comparte-algunas-curiosidades-del-oficio-los-tacos-son-sin-duda-uno-de-los-platillos-favoritos-de",
+          "fact": "Por kilo de carne salen aproximadamente 32 tacos, así que un trompo de 40 kilos alcanza para 1.280 tacos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-12-2.jpg",
+        "alt": "Trompo de tacos al pastor girando junto al fuego, con una piña clavada en lo alto",
+        "credit": "ProtoplasmaKid",
+        "url": "https://commons.wikimedia.org/wiki/File:Trompo_de_tacos_al_pastor.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Divide el trompo en tacos",
+        "steps": [
+          "Un taco al pastor lleva poca carne, un puñadito de unos 30-40 gramos, y un trompo grande pesa como una persona delgada.",
+          "50.000 g ÷ 40 g por taco = 1.250 tacos.",
+          "Con 25 tacos por kilo salen 1.250 tacos: una taquiza para una boda de 300 invitados, a cuatro tacos por cabeza."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-12-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Sed planetaria",
+      "title": "¿Cuántos segundos tarda el Amazonas en echar al mar el agua que bebe toda la humanidad en un día?",
+      "detail": "Toda la humanidad bebiendo 2 litros diarios por cabeza, bebés incluidos, frente al caudal medio del Amazonas en su desembocadura.",
+      "unit": "segundos",
+      "answer": 74.20652659812248,
+      "math": "Somos unos 8.300 millones de personas. A 2 litros cada una: 16.600 millones de litros, es decir, 16,6 millones de m³ al día. El Amazonas vierte de media 223.700 m³/s. 16.600.000 ÷ 223.700 ≈ 74,2 segundos.",
+      "referenceExpression": "8300000000 × 2 ÷ 1000 ÷ 223700",
+      "assumptions": "Los 2 litros por persona son 8 vasos de 250 ml, el máximo de la recomendación de 6 a 8 vasos de líquido al día del sistema de salud británico. Con 6 vasos (1,5 L), el Amazonas tardaría 56 segundos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Amazon River",
+          "url": "https://en.wikipedia.org/wiki/Amazon_River",
+          "fact": "Caudal medio en el delta del Amazonas: 223.700 m³/s."
+        },
+        {
+          "title": "Wikipedia · World population",
+          "url": "https://en.wikipedia.org/wiki/World_population",
+          "fact": "En 2026 la población mundial ronda los 8.300 millones de personas."
+        },
+        {
+          "title": "NHS · Water, drinks and your health",
+          "url": "https://www.nhs.uk/live-well/eat-well/food-guidelines-and-food-labels/water-drinks-nutrition/",
+          "fact": "Recomienda beber de 6 a 8 tazas o vasos de líquido al día."
+        }
+      ],
+      "reasoning": {
+        "heading": "Toda la sed del mundo, en metros cúbicos",
+        "steps": [
+          "Somos unos 8.000 millones bebiendo un par de litros al día; el Amazonas suelta un mar de agua cada segundo.",
+          "8.000 millones × 2 L = 16 millones de m³. Entre 200.000 m³/s, unos 80 segundos.",
+          "Con 8.300 millones de personas y 223.700 m³/s salen 74 segundos: en lo que dura un anuncio largo, el Amazonas ya ha calmado la sed del planeta entero."
+        ]
+      }
+    }
+  ]
+}

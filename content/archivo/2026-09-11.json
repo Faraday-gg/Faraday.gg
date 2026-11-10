@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-11",
+  "name": "Viernes",
+  "theme": "Voyager, tele y Bolero",
+  "questions": [
+    {
+      "id": "archivo-2026-09-11-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Mensaje lejano",
+      "title": "¿Cuántas horas tarda en llegar a la Tierra un mensaje enviado por la sonda Voyager 1?",
+      "detail": "Calculamos el 18 de noviembre de 2026, cuando la Voyager 1, lanzada en 1977, está a unos 25.900 millones de km. El mensaje viaja a la velocidad de la luz; la respuesta de la NASA tarda lo mismo en volver.",
+      "unit": "horas",
+      "answer": 23.999937,
+      "math": "El 18 de noviembre de 2026 la Voyager 1 está a 25.902 millones de km. La luz recorre 299.792,458 km por segundo: 25.902.000.000 ÷ 299.792,458 ≈ 86.400 s, es decir, 24 horas.",
+      "referenceExpression": "25902000000 ÷ 299792,458 ÷ 3600",
+      "assumptions": "Distancia a la Tierra en la fecha indicada; como la sonda se sigue alejando, el retraso crece con los años. Velocidad de la luz en el vacío.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "NASA · Where are Voyager 1 and Voyager 2 now?",
+          "url": "https://science.nasa.gov/mission/voyager/where-are-voyager-1-and-voyager-2-now/",
+          "fact": "El 18 de noviembre de 2026 la Voyager 1 estará a 25.902 millones de km de la Tierra: un día-luz, la distancia que recorre la luz en 24 horas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide la distancia entre la velocidad de la luz",
+        "steps": [
+          "La Voyager 1 es el objeto humano más lejano: está a decenas de miles de millones de kilómetros, mucho más allá de Plutón.",
+          "La luz recorre unos 300.000 km por segundo, unos 1.000 millones de km por hora. 25.000 millones de km dan unas 25 horas.",
+          "Con la distancia de la NASA salen 24,0 horas: un mensaje enviado a la hora de comer llega a la de comer del día siguiente. Una conversación de pregunta y respuesta tarda dos días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-11-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Sofá vitalicio",
+      "title": "¿Cuántos años de tu vida pasarás delante del televisor?",
+      "detail": "Suma la tele de siempre y los otros usos del televisor (plataformas, consolas…) al ritmo medio de 2025, durante toda una vida media. El mando, aparte.",
+      "unit": "años",
+      "answer": 12.484819444444444,
+      "math": "En 2025 se vieron 161 minutos de televisión tradicional y 53 de otros usos del televisor al día: 214 minutos. Es el 214 ÷ 1.440 = 14,9 % del día. 84,01 años × 0,149 ≈ 12,5 años.",
+      "referenceExpression": "84,01 × (161 + 53) ÷ 1440",
+      "assumptions": "Consumo medio de 2025 durante toda la vida, desde el nacimiento. La media por persona incluye a quien no ve nada y a quien no apaga nunca.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Público · consumo de televisión en 2025 (datos de Barlovento y Kantar)",
+          "url": "https://www.publico.es/sociedad/consumo-television-marca-nuevo-minimo-2025-superar-tres-horas-dia.html",
+          "fact": "En 2025, la televisión tradicional bajó a 161 minutos por persona y día; los otros usos del televisor alcanzaron 53 minutos."
+        },
+        {
+          "title": "INE · Movimiento Natural de la Población 2024",
+          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento se situó en 84,01 años en 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Calcula la fracción del día",
+        "steps": [
+          "Tres horas y media al día parecen poco, pero es casi un sexto del día, y una vida tiene más de 80 años.",
+          "Un sexto de 84 años son 14 años. Con algo menos de un sexto, unos 12.",
+          "Con 214 minutos y 84,01 años salen 12,5 años. Contando solo la tele tradicional serían 9,4 años; sin dormir, la cuenta sería aún peor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-11-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Redoble obsesivo",
+      "title": "¿Cuántos golpes da la caja en el Bolero de Ravel de principio a fin?",
+      "detail": "El famoso ritmo de dos compases suena 169 veces en toda la obra. Cuenta cada golpe de baqueta de ese ritmo, sin pausas ni adornos.",
+      "unit": "golpes",
+      "answer": 4056,
+      "math": "El ritmo se repite 169 veces. Cada repetición (dos compases de 3/4) tiene 10 golpes en el primer compás y 14 en el segundo: 24. 169 × 24 = 4.056 golpes.",
+      "referenceExpression": "169 × (10 + 14)",
+      "assumptions": "Ritmo de caja estándar del Bolero: corchea, tresillo de semicorcheas, corchea, tresillo, dos corcheas; y en el segundo compás, dos tresillos al final. Una sola caja.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Boléro",
+          "url": "https://en.wikipedia.org/wiki/Bol%C3%A9ro",
+          "fact": "El ritmo de ostinato se toca 169 veces en una o varias cajas; una interpretación media dura unos 15 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta golpes por compás",
+        "steps": [
+          "El Bolero dura unos 15 minutos y la caja no para nunca: miles de golpes.",
+          "El ritmo de dos compases tiene unos 24 golpes y se repite cerca de 170 veces: unos 4.000 golpes.",
+          "Con 169 repeticiones de 24 golpes salen 4.056. Unos 4,5 golpes por segundo durante 15 minutos: el percusionista sale mareado."
+        ]
+      }
+    }
+  ]
+}

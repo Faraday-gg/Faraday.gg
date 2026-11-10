@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-26",
+  "name": "Sábado",
+  "theme": "Plutón, Ruta de la Seda y disquete",
+  "questions": [
+    {
+      "id": "archivo-2026-09-26-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Vuelo sin escalas",
+      "title": "¿Cuántos años tardaría un avión comercial a 900 km/h en llegar a Plutón?",
+      "detail": "Un avión de pasajeros que vuela a 900 km/h sin parar desde el Sol hasta Plutón, a su distancia media. Sin repostar, sin turbulencias y con el carrito de bebidas pasando cada hora.",
+      "unit": "años",
+      "answer": 747.8389,
+      "math": "Plutón está de media a 5.900 millones de km del Sol. A 900 km/h hacen falta 6.555.556 horas; entre 8.766 horas por año: 747,8 años.",
+      "referenceExpression": "5900000000 ÷ 900 ÷ 8766",
+      "assumptions": "Distancia media desde el Sol, no desde la Tierra; la órbita de Plutón es muy excéntrica y la distancia real varía entre unos 4.400 y 7.400 millones de km.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Pluto: Facts",
+          "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+          "fact": "De media, Plutón está a 5.900 millones de km del Sol (3.700 millones de millas, 39 UA)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Distancia entre velocidad",
+        "steps": [
+          "Un avión cruza el Atlántico en unas 8 horas; Plutón está a miles de millones de km, casi un millón de veces más lejos.",
+          "A 900 km/h se recorren unos 8 millones de km al año: 6.000 millones entre 8 millones son unos 750 años.",
+          "Con 5.900 millones de km salen 747,8 años: si hubiera despegado en tiempos de Alfonso X, aún no habría llegado."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-26-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Caravana sin prisa",
+      "title": "A 30 km diarios, ¿cuántos días tardaba una caravana en recorrer la Ruta de la Seda de Xi'an a Constantinopla?",
+      "detail": "Camellos, mercaderes y ni una gasolinera. Cuenta 30 km por jornada, todos los días, sin paradas largas en caravasares ni desvíos para regatear.",
+      "unit": "días",
+      "answer": 213.33333333333334,
+      "math": "La Ruta de la Seda se extendía más de 6.400 km por tierra. A 30 km por jornada: 6.400 ÷ 30 ≈ 213 días, unos siete meses.",
+      "referenceExpression": "6400 ÷ 30",
+      "assumptions": "Tomamos los 6.400 km terrestres como el trayecto completo de Xi'an (la antigua Chang'an) a Constantinopla. En realidad era una red de caminos con muchos ramales, y las mercancías solían cambiar de manos por tramos en lugar de viajar de punta a punta con la misma caravana.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Silk Road",
+          "url": "https://en.wikipedia.org/wiki/Silk_Road",
+          "fact": "La red se extendía más de 6.400 km (4.000 millas) por tierra."
+        },
+        {
+          "title": "Wikipedia · Ruta de la seda",
+          "url": "https://es.wikipedia.org/wiki/Ruta_de_la_seda",
+          "fact": "Sus rutas comenzaban en Chang'an (actual Xi'an) y entre sus extremos occidentales figuraba Constantinopla."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la distancia, luego el paso del camello",
+        "steps": [
+          "De China al Bósforo se cruza media Asia: varios miles de kilómetros. Una primera apuesta sería unos 6.000 km.",
+          "A 30 km diarios, 6.000 km son 200 días. Ya sabemos que hablamos de más de medio año, no de semanas.",
+          "Con los más de 6.400 km de ruta terrestre salen 213 días, unos siete meses sin descanso. En la práctica las caravanas paraban, cambiaban de animales y la mercancía pasaba de mano en mano, así que el viaje real de un fardo de seda era más largo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-26-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Videojuego en disquetes",
+      "title": "¿Cuántos disquetes de 3,5 pulgadas harían falta para instalar un videojuego moderno de 100 GB?",
+      "detail": "Un videojuego actual de 100 GB copiado en disquetes clásicos de «1,44 MB». Cuenta 1 GB como 1.000 MB y sin comprimir nada; ve preparando el café para el cambio de disco.",
+      "unit": "disquetes",
+      "answer": 69444.4444,
+      "math": "100 GB son 100.000 MB. Cada disquete guarda 1,44 MB: 100.000 ÷ 1,44 = 69.444,4 disquetes.",
+      "referenceExpression": "100000 ÷ 1,44",
+      "assumptions": "Unidades comerciales: el «1,44 MB» del disquete son en realidad 1.474.560 bytes; con bytes exactos saldrían unos 67.800. Hacen falta 69.445 disquetes enteros.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Floppy disk",
+          "url": "https://en.wikipedia.org/wiki/Floppy_disk",
+          "fact": "El disquete de 3,5 pulgadas de alta densidad se comercializó como «1,44 MB» (1.474.560 bytes, 1.440 KB formateados)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Gigas entre megas",
+        "steps": [
+          "Un disquete apenas guarda una foto de móvil: algo más de un mega.",
+          "100 GB son 100.000 MB; a casi 1,5 MB por disco, unas 70.000 unidades.",
+          "Exacto: 100.000 ÷ 1,44 = 69.444,4. Cambiando un disco cada 30 segundos tardarías 24 días en instalarlo."
+        ]
+      }
+    }
+  ]
+}

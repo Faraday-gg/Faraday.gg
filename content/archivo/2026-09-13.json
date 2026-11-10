@@ -1,0 +1,112 @@
+{
+  "id": "2026-09-13",
+  "name": "Domingo",
+  "theme": "Globos, Cien años y Monopoly",
+  "questions": [
+    {
+      "id": "archivo-2026-09-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Up sin casa",
+      "title": "¿Cuántos globos de fiesta de helio harían falta para levantar un Mini?",
+      "detail": "Un Mini de los ligeros, de 1.160 kg, atado a globos de látex de 11 pulgadas llenos de helio, como los de los cumpleaños. No contamos lo que pesan el látex ni las cuerdas. Al estilo de la película Up, pero con coche.",
+      "unit": "globos",
+      "answer": 73545.805021,
+      "math": "El Mini más ligero de su generación pesa 1.160 kg. Un globo de 11 pulgadas lleva 0,5 pies cúbicos de helio, unos 14,16 L. El helio levanta 1,114 g por litro: 15,77 g por globo. 1.160.000 ÷ 15,77 ≈ 73.546 globos.",
+      "referenceExpression": "1160000 ÷ (0,5 × 28,316846592 × 1,114)",
+      "assumptions": "Empuje bruto del helio a nivel del mar y 0 °C; no resta el peso del látex ni de las cuerdas, así que en la práctica harían falta bastantes más globos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mini Hatch",
+          "url": "https://en.wikipedia.org/wiki/Mini_Hatch",
+          "fact": "La tercera generación del Mini (F55/F56/F57) pesa en vacío entre 1.160 y 1.295 kg según la versión."
+        },
+        {
+          "title": "Go International · How much helium for balloons",
+          "url": "https://www.gointernational.co.uk/blog/how-much-helium-for-balloons/",
+          "fact": "Un globo de látex estándar de 11 pulgadas usa aproximadamente 0,5 pies cúbicos de helio (unos 14,2 litros)."
+        },
+        {
+          "title": "Wikipedia · Lifting gas",
+          "url": "https://en.wikipedia.org/wiki/Lifting_gas",
+          "fact": "Al nivel del mar, el helio levanta 1,114 kg por metro cúbico (1,114 g por litro): la diferencia entre la densidad del aire y la del helio."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuánto levanta un globo",
+        "steps": [
+          "Un globo de fiesta apenas sujeta una hoja de papel: unos pocos gramos. Un coche pesa más de una tonelada.",
+          "Si cada globo levanta unos 15 g, una tonelada necesita unos 67.000 globos. Ya sabemos que van decenas de miles.",
+          "Con 1.160 kg y 15,77 g por globo salen 73.546 globos. Restando lo que pesa cada globo de látex, la cifra subiría mucho: inflarlos llevaría semanas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Torre de Macondo",
+      "title": "Si apilaras todos los ejemplares vendidos de Cien años de soledad, ¿cuántas veces superarías la altura a la que orbita la Estación Espacial?",
+      "detail": "Ponemos uno encima de otro los más de 50 millones de ejemplares vendidos de la novela de García Márquez, de unos 3 cm de grosor cada uno. Los Buendía, en fila; la Estación Espacial, a 400 km.",
+      "unit": "veces",
+      "answer": 3.75,
+      "math": "Se han vendido más de 50 millones de ejemplares. Con 3 cm cada uno, la pila mide 50.000.000 × 0,03 m = 1.500.000 m = 1.500 km. La Estación Espacial orbita a unos 400 km: 1.500 ÷ 400 = 3,75 veces.",
+      "referenceExpression": "50000000 × 0,03 ÷ 1000 ÷ 400",
+      "assumptions": "Grosor medio de 3 cm por ejemplar (la novela tiene unas 420 páginas). Ventas mínimas de 50 millones; la cifra real es algo mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · One Hundred Years of Solitude",
+          "url": "https://en.wikipedia.org/wiki/One_Hundred_Years_of_Solitude",
+          "fact": "Traducida a 46 idiomas, la novela ha vendido más de 50 millones de ejemplares."
+        },
+        {
+          "title": "Wikipedia · International Space Station",
+          "url": "https://en.wikipedia.org/wiki/International_Space_Station",
+          "fact": "La Estación Espacial Internacional orbita a unos 400 km de altura."
+        }
+      ],
+      "reasoning": {
+        "heading": "Mide la pila en kilómetros",
+        "steps": [
+          "Un libro de 400 páginas tiene un par de dedos de grosor. La Estación Espacial está a unos 400 km de altura.",
+          "50 millones de libros de 3 cm hacen 1,5 millones de metros: 1.500 km.",
+          "1.500 entre 400 da 3,75 veces la altura de la Estación Espacial. Los astronautas podrían pedir prestado un ejemplar al pasar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Banca de cartón",
+      "title": "¿Cuántos dólares de Monopoly vienen en la caja del juego clásico?",
+      "detail": "Contamos todos los billetes de la edición estándar estadounidense desde 2008, la de los billetes de 1 a 500 $. Antes de que el banco reparta y empiecen los pleitos familiares.",
+      "unit": "dólares",
+      "answer": 20580,
+      "math": "La caja trae 30 billetes de cada uno de los siete valores: 1, 5, 10, 20, 50, 100 y 500 $. Suman 686 $ por juego de siete billetes: 30 × 686 = 20.580 $.",
+      "referenceExpression": "30 × (1 + 5 + 10 + 20 + 50 + 100 + 500)",
+      "assumptions": "Edición estándar de Estados Unidos desde septiembre de 2008. Las ediciones anteriores traían 15.140 $, y las de otros países cambian de moneda y de cantidades.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Monopoly (game)",
+          "url": "https://en.wikipedia.org/wiki/Monopoly_(game)",
+          "fact": "Las ediciones estadounidenses estándar desde septiembre de 2008 traen 30 billetes de cada valor (1, 5, 10, 20, 50, 100 y 500 $): 20.580 $ en total."
+        }
+      ],
+      "reasoning": {
+        "heading": "Suma un juego de billetes y multiplica",
+        "steps": [
+          "La caja trae un buen fajo de billetes de colores: el de 500 $ es el más grande.",
+          "Un billete de cada valor suma casi 700 $. Si hay unas decenas de cada uno, el total va de unos 20.000 $.",
+          "Con 30 billetes de cada valor salen exactamente 20.580 $. Las ediciones anteriores a 2008 traían bastante menos, 15.140 $: ni el Monopoly se libra de la inflación."
+        ]
+      }
+    }
+  ]
+}

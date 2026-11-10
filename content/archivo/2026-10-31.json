@@ -1,0 +1,107 @@
+{
+  "id": "2026-10-31",
+  "name": "Sábado",
+  "theme": "Fort Knox, halcón y Mercurio",
+  "questions": [
+    {
+      "id": "archivo-2026-10-31-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Baño de oro",
+      "title": "¿Cuántas bañeras llenaría todo el oro de Fort Knox?",
+      "detail": "Funde todos los lingotes del depósito más famoso del mundo y viértelos en bañeras de 150 litros, llenas hasta el borde. Densidad del oro: 19,3 toneladas por metro cúbico. Nadie se mete dentro: cada bañera pesaría casi tres toneladas.",
+      "unit": "bañeras",
+      "answer": 1583.0742659758205,
+      "math": "El Tesoro de EE. UU. registraba en julio de 2020 unos 147,34 millones de onzas troy en Fort Knox, unas 4.583 toneladas. 4.583 t ÷ 19,3 t/m³ ≈ 237,5 m³. 237,5 m³ ÷ 0,15 m³ ≈ 1.583 bañeras.",
+      "referenceExpression": "4583 ÷ 19,3 ÷ 0,15",
+      "assumptions": "Usamos la cifra del informe del Tesoro de julio de 2020 y oro puro de 19,3 g/cm³. La bañera de 150 litros es un supuesto del modelo; las barras reales no son oro puro al 100 %.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · United States Bullion Depository",
+          "url": "https://en.wikipedia.org/wiki/United_States_Bullion_Depository",
+          "fact": "Según el informe del Tesoro de EE. UU. de 31 de julio de 2020, Fort Knox guarda 147,34 millones de onzas troy (4.583 toneladas) de oro."
+        },
+        {
+          "title": "Wikipedia · Gold",
+          "url": "https://en.wikipedia.org/wiki/Gold",
+          "fact": "Densidad del oro: unos 19,3 g/cm³."
+        }
+      ],
+      "reasoning": {
+        "heading": "El oro pesa muchísimo y ocupa poquísimo",
+        "steps": [
+          "Fort Knox guarda miles de toneladas de oro; digamos unas 5.000. El oro es casi 20 veces más denso que el agua, así que cada metro cúbico pesa unas 20 toneladas.",
+          "5.000 entre 20 da 250 m³. Una bañera de 150 litros es 0,15 m³, así que caben unas 6 o 7 por metro cúbico: 250 × 6,7 ≈ 1.700 bañeras.",
+          "Con las 4.583 toneladas del Tesoro y 19,3 t/m³ salen 237,5 m³ y 1.583 bañeras. Todo el oro más vigilado del planeta cabría en los baños de un par de hoteles grandes."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-31-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Picado internacional",
+      "title": "A la velocidad de su picado, ¿cuántos minutos tardaría un halcón peregrino en cruzar el Canal de la Mancha?",
+      "detail": "Imagina un halcón que mantiene en horizontal la velocidad de su picado más rápido citado, 389 km/h, durante los 33,2 km del paso de Calais, el tramo más estrecho entre Inglaterra y Francia. Sin viento en contra ni control de pasaportes.",
+      "unit": "minutos",
+      "answer": 5.120822622107969,
+      "math": "El paso de Calais mide 33,2 km entre South Foreland (Inglaterra) y el cabo Gris-Nez (Francia). El picado más rápido citado es de 389 km/h. 33,2 ÷ 389 × 60 ≈ 5,1 minutos.",
+      "referenceExpression": "33,2 ÷ 389 × 60",
+      "assumptions": "Ningún halcón vuela en llano a su velocidad de picado. Los 389 km/h se midieron en 2005 en un picado de un halcón adiestrado; la mayor velocidad medida con radar de forma fiable es de 184 km/h, con la que tardaría casi 11 minutos.",
+      "confidence": "Dato documentado + modelo imposible",
+      "sources": [
+        {
+          "title": "Wikipedia · Peregrine falcon",
+          "url": "https://en.wikipedia.org/wiki/Peregrine_falcon",
+          "fact": "La mayor velocidad de picado medida de forma fiable es de 184 km/h; en un programa de National Geographic de 2005 se registró un picado de 389 km/h."
+        },
+        {
+          "title": "Wikipedia · Strait of Dover",
+          "url": "https://en.wikipedia.org/wiki/Strait_of_Dover",
+          "fact": "La distancia más corta para cruzar el estrecho es de 33,2 km, de South Foreland, cerca de Dover, al cabo Gris-Nez."
+        }
+      ],
+      "reasoning": {
+        "heading": "Distancia entre velocidad, y luego a minutos",
+        "steps": [
+          "El Canal de la Mancha en su punto más estrecho mide unos 30 km: en días claros se ve Francia desde los acantilados de Dover. Un halcón en picado va a unos 400 km/h.",
+          "A 400 km/h recorres casi 7 km por minuto; 30 km son algo menos de 5 minutos.",
+          "Con 33,2 km y 389 km/h salen 5,1 minutos. Cambiaría de país en lo que dura una canción, aunque solo alcanza esa velocidad cayendo en picado."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-31-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Paseo planetario",
+      "title": "Caminando 30 km al día, ¿cuántos días tardarías en dar la vuelta a Mercurio por su ecuador?",
+      "detail": "Traje espacial, botas cómodas y 30 km diarios por el ecuador del planeta más pequeño del sistema solar. Los cráteres se rodean sin desviarse y el sol abrasador no cuenta.",
+      "unit": "días",
+      "answer": 511.1371247390593,
+      "math": "La NASA da a Mercurio un radio ecuatorial de 2.440,5 km. Circunferencia: 2 × π × 2.440,5 ≈ 15.334 km. 15.334 ÷ 30 ≈ 511 días.",
+      "referenceExpression": "2 × π × 2440,5 ÷ 30",
+      "assumptions": "Mercurio es una esfera perfecta y caminas en línea recta por el ecuador, sin desvíos ni días de descanso.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "NASA · Mercury Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/mercuryfact.html",
+          "fact": "Radio ecuatorial de Mercurio: 2.440,5 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Calcula la cintura del planeta",
+        "steps": [
+          "Mercurio es bastante más pequeño que la Tierra, cuya vuelta mide unos 40.000 km. Si tiene algo menos de la mitad de tamaño, su vuelta rondará los 15.000 km.",
+          "15.000 km a 30 km diarios son 500 días: casi un año y medio de caminata.",
+          "Con el radio de 2.440,5 km de la NASA la vuelta mide 15.334 km y salen 511 días. Tardarías casi seis años mercurianos, que duran solo 88 días terrestres."
+        ]
+      }
+    }
+  ]
+}

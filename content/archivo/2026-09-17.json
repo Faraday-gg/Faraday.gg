@@ -1,0 +1,110 @@
+{
+  "id": "2026-09-17",
+  "name": "Jueves",
+  "theme": "Saliva, FAST y Ferrari",
+  "questions": [
+    {
+      "id": "archivo-2026-09-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Hacerse la boca agua",
+      "title": "¿Cuántas bañeras llenarías con la saliva que produces a lo largo de tu vida?",
+      "detail": "Un experimento que nadie quiere hacer en casa. Supón 1 litro de saliva al día durante 80 años y bañeras de 150 litros.",
+      "unit": "bañeras",
+      "answer": 194.8,
+      "math": "Un adulto produce entre 1 y 1,5 litros de saliva al día; tomamos 1 L. En 80 años: 1 × 365,25 × 80 = 29.220 litros. Entre 150 L por bañera: 194,8 bañeras.",
+      "referenceExpression": "1 × 365,25 × 80 ÷ 150",
+      "assumptions": "Producción constante de 1 L/día desde el nacimiento, en el extremo bajo del rango adulto. Bañera de 150 L.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Kenhub · Glándulas salivales",
+          "url": "https://www.kenhub.com/es/library/anatomia-es/glandulas-salivales",
+          "fact": "La producción diaria total de saliva en un adulto es de entre 1 y 1,5 litros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un litro al día da para mucho",
+        "steps": [
+          "Tragamos saliva sin darnos cuenta todo el día: alrededor de una botella de litro diaria.",
+          "Un año son unos 365 litros; ochenta años, unos 29.000. Con bañeras de 150 L, unas 200.",
+          "Con 1 L/día salen 194,8 bañeras. Si usas 1,5 L/día, el extremo alto, serían 292."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Paraguas cósmicos",
+      "title": "¿Cuántos paraguas de golf abiertos harían falta para cubrir el radiotelescopio FAST de China, el mayor del mundo?",
+      "detail": "Un plato de 500 m de diámetro encajado en un valle de Guizhou, tapado con paraguas de golf de 157 cm, sin solapes ni huecos. Por si llueve en el universo.",
+      "unit": "paraguas",
+      "answer": 101243.438179,
+      "math": "La superficie colectora de FAST es de 196.000 m². Un paraguas de golf de 157 cm cubre π × 0,785² ≈ 1,936 m². 196.000 ÷ 1,936 ≈ 101.243 paraguas.",
+      "referenceExpression": "196000 ÷ (π × 0,785 × 0,785)",
+      "assumptions": "Solo se compara superficie, sin contar los huecos entre círculos ni la curvatura del plato. Paraguas de golf de 157 cm de diámetro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Five-hundred-meter Aperture Spherical Telescope",
+          "url": "https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope",
+          "fact": "El plato de FAST mide 500 m de diámetro y tiene una superficie colectora de 196.000 m²."
+        },
+        {
+          "title": "Wikipedia · Umbrella",
+          "url": "https://en.wikipedia.org/wiki/Umbrella",
+          "fact": "Los paraguas de golf, de los más grandes habituales, miden normalmente unas 62 pulgadas (157 cm) de lado a lado."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-17-2.jpg",
+        "alt": "El gran plato blanco del radiotelescopio FAST encajado entre montañas verdes, rodeado de torres metálicas que dan la escala",
+        "credit": "SCJiang",
+        "url": "https://commons.wikimedia.org/wiki/File:202508_FAST_(Five-hundred-meter_Aperture_Spherical_radio_Telescope).jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Superficie del plato entre superficie del paraguas",
+        "steps": [
+          "El plato mide medio kilómetro de lado a lado, casi cinco campos de fútbol puestos en fila. Un paraguas de golf grande cubre unos 2 m².",
+          "Un círculo de 500 m de diámetro tiene unos 200.000 m². Entre 2 m² por paraguas, unos 100.000.",
+          "Con los 196.000 m² oficiales salen 101.243 paraguas de golf. Con paraguas plegables normales, de 1 m, harían falta unos 250.000."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Hucha de lujo",
+      "title": "Ahorrando 1 € al día, ¿cuántos años tardarías en comprarte un Ferrari?",
+      "detail": "Un euro diario en la hucha hasta pagar al contado una Ferrari Amalfi, el modelo de entrada de 2025, por su precio de lista de 240.000 € con IVA en Italia. Sin intereses, sin inflación y sin extras de color rojo.",
+      "unit": "años",
+      "answer": 657.534247,
+      "math": "La Ferrari Amalfi cuesta 240.000 € con IVA. Ahorrando 1 € al día juntas 365 € al año. 240.000 ÷ 365 ≈ 657,5 años.",
+      "referenceExpression": "240000 ÷ 365",
+      "assumptions": "Precio de lista en Italia, IVA incluido; en España puede variar por impuestos y opciones. Sin intereses ni subidas de precio, y años de 365 días.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Auto.it · Ferrari Amalfi",
+          "url": "https://www.auto.it/marche/ferrari-fer/modelli/amalfi-3432",
+          "fact": "Precio de lista de la Ferrari Amalfi 3.9 F1 DCT: 240.000 €, IVA incluido (Italia)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide el precio entre lo que ahorras al año",
+        "steps": [
+          "Un Ferrari nuevo de los más baratos cuesta ya varios cientos de miles de euros. Un euro al día son unos 365 al año.",
+          "250.000 entre 365 dan unos 700 años.",
+          "Con 240.000 € salen 657,5 años. Si hubieras empezado a ahorrar a mediados del siglo XIV, poco después de la peste negra, ahora estarías a punto de recogerlo."
+        ]
+      }
+    }
+  ]
+}

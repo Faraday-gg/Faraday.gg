@@ -1,0 +1,120 @@
+{
+  "id": "2026-09-18",
+  "name": "Viernes",
+  "theme": "Golden Gate, aerogenerador y Ibiza",
+  "questions": [
+    {
+      "id": "archivo-2026-09-18-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Alambre a lo grande",
+      "title": "¿Cuántas vueltas a la Tierra darían los alambres de los cables principales del Golden Gate?",
+      "detail": "Dos cables gordos como una persona, hechos de miles de alambres finos. Estira todo ese alambre y dale la vuelta al planeta por el ecuador.",
+      "unit": "vueltas",
+      "answer": 3.2189631014282853,
+      "math": "Los dos cables principales suman 129.000 km de alambre de acero galvanizado. El ecuador mide 2π × 6.378,137 = 40.075 km. 129.000 ÷ 40.075 = 3,22 vueltas.",
+      "referenceExpression": "129000 ÷ (2 × π × 6378,137)",
+      "assumptions": "Alambre estirado en línea, sin empalmes. Vuelta por el ecuador.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Golden Gate Bridge District · Design & Construction Stats",
+          "url": "https://goldengate.org/bridge/history-research/statistics-data/design-construction-stats",
+          "fact": "Longitud total de alambre de acero galvanizado en los dos cables principales: 80.000 millas (129.000 km); cada cable mide 2.332 m."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km (circunferencia ≈ 40.075 km)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-18-1.jpg",
+        "alt": "Cables principales y péndolas del puente Golden Gate vistos de cerca desde la calzada",
+        "credit": "Guillaume Paumier",
+        "url": "https://commons.wikimedia.org/wiki/File:Cables_of_the_Golden_Gate_bridge_in_San_Francisco_63.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Cables por alambres por longitud",
+        "steps": [
+          "Cada cable mide unos 2,3 km y mide casi un metro de grosor, así que dentro caben miles y miles de alambres finos. Con unos 25.000 alambres por cable, dos cables sumarían unos 115.000 km.",
+          "La vuelta al ecuador son unos 40.000 km, así que el alambre daría unas tres vueltas.",
+          "El dato oficial es 129.000 km: 3,22 vueltas a la Tierra. Todo ese alambre cuelga sobre un estrecho de menos de 3 km."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-18-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Vueltas de luz",
+      "title": "¿Cuántos minutos tiene que girar un aerogenerador moderno a plena potencia para dar la luz que gasta un hogar en un año?",
+      "detail": "Un aerogenerador terrestre Vestas V172 de 7,2 MW con viento perfecto, frente a un hogar español medio, sin calefacción eléctrica ni coche que cargar. Molinos contra gigantes, versión Quijote moderna.",
+      "unit": "minutos",
+      "answer": 27.195833,
+      "math": "Un hogar español consume entre 2.732 y 3.795 kWh al año; tomamos el punto medio, 3.263,5 kWh. Un aerogenerador de 7,2 MW produce 7.200 kWh cada hora a plena potencia: 3.263,5 ÷ 7.200 × 60 ≈ 27,2 minutos.",
+      "referenceExpression": "(2732 + 3795) ÷ 2 ÷ 7200 × 60",
+      "assumptions": "Aerogenerador funcionando a su potencia nominal todo el tiempo, sin pérdidas de red. Consumo medio de un hogar español; en otros países puede ser mucho mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Vestas",
+          "url": "https://en.wikipedia.org/wiki/Vestas",
+          "fact": "El aerogenerador terrestre Vestas V172 tiene un rotor de 172 m y una potencia de 7,2 MW."
+        },
+        {
+          "title": "Endesa · Consumo energético de los hogares en España",
+          "url": "https://www.endesa.com/es/blog/blog-de-endesa/luz/consumo-energetico-hogares-espana",
+          "fact": "El consumo de electricidad por hogar en España está entre 2.732 kWh y 3.795 kWh al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compara un año de casa con una hora de molino",
+        "steps": [
+          "Un hogar gasta unos pocos miles de kWh al año. Un aerogenerador moderno produce varios miles de kWh cada hora.",
+          "Si un hogar gasta unos 3.000 kWh y el molino da 7.000 por hora, basta con menos de media hora.",
+          "Con 3.263,5 kWh y 7,2 MW salen 27,2 minutos. En un día entero de buen viento, ese molino abastecería a más de 50 hogares durante un año."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-18-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Microestados en la isla",
+      "title": "¿Cuántas Ciudades del Vaticano cabrían en la isla de Ibiza?",
+      "detail": "El país más pequeño del mundo frente a una isla de fiesta y calas. Comparamos superficies terrestres, sin contar el mar ni los yates. El papa, de vacaciones.",
+      "unit": "Vaticanos",
+      "answer": 1301.272727,
+      "math": "Ibiza tiene 572,56 km² y la Ciudad del Vaticano, 0,44 km². 572,56 ÷ 0,44 ≈ 1.301 Vaticanos.",
+      "referenceExpression": "572,56 ÷ 0,44",
+      "assumptions": "Superficies terrestres totales. Se comparan áreas, sin tener en cuenta la forma de cada territorio.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Ciudad del Vaticano",
+          "url": "https://es.wikipedia.org/wiki/Ciudad_del_Vaticano",
+          "fact": "La Ciudad del Vaticano tiene una extensión de 0,44 km² (44 hectáreas)."
+        },
+        {
+          "title": "Wikipedia · Ibiza",
+          "url": "https://es.wikipedia.org/wiki/Ibiza",
+          "fact": "Superficie total de la isla: 572,56 km²."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide la isla entre el país más pequeño",
+        "steps": [
+          "Ibiza tiene varios cientos de kilómetros cuadrados. El Vaticano cabe en un paseo de media hora: menos de medio kilómetro cuadrado.",
+          "570 entre 0,5 dan unos 1.100 Vaticanos. Ya sabemos que son más de mil.",
+          "Con 572,56 y 0,44 km² salen 1.301 Vaticanos: mil trescientas plazas de San Pedro entre calas y discotecas."
+        ]
+      }
+    }
+  ]
+}

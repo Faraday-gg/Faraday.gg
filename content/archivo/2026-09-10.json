@@ -1,0 +1,97 @@
+{
+  "id": "2026-09-10",
+  "name": "Jueves",
+  "theme": "Mónaco, abejas y Nutella",
+  "questions": [
+    {
+      "id": "archivo-2026-09-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Carrusel de lujo",
+      "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al circuito de Mónaco en una hora?",
+      "detail": "Una hora a 200 km/h de media por las calles de Montecarlo, sin paradas en boxes, sin coche de seguridad y sin chocar con ningún yate. En carrera real, Mónaco es mucho más lento.",
+      "unit": "vueltas",
+      "answer": 59.934073,
+      "math": "El circuito de Mónaco mide 3,337 km. En una hora a 200 km/h se recorren 200 km. 200 ÷ 3,337 ≈ 59,9 vueltas.",
+      "referenceExpression": "200 ÷ 3,337",
+      "assumptions": "Velocidad media constante de 200 km/h, irreal en Mónaco: en carrera la media ronda bastante menos por sus curvas lentas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Formula 1 · Monaco Grand Prix",
+          "url": "https://www.formula1.com/en/racing/2025/monaco",
+          "fact": "Longitud del circuito de Mónaco: 3,337 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Distancia de una hora entre una vuelta",
+        "steps": [
+          "Mónaco es el circuito más corto del calendario: algo más de 3 km entre casinos y puertos.",
+          "A 200 km/h recorres 200 km en una hora. 200 entre 3 dan unas 65 vueltas.",
+          "Con los 3,337 km oficiales salen 59,9 vueltas en una hora. En la vida real nadie mantiene esa media entre la curva del hotel y el puerto: los pilotos van mucho más despacio."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Trabajo de colmena",
+      "title": "¿Cuántas flores tienen que visitar las abejas para llenar un tarro de 500 g de miel?",
+      "detail": "Un tarro normal de medio kilo, de la miel que prefieras. La regla de los apicultores: unos 2 millones de flores por cada libra de miel (453,6 g). Las abejas no cobran horas extra.",
+      "unit": "flores",
+      "answer": 2204622.621849,
+      "math": "Hacen falta unos 2 millones de flores por libra de miel (453,59 g). Para 500 g: 2.000.000 × 500 ÷ 453,59 ≈ 2,2 millones de flores.",
+      "referenceExpression": "2000000 × 500 ÷ 453,59237",
+      "assumptions": "Proporción divulgativa media; varía según la flor y la cantidad de néctar de cada una.",
+      "confidence": "Dato divulgativo + modelo",
+      "sources": [
+        {
+          "title": "University of Illinois Extension · National Honey Bee Day",
+          "url": "https://extension.illinois.edu/blogs/prairies-perennials/2017-08-19-national-honey-bee-day",
+          "fact": "Las abejas visitan aproximadamente 2 millones de flores para hacer una libra de miel."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa de libras a tarros",
+        "steps": [
+          "Una sola abeja apenas fabrica una cucharadita de miel en toda su vida. Un tarro entero necesita muchísimas visitas a flores: piensa en millones.",
+          "Si una libra son unos 2 millones de flores y un tarro de medio kilo es algo más que una libra, la respuesta ronda los 2 millones largos.",
+          "Con la proporción exacta salen 2.204.623 flores. Si visitaran una por segundo sin parar, tardarían más de 25 días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Tarros por minuto",
+      "title": "¿Cuántos tarros de Nutella de 750 g se fabrican en el mundo cada minuto?",
+      "detail": "Convertimos toda la producción mundial de Nutella de un año en tarros de 750 g y la repartimos entre los minutos del año. Con el dato de 2013, el último que da Wikipedia; hoy seguramente son más. Las cucharas, aparte.",
+      "unit": "tarros/min",
+      "answer": 887.874176,
+      "math": "En 2013 se produjeron unas 350.000 toneladas de Nutella: 350 millones de kg. En tarros de 0,75 kg son 466.666.667 tarros. Un año tiene 525.600 minutos: 466.666.667 ÷ 525.600 ≈ 888 tarros por minuto.",
+      "referenceExpression": "350000000 ÷ 0,75 ÷ (365 × 24 × 60)",
+      "assumptions": "Producción de 2013 repartida de forma uniforme entre todos los minutos del año, como si toda se envasara en tarros de 750 g. La producción actual probablemente es mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Nutella",
+          "url": "https://en.wikipedia.org/wiki/Nutella",
+          "fact": "La producción mundial de Nutella en 2013 fue de unas 350.000 toneladas."
+        }
+      ],
+      "reasoning": {
+        "heading": "De toneladas a tarros y de años a minutos",
+        "steps": [
+          "Nutella se vende en todo el mundo: la producción va de cientos de miles de toneladas al año.",
+          "350.000 toneladas son unos 470 millones de tarros de 750 g. Un año tiene medio millón de minutos: salen cerca de mil tarros por minuto.",
+          "El cálculo exacto da 888 tarros cada minuto, unos 15 por segundo. Mientras lees esta frase, ya han salido otra treintena."
+        ]
+      }
+    }
+  ]
+}

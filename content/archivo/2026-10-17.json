@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-17",
+  "name": "Sábado",
+  "theme": "Saturno, taxis y Empire",
+  "questions": [
+    {
+      "id": "archivo-2026-10-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Cruzar los anillos",
+      "title": "¿Cuántas horas tardaría un avión a 900 km/h en cruzar de lado a lado los anillos principales de Saturno?",
+      "detail": "Un avión comercial, ningún bache y la tripulación con mucha paciencia. Vuela en línea recta de un borde exterior del anillo A al opuesto, atravesando el planeta como si fuera niebla.",
+      "unit": "horas",
+      "answer": 303.94444444444446,
+      "math": "El borde exterior del anillo A está a 136.775 km del centro de Saturno, así que los anillos principales miden 273.550 km de lado a lado. 273.550 ÷ 900 ≈ 303,9 horas.",
+      "referenceExpression": "2 × 136775 ÷ 900",
+      "assumptions": "Vuelo recto por el diámetro a 900 km/h constantes, cruzando también el planeta. Los anillos principales terminan en el borde del anillo A; los anillos tenues más exteriores, como el E, son mucho más grandes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Rings of Saturn",
+          "url": "https://en.wikipedia.org/wiki/Rings_of_Saturn",
+          "fact": "El anillo A se extiende de 122.170 a 136.775 km del centro de Saturno."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un diámetro enorme a velocidad de avión",
+        "steps": [
+          "Saturno es unas nueve veces más ancho que la Tierra y sus anillos el doble que el planeta: unos 250.000 km.",
+          "A 900 km/h, 250.000 km son unas 280 horas: casi 12 días de vuelo.",
+          "Con los 273.550 km del borde del anillo A salen 303,9 horas, unos 12,7 días. Para dar la vuelta a la Tierra por el ecuador bastarían unas 45 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Atasco en el puente",
+      "title": "¿Cuántos taxis amarillos en fila cabrían a lo largo del puente de Brooklyn?",
+      "detail": "Un atasco perfecto: taxis de Nueva York parachoques con parachoques de punta a punta del puente, accesos incluidos. Usa la longitud total del puente y la de un Toyota Camry, uno de los modelos más habituales de la flota. Los cláxones, por cuenta de la casa.",
+      "unit": "taxis",
+      "answer": 375.81967213114757,
+      "math": "El puente de Brooklyn mide 1.834 m con sus accesos. Un Toyota Camry mide unos 4,88 m. 1.834 ÷ 4,88 ≈ 376 taxis por carril.",
+      "referenceExpression": "1834 ÷ 4,88",
+      "assumptions": "Una sola fila, sin hueco entre coches, todos Toyota Camry de 4,88 m. La longitud del puente incluye los accesos entre Park Row (Manhattan) y Sands Street (Brooklyn). Con un metro de separación entre coches cabrían unos 312.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Brooklyn Bridge",
+          "url": "https://en.wikipedia.org/wiki/Brooklyn_Bridge",
+          "fact": "Mide 6.016 pies (1.834 m) incluidos los accesos; el vano principal tiene 486,3 m."
+        },
+        {
+          "title": "Wikipedia · Toyota Camry (XV70)",
+          "url": "https://en.wikipedia.org/wiki/Toyota_Camry_(XV70)",
+          "fact": "Longitud total de 4.880 a 4.910 mm según la versión."
+        }
+      ],
+      "reasoning": {
+        "heading": "Longitud del puente entre largo del taxi",
+        "steps": [
+          "El puente de Brooklyn es largo pero se cruza andando en media hora: menos de 2 km. Un taxi sedán mide unos 5 m.",
+          "2.000 m entre 5 m dan 400 taxis. El orden es de centenares.",
+          "Con 1.834 m y 4,88 m por Camry salen unos 376 taxis por fila. Si se dejara un metro entre coches, como en un atasco real, serían unos 312."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Imán de rayos",
+      "title": "¿Cuántos rayos recibe el Empire State Building en una década?",
+      "detail": "El rascacielos actúa como un pararrayos gigante y lo sabe. Usa la media anual que da el propio edificio y supón que todos los años son iguales.",
+      "unit": "rayos",
+      "answer": 250,
+      "math": "El Empire State recibe unos 25 impactos de rayo al año. 25 × 10 = 250 rayos por década.",
+      "referenceExpression": "25 × 10",
+      "assumptions": "Media constante año tras año. En realidad depende de las tormentas de cada verano y algunos años recibe bastantes más o menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Empire State Building · Facts & figures",
+          "url": "https://www.esbnyc.com/about/facts-figures",
+          "fact": "El edificio recibe unos 25 impactos de rayo al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Rayos por año, por diez años",
+        "steps": [
+          "Se dice que un rayo nunca cae dos veces en el mismo sitio, pero un rascacielos aislado es la excepción: podría recibir unas decenas al año.",
+          "Si fueran 20 al año, en una década serían 200. Estamos en los cientos.",
+          "Con la media de 25 al año que da el edificio salen 250 rayos por década. Un verano muy tormentoso puede subir esa cifra, y uno seco, bajarla."
+        ]
+      }
+    }
+  ]
+}

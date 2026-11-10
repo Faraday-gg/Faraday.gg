@@ -1,0 +1,102 @@
+{
+  "id": "2026-08-23",
+  "name": "Domingo",
+  "theme": "París, YouTube y Tokio",
+  "questions": [
+    {
+      "id": "archivo-2026-08-23-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Todos de pie",
+      "title": "¿Cuántas ciudades como París harían falta para que toda la humanidad cupiera de pie?",
+      "detail": "Cuatro personas por metro cuadrado, como en un concierto apretado, dentro del término municipal de París. Nadie se queda en el Sena.",
+      "unit": "Parises",
+      "answer": 19.449715370018975,
+      "math": "8.200 millones de personas a 4 por m² ocupan 2.050 millones de m², es decir, 2.050 km². París tiene 105,4 km²: 2.050 ÷ 105,4 ≈ 19,4 Parises.",
+      "referenceExpression": "8.200.000.000 × 0,25 ÷ 1.000.000 ÷ 105,4",
+      "assumptions": "Población mundial de unos 8.200 millones (ONU, 2024) y 4 personas por m² repartidas de forma uniforme, sin calles, edificios ni río.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Paris",
+          "url": "https://en.wikipedia.org/wiki/Paris",
+          "fact": "La ciudad de París tiene una superficie de 105,4 km²."
+        },
+        {
+          "title": "ONU · World Population Prospects 2024",
+          "url": "https://www.un.org/sustainabledevelopment/?p=114007",
+          "fact": "La población mundial era de 8.200 millones de personas en 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Personas, metros y Parises",
+        "steps": [
+          "La humanidad entera apretada parece enorme, pero de pie ocupamos muy poco. Seguramente unas cuantas ciudades bastan.",
+          "8.000 millones ÷ 4 = 2.000 millones de m², unos 2.000 km². Entre 100 km² de París: unos 20.",
+          "Con 8.200 millones y 105,4 km² salen 19,4 Parises. Toda la humanidad, de pie, en un cuadrado de unos 45 km de lado."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-23-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Atracón infinito",
+      "title": "¿Cuántos años tardarías en ver todos los vídeos que se suben a YouTube en un solo día?",
+      "detail": "Al ritmo de subida de 2019, más de 500 horas de vídeo por minuto, y viéndolo todo sin dormir ni saltar anuncios. Los gatitos incluidos.",
+      "unit": "años",
+      "answer": 82.13552361396304,
+      "math": "500 horas por minuto × 1.440 minutos = 720.000 horas en un día. Un año tiene 8.766 horas: 720.000 ÷ 8.766 ≈ 82,1 años.",
+      "referenceExpression": "500 × 1.440 ÷ 8.766",
+      "assumptions": "Usamos 500 horas por minuto, la cifra de 2019 («más de 500»); hoy probablemente se sube más. Año de 365,25 días.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · YouTube",
+          "url": "https://en.wikipedia.org/wiki/YouTube",
+          "fact": "En mayo de 2019 se subían más de 500 horas de vídeo por minuto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Horas de vídeo, años de sofá",
+        "steps": [
+          "Cientos de horas por minuto multiplicadas por todo un día es una montaña de vídeo. Una vida entera, como poco.",
+          "500 × 1.500 ≈ 750.000 horas. Un año tiene unas 9.000 horas: unos 80 años.",
+          "Con 720.000 horas salen 82,1 años: casi la esperanza de vida en España. Y mañana suben otro día igual."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-23-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Hora punta perpetua",
+      "title": "¿Cuántas personas suben al metro de Tokio por cada segundo del día?",
+      "detail": "Solo las líneas de Tokyo Metro, con los viajeros diarios del año fiscal 2024 repartidos entre los 86.400 segundos de un día. Los empujadores con guantes blancos no cuentan.",
+      "unit": "personas/s",
+      "answer": 79.16666666666667,
+      "math": "Tokyo Metro tuvo una media de unos 6,84 millones de viajeros diarios en el año fiscal 2024. 6.840.000 ÷ 86.400 ≈ 79,2 personas por segundo.",
+      "referenceExpression": "6.840.000 ÷ 86.400",
+      "assumptions": "Solo Tokyo Metro; sin las líneas de Toei, que suman unos 2,6 millones más. Repartimos los viajeros entre las 24 horas, aunque el metro cierra de madrugada: en hora punta el ritmo es mucho mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Tokyo Metro",
+          "url": "https://en.wikipedia.org/wiki/Tokyo_Metro",
+          "fact": "La compañía tuvo una media de unos 6,84 millones de viajeros diarios en el año fiscal 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Viajeros entre segundos",
+        "steps": [
+          "Millones de viajeros al día y un día con menos de cien mil segundos. Saldrán decenas de personas por segundo.",
+          "7 millones ÷ 100.000 = 70. El orden de magnitud: unas decenas.",
+          "Con 6,84 millones y 86.400 segundos salen 79,2 personas por segundo. Un autobús lleno cada segundo, todo el día."
+        ]
+      }
+    }
+  ]
+}

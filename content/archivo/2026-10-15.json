@@ -1,0 +1,112 @@
+{
+  "id": "2026-10-15",
+  "name": "Jueves",
+  "theme": "Oktoberfest, Avatar y Bombonera",
+  "questions": [
+    {
+      "id": "archivo-2026-10-15-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Jarras por minuto",
+      "title": "¿Cuántas jarras de un litro se sirven por minuto en el Oktoberfest de Múnich?",
+      "detail": "Dieciséis días de fiesta, carpas gigantes y camareras que cargan una docena de jarras a la vez. Reparte toda la cerveza en 12 horas de servicio al día, a ritmo constante.",
+      "unit": "jarras/min",
+      "answer": 581.5972222222222,
+      "math": "En 2026 se sirvieron unos 6,7 millones de litros (Maß) en 16 días. Con 12 h de servicio diario hay 16 × 12 × 60 = 11.520 minutos. 6.700.000 ÷ 11.520 ≈ 582 jarras por minuto.",
+      "referenceExpression": "6700000 ÷ (16 × 12 × 60)",
+      "assumptions": "Las 12 horas de servicio son una simplificación: los horarios cambian entre días laborables y fines de semana. La cifra de cerveza es del informe final provisional de la ciudad.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Oktoberfest.de · Informe final provisional 2026",
+          "url": "https://www.oktoberfest.de/en/magazin/oktoberfest-news/vorlaeufiger-schlussbericht-2026",
+          "fact": "Unos 6,7 millones de Maß de cerveza (6,5 millones en 2025), 7,4 millones de visitantes y 16 días de fiesta."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros de la fiesta entre minutos de barra",
+        "steps": [
+          "Millones de visitantes bebiendo durante dos semanas largas: pongamos unos 7 millones de litros.",
+          "16 días de 12 horas son unos 11.500 minutos. 7 millones entre 11.500 dan unas 600 jarras por minuto, diez por segundo.",
+          "Con los 6,7 millones de litros de 2026 salen 582 jarras por minuto. Si el servicio durara 10 horas al día, serían casi 700."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-15-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Palomitas de Pandora",
+      "title": "Si cada entrada vendida de Avatar llevara un cubo de palomitas de 5 L, ¿cuántas piscinas olímpicas llenarían?",
+      "detail": "La película más taquillera de la historia, una entrada por espectador y un cubo XXL de 5 litros para cada uno. Calcula las entradas dividiendo la recaudación mundial entre el precio medio de la entrada en Estados Unidos en 2010. Los azules de Pandora no comen palomitas, así que tocan a más.",
+      "unit": "piscinas",
+      "answer": 735.5247064150943,
+      "math": "Avatar recaudó 2.923.710.708 $ en todo el mundo. A 7,95 $ por entrada son unos 368 millones de entradas. 368 millones × 5 L ≈ 1.839 millones de litros. Una piscina olímpica tiene 2,5 millones de litros: 1.839 ÷ 2,5 ≈ 736 piscinas.",
+      "referenceExpression": "2923710708 ÷ 7,95 × 5 ÷ 2500000",
+      "assumptions": "Se usa el precio medio de la entrada en EE. UU. a comienzos de 2010, cuando Avatar seguía en cartel, para todas las entradas del mundo; las de 3D eran más caras y en otros países los precios varían mucho, así que el número de entradas es solo aproximado. Incluye los reestrenos posteriores. Piscina olímpica de 50 × 25 × 2 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Box Office Mojo · Avatar (2009)",
+          "url": "https://www.boxofficemojo.com/title/tt0499549/",
+          "fact": "Recaudación mundial de 2.923.710.708 $ (785 millones en EE. UU. y 2.138 millones en el resto del mundo)."
+        },
+        {
+          "title": "TheWrap · NATO: 3D Drives Record Ticket Price Bump (4/5/2010)",
+          "url": "https://www.thewrap.com/nato-3d-drives-record-ticket-price-bump-16986/",
+          "fact": "Según la asociación de exhibidores NATO, el precio medio de la entrada en EE. UU. era de 7,95 $ en el primer trimestre de 2010."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica de 2 m de profundidad tiene 2.500 m³, es decir, 2,5 millones de litros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Entradas por cubos entre piscinas",
+        "steps": [
+          "Avatar recaudó casi 3.000 millones de dólares. Con entradas de unos 10 $, son unos 300 millones de espectadores.",
+          "300 millones de cubos de 5 L son 1.500 millones de litros; entre 2,5 millones por piscina, unas 600 piscinas. El orden es de centenares.",
+          "Con 2.924 millones de dólares y 7,95 $ por entrada salen unos 736 piscinas. Si el precio medio mundial fuera más alto, como en las salas 3D, saldrían menos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-15-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Vuelta a casa",
+      "title": "¿Cuántos autobuses urbanos harían falta para llevar a casa a todo el aforo de La Bombonera?",
+      "detail": "Termina el partido de Boca, nadie tiene coche y todos quieren volver en autobús, apretados como en hora punta. Usa el aforo del estadio y un autobús urbano de 12 m lleno hasta el máximo que permite el fabricante. Cantar por el camino está permitido.",
+      "unit": "autobuses",
+      "answer": 498.64406779661016,
+      "math": "La Bombonera tiene un aforo de 58.840 espectadores. Un autobús urbano eléctrico de 12 m lleva como máximo 118 pasajeros. 58.840 ÷ 118 ≈ 499 autobuses.",
+      "referenceExpression": "58840 ÷ 118",
+      "assumptions": "Estadio lleno y autobuses cargados al máximo legal (la mayoría de pasajeros, de pie). Con autobuses con más asientos y menos sitio para ir de pie, harían falta bastantes más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Estadio Alberto J. Armando",
+          "url": "https://es.wikipedia.org/wiki/Estadio_Alberto_J._Armando",
+          "fact": "Capacidad de 58.840 espectadores."
+        },
+        {
+          "title": "EPD International · Mercedes-Benz eCitaro",
+          "url": "https://environdec.com/library/epd9794",
+          "fact": "Autobús urbano eléctrico de 12 m y tres puertas con capacidad máxima de 118 pasajeros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Aforo entre plazas de autobús",
+        "steps": [
+          "La Bombonera es mítica pero no gigante: unas 60.000 personas. Un autobús urbano lleno hasta los topes lleva unas 100.",
+          "60.000 entre 100 son 600 autobuses. El orden es de centenares: una caravana de varios kilómetros.",
+          "Con 58.840 espectadores y 118 plazas por autobús salen unos 499 autobuses. Con autobuses más pequeños o menos apretados se pasaría de 600."
+        ]
+      }
+    }
+  ]
+}

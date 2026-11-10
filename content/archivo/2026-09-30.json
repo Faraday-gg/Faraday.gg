@@ -1,0 +1,118 @@
+{
+  "id": "2026-09-30",
+  "name": "Miércoles",
+  "theme": "Titicaca, Mozart y ENIAC",
+  "questions": [
+    {
+      "id": "archivo-2026-09-30-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Corro en el altiplano",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear el lago Titicaca?",
+      "detail": "Un corro siguiendo toda la orilla del lago, entre Perú y Bolivia, a 3.800 metros de altura. Cada persona ocupa 1,5 m con los brazos abiertos; el mal de altura va aparte.",
+      "unit": "personas",
+      "answer": 750000,
+      "math": "La orilla del lago mide 1.125 km, es decir, 1.125.000 m. A 1,5 m por persona: 750.000 personas.",
+      "referenceExpression": "1125000 ÷ 1,5",
+      "assumptions": "La longitud de una costa depende de cuánto detalle se mida; la cifra es una referencia. 1,5 m por persona es una envergadura de adulto.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Lake Titicaca",
+          "url": "https://en.wikipedia.org/wiki/Lake_Titicaca",
+          "fact": "Longitud de la orilla: 1.125 km (el artículo advierte que no es una medida bien definida)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-30-1.jpg",
+        "alt": "El lago Titicaca visto desde la orilla boliviana, con los Andes nevados al fondo",
+        "credit": "Anthony Lacoste",
+        "url": "https://commons.wikimedia.org/wiki/File:Lake_Titicaca_on_the_Andes_from_Bolivia.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Orilla entre brazos abiertos",
+        "steps": [
+          "El Titicaca es enorme, casi un mar: su orilla tiene más de mil kilómetros con todas sus bahías.",
+          "Con los brazos abiertos una persona ocupa metro y medio; en 1.000 km caben unas 670.000 personas.",
+          "Con 1.125 km salen 750.000 personas: tres cuartos de millón de manos entrelazadas por dos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-30-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Prisa de genio",
+      "title": "¿Cuántas obras compuso Mozart por año de vida?",
+      "detail": "Contamos desde la cuna, aunque los primeros años no compusiera ni una nana. Usa las 626 entradas del catálogo Köchel original.",
+      "unit": "obras/año",
+      "answer": 17.459262370189368,
+      "math": "Mozart vivió del 27 de enero de 1756 al 5 de diciembre de 1791: unos 35,85 años. 626 ÷ 35,85 ≈ 17,5 obras por año.",
+      "referenceExpression": "626 ÷ 35,85",
+      "assumptions": "Cada número del catálogo cuenta igual, sea un minueto o el Réquiem. Las ediciones posteriores del Köchel llegan hasta K. 721, y Wikipedia habla de más de 800 obras terminadas: con esa cifra saldrían unas 22 por año.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Köchel catalogue",
+          "url": "https://en.wikipedia.org/wiki/K%C3%B6chel_catalogue",
+          "fact": "La secuencia principal de Köchel tenía 626 obras; K. 626 es el Réquiem. La novena edición añade números hasta el 721."
+        },
+        {
+          "title": "Wikipedia · Wolfgang Amadeus Mozart",
+          "url": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+          "fact": "Nació el 27 de enero de 1756 y murió el 5 de diciembre de 1791; completó más de 800 obras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Reparte el catálogo entre los años vividos",
+        "steps": [
+          "Mozart murió con solo 35 años y dejó cientos de obras. Si fueran unas 600, saldrían más de diez al año.",
+          "600 ÷ 35 ≈ 17. El orden es de una o dos decenas de obras por año, más de una al mes.",
+          "Con las 626 del catálogo original y 35,85 años de vida salen 17,5 obras por año. Si contamos las más de 800 obras terminadas, sube a unas 22. Y eso que de bebé no compuso nada."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-30-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Móviles de antaño",
+      "title": "¿Cuántos teléfonos móviles pesarían lo mismo que el ordenador ENIAC?",
+      "detail": "El abuelo de todos los ordenadores contra el bolsillo de hoy. Supón móviles de 200 g, con funda incluida.",
+      "unit": "móviles",
+      "answer": 135000,
+      "math": "El ENIAC pesaba más de 30 toneladas cortas: unas 27 t. 27.000 kg ÷ 0,2 kg = 135.000 móviles.",
+      "referenceExpression": "27000 ÷ 0,2",
+      "assumptions": "Usamos 27 t, el equivalente métrico redondeado de «más de 30 toneladas cortas». Los móviles reales pesan entre 150 y 250 g.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · ENIAC",
+          "url": "https://en.wikipedia.org/wiki/ENIAC",
+          "fact": "El ENIAC pesaba más de 30 toneladas cortas (27 t) y medía unos 30 m de largo, 3 m de alto y 1 m de fondo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-30-3.jpg",
+        "alt": "Dos programadoras trabajando con los paneles y cables del ENIAC, que ocupaba una sala entera",
+        "credit": "Autor desconocido · Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:Glen_Beck_and_Betty_Snyder_program_the_ENIAC_in_building_328_at_the_Ballistic_Research_Laboratory.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Glen_Beck_and_Betty_Snyder_program_the_ENIAC_in_building_328_at_the_Ballistic_Research_Laboratory.jpg"
+      },
+      "reasoning": {
+        "heading": "Pasa toneladas a gramos",
+        "steps": [
+          "El ENIAC llenaba una sala y pesaba como varios camiones: decenas de toneladas.",
+          "Con 30 t y móviles de 200 g: 30.000 kg ÷ 0,2 kg = 150.000. Hablamos de cientos de miles de móviles.",
+          "Con las 27 t métricas salen 135.000 móviles. Hoy cualquiera de ellos calcula millones de veces más rápido que aquella máquina."
+        ]
+      }
+    }
+  ]
+}

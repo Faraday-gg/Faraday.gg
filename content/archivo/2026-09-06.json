@@ -1,0 +1,110 @@
+{
+  "id": "2026-09-06",
+  "name": "Domingo",
+  "theme": "Kilimanjaro, Salto Ángel y Clásico",
+  "questions": [
+    {
+      "id": "archivo-2026-09-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Escalera al cielo",
+      "title": "¿Cuántos escalones de 17 cm tendría una escalera desde el mar hasta la cima del Kilimanjaro?",
+      "detail": "Una escalera recta desde el nivel del mar hasta la cima del Kilimanjaro, con escalones de 17 cm. Los porteadores agradecerían un ascensor.",
+      "unit": "escalones",
+      "answer": 34676.470588,
+      "math": "El pico Uhuru, la cima del Kilimanjaro, está a 5.895 m. 5.895 ÷ 0,17 ≈ 34.676 escalones.",
+      "referenceExpression": "5895 ÷ 0,17",
+      "assumptions": "Escalones idénticos de 17 cm desde el nivel del mar; solo cuenta la altitud, no el recorrido. Mediciones posteriores dan entre 5.892 y 5.902 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mount Kilimanjaro",
+          "url": "https://en.wikipedia.org/wiki/Mount_Kilimanjaro",
+          "fact": "El Servicio de Parques Nacionales de Tanzania y la UNESCO dan para el pico Uhuru una altura de 5.895 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Altura entre escalón",
+        "steps": [
+          "El Kilimanjaro, el techo de África, roza los 6.000 m. Un escalón mide un palmo escaso.",
+          "Unos 6.000 m entre 0,17 m son unos 35.000 escalones.",
+          "Salen 34.676 escalones: a 100 escalones al día, tardarías casi un año en coronar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Caída de récord",
+      "title": "¿Cuántas Estatuas de la Libertad apiladas harían falta para igualar la caída del Salto Ángel?",
+      "detail": "Apilamos Estatuas de la Libertad, con pedestal y antorcha incluidos (93 m cada una), hasta igualar la caída total del Salto Ángel. La antorcha de la última, mojada.",
+      "unit": "estatuas",
+      "answer": 10.528014,
+      "math": "El Salto Ángel tiene 979 m de altura total. La Estatua de la Libertad mide 92,99 m del suelo a la antorcha. 979 ÷ 92,99 ≈ 10,5 estatuas.",
+      "referenceExpression": "979 ÷ 92,99",
+      "assumptions": "Altura total de la cascada, con rápidos incluidos; la caída ininterrumpida mide 807 m (8,7 estatuas). La estatua cuenta con su pedestal.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Angel Falls",
+          "url": "https://en.wikipedia.org/wiki/Angel_Falls",
+          "fact": "El Salto Ángel tiene 979 m de altura total, con una caída ininterrumpida de 807 m."
+        },
+        {
+          "title": "National Park Service · Statue of Liberty statistics",
+          "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm",
+          "fact": "Del suelo a la punta de la antorcha mide 305 pies y 1 pulgada (92,99 m)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-06-2.jpg",
+        "alt": "El Salto Ángel cayendo desde la meseta del Auyantepui en Canaima, Venezuela",
+        "credit": "Diego Delso",
+        "url": "https://commons.wikimedia.org/wiki/File:Salto_del_Angel-Canaima-Venezuela03.JPG",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Una estatua de 93 m como regla",
+        "steps": [
+          "El Salto Ángel es la cascada más alta del mundo: casi un kilómetro de caída. La Estatua de la Libertad, con pedestal, ronda los 90 m.",
+          "1.000 m entre unos 90 m da algo más de 10 estatuas.",
+          "Salen 10,5 Estatuas de la Libertad. Y la cascada no necesita antorcha: ya brilla sola."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Clásico orbital",
+      "title": "¿Cuántos kilómetros recorre la Tierra alrededor del Sol mientras dura un Clásico entre el Real Madrid y el Barça?",
+      "detail": "Noventa minutos de Clásico entre el Real Madrid y el Barça, sin descuento ni descanso. Tú no te mueves del sofá, pero la Tierra sigue a lo suyo alrededor del Sol.",
+      "unit": "km",
+      "answer": 160812,
+      "math": "La velocidad orbital media de la Tierra es de 29,78 km/s. 90 minutos son 5.400 s. 29,78 × 5.400 = 160.812 km.",
+      "referenceExpression": "29,78 × 90 × 60",
+      "assumptions": "Velocidad orbital media constante y 90 minutos justos. La Tierra va algo más rápido en enero y algo más despacio en julio; con descanso y descuento, el viaje se alarga.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Velocidad orbital media: 29,78 km/s."
+        }
+      ],
+      "reasoning": {
+        "heading": "Velocidad orbital por noventa minutos",
+        "steps": [
+          "La Tierra viaja alrededor del Sol a unos 30 km por segundo, aunque no lo notes ni en un penalti.",
+          "90 minutos son 5.400 s. 30 km/s × 5.400 s son unos 160.000 km.",
+          "Salen 160.812 km: cuatro vueltas a la Tierra mientras discutes si era fuera de juego."
+        ]
+      }
+    }
+  ]
+}

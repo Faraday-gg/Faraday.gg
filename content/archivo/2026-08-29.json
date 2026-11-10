@@ -1,0 +1,97 @@
+{
+  "id": "2026-08-29",
+  "name": "Sábado",
+  "theme": "Gioconda, pirámide y microondas",
+  "questions": [
+    {
+      "id": "archivo-2026-08-29-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Mirada exprés",
+      "title": "¿Cuántos segundos de mirada le tocan a cada visitante del Louvre delante de La Gioconda?",
+      "detail": "El 80 % de los visitantes va a verla, de uno en uno, durante 10 horas al día y 310 días al año. Los selfis cuentan como mirada.",
+      "unit": "segundos",
+      "answer": 1.55,
+      "math": "El museo recibe unos 9 millones de visitantes al año; el 80 % son 7,2 millones. Hay 310 días × 10 h × 3.600 s = 11.160.000 s de apertura. 11.160.000 ÷ 7.200.000 = 1,55 segundos por persona.",
+      "referenceExpression": "310 × 10 × 3600 ÷ (9000000 × 0,8)",
+      "assumptions": "Modelo: 80 % de visitantes ante el cuadro, 10 horas al día, 310 días al año y una persona cada vez. En realidad la miran muchos a la vez, así que cada uno tiene más tiempo, aunque lo comparta.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Elysée · Pour la nouvelle renaissance du Louvre (28-01-2025)",
+          "url": "https://www.elysee.fr/emmanuel-macron/2025/01/28/pour-la-nouvelle-renaissance-du-louvre",
+          "fact": "El Louvre recibe unos 9 millones de visitantes al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Reparte las horas entre la multitud",
+        "steps": [
+          "El Louvre es el museo más visitado del mundo, con millones de visitantes al año, y casi todos quieren ver a La Gioconda.",
+          "Un año de apertura son unas 3.000 horas: unos 11 millones de segundos. Si unos 7 millones se ponen en fila, toca a poco más de un segundo y medio.",
+          "Con 9 millones de visitantes y nuestro modelo salen 1,55 segundos por persona. Por eso la sala funciona en grupo: si la miráramos de uno en uno, sería un parpadeo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-29-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Ritmo faraónico",
+      "title": "Si la Gran Pirámide se levantó en 20 años, ¿cuántos bloques se colocaban cada hora de trabajo?",
+      "detail": "Obra de 20 años, 300 días al año y 10 horas al día. Nada de siestas al sol del desierto.",
+      "unit": "bloques/h",
+      "answer": 38.333333333333336,
+      "math": "La pirámide tiene unos 2,3 millones de bloques. 20 años × 300 días × 10 horas = 60.000 horas de obra. 2.300.000 ÷ 60.000 ≈ 38,3 bloques por hora.",
+      "referenceExpression": "2300000 ÷ (20 × 300 × 10)",
+      "assumptions": "Usamos los 20 años que dan Heródoto y Diodoro; los egiptólogos estiman unos 26 años. Repartimos los bloques de forma uniforme en el tiempo de obra.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Pyramid of Giza",
+          "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+          "fact": "La pirámide se compone de unos 2,3 millones de bloques; se calcula que su construcción duró unos 26 años (Heródoto y Diodoro hablaban de 20)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Millones de bloques entre miles de horas",
+        "steps": [
+          "La pirámide es una montaña de bloques: unos cuantos millones. Veinte años de obra suenan a mucho tiempo.",
+          "20 años de 300 jornadas de 10 horas son 60.000 horas. Con 2 millones de bloques salen más de 30 por hora.",
+          "Con 2,3 millones de bloques salen 38,3 bloques por hora: uno cada minuto y medio. Con los 26 años de los egiptólogos, serían unos 29."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-29-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Plato viajero",
+      "title": "¿Cuántos kilómetros recorre en un año el borde del plato del microondas de casa?",
+      "detail": "Diez minutos de microondas al día, todo el año, con un plato de 30 cm de diámetro. Medimos lo que viaja una miga pegada al borde, la gran viajera de tu cocina.",
+      "unit": "km",
+      "answer": 17.20022,
+      "math": "El motor del plato gira a 5 r/min con la red de 50 Hz: 5 × 10 min × 365 días = 18.250 vueltas al año. Cada vuelta del borde mide π × 0,3 m ≈ 0,94 m. 18.250 × 0,94 ≈ 17.200 m ≈ 17,2 km.",
+      "referenceExpression": "5 × 10 × 365 × π × 0,3 ÷ 1000",
+      "assumptions": "Motor de 5/6 r/min (5 con la red europea de 50 Hz), 10 minutos de uso diario y plato de 30 cm de diámetro, un tamaño habitual pero supuesto. Hay modelos más lentos y platos más pequeños.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Remle · Motor giraplatos de microondas 5/6 rpm",
+          "url": "https://remle.com/en/recambios-linea-blanca/productos-para-microondas/motor-giraplatos-microondas-5-6-rpm323-55-0214.html",
+          "fact": "Motor de repuesto para el plato del microondas: 5/6 r/min a 30 V de corriente alterna."
+        }
+      ],
+      "reasoning": {
+        "heading": "Vueltas lentas, kilómetros sorprendentes",
+        "steps": [
+          "El plato gira despacio, unas pocas vueltas por minuto. Parece que no va a ninguna parte.",
+          "Diez minutos al día son unas 50 vueltas; en un año, unas 18.000. Cada vuelta del borde es casi un metro: salen más de 15 km.",
+          "Con 5 r/min y un plato de 30 cm, el borde recorre 17,2 km al año: un medio maratón y pico sin salir del electrodoméstico."
+        ]
+      }
+    }
+  ]
+}

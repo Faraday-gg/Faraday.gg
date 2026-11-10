@@ -1,0 +1,123 @@
+{
+  "id": "2026-11-04",
+  "name": "Miércoles",
+  "theme": "GPS, Penny Black y 9 de Julio",
+  "questions": [
+    {
+      "id": "archivo-2026-11-04-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Señal con prisa",
+      "title": "¿Cuántos milisegundos tarda en llegar a tu móvil la señal de un satélite GPS?",
+      "detail": "Pon el satélite justo encima de tu cabeza, a su altitud orbital, y deja que la señal viaje a la velocidad de la luz. Ignora la atmósfera, los edificios y el túnel en el que siempre se pierde el navegador.",
+      "unit": "ms",
+      "answer": 67.37994723002672,
+      "math": "Los satélites GPS orbitan a unos 20.200 km. La luz viaja a 299.792.458 m/s. 20.200.000 ÷ 299.792.458 ≈ 0,0674 s, unos 67,4 milisegundos.",
+      "referenceExpression": "20200000 ÷ 299792458 × 1000",
+      "assumptions": "Satélite en la vertical exacta y propagación en el vacío. Un satélite cerca del horizonte está bastante más lejos y la señal tarda más.",
+      "confidence": "Dato oficial + física",
+      "sources": [
+        {
+          "title": "GPS.gov · Space Segment",
+          "url": "https://www.gps.gov/space-segment",
+          "fact": "Los satélites GPS vuelan en órbita media a una altitud aproximada de 20.200 km."
+        },
+        {
+          "title": "Wikipedia · Speed of light",
+          "url": "https://en.wikipedia.org/wiki/Speed_of_light",
+          "fact": "La velocidad de la luz en el vacío es exactamente 299.792.458 m/s."
+        }
+      ],
+      "reasoning": {
+        "heading": "Distancia entre la velocidad más rápida que existe",
+        "steps": [
+          "La luz recorre unos 300.000 km cada segundo. Los satélites GPS están bastante más altos que la Estación Espacial, a unas decenas de miles de km.",
+          "Si estuviera a 20.000 km, la señal tardaría 20.000 ÷ 300.000 = 1/15 de segundo, unos 67 milisegundos.",
+          "Con 20.200 km y la velocidad exacta de la luz salen 67,4 ms. Parece poco, pero un error de un solo microsegundo en el reloj ya te desplaza unos 300 metros en el mapa."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-04-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Sello a sello",
+      "title": "¿Cuántos campos de fútbol cubrirían todos los Penny Black impresos, el primer sello del mundo?",
+      "detail": "Coloca uno junto a otro, sin márgenes, todos los Penny Black que se imprimieron. Cada sello mide 3/4 × 7/8 de pulgada (19,05 × 22,225 mm) y el campo es de 105 × 68 m. Prohibido lamerlos.",
+      "unit": "campos",
+      "answer": 4.080162617647059,
+      "math": "Se imprimieron 68.808.000 sellos de 19,05 × 22,225 mm, unos 0,000423 m² cada uno: 29.132 m² en total. Un campo de 105 × 68 m mide 7.140 m². 29.132 ÷ 7.140 ≈ 4,1 campos.",
+      "referenceExpression": "68808000 × 0,01905 × 0,022225 ÷ (105 × 68)",
+      "assumptions": "Sellos juntos, sin márgenes entre ellos. Campo de 105 × 68 m, dentro de las medidas que permite el reglamento.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Penny Black",
+          "url": "https://en.wikipedia.org/wiki/Penny_Black",
+          "fact": "La tirada total fue de 286.700 hojas con 68.808.000 sellos; Rowland Hill fijó unas medidas de 3/4 de pulgada de ancho por 7/8 de alto."
+        },
+        {
+          "title": "IFAB · Reglas de Juego, regla 1",
+          "url": "https://www.theifab.com/laws/latest/the-field-of-play/",
+          "fact": "En partidos internacionales, la línea de banda mide entre 100 y 110 m y la de meta, entre 64 y 75 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-04-2.jpg",
+        "alt": "Carta antigua dirigida a Londres con un Penny Black negro, con el perfil de la reina Victoria, en la esquina superior derecha",
+        "credit": "Vijinvenu",
+        "url": "https://commons.wikimedia.org/wiki/File:Penny_Black_with_card.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Diminuto, pero por millones",
+        "steps": [
+          "Un sello es del tamaño de una uña: unos 2 × 2 cm, 4 cm². Del primer sello se imprimieron decenas de millones; digamos 70 millones.",
+          "70 millones × 4 cm² son 280 millones de cm², 28.000 m². Un campo de fútbol tiene unos 7.000 m²: unos 4 campos.",
+          "Con los 68.808.000 sellos y sus 19,05 × 22,225 mm salen 29.132 m²: 4,1 campos de 105 × 68 m alfombrados con la cara de la reina Victoria."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-04-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Avenida porteña",
+      "title": "¿Cuántos taxis en fila cabrían en un carril de la avenida 9 de Julio de Buenos Aires?",
+      "detail": "Una fila de taxis negros y amarillos de punta a punta de la avenida, en un solo carril. Cada taxi mide 4,5 m y deja 30 cm hasta el siguiente. Los semáforos, por una vez, no importan.",
+      "unit": "taxis",
+      "answer": 708.3333333333334,
+      "math": "La avenida 9 de Julio mide 3,4 km. Cada taxi ocupa 4,5 + 0,3 = 4,8 m. 3.400 ÷ 4,8 ≈ 708 taxis.",
+      "referenceExpression": "3400 ÷ (4,5 + 0,3)",
+      "assumptions": "Taxi de 4,5 m y 30 cm de separación como supuestos del modelo. Los cruces también cuentan como carril.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Avenida 9 de Julio",
+          "url": "https://en.wikipedia.org/wiki/Avenida_9_de_Julio",
+          "fact": "Mide 3,4 km de largo y 110 m de ancho, con hasta siete carriles por sentido; se la describe como la avenida más ancha del mundo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-11-04-3.jpg",
+        "alt": "Cruce de la avenida 9 de Julio de Buenos Aires, con muchos carriles, pasos de cebra, coches y un taxi negro y amarillo",
+        "credit": "Barcex · Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:Buenos_Aires_-_Monserrat_-_Avenida_9_de_Julio_-_20090829c.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Largo de la avenida entre largo del taxi",
+        "steps": [
+          "La avenida es famosa por lo ancha, pero a lo largo cruza solo unos pocos kilómetros del centro de Buenos Aires; digamos 3.",
+          "Un taxi con su hueco ocupa unos 5 m: 3.000 ÷ 5 = 600 taxis.",
+          "Con los 3,4 km reales y 4,8 m por taxi salen 708. Con siete carriles por sentido, la avenida entera se tragaría casi 10.000 taxis."
+        ]
+      }
+    }
+  ]
+}

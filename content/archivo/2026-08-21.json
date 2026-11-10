@@ -1,0 +1,112 @@
+{
+  "id": "2026-08-21",
+  "name": "Viernes",
+  "theme": "Colibrí, avestruz y Transiberiano",
+  "questions": [
+    {
+      "id": "archivo-2026-08-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Corazón a mil",
+      "title": "¿Cuántas veces late el corazón de un colibrí mientras suena Despacito?",
+      "detail": "La versión original de la canción, de principio a fin, con el colibrí despierto y a 1.200 latidos por minuto. Pasito a pasito no: a toda velocidad.",
+      "unit": "latidos",
+      "answer": 4540,
+      "math": "Despacito dura 3:47, es decir, 227 segundos. A 1.200 latidos por minuto: 1.200 × 227 ÷ 60 = 4.540 latidos.",
+      "referenceExpression": "1.200 × 227 ÷ 60",
+      "assumptions": "Usamos 1.200 latidos por minuto, cerca del máximo medido de 1.260 y por encima de los 1.000 diurnos. La duración es la de la canción (3:47); el videoclip es más largo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Hummingbird",
+          "url": "https://en.wikipedia.org/wiki/Hummingbird",
+          "fact": "La frecuencia cardiaca de los colibríes puede llegar a 1.260 latidos por minuto (colibrí gorjiazul); de día supera los 1.000."
+        },
+        {
+          "title": "Wikipedia · Despacito",
+          "url": "https://en.wikipedia.org/wiki/Despacito",
+          "fact": "La canción dura 3 minutos y 47 segundos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Latidos por canción",
+        "steps": [
+          "El corazón de un colibrí late unas veinte veces por segundo, y la canción dura casi cuatro minutos. Saldrán miles de latidos.",
+          "1.000 latidos por minuto × 4 minutos = 4.000. El orden de magnitud son unos pocos miles.",
+          "Con 1.200 latidos por minuto y 3:47 de canción salen 4.540 latidos. Tu corazón, en ese tiempo, apenas llega a 300."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Tortilla gigante",
+      "title": "¿Para cuántas tortillas de patatas de seis huevos daría un solo huevo de avestruz?",
+      "detail": "Un huevo de avestruz medio contra huevos de gallina de 60 gramos, y tortillas de seis huevos. Con o sin cebolla, el debate sigue abierto.",
+      "unit": "tortillas",
+      "answer": 3.888888888888889,
+      "math": "Un huevo de avestruz pesa de media 1,4 kg (1.400 g). Entre 60 g por huevo de gallina son 23,3 huevos; entre 6 huevos por tortilla ≈ 3,9 tortillas.",
+      "referenceExpression": "1.400 ÷ 60 ÷ 6",
+      "assumptions": "Huevo de gallina de 60 g, dentro de la talla M europea (53-63 g). Comparamos el peso entero del huevo, cáscara incluida, en los dos casos; la del avestruz es más gruesa, así que en la sartén rendiría algo menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Common ostrich",
+          "url": "https://en.wikipedia.org/wiki/Common_ostrich",
+          "fact": "Los huevos de avestruz miden de media 15 × 13 cm y pesan 1,4 kg, más de 20 veces un huevo de gallina."
+        },
+        {
+          "title": "Wikipedia · Chicken egg sizes",
+          "url": "https://en.wikipedia.org/wiki/Chicken_egg_sizes",
+          "fact": "En la UE, la talla M va de 53 a 63 g y la L de 63 a 73 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Huevos de gallina en un huevo gigante",
+        "steps": [
+          "Un huevo de avestruz es como un balón pequeño. Debe de equivaler a un par de docenas de huevos normales.",
+          "24 huevos ÷ 6 = 4 tortillas. El orden de magnitud: unas pocas tortillas, no decenas.",
+          "Con 1,4 kg y huevos de 60 g salen 23,3 huevos: 3,9 tortillas. Casi cuatro, y una sartén muy grande para batirlo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Atracón sobre raíles",
+      "title": "¿Cuántas veces podrías ver todas las temporadas de Friends durante el viaje del Transiberiano de Moscú a Vladivostok?",
+      "detail": "Del andén de Moscú al Pacífico en el tren Rossiya, viendo Friends sin parar: 236 capítulos de 22 minutos. ¿Cómo estás? Pues en Siberia.",
+      "unit": "veces",
+      "answer": 2.0084745762711864,
+      "math": "El horario del Rossiya da 7 días, 5 h y 48 min: 173,8 horas. Friends tiene 236 capítulos de unos 22 minutos: 5.192 min ≈ 86,5 horas. 173,8 ÷ 86,5 ≈ 2,0 veces.",
+      "referenceExpression": "(7 × 24 + 5 + 48 ÷ 60) ÷ (236 × 22 ÷ 60)",
+      "assumptions": "Horario del tren 002 consultado en noviembre de 2026; cambia según el año. Capítulos de 22 minutos (la media es de 22-23); los dobles cuentan por dos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Russian Rail · Rossiya Train (002)",
+          "url": "https://www.russianrail.com/train/rossiya",
+          "fact": "El tren Rossiya cubre 9.259 km entre Moscú y Vladivostok; el horario da 7 días, 5 horas y 48 minutos (consultado en noviembre de 2026)."
+        },
+        {
+          "title": "Wikipedia · List of Friends episodes",
+          "url": "https://en.wikipedia.org/wiki/List_of_Friends_episodes",
+          "fact": "Friends tiene 10 temporadas y 236 episodios, de 22-23 minutos de media."
+        }
+      ],
+      "reasoning": {
+        "heading": "Horas de tren entre horas de serie",
+        "steps": [
+          "Una semana de tren son unas 170 horas. Diez temporadas de una comedia de media hora parecen muchas, pero se quedan en unas decenas de horas.",
+          "236 × 20 min ≈ 80 horas. 170 ÷ 80 ≈ 2. Da para la serie entera más de una vez.",
+          "Con 173,8 horas de tren y 86,5 de serie salen 2,0 veces justas. Llegas al Pacífico cuando Rachel se baja del avión por segunda vez."
+        ]
+      }
+    }
+  ]
+}

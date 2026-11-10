@@ -1,0 +1,112 @@
+{
+  "id": "2026-10-14",
+  "name": "Miércoles",
+  "theme": "Cachalote, Atenas 1896 y lingotes",
+  "questions": [
+    {
+      "id": "archivo-2026-10-14-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Ascensor abisal",
+      "title": "¿Cuántos minutos tarda un cachalote en bajar a 1.000 metros de profundidad?",
+      "detail": "Toma aire, cierra los ojos (es un decir) y se lanza a cazar calamares en la oscuridad. Supón un descenso recto hacia abajo a la velocidad media medida con marcas electrónicas.",
+      "unit": "minutos",
+      "answer": 11.49425287356322,
+      "math": "Los cachalotes marcados descendían a 1,45 m/s de media. 1.000 ÷ 1,45 ≈ 690 s. 690 ÷ 60 ≈ 11,5 minutos.",
+      "referenceExpression": "1000 ÷ 1,45 ÷ 60",
+      "assumptions": "Descenso vertical a velocidad constante. La velocidad medida es la del animal a lo largo de su trayectoria, que no siempre es vertical, y varía de unos cachalotes a otros (±0,19 m/s).",
+      "confidence": "Dato científico + modelo",
+      "sources": [
+        {
+          "title": "Miller et al., Journal of Experimental Biology 2004 · Europe PMC",
+          "url": "https://europepmc.org/abstract/MED/15107448",
+          "fact": "Velocidad media de descenso de 1,45 ± 0,19 m/s, más lenta que la de ascenso (1,63 ± 0,22 m/s), en 23 cachalotes con marcas digitales."
+        }
+      ],
+      "reasoning": {
+        "heading": "Profundidad entre velocidad de buceo",
+        "steps": [
+          "Un cachalote es enorme pero no es un torpedo. Si nadara hacia abajo a un ritmo de paseo rápido, digamos 1,5 m/s, ya vale como primera apuesta.",
+          "A 1,5 m/s, 1.000 m son unos 670 segundos, algo más de 11 minutos. El orden es de diez minutos, no de uno ni de una hora.",
+          "Con los 1,45 m/s medidos salen 11,5 minutos. Como bajan en ángulo y cada animal tiene su ritmo, en la práctica serían entre 10 y 13 minutos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-14-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Olimpiadas que crecen",
+      "title": "¿Cuántas veces más atletas compitieron en París 2024 que en Atenas 1896?",
+      "detail": "En 1896 todos los atletas eran hombres y cabían en unas pocas fotos. Compara el total de atletas de los primeros Juegos modernos con los de París 2024.",
+      "unit": "veces",
+      "answer": 44.45643153526971,
+      "math": "En Atenas 1896 compitieron 241 atletas y en París 2024, 10.714. 10.714 ÷ 241 ≈ 44,5 veces más.",
+      "referenceExpression": "10714 ÷ 241",
+      "assumptions": "Solo atletas participantes, sin entrenadores ni oficiales. La cifra de 1896 está discutida entre historiadores porque no se conservan listas completas.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · 1896 Summer Olympics",
+          "url": "https://en.wikipedia.org/wiki/1896_Summer_Olympics",
+          "fact": "241 atletas, todos hombres; la propia cifra está discutida."
+        },
+        {
+          "title": "Wikipedia · 2024 Summer Olympics",
+          "url": "https://en.wikipedia.org/wiki/2024_Summer_Olympics",
+          "fact": "10.714 atletas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Unos cientos contra unos miles",
+        "steps": [
+          "Los primeros Juegos modernos fueron casi una reunión de amigos: unos pocos centenares de atletas, pongamos 250.",
+          "Los Juegos actuales rondan los 10.000 atletas. 10.000 entre 250 dan 40 veces.",
+          "Con 241 y 10.714 salen 44,5 veces. La cifra de 1896 es incierta: cada diez atletas de más o de menos en Atenas mueven el resultado casi dos puntos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-14-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Equipaje dorado",
+      "title": "¿Cuántos lingotes de oro de 12,4 kg caben en una maleta de cabina?",
+      "detail": "La maleta de cabina con las medidas que recomienda la IATA, llena de lingotes estándar de los que guardan los bancos centrales. Ten en cuenta que ruedas, asa, carcasa y huecos entre lingotes se comen parte del espacio. Lo que no cabe es en el límite de peso de la aerolínea.",
+      "unit": "lingotes",
+      "answer": 63.736693548387095,
+      "math": "La IATA recomienda como máximo 56 × 45 × 25 cm, que son 63 L. Si solo se aprovecha el 65 % para el oro, quedan unos 41 L. El oro pesa 19,3 kg por litro: 41 × 19,3 ≈ 790 kg. 790 ÷ 12,4 ≈ 64 lingotes.",
+      "referenceExpression": "56 × 45 × 25 ÷ 1000 × 0,65 × 19,3 ÷ 12,4",
+      "assumptions": "Las medidas de la IATA son exteriores e incluyen ruedas y asas; se supone que el 65 % de ese volumen queda útil para el oro, contando los huecos entre lingotes trapezoidales. Lingotes «Good Delivery» de 400 onzas (unos 12,4 kg). La maleta pesaría casi 800 kg: imposible de levantar, y no digamos de meter en el compartimento.",
+      "confidence": "Dato físico + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Hand luggage",
+          "url": "https://en.wikipedia.org/wiki/Hand_luggage",
+          "fact": "La IATA recomienda un tamaño máximo de equipaje de mano de 56 × 45 × 25 cm, incluidas ruedas, asas y bolsillos."
+        },
+        {
+          "title": "Wikipedia · Gold",
+          "url": "https://en.wikipedia.org/wiki/Gold",
+          "fact": "El oro tiene una densidad de 19,3 g/cm³."
+        },
+        {
+          "title": "Wikipedia · Gold bar",
+          "url": "https://en.wikipedia.org/wiki/Gold_bar",
+          "fact": "El lingote «Good Delivery» tiene un peso nominal de 400 onzas troy, unos 12,4 kg (entre 350 y 430 onzas)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros de maleta por kilos de oro",
+        "steps": [
+          "Un lingote de 12 kg es pequeño: el oro es tan denso que cabe en la palma de dos manos, algo más de medio litro. En una maleta caben decenas.",
+          "Si la maleta tiene unos 40 litros útiles y cada lingote ocupa unos 0,65 L, salen unos 60 lingotes. El orden es de decenas, no de centenares.",
+          "Con 63 L exteriores de la IATA, el 65 % aprovechable y 19,3 kg por litro salen unos 64 lingotes y casi 800 kg. Si la maleta es más blanda o los huecos son menores, podrían entrar unos cuantos más."
+        ]
+      }
+    }
+  ]
+}

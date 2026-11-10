@@ -6,9 +6,13 @@ const prettyDate = (id) => new Intl.DateTimeFormat('es-ES',{day:'numeric',month:
 const dateParts = Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).map(part=>[part.type,part.value]));
 let todayKey = window.DAILY_CALENDAR?.date || `${dateParts.year}-${dateParts.month}-${dateParts.day}`;
 let currentDay = DAYS.find(day=>day.id===todayKey) || null;
+const FIRST_DAY = window.DAILY_CALENDAR?.first || '2026-08-09';
+const editionNumber = (id) => Math.round((Date.parse(id+'T12:00:00Z')-Date.parse(FIRST_DAY+'T12:00:00Z'))/86400000)+1;
+const categoriesOf = (day) => day.categories || (day.questions||[]).map(q=>q.category);
+const icons = (day, className) => categoriesOf(day).map(key=>window.categoryIcon?.(key,className)||'').join('');
+const loadedDays = new Map();
 let activeDay = currentDay;
 let activeIndex = 0;
-let showingResult = false;
 let toastTimer;
 const sessionGuesses = new Map();
 const sessionWorkspaces = new Map();
@@ -33,25 +37,71 @@ function art(kind){
 }
 function renderWeek(){
   $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
-  $('.section-kicker').textContent=currentDay?'RETO DE HOY':'NUEVA EDICIÓN EN PREPARACIÓN';
-  ['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).disabled=!currentDay);
+  $('.section-kicker').textContent=currentDay?'RETO Nº '+editionNumber(todayKey):'NUEVA EDICIÓN EN PREPARACIÓN';
+  document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
   if(!currentDay)$('#hero-play').textContent='Retos en preparación';
-  $('#week-list').innerHTML=DAYS.map((day,index)=>{
-    const done=getGuesses(day).length===3;
-    return `<button type="button" class="week-item ${day.id===todayKey?'today':''}" data-day="${index}" aria-label="Jugar ${day.name}, ${day.theme}"><span class="week-day">${String(index+1).padStart(2,'0')}</span><strong>${day.name}: ${day.theme}${day.id===todayKey?'<span class="week-badge">HOY</span>':''}${done?'<span class="week-badge">HECHO</span>':''}</strong><span class="week-date">${prettyDate(day.id)}</span><span class="week-arrow">↗</span></button>`;
-  }).join('');
+  const roundsList=$('#hero-rounds');
+  roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
+  roundsList.hidden=!roundsList.innerHTML;
+  renderArchives();
 }
-function openDay(day){activeDay=day;const guesses=getGuesses(day);activeIndex=Math.min(guesses.length,2);showingResult=false;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);$('#game-shell').hidden=false;document.body.classList.add('modal-open');renderGame();$('#game-close').focus()}
-function closeGame(){toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
-function renderGame(){const guesses=getGuesses(activeDay);if(guesses.length===3&&!showingResult)renderSummary();else if(showingResult)renderResult(guesses);else renderQuestion();$('.game-panel').scrollTop=0}
-function topMarkup(){return `<div class="game-top"><span>${activeDay.name.toUpperCase()} · ${prettyDate(activeDay.id).toUpperCase()}</span><span>${activeIndex+1} / 3</span></div><div class="progress-dots" aria-label="Pregunta ${activeIndex+1} de 3">${[0,1,2].map(i=>`<span class="${i<activeIndex?'done':i===activeIndex?'active':''}"></span>`).join('')}</div>`}
-function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${topMarkup()}<span class="question-tag">${q.tag}</span><h2 id="game-title">${q.title}</h2>${questionMedia(q)}<form id="guess-form"><label class="guess-label" for="guess-input">TU ESTIMACIÓN</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Escribe una cifra" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="button button-coral" type="submit">Confirmar respuesta <span aria-hidden="true">↗</span></button></div><p class="answer-sharing">Tu cifra se comparte de forma anónima para comparar estimaciones.</p></form>`;$('#guess-input').focus()}
+async function openDate(id){
+  let day=loadedDays.get(id)||DAYS.find(d=>d.id===id&&d.questions);
+  if(!day){
+    try{const response=await fetch('/api/day?date='+encodeURIComponent(id),{signal:AbortSignal.timeout(8000)});if(!response.ok)throw Error();day=await response.json();loadedDays.set(id,day)}
+    catch{showToast('No se ha podido cargar ese día. Inténtalo de nuevo.');return}
+  }
+  openDay(day);
+}
+// El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
+// Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
+function openDay(day){activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
+function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
+function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
+window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
+function renderGame(){
+  const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
+  const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
+  $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;
+  if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
+  renderBar(guesses);$('.game-panel').scrollTop=0;
+}
+function renderBar(guesses){
+  $('#game-edition').textContent='Nº '+editionNumber(activeDay.id);
+  const steps=activeDay.questions.map((q,i)=>`<button type="button" class="game-step${i<guesses.length?' done':''}" data-step="${i}"${i>guesses.length?' disabled':''}${i===activeIndex?' aria-current="step"':''} aria-label="Pregunta ${i+1}${i<guesses.length?', respondida':''}">${window.categoryIcon?.(q.category,'cat-icon')||''}<span>${i+1}</span></button>`);
+  steps.push(`<button type="button" class="game-step${guesses.length===3?' done':''}" data-step="3"${guesses.length<3?' disabled':''}${activeIndex===3?' aria-current="step"':''}><span>Total</span></button>`);
+  $('#game-steps').innerHTML=steps.join('');
+}
+function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`<h2 id="game-title">${q.title}</h2><form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;$('#guess-input').focus()}
+// Tarjeta de respuesta (decisión 0012): solo el multiplicador, tu cifra frente a la real y la distribución.
+// La pregunta y la explicación no se ven; «Cómo se calcula» abre un panel dentro de la tarjeta.
+const whole=(n)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:n<10?2:0,useGrouping:'always'}).format(n);
+const rounded=(n)=>new Intl.NumberFormat('es-ES',{maximumSignificantDigits:3,useGrouping:'always'}).format(n);
+const times=(f)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:f<10?2:f<100?1:0,useGrouping:'always'}).format(f)+'×';
 function renderResult(guesses){
-  const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer),direction=guess<q.answer?'Te quedaste corto':guess>q.answer?'Te pasaste':'¡Exacto!';
-  $('#game-content').innerHTML=`${topMarkup()}<span class="question-tag">RESULTADO ${activeIndex+1}</span><h2 id="game-title">${q.title}</h2><div class="result-banner"><span class="label">TU DISTANCIA</span><strong>${format(factor)}×</strong><span>${direction}</span></div><div class="answer-grid"><div class="answer-box"><span class="label">TU RESPUESTA</span><strong>${format(guess)}</strong><small>${q.unit}</small></div><div class="answer-box"><span class="label">REFERENCIA</span><strong>≈ ${format(q.answer)}</strong><small>${q.unit}</small></div></div>${populationMarkup(q)}${reasoningMarkup(q)}${sourceMarkup(q)}<p class="result-comment">Cuanto más cerca de 1×, mejor. Las estimaciones usan las condiciones indicadas en cada reto.</p><button class="button button-dark" id="next-question" type="button">${guesses.length===3?'Ver mi resultado':'Siguiente pregunta'} <span aria-hidden="true">→</span></button>`;
-  loadDistribution(q,guess);$('#next-question').focus()
+  const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer);
+  const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
+  $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
+<div class="verdict verdict-${verdict[0]}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
+<dl class="ledger"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
+${populationMarkup(q)}
+<div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
+<section class="explain-panel" id="explain-panel" hidden aria-label="Cómo se calcula">${explainMarkup(q)}</section>`;
+  animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
 }
-function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<div class="game-top"><span>${activeDay.name.toUpperCase()} · ${prettyDate(activeDay.id).toUpperCase()}</span><span>3 / 3</span></div><div class="progress-dots"><span class="done"></span><span class="done"></span><span class="done"></span></div><span class="question-tag">RETO COMPLETADO</span><h2 id="game-title">¡Casi, casi!</h2><p class="question-detail">Tu distancia media a las tres respuestas fue de:</p><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><p class="result-comment">1× sería un pleno. Tu puntuación es la media de las distancias; cuanto menor, mejor.</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<div class="summary-row"><div><span>${i+1}. ${q.title}</span><button type="button" class="summary-review" data-review-index="${i}">Ver fuentes y distribución ↗</button></div><strong>${format(scores[i])}×</strong></div>`).join('')}</div><div class="summary-actions"><button class="button button-coral" id="share-result" type="button">Compartir resultado ↗</button><button class="button secondary-button" id="another-day" type="button">Ver la semana →</button></div>`;loadDailyDistribution(activeDay,guesses)}
+function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
+// El multiplicador sube desde 1× hasta su valor en escala logarítmica, para que 2× y 961.538× tarden lo mismo.
+function animateTimes(element,factor){
+  if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const start=performance.now(),duration=Math.min(1600,700+Math.log10(factor)*160),end=Math.log10(factor);
+  element.classList.add('counting');
+  const step=now=>{if(!element.isConnected)return;const t=Math.min(1,(now-start)/duration),eased=1-(1-t)**3;element.textContent=times(t<1?10**(end*eased):factor);if(t<1)requestAnimationFrame(step);else element.classList.remove('counting')};
+  element.textContent=times(1);requestAnimationFrame(step);
+  // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
+  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting')){element.textContent=times(factor);element.classList.remove('counting')}},duration+250);
+}
+function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle');if(!panel)return false;open??=panel.hidden;panel.hidden=!open;button.setAttribute('aria-expanded',String(open));$('.game-card').classList.toggle('explaining',open);if(open)panel.scrollTop=0;return true}
+function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>`;loadDailyDistribution(activeDay,guesses)}
 function formatEstimateInput(input){
   const cursor=input.selectionStart??input.value.length;
   const meaningful=input.value.slice(0,cursor).replace(/[^\d,]/g,'').length;
@@ -61,7 +111,7 @@ function formatEstimateInput(input){
   let position=0,count=0;while(position<input.value.length&&count<meaningful){if(/[\d,]/.test(input.value[position]))count++;position++}
   input.setSelectionRange(position,position)
 }
-function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);showingResult=true;renderGame()}
+function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);renderGame()}
 function loadWorkspace(day){
   if(sessionWorkspaces.has(day.id))return sessionWorkspaces.get(day.id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
@@ -71,7 +121,7 @@ function saveWorkspace(){sessionWorkspaces.set(activeDay.id,workspaceData);try{l
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
-function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#game-close')).focus()}
+function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
 function evaluateCalculation(source){
   const expression=source.trim().replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s+/g,'');
   if(!expression||expression.length>100||!/^[\d.+*/()-]+$/.test(expression))throw Error('Operación no válida');
@@ -85,12 +135,30 @@ function calculate(){const source=$('#scratch-expression').value.trim();try{cons
 function pressCalcKey(key){const input=$('#scratch-expression');if(key==='='){calculate();return}const start=input.selectionStart??input.value.length,end=input.selectionEnd??start;if(key==='C'){input.value='';input.focus();input.setSelectionRange(0,0)}else if(key==='⌫'){const from=start===end?Math.max(0,start-1):start;input.setRangeText('',from,end,'end');input.focus()}else{input.setRangeText(key,start,end,'end');input.focus()}$('#scratch-result').textContent='='}
 function insertInNote(text){const input=$('#scratch-note'),start=input.selectionStart??input.value.length,end=input.selectionEnd??start;input.setRangeText(text,start,end,'end');input.focus();workspaceData.note=input.value;saveWorkspace()}
 function showToast(message){const toast=$('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
-async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Casi Casi · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado de Casi Casi',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
+async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
+// Menú hamburguesa del juego (decisión 0016): reto de hoy, volver al inicio y el archivo para saltar a otro día.
+const menuArchive=createArchive($('#menu-archive'),{compact:true});
+window.openArchiveDay=(id)=>{toggleMenu(false);openDate(id)};
+function menuOpen(){return document.body.classList.contains('menu-open')}
+function toggleMenu(open=!menuOpen()){
+  if(open===menuOpen())return;
+  const drawer=$('#menu-drawer'),toggle=$('#menu-toggle');
+  document.body.classList.toggle('menu-open',open);drawer.setAttribute('aria-hidden',String(!open));drawer.inert=!open;
+  toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+  if(open){
+    $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
+    if(activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
+    setTimeout(()=>drawer.querySelector('.menu-link:not(:disabled)')?.focus(),60);
+  }else if(!$('#game-shell').hidden)toggle.focus();
+}
+createArchive($('#home-archive'));
 renderWeek();
-['#header-play','#hero-play','#bottom-play'].forEach(selector=>$(selector).addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
-$('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-day]');if(button)openDay(DAYS[Number(button.dataset.day)])});
-$('#game-close').addEventListener('click',closeGame);
+document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
+$('#menu-toggle').addEventListener('click',()=>toggleMenu());
+document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
+$('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
+$('#menu-home').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
 $('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});
 $('#scratch-expression').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();calculate()}});
@@ -101,11 +169,11 @@ $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
 $('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
 $('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
 $('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
-$('#game-shell').addEventListener('click',event=>{if(event.target.classList.contains('game-backdrop'))closeGame()});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('#game-shell').hidden){if(!$('#workspace-panel').hidden)toggleWorkspace(false);else closeGame()}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});
-$('#game-content').addEventListener('click',event=>{const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='next-question'){showingResult=false;activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day'){closeGame();$('#semana').scrollIntoView({behavior:'smooth'})}});
+$('#game-content').addEventListener('click',event=>{const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame()});
+$('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
-$('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);showingResult=true;renderGame()}});
+$('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});

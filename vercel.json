@@ -9,6 +9,6 @@
     { "source": "/api/:route", "destination": "/api?route=:route" }
   ],
   "functions": {
-    "api/index.mjs": { "includeFiles": "dist/questions.json" }
+    "api/index.mjs": { "includeFiles": "{dist/questions.json,content/archivo/*.json}" }
   }
 }

@@ -1,0 +1,107 @@
+{
+  "id": "2026-08-18",
+  "name": "Martes",
+  "theme": "Venus, Beatles y Popocatépetl",
+  "questions": [
+    {
+      "id": "archivo-2026-08-18-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Día interminable",
+      "title": "¿Cuántas horas dura un día sideral de Venus?",
+      "detail": "Mide lo que tarda Venus en girar sobre sí mismo una vez respecto a las estrellas, no de amanecer a amanecer. Spoiler: gira al revés.",
+      "unit": "horas",
+      "answer": 5832.6,
+      "math": "NASA da para Venus un período de rotación sideral de −5.832,6 horas (el signo indica giro retrógrado): unos 243 días terrestres.",
+      "referenceExpression": "5832,6",
+      "assumptions": "Tomamos el valor absoluto del período sideral. El día solar de Venus, de amanecer a amanecer, es más corto: 2.802 horas.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "NASA · Venus Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/venusfact.html",
+          "fact": "Período de rotación sideral: −5.832,6 horas; duración del día: 2.802,0 horas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Venus gira despacísimo",
+        "steps": [
+          "Venus es famoso por girar tan lento que su día es más largo que su año. Su año dura unos 225 días terrestres, así que la rotación debe superar esa cifra.",
+          "Si da una vuelta en unos 240 días, en horas son 240 × 24 ≈ 5.800.",
+          "NASA da 5.832,6 horas, unos 243 días. Como gira al revés, el Sol sale por el oeste y un día solar dura «solo» 2.802 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-18-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de Liverpool",
+      "title": "¿Cuántas horas tardarías en escuchar toda la discografía de estudio de los Beatles?",
+      "detail": "Escucha seguidos los 13 discos de estudio de los Beatles y el recopilatorio Past Masters, tal como salieron en la caja remasterizada de 2009. Sin saltar canciones, ni siquiera Revolution 9.",
+      "unit": "horas",
+      "answer": 10.325833333333334,
+      "math": "La caja estéreo de 2009, con todos los álbumes de los Beatles, dura 10 h 19 min 33 s. En horas: 10 + 19 ÷ 60 + 33 ÷ 3.600 ≈ 10,33 horas.",
+      "referenceExpression": "10 + 19 ÷ 60 + 33 ÷ 3600",
+      "assumptions": "Contamos la discografía oficial publicada mientras existió el grupo, que reúne 213 canciones del catálogo principal. La caja incluye la banda sonora orquestal de Yellow Submarine y alguna canción repetida, y deja fuera los directos y las grabaciones publicadas después.",
+      "confidence": "Dato documentado + conversión",
+      "sources": [
+        {
+          "title": "Wikipedia · List of songs recorded by the Beatles",
+          "url": "https://en.wikipedia.org/wiki/List_of_songs_recorded_by_the_Beatles",
+          "fact": "El catálogo principal consta de 213 canciones: 188 originales y 25 versiones."
+        },
+        {
+          "title": "Wikipedia · The Beatles Stereo Box Set",
+          "url": "https://en.wikipedia.org/wiki/The_Beatles_Stereo_Box_Set",
+          "fact": "La caja con todos los álbumes de la discografía (13 discos de estudio y Past Masters) dura 10:19:33."
+        }
+      ],
+      "reasoning": {
+        "heading": "Canciones cortas, catálogo largo",
+        "steps": [
+          "Los Beatles grabaron unas 200 canciones y casi todas duran menos de tres minutos. 200 × 3 minutos son 600 minutos: unas 10 horas.",
+          "213 canciones a 2,8 minutos de media dan 596 minutos, casi exactamente 10 horas.",
+          "La caja completa dura 10 h 19 min 33 s: 10,33 horas. Te cabe en un vuelo de Madrid a Nueva York con escala, y te sobra para cantar Hey Jude dos veces."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-18-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Torre de móviles",
+      "title": "¿Cuántos iPhone tumbados uno sobre otro alcanzarían la cima del Popocatépetl?",
+      "detail": "Apila iPhone 17, de 7,95 mm de grosor, desde el nivel del mar hasta la cima del volcán mexicano. Sin funda, que engorda.",
+      "unit": "iPhone",
+      "answer": 680880.5031446541,
+      "math": "El Popocatépetl alcanza 5.413 m sobre el nivel del mar. Un iPhone 17 mide 7,95 mm de grosor (0,00795 m): 5.413 ÷ 0,00795 ≈ 680.881 iPhone.",
+      "referenceExpression": "5413 ÷ 0,00795",
+      "assumptions": "Contamos desde el nivel del mar, no desde la base del volcán. La altitud del Popocatépetl varía según la fuente (5.400 a 5.450 m) y cambia con la actividad del cráter.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Popocatépetl",
+          "url": "https://es.wikipedia.org/wiki/Popocat%C3%A9petl",
+          "fact": "Altitud de 5.413 m sobre el nivel del mar (carta topográfica del INEGI, 2012)."
+        },
+        {
+          "title": "Apple · iPhone 17 · Especificaciones técnicas",
+          "url": "https://www.apple.com/iphone-17/specs/",
+          "fact": "Grosor: 7,95 mm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Milímetros contra montaña",
+        "steps": [
+          "Un móvil mide menos de un centímetro de grosor, así que cada metro de volcán pide más de cien móviles.",
+          "Con unos 8 mm por móvil salen 125 por metro. 5.400 m × 125 dan unos 675.000 iPhone.",
+          "Con los 5.413 m del INEGI y los 7,95 mm de Apple salen 680.881 iPhone. Una torre de más de cinco kilómetros de pantallas, y sin cobertura arriba."
+        ]
+      }
+    }
+  ]
+}

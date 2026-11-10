@@ -1,0 +1,102 @@
+{
+  "id": "2026-08-13",
+  "name": "Jueves",
+  "theme": "Donuts, Copacabana y Cleopatra",
+  "questions": [
+    {
+      "id": "archivo-2026-08-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Galletas por segundo",
+      "title": "¿Cuántas galletas Oreo se fabrican en el mundo cada segundo?",
+      "detail": "Reparte la producción anual de Oreo entre todos los segundos del año, sin parar las fábricas ni de noche. Mojarlas en leche, por tu cuenta.",
+      "unit": "galletas/s",
+      "answer": 1267.523512561158,
+      "math": "En 2017 se fabricaban más de 40.000 millones de Oreo al año. Un año tiene 365,25 × 24 × 3.600 ≈ 31.557.600 segundos: 40.000.000.000 ÷ 31.557.600 ≈ 1.268 galletas por segundo.",
+      "referenceExpression": "40000000000 ÷ (365,25 × 24 × 3600)",
+      "assumptions": "Usamos la cifra de producción de 2017 (ficha de Mondelez citada por Wikipedia) y una producción repartida por igual en el año. La cifra es un mínimo («más de») y puede haber crecido desde entonces.",
+      "confidence": "Dato documentado con fecha + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Oreo",
+          "url": "https://en.wikipedia.org/wiki/Oreo",
+          "fact": "En 2017 se fabricaban más de 40.000 millones de galletas Oreo al año en 18 países (ficha de Mondelez International)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del año al segundo",
+        "steps": [
+          "Oreo es la galleta más vendida del mundo: piensa en decenas de miles de millones al año.",
+          "Un año tiene unos 31,5 millones de segundos. 30.000 millones entre 31,5 millones ya dan casi 1.000 por segundo.",
+          "Con los 40.000 millones de 2017 salen 1.268 galletas por segundo: en lo que tardas en separar las dos tapas, el mundo ha hecho otro millar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Sombrilla con vistas",
+      "title": "¿Cuántas sombrillas cabrían en la arena de la playa de Copacabana?",
+      "detail": "Llena de sombrillas toda la arena de Copacabana, en Río de Janeiro, dejando 9 m² para cada una (sombrilla, toallas y un hueco para la caipiriña).",
+      "unit": "sombrillas",
+      "answer": 29972.222222222223,
+      "math": "La playa tiene unos 4,15 km de paseo y una franja de arena de 30 a 100 m. Con un ancho medio de 65 m: 4.150 × 65 ≈ 269.750 m². Entre 9 m² por sombrilla, unas 29.972 sombrillas.",
+      "referenceExpression": "4150 × 65 ÷ 9",
+      "assumptions": "Tomamos el punto medio del ancho de la arena (65 m) y 9 m² por sombrilla, un cuadrado de 3 × 3 m. Las fuentes dan entre 4,15 y 4,5 km de largo, y el ancho cambia con la marea y la temporada.",
+      "confidence": "Dato documentado + geometría",
+      "sources": [
+        {
+          "title": "Wikipedia (portugués) · Praia de Copacabana",
+          "url": "https://pt.wikipedia.org/wiki/Praia_de_Copacabana",
+          "fact": "Extensión del paseo marítimo: 4,15 km; franja de arena de 30 a 100 m de ancho."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un rectángulo de arena",
+        "steps": [
+          "Copacabana es una media luna de unos 4 km. Si tuviera 50 m de ancho, serían 200.000 m² de arena.",
+          "Con 9 m² por sombrilla, 200.000 m² dan unas 22.000. Con algo más de ancho, la respuesta ronda las decenas de miles.",
+          "Con 4,15 km de largo y 65 m de ancho medio salen 269.750 m² y 29.972 sombrillas: casi 30.000 bajo el sol de Río."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Vecina del futuro",
+      "title": "¿Cuántos años separan la construcción de la Gran Pirámide del reinado de Cleopatra?",
+      "detail": "Mide desde la fecha de construcción de referencia de la Gran Pirámide hasta el inicio del reinado de Cleopatra VII. Las dos son «Antiguo Egipto», pero no eran vecinas.",
+      "unit": "años",
+      "answer": 2549,
+      "math": "La Gran Pirámide se construyó hacia el 2600 a. C. y Cleopatra VII empezó a reinar en el 51 a. C. 2.600 − 51 = 2.549 años.",
+      "referenceExpression": "2600 − 51",
+      "assumptions": "Usamos fechas centrales: la construcción tiene incertidumbre de décadas (la datación por radiocarbono da entre 2620 y 2484 a. C.) y Cleopatra reinó del 51 al 30 a. C.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Pyramid of Giza",
+          "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+          "fact": "Se construyó hacia el 2600 a. C. a lo largo de unos 26 años."
+        },
+        {
+          "title": "Wikipedia · Cleopatra",
+          "url": "https://en.wikipedia.org/wiki/Cleopatra",
+          "fact": "Faraona de Egipto del 51 al 30 a. C."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pon las dos fechas en la misma regla",
+        "steps": [
+          "Las pirámides parecen de la misma época que Cleopatra, pero las separa una eternidad. Si las pirámides tienen unos 4.500 años y Cleopatra unos 2.000, la distancia ronda los 2.500.",
+          "Pirámide hacia el 2600 a. C., Cleopatra a mediados del siglo I a. C.: restando, unos 2.550 años.",
+          "Con 2600 y 51 a. C., la diferencia es de 2.549 años. Cleopatra vivió más cerca de nuestro tiempo (unos 2.076 años) que de la construcción de la Gran Pirámide."
+        ]
+      }
+    }
+  ]
+}

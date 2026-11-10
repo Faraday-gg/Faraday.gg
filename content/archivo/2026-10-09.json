@@ -1,0 +1,112 @@
+{
+  "id": "2026-10-09",
+  "name": "Viernes",
+  "theme": "Mundiales, ascensor y Vía Láctea",
+  "questions": [
+    {
+      "id": "archivo-2026-10-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Gol tras gol",
+      "title": "Si todos los goles de la historia de los Mundiales se marcaran seguidos, uno por minuto, ¿cuántas horas duraría la fiesta?",
+      "detail": "Todos los goles de las fases finales de los Mundiales masculinos, de Uruguay 1930 a Norteamérica 2026, sin contar tandas de penaltis. Un gol por minuto, sin descanso ni VAR.",
+      "unit": "horas",
+      "answer": 50.46666666666667,
+      "math": "Hasta Qatar 2022 se habían marcado 2.548 goles en los Mundiales. Qatar 2022 sumó 172 y el Mundial de 2026, 308. Total: 2.548 + 172 + 308 = 3.028 goles. A uno por minuto: 3.028 ÷ 60 ≈ 50,5 horas.",
+      "referenceExpression": "(2548 + 172 + 308) ÷ 60",
+      "assumptions": "Contamos solo goles en partidos, no los de las tandas de penaltis, como hacen las estadísticas oficiales. Datos hasta el Mundial de 2026, que terminó el 19 de julio.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "NBC Chicago · How Many Goals Have Been Scored in World Cup History? (18 de noviembre de 2022)",
+          "url": "https://www.nbcchicago.com/news/local/how-many-goals-have-been-scored-in-world-cup-history/3000761/?amp=1",
+          "fact": "Antes de Qatar 2022 se habían marcado en total 2.548 goles en los Mundiales."
+        },
+        {
+          "title": "Wikipedia · 2022 FIFA World Cup",
+          "url": "https://en.wikipedia.org/wiki/2022_FIFA_World_Cup",
+          "fact": "64 partidos y 172 goles (2,69 por partido)."
+        },
+        {
+          "title": "Wikipedia · 2026 FIFA World Cup",
+          "url": "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+          "fact": "104 partidos y 308 goles (2,96 por partido); terminó el 19 de julio."
+        }
+      ],
+      "reasoning": {
+        "heading": "Unos 3.000 goles, 60 por hora",
+        "steps": [
+          "Se han jugado 23 Mundiales y cada uno deja entre 70 y 300 goles: en total, unos pocos miles.",
+          "3.000 goles a uno por minuto son 3.000 minutos: 50 horas.",
+          "Con 3.028 goles salen 50,5 horas: más de dos días seguidos gritando «¡gol!». La garganta, de baja."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Subida exprés",
+      "title": "¿A cuántos pisos por segundo sube el ascensor más rápido del mundo?",
+      "detail": "El ascensor del CTF Finance Centre de Cantón (China), récord Guinness de velocidad, a su velocidad máxima. Pisos de 3 m. Los oídos se taponan por su cuenta.",
+      "unit": "pisos/s",
+      "answer": 7,
+      "math": "Los ascensores del CTF Finance Centre alcanzan 21 m/s. Con pisos de 3 m: 21 ÷ 3 = 7 pisos por segundo.",
+      "referenceExpression": "21 ÷ 3",
+      "assumptions": "Es la velocidad punta, no la media del viaje: el ascensor tiene que acelerar y frenar. Récord vigente a noviembre de 2026 según las fuentes consultadas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Guangzhou CTF Finance Centre",
+          "url": "https://en.wikipedia.org/wiki/Guangzhou_CTF_Finance_Centre",
+          "fact": "Sus ascensores alcanzan 21 m/s, los más rápidos del mundo; en septiembre de 2019 recibieron el récord Guinness."
+        },
+        {
+          "title": "Wikipedia · Shanghai Tower",
+          "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+          "fact": "Los ascensores de la Shanghai Tower, a 20,5 m/s, tuvieron el récord hasta que los del CTF Finance Centre lo superaron en 2017 con 21 m/s."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los metros por segundo a pisos",
+        "steps": [
+          "Un ascensor normal sube a uno o dos metros por segundo. El más rápido del mundo va como un coche por autovía, a unos 75 km/h.",
+          "75 km/h son unos 20 m/s. Entre 3 m por piso, casi 7 pisos por segundo.",
+          "Con 21 m/s salen 7 pisos por segundo exactos: en lo que tardas en decir «buenos días» ya has subido una docena de plantas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Contar estrellas",
+      "title": "Contando una estrella por segundo, ¿cuántos años tardarías en contar las estrellas de la Vía Láctea?",
+      "detail": "Una estrella cada segundo, sin dormir, sin comer y sin perder la cuenta. Usa la estimación clásica de 100.000 millones de estrellas en nuestra galaxia.",
+      "unit": "años",
+      "answer": 3168.808781402895,
+      "math": "Un año tiene 365,25 × 86.400 = 31.557.600 segundos. 100.000.000.000 ÷ 31.557.600 ≈ 3.169 años.",
+      "referenceExpression": "100000000000 ÷ (365,25 × 86400)",
+      "assumptions": "La cifra de estrellas es una estimación: la ESA habla de unos 100.000 millones y otras estimaciones llegan a 400.000 millones, lo que cuadruplicaría el tiempo.",
+      "confidence": "Estimación científica + modelo",
+      "sources": [
+        {
+          "title": "ESA · How many stars are there in the Universe?",
+          "url": "https://www.esa.int/Science_Exploration/Space_Science/Herschel/How_many_stars_are_there_in_the_Universe",
+          "fact": "Los astrónomos estiman que hay unos 100.000 millones de estrellas solo en la Vía Láctea."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un año son unos 30 millones de segundos",
+        "steps": [
+          "Contar 100.000 millones de cosas suena eterno. La clave es saber cuántos segundos tiene un año: 60 × 60 × 24 × 365.",
+          "Eso da unos 31,5 millones de segundos, digamos 30 millones. 100.000 millones entre 30 millones son unos 3.300 años.",
+          "Con la cuenta exacta salen 3.169 años: habría que empezar antes de la fundación de Roma. Si la galaxia tuviera 400.000 millones de estrellas, serían casi 12.700 años."
+        ]
+      }
+    }
+  ]
+}

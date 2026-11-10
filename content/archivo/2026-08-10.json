@@ -1,0 +1,115 @@
+{
+  "id": "2026-08-10",
+  "name": "Lunes",
+  "theme": "Tostadas, glóbulos y Park Güell",
+  "questions": [
+    {
+      "id": "archivo-2026-08-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Torre de pan tostado",
+      "title": "Si apilaras todas las tostadas que comerás en tu vida, ¿cuántos pisos de altura tendría la torre?",
+      "detail": "Una tostada al día desde los 3 años hasta la esperanza de vida en España, con rebanadas de pan de molde de 12 mm y pisos de 3 m. La mantequilla, por fuera de la torre.",
+      "unit": "pisos",
+      "answer": 118.35561,
+      "math": "La esperanza de vida en España es de 84,01 años (INE, 2024). Desde los 3 años quedan 81,01 años × 365,25 días ≈ 29.589 tostadas. Con 12 mm cada una, la pila mide unos 355 m: entre 3 m por piso, unos 118 pisos.",
+      "referenceExpression": "(84,01 − 3) × 365,25 × 0,012 ÷ 3",
+      "assumptions": "Una tostada diaria y una rebanada de 12 mm (grosor «sándwich»; en el Reino Unido van de 10 a 16 mm). La pila supone pan sin aplastar y pisos de 3 m; con rebanadas gruesas la torre sube por encima de 150 pisos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Movimiento Natural de la Población 2024 (nota de prensa)",
+          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
+        },
+        {
+          "title": "Wikipedia · Sliced bread",
+          "url": "https://en.wikipedia.org/wiki/Sliced_bread",
+          "fact": "En el Reino Unido las rebanadas van de 16 mm a 10 mm; en Australia, 12-13 mm es el grosor «sándwich»."
+        }
+      ],
+      "reasoning": {
+        "heading": "De rebanadas a rascacielos",
+        "steps": [
+          "Unos 80 años de desayunos son casi 30.000 mañanas. Si cada tostada mide un centímetro, la pila ya pasa de 300 m.",
+          "Una rebanada de pan de molde ronda 1-1,5 cm. 30.000 × 1,2 cm son 360 m, y a 3 m por piso eso es un rascacielos de unos 120 plantas.",
+          "Con los 81,01 años que quedan desde los 3 (INE) salen 29.589 tostadas y 355 m de pan: 118 pisos. Más alta que muchos rascacielos europeos, y crujiente."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Fábrica de glóbulos",
+      "title": "¿Cuántos glóbulos rojos fabrica tu cuerpo mientras dura un partido de fútbol?",
+      "detail": "Cuenta solo los 90 minutos reglamentarios, sin descuento ni descanso, en un adulto sano. La médula ósea no se sienta en el banquillo.",
+      "unit": "glóbulos",
+      "answer": 12960000000,
+      "math": "Un adulto produce unos 2,4 millones de glóbulos rojos por segundo. Un partido tiene 90 × 60 = 5.400 segundos: 2.400.000 × 5.400 ≈ 12.960 millones de glóbulos.",
+      "referenceExpression": "2400000 × 90 × 60",
+      "assumptions": "Usamos el ritmo medio de producción de un adulto en reposo. Cambia con la persona, la altitud o una hemorragia reciente, y aquí no sumamos el descuento ni el descanso.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Red blood cell",
+          "url": "https://en.wikipedia.org/wiki/Red_blood_cell",
+          "fact": "Un adulto produce aproximadamente 2,4 millones de glóbulos rojos nuevos por segundo."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del segundo al partido",
+        "steps": [
+          "Tu cuerpo tiene billones de glóbulos rojos y cada uno vive unos cuatro meses, así que tiene que reponer millones cada segundo.",
+          "Si fueran unos 2 millones por segundo, 5.400 segundos de partido darían más de 10.000 millones de glóbulos.",
+          "Con el dato de 2,4 millones por segundo salen 12.960 millones en 90 minutos: más que personas en todo el planeta, mientras tú solo miras el marcador."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Banco con vistas",
+      "title": "¿Cuántas personas caben sentadas en el banco ondulado del Park Güell?",
+      "detail": "Reparte el famoso banco de trencadís de la plaza de la Naturaleza a 50 cm por persona. Nadie se tumba a echar la siesta.",
+      "unit": "personas",
+      "answer": 220,
+      "math": "El banco ondulado mide 110 m. Con 0,5 m por persona: 110 ÷ 0,5 = 220 personas sentadas.",
+      "referenceExpression": "110 ÷ 0,5",
+      "assumptions": "Medimos el banco por su longitud total y damos 50 cm a cada persona. Las curvas cóncavas y convexas hacen que unos tramos sean más cómodos que otros.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Park Güell",
+          "url": "https://es.wikipedia.org/wiki/Park_G%C3%BCell",
+          "fact": "En la plaza hay un banco de forma ondulada de 110 m de longitud, formado por módulos cóncavos y convexos de 1,5 m."
+        },
+        {
+          "title": "Barcelona.com · Banco ondulado del Park Güell",
+          "url": "https://www.barcelona.com/es/monumentos/parque-guell/banco-ondulado",
+          "fact": "Mide aproximadamente 110 metros, siguiendo el borde de la explanada."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-10-3.jpg",
+        "alt": "Banco serpenteante de trencadís del Park Güell, con sus curvas de cerámica de colores",
+        "credit": "Andy Mitchell from Glasgow, UK",
+        "url": "https://commons.wikimedia.org/wiki/File:Serpentine_Bench_in_Park_G%C3%BCell_(2924748275).jpg",
+        "license": "CC BY-SA 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+      },
+      "reasoning": {
+        "heading": "Mide el banco y reparte el sitio",
+        "steps": [
+          "El banco rodea una plaza grande; parece medir más de cien metros. A medio metro por persona serían unas 200.",
+          "Un banco de autobús da unos 50 cm por pasajero. 100 m darían 200 personas; un poco más de longitud y nos vamos a 220.",
+          "Con los 110 m documentados caben 220 personas. Las curvas ayudan a sentarse en grupitos, pero en la práctica siempre hay alguien que ocupa dos sitios con la mochila."
+        ]
+      }
+    }
+  ]
+}

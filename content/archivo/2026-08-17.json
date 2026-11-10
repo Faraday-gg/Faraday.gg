@@ -1,0 +1,102 @@
+{
+  "id": "2026-08-17",
+  "name": "Lunes",
+  "theme": "Baguettes, paella y Ruta 66",
+  "questions": [
+    {
+      "id": "archivo-2026-08-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Etapa con miga",
+      "title": "¿Cuántas baguettes en fila cubrirían todo el recorrido del Tour de Francia?",
+      "detail": "Pon baguettes de 65 cm, punta con punta, a lo largo de las 21 etapas del Tour de 2025. Los ciclistas pueden ir mordiendo, pero entonces no vale.",
+      "unit": "baguettes",
+      "answer": 5079846.153846154,
+      "math": "El Tour de Francia de 2025 recorrió 3.301,9 km, es decir, 3.301.900 m. Entre 0,65 m por baguette: unos 5.079.846 baguettes.",
+      "referenceExpression": "3301,9 × 1000 ÷ 0,65",
+      "assumptions": "Usamos la longitud habitual de una baguette, unos 65 cm; las hay hasta de 1 m. El recorrido cambia cada año y aquí no contamos los traslados entre etapas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · 2025 Tour de France",
+          "url": "https://en.wikipedia.org/wiki/2025_Tour_de_France",
+          "fact": "Distancia total: 3.301,9 km en 21 etapas."
+        },
+        {
+          "title": "Wikipedia · Baguette",
+          "url": "https://en.wikipedia.org/wiki/Baguette",
+          "fact": "Longitud habitual de unos 65 cm, aunque puede llegar a 1 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros de pan",
+        "steps": [
+          "El Tour suele rondar los 3.300-3.500 km. Si cada barra mide más de medio metro, hacen falta más de 2 baguettes por metro.",
+          "3.300.000 m entre 0,65 m dan algo más de 5 millones de baguettes.",
+          "Con los 3.301,9 km de 2025 salen 5.079.846 baguettes: más de cinco millones de barras, suficientes para un bocadillo por cada aficionado de la cuneta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Arroz a granel",
+      "title": "¿Cuántos granos de arroz lleva una paella valenciana para seis personas?",
+      "detail": "Seis raciones de 100 g de arroz crudo y granos de 25 mg. El socarrat no se cuenta por separado.",
+      "unit": "granos",
+      "answer": 24000,
+      "math": "Seis raciones de 100 g suman 600 g de arroz. Con granos de 0,025 g (25 g por cada mil granos): 600 ÷ 0,025 = 24.000 granos.",
+      "referenceExpression": "600 ÷ 0,025",
+      "assumptions": "Usamos 25 g por cada mil granos, dentro del rango de 15-45 g citado para el arroz; las variedades de grano redondo como el bomba pueden pesar algo más.",
+      "confidence": "Rango documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia (alemán) · Tausendkornmasse",
+          "url": "https://de.wikipedia.org/wiki/Tausendkornmasse",
+          "fact": "La masa media de mil granos de arroz se sitúa entre 15 y 45 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pesa un grano, luego la paellera",
+        "steps": [
+          "Un grano de arroz pesa muy poco: cuesta notar un puñado de diez en la mano. Con 600 g de arroz, salen decenas de miles de granos.",
+          "Si mil granos pesan unos 25 g, cada 100 g son 4.000 granos. Seis raciones dan unos 24.000.",
+          "El resultado es 24.000 granos. Con granos de 30 mg serían 20.000 y con granos de 20 mg, 30.000: el peso del grano es la clave."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Carretera y manta",
+      "title": "Andando 25 km al día, ¿cuántos días tardarías en recorrer la Ruta 66 de Chicago a Los Ángeles?",
+      "detail": "Recorre a pie la Ruta 66 histórica, de Chicago a Santa Mónica, junto a Los Ángeles, a 25 km por día sin descansos. El Cadillac descapotable se queda en el garaje.",
+      "unit": "días",
+      "answer": 157.6,
+      "math": "La Ruta 66 histórica medía 2.448 millas, unos 3.940 km, de Chicago a Santa Mónica. Andando 25 km al día: 3.940 ÷ 25 ≈ 157,6 días.",
+      "referenceExpression": "3940 ÷ 25",
+      "assumptions": "Usamos la longitud de la carretera original. Hoy quedan tramos cortados o sustituidos por autopistas, y 25 km diarios todos los días es un ritmo exigente sin descanso.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · U.S. Route 66",
+          "url": "https://en.wikipedia.org/wiki/U.S._Route_66",
+          "fact": "Recorría 2.448 millas (3.940 km) de Chicago (Illinois) a Santa Monica (California)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cruzar América a pie",
+        "steps": [
+          "La Ruta 66 atraviesa casi todo Estados Unidos: piensa en unos 4.000 km.",
+          "A 25 km diarios, 4.000 km son 160 días: unos cinco meses de caminata.",
+          "Con los 3.940 km documentados salen 157,6 días: cinco meses y pico de botas, moteles y desierto."
+        ]
+      }
+    }
+  ]
+}

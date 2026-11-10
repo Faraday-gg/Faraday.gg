@@ -1,0 +1,102 @@
+{
+  "id": "2026-11-08",
+  "name": "Domingo",
+  "theme": "Café, Andes y cielo",
+  "questions": [
+    {
+      "id": "archivo-2026-11-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Cosecha cafetera",
+      "title": "¿Cuántas tazas de café saldrían de toda la cosecha de un año de Colombia?",
+      "detail": "Toda la producción de café de Colombia de 2025 convertida en espressos de 7 gramos. Sin exportar ni un grano y sin contar lo que se cae del molinillo.",
+      "unit": "tazas",
+      "answer": 117171428571.42857,
+      "math": "La Federación Nacional de Cafeteros cerró 2025 con 13,67 millones de sacos de 60 kg: 820,2 millones de kg. Un espresso lleva 7 g. 820.200.000.000 g ÷ 7 g ≈ 117.171 millones de tazas.",
+      "referenceExpression": "13670000 × 60000 ÷ 7",
+      "assumptions": "Los sacos son de café verde y al tostarlo pierde peso, así que en realidad saldrían algo menos de tazas. Usamos la dosis de 7 g del espresso italiano certificado.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "La República · Producción de café en 2025 (datos de la FNC)",
+          "url": "https://www.larepublica.co/economia/produccion-de-cafe-en-2025-llego-a-13-67-millones-de-sacos-y-registro-una-caida-de-2-4302506",
+          "fact": "Según la Federación Nacional de Cafeteros, la producción de café de 2025 llegó a 13,67 millones de sacos de 60 kg, un 2 % menos que en 2024."
+        },
+        {
+          "title": "Wikipedia · Espresso",
+          "url": "https://en.wikipedia.org/wiki/Espresso",
+          "fact": "El Istituto Nazionale Espresso Italiano fija una dosis de café molido de 7 ± 0,5 g y un volumen en taza de 25 ± 2,5 ml."
+        }
+      ],
+      "reasoning": {
+        "heading": "Sacos a kilos, kilos a tazas",
+        "steps": [
+          "Colombia es uno de los grandes productores de café y su cosecha se mide en millones de sacos de 60 kg. Digamos 12 millones: 720 millones de kg.",
+          "Con 7 g por taza, cada kilo da unas 140 tazas: 720 millones × 140 ≈ 100.000 millones de tazas.",
+          "Con los 13,67 millones de sacos de 2025 salen 117.171 millones de tazas: unas 14 por cada habitante del planeta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Paseo andino",
+      "title": "Andando 7.000 pasos al día, ¿cuántas veces recorrerías la cordillera de los Andes de punta a punta en 80 años?",
+      "detail": "7.000 pasos diarios de 75 cm, todos los días durante 80 años. Los Andes miden unos 7.000 km a lo largo de Sudamérica y, en esta versión, son completamente llanos.",
+      "unit": "veces",
+      "answer": 21.9,
+      "math": "7.000 pasos × 0,75 m = 5,25 km diarios. 5,25 × 365 × 80 = 153.300 km. Los Andes miden unos 7.000 km. 153.300 ÷ 7.000 ≈ 21,9 veces.",
+      "referenceExpression": "7000 × 0,75 × 365 × 80 ÷ 1000 ÷ 7000",
+      "assumptions": "Pasos de 75 cm y 7.000 diarios son supuestos del modelo. Wikipedia da unos 7.000 km para la cordillera, aunque también cita 8.900 km; con esa cifra serían 17,2 veces.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Andes",
+          "url": "https://en.wikipedia.org/wiki/Andes",
+          "fact": "La cordillera se extiende unos 7.000 km a lo largo del borde occidental de Sudamérica; la introducción del artículo da 8.900 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Los pasos de toda una vida",
+        "steps": [
+          "7.000 pasos de unos 75 cm son algo más de 5 km al día. En un año, unos 1.900 km.",
+          "En 80 años: 1.900 × 80 ≈ 150.000 km. Si los Andes miden unos 7.000 km, salen unas 20 travesías.",
+          "Con 5,25 km diarios exactos salen 153.300 km y 21,9 travesías de la cordillera: casi cuatro vueltas a la Tierra solo con los pasos de cada día."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Tráfico aéreo",
+      "title": "El 24 de julio de 2019, uno de los días con más vuelos de la historia, ¿cuántos aviones llegó a haber en el aire a la vez?",
+      "detail": "Cuenta todo lo que vuela con transpondedor y aparece en el rastreador Flightradar24: aviones de pasajeros, de carga, privados y avionetas. Las gaviotas y los drones del vecino no cuentan.",
+      "unit": "aviones",
+      "answer": 20000,
+      "math": "Flightradar24 registró más de 225.000 vuelos el 24 de julio de 2019 y anunció que se podían seguir más de 20.000 vuelos al mismo tiempo. Respuesta: unos 20.000 aviones.",
+      "referenceExpression": "20000",
+      "assumptions": "Es el pico que mostraba el rastreador, no una media: de madrugada en Europa y América vuelan muchos menos. Flightradar24 solo ve los aviones con transpondedor y cobertura.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Mental Floss · Wednesday was the busiest air travel day ever",
+          "url": "https://www.mentalfloss.com/transportation/planes-airports/wednesday-was-busiest-air-travel-day-ever",
+          "fact": "Flightradar24 registró más de 225.000 vuelos el miércoles 24 de julio de 2019 y tuiteó que se podían seguir más de 20.000 vuelos en ese momento."
+        }
+      ],
+      "reasoning": {
+        "heading": "Vuelos del día por horas en el aire",
+        "steps": [
+          "Ese día se registraron más de 200.000 vuelos. Si cada uno dura de media un par de horas, el cielo nunca se vacía.",
+          "225.000 vuelos × 2 horas ÷ 24 horas ≈ 19.000 aviones en el aire a la vez, de media.",
+          "Flightradar24 llegó a mostrar más de 20.000 a la vez: el pico supera algo a la media porque los vuelos se concentran en las horas de día de Europa y América."
+        ]
+      }
+    }
+  ]
+}

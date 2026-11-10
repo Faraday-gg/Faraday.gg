@@ -1,0 +1,110 @@
+{
+  "id": "2026-09-27",
+  "name": "Domingo",
+  "theme": "Gato, Partenón y bambú",
+  "questions": [
+    {
+      "id": "archivo-2026-09-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Profesional de la siesta",
+      "title": "¿Cuántos años de su vida pasa durmiendo un gato doméstico?",
+      "detail": "Un gato casero medio, sin contar las horas que finge dormir para ignorarte. Supón 14 horas de sueño al día durante una vida de 13 años.",
+      "unit": "años",
+      "answer": 7.583333333333334,
+      "math": "Un gato duerme de media entre 13 y 14 horas al día, y la esperanza de vida de un gato doméstico ronda los 13 años. 14 ÷ 24 × 13 ≈ 7,6 años dormido.",
+      "referenceExpression": "14 ÷ 24 × 13",
+      "assumptions": "Usamos una media fija para toda la vida, aunque los gatitos y los gatos mayores duermen más. Muchos gatos superan con creces los 13 años.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cat",
+          "url": "https://en.wikipedia.org/wiki/Cat",
+          "fact": "Los gatos duermen entre 12 y 16 horas al día, con 13 o 14 de media; la esperanza de vida de los gatos domésticos era de unos 13 años en 2014 y 2023."
+        },
+        {
+          "title": "Sleep Foundation · How much do cats sleep?",
+          "url": "https://www.sleepfoundation.org/animals-and-sleep/how-much-do-cats-sleep",
+          "fact": "Más de la mitad de los gatos duermen entre 12 y 18 horas al día."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la fracción del día, luego la vida entera",
+        "steps": [
+          "Un gato se pasa durmiendo más de medio día. Si duerme algo más de la mitad del tiempo y vive unos 13 años, la respuesta rondará los 7 años.",
+          "14 horas son 14/24 del día, casi el 60 %. El 60 % de 13 años es unos 7,8 años: ya tenemos el orden.",
+          "Con 14 horas exactas salen 7,58 años, más de la mitad de su vida. Con 13 horas al día serían 7 años justos; un gato senior que duerma 18 horas pasaría bastante más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Cena en la Acrópolis",
+      "title": "¿Cuántas pizzas familiares harían falta para cubrir el suelo del Partenón?",
+      "detail": "Pizzas redondas de 40 cm sobre la planta del templo, de 69,5 × 30,9 m. Cuenta superficie, como si pudieras recortar los bordes para no dejar huecos (y te comieras los recortes).",
+      "unit": "pizzas",
+      "answer": 17089.6599,
+      "math": "El Partenón mide 69,5 × 30,9 m: 2.147,55 m². Una pizza de 40 cm ocupa π × 0,2² = 0,1257 m². 2.147,55 ÷ 0,1257 = 17.090 pizzas.",
+      "referenceExpression": "69,5 × 30,9 ÷ (π × 0,2 × 0,2)",
+      "assumptions": "Se reparte toda la superficie; colocando pizzas redondas enteras quedarían huecos y cabrían un 10 % menos. Las columnas también estorban.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Parthenon",
+          "url": "https://en.wikipedia.org/wiki/Parthenon",
+          "fact": "Dimensiones del templo: 69,5 × 30,9 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-27-2.jpg",
+        "alt": "Fachada oeste del Partenón, en la Acrópolis de Atenas",
+        "credit": "User:Mountain",
+        "url": "https://commons.wikimedia.org/wiki/File:Parthenon_from_west.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Parthenon_from_west.jpg"
+      },
+      "reasoning": {
+        "heading": "Planta del templo entre pizza",
+        "steps": [
+          "El Partenón es como medio campo de fútbol pequeño: unos 70 × 30 m, más de 2.000 m².",
+          "Una pizza familiar ocupa algo más de una décima de metro cuadrado: caben unas 8 por m², así que serían unas 16.000.",
+          "Con 2.147,55 m² y 0,1257 m² por pizza salen 17.090: comida para una ciudad pequeña."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Crece mientras miras",
+      "title": "¿Cuántos centímetros crece un bambú gigante mientras ves una película de dos horas?",
+      "detail": "Un bambú de las especies más rápidas, en su mejor momento de crecimiento, mientras tú ves una película de dos horas justas. No hace falta que le pongas palomitas.",
+      "unit": "cm",
+      "answer": 7.5833,
+      "math": "Algunas especies de bambú crecen hasta 91 cm al día: 91 ÷ 24 = 3,79 cm por hora. En dos horas: 7,58 cm.",
+      "referenceExpression": "91 ÷ 24 × 2",
+      "assumptions": "Se toma el récord y un crecimiento uniforme durante el día; el ritmo normal es menor y varía con la hora y la temperatura.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Fastest growing plant",
+          "url": "https://www.guinnessworldrecords.com/world-records/fastest-growing-plant",
+          "fact": "Algunas especies de bambú crecen hasta 91 cm al día, a 0,00003 km/h."
+        }
+      ],
+      "reasoning": {
+        "heading": "Crecimiento diario entre horas",
+        "steps": [
+          "El bambú es la planta que más rápido crece: casi un metro al día en las mejores condiciones.",
+          "Un metro en 24 horas son 4 cm por hora: en una película, unos 8 cm.",
+          "Con 91 cm al día salen 7,58 cm: lo que mide un dedo, mientras ruedan los créditos."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "id": "2026-08-31",
+  "name": "Lunes",
+  "theme": "Webb, Bolt y tortuga",
+  "questions": [
+    {
+      "id": "archivo-2026-08-31-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Ropa de cama espacial",
+      "title": "¿Cuántas sábanas de 150 × 200 cm harían falta para igualar el parasol del telescopio James Webb?",
+      "detail": "Parasol tratado como un rectángulo, sábanas sin arrugas y una sola capa (el Webb tiene cinco, pero no vamos a hacer la cama cinco veces).",
+      "unit": "sábanas",
+      "answer": 100.06397133333333,
+      "math": "El parasol mide 21,197 × 14,162 m = 300,19 m². Cada sábana cubre 1,5 × 2 = 3 m²: 300,19 ÷ 3 ≈ 100,1 sábanas.",
+      "referenceExpression": "21,197 × 14,162 ÷ (1,5 × 2)",
+      "assumptions": "Tratamos el parasol, que tiene forma de cometa, como un rectángulo de sus medidas máximas, y contamos una sola de sus cinco capas. Su superficie real es menor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Webb’s Sunshield",
+          "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+          "fact": "Dimensiones reales del parasol: 21,197 m × 14,162 m (69,5 × 46,5 pies)."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-31-1.jpg",
+        "alt": "Parasol del telescopio James Webb desplegado en una sala limpia, con técnicos al lado para comparar",
+        "credit": "Chris Gunn",
+        "url": "https://commons.wikimedia.org/wiki/File:James_Webb_telescope_sunshield.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:James_Webb_telescope_sunshield.jpg"
+      },
+      "reasoning": {
+        "heading": "Del tamaño de una pista de tenis",
+        "steps": [
+          "El parasol del Webb es enorme: como una pista de tenis, unos 20 × 14 m, unos 300 m².",
+          "Una sábana de matrimonio cubre 3 m². 300 entre 3 da unas 100 sábanas.",
+          "Con 21,197 × 14,162 m salen 100,1 sábanas por capa. Para las cinco capas harían falta unas 500, y el parasol real no es rectangular."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-31-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Paseo relámpago",
+      "title": "A la velocidad media de su récord de 100 m, ¿cuántos segundos tardaría Usain Bolt en recorrer La Rambla de Barcelona?",
+      "detail": "Bolt corre toda La Rambla, de la plaza de Catalunya al monumento a Colón, a la velocidad media de su récord de 100 m. Sin estatuas humanas, sin terrazas y sin pararse a por un helado.",
+      "unit": "segundos",
+      "answer": 114.96,
+      "math": "Récord mundial: 100 m en 9,58 s (Berlín, 2009), una media de 10,44 m/s. La Rambla mide 1,2 km: 1.200 ÷ 10,44 ≈ 115 s.",
+      "referenceExpression": "1200 ÷ (100 ÷ 9,58)",
+      "assumptions": "Mantiene la velocidad media del récord, incluida la salida, durante 1,2 km. Ningún humano aguanta ese ritmo más allá de unos 200 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Men’s 100 metres world record progression",
+          "url": "https://en.wikipedia.org/wiki/Men%27s_100_metres_world_record_progression",
+          "fact": "Usain Bolt tiene el récord mundial de 100 m con 9,58 s (Estadio Olímpico de Berlín, 16 de agosto de 2009)."
+        },
+        {
+          "title": "Wikipedia · La Rambla, Barcelona",
+          "url": "https://en.wikipedia.org/wiki/La_Rambla,_Barcelona",
+          "fact": "La Rambla mide 1,2 km y une la plaza de Catalunya con el monumento a Colón."
+        }
+      ],
+      "reasoning": {
+        "heading": "Doce récords de 100 m seguidos",
+        "steps": [
+          "Bolt corre 100 m en menos de 10 s. La Rambla es un paseo de algo más de un kilómetro.",
+          "1.200 m son 12 tramos de 100 m: unos 12 × 10 = 120 s, un par de minutos.",
+          "A 10,44 m/s tarda 115 s: menos de lo que tardas tú en pedir una horchata."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-31-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Maratón sin prisa",
+      "title": "¿Cuántos días tardaría una tortuga gigante de Galápagos en terminar un maratón?",
+      "detail": "La tortuga corre un maratón a 0,3 km/h sin parar ni de día ni de noche. Ni avituallamientos ni siestas: solo determinación y caparazón.",
+      "unit": "días",
+      "answer": 5.860417,
+      "math": "Un maratón mide 42,195 km. A 0,3 km/h: 42,195 ÷ 0,3 ≈ 140,7 horas. 140,7 ÷ 24 ≈ 5,86 días.",
+      "referenceExpression": "42,195 ÷ 0,3 ÷ 24",
+      "assumptions": "Velocidad constante de 0,3 km/h, observada en tortugas caminando, durante 24 horas al día. En libertad descansan muchas horas y apenas recorren unos cientos de metros diarios.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Galápagos tortoise",
+          "url": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_tortoise",
+          "fact": "Se las ha observado caminar a 0,3 km/h."
+        },
+        {
+          "title": "Wikipedia · Marathon",
+          "url": "https://en.wikipedia.org/wiki/Marathon",
+          "fact": "La distancia oficial del maratón es de 42,195 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Paso de tortuga, reloj de maratón",
+        "steps": [
+          "Una tortuga gigante camina mucho más despacio que una persona: unos pocos cientos de metros por hora.",
+          "A 0,3 km/h necesita unas 140 horas para 42 km. Un día tiene 24 horas: unos 6 días.",
+          "Salen 5,86 días sin dormir. Un corredor popular acaba en unas 4 horas: la tortuga llega casi una semana después de que hayan desmontado la meta."
+        ]
+      }
+    }
+  ]
+}

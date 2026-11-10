@@ -1,0 +1,115 @@
+{
+  "id": "2026-09-12",
+  "name": "Sábado",
+  "theme": "Calendario, Uyuni y tortillas",
+  "questions": [
+    {
+      "id": "archivo-2026-09-12-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Días perdidos",
+      "title": "¿Cuántos días se desfasa el calendario juliano respecto a las estaciones cada mil años?",
+      "detail": "El año juliano dura 365,25 días; el año trópico, el que marca las estaciones, algo menos. Dejamos correr la diferencia mil años, como hasta que llegó el papa Gregorio XIII.",
+      "unit": "días",
+      "answer": 7.799999999974716,
+      "math": "El año juliano dura 365,25 días y el trópico 365,2422. La diferencia es 0,0078 días al año. En 1.000 años: 7,8 días.",
+      "referenceExpression": "(365,25 − 365,2422) × 1000",
+      "assumptions": "Año trópico medio constante; en realidad varía muy poco a lo largo de los siglos.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Año trópico",
+          "url": "https://es.wikipedia.org/wiki/Año_trópico",
+          "fact": "La duración del año trópico es de 365,2422 días."
+        },
+        {
+          "title": "Wikipedia · Julian calendar",
+          "url": "https://en.wikipedia.org/wiki/Julian_calendar",
+          "fact": "El calendario juliano gana un día cada 128 años respecto al año solar."
+        }
+      ],
+      "reasoning": {
+        "heading": "Resta los dos años",
+        "steps": [
+          "Seis horas extra cada año suenan bien, pero el año real dura unos 11 minutos menos.",
+          "11 minutos al año son unos 7.800 minutos en mil años: más de cinco días; con la cifra exacta, cerca de 8.",
+          "Con 0,0078 días al año salen 7,8 días por milenio. Por eso en 1582 hubo que saltar 10 días de golpe: del 4 al 15 de octubre."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-12-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Espejo de sal",
+      "title": "¿Cuántos campos de fútbol caben en el Salar de Uyuni?",
+      "detail": "El mayor salar del mundo, en el altiplano de Bolivia, alfombrado con campos de fútbol de 105 × 68 m, las medidas que recomienda la FIFA. Sin gradas ni banquillos; el balón resbala.",
+      "unit": "campos",
+      "answer": 1482072.829132,
+      "math": "El Salar de Uyuni ocupa unos 10.582 km², es decir, 10.582 millones de m². Un campo de 105 × 68 m mide 7.140 m². 10.582.000.000 ÷ 7.140 ≈ 1.482.073 campos.",
+      "referenceExpression": "10582 × 1000000 ÷ (105 × 68)",
+      "assumptions": "Superficie aproximada del salar, que tiene bordes irregulares. Campos pegados unos a otros, sin huecos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Salar de Uyuni",
+          "url": "https://en.wikipedia.org/wiki/Salar_de_Uyuni",
+          "fact": "El Salar de Uyuni es el mayor salar del mundo, con unos 10.582 km²."
+        },
+        {
+          "title": "Wikipedia · Football pitch",
+          "url": "https://en.wikipedia.org/wiki/Football_pitch",
+          "fact": "La FIFA recomienda un terreno de juego de 105 m de largo y 68 m de ancho."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-12-2.jpg",
+        "alt": "El Salar de Uyuni cubierto por una fina capa de agua que refleja como un espejo una montaña lejana al atardecer",
+        "credit": "Diego Delso",
+        "url": "https://commons.wikimedia.org/wiki/File:Salar_de_Uyuni,_Bolivia,_2016-02-04,_DD_10-12_HDR.JPG",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Pasa los kilómetros cuadrados a campos",
+        "steps": [
+          "El salar es enorme: unos 100 × 100 km de blanco infinito, más de 10.000 km².",
+          "Un campo de fútbol ocupa unos 7.000 m²: en un kilómetro cuadrado caben unos 140. Por 10.000 km² salen cerca de 1,4 millones.",
+          "Con los 10.582 km² exactos salen 1.482.073 campos: casi millón y medio. Para jugar en todos a la vez harían falta más de 30 millones de futbolistas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-12-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Taco humano",
+      "title": "¿Cuántas tortillas de maíz harían falta para cubrir toda tu piel?",
+      "detail": "Envolvemos a un adulto de 1,8 m² de piel con tortillas de maíz para tacos de 15 cm de diámetro, sin solapes. El hueco entre tortillas redondas no cuenta: solo sumamos superficie. Salsa al gusto.",
+      "unit": "tortillas",
+      "answer": 101.859164,
+      "math": "Un adulto tiene entre 1,7 y 1,9 m² de superficie corporal: tomamos 1,8 m². Una tortilla de 15 cm de diámetro mide π × 0,075² ≈ 0,01767 m². 1,8 ÷ 0,01767 ≈ 101,9 tortillas.",
+      "referenceExpression": "1,8 ÷ (π × 0,075 × 0,075)",
+      "assumptions": "Superficie corporal media de un adulto, 1,8 m². Tortillas de 15 cm; solo se compara superficie, sin contar los huecos que dejan los círculos al juntarse.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Body surface area",
+          "url": "https://en.wikipedia.org/wiki/Body_surface_area",
+          "fact": "En pacientes adultos del Reino Unido (2005), la superficie corporal media fue de 1,91 m² en hombres y 1,71 m² en mujeres."
+        }
+      ],
+      "reasoning": {
+        "heading": "Compara tu piel con un plato de tacos",
+        "steps": [
+          "La piel de un adulto, extendida, ocupa casi dos metros cuadrados: como una puerta.",
+          "Una tortilla de taco es algo más pequeña que un plato de postre, unos 0,02 m². 1,8 entre 0,02 da unas 90 tortillas.",
+          "Con el área exacta salen 101,9 tortillas: unas cien, ocho paquetes de doce y pico. Si cuentas los huecos entre círculos, necesitarías bastantes más."
+        ]
+      }
+    }
+  ]
+}

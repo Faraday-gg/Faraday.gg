@@ -1,0 +1,97 @@
+{
+  "id": "2026-10-20",
+  "name": "Martes",
+  "theme": "Denario, Gran Muralla y Panamericana",
+  "questions": [
+    {
+      "id": "archivo-2026-10-20-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Paga de legionario",
+      "title": "¿Cuántos kilos de plata cobraba un legionario romano en 25 años de servicio?",
+      "detail": "Sueldo de 225 denarios al año, cobrado en monedas de plata de 3,9 g. Sin descuentos por comida, equipo ni apuestas en el campamento.",
+      "unit": "kg",
+      "answer": 21.9375,
+      "math": "Desde Julio César, un legionario cobraba 225 denarios al año, y con Augusto el denario pesaba 3,9 g (Wikipedia, «Denarius»). 225 × 25 × 3,9 g = 21.937,5 g ≈ 21,9 kg.",
+      "referenceExpression": "225 × 25 × 3,9 ÷ 1000",
+      "assumptions": "Denario de plata pura de 3,9 g y sueldo constante. En realidad la ley de la plata rondaba el 95 % y al soldado le descontaban comida y equipo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Denarius",
+          "url": "https://en.wikipedia.org/wiki/Denarius",
+          "fact": "Con Augusto el denario pesaba 3,9 g (1/84 de libra romana); la paga anual del legionario era de 225 denarios desde Julio César."
+        }
+      ],
+      "reasoning": {
+        "heading": "Monedas al año por gramos por moneda",
+        "steps": [
+          "Un denario es una monedita de pocos gramos. Veinticinco años de sueldo deberían caber en un saco, no en un carro.",
+          "225 monedas al año por 25 años son unas 5.600 monedas. A unos 4 g, más o menos 22 kg.",
+          "Con 3,9 g exactos salen 21,9 kg de plata: lo que pesa una maleta facturada bien llena."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-20-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Ronda de guardia",
+      "title": "Andando 20 km al día, ¿cuántos años tardarías en recorrer todos los tramos de la Gran Muralla China?",
+      "detail": "Caminas 20 km diarios, todos los días del año, y recorres cada tramo, zanja y fortificación catalogada. Los tramos no están unidos: los saltos en autobús no cuentan.",
+      "unit": "años",
+      "answer": 2.901598904859685,
+      "math": "El estudio de 2012 de la Administración Nacional del Patrimonio Cultural de China midió 21.196,18 km (Wikipedia). 21.196,18 ÷ 20 = 1.060 días; ÷ 365,25 ≈ 2,9 años.",
+      "referenceExpression": "21196,18 ÷ 20 ÷ 365,25",
+      "assumptions": "Suma de todos los tramos de todas las dinastías, incluidas zanjas y barreras naturales. La muralla más visitada, la Ming, mide unos 8.850 km.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Wall of China",
+          "url": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+          "fact": "El estudio de 2012 dio una longitud total de 21.196,18 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros de muralla entre kilómetros por día",
+        "steps": [
+          "La Gran Muralla tiene fama de inacabable. ¿Meses? ¿Décadas?",
+          "Si mide unos 20.000 km, a 20 km por día son 1.000 días: unos tres años.",
+          "Con los 21.196 km medidos en 2012 salen 2,9 años sin un día libre. Solo la muralla Ming te llevaría algo más de un año."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-20-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Carretera sin fin",
+      "title": "Conduciendo 8 horas al día a 90 km/h, ¿cuántos días tardarías en recorrer la carretera Panamericana entera?",
+      "detail": "De Alaska a Ushuaia, del frío al frío pasando por el trópico. Conduce 8 horas diarias a 90 km/h de media, sin días libres. El tapón del Darién, la selva entre Panamá y Colombia sin carretera, te lo saltas en barco sin contarlo.",
+      "unit": "días",
+      "answer": 41.666666666666664,
+      "math": "La Panamericana mide unos 30.000 km. 8 h × 90 km/h = 720 km al día. 30.000 ÷ 720 ≈ 41,7 días.",
+      "referenceExpression": "30000 ÷ (8 × 90)",
+      "assumptions": "Longitud aproximada de 30.000 km entre Prudhoe Bay (Alaska) y Ushuaia (Argentina); las cifras varían según el trazado que se tome. No cuenta el paso del Darién, fronteras, averías ni descansos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Pan-American Highway",
+          "url": "https://en.wikipedia.org/wiki/Pan-American_Highway",
+          "fact": "La red se extiende unos 30.000 km, de Prudhoe Bay (Alaska) a Ushuaia (Argentina)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros entre kilómetros diarios",
+        "steps": [
+          "Cruzar América de norte a sur son decenas de miles de kilómetros. Una jornada larga de coche son unos 700 km.",
+          "30.000 km entre 700 km al día dan algo más de 40 días: más de un mes al volante.",
+          "Con 30.000 km y 720 km diarios salen 41,7 días. Con fronteras, obras y el barco del Darién, fácilmente serían dos meses."
+        ]
+      }
+    }
+  ]
+}

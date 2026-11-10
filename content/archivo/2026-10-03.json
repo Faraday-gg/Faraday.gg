@@ -1,0 +1,115 @@
+{
+  "id": "2026-10-03",
+  "name": "Sábado",
+  "theme": "AVE, céntimos y Chichén Itzá",
+  "questions": [
+    {
+      "id": "archivo-2026-10-03-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Parpadeo veloz",
+      "title": "¿Cuántos metros recorre un AVE a velocidad máxima mientras parpadeas?",
+      "detail": "Tren a 300 km/h y un parpadeo lento de 0,3 segundos. Ojo, que en ese tiempo no ves nada.",
+      "unit": "metros",
+      "answer": 25,
+      "math": "300 km/h son 83,33 m/s. En 0,3 s: 83,33 × 0,3 = 25 metros.",
+      "referenceExpression": "300 ÷ 3,6 × 0,3",
+      "assumptions": "Un parpadeo dura entre 0,1 y 0,4 s; elegimos 0,3 s. Con un parpadeo rápido de 0,1 s serían algo más de 8 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Renfe Class 103",
+          "url": "https://en.wikipedia.org/wiki/Renfe_Class_103",
+          "fact": "Los AVE serie 103 circulan con una velocidad máxima en servicio de 300 km/h."
+        },
+        {
+          "title": "Wikipedia · Blinking",
+          "url": "https://en.wikipedia.org/wiki/Blinking",
+          "fact": "Un parpadeo dura de media entre 100 y 150 ms; otras fuentes dan entre 100 y 400 ms."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los km/h a metros por segundo",
+        "steps": [
+          "300 km/h es rapidísimo, pero un parpadeo es casi nada. Intuimos unas decenas de metros.",
+          "Dividir entre 3,6 pasa de km/h a m/s: 300 ÷ 3,6 ≈ 83 m/s. En un tercio de segundo, unos 28 m.",
+          "Con 0,3 s exactos salen 25 m, más que una piscina de 20 metros. Con un parpadeo de 0,1 s serían 8,3 m."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-03-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Elefante de calderilla",
+      "title": "¿Cuántas monedas de un céntimo pesarían lo mismo que un elefante africano?",
+      "detail": "Un elefante africano de sabana macho y adulto, de los que pesan unas 6 toneladas. En el otro platillo de la balanza, monedas de 1 céntimo de euro, sin monedero.",
+      "unit": "monedas",
+      "answer": 2608695.652173913,
+      "math": "Un macho adulto de elefante africano de sabana pesa de media 6,0 toneladas: 6.000.000 g. La moneda de 1 céntimo pesa 2,30 g. 6.000.000 ÷ 2,30 ≈ 2.608.696 monedas, que suman unos 26.087 €.",
+      "referenceExpression": "6000000 ÷ 2,3",
+      "assumptions": "Usamos el peso medio de un macho adulto en buenas condiciones; las hembras pesan la mitad, unas 3 toneladas, y darían la mitad de monedas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Banco Central Europeo · Monedas en euros",
+          "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.es.html",
+          "fact": "La moneda de 1 céntimo pesa 2,30 g y mide 16,25 mm de diámetro."
+        },
+        {
+          "title": "Wikipedia · African bush elephant",
+          "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+          "fact": "Los machos adultos pesan de media 6,0 toneladas en condiciones óptimas; las hembras, 3,0 toneladas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa las toneladas a gramos",
+        "steps": [
+          "Un elefante pesa como unos cuantos coches, varias toneladas. Una moneda de céntimo apenas pesa un par de gramos.",
+          "6 toneladas son 6 millones de gramos. Entre 2 g por moneda, unos 3 millones de monedas.",
+          "Con 2,30 g por moneda salen 2.608.696 céntimos: unos 26.000 €. Mucho dinero para tan poca calderilla, y ni así compras un elefante."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-03-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Corro maya",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la pirámide de Kukulcán en Chichén Itzá?",
+      "detail": "Un corro de adultos con los brazos estirados, cogidos de la mano y pegados a la base cuadrada de El Castillo, la gran pirámide de Chichén Itzá. Cada persona ocupa 1,5 m de corro. Prohibido subir por las escaleras.",
+      "unit": "personas",
+      "answer": 147.46666666666667,
+      "math": "La base cuadrada de la pirámide mide 55,3 m de lado: su perímetro es 4 × 55,3 = 221,2 m. Con 1,5 m por persona: 221,2 ÷ 1,5 ≈ 147,5, es decir, unas 148 personas.",
+      "referenceExpression": "4 × 55,3 ÷ 1,5",
+      "assumptions": "La envergadura de un adulto se parece a su altura (unos 1,6-1,7 m); al darse la mano se pierde un poco, así que usamos 1,5 m por persona. No contamos las escalinatas que sobresalen de cada lado.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · El Castillo, Chichén Itzá",
+          "url": "https://en.wikipedia.org/wiki/El_Castillo,_Chichen_Itza",
+          "fact": "La base cuadrada mide 55,3 m de lado; la pirámide tiene 24 m de altura, más 6 m del templo de la cima."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-03-3.jpg",
+        "alt": "Pirámide de Kukulcán (El Castillo) en Chichén Itzá, con sus escalinatas y su base cuadrada sobre la explanada",
+        "credit": "Bjørn Christian Tørrissen",
+        "url": "https://commons.wikimedia.org/wiki/File:Chichen-Itza-Castillo-Seen-From-East.JPG",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero el perímetro, después las personas",
+        "steps": [
+          "La pirámide es grande pero no tanto como las de Egipto: su base tendrá unos 50 m de lado.",
+          "Cuatro lados de 50 m son 200 m. Con 1,5 m por persona, unas 130 personas.",
+          "Con 55,3 m de lado salen 221,2 m de perímetro y 147,5 personas: cabe un corro de unas 148, como tres autobuses de turistas bien avenidos."
+        ]
+      }
+    }
+  ]
+}

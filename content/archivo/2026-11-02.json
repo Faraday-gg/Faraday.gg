@@ -1,0 +1,107 @@
+{
+  "id": "2026-11-02",
+  "name": "Lunes",
+  "theme": "Baikal, Alhambra y bombeo",
+  "questions": [
+    {
+      "id": "archivo-2026-11-02-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Sorbo siberiano",
+      "title": "¿Cuántos años tardaría toda la humanidad en beberse el lago Baikal?",
+      "detail": "Toda la humanidad, 8.200 millones de personas, bebe solo agua del Baikal: 2 litros por cabeza al día. Mientras tanto, los ríos no le aportan ni una gota más.",
+      "unit": "años",
+      "answer": 3945.103575008353,
+      "math": "El Baikal contiene 23.615,39 km³, es decir, 23.615.390.000.000.000 litros. La humanidad (unos 8.200 millones de personas a mediados de 2024) bebe 8.200 millones × 2 L × 365 ≈ 5,99 billones de litros al año. División: unos 3.945 años.",
+      "referenceExpression": "23615,39 × 1000000000000 ÷ (8200000000 × 2 × 365)",
+      "assumptions": "Población constante de 8.200 millones (dato de la ONU para mediados de 2024) y 2 litros diarios por persona. El Baikal se recarga con sus ríos; aquí lo ignoramos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Lake Baikal",
+          "url": "https://en.wikipedia.org/wiki/Lake_Baikal",
+          "fact": "El lago contiene 23.615,39 km³ de agua."
+        },
+        {
+          "title": "Noticias ONU · World Population Prospects 2024",
+          "url": "https://news.un.org/en/story/2024/07/1151971",
+          "fact": "La población mundial llegó a casi 8.200 millones de personas a mediados de 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un lago enorme frente a una sed enorme",
+        "steps": [
+          "El Baikal es el lago más profundo del mundo; digamos que guarda unos 20.000 km³. Cada km³ son un billón de litros.",
+          "Unos 8.000 millones de personas a 2 litros diarios beben unos 6 billones de litros al año. 20.000 billones entre 6 billones da unos 3.300 años.",
+          "Con los 23.615 km³ medidos y 8.200 millones de personas salen unos 3.945 años. Para terminar hoy habría que haber empezado en plena Edad del Bronce."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-02-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Puerta giratoria nazarí",
+      "title": "¿Cuántos visitantes entran a la Alhambra por cada minuto de apertura?",
+      "detail": "Reparte todas las visitas de 2025 a partes iguales: 360 días abiertos y 11 horas al día. El portero no descansa y los turistas llegan como un reloj suizo, que aquí sería nazarí.",
+      "unit": "visitantes/min",
+      "answer": 11.476729797979798,
+      "math": "El conjunto monumental de la Alhambra recibió 2.726.871 visitantes en 2025. 360 días × 11 h × 60 min = 237.600 minutos. 2.726.871 ÷ 237.600 ≈ 11,5 visitantes por minuto.",
+      "referenceExpression": "2726871 ÷ (360 × 11 × 60)",
+      "assumptions": "Horario uniforme de 11 horas en 360 días; en realidad el horario cambia entre verano e invierno y hay visitas nocturnas. Los visitantes no llegan repartidos de forma regular.",
+      "confidence": "Dato provisional + modelo",
+      "sources": [
+        {
+          "title": "El Debate · La Voz de Córdoba, monumentos más visitados de Andalucía en 2025 (14 de enero de 2026)",
+          "url": "https://www.eldebate.com/espana/la-voz-de-cordoba/cultura/20260114/sinagoga-cordoba-supera-medio-millon-visitas-2025_374437_amp.html",
+          "fact": "Con datos provisionales de la Junta de Andalucía, la Alhambra encabeza la lista con 2.726.871 visitantes en 2025."
+        }
+      ],
+      "reasoning": {
+        "heading": "Visitas del año entre minutos abiertos",
+        "steps": [
+          "La Alhambra es uno de los monumentos más visitados de España: unos 2,5-3 millones de entradas al año.",
+          "Un año con 11 horas diarias da unos 240.000 minutos. 3 millones entre 240.000 son unos 12 visitantes por minuto.",
+          "Con los 2.726.871 visitantes de 2025 salen 11,5 por minuto: uno cada cinco segundos. En las horas punta, la puerta gira bastante más deprisa."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-02-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Bomba incansable",
+      "title": "¿Cuántas piscinas olímpicas llenaría la sangre que bombea tu corazón a lo largo de 80 años?",
+      "detail": "Un corazón en reposo mueve unos 5 litros por minuto. Mantén ese ritmo durante 80 años, sin sustos ni maratones, y vierte todo en piscinas de 50 × 25 × 2 m.",
+      "unit": "piscinas",
+      "answer": 84.1536,
+      "math": "Gasto cardíaco en reposo: unos 5 L/min. En 80 años: 5 × 60 × 24 × 365,25 × 80 = 210.384.000 L, unos 210.384 m³. Una piscina olímpica de 2 m de fondo tiene 2.500 m³. 210.384 ÷ 2.500 ≈ 84 piscinas.",
+      "referenceExpression": "5 × 60 × 24 × 365,25 × 80 ÷ 1000 ÷ 2500",
+      "assumptions": "Gasto constante de reposo de un adulto de 70 kg; con ejercicio el corazón bombea mucho más y en la infancia menos. Contamos la sangre que pasa, no sangre nueva: son los mismos 5 litros dando vueltas.",
+      "confidence": "Dato fisiológico + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cardiac output",
+          "url": "https://en.wikipedia.org/wiki/Cardiac_output",
+          "fact": "El gasto cardíaco en reposo de un adulto sano de 70 kg ronda los 5 L/min."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Piscina de 50 × 25 m; con 2 m de profundidad nominal contiene 2.500 m³."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros por minuto, minutos por vida",
+        "steps": [
+          "5 litros por minuto suenan a poco, pero un año tiene algo más de medio millón de minutos: unos 2,6 millones de litros al año.",
+          "En 80 años son unos 200 millones de litros, 200.000 m³. Una piscina olímpica son 2.500 m³: unas 80 piscinas.",
+          "Con el cálculo exacto salen 84 piscinas. Si sumas las carreras para coger el autobús y los disgustos del fútbol, tu corazón llenaría bastantes más."
+        ]
+      }
+    }
+  ]
+}

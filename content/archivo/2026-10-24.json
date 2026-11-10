@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-24",
+  "name": "Sábado",
+  "theme": "Pelo, Estrecho y aeropuerto",
+  "questions": [
+    {
+      "id": "archivo-2026-10-24-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Melena sin tijeras",
+      "title": "Si nunca te cortaras el pelo, ¿cuántos metros mediría tu melena a los 80 años?",
+      "detail": "Un centímetro al mes desde el día en que naces, sin roturas ni caídas. Puro crecimiento teórico: el champú corre de tu cuenta.",
+      "unit": "metros",
+      "answer": 9.6,
+      "math": "El pelo suele crecer al ritmo de un centímetro al mes, según un dermatólogo del Grupo Español de Tricología de la AEDV (Maldita.es). 80 × 12 × 1 cm = 960 cm = 9,6 m.",
+      "referenceExpression": "80 × 12 × 1 ÷ 100",
+      "assumptions": "Crecimiento continuo. En realidad cada pelo crece solo durante su fase de crecimiento, de varios años, y luego se cae, así que casi nadie pasa de un metro.",
+      "confidence": "Dato documentado + modelo teórico",
+      "sources": [
+        {
+          "title": "Maldita.es · ¿Cuánto tarda en crecer el pelo?",
+          "url": "https://maldita.es/malditaciencia/20220302/cuanto-tarda-crecer-pelo/",
+          "fact": "David Saceda, del Grupo Español de Tricología de la AEDV: el pelo suele crecer al ritmo de un centímetro al mes."
+        }
+      ],
+      "reasoning": {
+        "heading": "Centímetros al mes por meses de vida",
+        "steps": [
+          "Una melena que no se corta nunca... ¿llegaría al suelo? ¿Al portal?",
+          "80 años son 960 meses. A un centímetro al mes, casi 10 metros.",
+          "Salen 9,6 m, la altura de un edificio de tres plantas. En la vida real cada pelo se cae al acabar su ciclo, así que esta melena solo existe en la teoría."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-24-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Largos al otro lado",
+      "title": "¿Cuántos largos de piscina olímpica equivalen a cruzar a nado el estrecho de Gibraltar por su punto más estrecho?",
+      "detail": "Línea recta de la punta de Oliveros a punta Cires, sin corrientes ni barcos, en largos de 50 m. Lo de girar en la pared lo dejamos para otro día.",
+      "unit": "largos",
+      "answer": 288,
+      "math": "La anchura mínima del estrecho es de 14,4 km, entre la punta de Oliveros y la punta Cires (Wikipedia). 14.400 ÷ 50 = 288 largos.",
+      "referenceExpression": "14400 ÷ 50",
+      "assumptions": "Trayectoria recta. Los nadadores reales salen de Tarifa y las corrientes los desvían, así que nadan bastante más de 14,4 km.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · Estrecho de Gibraltar",
+          "url": "https://es.wikipedia.org/wiki/Estrecho_de_Gibraltar",
+          "fact": "Anchura mínima de 14,4 km, entre la punta de Oliveros (España) y la punta Cires (Marruecos)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Metros de mar entre metros de piscina",
+        "steps": [
+          "Desde Tarifa se ve África ahí mismo, a un paseo. ¿Cien largos? ¿Mil?",
+          "El estrecho mide unos 14 km en su parte más estrecha. A 50 m por largo, 20 largos hacen un kilómetro: unos 280 largos.",
+          "Con 14,4 km salen 288 largos. Las corrientes del Estrecho alargan bastante la travesía real."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-24-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Sed de aeropuerto",
+      "title": "¿Cuántos litros de agua del grifo pagas con lo que cuesta una botellita de agua en un aeropuerto?",
+      "detail": "Pasas el control, te han tirado el agua y tienes sed. Usa la botella de 50 cl «barata» a 1 € que Aena se comprometió a ofrecer en sus aeropuertos y el coste medio del agua del grifo en España, saneamiento incluido. Con las botellas de 2,50 € de algunas máquinas, multiplica.",
+      "unit": "litros",
+      "answer": 520.8333333333334,
+      "math": "El agua del grifo en España costó de media 1,92 € por metro cúbico en 2022, es decir, 0,00192 € el litro. 1 € ÷ 0,00192 €/L ≈ 521 litros.",
+      "referenceExpression": "1 ÷ (1,92 ÷ 1000)",
+      "assumptions": "Precio de la botella de agua más barata que Aena se comprometió a ofrecer (1 €); en muchas máquinas y bares del aeropuerto cuesta bastante más. Coste unitario medio del agua en España, con suministro y saneamiento; cada municipio tiene sus tarifas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Estadística sobre el suministro y saneamiento del agua 2022",
+          "url": "https://www.ine.es/dyngs/Prensa/es/ESSA2022.htm",
+          "fact": "El coste unitario del agua se situó en 1,92 euros por metro cúbico en 2022 (1,16 de suministro y 0,76 de saneamiento)."
+        },
+        {
+          "title": "El Independiente · Aena venderá botellas de agua a un euro (19/3/2019)",
+          "url": "https://www.elindependiente.com/economia/2019/03/19/aena-aeropuertos-botellas-agua-un-euro/amp/",
+          "fact": "Aena prevé incluir la venta de botellas de agua a un euro en tiendas, quioscos y máquinas de sus aeropuertos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Precio de la botella entre precio del litro",
+        "steps": [
+          "El agua del grifo cuesta un par de euros por metro cúbico, es decir, unos 0,2 céntimos el litro.",
+          "Si una botellita cuesta 1 €, es como 500 litros de grifo: unas cuatro bañeras llenas.",
+          "Con 1,92 € por metro cúbico salen 521 litros. Con una botella de 2,50 €, serían unos 1.300 litros, casi lo que bebe una persona en un año y medio."
+        ]
+      }
+    }
+  ]
+}

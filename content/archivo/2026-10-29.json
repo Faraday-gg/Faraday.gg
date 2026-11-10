@@ -1,0 +1,120 @@
+{
+  "id": "2026-10-29",
+  "name": "Jueves",
+  "theme": "Macarena, Vespa y RAMAC",
+  "questions": [
+    {
+      "id": "archivo-2026-10-29-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Baile transatlántico",
+      "title": "¿Cuántas veces podrías bailar La Macarena durante un vuelo de Madrid a Buenos Aires?",
+      "detail": "Vuelo directo nocturno, auriculares puestos y la versión de los Bayside Boys en bucle. Baila desde que despega hasta que aterriza, sin pausa para la cena. El pasajero de al lado no ha sido consultado.",
+      "unit": "veces",
+      "answer": 182.14285714285714,
+      "math": "Un vuelo de Iberia sale de Madrid a las 23:55 y llega a Ezeiza a las 8:40 hora local; con 4 horas de diferencia en invierno, son 12 h 45 min (765 min). La Macarena de los Bayside Boys dura 4:12 (4,2 min). 765 ÷ 4,2 ≈ 182 veces.",
+      "referenceExpression": "12,75 × 60 ÷ 4,2",
+      "assumptions": "Duración calculada con el horario de Iberia de diciembre de 2020 y la diferencia horaria de invierno (Madrid UTC+1, Buenos Aires UTC−3). El tiempo de vuelo real varía con el viento. Remix de los Bayside Boys de 4:12; la versión original de 1993 dura 4:09.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Aviacionline · Iberia aumentará frecuencias entre Madrid y Buenos Aires (7/12/2020)",
+          "url": "https://aviacionline.com/iberia-aumentara-frecuencias-entre-madrid-y-buenos-aires",
+          "fact": "El vuelo IB 6841 sale de Madrid a las 23:55 y llega a Buenos Aires-Ezeiza a las 08:40 del día siguiente."
+        },
+        {
+          "title": "Wikipedia · Macarena (canción)",
+          "url": "https://es.wikipedia.org/wiki/Macarena_(canci%C3%B3n)",
+          "fact": "La versión original de 1993 dura 4:09 y el Bayside Boys Remix, 4:12."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos de vuelo entre minutos de canción",
+        "steps": [
+          "Cruzar el Atlántico hasta Buenos Aires son unas 12 o 13 horas. La Macarena dura unos 4 minutos.",
+          "12 horas son 720 minutos; entre 4 minutos, unas 180 Macarenas. El orden es de centenares.",
+          "Con 12 h 45 min de vuelo y 4:12 por canción salen unas 182 veces. Con viento de cara, alguna más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-29-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Moto contra torre",
+      "title": "¿Cuántas Vespas pesarían lo mismo que la torre Eiffel?",
+      "detail": "Una báscula gigante: en un lado, la estructura de hierro de la torre Eiffel; en el otro, Vespas Primavera 125 a punto para arrancar. Cuenta solo el hierro de la torre, sin ascensores ni tiendas. Aparcar todas en París ya es otro problema.",
+      "unit": "Vespas",
+      "answer": 55303.030303030304,
+      "math": "El hierro de la torre Eiffel pesa 7.300 toneladas. Una Vespa Primavera 125 pesa 132 kg en orden de marcha (0,132 t). 7.300 ÷ 0,132 ≈ 55.303 Vespas.",
+      "referenceExpression": "7300 ÷ 0,132",
+      "assumptions": "Solo la estructura de hierro pudelado; con ascensores, tiendas y antenas la torre pesa unas 10.100 toneladas y harían falta unas 76.500 Vespas. Vespa Primavera 125 de 2025-2026, con 132 kg.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Eiffel Tower",
+          "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+          "fact": "El hierro pudelado de la torre pesa 7.300 toneladas; con ascensores, tiendas y antenas, unas 10.100."
+        },
+        {
+          "title": "1000PS · Vespa Primavera 125 (RED)",
+          "url": "https://www.1000ps.com/en-gb/model/10010/vespa-primavera-125-red",
+          "fact": "Peso en orden de marcha («kerb weight») de 132 kg en los modelos de 2025 y 2026."
+        }
+      ],
+      "reasoning": {
+        "heading": "Toneladas de hierro entre peso de moto",
+        "steps": [
+          "La torre Eiffel es de hierro pero muy calada: unas 7.000 toneladas. Una Vespa pesa algo más de 100 kg.",
+          "7.000 toneladas entre 0,1 t salen 70.000 Vespas. El orden es de decenas de miles.",
+          "Con 7.300 t y 132 kg por Vespa salen unas 55.303. Si se pesa la torre completa, con ascensores y tiendas, harían falta unas 76.500."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-29-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Disco duro de tonelada",
+      "title": "¿Cuántos discos duros IBM RAMAC 350 harían falta para guardar 1 terabyte?",
+      "detail": "El primer disco duro comercial (1956) pesaba más de una tonelada y guardaba 3,75 MB. Hoy un terabyte cabe en el bolsillo. Usa 1 TB = 10¹² bytes y ninguna compresión mágica.",
+      "unit": "discos",
+      "answer": 266666.6666666667,
+      "math": "El IBM 350 guarda 5 millones de caracteres de 6 bits, equivalentes a 3,75 MB. 1.000.000 MB ÷ 3,75 MB ≈ 266.667 armarios RAMAC.",
+      "referenceExpression": "10^12 ÷ 3750000",
+      "assumptions": "Usamos la equivalencia de 3,75 MB y unidades decimales (1 MB = 10⁶ bytes). Ignoramos que cada armario necesitaba su propio ordenador IBM 305 para funcionar.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · IBM 350",
+          "url": "https://en.wikipedia.org/wiki/IBM_350",
+          "fact": "El 350 almacena 5 millones de caracteres de 6 bits (3,75 MB)."
+        },
+        {
+          "title": "IBM · RAMAC, historia",
+          "url": "https://www.ibm.com/history/ramac",
+          "fact": "El sistema de almacenamiento del RAMAC pesaba más de una tonelada y apilaba 16 discos horizontales."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-29-3.jpg",
+        "alt": "Mecanismo de discos del IBM 350 RAMAC, una pila de grandes platos metálicos dentro de un armario",
+        "credit": "ArnoldReinhold",
+        "url": "https://commons.wikimedia.org/wiki/File:IBM_350_RAMAC_disk_mechanism.agr.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Pasa todo a megabytes",
+        "steps": [
+          "Un terabyte son un millón de megabytes. Si el RAMAC guarda unos pocos megas, necesitarás cientos de miles de armarios.",
+          "Con 4 MB por disco, un millón entre 4 da 250.000. Ese es el orden de magnitud.",
+          "Con los 3,75 MB exactos salen 266.667 RAMAC. A más de una tonelada cada uno, tu terabyte pesaría más de 260.000 toneladas, y tu móvil se ríe desde el bolsillo."
+        ]
+      }
+    }
+  ]
+}

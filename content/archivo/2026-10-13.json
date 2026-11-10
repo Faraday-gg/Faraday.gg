@@ -1,0 +1,120 @@
+{
+  "id": "2026-10-13",
+  "name": "Martes",
+  "theme": "El Capitán, Betty la fea y pañales",
+  "questions": [
+    {
+      "id": "archivo-2026-10-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Edificio de granito",
+      "title": "¿Cuántos pisos de 3 m tendría un edificio tan alto como la pared de El Capitán, en Yosemite?",
+      "detail": "Los escaladores tardan días en subirla y algunos duermen colgados a mitad de pared. Mide desde la base hasta la cumbre por su cara más alta y usa plantas de 3 m.",
+      "unit": "pisos",
+      "answer": 304.6666666666667,
+      "math": "El Capitán mide unos 914 m (3.000 pies) de la base a la cumbre por su cara más alta. 914 ÷ 3 ≈ 304,7 pisos.",
+      "referenceExpression": "914 ÷ 3",
+      "assumptions": "La altura de 3.000 pies es una cifra redondeada. Plantas de 3 m exactos, sin vestíbulos altos ni azotea.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · El Capitan",
+          "url": "https://en.wikipedia.org/wiki/El_Capitan",
+          "fact": "Unos 3.000 pies (914 m) de la base a la cumbre por su cara más alta."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-13-1.jpg",
+        "alt": "La pared vertical de granito de El Capitán sobre el valle de Yosemite, con pinos diminutos en la base",
+        "credit": "Mike Murphy (talk · contribs)",
+        "url": "https://commons.wikimedia.org/wiki/File:Yosemite_El_Capitan.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Altura de la pared entre altura de una planta",
+        "steps": [
+          "Es una de las paredes más famosas del mundo: casi un kilómetro de granito vertical.",
+          "Un kilómetro entre plantas de 3 m da unas 333 plantas. Ningún rascacielos se acerca.",
+          "Con los 914 m documentados salen 304,7 pisos. Como la cifra viene de 3.000 pies redondeados, puede bailar unos pocos pisos arriba o abajo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de telenovela",
+      "title": "¿Cuántas horas tardarías en ver todos los capítulos de Yo soy Betty, la fea?",
+      "detail": "Los 335 capítulos de la telenovela colombiana original, uno detrás de otro, sin saltarte ni las cabeceras. Las lágrimas con don Armando, aparte.",
+      "unit": "horas",
+      "answer": 111.66666666666667,
+      "math": "Yo soy Betty, la fea tiene 335 capítulos. En la versión de plataformas la mayoría dura unos 20 minutos. 335 × 20 = 6.700 minutos. 6.700 ÷ 60 ≈ 111,7 horas.",
+      "referenceExpression": "335 × 20 ÷ 60",
+      "assumptions": "Algunos capítulos rondan los 40 minutos, así que la cifra real puede ser algo mayor. Usamos la duración habitual de la versión publicada en plataformas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia en español · Yo soy Betty, la fea",
+          "url": "https://es.wikipedia.org/wiki/Yo_soy_Betty,_la_fea",
+          "fact": "Telenovela de Canal RCN emitida del 25 de octubre de 1999 al 8 de mayo de 2001, con 335 capítulos."
+        },
+        {
+          "title": "SensaCine México · ¿Cuánto tiempo te tomaría ver los 335 episodios de «Yo soy Betty, la fea»?",
+          "url": "https://www.sensacine.com.mx/noticias/noticia-18574900/",
+          "fact": "Algunos capítulos rondan los 40 minutos, pero en su mayoría duran unos 20 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Capítulos por minutos",
+        "steps": [
+          "Una telenovela larga tiene cientos de capítulos; Betty pasa de los 300, y cada uno dura lo que un café largo.",
+          "300 capítulos × 20 minutos = 6.000 minutos: 100 horas.",
+          "Con 335 capítulos de 20 minutos salen 111,7 horas: casi cinco días sin dormir para ver a Betty triunfar en Ecomoda."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Peso del pañal",
+      "title": "¿Cuántos kilos de pañales usados genera un bebé hasta que deja de llevarlos?",
+      "detail": "Un bebé que deja el pañal a los dos años y medio: 8 pañales al día el primer año y 6 después. Pesamos los pañales usados, con todo lo que llevan dentro.",
+      "unit": "kg",
+      "answer": 1240.0845081967213,
+      "math": "Primer año: 365 × 8 = 2.920 pañales. Hasta los 2,5 años: 1,5 × 365 × 6 = 3.285. Total: 6.205 pañales. En Baleares, 61 millones de pañales generaron 12.191 toneladas de residuos: unos 200 g por pañal usado. 6.205 × 0,1999 kg ≈ 1.240 kg.",
+      "referenceExpression": "(365 × 8 + 1,5 × 365 × 6) × 12191000 ÷ 61000000",
+      "assumptions": "El control de esfínteres empieza entre los 2 y los 3 años; tomamos 2,5. El peso por pañal sale del total de residuos de pañales infantiles de Baleares en 2024, así que es una media.",
+      "confidence": "Estimación con supuestos",
+      "sources": [
+        {
+          "title": "Familia y Salud (AEPap) · Aventuras y desventuras del control de esfínteres",
+          "url": "https://www.familiaysalud.es/sites/default/files/05.control_esfinteres.pdf",
+          "fact": "«Entre los 2 y 3 años se inicia el control de esfínteres»."
+        },
+        {
+          "title": "Pampers · How many diapers a day",
+          "url": "https://www.pampers.com/en-us/baby/diapering/article/how-many-diapers-a-day",
+          "fact": "De 8 a 12 pañales al día el primer mes, 8-10 de 2 a 4 meses, 7-9 de 5 a 8 meses y 6-8 de 9 a 12 meses."
+        },
+        {
+          "title": "Última Hora · Baleares consume al año 61 millones de pañales que generan 12.191 toneladas de residuos (31 de enero de 2026)",
+          "url": "https://www.ultimahora.es/noticias/local/2026/01/31/2560193/baleares-consume-ano-millones-panales-generan-12191-toneladas-residuos.html",
+          "fact": "Según la Fundación Rezero, los 27.834 niños de 0 a 2 años de Baleares usaron en 2024 61 millones de pañales, que generaron 12.191 toneladas de residuos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta pañales y luego pésalos",
+        "steps": [
+          "Un bebé gasta muchos pañales al día durante más de dos años: miles en total. Y un pañal usado pesa bastante más que uno limpio.",
+          "6.000 pañales × 0,2 kg = 1.200 kg.",
+          "Con 6.205 pañales de unos 200 g salen 1.240 kg: más de una tonelada, lo que pesa un coche pequeño. Por algo los padres huelen a heroísmo."
+        ]
+      }
+    }
+  ]
+}

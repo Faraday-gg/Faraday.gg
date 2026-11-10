@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-16",
+  "name": "Miércoles",
+  "theme": "Roomba, Times Square y Jordan",
+  "questions": [
+    {
+      "id": "archivo-2026-09-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Aspiradora viajera",
+      "title": "¿Cuántos kilómetros recorre en un año un robot aspirador que limpia una hora al día?",
+      "detail": "Un Roomba que barre una hora diaria a su velocidad máxima de avance, sin frenar en las esquinas ni quedarse atascado bajo el sofá. Los gatos que viajan encima no pagan billete.",
+      "unit": "km",
+      "answer": 657,
+      "math": "Un Roomba avanza como mucho a 500 mm/s, 0,5 m/s. En una hora recorre 0,5 × 3.600 = 1.800 m. En un año: 1.800 × 365 = 657.000 m = 657 km.",
+      "referenceExpression": "0,5 × 3600 × 365 ÷ 1000",
+      "assumptions": "Velocidad máxima constante; en la práctica frena, gira y se detiene, así que el recorrido real es menor. Una hora de limpieza diaria todo el año.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Quanser · Roomba Drive (documentación técnica)",
+          "url": "https://docs.quanser.com/quarc/documentation/roomba_drive_block.html",
+          "fact": "Las velocidades máximas de avance y retroceso del Roomba son 500 mm/s y −500 mm/s."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los milímetros por segundo a kilómetros",
+        "steps": [
+          "Un robot aspirador avanza a paso tranquilo: medio metro por segundo, más despacio que una persona andando.",
+          "Medio metro por segundo son 1,8 km en una hora. Por 365 días, unos 650 km.",
+          "El cálculo da 657 km al año: algo más que ir de Madrid a Lisboa por carretera, barriendo el arcén. Con los frenazos reales, algo menos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Cruce concurrido",
+      "title": "¿Cuántas personas entran en Times Square por minuto, de media, a lo largo del día?",
+      "detail": "El cruce más fotografiado del planeta, contado como si fuera un torniquete. Reparte los peatones diarios por igual en las 24 horas, aunque a las cuatro de la mañana haya menos gente.",
+      "unit": "personas/min",
+      "answer": 152.77777777777777,
+      "math": "En 2024 entraron en Times Square unos 220.000 peatones al día. Un día tiene 1.440 minutos: 220.000 ÷ 1.440 = 152,8 personas por minuto.",
+      "referenceExpression": "220000 ÷ 1440",
+      "assumptions": "Reparto uniforme en 24 horas. En hora punta la cifra se multiplica y de madrugada cae mucho.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Times Square Alliance · Market Research & Data",
+          "url": "https://www.timessquarenyc.org/business-community/market-research-data",
+          "fact": "En 2024 entraron en Times Square unos 220.000 peatones al día; los días de más afluencia llegan a 330.000."
+        }
+      ],
+      "reasoning": {
+        "heading": "De peatones al día a peatones al minuto",
+        "steps": [
+          "Times Square recibe cientos de miles de personas al día: piensa en 200.000 como primer intento.",
+          "Un día tiene 1.440 minutos. 200.000 ÷ 1.440 da unas 140 personas por minuto: más de dos por segundo.",
+          "Con los 220.000 peatones diarios de 2024 salen 152,8 personas por minuto. En un día punta de 330.000, serían 229."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Torre de canastas",
+      "title": "Si cada punto de Michael Jordan en la NBA fuera un ladrillo de LEGO apilado, ¿cuántos metros mediría la torre?",
+      "detail": "Un ladrillo LEGO estándar por cada punto que anotó Jordan en temporada regular, de 9,6 mm de alto sin contar los tetones. Los playoffs y los anuncios de zapatillas, fuera.",
+      "unit": "metros",
+      "answer": 310.0032,
+      "math": "Jordan anotó 32.292 puntos en temporada regular. Cada ladrillo LEGO mide 9,6 mm de alto. 32.292 × 9,6 = 310.003,2 mm ≈ 310 m.",
+      "referenceExpression": "32292 × 9,6 ÷ 1000",
+      "assumptions": "Solo temporada regular. Altura nominal de 9,6 mm por ladrillo, sin contar los tetones, que encajan en el de arriba.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Michael Jordan",
+          "url": "https://en.wikipedia.org/wiki/Michael_Jordan",
+          "fact": "Estadísticas de carrera en la NBA (temporada regular): 32.292 puntos, 30,1 por partido."
+        },
+        {
+          "title": "Orionrobots · LEGO specifications",
+          "url": "https://orionrobots.co.uk/wiki/lego_specifications.html",
+          "fact": "Un ladrillo LEGO estándar mide 9,6 mm de alto sin contar los tetones (9,582 mm medidos)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta puntos, apila centímetros",
+        "steps": [
+          "Jordan metió más de 30.000 puntos. Un ladrillo LEGO mide un centímetro escaso.",
+          "30.000 centímetros son 300 metros: una torre de verdad, no un juguete.",
+          "Con 32.292 puntos y 9,6 mm por ladrillo sale una torre de 310 m: casi la altura de la torre Eiffel con su antena (330 m). Para pisar el ladrillo de arriba haría falta saltar como Jordan."
+        ]
+      }
+    }
+  ]
+}

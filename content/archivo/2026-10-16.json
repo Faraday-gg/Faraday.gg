@@ -1,0 +1,107 @@
+{
+  "id": "2026-10-16",
+  "name": "Viernes",
+  "theme": "Siesta, horizonte y cepillo",
+  "questions": [
+    {
+      "id": "archivo-2026-10-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "País de siesta",
+      "title": "Si uno de cada cinco españoles echara una siesta de 20 minutos, ¿cuántos años de sueño sumaría España en un día?",
+      "detail": "Una siesta corta, de las que no dejan marca de almohada. Suma los minutos de todos los que se la echan y conviértelos en años de 365,25 días.",
+      "unit": "años",
+      "answer": 377.1396988364134,
+      "math": "España tenía 49.590.099 habitantes el 1 de enero de 2026. El 20 % son 9.918.020 personas. × 20 min = 198.360.396 minutos. ÷ 60 ÷ 24 ÷ 365,25 ≈ 377 años.",
+      "referenceExpression": "49590099 × 0,2 × 20 ÷ 60 ÷ 24 ÷ 365,25",
+      "assumptions": "El 20 % y los 20 minutos son condiciones del juego, no una estadística de hábitos de sueño. La población es provisional.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "Eurostat · demo_gind, población de España",
+          "url": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_gind?geo=ES&indic_de=JAN&sinceTimePeriod=2025&format=JSON&lang=EN",
+          "fact": "Población a 1 de enero de 2026: 49.590.099 habitantes (provisional)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos de siesta hasta llegar a años",
+        "steps": [
+          "En España viven unos 50 millones de personas; uno de cada cinco son 10 millones de siesteros.",
+          "10 millones × 20 minutos = 200 millones de minutos. Un año tiene unos 525.000 minutos: 200 millones entre medio millón dan unos 400 años.",
+          "Con la población de 2026 salen 377 años de sueño en un solo día: casi cuatro siglos de cabezadas. Si la siesta fuera de media hora, serían 566 años."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Ventanilla al infinito",
+      "title": "¿A cuántos kilómetros está el horizonte visto desde la ventanilla de un avión a 11.000 metros?",
+      "detail": "Estás en la ventanilla, el carrito de las bebidas acaba de pasar y miras a lo lejos. Supón un avión a 11.000 m de altitud de crucero, la Tierra como una esfera perfecta y un cielo sin nubes ni bruma. Calcula el horizonte geométrico, sin la ayuda de la refracción del aire.",
+      "unit": "km",
+      "answer": 374.3821576945141,
+      "math": "La distancia al horizonte es d ≈ √(2Rh). Con R = 6.371 km y h = 11 km: √(2 × 6.371 × 11) = √140.162 ≈ 374 km.",
+      "referenceExpression": "√(2 × 6371 × 11)",
+      "assumptions": "Tierra esférica de radio medio 6.371 km, sin relieve. Se ignora la refracción atmosférica, que alarga el horizonte alrededor de un 8 %. En la práctica, la bruma suele impedir ver tan lejos.",
+      "confidence": "Dato científico + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cruise (aeronautics)",
+          "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+          "fact": "La altitud de crucero típica de los aviones comerciales va de 31.000 a 38.000 pies (9.400 a 11.600 m)."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio medio volumétrico de la Tierra: 6.371 km."
+        },
+        {
+          "title": "Wikipedia · Horizon",
+          "url": "https://en.wikipedia.org/wiki/Horizon",
+          "fact": "La distancia al horizonte geométrico es √(2Rh + h²), que para alturas pequeñas frente al radio se reduce a √(2Rh)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Raíz de la altura por el radio",
+        "steps": [
+          "Desde la playa, con los ojos a menos de 2 m, el horizonte está a unos 5 km. Desde un avión, a 11 km de altura, tiene que estar muchísimo más lejos.",
+          "El horizonte crece con la raíz de la altura: 11.000 m es unas 6.000 veces más alto que 1,8 m, y la raíz de 6.000 es unos 77. 5 km × 77 ≈ 385 km: centenares de kilómetros.",
+          "Con √(2 × 6.371 × 11) salen 374 km, más que de Madrid a Valencia en línea recta. Con la refracción del aire serían unos 400 km."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Espuma acumulada",
+      "title": "Cepillándote dos veces al día dos minutos, ¿cuántos días enteros pasas en tu vida lavándote los dientes?",
+      "detail": "Cuatro minutos diarios de espuma desde los 3 años hasta los 80, sin saltarte ni una noche. Suma todos los minutos y conviértelos en días de 24 horas.",
+      "unit": "días",
+      "answer": 78.12291666666667,
+      "math": "De los 3 a los 80 años van 77 años. 77 × 365,25 = 28.124,25 días. × 4 min = 112.497 minutos. ÷ 1.440 ≈ 78,1 días.",
+      "referenceExpression": "77 × 365,25 × 4 ÷ 1440",
+      "assumptions": "Dos cepillados diarios de dos minutos exactos, como recomiendan los dentistas, desde los 3 hasta los 80 años. En la vida real mucha gente se cepilla menos tiempo.",
+      "confidence": "Recomendación + modelo",
+      "sources": [
+        {
+          "title": "NHS · How to keep your teeth clean",
+          "url": "https://www.nhs.uk/live-well/healthy-teeth-and-gums/how-to-keep-your-teeth-clean/",
+          "fact": "Cepíllate los dientes dos veces al día, unos 2 minutos cada vez."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos diarios por días de vida",
+        "steps": [
+          "Cuatro minutos al día parece poco. La pregunta es cuántos días se cepilla uno en la vida: casi 80 años de cepillo.",
+          "77 años son unos 28.000 días. Por 4 minutos son unos 112.000 minutos, y un día tiene 1.440: salen unos 78 días.",
+          "Con la cuenta exacta salen 78,1 días, más de dos meses y medio sin parar. Si te cepillas tres veces al día, súmale otro mes."
+        ]
+      }
+    }
+  ]
+}

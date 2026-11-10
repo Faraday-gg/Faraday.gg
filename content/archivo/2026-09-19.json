@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-19",
+  "name": "Sábado",
+  "theme": "Camello, Quijote y basura",
+  "questions": [
+    {
+      "id": "archivo-2026-09-19-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Barra libre",
+      "title": "¿Cuántas latas de refresco llenaría el agua que puede beberse un camello sediento de una sentada?",
+      "detail": "Un camello que llega seco al abrevadero y bebe hasta hartarse, en una sola sesión. Cuenta latas normales de 33 cl, sin gas y sin hielo: él no es exigente.",
+      "unit": "latas",
+      "answer": 439.3939,
+      "math": "Un camello puede beber hasta 145 litros de agua en una sola sesión. Entre 0,33 litros por lata: 145 ÷ 0,33 = 439,4 latas.",
+      "referenceExpression": "145 ÷ 0,33",
+      "assumptions": "Se toma el máximo que cita el zoo de San Diego; un camello que no esté deshidratado bebe mucho menos. Latas de 33 cl llenas hasta arriba.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "San Diego Zoo · Camel",
+          "url": "https://animals.sandiegozoo.org/animals/camel",
+          "fact": "Un camello puede beber hasta 32 galones (145 litros) de agua en una sola sesión."
+        }
+      ],
+      "reasoning": {
+        "heading": "Bañera de camello, latas de bar",
+        "steps": [
+          "Un camello sediento no bebe un vaso: bebe como para llenar una bañera pequeña. Pongamos 100 litros.",
+          "Una lata tiene 0,33 litros, así que caben tres latas por litro: 100 litros serían unas 300 latas.",
+          "Con los 145 litros que puede tragarse de una vez salen 439,4 latas: más de 18 cajas de 24."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-19-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Lectura caballeresca",
+      "title": "Leyendo 250 palabras por minuto, ¿cuántas horas tardarías en leer el Quijote completo?",
+      "detail": "Las dos partes, de la primera palabra del prólogo a la última del capítulo final. Lectura continua a 250 palabras por minuto, sin pausas para el bocadillo ni para buscar «yelmo» en el diccionario.",
+      "unit": "horas",
+      "answer": 25.576,
+      "math": "El texto completo de la edición del Proyecto Gutenberg suma 383.640 palabras (recuento propio). A 250 palabras por minuto: 383.640 ÷ 250 = 1.534,6 minutos, es decir, 25,58 horas.",
+      "referenceExpression": "383640 ÷ 250 ÷ 60",
+      "assumptions": "Recuento de palabras de una edición digital, con preliminares incluidos; otras ediciones varían ligeramente. Velocidad constante.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Proyecto Gutenberg · Don Quijote (libro electrónico n.º 2000)",
+          "url": "https://www.gutenberg.org/cache/epub/2000/pg2000.txt",
+          "fact": "Recuento propio del texto completo de las dos partes, sin la licencia del proyecto: 383.640 palabras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Palabras por página por páginas",
+        "steps": [
+          "Una edición del Quijote completo ronda las 1.000 páginas, con unas 350-400 palabras por página: unas 370.000 palabras.",
+          "A 250 palabras por minuto son 15.000 por hora. 370.000 ÷ 15.000 ≈ 25 horas.",
+          "Con el recuento de 383.640 palabras salen 25,58 horas: un día entero leyendo sin parar. A 200 palabras por minuto serían 32 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-19-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Bolsas de peso",
+      "title": "¿Cuántos osos polares pesaría la basura que saca en un año una familia de cuatro?",
+      "detail": "Toda la basura de un año de una familia de cuatro, reciclaje incluido, con la media española por persona. Compárala con un oso polar macho de 450 kg, que tampoco cabe en el contenedor.",
+      "unit": "osos polares",
+      "answer": 4.1271,
+      "math": "En 2023 se recogieron en España 464,3 kg de residuos municipales por habitante. Cuatro personas suman 1.857,2 kg; entre 450 kg por oso: 4,13 osos polares.",
+      "referenceExpression": "464,3 × 4 ÷ 450",
+      "assumptions": "La media por habitante incluye residuos de comercios y servicios que recogen los ayuntamientos, así que la cifra de un hogar es algo menor. Un macho adulto pesa entre 300 y 800 kg; 450 kg es un oso mediano.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Estadística sobre recogida y tratamiento de residuos urbanos 2023",
+          "url": "https://ine.es/dyngs/Prensa/ERTR2023.htm",
+          "fact": "En 2023 se recogieron 464,3 kilogramos de residuos municipales por habitante."
+        },
+        {
+          "title": "Wikipedia · Polar bear",
+          "url": "https://en.wikipedia.org/wiki/Polar_bear",
+          "fact": "Los machos adultos pesan entre 300 y 800 kg; las hembras, entre 150 y 300 kg."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilos por persona, osos por familia",
+        "steps": [
+          "Una persona tira cerca de un kilo de basura al día: unos 400 kg al año, casi un oso polar por cabeza.",
+          "Cuatro personas son unos 1.600 kg, así que la familia rondaría los 3 o 4 osos.",
+          "Con los 464,3 kg por habitante de 2023 salen 1.857 kg: 4,13 osos de 450 kg bajando al contenedor."
+        ]
+      }
+    }
+  ]
+}

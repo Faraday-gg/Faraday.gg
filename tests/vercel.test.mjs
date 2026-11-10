@@ -50,6 +50,7 @@ function fakeSupabase(){
       return Response.json(rows.map(d=>embed?{id:d.id,name:d.name,theme:d.theme,questions:[...tables.questions.values()].filter(q=>q.day_id===d.id).map(({id,position,content})=>({id,position,content}))}:{id:d.id}));
     }
     if(name==='questions'){const q=tables.questions.get((url.searchParams.get('id')||'').replace(/^eq\./,''));return Response.json(q?[{day_id:q.day_id}]:[])}
+    if(url.searchParams.has('player_hash')){const player=url.searchParams.get('player_hash').replace(/^eq./,'');return Response.json([...table.values()].filter(r=>r.player_hash===player).map(({question_id,guess})=>({question_id,guess:Number(guess.toPrecision(15))})))}
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
     const limit=Math.min(Number(url.searchParams.get('limit')||1000),1000),offset=Number(url.searchParams.get('offset')||0);
     const rows=[...table.values()].filter(r=>ids.includes(r.question_id)).sort((a,b)=>(a.question_id+a.player_hash).localeCompare(b.question_id+b.player_hash));
@@ -77,13 +78,13 @@ const realFetch=globalThis.fetch;globalThis.fetch=supabase.fetch;
 const {default:handler}=await import('../api/index.mjs');
 globalThis.fetch=realFetch;
 
-async function call(target,{method='GET',body,origin=SITE}={}){
+async function call(target,{method='GET',body,origin=SITE,cookie}={}){
   const url=rewrite(target);assert.equal(url.pathname,'/api',`vercel.json debe llevar ${target} a la función`);
-  const headers={host:'casi.test','x-forwarded-host':'casi.test'};if(origin)headers.origin=origin;if(body!==undefined)headers['content-type']='application/json';
+  const headers={host:'casi.test','x-forwarded-host':'casi.test'};if(origin)headers.origin=origin;if(body!==undefined)headers['content-type']='application/json';if(cookie)headers.cookie=cookie;
   const response=await handler.fetch(new Request(url,{method,headers,body:body===undefined?undefined:typeof body==='string'?body:JSON.stringify(body)}));
-  const text=await response.text();return {status:response.status,type:response.headers.get('content-type'),text,data:/json/.test(response.headers.get('content-type'))?JSON.parse(text):undefined};
+  const text=await response.text();return {status:response.status,headers:response.headers,type:response.headers.get('content-type'),text,data:/json/.test(response.headers.get('content-type'))?JSON.parse(text):undefined};
 }
-const post=(player,guess,question='piloto-v2-1')=>call('/api/answers',{method:'POST',body:{player,guess,question}});
+const post=(player,guess,question='piloto-v3-2026-11-09-1')=>call('/api/answers',{method:'POST',body:{player,guess,question}});
 const daily=player=>call('/api/daily-scores',{method:'POST',body:{date:'2026-11-09',player}});
 
 try{
@@ -102,11 +103,11 @@ try{
   assert.equal((await post(first,-1)).status,400);
   assert.equal((await post(first,100,'desconocida')).status,400);
   assert.equal((await daily(first)).status,409,'Un día incompleto no participa');
-  await post(first,60000,'piloto-v2-2');await post(first,4700,'piloto-v2-3');
+  await post(first,60000,'piloto-v2-2');await post(first,4700,'piloto-v3-2026-11-09-3');
   assert.equal((await daily(first)).data.count,0);
-  const third=randomUUID();await post(third,150000);await post(third,90000,'piloto-v2-2');await post(third,8000,'piloto-v2-3');
+  const third=randomUUID();await post(third,150000);await post(third,90000,'piloto-v2-2');await post(third,8000,'piloto-v3-2026-11-09-3');
   const result=await daily(first);assert.equal(result.status,200);assert.equal(result.data.count,1);
-  assert(Math.abs(result.data.own-((129166.66666666667/100000)+(60000/(419725/7))+(4700/(349.3*776.6/7.6**2)))/3)<.000001);
+  assert(Math.abs(result.data.own-((100000/33333.333333333336)+(60000/59960.71428571428)+(6971.569498694553/4700))/3)<.000001);
   const tomorrow=(await call('/api/day?date=2026-11-16')).data;
   assert.equal((await post(randomUUID(),100,tomorrow.questions[0].id)).status,200,'Las preguntas del banco se aceptan sin estado previo');
   // Cifras con más de 15 cifras significativas (Supabase las devuelve redondeadas).
@@ -115,8 +116,20 @@ try{
   assert.equal((await post(precise,long,tomorrow.questions[1].id)).status,200,'Reenviar la misma cifra no es un conflicto');
   assert.equal((await post(precise,long*1.01,tomorrow.questions[1].id)).status,409,'Una cifra distinta sí lo es');
 
+  // Jugador sin registro: cookie propia con el identificador anónimo y recuperación del progreso.
+  const jugador=(body,cookie,origin)=>call('/api/jugador',{method:'POST',body,cookie,origin});
+  let j=await jugador({});assert.equal(j.status,200);assert.match(j.data.player,/^[0-9a-f-]{36}$/);assert.equal(j.data.recovered,false);
+  assert.equal(j.headers.get('set-cookie'),`faraday_jugador=${j.data.player}; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax; Secure`);
+  j=await jugador({player:first},'faraday_jugador='+second);assert.equal(j.data.player,first,'El identificador del navegador manda sobre la cookie');assert.equal(j.data.recovered,false);assert.equal(j.data.progress,undefined);
+  j=await jugador({},'otra=1; faraday_jugador='+first);assert.equal(j.data.player,first);assert.equal(j.data.recovered,true);
+  assert.deepEqual(j.data.progress,{'2026-11-09':[100000,60000,4700]},'Se recupera el progreso guardado en Supabase');
+  j=await jugador({},'faraday_jugador='+precise);assert.deepEqual(j.data.progress,{},'Un día con huecos no se recupera');
+  j=await jugador({},'faraday_jugador=no-vale');assert.equal(j.data.recovered,false);assert.notEqual(j.data.player,'no-vale');
+  assert.equal((await jugador({},undefined,'https://otro.test')).status,403);
+  assert.equal((await call('/api/jugador')).status,405);
+
   // Seguridad y errores.
-  assert.equal((await call('/api/answers',{method:'POST',body:{player:first,guess:1,question:'piloto-v2-1'},origin:'https://otro.test'})).status,403);
+  assert.equal((await call('/api/answers',{method:'POST',body:{player:first,guess:1,question:'piloto-v3-2026-11-09-1'},origin:'https://otro.test'})).status,403);
   assert.equal((await call('/api/answers',{method:'POST',body:'x'.repeat(3000)})).status,413);
   assert.equal((await call('/api/answers',{method:'POST',body:'{no'})).status,400);
   assert.equal((await call('/api/answers')).status,405);
@@ -127,7 +140,7 @@ try{
   assert([...supabase.tables.answers.values()].every(row=>/^[0-9a-f]{64}$/.test(row.player_hash)&&row.player_hash!==first));
   assert.deepEqual([...supabase.tables.days.values()].map(d=>[d.id,d.source]),[['2026-11-09','piloto'],['2026-11-16','banco-editorial']]);
   assert.equal(supabase.tables.questions.size,6);
-  const pilotQuestion=supabase.tables.questions.get('piloto-v2-1');assert.equal(pilotQuestion.position,1);assert.equal(pilotQuestion.revision,2);assert.equal(pilotQuestion.content.id,'piloto-v2-1');
+  const pilotQuestion=supabase.tables.questions.get('piloto-v3-2026-11-09-1');assert.equal(pilotQuestion.position,1);assert.equal(pilotQuestion.revision,1);assert.equal(pilotQuestion.content.id,'piloto-v3-2026-11-09-1');
   assert.equal(supabase.calls.filter(c=>c.method==='POST'&&c.url.pathname.endsWith('/days')).length,2,'Cada jornada se publica una vez por instancia');
   assert(supabase.calls.every(c=>c.url.origin==='https://proyecto.supabase.co'&&c.headers.get('apikey')===KEY&&!c.headers.has('authorization')));
   assert(!fs.existsSync(daysDirectory),'En Vercel no se escriben jornadas en disco');
@@ -156,7 +169,7 @@ try{
   const {createApi}=await import('../lib/api.mjs');
   const bare=createApi({persistDays:false,store:supabaseStore({}),log:()=>{}});
   assert.equal((await bare.handle(new Request(SITE+'/api?route=calendar'))).status,200);
-  const missing=await bare.handle(new Request(SITE+'/api?route=answers',{method:'POST',headers:{host:'casi.test'},body:JSON.stringify({player:first,guess:5,question:'piloto-v2-1'})}));
+  const missing=await bare.handle(new Request(SITE+'/api?route=answers',{method:'POST',headers:{host:'casi.test'},body:JSON.stringify({player:first,guess:5,question:'piloto-v3-2026-11-09-1'})}));
   assert.equal(missing.status,500);assert.equal((await missing.json()).error,'No se pudo procesar la solicitud');
 
   // Configuración de Vercel coherente con el repositorio y con el frontend.

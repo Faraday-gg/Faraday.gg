@@ -1,0 +1,112 @@
+{
+  "id": "2026-08-26",
+  "name": "Miércoles",
+  "theme": "Reaper, hormigas y Perseverance",
+  "questions": [
+    {
+      "id": "archivo-2026-08-26-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Pica que pica",
+      "title": "¿Cuántos jalapeños tendrías que comerte para igualar el picante de un solo chile Carolina Reaper?",
+      "detail": "Sumamos unidades Scoville: el Carolina Reaper de su récord Guinness contra jalapeños de 5.000 SHU. Ten un vaso de leche cerca.",
+      "unit": "jalapeños",
+      "answer": 328.2366,
+      "math": "El Carolina Reaper certificado por Guinness promedió 1.641.183 SHU. Con jalapeños de 5.000 SHU: 1.641.183 ÷ 5.000 ≈ 328 jalapeños.",
+      "referenceExpression": "1.641.183 ÷ 5.000",
+      "assumptions": "El picante no se suma de verdad al comer varios chiles; es una comparación de escalas. Jalapeño de 5.000 SHU, en la parte suave de su rango (4.000-8.500). El Reaper fue el chile más picante del mundo hasta 2023, cuando lo superó el Pepper X.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Carolina Reaper",
+          "url": "https://en.wikipedia.org/wiki/Carolina_Reaper",
+          "fact": "En la certificación de Guinness, un lote promedió 1.641.183 SHU; en 2023 el Pepper X le quitó el título de chile más picante."
+        },
+        {
+          "title": "Wikipedia · Jalapeño",
+          "url": "https://en.wikipedia.org/wiki/Jalape%C3%B1o",
+          "fact": "Los jalapeños suelen tener entre 4.000 y 8.500 unidades Scoville."
+        }
+      ],
+      "reasoning": {
+        "heading": "Scoville entre Scoville",
+        "steps": [
+          "Un jalapeño pica, pero el Reaper está en otra liga: cientos de veces más. Saldrán cientos de jalapeños.",
+          "1,6 millones ÷ 5.000 ≈ 320. El orden de magnitud: unos pocos cientos.",
+          "Con 1.641.183 SHU salen 328 jalapeños. Con jalapeños más bravos, de 8.000 SHU, bastarían unos 205."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-26-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Reparto de hormigas",
+      "title": "Si repartiéramos todas las hormigas del planeta, ¿cuántas le tocarían a cada persona?",
+      "detail": "Con el recuento de un estudio de 2022 y la población mundial de 2024, a partes iguales. No se admiten devoluciones.",
+      "unit": "hormigas",
+      "answer": 2439024.3902439023,
+      "math": "Un estudio de 2022 estima unos 20.000 billones de hormigas (2 × 10¹⁶). Entre 8.200 millones de personas: 2 × 10¹⁶ ÷ 8,2 × 10⁹ ≈ 2.439.024 hormigas por persona.",
+      "referenceExpression": "20.000.000.000.000.000 ÷ 8.200.000.000",
+      "assumptions": "La cifra de hormigas es una estimación conservadora con mucha incertidumbre; E. O. Wilson había estimado entre 1.000 y 10.000 billones. Población mundial de 2024 (ONU).",
+      "confidence": "Estimación científica + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Ant",
+          "url": "https://en.wikipedia.org/wiki/Ant",
+          "fact": "Un estudio de 2022 estimó unos 20.000 billones (20 quadrillion) de hormigas en la Tierra, con 12 megatoneladas de carbono seco."
+        },
+        {
+          "title": "ONU · World Population Prospects 2024",
+          "url": "https://www.un.org/sustainabledevelopment/?p=114007",
+          "fact": "La población mundial era de 8.200 millones de personas en 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Hormigas entre personas",
+        "steps": [
+          "Hay hormigas en cualquier jardín, en cualquier bosque y en casi cualquier cocina. Seguro que nos tocan muchísimas: millones.",
+          "2 × 10¹⁶ ÷ 10¹⁰ = 2 × 10⁶. Unos dos millones por cabeza.",
+          "Con 8.200 millones de personas salen 2.439.024 hormigas. Unos cuantos hormigueros solo para ti."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-26-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Rover sin prisa",
+      "title": "A su velocidad máxima, ¿cuántos días tardaría el rover Perseverance en ir de Madrid a Barcelona por la vía del AVE?",
+      "detail": "Rover marciano siguiendo los 621 km de la línea de alta velocidad, sin parar a coger muestras ni a cargar baterías. Ni siquiera para un bocadillo en Zaragoza.",
+      "unit": "días",
+      "answer": 170.23026315789474,
+      "math": "La velocidad máxima del rover en terreno llano y duro es de 152 m/h (0,152 km/h). 621 km ÷ 0,152 km/h ≈ 4.086 horas; entre 24, unos 170,2 días.",
+      "referenceExpression": "621 ÷ 0,152 ÷ 24",
+      "assumptions": "Velocidad máxima constante, 24 horas al día, sin pausas. En Marte el rover avanza mucho más despacio de media porque se detiene para planificar y analizar el terreno.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Mars 2020 Perseverance: componentes del rover",
+          "url": "https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/",
+          "fact": "Su velocidad máxima en terreno llano y duro es de algo menos de 0,1 mph (152 metros por hora)."
+        },
+        {
+          "title": "Wikipedia · Línea de alta velocidad Madrid-Zaragoza-Barcelona-Frontera Francesa",
+          "url": "https://es.wikipedia.org/wiki/L%C3%ADnea_de_alta_velocidad_Madrid-Zaragoza-Barcelona-Frontera_Francesa",
+          "fact": "La línea mide 621 km entre Madrid y Barcelona."
+        }
+      ],
+      "reasoning": {
+        "heading": "Velocidad de caracol con prisa",
+        "steps": [
+          "El rover va más despacio que una persona paseando: unos pocos metros por minuto. Madrid–Barcelona son más de 600 km.",
+          "A unos 150 m por hora, 600 km son 4.000 horas: unos 170 días sin parar.",
+          "Con 152 m/h y los 621 km del AVE salen 170,2 días, casi medio año. El AVE tarda unas dos horas y media."
+        ]
+      }
+    }
+  ]
+}

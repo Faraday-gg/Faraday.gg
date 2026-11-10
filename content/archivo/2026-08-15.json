@@ -1,0 +1,115 @@
+{
+  "id": "2026-08-15",
+  "name": "Sábado",
+  "theme": "Velas, ositos y Escarabajo",
+  "questions": [
+    {
+      "id": "archivo-2026-08-15-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Tarta de cera",
+      "title": "Si clavaras en una sola tarta todas las velas que soplarás hasta los 80 años, ¿cuántos kilos de cera llevaría?",
+      "detail": "Suma una vela por año en cada cumpleaños, del primero al 80, y pésalas con velas de espiral de 2,5 pulgadas. Ten un extintor a mano.",
+      "unit": "kg",
+      "answer": 5.1029141625,
+      "math": "De 1 a 80 velas: 80 × 81 ÷ 2 = 3.240 velas. Una caja de 288 velas de espiral pesa 1 libra (453,6 g) con su envoltorio: unos 1,57 g por vela. 3.240 × 1,575 g ≈ 5,1 kg de velas.",
+      "referenceExpression": "(80 × 81 ÷ 2) × 453,59237 ÷ 288 ÷ 1000",
+      "assumptions": "El peso por vela sale del peso de envío de la caja, que incluye cartón y envoltorio, así que la cera real es algo menos. Velas más gruesas o de número cambian mucho el resultado.",
+      "confidence": "Dato de fabricante + modelo",
+      "sources": [
+        {
+          "title": "WebstaurantStore · Creative Converting 2 1/2\" 24-Count Rainbow Color Spiral Candles",
+          "url": "https://www.webstaurantstore.com/creative-converting-2-1-2-24-count-rainbow-color-spiral-candles-case/286BCNDLRNBCS.html",
+          "fact": "Caja de 12 paquetes de 24 velas (288 velas) de 2,5 pulgadas, con un peso de envío de 1 lb; cera apta para alimentos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Suma, luego pesa",
+        "steps": [
+          "Una vela de cumpleaños pesa poco más de un gramo. Si soplas unas pocas miles en tu vida, la tarta cargaría varios kilos.",
+          "1 + 2 + … + 80 es 80 × 81 ÷ 2 = 3.240 velas. Con 1,5 g por vela, unos 4,9 kg.",
+          "Con 288 velas por libra salen 1,575 g por vela y 5,1 kg en total: la tarta necesitaría una mesa reforzada y los bomberos de guardia."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-15-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Golosina monumental",
+      "title": "¿Cuántos ositos de gominola en fila medirían lo mismo que la Estatua de la Libertad, de los pies a la antorcha?",
+      "detail": "Mide la estatua sin pedestal, desde lo alto de la base hasta la punta de la antorcha, y apila ositos de gominola de 2 cm, uno encima de otro. Si te comes alguno, vuelve a empezar.",
+      "unit": "ositos",
+      "answer": 2302.5,
+      "math": "De lo alto de la base a la antorcha, la estatua mide 46,05 m. Un osito de gominola mide unos 2 cm: 46,05 ÷ 0,02 ≈ 2.303 ositos.",
+      "referenceExpression": "46,05 ÷ 0,02",
+      "assumptions": "Medimos solo la estatua, sin el pedestal de piedra (con él supera los 93 m). Usamos el tamaño típico de un osito, unos 2 cm; los de algunas marcas son algo más grandes y bajarían la cifra.",
+      "confidence": "Dato oficial + modelo",
+      "sources": [
+        {
+          "title": "National Park Service · Statue of Liberty · Statue Statistics",
+          "url": "https://www.nps.gov/stli/learn/historyculture/statue-statistics.htm",
+          "fact": "De lo alto de la base a la antorcha: 151'1\" (46,05 m). Del talón a la cabeza: 33,86 m."
+        },
+        {
+          "title": "Wikipedia · Gummy bear",
+          "url": "https://en.wikipedia.org/wiki/Gummy_bear",
+          "fact": "Los ositos de gominola miden aproximadamente 2 cm de largo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-15-2.jpg",
+        "alt": "La Estatua de la Libertad al anochecer, entera sobre su pedestal, con la antorcha encendida",
+        "credit": "Dietmar Rabich",
+        "url": "https://commons.wikimedia.org/wiki/File:New_York_City_(New_York,_USA),_Statue_of_Liberty_--_2012_--_6818.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Una torre de golosinas",
+        "steps": [
+          "Sin el pedestal, la estatua es como un edificio de unos 15 pisos: unos 45 m. Un osito mide un par de centímetros.",
+          "A 50 ositos por metro, 45 m piden unos 2.250 ositos: un par de miles.",
+          "Con los 46,05 m del Servicio de Parques Nacionales salen 2.303 ositos: unas cuantas bolsas grandes y mucho pulso."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-15-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Fila de escarabajos",
+      "title": "¿Cuántas vueltas a la Tierra daría una fila con todos los Volkswagen Escarabajo fabricados?",
+      "detail": "Pon en fila, parachoques con parachoques, todos los Escarabajo originales que se fabricaron y estíralos sobre el ecuador. Por el mar también, que para eso es un juego.",
+      "unit": "vueltas",
+      "answer": 2.1913573847107135,
+      "math": "Se fabricaron 21.529.464 Escarabajos de 4,079 m: unos 87.819 km de coches. El ecuador mide 2 × π × 6.378,137 ≈ 40.075 km: 87.819 ÷ 40.075 ≈ 2,19 vueltas.",
+      "referenceExpression": "21529464 × 4,079 ÷ 1000 ÷ (2 × 3,14159265 × 6378,137)",
+      "assumptions": "Usamos la versión más corta del Escarabajo (4.079 mm); con la más larga (4.140 mm) salen 2,22 vueltas. No dejamos hueco entre coches.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Volkswagen Beetle",
+          "url": "https://en.wikipedia.org/wiki/Volkswagen_Beetle",
+          "fact": "Se fabricaron 21.529.464 unidades en todo el mundo; longitud de 4.079 a 4.140 mm según la versión."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Coches en fila sobre el ecuador",
+        "steps": [
+          "Del Escarabajo se fabricaron más de 20 millones y cada uno mide unos 4 m: más de 80.000 km de coches.",
+          "La Tierra mide unos 40.000 km de perímetro, así que la fila daría unas dos vueltas.",
+          "Con 21.529.464 unidades de 4,079 m salen 87.819 km: 2,19 vueltas a la Tierra. El atasco más largo y más simpático de la historia."
+        ]
+      }
+    }
+  ]
+}

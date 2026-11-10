@@ -1,0 +1,107 @@
+{
+  "id": "2026-08-24",
+  "name": "Lunes",
+  "theme": "Stonehenge, piñatas y Coca-Cola",
+  "questions": [
+    {
+      "id": "archivo-2026-08-24-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Mudanza neolítica",
+      "title": "¿Cuántos equipos de fútbol completos hacían falta para arrastrar una de las grandes piedras de Stonehenge?",
+      "detail": "Un sarsen medio sobre un trineo de madera, con once jugadores por equipo y cada uno moviendo 100 kg. Los suplentes y el árbitro no tiran.",
+      "unit": "equipos",
+      "answer": 22.727272727272727,
+      "math": "Un sarsen medio pesa 25 toneladas (25.000 kg). A 100 kg por persona: 25.000 ÷ 100 = 250 personas; entre 11 por equipo ≈ 22,7 equipos.",
+      "referenceExpression": "25.000 ÷ 100 ÷ 11",
+      "assumptions": "Las 25 «tons» de English Heritage se toman como 25.000 kg. Los 100 kg por persona con trineo y rodillos son una suposición del juego; depende del terreno y la técnica.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "English Heritage · 30 things you might not know about Stonehenge",
+          "url": "https://www.english-heritage.org.uk/visit/inspire-me/blog/blog-posts/30-things-you-might-not-know-about-stonehenge",
+          "fact": "El sarsen medio de Stonehenge pesa 25 toneladas; el más grande, la Heel Stone, unas 30."
+        }
+      ],
+      "reasoning": {
+        "heading": "Toneladas entre once",
+        "steps": [
+          "Una piedra que pesa como cuatro elefantes necesita cientos de brazos. Unas cuantas plantillas, desde luego.",
+          "25.000 kg ÷ 100 kg = 250 personas; entre 10 serían 25 equipos.",
+          "Con equipos de 11 salen 22,7 equipos: una liga entera y algo más tirando de la misma cuerda."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-24-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Fiesta de pulmones",
+      "title": "¿Cuántas piñatas llenarías con el aire que respiras en un día?",
+      "detail": "Respiración tranquila todo el día y piñatas redondas de 40 cm de diámetro. Los caramelos se los quitamos para que quepa el aire.",
+      "unit": "piñatas",
+      "answer": 322.28875976108804,
+      "math": "En reposo movemos unos 0,5 litros por respiración. A 15 respiraciones por minuto: 0,5 × 15 × 1.440 = 10.800 litros al día. Una piñata esférica de 40 cm tiene 4/3 × π × 20³ ≈ 33.510 cm³ ≈ 33,5 litros: 10.800 ÷ 33,5 ≈ 322 piñatas.",
+      "referenceExpression": "0,5 × 15 × 1.440 ÷ (4/3 × π × 0,2³ × 1.000)",
+      "assumptions": "Ritmo constante de 15 respiraciones por minuto y 500 ml por respiración todo el día, también durmiendo. La piñata esférica de 40 cm es una suposición del juego; con ejercicio el aire se dispara.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Tidal volume",
+          "url": "https://en.wikipedia.org/wiki/Tidal_volume",
+          "fact": "Un adulto joven sano mueve unos 500 ml de aire por inspiración en reposo."
+        },
+        {
+          "title": "Wikipedia · Respiratory rate",
+          "url": "https://en.wikipedia.org/wiki/Respiratory_rate",
+          "fact": "La frecuencia respiratoria típica de un adulto sano en reposo es de 12-15 respiraciones por minuto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros de aire entre piñatas",
+        "steps": [
+          "Respiramos medio litro cada pocos segundos, todo el día. Eso suma miles de litros, y una piñata grande guarda unas decenas.",
+          "10.000 litros ÷ 30 litros ≈ 330. El orden de magnitud: unos cientos de piñatas.",
+          "Con 10.800 litros y piñatas de 33,5 litros salen 322. Dale, dale, dale: tienes para todo el año de cumpleaños."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-24-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Dulce burbuja",
+      "title": "¿Cuántas cucharillas de azúcar lleva una botella de 2 litros de Coca-Cola?",
+      "detail": "Coca-Cola original, con azúcar, y cucharillas rasas como las que usa la OMS para explicar el azúcar. Sin removerlas en el café.",
+      "unit": "cucharillas",
+      "answer": 50.879999999999995,
+      "math": "Coca-Cola original lleva 10,6 g de azúcares por 100 ml: en 2.000 ml hay 212 g. La OMS equipara 50 g de azúcar a unas 12 cucharillas rasas (≈4,17 g cada una): 212 ÷ (50 ÷ 12) ≈ 50,9 cucharillas.",
+      "referenceExpression": "10,6 × 20 ÷ (50 ÷ 12)",
+      "assumptions": "Usamos la etiqueta británica (10,6 g/100 ml); la receta puede variar un poco según el país. La equivalencia de la OMS es aproximada («unas 12 cucharillas»).",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Coca-Cola Reino Unido · Coca-Cola Original Taste",
+          "url": "https://www.coca-cola.com/gb/en/brands/coca-cola-original-taste",
+          "fact": "Coca-Cola Original Taste lleva 10,6 g de azúcares por 100 ml."
+        },
+        {
+          "title": "OMS · Alimentación sana (nota descriptiva)",
+          "url": "https://www.who.int/news-room/fact-sheets/detail/healthy-diet",
+          "fact": "50 g de azúcares libres equivalen a unas 12 cucharillas rasas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Gramos de azúcar entre cucharillas",
+        "steps": [
+          "Un refresco lleva unos diez gramos de azúcar por cada vaso pequeño, y la botella es enorme. Habrá decenas de cucharillas.",
+          "10 g × 20 = 200 g; entre 4 g por cucharilla, unas 50.",
+          "Con 212 g y 4,17 g por cucharilla salen 50,9 cucharillas. Medio azucarero en una sola botella."
+        ]
+      }
+    }
+  ]
+}

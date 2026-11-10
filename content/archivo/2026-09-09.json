@@ -1,0 +1,115 @@
+{
+  "id": "2026-09-09",
+  "name": "Miércoles",
+  "theme": "Millau, Aconcagua y superordenador",
+  "questions": [
+    {
+      "id": "archivo-2026-09-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Viaducto en caravana",
+      "title": "¿Cuántos coches en fila caben sobre el viaducto de Millau?",
+      "detail": "Un solo carril, coches de 4,5 m y un metro de hueco entre uno y otro. Atasco perfecto, a 270 m sobre el río Tarn.",
+      "unit": "coches",
+      "answer": 447.27272727272725,
+      "math": "El tablero mide 2.460 m. Cada coche con su hueco ocupa 4,5 + 1 = 5,5 m. 2.460 ÷ 5,5 ≈ 447 coches.",
+      "referenceExpression": "2460 ÷ (4,5 + 1)",
+      "assumptions": "Un solo carril; el viaducto tiene cuatro, así que en un atasco total cabrían unos 1.800 coches.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Millau Viaduct",
+          "url": "https://en.wikipedia.org/wiki/Millau_Viaduct",
+          "fact": "El tablero mide 2.460 metros de longitud y lleva cuatro carriles de la autopista A75."
+        }
+      ],
+      "reasoning": {
+        "heading": "Mide coches con hueco incluido",
+        "steps": [
+          "El viaducto supera los dos kilómetros. Un coche con su espacio ocupa unos 5 metros.",
+          "2.500 m entre 5 m dan unos 500 coches por carril.",
+          "Con 2.460 m y 5,5 m por coche salen 447. Con los cuatro carriles llenos, unos 1.789: un atasco con vistas."
+        ]
+      },
+      "image": {
+        "src": "assets/archivo-2026-09-09-1.jpg",
+        "alt": "Viaducto de Millau cruzando el valle del Tarn sobre sus pilas atirantadas",
+        "credit": "Vincent",
+        "url": "https://commons.wikimedia.org/wiki/File:Viaduc_de_Millau_1.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Viaduc_de_Millau_1.jpg"
+      }
+    },
+    {
+      "id": "archivo-2026-09-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Torres en la montaña",
+      "title": "¿Cuántas torres Eiffel apiladas harían falta para llegar a la cima del Aconcagua?",
+      "detail": "Ponemos una torre Eiffel encima de otra, con antena incluida, desde el nivel del mar hasta el techo de América. El ascensor solo llega a la primera.",
+      "unit": "torres Eiffel",
+      "answer": 21.093333,
+      "math": "La altura oficial del Aconcagua es 6.960,8 m y la torre Eiffel mide 330 m con su antena. 6.960,8 ÷ 330 ≈ 21,1 torres.",
+      "referenceExpression": "6960,8 ÷ 330",
+      "assumptions": "Altura desde el nivel del mar. Se usa la altura oficial de la Universidad Nacional de Cuyo y el IGN; otras fuentes dan hasta 6.967 m, lo que apenas cambia el resultado.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Wikipedia · Aconcagua",
+          "url": "https://es.wikipedia.org/wiki/Aconcagua",
+          "fact": "La altura oficial del Aconcagua, 6.960,8 m, la establecieron la Universidad Nacional de Cuyo y el IGN de Argentina con mediciones GPS de 2011 y 2012."
+        },
+        {
+          "title": "Wikipedia · Torre Eiffel",
+          "url": "https://es.wikipedia.org/wiki/Torre_Eiffel",
+          "fact": "Altura total con antena en 2022: 330 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide la montaña en torres",
+        "steps": [
+          "El Aconcagua, el pico más alto de América, ronda los 7.000 metros. La torre Eiffel, unos 300.",
+          "7.000 entre 300 da algo más de 23: hacen falta un par de decenas de torres.",
+          "Con 6.960,8 m y 330 m salen 21,1 torres Eiffel. Y eso que las de abajo tendrían que aguantar el peso de otras veinte."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Toda la humanidad calculando",
+      "title": "Si toda la humanidad hiciera una operación por segundo, ¿cuántos días tardaría en igualar un segundo del superordenador más potente del mundo?",
+      "detail": "Ocho mil trescientos millones de personas haciendo una operación por segundo, sin dormir ni equivocarse. Al otro lado, LineShine, el número 1 de la lista TOP500 de junio de 2026. Las calculadoras, prohibidas.",
+      "unit": "días",
+      "answer": 3065.595716,
+      "math": "LineShine logra 2.198,4 PFlop/s, es decir, 2,1984 × 10¹⁸ operaciones por segundo. Entre 8.300 millones de personas, cada una tendría que hacer 264,9 millones de operaciones: 264.867.470 s ÷ 86.400 ≈ 3.066 días.",
+      "referenceExpression": "2198,4 × 10^15 ÷ 8300000000 ÷ 86400",
+      "assumptions": "Rmax del ensayo HPL en la lista TOP500 de junio de 2026. Población de 8.300 millones (2026). Cada persona hace exactamente una operación por segundo sin descanso.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "TOP500 · Lista de junio de 2026",
+          "url": "https://www.top500.org/lists/top500/2026/06/",
+          "fact": "LineShine, del Centro Nacional de Supercomputación de Shenzhen, es el nuevo número 1 con un Rmax de 2.198,40 PFlop/s y desbanca a El Capitan."
+        },
+        {
+          "title": "Wikipedia · World population",
+          "url": "https://en.wikipedia.org/wiki/World_population",
+          "fact": "En 2026 la población mundial es de aproximadamente 8.300 millones de personas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Reparte un trillón entre ocho mil millones",
+        "steps": [
+          "Un superordenador de primera línea supera ya el exaflop: más de un trillón (10¹⁸) de operaciones por segundo. Los humanos somos unos 8.000 millones.",
+          "10¹⁸ entre 10¹⁰ personas son 10⁸ segundos cada una, unos 100 millones de segundos: más de mil días.",
+          "Con 2,1984 × 10¹⁸ operaciones y 8.300 millones de personas salen 3.066 días: más de ocho años sin dormir para copiar un solo segundo de la máquina."
+        ]
+      }
+    }
+  ]
+}

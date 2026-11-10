@@ -1,0 +1,112 @@
+{
+  "id": "2026-10-21",
+  "name": "Miércoles",
+  "theme": "Piloto, Gutenberg y Harry Potter",
+  "questions": [
+    {
+      "id": "archivo-2026-10-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Kilometraje de cabina",
+      "title": "¿Cuántas veces podría ir y volver a la Luna un piloto de avión con lo que vuela en toda su carrera?",
+      "detail": "Un piloto de aerolínea con una carrera de 35 años, volando el promedio mensual de su profesión. Supón 800 km/h de media contando despegues y aterrizajes. Las millas para el programa de fidelidad no se las dan, por desgracia.",
+      "unit": "viajes",
+      "answer": 32.778355879292405,
+      "math": "Un piloto de aerolínea vuela de media 75 horas al mes: 75 × 12 × 35 = 31.500 horas en su carrera. 31.500 × 800 km/h = 25,2 millones de km. Ir y volver a la Luna son 2 × 384.400 = 768.800 km. 25.200.000 ÷ 768.800 ≈ 32,8 viajes.",
+      "referenceExpression": "75 × 12 × 35 × 800 ÷ (2 × 384400)",
+      "assumptions": "Carrera de 35 años volando todos los meses la media de 75 horas. Velocidad media de 800 km/h, algo por debajo del crucero (830–900 km/h) por los tramos de subida, bajada y rodaje. Distancia media Tierra-Luna.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "U.S. Bureau of Labor Statistics · Airline and Commercial Pilots",
+          "url": "https://www.bls.gov/ooh/transportation-and-material-moving/airline-and-commercial-pilots.htm",
+          "fact": "Los pilotos de aerolínea vuelan una media de 75 horas al mes."
+        },
+        {
+          "title": "Wikipedia · Cruise (aeronautics)",
+          "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+          "fact": "Los reactores de pasillo único cruzan a unos 830 km/h y los de fuselaje ancho a unos 900 km/h."
+        },
+        {
+          "title": "NASA · Moon Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+          "fact": "Semieje mayor de la órbita lunar: 384.400 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Horas de vuelo por velocidad entre viaje lunar",
+        "steps": [
+          "Un piloto vuela unas mil horas al año y trabaja unas tres décadas: unas 30.000 horas.",
+          "A unos 800 km/h, son 24 millones de kilómetros. La Luna, ida y vuelta, está a unos 770.000 km: salen unas 30 veces.",
+          "Con 75 horas al mes durante 35 años salen 31.500 horas y 32,8 viajes. Con una carrera más corta o más horas en tierra, serían unos 25."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Imprenta con prisa",
+      "title": "¿Cuántas páginas al día imprimía de media el taller de Gutenberg para terminar su Biblia?",
+      "detail": "Contamos cada página de cada ejemplar de la tirada, y suponemos tres años de trabajo con 300 jornadas cada uno. Cero erratas, por supuesto.",
+      "unit": "páginas/día",
+      "answer": 257.6,
+      "math": "Un ejemplar completo tiene 1.288 páginas y la tirada fue de unos 180 ejemplares (Wikipedia, «Gutenberg Bible»). 1.288 × 180 = 231.840 páginas; entre 3 × 300 = 900 jornadas ≈ 257,6 páginas al día.",
+      "referenceExpression": "1288 × 180 ÷ (3 × 300)",
+      "assumptions": "No se sabe con exactitud cuánto duró la impresión; suponemos tres años (empezó después de 1450 y los primeros ejemplares estaban en 1454-1455). Los historiadores estiman entre 160 y 185 ejemplares.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Gutenberg Bible",
+          "url": "https://en.wikipedia.org/wiki/Gutenberg_Bible",
+          "fact": "Un ejemplar completo tiene 1.288 páginas; una carta de 1455 habla de 158 o 180 ejemplares y los estudiosos estiman entre 160 y 185."
+        }
+      ],
+      "reasoning": {
+        "heading": "Páginas totales entre jornadas de trabajo",
+        "steps": [
+          "La Biblia es gorda y se imprimieron más de cien ejemplares. Pero en el siglo XV todo iba a mano: ¿decenas de páginas al día?",
+          "Unas 1.300 páginas por 180 ejemplares superan las 230.000 páginas. Repartidas en unos 900 días, salen unas 250 al día.",
+          "El cálculo da 257,6 páginas diarias. Si la tarea duró cuatro años en vez de tres, bajaría a unas 190; con varias prensas trabajando a la vez, el ritmo por prensa era menor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Biblioteca mágica",
+      "title": "¿Cuántas vueltas a la Tierra daría una fila con todos los libros de Harry Potter vendidos?",
+      "detail": "Ponemos los libros en el suelo, uno detrás de otro a lo largo, ocupando 20 cm cada uno. Da igual el tomo: los gordos y los finos cuentan lo mismo.",
+      "unit": "vueltas",
+      "answer": 2.994384256904994,
+      "math": "Se han vendido más de 600 millones de ejemplares (Scholastic). 600 millones × 0,2 m = 120.000 km; entre 40.075 km del ecuador (Wikipedia) ≈ 3 vueltas.",
+      "referenceExpression": "600000000 × 0,2 ÷ 1000 ÷ 40075",
+      "assumptions": "Libro de 20 cm de largo para todas las ediciones; las de bolsillo son más cortas. La cifra de ventas es un mínimo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Scholastic · Harry Potter highlights and milestones",
+          "url": "https://www.scholastic.com/content/newsroom/online-press-kits/harry-potter/harry-potter-highlights-and-milestones.html",
+          "fact": "Se han vendido más de 600 millones de libros de Harry Potter en todo el mundo."
+        },
+        {
+          "title": "Wikipedia · Earth",
+          "url": "https://en.wikipedia.org/wiki/Earth",
+          "fact": "Circunferencia ecuatorial: 40.075,017 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Ejemplares por longitud frente al ecuador",
+        "steps": [
+          "Harry Potter es una de las series más vendidas de la historia. ¿Daría la fila para cruzar España o para rodear el planeta?",
+          "Cinco libros de 20 cm hacen un metro; 600 millones de libros son 120 millones de metros, 120.000 km. La Tierra mide 40.000 km de vuelta.",
+          "Salen 2,99 vueltas: casi exactamente tres. Si las ventas reales ya pasan de 600 millones, la tercera vuelta está más que cerrada."
+        ]
+      }
+    }
+  ]
+}

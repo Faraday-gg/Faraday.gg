@@ -1,0 +1,102 @@
+{
+  "id": "2026-11-01",
+  "name": "Domingo",
+  "theme": "Perro, Despacito y Phelps",
+  "questions": [
+    {
+      "id": "archivo-2026-11-01-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Paseos de una vida",
+      "title": "¿Cuántos kilómetros camina un perro con sus paseos a lo largo de toda su vida?",
+      "detail": "Un perro mediano que vive 12 años y sale dos veces al día, todos los días, a dar un paseo de 1,5 km. Las paradas para oler cada farola no suman distancia.",
+      "unit": "km",
+      "answer": 13140,
+      "math": "El American Kennel Club sitúa la vida media de los perros medianos entre 10 y 13 años; tomamos 12. 2 paseos × 1,5 km × 365 días × 12 años = 13.140 km.",
+      "referenceExpression": "2 × 1,5 × 365 × 12",
+      "assumptions": "Dos paseos diarios de 1,5 km son un supuesto del modelo: un perro grande y activo camina bastante más y uno pequeño, menos. No restamos los meses de cachorro ni los paseos más cortos de la vejez.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "American Kennel Club · How Long Do Dogs Live?",
+          "url": "https://www.akc.org/expert-advice/health/how-long-do-dogs-live/",
+          "fact": "La vida media de las razas medianas es de 10 a 13 años; la de las pequeñas, de 10 a 15, y la de las grandes, de 8 a 12."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros al día por días de vida",
+        "steps": [
+          "Dos paseos al día de un kilómetro y pico suman unos 3 km diarios. En un año, 3 × 365 ≈ 1.100 km.",
+          "Un perro mediano vive algo más de diez años: 1.100 × 12 ≈ 13.000 km.",
+          "Con 3 km exactos al día y 12 años salen 13.140 km, un tercio de la vuelta a la Tierra (unos 40.000 km). Y su dueño, con la correa, camina exactamente lo mismo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-01-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Bucle eterno",
+      "title": "¿Cuántos años de reproducción seguida suman las visitas del videoclip de Despacito en YouTube?",
+      "detail": "Pon el videoclip oficial en bucle y no lo quites hasta igualar todas sus visitas. Cada visita ve el vídeo entero, de principio a fin; nada de saltarse la intro.",
+      "unit": "años",
+      "answer": 81934.68660981824,
+      "math": "El 10 de noviembre de 2026 el vídeo oficial marcaba 9.169.014.419 visitas y dura 282 segundos (4:42). 9.169.014.419 × 282 s ≈ 2,59 billones de segundos. Entre 31.557.600 s por año salen unos 81.935 años.",
+      "referenceExpression": "9169014419 × 282 ÷ (365,25 × 86400)",
+      "assumptions": "Todas las visitas ven el vídeo completo, algo que no pasa. El contador sigue subiendo cada día; fijamos la cifra del 10 de noviembre de 2026.",
+      "confidence": "Dato fechado + modelo",
+      "sources": [
+        {
+          "title": "YouTube · Luis Fonsi - Despacito ft. Daddy Yankee",
+          "url": "https://www.youtube.com/watch?v=kJQP7kiw5Fk",
+          "fact": "A 10 de noviembre de 2026: 9.169.014.419 visualizaciones y duración de 282 segundos."
+        },
+        {
+          "title": "Wikipedia · List of most-viewed YouTube videos",
+          "url": "https://en.wikipedia.org/wiki/List_of_most-viewed_YouTube_videos",
+          "fact": "Despacito figura con unos 9.110 millones de visitas a 30 de agosto de 2026, entre los vídeos más vistos de la plataforma."
+        }
+      ],
+      "reasoning": {
+        "heading": "Visitas por duración, luego a años",
+        "steps": [
+          "Despacito tiene unos 9.000 millones de visitas. Si cada una dura unos 5 minutos, son 45.000 millones de minutos.",
+          "Un año tiene algo más de medio millón de minutos (525.960). 45.000 millones entre medio millón da unos 90.000 años.",
+          "Con 9.169 millones de visitas y 4:42 exactos salen 81.935 años. Para llegar hoy al final, alguien tendría que haber pulsado play en plena Edad de Hielo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-01-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Brazadas de oro",
+      "title": "¿Cuántos kilómetros nadaba Michael Phelps en un año de entrenamiento?",
+      "detail": "Toma el volumen de sus temporadas fuertes: 80.000 metros a la semana durante 50 semanas al año. Las dos semanas que faltan son para comer pasta y dormir.",
+      "unit": "km",
+      "answer": 4000,
+      "math": "Su entrenador, Bob Bowman, describía semanas de entre 70.000 y 80.000 yardas y metros. Con 80 km semanales y 50 semanas: 80 × 50 = 4.000 km.",
+      "referenceExpression": "80 × 50",
+      "assumptions": "Bowman habla de una mezcla de yardas y metros: si todo fueran yardas, serían unos 73 km por semana. Las 50 semanas de entrenamiento al año son un supuesto del modelo.",
+      "confidence": "Dato aproximado + modelo",
+      "sources": [
+        {
+          "title": "Swimming World · Bob Bowman on working with Michael Phelps (archivo de 2003)",
+          "url": "https://www.swimmingworldmagazine.com/news/training-michael-phelps-bob-bowman-on-working-with-his-prized-pupil-swimming-technique-archive-2003/",
+          "fact": "Bowman describe el programa de otoño de Phelps como una mezcla de 70.000 a 80.000 yardas y metros por semana."
+        }
+      ],
+      "reasoning": {
+        "heading": "Semana tipo por semanas de trabajo",
+        "steps": [
+          "Un nadador de élite entrena dos veces al día, unos 10 o 12 km diarios. Seis o siete días a la semana dan unos 70 u 80 km.",
+          "Con 80 km semanales y unas 50 semanas al año salen unos 4.000 km.",
+          "80 × 50 = 4.000 km, que en una piscina olímpica son 80.000 largos de 50 m cada año: más de 200 al día."
+        ]
+      }
+    }
+  ]
+}

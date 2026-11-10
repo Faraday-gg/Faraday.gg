@@ -1,0 +1,107 @@
+{
+  "id": "2026-08-14",
+  "name": "Viernes",
+  "theme": "Arrecife, Trevi y Hubble",
+  "questions": [
+    {
+      "id": "archivo-2026-08-14-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Buceo de fondo",
+      "title": "Nadando a 2 km/h sin parar, ¿cuántos días tardarías en recorrer la Gran Barrera de Coral?",
+      "detail": "Nada de punta a punta del arrecife a 2 km/h, 24 horas al día, sin dormir ni parar a saludar a los peces payaso.",
+      "unit": "días",
+      "answer": 47.916666666666664,
+      "math": "La Gran Barrera de Coral mide unos 2.300 km. A 2 km/h son 1.150 horas; entre 24 h al día, unos 47,9 días.",
+      "referenceExpression": "2300 ÷ 2 ÷ 24",
+      "assumptions": "Trayecto en línea recta a lo largo del arrecife y velocidad constante. Ignoramos corrientes, descansos y que el arrecife es un conjunto de miles de arrecifes.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Longest reef",
+          "url": "https://www.guinnessworldrecords.com/world-records/66687-longest-reef.html",
+          "fact": "La Gran Barrera de Coral mide aproximadamente 2.300 km (1.430 millas)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Longitud entre velocidad",
+        "steps": [
+          "El arrecife recorre buena parte de la costa este de Australia: piensa en más de 2.000 km. A paso de nadador tranquilo, eso son semanas.",
+          "2.000 km a 2 km/h son 1.000 horas, unas 42 jornadas de 24 horas. Ya sabemos que es más de un mes.",
+          "Con 2.300 km salen 1.150 horas: 47,9 días sin parar. Con descansos de ocho horas al día te irías a más de 70 días."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-14-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Deseos con suelto",
+      "title": "¿Cuántas monedas lanzan los turistas a la Fontana di Trevi cada día?",
+      "detail": "Supón que todo el dinero que acaba en el agua son monedas de 50 céntimos. Una moneda, un deseo; dos, volver a Roma con pareja.",
+      "unit": "monedas",
+      "answer": 7671.232876712329,
+      "math": "En 2016 se arrojaron a la fuente unos 1,4 millones de euros. Entre 365 días son unos 3.836 € diarios; a 0,50 € por moneda, unas 7.671 monedas al día.",
+      "referenceExpression": "1400000 ÷ 365 ÷ 0,5",
+      "assumptions": "Moneda media de 50 céntimos y reparto uniforme en el año. En la fuente caen monedas de todos los valores y países; la recaudación cambia de un año a otro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Trevi Fountain",
+          "url": "https://en.wikipedia.org/wiki/Trevi_Fountain",
+          "fact": "En 2016 se arrojaron a la fuente unos 1,4 millones de euros; se estima que caen unos 3.000 € al día."
+        },
+        {
+          "title": "QuiFinanza · Cosa succede alle monete della Fontana di Trevi?",
+          "url": "https://quifinanza.it/attualita/monete-fontana-di-trevi/799034/",
+          "fact": "En 2022 Cáritas financió proyectos con 1,4 millones de euros procedentes de las monedas de la fuente."
+        }
+      ],
+      "reasoning": {
+        "heading": "De euros al año a monedas al día",
+        "steps": [
+          "La fuente recauda del orden de un millón de euros al año. Repartido en 365 días, son unos pocos miles de euros diarios.",
+          "Si cada día caen unos 4.000 € y la moneda media vale 50 céntimos, serían 8.000 monedas.",
+          "Con 1,4 millones al año salen 7.671 monedas diarias. Si la mayoría fueran de 10 céntimos, la cifra se multiplicaría por cinco: el valor de la moneda manda."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-14-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Vueltas de cine",
+      "title": "¿Cuántas vueltas a la Tierra da el telescopio Hubble mientras ves la trilogía de El Padrino?",
+      "detail": "Ve las tres películas de El Padrino seguidas, en su versión de cine, mientras el Hubble orbita la Tierra. Una oferta que el telescopio no puede rechazar.",
+      "unit": "vueltas",
+      "answer": 5.73404255319149,
+      "math": "Las tres películas de El Padrino suman 539 minutos. El Hubble tarda 94 minutos en dar una vuelta: 539 ÷ 94 ≈ 5,7 vueltas.",
+      "referenceExpression": "539 ÷ 94",
+      "assumptions": "Sumamos el metraje de las tres películas sin pausas. El período del Hubble cambia un poco con los años porque su órbita baja lentamente.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · The Godfather (film series)",
+          "url": "https://en.wikipedia.org/wiki/The_Godfather_(film_series)",
+          "fact": "Las tres películas suman 539 minutos."
+        },
+        {
+          "title": "Wikipedia · Hubble Space Telescope",
+          "url": "https://en.wikipedia.org/wiki/Hubble_Space_Telescope",
+          "fact": "Período orbital de 94,0 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos de cine contra minutos de órbita",
+        "steps": [
+          "El Padrino dura casi tres horas, la segunda algo más y la tercera, cerca de tres: unas 9 horas en total.",
+          "El Hubble da una vuelta en hora y media. 9 horas entre 1,5 dan unas 6 vueltas.",
+          "Con 539 minutos de trilogía y 94 minutos por órbita salen 5,7 vueltas: el Hubble ve casi seis amaneceres mientras Michael Corleone hace de las suyas."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "id": "2026-09-07",
+  "name": "Lunes",
+  "theme": "CERN, hilo dental y intestino",
+  "questions": [
+    {
+      "id": "archivo-2026-09-07-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Vueltas cuánticas",
+      "title": "¿Cuántas vueltas por segundo dan los protones en el Gran Colisionador de Hadrones del CERN?",
+      "detail": "Los protones del LHC dan vueltas a un anillo de 26.659 m bajo la frontera entre Francia y Suiza, a casi la velocidad de la luz. Un circuito sin curvas peligrosas ni radares.",
+      "unit": "vueltas/s",
+      "answer": 11245.450242,
+      "math": "El anillo mide 26.659 m. Los protones van prácticamente a la velocidad de la luz, 299.792.458 m/s. 299.792.458 ÷ 26.659 ≈ 11.245 vueltas por segundo.",
+      "referenceExpression": "299792458 ÷ 26659",
+      "assumptions": "Protones a la velocidad de la luz: a plena energía difieren de ella en menos de una parte por millón. El CERN da la misma cifra, 11.245 vueltas por segundo.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "CERN · The Large Hadron Collider",
+          "url": "https://home.cern/science/accelerators/large-hadron-collider",
+          "fact": "Circunferencia: 26.659 m. Número de vueltas por segundo: 11.245. Los haces viajan casi a la velocidad de la luz."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-07-1.jpg",
+        "alt": "Imagen de satélite de la zona de Ginebra con un círculo amarillo que marca el anillo de 27 km del LHC junto al aeropuerto y el lago Lemán",
+        "credit": "NASA/METI/AIST/Japan Space Systems, and U.S./Japan ASTER Science Team",
+        "url": "https://commons.wikimedia.org/wiki/File:CERN_Collider,_France-Switzerland_(ASTER).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:CERN_Collider,_France-Switzerland_(ASTER).jpg"
+      },
+      "reasoning": {
+        "heading": "La luz en un circuito de 27 km",
+        "steps": [
+          "La luz recorre 300.000 km en un segundo. El anillo del LHC mide unos 27 km: le cabe muchas veces.",
+          "300.000 entre 27 da algo más de 10.000 vueltas por segundo.",
+          "Salen 11.245 vueltas por segundo: un protón da más vueltas al anillo en un parpadeo que tú a la manzana en toda tu vida."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-07-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Sonrisa kilométrica",
+      "title": "Si usaras hilo dental cada noche, ¿cuántos kilómetros gastarías en toda tu vida?",
+      "detail": "Usas hilo dental cada noche, sin excusas, durante los 73,3 años de esperanza de vida mundial. Cada vez cortas los 18 pulgadas (45,72 cm) que recomiendan los dentistas.",
+      "unit": "km",
+      "answer": 12.232157,
+      "math": "Cada uso son 45,72 cm. Al año: 0,4572 × 365 ≈ 166,9 m. En 73,3 años: 166,9 × 73,3 ≈ 12.232 m ≈ 12,2 km.",
+      "referenceExpression": "0,4572 × 365 × 73,3 ÷ 1000",
+      "assumptions": "Un uso diario de 18 pulgadas toda la vida, incluso de bebé, y esperanza de vida mundial de 2023. Empezando a los 10 años serían unos 10,5 km.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "American Dental Association · MouthHealthy · Flossing",
+          "url": "https://www.mouthhealthy.org/all-topics-a-z/flossing",
+          "fact": "Recomienda cortar unas 18 pulgadas de hilo dental en cada uso."
+        },
+        {
+          "title": "OMS · Life expectancy and healthy life expectancy",
+          "url": "https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates/ghe-life-expectancy-and-healthy-life-expectancy",
+          "fact": "La esperanza de vida mundial subió a 73,3 años en 2023."
+        }
+      ],
+      "reasoning": {
+        "heading": "Medio metro diario durante una vida",
+        "steps": [
+          "Cada noche usas poco hilo, menos de medio metro. Pero una vida tiene muchas noches.",
+          "Medio metro al día son unos 170 m al año; en 70 y pico años, más de 10 km.",
+          "Salen 12,2 km de hilo dental: casi un recorrido de 10K con su vuelta de calentamiento."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-07-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Tripa porteña",
+      "title": "¿Cuántos intestinos delgados en fila harían falta para igualar la altura del Obelisco de Buenos Aires?",
+      "detail": "Estiramos intestinos delgados como cuerdas y los colgamos uno tras otro desde la punta del Obelisco de Buenos Aires. Cada intestino mide 22 pies (6,7 m). Nadie mira desde la 9 de Julio, por favor.",
+      "unit": "intestinos",
+      "answer": 10.066213,
+      "math": "El Obelisco mide 67,5 m. El intestino delgado mide unos 22 pies = 6,7056 m. 67,5 ÷ 6,7056 ≈ 10,07 intestinos.",
+      "referenceExpression": "67,5 ÷ (22 × 0,3048)",
+      "assumptions": "Intestino estirado de 22 pies; la longitud real varía bastante entre personas y según cómo se mida.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Cleveland Clinic · Small intestine",
+          "url": "https://my.clevelandclinic.org/health/body/22135-small-intestine",
+          "fact": "El intestino delgado es el tramo más largo del tubo digestivo: mide unos 22 pies."
+        },
+        {
+          "title": "Wikipedia · Obelisco de Buenos Aires",
+          "url": "https://es.wikipedia.org/wiki/Obelisco_de_Buenos_Aires",
+          "fact": "Su altura es de 67,5 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-07-3.jpg",
+        "alt": "El Obelisco de Buenos Aires visto desde abajo, con peatones y la bandera argentina a su lado",
+        "credit": "Dibumartinez23",
+        "url": "https://commons.wikimedia.org/wiki/File:Obelisco_de_Buenos_Aires,_Avenida_9_de_Julio.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Del monumento a la tripa",
+        "steps": [
+          "El Obelisco es como un edificio de unos 20 pisos. El intestino delgado mide varios metros.",
+          "Unos 70 m entre unos 7 m dan unos 10 intestinos.",
+          "Salen 10,07 intestinos: diez personas bastarían para vestir el Obelisco de tripas. Mejor no se lo cuentes a nadie en la cena."
+        ]
+      }
+    }
+  ]
+}

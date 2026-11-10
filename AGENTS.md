@@ -4,7 +4,7 @@ Lee también [ARQUITECTURA.md](ARQUITECTURA.md), [README.md](README.md) y [docs/
 
 ## En una frase
 
-Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` mediante una PR que abre el agente y pasa a `main` con otra PR. **El agente llega hasta la PR; el merge lo hace siempre el propietario del repositorio (`borgesinmas`).** Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
+Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` mediante una PR que abre el agente y pasa a `main` con otra PR. **El agente llega hasta la PR; el merge lo hace siempre Luis (`borgesinmas`).** Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
 
 ## Ramas
 

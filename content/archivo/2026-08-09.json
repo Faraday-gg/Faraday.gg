@@ -1,0 +1,110 @@
+{
+  "id": "2026-08-09",
+  "name": "Domingo",
+  "theme": "Azafrán, ballena y Camino",
+  "questions": [
+    {
+      "id": "archivo-2026-08-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Oro rojo",
+      "title": "¿Cuántas flores de azafrán hacen falta para reunir un kilo de azafrán?",
+      "detail": "Cuenta flores de Crocus sativus recogidas a mano y despojadas de sus estigmas, que se tuestan hasta quedar secos. El kilo es de azafrán seco, listo para la paella; las abejas no colaboran.",
+      "unit": "flores",
+      "answer": 142857.14285714287,
+      "math": "Una flor recién cogida rinde de media unos 7 mg de azafrán seco (Wikipedia, «Saffron»). Un kilo son 1.000.000 mg: 1.000.000 ÷ 7 ≈ 142.857 flores.",
+      "referenceExpression": "1000000 ÷ 7",
+      "assumptions": "Usamos el rendimiento medio por flor. Cada flor da tres estigmas y su peso varía con la variedad, la cosecha y el secado; otras fuentes citan entre 100.000 y 300.000 flores por kilo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Saffron (Harvesting)",
+          "url": "https://en.wikipedia.org/wiki/Saffron",
+          "fact": "Una flor recién recogida rinde de media 30 mg de azafrán fresco o 7 mg seco; en torno a 150.000 flores por kilogramo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-09-1.jpg",
+        "alt": "Flores moradas de azafrán con sus estigmas rojos, el hilo que se convierte en especia",
+        "credit": "Emilie40",
+        "url": "https://commons.wikimedia.org/wiki/File:Crocus_sativus,_saffron_(15).jpg",
+        "license": "CC0",
+        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+      },
+      "reasoning": {
+        "heading": "Piensa en miligramos, no en flores",
+        "steps": [
+          "Un estigma de azafrán es un hilillo rojo que casi no pesa. Si una flor diera algo menos de 10 mg de especia seca, un kilo pediría al menos 100.000 flores.",
+          "Con 3 estigmas por flor y unos 2 mg secos por estigma, cada flor aporta 6 mg. 1.000.000 mg entre 6 dan unas 167.000 flores: hablamos de cientos de miles.",
+          "El rendimiento medio documentado es de 7 mg secos por flor, así que salen 142.857 flores. Con flores más pequeñas o un secado más intenso la cifra sube con facilidad hacia las 200.000: por eso el azafrán cuesta lo que cuesta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Peso pesado del mar",
+      "title": "¿Cuántos hipopótamos pesarían lo mismo que una ballena azul adulta?",
+      "detail": "Pon en un platillo de la balanza la ballena azul más grande documentada y en el otro, hipopótamos adultos de peso medio. Que nadie le diga al hipopótamo que es el ligero del combate.",
+      "unit": "hipopótamos",
+      "answer": 101.13883925675675,
+      "math": "NOAA indica que la ballena azul llega a 330.000 libras: 330.000 × 0,4536 ≈ 149.685 kg. Un hipopótamo macho adulto pesa de media 1.480 kg: 149.685 ÷ 1.480 ≈ 101 hipopótamos.",
+      "referenceExpression": "330000 × 0,45359237 ÷ 1480",
+      "assumptions": "Tomamos el peso máximo de la ballena azul (las antárticas más grandes) y el peso medio de un hipopótamo macho. Con hembras, de 1.365 kg de media, harían falta unas 110; con una ballena azul más pequeña, bastante menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NOAA Fisheries · Blue Whale",
+          "url": "https://www.fisheries.noaa.gov/species/blue-whale",
+          "fact": "Peso de hasta 330.000 libras y longitud de hasta 110 pies."
+        },
+        {
+          "title": "Wikipedia · Hippopotamus",
+          "url": "https://en.wikipedia.org/wiki/Hippopotamus",
+          "fact": "El peso medio de un adulto ronda las 1,48 t en los machos y 1,365 t en las hembras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Dos gigantes en la misma báscula",
+        "steps": [
+          "Un hipopótamo pesa como un coche grande, más o menos una tonelada y media. Una ballena azul ronda las 100-150 toneladas: hablamos de unos cien hipopótamos.",
+          "150.000 kg entre 1.500 kg por hipopótamo dan exactamente 100. El orden de magnitud está claro: un rebaño de tres cifras.",
+          "Con los datos reales, 149.685 kg de ballena entre 1.480 kg de hipopótamo dan 101,1. Un hipopótamo es una bestia de 1,5 toneladas y aun así hace falta un centenar para igualar a la ballena."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Peregrino contable",
+      "title": "¿Cuántos pasos das en el Camino Francés desde Saint-Jean-Pied-de-Port hasta Santiago?",
+      "detail": "Recorre el Camino Francés completo, de los Pirineos a la plaza del Obradoiro, con pasos de 70 cm. Sin atajos en taxi y sin contar los pasos al albergue.",
+      "unit": "pasos",
+      "answer": 1121428.5714285716,
+      "math": "Desde Saint-Jean-Pied-de-Port (San Juan Pie de Puerto) hasta Santiago hay unos 785 km por la variante de Valcarlos. 785.000 m ÷ 0,7 m ≈ 1.121.429 pasos.",
+      "referenceExpression": "785000 ÷ 0,7",
+      "assumptions": "Usamos la distancia por Valcarlos y un paso fijo de 70 cm. La distancia cambia según la variante (por Roncesvalles se citan 764 km) y el paso real depende de la persona y de las cuestas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Camino francés",
+          "url": "https://es.wikipedia.org/wiki/Camino_franc%C3%A9s",
+          "fact": "La tabla de la variante de Valcarlos sitúa San Juan Pie de Puerto a 785 km de Santiago; desde Roncesvalles, 764 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero kilómetros, luego pasos",
+        "steps": [
+          "El Camino Francés cruza media España: piensa en unos 800 km. Con pasos de algo menos de un metro, salen cerca de un millón.",
+          "Un paso de 70 cm significa que cada kilómetro pide unos 1.430 pasos. 800 × 1.430 se acerca a 1,1 millones.",
+          "Con 785 km documentados por Valcarlos, el total es de 1.121.429 pasos. Si eliges otra variante o tienes la zancada larga, puedes ahorrarte unos cuantos miles."
+        ]
+      }
+    }
+  ]
+}

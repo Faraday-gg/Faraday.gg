@@ -1,0 +1,102 @@
+{
+  "id": "2026-11-06",
+  "name": "Viernes",
+  "theme": "Correos, legión y Burj",
+  "questions": [
+    {
+      "id": "archivo-2026-11-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Bandeja de entrada",
+      "title": "¿Cuántos correos electrónicos se envían en el mundo cada segundo?",
+      "detail": "Cuenta todos los correos enviados y recibidos en el mundo en un día de 2024, spam y boletines incluidos, y repártelos por igual entre sus 86.400 segundos.",
+      "unit": "correos/s",
+      "answer": 4185185.185185185,
+      "math": "The Radicati Group estima 361.600 millones de correos enviados y recibidos al día en 2024. 361.600.000.000 ÷ 86.400 s ≈ 4,19 millones de correos por segundo.",
+      "referenceExpression": "361600000000 ÷ 86400",
+      "assumptions": "Es la estimación de una consultora, no un recuento. El tráfico real se concentra en horario laboral, así que en algunos segundos se envían bastantes más.",
+      "confidence": "Estimación publicada + cálculo",
+      "sources": [
+        {
+          "title": "Drag · Email statistics (cita a The Radicati Group, Email Statistics Report 2024-2028)",
+          "url": "https://www.dragapp.com/blog/email-statistics/",
+          "fact": "Radicati contabiliza 361.600 millones de correos enviados y recibidos al día en 2024 y prevé 424.200 millones en 2028."
+        }
+      ],
+      "reasoning": {
+        "heading": "De correos al día a correos por segundo",
+        "steps": [
+          "Piensa en cuántos correos recibes al día entre trabajo, tiendas y spam: fácilmente decenas. Con miles de millones de usuarios, el total diario se va a cientos de miles de millones.",
+          "Si son unos 350.000 millones al día y un día tiene 86.400 segundos, salen unos 4 millones por segundo.",
+          "Con la cifra de Radicati para 2024, 361.600 millones, salen 4,19 millones por segundo. Mientras lees esta frase se han enviado unos 20 millones."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Paso romano",
+      "title": "A 20 millas romanas por jornada, ¿cuántos días tardaba una legión en recorrer la Vía Apia de Roma a Brindisi?",
+      "detail": "La legión marcha al paso militar que exigía Vegecio, 20 millas romanas por jornada, de Roma hasta el tacón de la bota por la Vía Apia, sin días de descanso. Las sandalias no se gastan.",
+      "unit": "días",
+      "answer": 18.239508700102355,
+      "math": "La Vía Apia mide unos 540 km. El tramo Roma-Capua tenía 132 millas romanas, 195,4 km, así que una milla romana mide 1,48 km y 20 millas son 29,6 km. 540 ÷ 29,6 ≈ 18,2 días.",
+      "referenceExpression": "540 ÷ (20 × 195,4 ÷ 132)",
+      "assumptions": "Vegecio pedía 20 millas en cinco horas de verano a los reclutas; en campaña los ejércitos solían avanzar menos y descansaban. Aquí marchan todos los días sin parar.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Appian Way",
+          "url": "https://en.wikipedia.org/wiki/Appian_Way",
+          "fact": "La vía mide 540 km; el tramo de Roma a Capua tenía 132 millas romanas (195,4 km)."
+        },
+        {
+          "title": "Vegecio · De re militari, libro I (traducción inglesa, Internet Archive)",
+          "url": "https://archive.org/stream/pdfy-sOkC3FmoLlr4C6zz/The+Military+Institutions+Of+The+Romans+%5BDe+Re+Militari%5D_djvu.txt",
+          "fact": "Los soldados debían marchar con el paso militar común veinte millas en cinco horas de verano, y con el paso largo, veinticuatro."
+        }
+      ],
+      "reasoning": {
+        "heading": "Calzada larga, paso firme",
+        "steps": [
+          "La Vía Apia cruza media Italia, de Roma al tacón de la bota; digamos unos 500 km. Una legión a pie hacía jornadas de unos 30 km.",
+          "500 ÷ 30 ≈ 17 días.",
+          "Con los 540 km y las 20 millas romanas de Vegecio (29,6 km) salen 18,2 días: unas dos semanas y media de sandalia sin un solo día libre."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Pierna de acero",
+      "title": "Subiendo un escalón por segundo, ¿cuántos minutos tardarías en llegar arriba del Burj Khalifa?",
+      "detail": "El ascensor está averiado y tienes que subir a pie hasta la planta 160 del gigante de Dubái. Un escalón por segundo, sin parar a respirar ni a hacerte fotos.",
+      "unit": "minutos",
+      "answer": 48.483333333333334,
+      "math": "El Burj Khalifa tiene 2.909 escalones desde la planta baja hasta la planta 160. A uno por segundo: 2.909 s ÷ 60 ≈ 48,5 minutos.",
+      "referenceExpression": "2909 ÷ 60",
+      "assumptions": "Ritmo constante de un escalón por segundo durante todo el ascenso, algo que muy pocas piernas aguantan. Solo hasta la planta 160, no hasta la punta de la aguja.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Burj Khalifa",
+          "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+          "fact": "El edificio tiene 2.909 escalones desde la planta baja hasta la planta 160."
+        }
+      ],
+      "reasoning": {
+        "heading": "Escalones por planta, plantas hasta arriba",
+        "steps": [
+          "Un piso normal tiene unos 18-20 escalones. Con 160 plantas, saldrían unos 3.000.",
+          "3.000 segundos son 50 minutos: casi una hora subiendo sin parar.",
+          "Con los 2.909 escalones reales salen 48,5 minutos. Llegar arriba a ese ritmo es cosa de atletas: la mayoría necesitaría bastante más y alguna que otra parada."
+        ]
+      }
+    }
+  ]
+}

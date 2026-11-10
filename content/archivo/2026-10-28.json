@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-28",
+  "name": "Miércoles",
+  "theme": "Wimbledon, Salvator Mundi y Gran Cañón",
+  "questions": [
+    {
+      "id": "archivo-2026-10-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Fresas con nata",
+      "title": "¿Cuántos kilos de fresas se comen en Wimbledon por cada partido de los cuadros principales de individuales y dobles?",
+      "detail": "Repartimos todas las fresas del torneo entre los partidos de los cuatro cuadros principales: individuales y dobles, masculinos y femeninos. Mixtos, juveniles y previa se quedan sin postre.",
+      "unit": "kg",
+      "answer": 89.47368421052632,
+      "math": "En 2017 el público comió 34.000 kg de fresas. Los cuadros individuales tienen 128 jugadores (127 partidos cada uno) y los de dobles 64 parejas (63 partidos): 127 × 2 + 63 × 2 = 380 partidos. 34.000 ÷ 380 ≈ 89,5 kg (Wikipedia).",
+      "referenceExpression": "34000 ÷ (127 × 2 + 63 × 2)",
+      "assumptions": "Dato de fresas de 2017. Si contáramos también mixtos, juveniles, sillas de ruedas y la previa, habría muchos más partidos y la cifra bajaría a la mitad o menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Wimbledon Championships",
+          "url": "https://en.wikipedia.org/wiki/Wimbledon_Championships",
+          "fact": "En 2017 se consumieron 34.000 kg de fresas; individuales con 128 jugadores y dobles con 64 parejas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Fresas totales entre partidos",
+        "steps": [
+          "Fresas con nata es Wimbledon. ¿Un cuenco por partido o un camión?",
+          "Un cuadro de 128 jugadores juega 127 partidos; con cuatro cuadros principales salen unos 380. Si se comen decenas de toneladas de fresas, tocan decenas de kilos por partido.",
+          "Con 34.000 kg y 380 partidos salen 89,5 kg: más o menos lo que pesa un tenista con la bolsa de raquetas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Pizza de museo",
+      "title": "Con lo que costó el Salvator Mundi, ¿cuántos años podrías comer una pizza al día?",
+      "detail": "El cuadro más caro jamás subastado, cambiado por pizzas grandes de queso, una al día. Usa el precio medio de una pizza grande de queso en Estados Unidos. Leonardo era de Vinci, no de Nápoles, pero seguro que lo entendería.",
+      "unit": "años",
+      "answer": 63748.10923373445,
+      "math": "El Salvator Mundi se vendió en 2017 por 450.312.500 $, comisiones incluidas. Una pizza grande de queso costaba de media 19,34 $ en EE. UU. 450.312.500 ÷ 19,34 ≈ 23,3 millones de pizzas. ÷ 365,25 ≈ 63.748 años.",
+      "referenceExpression": "450312500 ÷ 19,34 ÷ 365,25",
+      "assumptions": "Precio medio de una pizza grande de queso en EE. UU. según el estudio de Clever Real Estate publicado en febrero de 2024, sin inflación futura ni propinas. Una pizza diaria, todos los días.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Salvator Mundi (Leonardo)",
+          "url": "https://en.wikipedia.org/wiki/Salvator_Mundi_(Leonardo)",
+          "fact": "Vendido en Christie's en 2017 por 400 millones de dólares más 50.312.500 en comisiones: unos 450,3 millones."
+        },
+        {
+          "title": "CNBC en NBC Miami · New York City has the nation's most expensive pizza (17/2/2024)",
+          "url": "https://www.nbcmiami.com/news/business/money-report/new-york-city-has-the-nations-most-expensive-pizza-heres-how-your-city-stacks-up/3236688/?amp=1",
+          "fact": "El precio medio de una pizza grande de queso en EE. UU. es de 19,34 $, un 4 % más que el año anterior (Clever Real Estate)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Precio del cuadro entre pizzas al año",
+        "steps": [
+          "El cuadro costó unos 450 millones de dólares. Una pizza grande ronda los 20 $.",
+          "450 millones entre 20 son 22,5 millones de pizzas. A 365 al año, unos 60.000 años: desde antes de que el ser humano llegara a Europa.",
+          "Con 19,34 $ por pizza salen 63.748 años. Con pizzas de Nueva York, las más caras del país, serían bastantes menos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Bajada épica",
+      "title": "Bajando 300 m de desnivel por hora, ¿cuántas horas tardarías en llegar al fondo del Gran Cañón?",
+      "detail": "Descenso constante de 300 m por hora desde el borde hasta el río, con la profundidad media del cañón. Las fotos al paisaje no descuentan tiempo.",
+      "unit": "horas",
+      "answer": 5.333333333333333,
+      "math": "La profundidad media del Gran Cañón es de 1 milla, 1,6 km (National Park Service). 1.600 ÷ 300 ≈ 5,3 horas.",
+      "referenceExpression": "1600 ÷ 300",
+      "assumptions": "Profundidad media y ritmo constante. Desde el borde sur hasta el río hay más desnivel en algunos puntos, y los senderos zigzaguean.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "National Park Service · Grand Canyon park statistics",
+          "url": "https://www.nps.gov/grca/learn/management/statistics.htm",
+          "fact": "Profundidad media: 1 milla (1,6 km)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Desnivel total entre desnivel por hora",
+        "steps": [
+          "El Gran Cañón parece no tener fondo. ¿Medio día de bajada o una semana?",
+          "Si tiene en torno a kilómetro y medio de profundidad, a 300 m por hora son 5 horas.",
+          "Con 1,6 km salen 5,3 horas. Y luego queda volver a subir, que es bastante peor."
+        ]
+      }
+    }
+  ]
+}

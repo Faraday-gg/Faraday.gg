@@ -1,0 +1,107 @@
+{
+  "id": "2026-09-01",
+  "name": "Martes",
+  "theme": "Aceite, Volvo y Zócalo",
+  "questions": [
+    {
+      "id": "archivo-2026-09-01-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Oro líquido",
+      "title": "¿Cuántas piscinas olímpicas llenaría el aceite de oliva que produce España en un año?",
+      "detail": "Todo el aceite de oliva de la campaña española 2024/25, a piscina olímpica llena. Sin dejar ni una gota para el pan con tomate. Cada litro de aceite pesa 0,911 kg.",
+      "unit": "piscinas",
+      "answer": 623.198244,
+      "math": "La campaña 2024/25 produjo 1.419.334 t de aceite. 1.419.334.000 kg ÷ 0,911 kg/L ≈ 1.558 millones de litros = 1.557.996 m³. Una piscina olímpica tiene 2.500 m³: 1.557.996 ÷ 2.500 ≈ 623 piscinas.",
+      "referenceExpression": "1419334000 ÷ 0,911 ÷ 1000 ÷ 2500",
+      "assumptions": "Producción total de la campaña con datos del Ministerio de Agricultura a 30 de septiembre de 2025. Densidad de 0,911 kg/L (gravedad específica a 20 °C) y piscina de 50 × 25 × 2 m. La cosecha cambia mucho de un año a otro.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Agronews Castilla y León · Existencias de aceite de oliva (31-10-2025)",
+          "url": "https://www.agronewscastillayleon.com/existencias-aceite-oliva-3/",
+          "fact": "Según el informe mensual del Ministerio de Agricultura, con datos a 30 de septiembre, la campaña 2024/25 tuvo una producción total de 1.419.334 toneladas."
+        },
+        {
+          "title": "Wikipedia · Olive oil",
+          "url": "https://en.wikipedia.org/wiki/Olive_oil",
+          "fact": "Gravedad específica del aceite de oliva a 20 °C: 0,911."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica de 50 × 25 m y 2 m de profundidad contiene unos 2.500.000 litros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa de toneladas a piscinas",
+        "steps": [
+          "España es el mayor productor de aceite de oliva del mundo: más de un millón de toneladas en un buen año.",
+          "Una tonelada de aceite ocupa algo más de un metro cúbico. Millón y medio de m³ entre 2.500 m³ por piscina dan unos cientos de piscinas.",
+          "Con 1.419.334 t salen 623 piscinas olímpicas. Para nadar en ellas, mejor estilo croqueta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-01-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Vueltas de récord",
+      "title": "¿Cuántas vueltas dio cada rueda del Volvo P1800 de Irv Gordon, el coche con más kilómetros del mundo?",
+      "detail": "Un solo coche, un solo dueño y más de cinco millones de kilómetros. Suponemos ruedas de 2 m de circunferencia y que nunca derrapó.",
+      "unit": "vueltas",
+      "answer": 2623437500,
+      "math": "En octubre de 2018 el coche sumaba 3.260.257 millas, 5.246.875 km (5.246.875.000 m). Con ruedas de 2 m de circunferencia: 5.246.875.000 ÷ 2 ≈ 2.623 millones de vueltas.",
+      "referenceExpression": "5246875000 ÷ 2",
+      "assumptions": "Circunferencia de rueda de 2 m, una cifra redonda para un turismo. Contamos las vueltas de la posición de la rueda, aunque los neumáticos se cambiaron muchas veces.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Irv Gordon",
+          "url": "https://en.wikipedia.org/wiki/Irv_Gordon",
+          "fact": "Su Volvo P1800 llegó a 3.260.257 millas (5.246.875 km) en octubre de 2018, un mes antes de su muerte."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros de récord entre metros de rueda",
+        "steps": [
+          "El récord ronda los cinco millones de kilómetros. Una rueda de coche avanza unos 2 metros por vuelta.",
+          "Cinco millones de km son 5.000 millones de metros: unos 2.500 millones de vueltas.",
+          "Con 5.246.875 km y ruedas de 2 m salen 2.623.437.500 vueltas. Con una rueda algo más pequeña, la cifra subiría un poco."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-01-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Plaza a reventar",
+      "title": "¿Cuántas personas cabrían de pie en el Zócalo de Ciudad de México?",
+      "detail": "Llenamos el Zócalo de Ciudad de México como en el concierto más multitudinario: 4 personas por metro cuadrado, apretados pero sin subirse al asta de la bandera.",
+      "unit": "personas",
+      "answer": 230400,
+      "math": "La plaza mide 240 × 240 m = 57.600 m². A 4 personas por m²: 57.600 × 4 = 230.400 personas.",
+      "referenceExpression": "240 × 240 × 4",
+      "assumptions": "Superficie de 57.600 m² que da la fuente, toda ocupable. Cuatro personas por metro cuadrado es una multitud muy apretada; no descontamos el asta central ni escenarios.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Zócalo",
+          "url": "https://en.wikipedia.org/wiki/Z%C3%B3calo",
+          "fact": "El Zócalo actual de Ciudad de México mide 57.600 m² (240 × 240 m)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Superficie por densidad de multitud",
+        "steps": [
+          "El Zócalo es una de las plazas más grandes del mundo: un cuadrado de unos cuantos campos de fútbol.",
+          "Si mide unos 240 m de lado son unos 60.000 m². A 4 personas por m² caben más de 200.000.",
+          "Salen 230.400 personas: una ciudad mediana entera de pie en una sola plaza."
+        ]
+      }
+    }
+  ]
+}

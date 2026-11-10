@@ -1,0 +1,102 @@
+{
+  "id": "2026-08-28",
+  "name": "Viernes",
+  "theme": "Asado, panda y Venecia",
+  "questions": [
+    {
+      "id": "archivo-2026-08-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Asado para todos",
+      "title": "¿Para cuántas personas da la carne de una sola vaca en un asado argentino?",
+      "detail": "Un novillo de 544 kg (1.200 libras) despiezado, y el medio kilo por persona del saber popular asador. Las achuras y el chimichurri van aparte.",
+      "unit": "personas",
+      "answer": 436.35585994,
+      "math": "Un novillo de 1.200 lb da una canal de 744 lb (62 %); tras orearse quedan 718 lb, y al despiezarla, unas 481 lb de carne para llevar a casa (67 %), unos 218 kg. A medio kilo por persona: 218,2 ÷ 0,5 ≈ 436 personas.",
+      "referenceExpression": "481 × 0,45359237 ÷ 0,5",
+      "assumptions": "Usamos el ejemplo de la Universidad de Wisconsin para un novillo de engorde; el rendimiento cambia con la raza, la grasa y si los cortes llevan hueso. El medio kilo por persona es una regla popular, pensada para cortes con hueso como el asado de tira.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "University of Wisconsin-Madison Extension · How much meat should a beef animal yield?",
+          "url": "https://livestock.extension.wisc.edu/files/2020/09/Beef-animal-yield.pdf",
+          "fact": "Ejemplo: 1.200 lb de peso vivo × 62 % = 744 lb de canal; tras la merma, 718 lb; × 67 % = 481 lb de carne para llevar a casa."
+        },
+        {
+          "title": "Diario de Cuyo · Secretos de los asadores",
+          "url": "https://www.diariodecuyo.com.ar/noticias/secretos-de-los-asadores-777057.html",
+          "fact": "Popularmente se calcula medio kilo de carne por persona para un asado; con cortes sin hueso bastan unos 400 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilos de carne entre comensales",
+        "steps": [
+          "Una vaca pesa como un coche pequeño, pero solo una parte acaba en la parrilla. Saldrán cientos de comensales.",
+          "500 kg × 40 % ≈ 200 kg de carne; a medio kilo por cabeza, unas 400 personas.",
+          "Con 481 lb (218 kg) de carne salen 436 personas. Un asado de pueblo entero con una sola vaca."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Bambú a granel",
+      "title": "¿Cuántas veces su propio peso en bambú come un panda gigante en un año?",
+      "detail": "Un panda adulto de 100 kg comiendo 85 libras de bambú al día, la mitad del rango que da el zoo de Washington. Ni un día de dieta.",
+      "unit": "veces",
+      "answer": 140.7270327925,
+      "math": "85 libras son 38,56 kg de bambú al día. En un año: 38,56 × 365 ≈ 14.073 kg. Entre 100 kg de panda: ≈ 140,7 veces su peso.",
+      "referenceExpression": "85 × 0,45359237 × 365 ÷ 100",
+      "assumptions": "Tomamos el punto medio del rango de 70 a 100 libras diarias y un panda de 100 kg (los machos salvajes llegan a 113 kg y las hembras rara vez pasan de 104).",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Smithsonian's National Zoo · Giant panda",
+          "url": "https://nationalzoo.si.edu/animals/giant-panda",
+          "fact": "Un panda necesita de 70 a 100 libras de bambú al día; los machos salvajes pesan hasta 113 kg y las hembras rara vez pasan de 104 kg."
+        }
+      ],
+      "reasoning": {
+        "heading": "Bambú del año entre kilos de panda",
+        "steps": [
+          "Un panda come más de un tercio de su peso cada día, así que en un año multiplica su peso por más de cien.",
+          "40 kg × 365 ≈ 14.600 kg; entre 100 kg, unas 146 veces.",
+          "Con 38,56 kg diarios salen 140,7 veces su peso. Un bosque de bambú al año por panda."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Puente a puente",
+      "title": "Cruzando tres puentes distintos al día, ¿cuántos días tardarías en cruzar todos los puentes de Venecia?",
+      "detail": "Solo el centro histórico y tres puentes nuevos cada día, sin repetir. Las góndolas no cuentan como atajo.",
+      "unit": "días",
+      "answer": 145,
+      "math": "El centro histórico de Venecia tiene 435 puentes que unen 121 islas. A tres puentes nuevos al día: 435 ÷ 3 = 145 días.",
+      "referenceExpression": "435 ÷ 3",
+      "assumptions": "Usamos la cifra de 435 puentes del centro histórico; según qué se cuente (puentes privados, islas cercanas), otras fuentes dan entre 391 y algo más de 440.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · List of bridges in Venice",
+          "url": "https://en.wikipedia.org/wiki/List_of_bridges_in_Venice",
+          "fact": "El centro histórico de Venecia tiene 435 puentes que unen 121 islas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Contar puentes antes que días",
+        "steps": [
+          "Venecia es un laberinto de canales; en cualquier paseo cruzas puentes sin parar. Habrá unos cuantos cientos.",
+          "Con 400 puentes y 3 al día, salen unos 130 días: más de cuatro meses de vacaciones.",
+          "Con los 435 puentes del centro histórico salen 145 días. Si cuentas también los de las islas cercanas, necesitarías algunas semanas más."
+        ]
+      }
+    }
+  ]
+}

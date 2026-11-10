@@ -6,9 +6,20 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | --- | --- | --- | --- |
 | [0001](0001-supabase-un-solo-entorno.md) | Supabase con un solo entorno (`main`), sin preprod | Aceptada | 2026-11-09 |
 | [0002](0002-acceso-a-supabase-solo-desde-el-servidor.md) | Acceso a Supabase solo desde el servidor | Aceptada | 2026-11-09 |
-| [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Propuesta | 2026-11-09 |
+| [0003](0003-despliegue-en-vercel.md) | Despliegue en Vercel con una función que usa el esquema de Supabase | Aceptada (en parte sustituida por 0006) | 2026-11-09 |
 | [0004](0004-repositorio-publico-en-organizacion.md) | Repositorio público en la organización `Faraday-gg` | Aceptada | 2026-11-09 |
 | [0005](0005-contenido-servido-desde-supabase.md) | El contenido se sirve desde Supabase | Aceptada | 2026-11-09 |
+| [0006](0006-vercel-hobby-en-la-cuenta-de-alvaro.md) | Vercel Hobby en la cuenta de Álvaro, con el repositorio público en la organización `Faraday-gg` | Aceptada (en parte sustituida por 0007) | 2026-11-09 |
+| [0007](0007-preview-de-vercel-sin-login.md) | Despliegues de Vercel sin Vercel Authentication | Aceptada | 2026-11-09 |
+| [0008](0008-categorias-y-archivo.md) | Categorías con icono y archivo desde el 9 de agosto de 2026 | Aceptada (fotos sustituidas por 0013) | 2026-11-10 |
+| [0009](0009-jugador-sin-registro-con-cookie.md) | Jugador sin registro: cookie propia con el identificador anónimo | Aceptada | 2026-11-10 |
+| [0010](0010-juego-a-pantalla-completa.md) | Juego a pantalla completa, centrado en la pregunta | Aceptada; la parte de pantalla completa la sustituye la 0011 | 2026-11-10 |
+| [0011](0011-juego-en-tarjeta.md) | El juego dentro de una tarjeta | Aceptada | 2026-11-10 |
+| [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
+| [0013](0013-preguntas-de-cultura-general.md) | Preguntas de cultura general, referentes conocidos y foto solo cuando ayuda | Aceptada | 2026-11-10 |
+| [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
+| [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
+| [0016](0016-menu-y-archivo-en-calendario.md) | Menú hamburguesa en el juego y archivo en calendario | Aceptada | 2026-11-10 |
 
 ## Plantilla
 

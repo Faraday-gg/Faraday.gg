@@ -1,0 +1,128 @@
+{
+  "id": "2026-08-25",
+  "name": "Martes",
+  "theme": "Rey León, real de a ocho y Giralda",
+  "questions": [
+    {
+      "id": "archivo-2026-08-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Fotograma a fotograma",
+      "title": "¿Cuántos fotogramas tiene la película El Rey León de 1994?",
+      "detail": "La película de dibujos original, de 88 minutos, a los 24 fotogramas por segundo del cine. Hakuna matata: no hace falta contarlos a mano.",
+      "unit": "fotogramas",
+      "answer": 126720,
+      "math": "88 minutos × 60 = 5.280 segundos. A 24 fotogramas por segundo: 5.280 × 24 = 126.720 fotogramas.",
+      "referenceExpression": "88 × 60 × 24",
+      "assumptions": "Duración de la versión de cine de 1994, con créditos incluidos. Las versiones posteriores (con una canción añadida) y la emisión en televisión a 25 fps darían otras cifras.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · The Lion King",
+          "url": "https://en.wikipedia.org/wiki/The_Lion_King",
+          "fact": "La película dura 88 minutos."
+        },
+        {
+          "title": "Wikipedia · Frame rate",
+          "url": "https://en.wikipedia.org/wiki/Frame_rate",
+          "fact": "Entre 1927 y 1930 la velocidad de 24 fotogramas por segundo se convirtió en el estándar del cine sonoro de 35 mm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos, segundos y fotogramas",
+        "steps": [
+          "Una película de hora y media tiene miles de segundos, y cada segundo son dos docenas de imágenes. Saldrán más de cien mil.",
+          "90 min × 60 = 5.400 s; × 24 ≈ 130.000 fotogramas.",
+          "Con 88 minutos salen 126.720 fotogramas. Muchos dibujados a mano, como el de Simba en lo alto de la roca."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Tesoro pirata",
+      "title": "¿Cuántos euros valía la plata de un real de a ocho, la moneda de los tesoros piratas, en el récord de enero de 2026?",
+      "detail": "Fundimos la moneda de los cofres piratas (solo en la imaginación: los numismáticos pueden respirar) y vendemos la plata pura al máximo del 29 de enero de 2026. El loro no cobra comisión.",
+      "unit": "euros",
+      "answer": 81.4788011094631,
+      "math": "Un real de a ocho pesaba 27,468 g con un 93,055 % de pureza: 25,56 g de plata. Una onza troy son 31,1034768 g, así que contiene 0,822 onzas. A 99,15 €/onza: 0,822 × 99,15 ≈ 81,48 €.",
+      "referenceExpression": "25,56 ÷ 31,1034768 × 99,15",
+      "assumptions": "Peso nominal; el peso y la ley variaron entre cecas y épocas. El precio es el máximo intradiario en euros del 29 de enero de 2026; la plata cambia de precio cada día. Ignoramos el valor numismático, que suele ser mucho mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Real de a ocho",
+          "url": "https://es.wikipedia.org/wiki/Real_de_a_ocho",
+          "fact": "Peso nominal de 27,468 g con una pureza del 93,055 %: 25,560 g de plata."
+        },
+        {
+          "title": "PrecioOro.com · Precio de la plata en euros",
+          "url": "https://www.preciooro.com/precio-plata-en-euros.html",
+          "fact": "El 29 de enero de 2026 la plata marcó un máximo histórico intradiario de 99,15 euros por onza."
+        },
+        {
+          "title": "Wikipedia · Troy weight",
+          "url": "https://en.wikipedia.org/wiki/Troy_weight",
+          "fact": "Una onza troy equivale exactamente a 31,1034768 g."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-25-2.jpg",
+        "alt": "Moneda de plata de ocho reales con el escudo de la monarquía española",
+        "credit": "Ángel M. Felicísimo from Mérida, España",
+        "url": "https://commons.wikimedia.org/wiki/File:Real_de_a_ocho_(52598010755).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Gramos, onzas y cotización",
+        "steps": [
+          "Un real de a ocho es una moneda gorda, parecida a una medalla: unos 25-30 gramos de plata casi pura. Una onza son unos 31 gramos.",
+          "Así que la moneda lleva unas ocho décimas de onza. Si la onza costara unos 100 €, la plata valdría unos 80 €.",
+          "Con 25,56 g de plata pura y 99,15 €/onza salen 81,48 €. Ese día fue un récord: con la plata a la mitad de precio, el botín valdría la mitad."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Rampas de caballería",
+      "title": "¿Cuántos metros caminas al subir las rampas de la Giralda?",
+      "detail": "Subida por las rampas, pensadas para que se pudiera subir a caballo. Cuenta cada rampa como un lado entero de la torre, sin pararte a hacer fotos.",
+      "unit": "metros",
+      "answer": 472.5,
+      "math": "La Giralda tiene 35 rampas y su planta cuadrada mide 13,5 m de lado. Si cada rampa recorre un lado: 35 × 13,5 = 472,5 m.",
+      "referenceExpression": "35 × 13,5",
+      "assumptions": "Las rampas van por dentro, entre el núcleo y el muro exterior, así que cada tramo real es algo más corto que el lado exterior de 13,5 m. Tampoco contamos los escalones finales hasta el campanario.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Giralda",
+          "url": "https://es.wikipedia.org/wiki/Giralda",
+          "fact": "La torre tiene 35 rampas; el alminar presenta una planta cuadrada de 13,5 m de lado y la altura total es de 94,69 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-25-3.jpg",
+        "alt": "La Giralda de Sevilla vista desde la calle, para hacerse una idea de su altura",
+        "credit": "Diliff",
+        "url": "https://commons.wikimedia.org/wiki/File:La_Giralda,_Seville,_Spain_-_Sep_2009.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Rampas por lado",
+        "steps": [
+          "La Giralda mide casi 100 m de alto. Subir en rampa suave obliga a caminar varias veces esa altura: quizá medio kilómetro.",
+          "Si la torre tiene unos 13 m de lado y hay unas cuantas decenas de rampas, 30 rampas serían unos 400 m.",
+          "Con 35 rampas y 13,5 m de lado salen 472,5 m. Como las rampas van por dentro, la distancia real es algo menor, pero sigue siendo casi medio kilómetro."
+        ]
+      }
+    }
+  ]
+}

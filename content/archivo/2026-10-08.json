@@ -1,0 +1,118 @@
+{
+  "id": "2026-10-08",
+  "name": "Jueves",
+  "theme": "Guggenheim, ajedrez y churros",
+  "questions": [
+    {
+      "id": "archivo-2026-10-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Titanio reluciente",
+      "title": "Limpiando una placa de titanio por minuto, ¿cuántas jornadas de 8 horas harían falta para el Guggenheim de Bilbao?",
+      "detail": "Frank Gehry vistió el museo con escamas de titanio y alguien tiene que sacarles brillo. Una placa por minuto, sin pausas para el café, y jornadas de 8 horas.",
+      "unit": "jornadas",
+      "answer": 68.75,
+      "math": "El museo está revestido con unas 33.000 placas de titanio. Una jornada de 8 h tiene 480 minutos. 33.000 ÷ 480 = 68,75 jornadas.",
+      "referenceExpression": "33000 ÷ (8 × 60)",
+      "assumptions": "Ritmo constante de una placa por minuto, incluidas las de las cubiertas más inaccesibles. No contamos desplazamientos, andamios ni días de lluvia, que en Bilbao no son pocos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Museo Guggenheim Bilbao · The construction",
+          "url": "https://pro.guggenheim-bilbao.eus/en/the-building/the-construction",
+          "fact": "La piel exterior usa aproximadamente 33.000 láminas de titanio extremadamente finas."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-08-1.jpg",
+        "alt": "Primer plano de las placas de titanio superpuestas como escamas en la fachada del Guggenheim de Bilbao",
+        "credit": "Tony Hisgett from Birmingham, UK",
+        "url": "https://commons.wikimedia.org/wiki/File:Guggenheim_Titanium_tiles_(3833599657).jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta placas y conviértelas en minutos",
+        "steps": [
+          "Un edificio así tiene miles de placas, quizá decenas de miles. Probemos con 30.000: son 30.000 minutos de trabajo.",
+          "Una jornada de 8 horas son 480 minutos, casi 500. 30.000 entre 500 son 60 jornadas: unas semanas de curro, no años.",
+          "El museo habla de unas 33.000 placas, así que salen 68,75 jornadas, unos tres meses laborables. La cifra de placas es aproximada: cada 1.000 placas más suman unas dos jornadas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Trigo exponencial",
+      "title": "¿Cuántas toneladas de trigo pide la leyenda del tablero de ajedrez, duplicando el grano en cada casilla?",
+      "detail": "Un grano en la primera casilla, dos en la segunda, cuatro en la tercera... y así hasta la 64. Usa un grano de trigo de 0,04 g y prepárate para no tener granero suficiente.",
+      "unit": "toneladas",
+      "answer": 737869762948.3821,
+      "math": "La suma de 1 + 2 + 4 + ... + 2⁶³ es 2⁶⁴ − 1 = 18.446.744.073.709.551.615 granos. A 0,04 g por grano son unos 7,38 × 10¹⁷ g, es decir, unos 738.000 millones de toneladas.",
+      "referenceExpression": "(2^64 − 1) × 0,04 ÷ 1000000",
+      "assumptions": "El peso de mil granos de trigo varía entre unos 27 y 51 g según variedad y cosecha; tomamos 40 g (0,04 g por grano). Con granos de 0,05 g el resultado sube a unos 922.000 millones de toneladas.",
+      "confidence": "Cálculo exacto + dato agronómico",
+      "sources": [
+        {
+          "title": "Grainews · Seeding with thousand kernel rates",
+          "url": "https://www.grainews.ca/features/seeding-with-thousand-kernel-rates",
+          "fact": "Peso de mil granos de trigo: de 33,66 a 48,46 g en Saskatchewan y de 26,59 a 50,84 g en el sur de Alberta (datos de 20/20 Seed Labs, 2013)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Las potencias de dos engañan a la vista",
+        "steps": [
+          "Las primeras casillas dan risa: 1, 2, 4, 8... Pero cada 10 casillas el montón se multiplica por unos 1.000 (2¹⁰ = 1.024).",
+          "Con 64 casillas son seis saltos de mil y algo más: unos 18 trillones de granos (1,8 × 10¹⁹). A 0,04 g por grano son unos 7 × 10¹⁷ g, cientos de miles de millones de toneladas.",
+          "El cálculo exacto da 2⁶⁴ − 1 granos y unos 738.000 millones de toneladas. El peso del grano es la parte incierta: entre 0,027 y 0,051 g el resultado va de unos 500.000 a 940.000 millones de toneladas. Cientos de cosechas mundiales en cualquier caso."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Abrazo con chocolate",
+      "title": "¿Cuántos churros en fila harían falta para ir de una mano a la otra del Cristo Redentor?",
+      "detail": "Churros de 15 cm, puestos punta con punta a lo largo de los brazos abiertos de la estatua de Río de Janeiro. El chocolate para mojar lo pones tú.",
+      "unit": "churros",
+      "answer": 186.66666666666669,
+      "math": "Los brazos del Cristo Redentor miden 28 m de punta a punta. Un churro mide unos 15 cm. 28 ÷ 0,15 ≈ 186,7 churros.",
+      "referenceExpression": "28 ÷ 0,15",
+      "assumptions": "Hay churros más cortos y porras mucho más largas: con churros de 10 cm harían falta 280.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Christ the Redeemer (statue)",
+          "url": "https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)",
+          "fact": "La estatua mide 30 m sin su pedestal de 8 m, y sus brazos se extienden 28 m de ancho."
+        },
+        {
+          "title": "¡HOLA! · Homemade churros recipe",
+          "url": "https://www.hola.com/us/food/20230224343085/homemade-churros-recipe",
+          "fact": "La receta forma tiras de churro de unos 15 cm de largo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-08-3.jpg",
+        "alt": "El Cristo Redentor de Río de Janeiro visto desde el aire, con los brazos abiertos y la plataforma llena de visitantes a sus pies",
+        "credit": "Mucio Scorzelli",
+        "url": "https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer-(Corcovado)_front_view.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Mide los brazos en churros",
+        "steps": [
+          "El Cristo es enorme: abierto de brazos ocupa como un edificio de diez pisos tumbado, unos 30 m.",
+          "30 m ÷ 0,15 m = 200 churros.",
+          "Con 28 m de envergadura salen 186,7 churros: unas 30 raciones de churrería, para desayunar con vistas a Copacabana."
+        ]
+      }
+    }
+  ]
+}

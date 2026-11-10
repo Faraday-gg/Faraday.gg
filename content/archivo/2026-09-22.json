@@ -1,0 +1,115 @@
+{
+  "id": "2026-09-22",
+  "name": "Martes",
+  "theme": "Tutankamón, Sixtina y plátanos",
+  "questions": [
+    {
+      "id": "archivo-2026-09-22-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Inventario faraónico",
+      "title": "Catalogando tres objetos al día, ¿cuántos años tardarías en registrar el ajuar de la tumba de Tutankamón?",
+      "detail": "Howard Carter tardó una década en vaciar la tumba. Tú solo tienes que fichar cada objeto: tres al día, 300 días al año.",
+      "unit": "años",
+      "answer": 5.997777777777777,
+      "math": "El contenido de la tumba se numeró en 5.398 objetos. A tres al día son 1.799,3 días de trabajo; entre 300 días al año: 6 años.",
+      "referenceExpression": "5398 ÷ 3 ÷ 300",
+      "assumptions": "Ritmo constante y cada objeto con la misma dificultad. Una capilla dorada no se cataloga igual que una cuenta de collar.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · KV62 (tumba de Tutankamón)",
+          "url": "https://en.wikipedia.org/wiki/KV62",
+          "fact": "El contenido de la tumba se numeró en 5.398 objetos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Objetos entre ritmo",
+        "steps": [
+          "La tumba estaba abarrotada: miles de objetos, de carros a sandalias. Digamos unos 5.000.",
+          "A tres al día, 5.000 objetos son unos 1.700 días. Con 300 días laborables al año, entre cinco y seis años.",
+          "Con 5.398 objetos salen 6 años justos. Carter tardó unos diez en vaciar la tumba, porque además había que conservar cada pieza."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-22-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Techo de Giocondas",
+      "title": "¿Cuántos cuadros de La Gioconda harían falta para cubrir el techo de la Capilla Sixtina?",
+      "detail": "Giocondas de tamaño real, una junto a otra sin dejar huecos, sobre la planta de la capilla como si el techo fuera plano. Miguel Ángel no tendría que pintar nada; Leonardo, unas cuantas.",
+      "unit": "Giocondas",
+      "answer": 1342.9552,
+      "math": "La capilla mide 40,9 × 13,4 m: 548,06 m². La Gioconda mide 77 × 53 cm: 0,4081 m². 548,06 ÷ 0,4081 = 1.343,0 Giocondas.",
+      "referenceExpression": "40,9 × 13,4 ÷ (0,77 × 0,53)",
+      "assumptions": "Se toma la planta de la nave; la bóveda es curva y su superficie real es mayor, así que harían falta más cuadros. Wikipedia da 40,9 m en la ficha y unos 35 m en el texto.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Sistine Chapel",
+          "url": "https://en.wikipedia.org/wiki/Sistine_Chapel",
+          "fact": "Longitud de 40,9 m y anchura de la nave de 13,4 m (ficha del artículo)."
+        },
+        {
+          "title": "Wikipedia · Mona Lisa",
+          "url": "https://en.wikipedia.org/wiki/Mona_Lisa",
+          "fact": "La Gioconda mide 77 × 53 cm."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-22-2.jpg",
+        "alt": "Vista completa de la bóveda de la Capilla Sixtina pintada por Miguel Ángel",
+        "credit": "Michelangelo (fotografía en Wikimedia Commons)",
+        "url": "https://commons.wikimedia.org/wiki/File:CAPPELLA_SISTINA_Ceiling.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Superficie del techo entre superficie del cuadro",
+        "steps": [
+          "La Gioconda es pequeña: menos de un metro de alto, unos 0,4 m². El techo de la Sixtina es el de una iglesia de 40 m de largo.",
+          "40 × 13 m son unos 520 m²; entre 0,4 m² salen unas 1.300 Giocondas.",
+          "Con 40,9 × 13,4 m y 77 × 53 cm salen 1.343,0. Con la curvatura de la bóveda serían bastantes más."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-22-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Lluvia amarilla",
+      "title": "¿Cuántos plátanos se cosechan en el mundo cada segundo?",
+      "detail": "Toda la cosecha mundial de plátanos de postre de un año, sin contar los plátanos macho para cocinar. Supón que cada plátano pesa 180 g con piel y que se recogen al mismo ritmo día y noche.",
+      "unit": "plátanos/s",
+      "answer": 23799.9605,
+      "math": "En 2022 se produjeron 135,1 millones de toneladas de plátanos. Son 135,1 billones de gramos; entre 180 g por plátano, 750.556 millones de plátanos. Entre los 31.536.000 segundos del año: 23.800 plátanos por segundo.",
+      "referenceExpression": "135100000 × 1000000 ÷ 180 ÷ (365 × 86400)",
+      "assumptions": "180 g por plátano con piel: el USDA da 118 g de pulpa para uno mediano y la piel pesa bastante. Parte de la cosecha se pierde antes de comerse.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Banana",
+          "url": "https://en.wikipedia.org/wiki/Banana",
+          "fact": "En 2022 la producción mundial fue de 179 millones de toneladas: 135,1 millones de plátanos y 44,2 millones de plátanos macho (FAOSTAT)."
+        },
+        {
+          "title": "USDA FoodData Central · Bananas, raw",
+          "url": "https://fdc.nal.usda.gov/food-details/173944/nutrients",
+          "fact": "Un plátano mediano (de 7 a 7 7/8 pulgadas) pesa 118 g de parte comestible."
+        }
+      ],
+      "reasoning": {
+        "heading": "Toneladas al año entre peso y segundos",
+        "steps": [
+          "El plátano es una de las frutas más comidas del mundo: más de cien millones de toneladas al año.",
+          "Si cada uno pesa unos 200 g, 100 millones de toneladas son 500.000 millones de plátanos; un año tiene unos 30 millones de segundos: unos 16.000 por segundo.",
+          "Con 135,1 millones de toneladas y 180 g por plátano salen 23.800 por segundo: un camión lleno cada pocos segundos."
+        ]
+      }
+    }
+  ]
+}

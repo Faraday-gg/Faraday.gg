@@ -1,0 +1,102 @@
+{
+  "id": "2026-10-27",
+  "name": "Martes",
+  "theme": "Luna, jamón y agua",
+  "questions": [
+    {
+      "id": "archivo-2026-10-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Luna a la fuga",
+      "title": "Si la Luna se aleja 3,8 cm cada año, ¿cuántos años tarda en alejarse lo que mide Messi?",
+      "detail": "La Luna se va despidiendo de nosotros, muy despacito. Mide la huida en Messis: 1,70 m de altura según su ficha. Ni el mejor regate la frena.",
+      "unit": "años",
+      "answer": 44.73684210526316,
+      "math": "Las medidas con láser indican que la Luna se aleja unos 3,8 cm al año. Messi mide 1,70 m, 170 cm. 170 ÷ 3,8 ≈ 44,7 años.",
+      "referenceExpression": "170 ÷ 3,8",
+      "assumptions": "Ritmo de alejamiento constante de 3,8 cm al año, el medido en las últimas décadas con los reflectores que dejaron las misiones Apolo.",
+      "confidence": "Dato científico",
+      "sources": [
+        {
+          "title": "NASA Goddard · Measuring the Moon's Distance",
+          "url": "https://eclipse.gsfc.nasa.gov/help/ApolloLaser.html",
+          "fact": "Las medidas muestran que la Luna se aleja de la Tierra a un ritmo de unos 3,8 centímetros al año."
+        },
+        {
+          "title": "Wikipedia · Lionel Messi",
+          "url": "https://en.wikipedia.org/wiki/Lionel_Messi",
+          "fact": "Altura: 1,70 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Altura entre alejamiento anual",
+        "steps": [
+          "3,8 cm al año es más o menos lo que crecen tus uñas. Messi mide 170 cm.",
+          "170 entre 4 son unos 42 años: el orden es de décadas, no de siglos.",
+          "Con 3,8 cm exactos salen 44,7 años. Desde que nació Messi en 1987, la Luna se ha alejado ya algo más de 1,4 m: casi un Messi entero."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Loncha a loncha",
+      "title": "¿Cuántas lonchas finas salen de un jamón ibérico de bellota de 8 kg?",
+      "detail": "Cortado a cuchillo, con lonchas finas de 5 g. Hueso, corteza y grasa exterior se quedan fuera; el cortador no se come ninguna.",
+      "unit": "lonchas",
+      "answer": 688,
+      "math": "Un jamón ibérico de bellota cortado a mano rinde aproximadamente un 43 % (La Estrella del Jamón). 8.000 g × 0,43 = 3.440 g; ÷ 5 g = 688 lonchas.",
+      "referenceExpression": "8000 × 0,43 ÷ 5",
+      "assumptions": "Rendimiento orientativo de un comercio especializado: cada pieza varía. Loncha de 5 g; deshuesado y loncheado a máquina el rendimiento sube cerca del 58 %.",
+      "confidence": "Dato aproximado + modelo",
+      "sources": [
+        {
+          "title": "La Estrella del Jamón · What is the yield of a jamón?",
+          "url": "https://www.laestrelladeljamon.com/blog/en/what-is-the-yield-of-a-jamon/",
+          "fact": "Rendimiento aproximado del jamón ibérico de bellota (50 % ibérico) cortado a mano: 43 %; deshuesado y a máquina, 58 %."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero lo que se aprovecha, luego las lonchas",
+        "steps": [
+          "Un jamón entero da para muchas raciones. ¿Cientos o miles de lonchas?",
+          "Del peso, más de la mitad es hueso, corteza y grasa que no se sirve. Si quedan unos 3,5 kg, a 5 g por loncha salen unas 700.",
+          "Con un 43 % de rendimiento salen 688 lonchas. Si el cortador las hace de 3 g, casi 1.150."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Botijo humano",
+      "title": "¿Cuántas botellas de 1,5 litros de agua lleva dentro un adulto de 70 kg?",
+      "detail": "Un hombre adulto de 70 kg, con el 60 % de su peso en agua, y cada kilo de agua es un litro. Sin escurrir a nadie.",
+      "unit": "botellas",
+      "answer": 28,
+      "math": "En un hombre adulto el agua supone el 60 % del peso corporal (Manual MSD). 70 × 0,6 = 42 L; 42 ÷ 1,5 = 28 botellas.",
+      "referenceExpression": "70 × 0,6 ÷ 1,5",
+      "assumptions": "1 kg de agua = 1 L. En mujeres el porcentaje es menor (en torno al 50 %) porque tienen más tejido graso.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Manual MSD · Introducción al agua corporal",
+          "url": "https://www.msdmanuals.com/es/hogar/nefropatías/equilibrio-hídrico/introducción-al-agua-corporal",
+          "fact": "El agua supone el 60 % del peso corporal en el hombre y un 50 % en la mujer."
+        }
+      ],
+      "reasoning": {
+        "heading": "Peso por porcentaje, luego en botellas",
+        "steps": [
+          "Dicen que somos casi todo agua. ¿Un par de garrafas o un pack entero?",
+          "Si un 60 % de 70 kg es agua, son unos 40 litros. En botellas de 1,5 L, unas 27.",
+          "Salen 42 litros y 28 botellas exactas: cuatro packs y pico de seis."
+        ]
+      }
+    }
+  ]
+}

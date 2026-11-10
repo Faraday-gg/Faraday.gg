@@ -1,0 +1,97 @@
+{
+  "id": "2026-08-20",
+  "name": "Jueves",
+  "theme": "Chavo, nevera y 4004",
+  "questions": [
+    {
+      "id": "archivo-2026-08-20-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de la vecindad",
+      "title": "¿Cuántas horas tardarías en ver todos los capítulos de El Chavo del Ocho?",
+      "detail": "Todos los capítulos emitidos entre 1973 y 1980, uno detrás de otro y cada uno en su media hora de programa. Fue sin querer queriendo.",
+      "unit": "horas",
+      "answer": 145,
+      "math": "Se emitieron 290 capítulos y cada uno ocupaba un programa de media hora: 290 × 30 min = 8.700 min; 8.700 ÷ 60 = 145 horas.",
+      "referenceExpression": "290 × 30 ÷ 60",
+      "assumptions": "Contamos 290 capítulos, la cifra del texto de la Wikipedia en español (la ficha dice 312 y la tabla de temporadas suma 295, porque se cuentan distinto las partes y las repeticiones). Cada capítulo ocupa la media hora del programa; sin anuncios cada uno dura algo menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · El Chavo del 8",
+          "url": "https://es.wikipedia.org/wiki/El_Chavo_del_8",
+          "fact": "Se emitió entre el 26 de febrero de 1973 y el 7 de enero de 1980 en programas de media hora; en total se transmitieron 290 capítulos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Capítulos por media hora",
+        "steps": [
+          "Siete años de serie, con decenas de capítulos por temporada: unos cuantos cientos de episodios de menos de una hora. Eso son cientos de horas, no miles.",
+          "300 capítulos × media hora = 150 horas. Unos seis días seguidos sin dormir delante del barril.",
+          "Con 290 capítulos de media hora salen 145 horas. Sin los anuncios bajaría un poco, pero la torta de jamón no se perdona."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-20-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "¿Qué había aquí?",
+      "title": "Si cada vez que abres la nevera miras dentro diez segundos, ¿cuántos días de tu vida pasarás mirando la nevera?",
+      "detail": "Veinte aperturas al día desde los 5 años hasta la esperanza de vida media en España, diez segundos cada una. La comida no aparece por mirar más.",
+      "unit": "días",
+      "answer": 66.80185763888889,
+      "math": "La esperanza de vida al nacer es de 84,01 años (INE, 2024). Desde los 5 años quedan 79,01 años × 365,25 días × 20 aperturas ≈ 577.168 aperturas. Por 10 segundos son 5.771.681 s; entre los 86.400 s de un día ≈ 66,8 días.",
+      "referenceExpression": "(84,01 − 5) × 365,25 × 20 × 10 ÷ 86.400",
+      "assumptions": "Veinte aperturas diarias y diez segundos por apertura son suposiciones del juego, no estadísticas. Contamos desde los 5 años hasta la esperanza de vida media al nacer.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Movimiento Natural de la Población 2024 (nota de prensa)",
+          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
+        }
+      ],
+      "reasoning": {
+        "heading": "Segundos que se convierten en días",
+        "steps": [
+          "Diez segundos parecen nada, pero veinte veces al día durante ochenta años se acumulan. Seguro que son más de unos pocos días.",
+          "20 × 10 s = 200 s al día, unos 3 minutos. 3 minutos × 365 × 80 años ≈ 88.000 minutos, unos 60 días.",
+          "Con 79,01 años de nevera salen 66,8 días: más de dos meses de tu vida con la puerta abierta y la luz encendida."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-20-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Chips en miniatura",
+      "title": "¿Cuántos procesadores Intel 4004 harían falta para sumar los transistores de un chip moderno de 50.000 millones?",
+      "detail": "Junta procesadores Intel 4004 de 1971 hasta igualar los transistores de un chip moderno de 50.000 millones. Necesitarás un enchufe muy grande.",
+      "unit": "procesadores",
+      "answer": 21739130.43478261,
+      "math": "El Intel 4004 tenía 2.300 transistores. 50.000.000.000 ÷ 2.300 ≈ 21.739.130 procesadores.",
+      "referenceExpression": "50000000000 ÷ 2300",
+      "assumptions": "El chip moderno de 50.000 millones de transistores es una referencia redonda; los procesadores actuales van desde unos miles de millones hasta más de cien mil millones.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Intel 4004",
+          "url": "https://en.wikipedia.org/wiki/Intel_4004",
+          "fact": "El Intel 4004 contenía 2.300 transistores."
+        }
+      ],
+      "reasoning": {
+        "heading": "Divide transistores entre transistores",
+        "steps": [
+          "El primer microprocesador comercial tenía unos pocos miles de transistores y los de hoy decenas de miles de millones. La división da decenas de millones.",
+          "50.000 millones ÷ 2.000 serían 25 millones; con 2.300 la cifra baja un poco.",
+          "El resultado son 21.739.130 procesadores 4004. Medio siglo de miniaturización en un solo número."
+        ]
+      }
+    }
+  ]
+}

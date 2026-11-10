@@ -1,0 +1,120 @@
+{
+  "id": "2026-10-07",
+  "name": "Miércoles",
+  "theme": "Cráter, Livermore y ADN",
+  "questions": [
+    {
+      "id": "archivo-2026-10-07-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Campos en el cráter",
+      "title": "¿Cuántos campos de fútbol cabrían en la boca del Meteor Crater de Arizona?",
+      "detail": "Un meteorito de hierro abrió este agujero sin pedir licencia de obra. Cuenta la superficie del círculo que dibuja el borde y campos reglamentarios de 105 × 68 m, puestos como piezas de puzle perfectas.",
+      "unit": "campos",
+      "answer": 154.72519818518165,
+      "math": "El cráter mide 1,186 km de diámetro, así que su boca es un círculo de 593 m de radio: π × 593² ≈ 1.104.724 m². Un campo de 105 × 68 m ocupa 7.140 m². 1.104.724 ÷ 7.140 ≈ 154,7 campos.",
+      "referenceExpression": "π × 593² ÷ (105 × 68)",
+      "assumptions": "Tratamos el cráter como un círculo perfecto y medimos la superficie plana de su boca, no la de las paredes inclinadas ni la del fondo, que es bastante más pequeño. Los campos encajan sin huecos, cosa imposible en un círculo real.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Meteor Crater",
+          "url": "https://en.wikipedia.org/wiki/Meteor_Crater",
+          "fact": "Diámetro de 1,186 km (0,737 millas) y unos 170 m de profundidad."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-07-1.jpg",
+        "alt": "Vista aérea del Meteor Crater: un enorme cuenco circular en el desierto de Arizona con una carretera y edificios diminutos en el borde",
+        "credit": "USGS/D. Roddy",
+        "url": "https://commons.wikimedia.org/wiki/File:Barringer_Crater_aerial_photo_by_USGS.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Barringer_Crater_aerial_photo_by_USGS.jpg"
+      },
+      "reasoning": {
+        "heading": "Convierte el agujero en un círculo",
+        "steps": [
+          "Un cráter famoso de meteorito suena enorme, pero no es una ciudad: digamos algo más de un kilómetro de lado a lado. Si lo imaginas como un cuadrado de 1 km × 1 km, son 1.000.000 m².",
+          "Un campo de fútbol tiene unos 100 × 70 m, cerca de 7.000 m². Un millón entre 7.000 da unos 140 campos: hablamos de cientos, no de miles.",
+          "Con el diámetro real de 1,186 km, el círculo suma unos 1,1 millones de m² y caben unos 155 campos de 105 × 68 m. El círculo pierde las esquinas del cuadrado, pero el cráter es algo más ancho de lo que supusimos y se compensa."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-07-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Bombilla inmortal",
+      "title": "¿Cuántas horas lleva encendida la bombilla centenaria de Livermore?",
+      "detail": "Cuelga en un parque de bomberos de California desde 1901 y ha visto pasar más alcaldes que fundidos. Cuenta 125 años justos, de 1901 a 2026, con años de 365,25 días y sin descontar apagones.",
+      "unit": "horas",
+      "answer": 1095750,
+      "math": "De 1901 a 2026 van 125 años. 125 × 365,25 días × 24 h = 1.095.750 horas.",
+      "referenceExpression": "125 × 365,25 × 24",
+      "assumptions": "No se conoce el día exacto de 1901 en que se colgó, así que contamos años completos. Ignoramos los pocos apagones documentados (una semana en 1937 durante una reforma y unas 9,5 horas en 2013), que no cambian la cifra en más de un 0,02 %.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Centennial Light · Facts",
+          "url": "https://www.centennialbulb.org/facts.htm",
+          "fact": "Instalada en 1901 en la cochera de mangueras de L Street; apagada una semana en 1937 y al menos 9,5 horas en mayo de 2013 por un fallo del SAI."
+        },
+        {
+          "title": "Wikipedia · Centennial Light",
+          "url": "https://en.wikipedia.org/wiki/Centennial_Light",
+          "fact": "Encendida por primera vez en 1901; solo se ha apagado unas pocas veces desde entonces."
+        }
+      ],
+      "reasoning": {
+        "heading": "Las horas de un año son el ladrillo",
+        "steps": [
+          "Un siglo y pico encendida: digamos 125 años. Lo único que hay que saber es cuántas horas tiene un año.",
+          "Un año son unas 365 × 24 ≈ 8.760 horas. Por 125 años salen algo más de un millón de horas: el orden de magnitud es el millón.",
+          "Con años de 365,25 días (por los bisiestos) quedan 1.095.750 horas. Los apagones de 1937 y 2013 restan unas 180 horas, menos del 0,02 %: a efectos prácticos, 1,1 millones de horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-07-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "ADN hasta Plutón",
+      "title": "Si estiraras todo el ADN de tu cuerpo, ¿cuántas veces llegarías a Plutón?",
+      "detail": "El ADN de todas las células con núcleo de un hombre adulto, puesto en fila, comparado con la distancia media del Sol a Plutón. Sin nudos ni enredos.",
+      "unit": "veces",
+      "answer": 3.8567796610169487,
+      "math": "El cuerpo adulto tiene unos 37 billones de células (3,7 × 10¹³), pero el 70 % son glóbulos rojos, sin núcleo: quedan 1,11 × 10¹³ células con ADN. Cada núcleo de hombre guarda 2,05 m. 1,11 × 10¹³ × 2,05 m ≈ 2,28 × 10¹³ m: unos 22.755 millones de km. Plutón está de media a 5.900 millones de km del Sol. 22.755 ÷ 5.900 ≈ 3,86 veces.",
+      "referenceExpression": "3,7e13 × 0,3 × 2,05 ÷ 1000 ÷ 5,9e9",
+      "assumptions": "El número de células tiene un margen de ±0,8 × 10¹³, así que el resultado puede ir de unas 3 a casi 5 veces. Comparamos con la distancia media del Sol a Plutón.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "BioNumbers (Harvard) · Total cell number in body",
+          "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=109716",
+          "fact": "3,7 × 10¹³ células (±0,8 × 10¹³); alrededor del 70 % son glóbulos rojos."
+        },
+        {
+          "title": "Piovesan et al., BMC Research Notes 2019 · Europe PMC",
+          "url": "https://europepmc.org/abstract/MED/30813969",
+          "fact": "El genoma nuclear diploide masculino mide 205,00 cm; el femenino, 208,23 cm."
+        },
+        {
+          "title": "NASA · Pluto: Facts",
+          "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+          "fact": "De media, Plutón está a 5.900 millones de km del Sol, unas 39 unidades astronómicas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Multiplica células por metros de ADN",
+        "steps": [
+          "Cada célula guarda unos 2 m de ADN y tenemos billones de células: salen distancias astronómicas.",
+          "10 billones de células con núcleo × 2 m = 2 × 10¹³ m, es decir, 20.000 millones de km. Plutón está a unos 6.000 millones: 3 veces y pico.",
+          "Con 1,11 × 10¹³ células y 2,05 m por núcleo salen 22.755 millones de km: 3,9 viajes hasta Plutón. Y tú sin salir del sofá."
+        ]
+      }
+    }
+  ]
+}

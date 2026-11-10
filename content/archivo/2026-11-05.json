@@ -1,0 +1,107 @@
+{
+  "id": "2026-11-05",
+  "name": "Jueves",
+  "theme": "Pulga, Júpiter y atún",
+  "questions": [
+    {
+      "id": "archivo-2026-11-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Salto olímpico",
+      "title": "¿Cuántas veces su propia longitud puede saltar una pulga?",
+      "detail": "Compara el salto horizontal de una pulga campeona, 33 cm, con su cuerpo de 3 mm. Sin pértiga y sin carrerilla, que no le hace falta.",
+      "unit": "veces",
+      "answer": 110,
+      "math": "Una pulga puede saltar hasta 33 cm en horizontal y mide unos 3 mm. 330 mm ÷ 3 mm = 110 veces su longitud.",
+      "referenceExpression": "330 ÷ 3",
+      "assumptions": "Usamos el salto máximo y un cuerpo de 3 mm; las pulgas miden entre 1,5 y 3,3 mm y la mayoría de sus saltos son más cortos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Flea",
+          "url": "https://en.wikipedia.org/wiki/Flea",
+          "fact": "Las pulgas miden de 1,5 a 3,3 mm; pueden saltar hasta 18 cm en vertical y 33 cm en horizontal, unas 110 veces su longitud."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un récord humano a escala de pulga",
+        "steps": [
+          "Una pulga es más pequeña que un grano de arroz: unos 2 o 3 mm. Cuando salta desaparece de tu vista; digamos que llega a un palmo, unos 20 o 30 cm.",
+          "30 cm entre 3 mm dan 100: unas cien veces su longitud.",
+          "Con el récord de 33 cm y 3 mm de cuerpo salen 110 veces. Una persona de 1,75 m que saltara igual recorrería más de 190 metros de un brinco."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Mudanza gaseosa",
+      "title": "¿Cuántas Tierras cabrían dentro de Júpiter?",
+      "detail": "Mete planetas Tierra dentro de Júpiter hasta llenarlo. Las Tierras se funden como plastilina y no dejan huecos entre ellas, así que basta con comparar volúmenes.",
+      "unit": "Tierras",
+      "answer": 1321.3319670239382,
+      "math": "Según la NASA, Júpiter tiene un volumen de 143.128 × 10¹⁰ km³ y la Tierra, de 108,321 × 10¹⁰ km³. 143.128 ÷ 108,321 ≈ 1.321 Tierras.",
+      "referenceExpression": "143128 ÷ 108,321",
+      "assumptions": "Comparamos volúmenes, no masas: Júpiter es mucho menos denso que la Tierra. Si fueran canicas rígidas, quedarían huecos y cabrían bastantes menos.",
+      "confidence": "Dato oficial + cálculo",
+      "sources": [
+        {
+          "title": "NASA · Jupiter Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+          "fact": "Volumen de Júpiter: 143.128 × 10¹⁰ km³; relación de volumen Júpiter/Tierra: 1.321,33."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Volumen de la Tierra: 108,321 × 10¹⁰ km³."
+        }
+      ],
+      "reasoning": {
+        "heading": "El volumen crece con el cubo del radio",
+        "steps": [
+          "Júpiter es unas 11 veces más ancho que la Tierra. Parece poco, pero el volumen va al cubo.",
+          "11 × 11 × 11 = 1.331. Ya sabemos que hablamos de más de mil Tierras.",
+          "Con los volúmenes de la NASA salen 1.321 Tierras. El achatamiento de Júpiter, que gira muy deprisa, explica por qué no sale exactamente 11 al cubo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-11-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Almadraba en piezas",
+      "title": "¿Cuántas piezas de nigiri saldrían de un atún rojo de almadraba de 200 kg?",
+      "detail": "Un atún rojo de 200 kg, como los que se seleccionan en las almadrabas de Cádiz, despiezado sin desperdiciar nada comestible. Cada nigiri lleva 10 g de pescado; el arroz lo pone otro.",
+      "unit": "nigiris",
+      "answer": 11600,
+      "math": "La FAO estima que el atún rojo rinde un 58 % de carne comestible sobre su peso entero. 200 kg × 0,58 = 116 kg = 116.000 g. 116.000 ÷ 10 g = 11.600 nigiris.",
+      "referenceExpression": "200 × 0,58 × 1000 ÷ 10",
+      "assumptions": "Todo lo comestible acaba en nigiris de 10 g, también lo que en la práctica va a tartar, guisos o latas. El rendimiento real depende del corte y del cocinero.",
+      "confidence": "Dato técnico + modelo",
+      "sources": [
+        {
+          "title": "FAO · Yield and nutritional value of the commercially more important fish species (Fisheries Technical Paper 309)",
+          "url": "https://www.fao.org/4/t0219e/t0219e01.htm",
+          "fact": "Para el atún rojo del norte (Thunnus thynnus), la carne comestible supone un 58 % del peso del pez entero."
+        },
+        {
+          "title": "Wikipedia · Almadraba",
+          "url": "https://es.wikipedia.org/wiki/Almadraba",
+          "fact": "Los pescadores seleccionan en la almadraba atunes que pueden pesar unos 200 kilos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la carne, luego las piezas",
+        "steps": [
+          "De un pez grande no se come todo: cabeza, espinas y piel pesan mucho. Digamos que aprovechas algo más de la mitad, unos 100-120 kg.",
+          "100 kg son 100.000 g; a 10 g por nigiri salen 10.000 piezas.",
+          "Con el 58 % de rendimiento de la FAO salen 116 kg y 11.600 nigiris. Para comerlos a 10 piezas por persona, invitarías a más de mil comensales."
+        ]
+      }
+    }
+  ]
+}

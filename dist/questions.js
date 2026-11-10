@@ -2,54 +2,56 @@ window.PILOT_DAYS = [
   {
     "id": "2026-11-09",
     "name": "Lunes",
-    "theme": "Playa, órbita y museo",
+    "theme": "Plaza de España, EEI y Última Cena",
     "questions": [
       {
-        "id": "piloto-v2-1",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "Geometría playera",
-        "title": "¿Cuántas toallas cubrirían toda la arena de Las Canteras?",
-        "detail": "Una playa entera reservada antes del desayuno. Usa toallas de 80 × 150 cm, sin pasillos ni solapes. Estimamos superficie equivalente; la marea no se queda quieta.",
+        "id": "piloto-v3-2026-11-09-1",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "lugares",
+        "tag": "Toalla en la plaza",
+        "title": "¿Cuántas toallas de playa harían falta para cubrir la Plaza de España de Sevilla?",
+        "detail": "Cubre toda la plaza, edificios incluidos, con toallas de 100 × 150 cm, sin huecos ni solapes. La ría y los bancos de azulejos quedan debajo, bien protegidos del sol.",
         "unit": "toallas",
-        "answer": 129166.66666666667,
-        "math": "Una franja aproximada de 3.100 × 50 m suma 155.000 m². Cada toalla ocupa 1,2 m²: unas 129.000 toallas.",
-        "assumptions": "Modelo rectangular con anchura media de 50 m. No es un aforo real ni una medición de arena disponible hoy; la anchura cambia por tramo y marea.",
-        "confidence": "Modelo aproximado",
+        "answer": 33333.333333333336,
+        "math": "La Plaza de España ocupa unos 50.000 m² en total. Cada toalla mide 1 × 1,5 m = 1,5 m². 50.000 ÷ 1,5 ≈ 33.333 toallas.",
+        "referenceExpression": "50000 ÷ (1 × 1,5)",
+        "assumptions": "Usamos la superficie total aproximada, que suma unos 19.000 m² construidos y 31.000 m² al aire libre. La toalla grande de 100 × 150 cm es un supuesto del modelo.",
+        "confidence": "Dato aproximado + cálculo",
         "sources": [
           {
-            "title": "Ayuntamiento de Las Palmas de Gran Canaria",
-            "url": "https://www.laspalmasgc.es/es/areas-tematicas/medio-ambiente/playas/",
-            "fact": "Longitud de referencia de la playa: 3.100 metros."
+            "title": "Wikipedia · Plaza de España (Sevilla)",
+            "url": "https://es.wikipedia.org/wiki/Plaza_de_Espa%C3%B1a_(Sevilla)",
+            "fact": "Su superficie total es de unos 50.000 m²: unos 19.000 m² construidos y 31.000 m² de espacio abierto."
           },
           {
-            "title": "ULPGC · clasificación de playas de Gran Canaria, 2004",
-            "url": "https://accedacris.ulpgc.es/bitstream/10553/1028/1/108.pdf",
-            "fact": "La tabla de Las Canteras recoge 3.100 m de longitud y 50 m de anchura."
+            "title": "Wikipedia · Towel",
+            "url": "https://en.wikipedia.org/wiki/Towel",
+            "fact": "Una toalla de baño grande, que envuelve todo el cuerpo, mide 100 × 150 cm o 90 × 160 cm."
           }
         ],
         "image": {
-          "src": "assets/las-canteras.jpg",
-          "alt": "Panorámica de Las Canteras: arena, bañistas y edificios para estimar la escala de la playa",
-          "credit": "Bengt Nyman · Wikimedia Commons",
-          "url": "https://commons.wikimedia.org/wiki/File:Canteras_5335_Pan_(46886275114).jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+          "src": "assets/piloto-2026-11-09-1.jpg",
+          "alt": "Vista aérea de la Plaza de España de Sevilla: el gran edificio de ladrillo en semicírculo con sus torres, la explanada y la fuente",
+          "credit": "Lobillo · Wikimedia Commons",
+          "url": "https://commons.wikimedia.org/wiki/File:PlazaEspanaDesdeAire.jpg",
+          "license": "Public domain",
+          "licenseUrl": "https://commons.wikimedia.org/wiki/File:PlazaEspanaDesdeAire.jpg"
         },
         "reasoning": {
-          "heading": "Empieza por la arena, no por contar toallas",
+          "heading": "Primero la plaza, luego la toalla",
           "steps": [
-            "La playa parece larguísima, pero lo que necesitamos es su superficie. Una primera apuesta razonable sería unos 3 km de largo y unas decenas de metros de ancho. Con 50 m salen 150.000 m².",
-            "Una toalla extendida ocupa algo más de un metro cuadrado. Si le das 1,2 m², dividir 150.000 entre 1,2 deja unas 125.000. Ya sabemos que hablamos de cientos de miles, no de miles.",
-            "Al afinar con los 3.100 m de longitud documentada llegamos a 129.167 toallas equivalentes. La anchura manda: con una playa un 20% más estrecha o más ancha, el resultado también cambia un 20%. La marea introduce más incertidumbre que el último decimal."
+            "La plaza es enorme: un gran semicírculo con edificios, ría y explanada. Digamos que ocupa como siete campos de fútbol, unos 50.000 m².",
+            "Una toalla grande ocupa metro y medio cuadrado: 50.000 ÷ 1,5 son más de 30.000 toallas.",
+            "Con los 50.000 m² de la plaza salen 33.333 toallas. Si solo cubrieras los 31.000 m² al aire libre, bastarían unas 20.667."
           ]
-        },
-        "referenceExpression": "3100 × 50 ÷ (0,8 × 1,5)"
+        }
       },
       {
         "id": "piloto-v2-2",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "espacio",
         "tag": "Charcutería orbital",
         "title": "¿Cuántos jamones pesarían lo mismo que la Estación Espacial Internacional?",
         "detail": "El mayor objeto construido en órbita, medido en la unidad oficial de las bodas. Considera jamones enteros de 7 kg.",
@@ -65,14 +67,6 @@ window.PILOT_DAYS = [
             "fact": "Masa de referencia: 419.725 kg; cambia con los vehículos acoplados."
           }
         ],
-        "image": {
-          "src": "assets/question-2.jpg",
-          "alt": "Fotografía de referencia: International Space Station",
-          "credit": "NASA",
-          "url": "https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg",
-          "license": "Public domain",
-          "licenseUrl": "https://commons.wikimedia.org/wiki/File:The_station_pictured_from_the_SpaceX_Crew_Dragon_5.jpg"
-        },
         "reasoning": {
           "heading": "Primero imagina qué estás pesando",
           "steps": [
@@ -84,90 +78,90 @@ window.PILOT_DAYS = [
         "referenceExpression": "419725 ÷ 7"
       },
       {
-        "id": "piloto-v2-3",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "Arte y papelería",
-        "title": "¿Cuántas notas adhesivas harían falta para cubrir el Guernica?",
-        "detail": "Una reunión de oficina que se nos ha ido de las manos. Notas cuadradas de 7,6 cm de lado; cuenta superficie equivalente y permite recortarlas en los bordes.",
+        "id": "piloto-v3-2026-11-09-3",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "cultura",
+        "tag": "Pósits renacentistas",
+        "title": "¿Cuántas notas adhesivas harían falta para cubrir La Última Cena de Leonardo da Vinci?",
+        "detail": "Tapa el mural entero con notas adhesivas clásicas de 3 × 3 pulgadas (7,62 cm de lado), sin huecos ni solapes. Solo en tu imaginación: los vigilantes del refectorio no lo aprobarían.",
         "unit": "notas",
-        "answer": 4696.440096952909,
-        "math": "El lienzo mide 349,3 × 776,6 cm: unos 271.266 cm². Cada nota ocupa 57,76 cm². Resultado: unas 4.696 notas.",
-        "assumptions": "Sin marco, huecos ni solapes. Dividimos áreas; no calculamos una cuadrícula de notas enteras.",
-        "confidence": "Dato documentado + modelo",
+        "answer": 6971.569498694553,
+        "math": "El mural mide 460 × 880 cm: 404.800 cm². Cada nota de 7,62 × 7,62 cm ocupa 58,06 cm². 404.800 ÷ 58,06 ≈ 6.972 notas.",
+        "referenceExpression": "460 × 880 ÷ (7,62 × 7,62)",
+        "assumptions": "Tratamos el mural como un rectángulo completo, sin contar la puerta que se abrió en su parte baja. Nota de 3 × 3 pulgadas, el tamaño típico.",
+        "confidence": "Dato documentado + cálculo",
         "sources": [
           {
-            "title": "Museo Reina Sofía · ficha de Guernica",
-            "url": "https://www.museoreinasofia.es/colecciones/obra/guernica/",
-            "fact": "Dimensiones del lienzo: 349,3 × 776,6 cm."
+            "title": "Wikipedia · The Last Supper (Leonardo)",
+            "url": "https://en.wikipedia.org/wiki/The_Last_Supper_(Leonardo)",
+            "fact": "El mural mide 460 × 880 cm."
+          },
+          {
+            "title": "Wikipedia · Post-it Note",
+            "url": "https://en.wikipedia.org/wiki/Post-it_Note",
+            "fact": "La nota Post-it típica mide 3 × 3 pulgadas, aunque hoy se venden muchos tamaños."
           }
         ],
         "image": {
-          "src": "assets/question-3.jpg",
-          "alt": "Notas adhesivas de colores junto a bolígrafos y rotuladores que permiten intuir su tamaño",
-          "credit": "Ravi Palwe · Unsplash",
-          "url": "https://unsplash.com/photos/blue-and-black-pen-beside-orange-sticky-notes-I3urDa6z2_4",
-          "license": "Licencia Unsplash",
-          "licenseUrl": "https://unsplash.com/license"
+          "src": "assets/piloto-2026-11-09-3.jpg",
+          "alt": "La Última Cena de Leonardo en la pared del refectorio de Santa Maria delle Grazie, en Milán, con una puerta debajo que da idea de su tamaño",
+          "credit": "Dimitris Kamaras from Athens, Greece",
+          "url": "https://commons.wikimedia.org/wiki/File:Cenacolo_Vinciano,_Santuario_di_Santa_Maria_delle_Grazie,_Milano_(30824242905).jpg",
+          "license": "CC BY 2.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
         },
         "reasoning": {
-          "heading": "Cuenta filas y columnas, aunque luego multipliques áreas",
+          "heading": "Mural grande, nota pequeña",
           "steps": [
-            "El Guernica es un mural, no un cuadro de salón: piensa en unos 8 m de ancho y 3,5 m de alto. Eso son cerca de 28 m².",
-            "Una nota cuadrada típica ronda los 7 u 8 cm de lado. Con 8 cm caben unas 12,5 por metro en cada dirección: alrededor de 156 por m². Multiplicadas por 28, salen unas 4.400.",
-            "Las dimensiones del museo son 7,766 × 3,493 m. Tomando notas de 0,076 m, el cociente de áreas da 4.696,44. El resultado depende de ese formato de nota; el lado importa al cuadrado. Aquí contamos área equivalente y permitimos recortar los bordes."
+            "El mural ocupa la pared del fondo de un comedor de convento: unos 4 o 5 m de alto y casi 9 de ancho. Digamos 4,5 × 9 = 40 m².",
+            "Una nota adhesiva tiene unos 7,5 cm de lado, algo menos de 60 cm². En un metro cuadrado caben unas 170: 40 × 170 ≈ 6.800 notas.",
+            "Con los 460 × 880 cm medidos y notas de 7,62 cm salen 6.972 notas: unos 70 blocs de 100."
           ]
-        },
-        "referenceExpression": "349,3 × 776,6 ÷ 7,6²"
+        }
       }
     ]
   },
   {
     "id": "2026-11-10",
     "name": "Martes",
-    "theme": "De la terminal al estadio",
+    "theme": "Embarque, Teide y Bernabéu",
     "questions": [
       {
-        "id": "piloto-v2-4",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "El país hace cola",
-        "title": "Mientras tardas un minuto en encontrar tu tarjeta de embarque, ¿cuántos pasajeros pasan por los aeropuertos españoles?",
-        "detail": "Usa la media de todo 2024 de la red de Aena en España, a cualquier hora del día. Cuenta registros de pasajeros, no personas únicas.",
+        "id": "piloto-v3-2026-11-10-1",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "transporte",
+        "tag": "Despegues por minuto",
+        "title": "Mientras tardas un minuto en encontrar tu tarjeta de embarque, ¿cuántos pasajeros despegan en todo el mundo?",
+        "detail": "Reparte por igual entre todos los minutos de 2026 los pasajeros que la IATA prevé para este año. Cada vuelo que toma una persona cuenta como un pasajero, y nadie pierde el avión.",
         "unit": "pasajeros/min",
-        "answer": 586.923324605343,
-        "math": "Aena registró 309.332.069 pasajeros en España en 2024. Al ser bisiesto: 366 × 24 × 60 = 527.040 minutos. Media: unos 587 pasajeros por minuto.",
-        "assumptions": "Media anual, no tráfico observado en un minuto concreto. Una misma persona puede contar en varios viajes.",
-        "confidence": "Dato anual documentado",
+        "answer": 9893.455098934552,
+        "math": "La IATA prevé 5.200 millones de pasajeros en 2026. Un año de 365 días tiene 525.600 minutos. 5.200.000.000 ÷ 525.600 ≈ 9.893 pasajeros por minuto.",
+        "referenceExpression": "5200000000 ÷ (365 × 24 × 60)",
+        "assumptions": "Es la previsión de la IATA publicada en diciembre de 2025. Repartimos igual de día que de noche, aunque de madrugada despegan muchos menos.",
+        "confidence": "Previsión oficial + cálculo",
         "sources": [
           {
-            "title": "Aena · balance oficial 2024, 13/01/2025",
-            "url": "https://www.aena.es/es/prensa/los-aeropuertos-del-grupo-aena-registran-mas-de-3694-millones-de---pasajeros-en-2024.html",
-            "fact": "La red española registró 309.332.069 pasajeros en 2024."
+            "title": "IATA · Nota de prensa del 9 de diciembre de 2025",
+            "url": "https://www.iata.org/en/pressroom/2025-releases/2025-12-09-01/",
+            "fact": "Se espera que el número de pasajeros alcance los 5.200 millones en 2026, un 4,4 % más que en 2025."
           }
         ],
-        "image": {
-          "src": "assets/question-4.jpg",
-          "alt": "Interior de la terminal de Madrid-Barajas, con personas como referencia de escala",
-          "credit": "Diego Delso",
-          "url": "https://commons.wikimedia.org/wiki/File:Terminal_4_del_aeropuerto_de_Madrid-Barajas,_Espa%C3%B1a,_2013-01-09,_DD_08.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        },
         "reasoning": {
-          "heading": "Convierte un año entero en un minuto cualquiera",
+          "heading": "Del año al minuto",
           "steps": [
-            "Piensa primero cuántos pasajeros pueden sumar grandes aeropuertos como Madrid y Barcelona, después añade los turísticos y el resto. Cientos de millones al año es una escala razonable.",
-            "Un año tiene algo más de medio millón de minutos. Si apostaras por 300 millones de registros anuales, la división mental 300.000.000 ÷ 500.000 da unos 600 por minuto.",
-            "El dato de Aena para España es 309.332.069. Como 2024 tuvo 366 días, usamos 527.040 minutos y obtenemos 586,92. No significa que pasen exactamente 587 en cada minuto ni que todos sean personas diferentes."
+            "En el mundo vuelan miles de millones de pasajeros al año; digamos 5.000 millones.",
+            "Un año tiene unos 500.000 minutos (365 × 1.440). 5.000 millones ÷ 500.000 = 10.000 pasajeros por minuto.",
+            "Con la previsión de la IATA, 5.200 millones, y 525.600 minutos salen 9.893 pasajeros por minuto: unos 165 cada segundo mientras rebuscas en el bolso."
           ]
-        },
-        "referenceExpression": "309332069 ÷ (366 × 24 × 60)"
+        }
       },
       {
         "id": "piloto-v2-5",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "naturaleza",
         "tag": "Alta cocina canaria",
         "title": "¿Cuántas tortillas apiladas necesitarías para alcanzar la altitud del Teide?",
         "detail": "Desde el nivel del mar, no desde el aparcamiento. Cada tortilla tiene 4 cm de grosor y ninguna se aplasta. La cebolla es irrelevante para este cálculo.",
@@ -183,14 +177,6 @@ window.PILOT_DAYS = [
             "fact": "Altitud del pico: 3.715 metros."
           }
         ],
-        "image": {
-          "src": "assets/question-5.jpg",
-          "alt": "Fotografía de referencia: Teide",
-          "credit": "Thomas Wolf, www.foto-tw.de",
-          "url": "https://commons.wikimedia.org/wiki/File:Roque_Cinchado_und_Teide.jpg",
-          "license": "CC BY-SA 3.0 de",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
-        },
         "reasoning": {
           "heading": "La discusión sobre la cebolla no cambia la altura",
           "steps": [
@@ -205,6 +191,7 @@ window.PILOT_DAYS = [
         "id": "piloto-v2-6",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "deportes",
         "tag": "El césped, con extra de queso",
         "title": "¿Cuántas pizzas medianas sumarían la misma superficie que el césped del Bernabéu?",
         "detail": "Pizzas de 32 cm de diámetro. Compara áreas, como si pudieras redistribuir la masa sin desperdicio. No hace falta resolver cómo encajar círculos.",
@@ -220,14 +207,6 @@ window.PILOT_DAYS = [
             "fact": "Dimensiones del campo: 105 × 68 metros."
           }
         ],
-        "image": {
-          "src": "assets/question-6.jpg",
-          "alt": "Fotografía de referencia: Santiago Bernabéu Stadium",
-          "credit": "Badefa",
-          "url": "https://commons.wikimedia.org/wiki/File:Estadio_Santiago_Bernab%C3%A9u_%E2%80%94_Real_Madrid_Juvenil_A_-_Santiago_Wanderers_Sub-20_(Intercontinental_Sub-20_2026)_%E2%80%94_R%C3%A9cord_de_asistencia_en_un_partido_de_juveniles.jpg",
-          "license": "CC0",
-          "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-        },
         "reasoning": {
           "heading": "Una pizza no ocupa tanto como parece en la caja",
           "steps": [
@@ -243,49 +222,43 @@ window.PILOT_DAYS = [
   {
     "id": "2026-11-11",
     "name": "Miércoles",
-    "theme": "Hoteles y monumentos",
+    "theme": "Versalles, Eiffel y Sagrada Família",
     "questions": [
       {
-        "id": "piloto-v2-7",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "Hotel real, estancia larga",
-        "title": "Si durmieras cada noche en una estancia distinta del Palacio Real de Madrid, ¿cuántos años tardarías en repetir?",
-        "detail": "Suponemos que todas las estancias sirven para poner una cama. Incluidas las que claramente no deberían. Años de 365 días.",
+        "id": "piloto-v3-2026-11-11-1",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "historia",
+        "tag": "Hotel real",
+        "title": "Durmiendo cada noche en una habitación distinta del Palacio de Versalles, ¿cuántos años tardarías en repetir?",
+        "detail": "Cada noche duermes en una estancia distinta del palacio, del Salón de los Espejos al último cuarto de servicio, sin repetir ninguna. Desayuno en los jardines, si te dejan.",
         "unit": "años",
-        "answer": 9.364383561643836,
-        "math": "El inventario municipal indica 3.418 habitaciones. Una por noche: 3.418 ÷ 365 ≈ 9,36 años.",
-        "assumptions": "Recorremos las 3.418 estancias una sola vez y tratamos todas como habitaciones utilizables.",
-        "confidence": "Recuento documentado + modelo",
+        "answer": 6.301369863013699,
+        "math": "El palacio tiene unas 2.300 estancias. Una por noche: 2.300 ÷ 365 ≈ 6,3 años.",
+        "referenceExpression": "2300 ÷ 365",
+        "assumptions": "Contamos todas las estancias, no solo dormitorios, y la cifra es aproximada. Años de 365 días.",
+        "confidence": "Dato aproximado + cálculo",
         "sources": [
           {
-            "title": "Ayuntamiento de Madrid · Patrimonio y Paisaje",
-            "url": "https://patrimonioypaisaje.madrid.es/portales/monumenta/es/Monumentos/Edificios-historicos/Palacio-Real-de-Madrid/?vgnextchannel=83bc3cb702aa4510VgnVCM1000008a4a900aRCRD&vgnextfmt=default&vgnextoid=2008f7d9560a4510f7d9560a45102e085a0aRCRD",
-            "fact": "El palacio tiene 3.418 habitaciones."
+            "title": "Wikipedia · Palace of Versailles",
+            "url": "https://en.wikipedia.org/wiki/Palace_of_Versailles",
+            "fact": "El palacio tiene unas 2.300 estancias, de las que unas 1.000 pertenecen al Museo Nacional de Historia de Francia."
           }
         ],
-        "image": {
-          "src": "assets/question-7.jpg",
-          "alt": "Fotografía de referencia: Royal Palace of Madrid",
-          "credit": "Tim Adams",
-          "url": "https://commons.wikimedia.org/wiki/File:Palacio_Real_de_Madrid_Julio_2016_(cropped).jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
         "reasoning": {
-          "heading": "No confundas un palacio con un hotel pequeño",
+          "heading": "Estancias entre noches del año",
           "steps": [
-            "La fachada ya sugiere cientos de ventanas y varias plantas. Si imaginas unas decenas de estancias en cada ala y nivel, es fácil llegar a miles.",
-            "Una pista mental útil después de hacer esa apuesta: mil noches son casi tres años. Un palacio con unas 3.000 estancias te tendría cambiando de habitación durante unos ocho años.",
-            "El recuento municipal es 3.418. A una estancia por noche y años de 365 días, resultan 9,364 años. No todas son dormitorios: la gracia del escenario es permitir una cama en cada una."
+            "Versalles es gigantesco: no tiene cientos de estancias, sino miles. Digamos 2.000.",
+            "2.000 ÷ 365 ≈ 5,5 años.",
+            "Con las 2.300 estancias que se le atribuyen salen 6,3 años. Si solo durmieras en las unas 1.000 del museo, acabarías en menos de tres años."
           ]
-        },
-        "referenceExpression": "3418 ÷ 365"
+        }
       },
       {
         "id": "piloto-v2-8",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "arquitectura",
         "tag": "París en material de oficina",
         "title": "¿Cuántos clips pesarían lo mismo que la estructura metálica de la torre Eiffel?",
         "detail": "Todo el hierro de la torre, expresado en clips de 1 gramo. La papelería te pregunta si quieres bolsa.",
@@ -301,14 +274,6 @@ window.PILOT_DAYS = [
             "fact": "Masa de la estructura de hierro: 7.300 toneladas."
           }
         ],
-        "image": {
-          "src": "assets/question-8.jpg",
-          "alt": "Fotografía de referencia: Eiffel Tower",
-          "credit": "Benh LIEU SONG",
-          "url": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg",
-          "license": "Public domain",
-          "licenseUrl": "https://commons.wikimedia.org/wiki/File:Tour_Eiffel_Wikimedia_Commons_(cropped).jpg"
-        },
         "reasoning": {
           "heading": "La estructura parece ligera, pero suma miles de toneladas",
           "steps": [
@@ -323,6 +288,7 @@ window.PILOT_DAYS = [
         "id": "piloto-v2-9",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "lugares",
         "tag": "Arquitectura de emergencia",
         "title": "¿Cuántos rollos de papel higiénico apilados alcanzarían la punta de la Sagrada Família?",
         "detail": "De pie, uno sobre otro, con 10 cm de altura por rollo. Es la compra de pánico más arquitectónica de Barcelona.",
@@ -361,12 +327,13 @@ window.PILOT_DAYS = [
   {
     "id": "2026-11-12",
     "name": "Jueves",
-    "theme": "Tapas y combinaciones",
+    "theme": "Croquetas, A380 y LEGO",
     "questions": [
       {
         "id": "piloto-v2-10",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "espacio",
         "tag": "La tapa más larga",
         "title": "¿Cuántas croquetas en fila unirían el centro de la Tierra con el centro de la Luna?",
         "detail": "Croquetas de 12 cm, punta con punta. Usa la distancia media entre los centros. Ni una para probar la bechamel.",
@@ -382,14 +349,6 @@ window.PILOT_DAYS = [
             "fact": "Una distancia lunar de referencia equivale a 384.400 km."
           }
         ],
-        "image": {
-          "src": "assets/question-10.jpg",
-          "alt": "Fotografía de referencia: Croquette",
-          "credit": "Jonathan Pincas from Leon, Spain",
-          "url": "https://commons.wikimedia.org/wiki/File:Croquetas_Caseras_(7068664101).jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        },
         "reasoning": {
           "heading": "Aquí los kilómetros engañan si no los pasas a metros",
           "steps": [
@@ -404,6 +363,7 @@ window.PILOT_DAYS = [
         "id": "piloto-v2-11",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "transporte",
         "tag": "Un baño antes de despegar",
         "title": "¿Cuántas bañeras podrías llenar con el combustible que cabe en un Airbus A380?",
         "detail": "Bañeras de 150 litros, llenas hasta arriba. Compara volúmenes: nadie va a bañarse en queroseno.",
@@ -419,14 +379,6 @@ window.PILOT_DAYS = [
             "fact": "Capacidad máxima de combustible: 320.000 litros."
           }
         ],
-        "image": {
-          "src": "assets/question-11.jpg",
-          "alt": "Fotografía de referencia: Airbus A380",
-          "credit": "Maarten Visser from Capelle aan den IJssel, Nederland",
-          "url": "https://commons.wikimedia.org/wiki/File:A6-EDY_A380_Emirates_31_jan_2013_jfk_(8442269364)_(cropped).jpg",
-          "license": "CC BY-SA 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-        },
         "reasoning": {
           "heading": "Empieza por imaginar un vuelo de muchas horas",
           "steps": [
@@ -441,6 +393,7 @@ window.PILOT_DAYS = [
         "id": "piloto-v2-12",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "cultura",
         "tag": "Seis piezas, una vida",
         "title": "Si probaras una construcción distinta con seis piezas LEGO cada segundo, ¿cuántos años necesitarías para verlas todas?",
         "detail": "Seis ladrillos 2 × 4 del mismo color, unidos de las formas habituales que cuenta LEGO House. Sin repetir y sin dormir. Años de 365 días.",
@@ -456,14 +409,6 @@ window.PILOT_DAYS = [
             "fact": "Para seis ladrillos del mismo color se citan 915.103.765 combinaciones."
           }
         ],
-        "image": {
-          "src": "assets/question-12.jpg",
-          "alt": "Fotografía de referencia: Lego House (Billund)",
-          "credit": "HartOve",
-          "url": "https://commons.wikimedia.org/wiki/File:Lego_House_01.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
         "reasoning": {
           "heading": "Lo difícil es intuir cuántas formas distintas existen",
           "steps": [
@@ -479,12 +424,13 @@ window.PILOT_DAYS = [
   {
     "id": "2026-11-13",
     "name": "Viernes",
-    "theme": "Paciencia y sobremesa",
+    "theme": "Rubik, Tomatina y cerveza",
     "questions": [
       {
         "id": "piloto-v2-13",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "tecnologia",
         "tag": "La paciencia tampoco basta",
         "title": "Un ordenador revisa mil millones de posiciones del cubo de Rubik por segundo. ¿Cuántos años tardaría en verlas todas?",
         "detail": "Cubo clásico 3 × 3, solo posiciones alcanzables girando sus caras, sin repeticiones. Quizá sea mejor aprender un algoritmo. Años de 365 días.",
@@ -500,14 +446,6 @@ window.PILOT_DAYS = [
             "fact": "El espacio de estados tiene 43.252.003.274.489.856.000 posiciones."
           }
         ],
-        "image": {
-          "src": "assets/question-13.jpg",
-          "alt": "Fotografía de referencia: Rubik's Cube",
-          "credit": "Mike Gonzalez (TheCoffee)",
-          "url": "https://commons.wikimedia.org/wiki/File:Rubiks_cube_solved.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        },
         "reasoning": {
           "heading": "Mil millones por segundo sigue siendo poco para esta escala",
           "steps": [
@@ -519,51 +457,10 @@ window.PILOT_DAYS = [
         "referenceExpression": "43252003274489856000 ÷ 1000000000 ÷ (365 × 24 × 3600)"
       },
       {
-        "id": "piloto-v2-14",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "La piscina de la última ronda",
-        "title": "¿Cuántas piscinas como la del Mundial de natación de Singapur llenarías con la cerveza fabricada en España en 2024?",
-        "detail": "La producción de un año entero, sin espuma ni pérdidas. La piscina es la de competición de Singapur 2025.",
-        "unit": "piscinas",
-        "answer": 1058.7179487179487,
-        "math": "41,29 millones de hectolitros equivalen a 4.129 millones de litros. La piscina de 50 × 26 × 3 m contiene 3,9 millones de litros. Cociente: unas 1.059 piscinas.",
-        "assumptions": "Producción, no consumo ni ventas. Usamos el volumen geométrico completo de la piscina.",
-        "confidence": "Datos sectoriales + modelo",
-        "sources": [
-          {
-            "title": "Cerveceros de España · informe socioeconómico 2024",
-            "url": "https://cerveceros.org/uploads/Informe_Socioeconomico_2024.pdf",
-            "fact": "Producción de referencia en 2024: 41,29 millones de hectolitros."
-          },
-          {
-            "title": "World Aquatics · piscina de Singapur 2025",
-            "url": "https://www.worldaquatics.com/news/4287931/singapore-2025-world-aquatics-championships-arena-ready-for-top-athletes",
-            "fact": "La piscina de competición mide 50 × 26 × 3 metros."
-          }
-        ],
-        "image": {
-          "src": "assets/question-14.jpg",
-          "alt": "Fotografía de referencia: Beer",
-          "credit": "KOREA.NET - Official page of the Republic of Korea",
-          "url": "https://commons.wikimedia.org/wiki/File:Jeju_beer_09_(cropped).jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        },
-        "reasoning": {
-          "heading": "Una piscina es pequeña frente a un año de producción",
-          "steps": [
-            "España fabrica cerveza para un país entero y también exporta. Conviene pensar en miles de millones de litros anuales, no en millones de botellas sueltas.",
-            "Una piscina de competición tiene unas decenas de metros en cada dirección y unos pocos de profundidad: varios millones de litros. Miles de millones divididos por millones deberían dar unas mil piscinas.",
-            "El informe de 2024 recoge 41,29 millones de hectolitros: 4.129 millones de litros. La piscina de Singapur mide 50 × 26 × 3 m, o 3,9 millones de litros. Cociente: 1.058,72 piscinas. Usamos producción, no consumo."
-          ]
-        },
-        "referenceExpression": "41290000 × 100 ÷ (50 × 26 × 3 × 1000)"
-      },
-      {
         "id": "piloto-v2-15",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "cultura",
         "tag": "Gazpacho para todo el barrio",
         "title": "¿Cuántos litros de gazpacho permitirían preparar los tomates de la Tomatina de 2024?",
         "detail": "Modelo de receta: medio kilo de tomates por litro de gazpacho final. Imagina tomates aptos para cocinar y cero desperdicio; los de la fiesta no se destinan al consumo.",
@@ -579,14 +476,6 @@ window.PILOT_DAYS = [
             "fact": "La información de la edición de 2024 recoge 120.000 kg de tomates."
           }
         ],
-        "image": {
-          "src": "assets/question-15.jpg",
-          "alt": "Participantes durante la Tomatina de Buñol",
-          "credit": "Graham McLellan from London, UK",
-          "url": "https://commons.wikimedia.org/wiki/File:Tomatina_2006.jpg",
-          "license": "CC BY 2.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-        },
         "reasoning": {
           "heading": "Un camión de tomates ya sugiere toneladas",
           "steps": [
@@ -596,55 +485,84 @@ window.PILOT_DAYS = [
           ]
         },
         "referenceExpression": "120000 ÷ 0,5"
+      },
+      {
+        "id": "piloto-v3-2026-11-13-3",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "comida",
+        "tag": "Ronda mundial",
+        "title": "¿Cuántas piscinas olímpicas llenaría la cerveza que se bebe en el mundo en un solo día?",
+        "detail": "Toma toda la cerveza que se bebió en el planeta en 2024 y repártela por igual entre sus 366 días (fue bisiesto). Piscina olímpica de 50 × 25 × 2 m. La espuma no rebosa.",
+        "unit": "piscinas",
+        "answer": 212.15300546448088,
+        "math": "Kirin estima 194,12 millones de kilolitros de cerveza en 2024: 194.120 millones de litros. Entre 366 días salen unos 530 millones de litros diarios. Una piscina olímpica tiene 2,5 millones de litros. 530,4 ÷ 2,5 ≈ 212 piscinas.",
+        "referenceExpression": "194120000 × 1000 ÷ 366 ÷ 2500000",
+        "assumptions": "Consumo repartido igual cada día, aunque en verano y en fin de semana se bebe más. Piscina con la profundidad mínima de 2 m.",
+        "confidence": "Dato documentado + cálculo",
+        "sources": [
+          {
+            "title": "Kirin Holdings · Global Beer Consumption by Country in 2024",
+            "url": "https://www.kirinholdings.com/en/newsroom/release/2025/1222_01.html",
+            "fact": "El consumo mundial de cerveza alcanzó unos 194,12 millones de kilolitros en 2024, un 0,5 % más que el año anterior."
+          },
+          {
+            "title": "Wikipedia · Olympic-size swimming pool",
+            "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+            "fact": "Mide 50 × 25 m con 2 m de profundidad mínima: 2.500.000 litros."
+          }
+        ],
+        "reasoning": {
+          "heading": "Del año al día, del día a la piscina",
+          "steps": [
+            "En el mundo se beben cientos de miles de millones de litros de cerveza al año; digamos 200.000 millones.",
+            "Entre 365 días son unos 550 millones de litros diarios. Una piscina olímpica tiene 2,5 millones de litros: unas 220 piscinas.",
+            "Con los 194,12 millones de kilolitros de Kirin para 2024 salen 212 piscinas olímpicas cada día: una nueva cada siete minutos."
+          ]
+        }
       }
     ]
   },
   {
     "id": "2026-11-14",
     "name": "Sábado",
-    "theme": "Lecturas, viajes y consolas",
+    "theme": "Alejandría, caracol y Nintendo DS",
     "questions": [
       {
-        "id": "piloto-v2-16",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "Club de lectura eterno",
-        "title": "Leyendo un volumen cada semana, ¿cuántos años tardarías en terminar los impresos antiguos de la biblioteca de El Escorial?",
-        "detail": "Cuenta solo los impresos antiguos descritos por Patrimonio Nacional. Cuenta años de 52 semanas. Los manuscritos no entran en este club.",
+        "id": "piloto-v3-2026-11-14-1",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "historia",
+        "tag": "Biblioteca infinita",
+        "title": "Leyendo un rollo por semana, ¿cuántos años tardarías en leer la Biblioteca de Alejandría que soñaba Ptolomeo II?",
+        "detail": "Toma la cifra de rollos que, según la tradición, Ptolomeo II se propuso reunir. Un rollo por semana, 52 al año, sin vacaciones ni rollos repetidos.",
         "unit": "años",
-        "answer": 769.2307692307693,
-        "math": "40.000 volúmenes ÷ 52 libros por año ≈ 769 años.",
-        "assumptions": "La fuente dice «hasta 40.000»: el resultado es orientativo. Ritmo fijado de un volumen por semana, sea cual sea su tamaño.",
-        "confidence": "Colección aproximada + modelo",
+        "answer": 9615.384615384615,
+        "math": "Según la tradición, Ptolomeo II se fijó como objetivo reunir 500.000 rollos. A un rollo por semana, 52 al año: 500.000 ÷ 52 ≈ 9.615 años.",
+        "referenceExpression": "500000 ÷ 52",
+        "assumptions": "Nadie sabe cuántos rollos tuvo de verdad: las estimaciones van de 40.000 a 700.000. Con 40.000 tardarías unos 769 años.",
+        "confidence": "Cifra tradicional + cálculo",
         "sources": [
           {
-            "title": "Patrimonio Nacional · Real Biblioteca de El Escorial",
-            "url": "https://www.patrimonionacional.es/en/coleccion/real-biblioteca-del-monasterio-de-el-escorial",
-            "fact": "El espacio alberga hasta 40.000 volúmenes impresos antiguos."
+            "title": "Wikipedia · Library of Alexandria",
+            "url": "https://en.wikipedia.org/wiki/Library_of_Alexandria",
+            "fact": "Se dice que Ptolomeo II Filadelfo fijó como objetivo reunir 500.000 rollos; las estimaciones de lo que llegó a guardar van de 40.000 a 700.000."
           }
         ],
-        "image": {
-          "src": "assets/question-16.jpg",
-          "alt": "Fotografía de referencia: El Escorial",
-          "credit": "Zvonimir Stamenov",
-          "url": "https://commons.wikimedia.org/wiki/File:Monasterio_de_El_Escorial_en_Madrid.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
         "reasoning": {
-          "heading": "Piensa en estanterías, no en una lista de títulos",
+          "heading": "Rollos entre semanas",
           "steps": [
-            "Una biblioteca histórica con una gran sala y varias colecciones puede reunir decenas de miles de volúmenes. Ese es el orden que hay que estimar.",
-            "A un libro semanal lees unos cincuenta al año. Incluso 10.000 volúmenes ya exigirían dos siglos; una colección varias veces mayor se va a muchos siglos.",
-            "Patrimonio Nacional describe hasta 40.000 impresos antiguos. Con 52 por año, resultan unos 769,23 años. Es un techo orientativo, no una promesa de que el catálogo tenga exactamente ese número de títulos distintos."
+            "La biblioteca más famosa de la Antigüedad no tenía miles, sino cientos de miles de rollos; digamos medio millón.",
+            "Al año lees unos 50: 500.000 ÷ 50 = 10.000 años.",
+            "Con 500.000 rollos y 52 semanas exactas salen 9.615 años. Si hubieras empezado cuando se fundó la biblioteca, hace unos 2.300 años, aún no habrías leído ni la cuarta parte."
           ]
-        },
-        "referenceExpression": "40000 ÷ 52"
+        }
       },
       {
         "id": "piloto-v2-17",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "naturaleza",
         "tag": "Atasco a otra velocidad",
         "title": "¿Cuántos años tardaría un caracol en recorrer el canal de Suez de punta a punta?",
         "detail": "Nuestro caracol avanza sin parar a 4 metros por hora por un camino de la misma longitud que el canal. Tiene prioridad sobre los portacontenedores. Años de 365 días.",
@@ -660,14 +578,6 @@ window.PILOT_DAYS = [
             "fact": "Longitud total: 193,30 km."
           }
         ],
-        "image": {
-          "src": "assets/question-17.jpg",
-          "alt": "Fotografía de referencia: Suez Canal",
-          "credit": "NASA",
-          "url": "https://commons.wikimedia.org/wiki/File:Iss016e019375.jpg",
-          "license": "Public domain",
-          "licenseUrl": "https://commons.wikimedia.org/wiki/File:Iss016e019375.jpg"
-        },
         "reasoning": {
           "heading": "Primero transforma el canal en una carretera muy larga",
           "steps": [
@@ -682,6 +592,7 @@ window.PILOT_DAYS = [
         "id": "piloto-v2-18",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "tecnologia",
         "tag": "Una partida bastante concurrida",
         "title": "Si encendieras todas las Nintendo DS vendidas, ¿cuántas personas podrían jugar a la vez?",
         "detail": "Una persona por consola. Incluye toda la familia Nintendo DS y supone que todas siguen funcionando. La Nintendo 3DS pertenece a otra familia.",
@@ -697,14 +608,6 @@ window.PILOT_DAYS = [
             "fact": "Ventas acumuladas de Nintendo DS: 154,02 millones de unidades."
           }
         ],
-        "image": {
-          "src": "assets/question-18.jpg",
-          "alt": "Fotografía de referencia: Nintendo DS",
-          "credit": "Evan-Amos",
-          "url": "https://commons.wikimedia.org/wiki/File:Nintendo-DS-Fat-Blue.png",
-          "license": "Public domain",
-          "licenseUrl": "https://commons.wikimedia.org/wiki/File:Nintendo-DS-Fat-Blue.png"
-        },
         "reasoning": {
           "heading": "La pista útil es cuántas generaciones llegaron a tener una",
           "steps": [
@@ -720,49 +623,13 @@ window.PILOT_DAYS = [
   {
     "id": "2026-11-15",
     "name": "Domingo",
-    "theme": "Suerte, agua y café",
+    "theme": "Océanos, Bad Bunny y espressos",
     "questions": [
-      {
-        "id": "piloto-v2-19",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "La cola del Gordo",
-        "title": "¿Cuántos kilómetros mediría una fila con todos los décimos emitidos para la Navidad de 2024?",
-        "detail": "Coloca cada décimo a continuación del anterior, ocupando 15 cm de fila. Contamos toda la emisión, incluidos los que no se vendieron. Eso sí que es estirar la suerte.",
-        "unit": "km",
-        "answer": 28950,
-        "math": "SELAE emitió 193 millones de décimos. A 0,15 m por décimo: 28.950.000 m, es decir, 28.950 km.",
-        "assumptions": "Los 15 cm son la separación longitudinal elegida en el modelo, no una afirmación sobre el formato físico del décimo.",
-        "confidence": "Emisión oficial + modelo",
-        "sources": [
-          {
-            "title": "SELAE · boletín 92, Navidad 2024",
-            "url": "https://www.loteriasyapuestas.es/f/loterias/documentos/publicaciones/Boletin/Boletin92selae.pdf",
-            "fact": "Emisión de 193 millones de décimos para Navidad de 2024."
-          }
-        ],
-        "image": {
-          "src": "assets/question-19.jpg",
-          "alt": "Fotografía de referencia: Spanish Christmas Lottery",
-          "credit": "Barcex",
-          "url": "https://commons.wikimedia.org/wiki/File:Madrid_-_Loter%C3%ADa_Navidad_-_141203_110126.jpg",
-          "license": "CC BY-SA 3.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-        },
-        "reasoning": {
-          "heading": "Separa números, series y décimos",
-          "steps": [
-            "Hay muchos números distintos, pero cada uno se imprime en muchas series y cada billete se divide en décimos. Olvidar cualquiera de esos factores desplaza mucho el resultado.",
-            "Con unos 100.000 números, cerca de 200 series y diez décimos por billete, salen unos 200 millones de décimos. Una fila de papeles de unos 15 cm sería de decenas de miles de kilómetros.",
-            "La emisión de 2024 fue de 193 millones de décimos. A 0,15 m de fila por décimo: 28.950 km. Los 15 cm son la separación elegida para el escenario, no una medida oficial del papel."
-          ]
-        },
-        "referenceExpression": "193000000 × 0,15 ÷ 1000"
-      },
       {
         "id": "piloto-v2-20",
         "revision": 2,
         "verifiedAt": "2026-11-09",
+        "category": "naturaleza",
         "tag": "El grifo que nadie cerró",
         "title": "¿Cuántos años tardaría un grifo en llenar todos los océanos de la Tierra?",
         "detail": "Un grifo de 10 litros por minuto, sin parar y sin evaporación. Si sales a hacer un recado, te da tiempo. Años de 365 días.",
@@ -778,14 +645,6 @@ window.PILOT_DAYS = [
             "fact": "Volumen oceánico de referencia: 1.335.000.000 km³."
           }
         ],
-        "image": {
-          "src": "assets/question-20.jpg",
-          "alt": "Fotografía de referencia: Ocean",
-          "credit": "ABI imagery from NOAA's GOES-18 satellite",
-          "url": "https://commons.wikimedia.org/wiki/File:Pacific_Ocean_as_viewed_from_GOES-18_on_September_23,_2023.jpg",
-          "license": "Public domain",
-          "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pacific_Ocean_as_viewed_from_GOES-18_on_September_23,_2023.jpg"
-        },
         "reasoning": {
           "heading": "Un océano se estima por superficie y profundidad",
           "steps": [
@@ -797,41 +656,74 @@ window.PILOT_DAYS = [
         "referenceExpression": "1335000000 × 10¹² ÷ (10 × 60 × 24 × 365)"
       },
       {
-        "id": "piloto-v2-21",
-        "revision": 2,
-        "verifiedAt": "2026-11-09",
-        "tag": "Café con cloro, sin cloro",
-        "title": "¿Cuántos espressos llenarían la piscina del Mundial de Singapur 2025?",
-        "detail": "Cada espresso aporta 30 ml. Solo café, nada de crema ni espacio para el nadador. La piscina es la de competición, no una piscina doméstica.",
-        "unit": "espressos",
-        "answer": 130000000,
-        "math": "La piscina mide 50 × 26 × 3 m: 3.900.000 litros. A 0,03 litros por espresso: 130 millones de cafés.",
-        "assumptions": "Espresso ideal de 30 ml. Volumen geométrico de la piscina hasta su profundidad nominal.",
-        "confidence": "Dimensiones oficiales + modelo",
+        "id": "piloto-v3-2026-11-15-2",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "dinero",
+        "tag": "Minuto de oro",
+        "title": "¿Cuántos dólares recaudaba Bad Bunny por cada minuto de concierto en su gira World's Hottest Tour?",
+        "detail": "Reparte la taquilla de toda la gira de 2022 entre sus 43 conciertos, y cada concierto entre dos horas y media de show. Los minutos de perreo no cotizan aparte.",
+        "unit": "dólares/min",
+        "answer": 48682.17054263566,
+        "math": "La gira recaudó más de 314 millones de dólares en 43 conciertos: unos 7,3 millones por noche. Cada show duraba unas dos horas y media, 150 minutos. 314.000.000 ÷ 43 ÷ 150 ≈ 48.682 dólares por minuto.",
+        "referenceExpression": "314000000 ÷ 43 ÷ 150",
+        "assumptions": "Usamos la cifra de Billboard de 2022 y la duración de un concierto concreto (Phoenix); otros pudieron durar algo más o menos. Solo taquilla, sin mercancía ni patrocinios.",
+        "confidence": "Dato documentado + modelo",
         "sources": [
           {
-            "title": "World Aquatics · piscina de Singapur 2025",
-            "url": "https://www.worldaquatics.com/news/4287931/singapore-2025-world-aquatics-championships-arena-ready-for-top-athletes",
-            "fact": "La piscina de competición mide 50 × 26 × 3 metros."
+            "title": "Wikipedia · World's Hottest Tour",
+            "url": "https://en.wikipedia.org/wiki/World%27s_Hottest_Tour",
+            "fact": "Según Billboard, fue la tercera gira más taquillera de 2022, con más de 314 millones de dólares en 43 conciertos y unos 1,9 millones de entradas."
+          },
+          {
+            "title": "The Arizona Republic (vía Yahoo News) · Bad Bunny en Phoenix",
+            "url": "https://www.yahoo.com/news/why-bad-bunny-popular-downtown-150323765.html",
+            "fact": "El concierto del World's Hottest Tour en el Chase Field de Phoenix (septiembre de 2022) fue un set de dos horas y media."
           }
         ],
-        "image": {
-          "src": "assets/question-21.jpg",
-          "alt": "Fotografía de referencia: Espresso",
-          "credit": "Lemone",
-          "url": "https://commons.wikimedia.org/wiki/File:Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg",
-          "license": "CC BY-SA 4.0",
-          "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-        },
         "reasoning": {
-          "heading": "Un metro cúbico contiene más cafés de los que parece",
+          "heading": "Taquilla entre conciertos entre minutos",
           "steps": [
-            "Una piscina de competición tiene decenas de metros de largo, otras tantas de ancho y varios de profundidad. Antes de calcular, espera unos miles de metros cúbicos.",
-            "Un m³ son 1.000 litros. Si cada espresso es de unos 30 ml, caben algo más de 30.000 cafés por m³. Unos 4.000 m³ multiplicados por esa cantidad se acercan a 120 millones.",
-            "La piscina de Singapur mide 50 × 26 × 3 m: 3.900 m³. Al dividir sus 3.900.000 litros entre 0,03 L, salen 130.000.000 espressos. Los 30 ml son el tamaño fijado para esta comparación."
+            "Las giras de estadio recaudan cientos de millones; digamos 300 millones en unos 40 conciertos: 7,5 millones por noche.",
+            "Un concierto de estadio dura unas dos horas y media, 150 minutos: 7,5 millones ÷ 150 = 50.000 dólares por minuto.",
+            "Con los 314 millones de Billboard y 43 conciertos salen 48.682 dólares por minuto: unos 800 dólares por segundo de canción."
           ]
-        },
-        "referenceExpression": "50 × 26 × 3 × 1000 ÷ 0,03"
+        }
+      },
+      {
+        "id": "piloto-v3-2026-11-15-3",
+        "revision": 1,
+        "verifiedAt": "2026-11-10",
+        "category": "comida",
+        "tag": "Piscina con cafeína",
+        "title": "¿Cuántos espressos harían falta para llenar una piscina olímpica?",
+        "detail": "Piscina olímpica de 50 × 25 m y 2 m de fondo, llena solo de espressos italianos de 25 ml, crema incluida. No se recomienda nadar en ella antes de dormir.",
+        "unit": "espressos",
+        "answer": 100000000,
+        "math": "Una piscina olímpica de 50 × 25 × 2 m contiene 2.500 m³, 2.500.000 litros. Un espresso italiano certificado tiene 25 ml (0,025 L). 2.500.000 ÷ 0,025 = 100 millones de espressos.",
+        "referenceExpression": "50 × 25 × 2 × 1000 ÷ 0,025",
+        "assumptions": "Profundidad mínima de 2 m; con los 3 m recomendados harían falta 150 millones. El volumen del espresso admite ± 2,5 ml.",
+        "confidence": "Dato documentado + cálculo",
+        "sources": [
+          {
+            "title": "Wikipedia · Olympic-size swimming pool",
+            "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+            "fact": "Mide 50 × 25 m con 2 m de profundidad mínima: 2.500.000 litros."
+          },
+          {
+            "title": "Wikipedia · Espresso",
+            "url": "https://en.wikipedia.org/wiki/Espresso",
+            "fact": "El Istituto Nazionale Espresso Italiano fija un volumen en taza de 25 ± 2,5 ml, crema incluida."
+          }
+        ],
+        "reasoning": {
+          "heading": "Litros de piscina entre sorbos",
+          "steps": [
+            "Una piscina olímpica mide 50 × 25 m y unos 2 m de fondo: 2.500 m³, es decir, 2,5 millones de litros.",
+            "Un espresso es un sorbo de unos 25 ml: caben 40 en un litro. 2,5 millones × 40 = 100 millones.",
+            "Con las medidas del Istituto Nazionale Espresso Italiano salen 100 millones de espressos: tomando uno al día tardarías unos 274.000 años en vaciarla."
+          ]
+        }
       }
     ]
   }

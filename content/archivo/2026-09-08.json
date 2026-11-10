@@ -1,0 +1,102 @@
+{
+  "id": "2026-09-08",
+  "name": "Martes",
+  "theme": "Prado, Apolo 11 y millón",
+  "questions": [
+    {
+      "id": "archivo-2026-09-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de museo",
+      "title": "Mirando cada cuadro 30 segundos, ¿cuántas horas tardarías en ver toda la colección de pinturas del Prado?",
+      "detail": "Todas las pinturas del inventario, también las que están en almacén o prestadas. Treinta segundos por cuadro, sin cafetería ni tienda de recuerdos.",
+      "unit": "horas",
+      "answer": 71.075,
+      "math": "El inventario del Prado tenía 8.529 pinturas en diciembre de 2025. 8.529 × 30 s = 255.870 s = 71,1 horas.",
+      "referenceExpression": "8529 × 30 ÷ 3600",
+      "assumptions": "30 segundos por pintura, sin pausas ni desplazamientos. Solo se expone una parte de la colección.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Museo del Prado",
+          "url": "https://es.wikipedia.org/wiki/Museo_del_Prado",
+          "fact": "El inventario comprende, a diciembre de 2025, 39.755 piezas, desglosadas en 8.529 pinturas, entre otras."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta cuadros y multiplica por medio minuto",
+        "steps": [
+          "El Prado tiene miles de pinturas, aunque solo cuelgan unas 1.700. Pongamos unas 8.000.",
+          "8.000 × 30 s son 240.000 s, unas 67 horas: casi tres días sin dormir.",
+          "Con 8.529 pinturas salen 71,1 horas. Si te quedas cinco minutos ante Las meninas, el maratón no se resiente; si lo haces con todas, necesitas un mes."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Memoria lunar",
+      "title": "¿Cuántos ordenadores del Apolo 11 harían falta para igualar la memoria RAM de un móvil de gama media?",
+      "detail": "Juntamos la memoria borrable (la RAM) de ordenadores de guiado del Apolo 11 hasta igualar los 8 GB de RAM de un móvil de gama media, como el Samsung Galaxy A56. Llevaron a Armstrong a la Luna; tu móvil, a los memes de gatos.",
+      "unit": "ordenadores",
+      "answer": 2097152,
+      "math": "El ordenador de guiado del Apolo tenía 2.048 palabras de RAM de 16 bits (2 bytes): 4.096 bytes, 4 KB. Un móvil con 8 GB tiene 8 × 1.024³ = 8.589.934.592 bytes. 8.589.934.592 ÷ 4.096 = 2.097.152 ordenadores.",
+      "referenceExpression": "8 × 1024 × 1024 × 1024 ÷ (2048 × 2)",
+      "assumptions": "Se compara solo la memoria borrable (RAM), no la memoria fija de 36.864 palabras ni la velocidad. Se usan unidades binarias (1 GB = 1.024³ bytes). Móvil de 8 GB de RAM, la versión básica del Galaxy A56.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Apollo Guidance Computer",
+          "url": "https://en.wikipedia.org/wiki/Apollo_Guidance_Computer",
+          "fact": "El ordenador del Block II tenía 2.048 palabras de memoria borrable (RAM) de núcleos magnéticos y 36.864 palabras de memoria fija; cada palabra era de 16 bits."
+        },
+        {
+          "title": "Wikipedia · Samsung Galaxy A56",
+          "url": "https://en.wikipedia.org/wiki/Samsung_Galaxy_A56",
+          "fact": "El Galaxy A56 5G, móvil de gama media de Samsung, se vende con 8 GB o 12 GB de RAM."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los dos a bytes",
+        "steps": [
+          "El ordenador que llevó al hombre a la Luna tenía una memoria ridícula para hoy: unos pocos kilobytes. Un móvil normal tiene varios gigabytes.",
+          "Un giga es un millón de kilobytes, más o menos. 8 GB entre 4 KB dan unos 2 millones de ordenadores: ya sabemos que hablamos de millones.",
+          "Con las cifras exactas (2.048 palabras de 2 bytes contra 8 × 1.024³ bytes) salen 2.097.152 ordenadores del Apolo: uno por cada habitante de París, y aun así tu móvil se sobra para mirar fotos de gatos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Cama de billetes",
+      "title": "¿Cuántos colchones de matrimonio cubriría un millón de euros en billetes de 50 € puestos uno al lado del otro?",
+      "detail": "Extiendes 20.000 billetes de 50 € sin huecos ni solapes, como baldosas, y los comparas con colchones de matrimonio de 150 × 190 cm. Dormir sobre el dinero, versión literal.",
+      "unit": "colchones",
+      "answer": 75.649123,
+      "math": "Un millón de euros son 20.000 billetes de 50 €. Cada uno mide 140 × 77 mm = 0,01078 m²: en total, 215,6 m². Un colchón de 150 × 190 cm ocupa 2,85 m². 215,6 ÷ 2,85 ≈ 75,6 colchones.",
+      "referenceExpression": "1000000 ÷ 50 × 0,14 × 0,077 ÷ (1,5 × 1,9)",
+      "assumptions": "Billetes sin huecos ni solapes. Colchón de matrimonio de 150 × 190 cm, una medida habitual en España.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · 50 euro note",
+          "url": "https://en.wikipedia.org/wiki/50_euro_note",
+          "fact": "El billete de 50 € mide 140 mm × 77 mm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la alfombra, luego las camas",
+        "steps": [
+          "Un millón en billetes de 50 son 20.000 billetes. Cada uno es algo más pequeño que una mano abierta.",
+          "Unos 100 billetes cubren un metro cuadrado, así que 20.000 dan unos 200 m². Un colchón de matrimonio ronda los 3 m²: salen unas 70 camas.",
+          "Con las medidas exactas salen 215,6 m² y 75,6 colchones: un hotel pequeño con todas las camas forradas de billetes naranjas."
+        ]
+      }
+    }
+  ]
+}

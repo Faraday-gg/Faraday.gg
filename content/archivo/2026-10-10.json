@@ -1,0 +1,110 @@
+{
+  "id": "2026-10-10",
+  "name": "Sábado",
+  "theme": "Panteón, dólares y Pony Express",
+  "questions": [
+    {
+      "id": "archivo-2026-10-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Cúpula para llenar",
+      "title": "¿Cuántos litros de agua cabrían en una esfera del tamaño de la que encaja bajo la cúpula del Panteón de Roma?",
+      "detail": "El Panteón está diseñado para que dentro quepa una esfera perfecta: tan ancha como alta hasta el óculo. Llena esa esfera imaginaria de agua y no te preocupes por el agujero del techo.",
+      "unit": "litros",
+      "answer": 42507181.692918696,
+      "math": "El diámetro interior es de 43,3 m, así que el radio es 21,65 m. Volumen = 4/3 × π × 21,65³ ≈ 42.507 m³. Cada m³ son 1.000 litros: unos 42,5 millones de litros.",
+      "referenceExpression": "4/3 × π × 21,65³ × 1000",
+      "assumptions": "Esfera geométrica perfecta con el diámetro interior de la rotonda. La forma real del edificio es un cilindro coronado por media esfera, así que el agua de verdad cabría en más volumen.",
+      "confidence": "Dato documentado + geometría",
+      "sources": [
+        {
+          "title": "Wikipedia · Pantheon, Rome",
+          "url": "https://en.wikipedia.org/wiki/Pantheon,_Rome",
+          "fact": "La altura hasta el óculo y el diámetro del círculo interior son iguales, unos 43 m; en otro punto precisa 43,3 m."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-10-10-1.jpg",
+        "alt": "Interior del Panteón de Roma con la cúpula de casetones y el óculo, y visitantes pequeños en el suelo",
+        "credit": "Jean-Christophe BENOIST",
+        "url": "https://commons.wikimedia.org/wiki/File:Rome-Pantheon-Interieur1.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+      },
+      "reasoning": {
+        "heading": "El radio al cubo manda",
+        "steps": [
+          "Una esfera de 40 y pico metros es como un edificio de 14 plantas en forma de pelota. Su volumen es 4/3 × π × r³, más o menos 4 × r³.",
+          "Con un radio de unos 20 m, r³ = 8.000 y 4 × 8.000 = 32.000 m³: decenas de millones de litros.",
+          "Con el radio real de 21,65 m salen unos 42.507 m³, es decir, 42,5 millones de litros. Un metro más de radio cambia el resultado un 14 %: al ir al cubo, cada centímetro cuenta."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Vale su peso en billetes",
+      "title": "¿Cuántos dólares en billetes de 100 pesarían lo mismo que una persona de 70 kg?",
+      "detail": "Billetes de 100 dólares nuevos y bien secos, sin gomas ni maletines, en un platillo de la balanza. En el otro, una persona de 70 kg que por fin vale su peso en oro… o casi.",
+      "unit": "dólares",
+      "answer": 7000000,
+      "math": "Un billete de dólar pesa aproximadamente 1 g, sea cual sea su valor. 70 kg son 70.000 g: 70.000 billetes. A 100 $ cada uno: 70.000 × 100 = 7.000.000 $.",
+      "referenceExpression": "70000 ÷ 1 × 100",
+      "assumptions": "El gramo por billete es una aproximación oficial; billetes usados o húmedos pesarían algo más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "U.S. Currency Education Program (Reserva Federal) · Currency Facts",
+          "url": "https://uscurrency.gov/currency-facts",
+          "fact": "Sea cual sea su valor, un billete pesa aproximadamente 1 gramo."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un billete, un gramo",
+        "steps": [
+          "Un billete pesa muy poco, como un clip: alrededor de un gramo.",
+          "70 kg son 70.000 g, así que hacen falta 70.000 billetes. A 100 $ cada uno, 7 millones.",
+          "Salen 7.000.000 $ exactos: si te pagaran tu peso en billetes de 100, serías millonario siete veces. Ponte a dieta después de cobrar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Relevo galopante",
+      "title": "¿Cuántos caballos de relevo necesitaba el Pony Express para cubrir su ruta de punta a punta?",
+      "detail": "El correo a caballo de 1860 cambiaba de montura cada pocas millas para ir siempre a galope. Usa un caballo fresco cada 12,5 millas (unos 20 km) sobre una ruta de 1.900 millas.",
+      "unit": "caballos",
+      "answer": 152,
+      "math": "La ruta de St. Joseph (Misuri) a Sacramento (California) tenía cerca de 1.900 millas (unos 3.058 km). Con un caballo fresco cada 12,5 millas, punto medio de las 10-15 millas del NPS: 1.900 ÷ 12,5 = 152 caballos.",
+      "referenceExpression": "1900 ÷ 12,5",
+      "assumptions": "Un caballo por tramo para un único envío de punta a punta. El Pony Express tenía muchos más animales en total, porque corría en los dos sentidos y necesitaba reservas. La separación entre postas variaba según el terreno.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "National Park Service · Pony Express NHT, mapas",
+          "url": "https://www.nps.gov/poex/planyourvisit/maps.htm",
+          "fact": "La ruta histórica tiene cerca de 1.900 millas y cruza ocho estados."
+        },
+        {
+          "title": "National Park Service · The First Ride",
+          "url": "https://www.nps.gov/poex/learn/historyculture/the-first-ride.htm",
+          "fact": "El Pony Express se organizó para dar un caballo fresco cada 10-15 millas y un jinete fresco cada 75-100 millas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Trocea la ruta en tramos de galope",
+        "steps": [
+          "La ruta cruzaba medio Estados Unidos: unas 2.000 millas. Un caballo a galope aguanta unas pocas millas antes de agotarse.",
+          "Si cambias cada 10 millas, son 200 caballos; si cambias cada 20, 100. El resultado está en el centenar largo.",
+          "Con las 1.900 millas del NPS y un relevo cada 12,5 millas salen 152 caballos para un solo viaje. Con relevos cada 10 millas serían 190, y cada 15, unos 127."
+        ]
+      }
+    }
+  ]
+}

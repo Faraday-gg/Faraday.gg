@@ -1,0 +1,117 @@
+{
+  "id": "2026-08-27",
+  "name": "Jueves",
+  "theme": "Golf, nao Victoria y Wikipedia",
+  "questions": [
+    {
+      "id": "archivo-2026-08-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Clásico de entrevista",
+      "title": "¿Cuántas pelotas de golf caben en un autobús escolar amarillo?",
+      "detail": "Un autobús escolar sin asientos con un hueco interior de 12 × 2,3 × 1,9 m, lleno de pelotas reglamentarias bien sacudidas. El conductor se queda fuera.",
+      "unit": "pelotas",
+      "answer": 825042.0923061301,
+      "math": "El interior mide 12 × 2,3 × 1,9 = 52,44 m³. Una pelota de 42,67 mm de diámetro ocupa 4/3 × π × 0,021335³ ≈ 0,0000407 m³. Si las pelotas llenan el 64 % del espacio: 52,44 × 0,64 ÷ 0,0000407 ≈ 825.000 pelotas.",
+      "referenceExpression": "12 × 2,3 × 1,9 × 0,64 ÷ (4/3 × π × 0,021335³)",
+      "assumptions": "Medidas interiores supuestas para un autobús escolar grande (la normativa limita el ancho exterior a 2,59 m). El 64 % es el empaquetado típico de esferas iguales colocadas al azar.",
+      "confidence": "Modelo aproximado",
+      "sources": [
+        {
+          "title": "Wikipedia · School bus",
+          "url": "https://en.wikipedia.org/wiki/School_bus",
+          "fact": "En EE. UU. y Canadá, los autobuses escolares miden como máximo 2,59 m de ancho y 13,7 m de largo."
+        },
+        {
+          "title": "Wikipedia · Golf ball",
+          "url": "https://en.wikipedia.org/wiki/Golf_ball",
+          "fact": "Las reglas del golf exigen un diámetro mínimo de 42,67 mm."
+        },
+        {
+          "title": "Wikipedia · Random close pack",
+          "url": "https://en.wikipedia.org/wiki/Random_close_pack",
+          "fact": "Esferas iguales colocadas al azar ocupan en torno al 64 % del volumen."
+        }
+      ],
+      "reasoning": {
+        "heading": "Volumen del autobús entre volumen de pelota",
+        "steps": [
+          "Un autobús es una caja de unas decenas de metros cúbicos, y una pelota de golf cabe en el puño. Saldrán cientos de miles.",
+          "50 m³ × 0,64 ≈ 32 m³ útiles; cada pelota ocupa unos 40 cm³, así que 32.000.000 ÷ 40 ≈ 800.000.",
+          "Con 52,44 m³ y pelotas de 42,67 mm salen unas 825.000. La respuesta de entrevista de trabajo que suena a «casi un millón»."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Vuelta a buen ritmo",
+      "title": "¿Cuántos kilómetros recorrió de media al día la nao Victoria en la primera vuelta al mundo?",
+      "detail": "Del muelle de Sevilla en 1519 al regreso a Sevilla en 1522. Reparte la distancia entre todos los días, también los de calma chicha y los de reparaciones.",
+      "unit": "km/día",
+      "answer": 52.67911111111111,
+      "math": "La expedición recorrió 32.000 millas náuticas: 32.000 × 1,852 = 59.264 km. Del 10 de agosto de 1519 al 8 de septiembre de 1522 hay 1.125 días: 59.264 ÷ 1.125 ≈ 52,7 km al día.",
+      "referenceExpression": "32000 × 1,852 ÷ 1125",
+      "assumptions": "La distancia de 32.000 millas es una estimación histórica; otras fuentes dan cifras mayores. Repartimos los kilómetros entre todos los días, incluidos los de escala.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Fundación Nao Victoria · Historia de la primera vuelta al mundo",
+          "url": "https://www.fundacionnaovictoria.org/history-nao-victoria/",
+          "fact": "Las naves salieron de Sevilla el 10 de agosto de 1519; la Victoria regresó a Sevilla el 8 de septiembre de 1522 tras 32.000 millas náuticas recorridas."
+        },
+        {
+          "title": "Wikipedia · Nautical mile",
+          "url": "https://en.wikipedia.org/wiki/Nautical_mile",
+          "fact": "La milla náutica internacional equivale exactamente a 1.852 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Vuelta al mundo y algo más",
+        "steps": [
+          "La circunferencia de la Tierra son 40.000 km, pero un barco de vela da muchos rodeos: digamos unos 60.000 km. El viaje duró unos tres años.",
+          "Tres años son unos 1.100 días. 60.000 entre 1.100 da unos 55 km al día: poco más que un paseo en bici.",
+          "Con 32.000 millas náuticas (59.264 km) y 1.125 días salen 52,7 km al día. Navegando iba más rápido; las escalas y las calmas bajan la media."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "tecnologia",
+      "tag": "Enciclopedia inclinada",
+      "title": "Si imprimieras cada artículo de la Wikipedia en español en un folio, ¿cuántas Torres de Pisa mediría la pila?",
+      "detail": "Un artículo, un folio, por larguísimo que sea. Cada folio mide 0,1 mm de grosor y la pila, a diferencia de la torre, no se inclina.",
+      "unit": "Torres de Pisa",
+      "answer": 3.7920751720487034,
+      "math": "La Wikipedia en español tenía 2.148.969 artículos el 10 de noviembre de 2026. 2.148.969 × 0,1 mm ≈ 214,9 m. La Torre de Pisa mide 56,67 m por su lado alto: 214,9 ÷ 56,67 ≈ 3,79 Torres de Pisa.",
+      "referenceExpression": "2.148.969 × 0,1 ÷ 1.000 ÷ 56,67",
+      "assumptions": "Un folio por artículo y 0,1 mm por folio. El número de artículos crece cada día. Usamos la altura del lado alto de la torre (56,67 m); por el bajo mide 55,86 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia en español · Especial:Estadísticas",
+          "url": "https://es.wikipedia.org/wiki/Especial:Estad%C3%ADsticas",
+          "fact": "Número de artículos: 2.148.969 (consultado el 10 de noviembre de 2026)."
+        },
+        {
+          "title": "Wikipedia · Leaning Tower of Pisa",
+          "url": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa",
+          "fact": "La torre mide 55,86 m por su lado bajo y 56,67 m por el alto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Folios, metros y torres",
+        "steps": [
+          "Dos millones de folios son unos 4.000 paquetes de 500. Cada paquete mide unos 5 cm, así que la pila pasa de cien metros.",
+          "2 millones × 0,1 mm = 200 m. Entre unos 55 m de torre: entre 3 y 4 Torres de Pisa.",
+          "Con 2.148.969 artículos sale una pila de 214,9 m: 3,79 Torres de Pisa, todas rectas."
+        ]
+      }
+    }
+  ]
+}

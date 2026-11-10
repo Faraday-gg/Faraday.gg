@@ -1,0 +1,115 @@
+{
+  "id": "2026-09-21",
+  "name": "Lunes",
+  "theme": "Crucero, Neptuno y uñas",
+  "questions": [
+    {
+      "id": "archivo-2026-09-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Isla a bordo",
+      "title": "¿Cuántos cruceros como el Wonder of the Seas harían falta para llevar a toda la población de Islandia?",
+      "detail": "Uno de los cruceros más grandes del mundo, lleno hasta su capacidad máxima de pasajeros, sin contar la tripulación. Embarca a todos los residentes de Islandia de mediados de 2026, géiseres aparte.",
+      "unit": "cruceros",
+      "answer": 56.7401,
+      "math": "Islandia tenía 396.500 habitantes a finales del segundo trimestre de 2026. El Wonder of the Seas lleva como máximo 6.988 pasajeros: 396.500 ÷ 6.988 = 56,74 cruceros.",
+      "referenceExpression": "396500 ÷ 6988",
+      "assumptions": "Capacidad máxima de pasajeros según el texto de Wikipedia (la ficha da 7.084; a ocupación doble son 5.734). Hace falta un barco más para el que sobra: 57 en la práctica.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Statistics Iceland · Population in the 2nd quarter 2026",
+          "url": "https://www.statice.is/publications/news-archive/inhabitants/population-in-the-2nd-quarter-2026/",
+          "fact": "La población de Islandia al final del segundo trimestre de 2026 era de 396.500 personas."
+        },
+        {
+          "title": "Wikipedia · Wonder of the Seas",
+          "url": "https://en.wikipedia.org/wiki/Wonder_of_the_Seas",
+          "fact": "5.734 pasajeros a ocupación doble y un máximo de 6.988 pasajeros, según el texto del artículo."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-21-1.jpg",
+        "alt": "El crucero Wonder of the Seas atracado en el puerto de Málaga, más alto que los edificios cercanos",
+        "credit": "Daniel Capilla",
+        "url": "https://commons.wikimedia.org/wiki/File:Wonder_of_the_Seas_in_M%C3%A1laga_Port_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Población entre pasajeros",
+        "steps": [
+          "Islandia es un país pequeño: tiene menos habitantes que muchas ciudades medianas, unos 400.000.",
+          "Un megacrucero lleva unas 7.000 personas, así que hablamos de unos 50 o 60 barcos.",
+          "Con 396.500 islandeses y 6.988 plazas salen 56,74 cruceros: una flota de 57 para que no se quede nadie en el muelle."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Maratón de Springfield",
+      "title": "¿Cuántos capítulos de Los Simpson podrías ver mientras la luz del Sol viaja hasta Neptuno?",
+      "detail": "Un rayo de luz sale del Sol hacia Neptuno, a su distancia media, y tú pones Los Simpson en el sofá. Cada capítulo dura 22 minutos, sin anuncios ni pausas para donuts.",
+      "unit": "capítulos",
+      "answer": 11.4093,
+      "math": "Neptuno está de media a 4.514,953 millones de km del Sol. A 299.792,458 km/s, la luz tarda 15.060 s, es decir, 251,0 minutos. Entre 22 minutos por capítulo: 11,41 capítulos.",
+      "referenceExpression": "4514953000 ÷ 299792,458 ÷ 60 ÷ 22",
+      "assumptions": "Distancia media (semieje mayor); en el perihelio y el afelio varía un 1 %. Capítulo de 22 minutos, dentro de los 21-24 que da la ficha de la serie.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Neptune Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/neptunefact.html",
+          "fact": "Semieje mayor de la órbita de Neptuno: 4.514,953 millones de km."
+        },
+        {
+          "title": "Wikipedia · The Simpsons",
+          "url": "https://en.wikipedia.org/wiki/The_Simpsons",
+          "fact": "Duración de cada episodio: entre 21 y 24 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Minutos de luz, minutos de tele",
+        "steps": [
+          "La luz del Sol tarda 8 minutos en llegar a la Tierra. Neptuno está unas 30 veces más lejos: unos 240 minutos.",
+          "240 minutos son 4 horas: unos 10 u 11 capítulos de 22 minutos.",
+          "Con los 4.515 millones de km de la NASA salen 251 minutos y 11,41 capítulos: una temporada a medias."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Uñas en fila",
+      "title": "Si pusieras en fila todos los trocitos de uña que te cortas en la vida, ¿cuántos autobuses de largo mediría?",
+      "detail": "Solo las diez uñas de las manos, durante 80 años, cortando todo lo que crece. Cuenta autobuses urbanos de 12 metros puestos uno detrás de otro.",
+      "unit": "autobuses",
+      "answer": 2.8,
+      "math": "Las uñas de las manos crecen unos 3,5 mm al mes: 0,35 cm × 12 meses × 80 años × 10 uñas = 3.360 cm, es decir, 33,6 m. Entre 12 m por autobús: 2,8 autobuses.",
+      "referenceExpression": "0,35 × 12 × 80 × 10 ÷ 100 ÷ 12",
+      "assumptions": "Ritmo medio de adulto, constante toda la vida; crece más rápido en la juventud y más despacio con la edad. Autobús urbano estándar de 12 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Nail (anatomy)",
+          "url": "https://en.wikipedia.org/wiki/Nail_(anatomy)",
+          "fact": "Las uñas de las manos crecen de media unos 3,5 mm al mes (Yaemsiri y otros, 2010)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Milímetros al mes, metros en la vida",
+        "steps": [
+          "Una uña crece unos pocos milímetros al mes; te la cortas cada par de semanas.",
+          "3 mm al mes son unos 3,6 cm al año por uña; con diez uñas, 36 cm al año, y en 80 años unos 29 m: dos autobuses y pico.",
+          "Con 3,5 mm al mes salen 33,6 m: 2,8 autobuses de uñas recortadas."
+        ]
+      }
+    }
+  ]
+}

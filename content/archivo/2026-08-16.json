@@ -1,0 +1,107 @@
+{
+  "id": "2026-08-16",
+  "name": "Domingo",
+  "theme": "Báscula, sueños y Colón",
+  "questions": [
+    {
+      "id": "archivo-2026-08-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Dieta marciana",
+      "title": "¿Cuántos kilos marcaría en Marte la báscula de un astronauta que en la Tierra pesa 80 kg?",
+      "detail": "Usa una báscula de baño normal, ajustada para la gravedad de la Tierra, y súbete en la superficie de Marte (sin contar el traje espacial). La dieta más cara del sistema solar.",
+      "unit": "kg",
+      "answer": 30.386965376782076,
+      "math": "La gravedad media en Marte es de 3,73 m/s² y en la Tierra de 9,82 m/s². Una báscula calibrada en la Tierra marcaría 80 × 3,73 ÷ 9,82 ≈ 30,4 kg.",
+      "referenceExpression": "80 × 3,73 ÷ 9,82",
+      "assumptions": "La báscula mide la fuerza con que la empujas y la convierte en kilos con la gravedad terrestre. La masa del astronauta sigue siendo 80 kg; solo cambia lo que marca.",
+      "confidence": "Dato oficial + física",
+      "sources": [
+        {
+          "title": "NASA · Mars Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+          "fact": "Gravedad media en superficie: 3,73 m/s² en Marte y 9,82 m/s² en la Tierra (proporción 0,380)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pesa la gravedad, no el astronauta",
+        "steps": [
+          "Marte es más pequeño que la Tierra y tira mucho menos: algo más de un tercio. La báscula marcaría unos 30 kg.",
+          "La proporción oficial es 0,380. 80 × 0,38 = 30,4 kg.",
+          "Con 3,73 m/s² contra 9,82 m/s² salen 30,4 kg: casi 50 kilos menos sin dejar los dulces. Eso sí, el billete de vuelta cuesta más que el gimnasio."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Series nocturnas",
+      "title": "Si cada sueño fuera un capítulo, ¿cuántas temporadas de diez capítulos soñarías a lo largo de 80 años?",
+      "detail": "Cuenta un sueño por cada ciclo de sueño, con cinco ciclos por noche durante 80 años, y agrúpalos en temporadas de diez capítulos. Sin anuncios, pero con algún final raro.",
+      "unit": "temporadas",
+      "answer": 14610,
+      "math": "Normalmente hay de 4 a 6 ciclos de sueño por noche y se sueña sobre todo en la fase REM. Con 5 sueños por noche: 80 × 365,25 × 5 = 146.100 sueños. Entre 10 capítulos por temporada: 14.610 temporadas.",
+      "referenceExpression": "80 × 365,25 × 5 ÷ 10",
+      "assumptions": "Suponemos un sueño por ciclo, cinco por noche, todas las noches. Muchos sueños no se recuerdan y los bebés tienen otros ritmos, así que es una cuenta de orden de magnitud.",
+      "confidence": "Rango fisiológico + modelo",
+      "sources": [
+        {
+          "title": "NHLBI (NIH) · Sleep Phases and Stages",
+          "url": "https://www.nhlbi.nih.gov/health/sleep/stages-of-sleep",
+          "fact": "Normalmente hay de cuatro a seis ciclos por noche, de 80 a 100 minutos; los sueños suelen ocurrir en la fase REM."
+        }
+      ],
+      "reasoning": {
+        "heading": "De noches a temporadas",
+        "steps": [
+          "80 años son unas 29.000 noches. Si cada noche trae varios sueños, hablamos de más de cien mil capítulos.",
+          "Con 5 ciclos por noche salen unos 146.000 sueños; en temporadas de 10, unas 15.000.",
+          "La cuenta exacta da 146.100 sueños y 14.610 temporadas: ninguna plataforma de streaming tiene tanto catálogo, y casi todo lo olvidas al despertar."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "historia",
+      "tag": "Colón con prisas",
+      "title": "Si Colón hubiera cruzado el Atlántico en moto de agua a 60 km/h, ¿cuántas horas habría tardado de La Gomera a Guanahaní?",
+      "detail": "Ve en línea recta de San Sebastián de La Gomera a la isla de San Salvador (la probable Guanahaní) a 60 km/h, sin paradas para repostar. Los Reyes Católicos no pagan la gasolina.",
+      "unit": "horas",
+      "answer": 94.96666666666667,
+      "math": "Con las coordenadas de San Sebastián de La Gomera (28°5′N 17°7′O) y de San Salvador (24°2′N 74°30′O), la distancia más corta por la esfera terrestre es de unos 5.698 km. A 60 km/h: 5.698 ÷ 60 ≈ 95 horas.",
+      "referenceExpression": "5698 ÷ 60",
+      "assumptions": "Calculamos la distancia en línea recta sobre la Tierra (ortodrómica), con un radio medio de 6.371 km. La flota real navegó más, del 6 de septiembre al 12 de octubre de 1492, y la identificación de Guanahaní con San Salvador es la más aceptada, pero no segura.",
+      "confidence": "Dato documentado + modelo de distancia",
+      "sources": [
+        {
+          "title": "Wikipedia · Voyages of Christopher Columbus",
+          "url": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus",
+          "fact": "El 6 de septiembre de 1492 las naves salieron de San Sebastián de La Gomera; el 12 de octubre desembarcaron en Guanahaní."
+        },
+        {
+          "title": "Wikipedia · San Sebastián de La Gomera",
+          "url": "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n_de_La_Gomera",
+          "fact": "Coordenadas: 28°5′32″N 17°6′36″O."
+        },
+        {
+          "title": "Wikipedia · San Salvador Island",
+          "url": "https://en.wikipedia.org/wiki/San_Salvador_Island",
+          "fact": "Coordenadas: 24°2′6″N 74°29′51″O; lugar probable del primer desembarco de Colón el 12 de octubre de 1492."
+        }
+      ],
+      "reasoning": {
+        "heading": "De 36 días a 4",
+        "steps": [
+          "Cruzar el Atlántico por esa latitud son unos 5.000-6.000 km. A 60 km/h, unas 100 horas.",
+          "Dividiendo 6.000 km entre 60 km/h salen 100 horas; con 5.500 km, unas 92. Cuatro días largos.",
+          "Con 5.698 km en línea recta salen 95 horas: unos 4 días frente a los 36 que tardó la flota. Eso sí, nadie habría avistado tierra después de 95 horas sin dormir encima de una moto."
+        ]
+      }
+    }
+  ]
+}

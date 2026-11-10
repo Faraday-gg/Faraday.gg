@@ -1,0 +1,110 @@
+{
+  "id": "2026-08-22",
+  "name": "Sábado",
+  "theme": "Sangre, salto y Mezquita",
+  "questions": [
+    {
+      "id": "archivo-2026-08-22-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cuerpo",
+      "tag": "Refresco rojo",
+      "title": "¿Cuántas latas de refresco llenarías con toda la sangre de un adulto?",
+      "detail": "Pura aritmética, nada de vaciar a nadie: una persona de 65 kg y latas de 33 cl. Ni gas ni burbujas, por favor.",
+      "unit": "latas",
+      "answer": 15.151515151515152,
+      "math": "Una persona de 65 kg tiene unos 5 litros de sangre. Una lata estándar en Europa es de 330 ml: 5.000 ÷ 330 ≈ 15,2 latas.",
+      "referenceExpression": "5.000 ÷ 330",
+      "assumptions": "Usamos el ejemplo de 65 kg; la sangre es aproximadamente 1/13 del peso corporal, así que cambia con cada persona.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Comunidad de Madrid · Donación de sangre",
+          "url": "https://www.comunidad.madrid/salud/donacion-sangre",
+          "fact": "La sangre es 1/13 del peso corporal: unos 5 litros en una persona de 65 kg."
+        },
+        {
+          "title": "Wikipedia · Drink can",
+          "url": "https://en.wikipedia.org/wiki/Drink_can",
+          "fact": "En Europa, la lata estándar es de 330 ml."
+        }
+      ],
+      "reasoning": {
+        "heading": "Litros entre latas",
+        "steps": [
+          "Un adulto lleva unos cuantos litros de sangre, y una lata es un tercio de litro. Saldrá una docena larga de latas.",
+          "5 litros × 3 latas por litro = 15 latas. El orden de magnitud: unas quince.",
+          "Con 5.000 ml y latas de 330 ml salen 15,2 latas. Un pack de doce y unas cuantas sueltas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-22-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Brinco de récord",
+      "title": "¿Cuántas pizzas familiares en fila mide el récord mundial de salto de longitud?",
+      "detail": "El salto de Mike Powell en Tokio en 1991, medido con pizzas familiares de 40 cm puestas en fila, borde con borde. Prohibido comerse ninguna antes de medir.",
+      "unit": "pizzas",
+      "answer": 22.374999999999996,
+      "math": "El récord mundial es de 8,95 m. Con pizzas de 40 cm (0,40 m): 8,95 ÷ 0,40 ≈ 22,4 pizzas.",
+      "referenceExpression": "8,95 ÷ 0,40",
+      "assumptions": "Pizza familiar de 40 cm de diámetro, una suposición del juego: el tamaño «familiar» cambia según la pizzería.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Men's long jump world record progression",
+          "url": "https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression",
+          "fact": "El récord mundial es de 8,95 m, de Mike Powell (EE. UU.), en Tokio el 30 de agosto de 1991."
+        }
+      ],
+      "reasoning": {
+        "heading": "Metros entre pizzas",
+        "steps": [
+          "Un salto de récord es casi la longitud de dos coches; una pizza grande, menos de medio metro. Caben un par de decenas.",
+          "9 m ÷ 0,4 m = 22,5. El orden de magnitud: unas veinte pizzas.",
+          "Con 8,95 m salen 22,4 pizzas. Una fiesta de cumpleaños cubierta con un solo salto."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-22-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Plumero monumental",
+      "title": "Si limpiaras una columna cada 15 minutos, ¿cuántas horas tardarías en limpiar todas las de la Mezquita-Catedral de Córdoba?",
+      "detail": "Plumero, escalera y nada de descansos. Solo cuentan las columnas que siguen en pie hoy.",
+      "unit": "horas",
+      "answer": 212.5,
+      "math": "El edificio conserva unas 850 columnas de jaspe, ónice, mármol, granito y pórfido. 850 × 15 minutos = 12.750 minutos; entre 60, 212,5 horas.",
+      "referenceExpression": "850 × 15 ÷ 60",
+      "assumptions": "Tomamos 850 columnas; otras fuentes citan 856. Suponemos 15 minutos por columna, sin desplazamientos ni pausas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mosque–Cathedral of Córdoba",
+          "url": "https://en.wikipedia.org/wiki/Mosque%E2%80%93Cathedral_of_C%C3%B3rdoba",
+          "fact": "El edificio actual tiene aproximadamente 850 columnas de jaspe, ónice, mármol, granito y pórfido; la mezquita original tenía unas 120."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-08-22-3.jpg",
+        "alt": "Bosque de columnas y arcos bicolores en el interior de la Mezquita de Córdoba",
+        "credit": "Adrian Farwell",
+        "url": "https://commons.wikimedia.org/wiki/File:Columns_in_the_Mezquita,_Cordoba_-_panoramio.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Cuenta el bosque, no el árbol",
+        "steps": [
+          "La sala de oración es un bosque de columnas que parece no acabar. Un primer número razonable serían unos cuantos cientos, quizá mil.",
+          "Cuatro columnas por hora: con mil columnas serían 250 horas, más de diez días seguidos con el plumero.",
+          "Con las unas 850 columnas que se conservan salen 212,5 horas. Si cuentas 856, como dicen muchas guías, apenas sube hora y media."
+        ]
+      }
+    }
+  ]
+}

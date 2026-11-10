@@ -1,0 +1,107 @@
+{
+  "id": "2026-10-05",
+  "name": "Lunes",
+  "theme": "Nilo, Gordo y Picasso",
+  "questions": [
+    {
+      "id": "archivo-2026-10-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Mensaje en una botella",
+      "title": "¿Cuántos días tardaría una botella flotando a 2 km/h en bajar el Nilo de punta a punta?",
+      "detail": "La botella sale de las fuentes del Nilo y llega al Mediterráneo sin atascarse en presas, cataratas ni cocodrilos curiosos. Corriente constante de 2 km/h, de día y de noche.",
+      "unit": "días",
+      "answer": 142.77083333333334,
+      "math": "El Nilo mide 6.853 km. A 2 km/h son 6.853 ÷ 2 = 3.426,5 horas. Entre 24 horas: unos 142,8 días.",
+      "referenceExpression": "6853 ÷ 2 ÷ 24",
+      "assumptions": "La longitud del Nilo es discutida: según la fuente que se tome como nacimiento se dan entre unos 6.650 y más de 7.000 km. Con 6.650 km saldrían 138,5 días.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia en español · Nilo",
+          "url": "https://es.wikipedia.org/wiki/Nilo",
+          "fact": "Tiene una longitud de 6.853 km, lo que lo convierte en el río más largo del mundo, aunque con controversias."
+        },
+        {
+          "title": "National Geographic Education · Nile River",
+          "url": "https://education.nationalgeographic.org/resource/nile-river/",
+          "fact": "El Nilo recorre más de 6.800 km antes de desembocar en el mar Mediterráneo."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los kilómetros a horas y las horas a días",
+        "steps": [
+          "El Nilo es el río más largo del mundo, casi 7.000 km. A paso de paseo lento, tardará meses.",
+          "7.000 km ÷ 2 km/h = 3.500 horas. Entre 24, unos 145 días.",
+          "Con 6.853 km salen 142,8 días: la botella saldría en verano y llegaría al Mediterráneo para Navidad."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Sueldo contra suerte",
+      "title": "¿Cuántos años cobrando el salario mínimo hacen falta para reunir lo que paga un décimo del Gordo?",
+      "detail": "Sin gastar ni un euro, sin impuestos y sin subidas futuras. Salario mínimo de 2026 contra el premio en bruto de un décimo.",
+      "unit": "años",
+      "answer": 23.4000234000234,
+      "math": "El Gordo de Navidad paga 400.000 € por décimo. El salario mínimo de 2026 es de 1.221 €/mes en 14 pagas: 17.094 € al año. 400.000 ÷ 17.094 ≈ 23,4 años.",
+      "referenceExpression": "400000 ÷ 17094",
+      "assumptions": "Comparamos cantidades brutas: el premio tributa por encima de cierto importe y el salario tiene cotizaciones. El salario mínimo cambia cada año.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "BOE · Real Decreto 126/2026, salario mínimo interprofesional para 2026",
+          "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2026-3815",
+          "fact": "Fija el salario mínimo en 40,70 €/día o 1.221 €/mes, con una cuantía anual no inferior a 17.094 €."
+        },
+        {
+          "title": "Público · Gordo de la Lotería de Navidad 2025",
+          "url": "https://www.publico.es/sociedad/gordo-loteria-navidad-2025.html",
+          "fact": "El primer premio reparte 4.000.000 € a la serie: 400.000 € por décimo."
+        }
+      ],
+      "reasoning": {
+        "heading": "Premio entre sueldo anual",
+        "steps": [
+          "Un décimo del Gordo son cientos de miles de euros, y un sueldo mínimo anual, menos de veinte mil.",
+          "400.000 ÷ 20.000 = 20 años. El orden es de dos décadas.",
+          "Con los 17.094 € anuales de 2026 salen 23,4 años de trabajo sin gastar nada. Descontando impuestos del premio, la distancia se acortaría unos años."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Taller incansable",
+      "title": "¿Cuántas obras al día creó Picasso de media durante su carrera?",
+      "detail": "Cuadros, grabados, ilustraciones y cerámicas, todo cuenta igual. Repártelo entre los 75 años de su carrera, incluidos domingos y vacaciones.",
+      "unit": "obras/día",
+      "answer": 5.395391284508328,
+      "math": "Guinness estima unos 13.500 cuadros y diseños, 100.000 grabados, 34.000 ilustraciones y 300 esculturas y cerámicas: 147.800 obras en 75 años de carrera. 147.800 ÷ (75 × 365,25) ≈ 5,4 obras al día.",
+      "referenceExpression": "147800 ÷ (75 × 365,25)",
+      "assumptions": "Las cifras de Guinness son estimaciones. Un grabado puede tener muchas copias y una ilustración puede ser un boceto rápido, así que «obra» mezcla cosas muy distintas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Most prolific painter",
+          "url": "https://www.guinnessworldrecords.com/world-records/most-prolific-painter",
+          "fact": "En una carrera de 75 años, Picasso produjo unos 13.500 cuadros y diseños, 100.000 grabados, 34.000 ilustraciones de libros y 300 esculturas y cerámicas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Suma todo el catálogo y repártelo por días",
+        "steps": [
+          "Picasso produjo una barbaridad: más de cien mil piezas contando grabados. Su carrera duró unas siete décadas y media.",
+          "150.000 ÷ (75 × 365) ≈ 5,5. Varias obras al día, todos los días.",
+          "Con las 147.800 obras estimadas por Guinness salen 5,4 al día. Si solo contáramos cuadros y diseños serían menos de media obra al día."
+        ]
+      }
+    }
+  ]
+}

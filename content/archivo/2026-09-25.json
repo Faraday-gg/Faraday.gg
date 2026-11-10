@@ -1,0 +1,113 @@
+{
+  "id": "2026-09-25",
+  "name": "Viernes",
+  "theme": "Machu Picchu, Ópera de Sídney y Chupa Chups",
+  "questions": [
+    {
+      "id": "archivo-2026-09-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Cola en los Andes",
+      "title": "Si todos los que visitaron Machu Picchu de enero a septiembre de 2025 hicieran una sola cola, ¿cuántos kilómetros mediría?",
+      "detail": "Todos los visitantes de la ciudadela inca en los nueve primeros meses de 2025, peruanos y extranjeros, en fila india. Cada persona ocupa 50 cm, mochila y bastón incluidos.",
+      "unit": "km",
+      "answer": 585.1945,
+      "math": "De enero a septiembre de 2025 visitaron Machu Picchu 917.419 extranjeros y 252.970 peruanos: 1.170.389 personas. A 0,5 m cada una: 585.194,5 m, es decir, 585,2 km.",
+      "referenceExpression": "(917419 + 252970) × 0,5 ÷ 1000",
+      "assumptions": "50 cm por persona es una cola apretada; con más espacio sería más larga. Son nueve meses, no el año completo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Andina · Over 1.17 million tourists visit Machu Picchu from Jan to Sept 2025",
+          "url": "https://andina.pe/ingles/noticia-peru-over-117-million-tourists-visit-machu-picchu-from-jan-to-sept-2025-1055006.aspx",
+          "fact": "De enero a septiembre de 2025, el 78,4 % de los visitantes (917.419) fueron extranjeros y el 21,6 % (252.970), peruanos."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-25-1.jpg",
+        "alt": "La ciudadela de Machu Picchu entre montañas, con el Huayna Picchu detrás",
+        "credit": "Martin St-Amant (S23678)",
+        "url": "https://commons.wikimedia.org/wiki/File:80_-_Machu_Picchu_-_Juin_2009_-_edit.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "reasoning": {
+        "heading": "Visitantes por medio metro",
+        "steps": [
+          "Machu Picchu limita la entrada a unos pocos miles de personas al día; en nueve meses son algo más de un millón.",
+          "Un millón de personas a medio metro son 500 km de cola.",
+          "Con 1.170.389 visitantes salen 585,2 km: casi lo que hay de Madrid a Barcelona por carretera."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Tejas sin prisa",
+      "title": "Colocando una teja cada 30 segundos, ¿cuántos días tardarías en cubrir la Ópera de Sídney?",
+      "detail": "Las velas más famosas de la arquitectura, alicatadas a mano por una sola persona. Una teja cada 30 segundos, trabajando 24 horas al día sin descanso.",
+      "unit": "días",
+      "answer": 366.66875,
+      "math": "Las cubiertas de la Ópera llevan 1.056.006 tejas. A 30 s cada una: 31.680.180 segundos; entre 86.400 s por día: 366,7 días.",
+      "referenceExpression": "1056006 × 30 ÷ 86400",
+      "assumptions": "Ritmo constante las 24 horas. En la obra real las tejas se montaron en paneles prefabricados.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Sydney Opera House",
+          "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+          "fact": "Las cubiertas están revestidas con 1.056.006 tejas de dos colores."
+        }
+      ],
+      "image": {
+        "src": "assets/archivo-2026-09-25-2.jpg",
+        "alt": "Detalle de las tejas blancas y crema de una de las velas de la Ópera de Sídney",
+        "credit": "gehkadl",
+        "url": "https://commons.wikimedia.org/wiki/File:SydneyOperaCloseUp.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Tejas por tiempo",
+        "steps": [
+          "Las velas se ven lisas, pero son un mosaico de tejas pequeñas: del orden de un millón.",
+          "A dos tejas por minuto, un millón son 500.000 minutos: unas 8.300 horas, casi un año sin dormir.",
+          "Con 1.056.006 tejas salen 366,7 días. Con jornadas de 8 horas, serían tres años largos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Caramelo kilométrico",
+      "title": "¿Cuántos kilómetros mediría en fila la producción récord de Chupa Chups en un solo día?",
+      "detail": "El caramelo con palo inventado en Barcelona, puesto en fila punta con punta. Cada Chupa Chups mide 11 cm de largo con su palo.",
+      "unit": "km",
+      "answer": 331.71434999999997,
+      "math": "En 2006 Chupa Chups batió el récord de producción en un día con 3.015.585 unidades. A 11 cm cada una: 3.015.585 × 0,11 = 331.714 m, unos 331,7 km.",
+      "referenceExpression": "3015585 × 0,11 ÷ 1000",
+      "assumptions": "Longitud de 11 cm por caramelo, supuesto del modelo. Es la producción récord de un día, no la media.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Chupa Chups · Historia",
+          "url": "https://www.chupachups.es/historia",
+          "fact": "En 2006 la marca batió el récord mundial de producción en un solo día, con 3.015.585 Chupa Chups."
+        }
+      ],
+      "reasoning": {
+        "heading": "Unidades por longitud",
+        "steps": [
+          "Un Chupa Chups con palo mide como un bolígrafo corto: unos 11 cm.",
+          "Tres millones de caramelos por 0,11 m son unos 330.000 m: 330 km.",
+          "Con 3.015.585 unidades salen 331,7 km, más o menos la distancia de Madrid a Valencia por carretera."
+        ]
+      }
+    }
+  ]
+}

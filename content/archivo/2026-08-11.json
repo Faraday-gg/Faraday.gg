@@ -1,0 +1,117 @@
+{
+  "id": "2026-08-11",
+  "name": "Martes",
+  "theme": "Anillos, Titanic y maratón",
+  "questions": [
+    {
+      "id": "archivo-2026-08-11-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "cultura",
+      "tag": "Maratón de la Tierra Media",
+      "title": "¿Cuántas veces podrías ver la trilogía extendida de El Señor de los Anillos durante un vuelo Madrid–Sídney de 24 horas?",
+      "detail": "Encadena las tres ediciones extendidas en un vuelo de 24 horas sin dormir ni pausar. Las comidas de a bordo se toman en Rivendel.",
+      "unit": "veces",
+      "answer": 1.9834710743801653,
+      "math": "Las ediciones extendidas duran 228, 235 y 263 minutos: 726 minutos en total. 24 h son 1.440 minutos: 1.440 ÷ 726 ≈ 1,98 veces.",
+      "referenceExpression": "24 × 60 ÷ (228 + 235 + 263)",
+      "assumptions": "Vuelo de 24 horas exactas y duraciones de las ediciones extendidas en DVD. Las versiones en Blu-ray difieren en algún minuto y no contamos el tiempo de embarque.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · The Fellowship of the Ring",
+          "url": "https://en.wikipedia.org/wiki/The_Lord_of_the_Rings:_The_Fellowship_of_the_Ring",
+          "fact": "La edición extendida suma 228 minutos."
+        },
+        {
+          "title": "Wikipedia · The Two Towers",
+          "url": "https://en.wikipedia.org/wiki/The_Lord_of_the_Rings:_The_Two_Towers",
+          "fact": "La edición extendida se amplió hasta 235 minutos."
+        },
+        {
+          "title": "Wikipedia · The Return of the King",
+          "url": "https://en.wikipedia.org/wiki/The_Lord_of_the_Rings:_The_Return_of_the_King",
+          "fact": "La edición extendida dura 263 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Suma minutos de película",
+        "steps": [
+          "Cada película extendida dura casi cuatro horas. Tres películas son unas 12 horas: en 24 horas parece que cabe dos veces.",
+          "3 × 4 h = 12 h, y 24 ÷ 12 = 2. Si alguna pasa de cuatro horas, nos quedaremos un pelín por debajo.",
+          "Con 228 + 235 + 263 = 726 minutos, salen 1,98 trilogías: te faltarían unos 12 minutos para terminar la segunda vuelta. El aterrizaje llegaría justo en los créditos finales."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-11-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "dinero",
+      "tag": "Calderilla de transatlántico",
+      "title": "¿Cuántas monedas de 1 € pesarían lo mismo que el Titanic?",
+      "detail": "Compara el desplazamiento del Titanic con monedas de 1 € de 7,5 g. El iceberg no se cuenta y no hace falta llevar la hucha al muelle.",
+      "unit": "monedas",
+      "answer": 6974666666.666667,
+      "math": "El Titanic desplazaba 52.310 toneladas, 52.310.000 kg. Cada moneda de 1 € pesa 7,5 g (0,0075 kg): 52.310.000 ÷ 0,0075 ≈ 6.975 millones de monedas.",
+      "referenceExpression": "52310000 ÷ 0,0075",
+      "assumptions": "Usamos el desplazamiento (el peso del agua que movía el barco cargado), no el arqueo bruto, que mide volumen. La moneda de 1 € pesa exactamente 7,50 g.",
+      "confidence": "Dato documentado + división",
+      "sources": [
+        {
+          "title": "Wikipedia · Titanic",
+          "url": "https://en.wikipedia.org/wiki/Titanic",
+          "fact": "El Titanic desplazaba 52.310 toneladas."
+        },
+        {
+          "title": "Banco Central Europeo · Monedas en euros",
+          "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+          "fact": "La moneda de 1 € mide 23,25 mm de diámetro y pesa 7,50 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa el barco a gramos",
+        "steps": [
+          "Un transatlántico pesa decenas de miles de toneladas y una moneda unos pocos gramos: la respuesta tiene que estar en los miles de millones.",
+          "50.000 toneladas son 50.000 millones de gramos; entre 7,5 g por moneda, unos 6.700 millones de euros en calderilla.",
+          "Con las 52.310 toneladas del Titanic salen 6.975 millones de monedas. Casi una por cada habitante del planeta: menuda colecta para un barco."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-08-11-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "deportes",
+      "tag": "Kilómetros en compañía",
+      "title": "Sumando lo que corren todos los que terminan el Maratón de Nueva York, ¿cuántas veces llegarías a la Luna?",
+      "detail": "Suma los 42,195 km de cada finisher de la edición de 2025 y compáralos con la distancia media de la Tierra a la Luna. Solo ida: la vuelta, en taxi amarillo.",
+      "unit": "viajes a la Luna",
+      "answer": 6.4911584937565046,
+      "math": "En 2025 terminaron 59.135 corredores. 59.135 × 42,195 km ≈ 2.495.201 km. La Luna está de media a 384.400 km: 2.495.201 ÷ 384.400 ≈ 6,5 viajes.",
+      "referenceExpression": "59135 × 42,195 ÷ 384400",
+      "assumptions": "Contamos solo a quienes cruzaron la meta en 2025 y la distancia oficial del maratón. Las fuentes dan cifras de finishers ligeramente distintas (59.135 o 59.226), lo que no cambia el resultado.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · New York City Marathon",
+          "url": "https://en.wikipedia.org/wiki/New_York_City_Marathon",
+          "fact": "La edición de 2025 tuvo 59.135 finishers; es el maratón más grande del mundo."
+        },
+        {
+          "title": "NASA Science · Moon Facts",
+          "url": "https://science.nasa.gov/moon/facts/",
+          "fact": "La Luna está de media a 384.400 km de la Tierra."
+        }
+      ],
+      "reasoning": {
+        "heading": "Corredores contra la Luna",
+        "steps": [
+          "Nueva York tiene el maratón más grande del mundo, con decenas de miles de corredores. 50.000 × 40 km ya son 2 millones de km.",
+          "La Luna está a unos 400.000 km. 2 millones entre 400.000 dan 5 viajes: la respuesta anda entre 5 y 10.",
+          "Con 59.135 finishers y 42,195 km cada uno salen 2.495.201 km: 6,5 viajes a la Luna en una sola mañana de noviembre."
+        ]
+      }
+    }
+  ]
+}

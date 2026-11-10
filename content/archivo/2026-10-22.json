@@ -1,0 +1,97 @@
+{
+  "id": "2026-10-22",
+  "name": "Jueves",
+  "theme": "Cuba, Sol y vidrio",
+  "questions": [
+    {
+      "id": "archivo-2026-10-22-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "lugares",
+      "tag": "Costa caribeña",
+      "title": "Caminando 25 km al día, ¿cuántos días tardarías en recorrer toda la costa de Cuba?",
+      "detail": "Sales de La Habana con sombrero y chancletas y vas bordeando la isla de Cuba hasta volver al punto de partida. Camina 25 km al día siguiendo la línea de costa oficial. Los cayos y la Isla de la Juventud se quedan para otras vacaciones.",
+      "unit": "días",
+      "answer": 229.84,
+      "math": "La isla de Cuba tiene 5.746 km de costa. 5.746 ÷ 25 ≈ 230 días.",
+      "referenceExpression": "5746 ÷ 25",
+      "assumptions": "Solo la isla principal, sin los cayos ni la Isla de la Juventud. La longitud de una costa depende de la escala con que se mida: a pie, con cada recoveco, el camino sería más largo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Geografía de Cuba",
+          "url": "https://es.wikipedia.org/wiki/Geograf%C3%ADa_de_Cuba",
+          "fact": "La isla de Cuba tiene 104.338 km² y 5.746 km de costa."
+        }
+      ],
+      "reasoning": {
+        "heading": "Costa entre etapa diaria",
+        "steps": [
+          "Cuba es larga y estrecha: más de 1.000 km de punta a punta. Rodearla son al menos dos lados largos, unos 2.500 km, más todas las curvas.",
+          "Con las curvas de la costa, pongamos 5.000 km. A 25 km al día salen unos 200 días: más de medio año.",
+          "Con los 5.746 km oficiales salen unos 230 días. Siguiendo a pie cada cala y cada bahía, el paseo sería todavía más largo."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-22-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "espacio",
+      "tag": "Escapada solar",
+      "title": "¿Cuántos años tardaría un coche a 120 km/h en llegar al Sol?",
+      "detail": "Una autopista recta hasta el Sol, sin peajes ni gasolineras, y tú al límite de velocidad de una autopista española. Usa la distancia media de la Tierra al Sol. Lleva crema solar, mucha.",
+      "unit": "años",
+      "answer": 142.21411390600045,
+      "math": "La distancia media al Sol es de 149.597.870,7 km. 149.597.870,7 ÷ 120 ≈ 1.246.649 horas. ÷ 24 ÷ 365,25 ≈ 142,2 años.",
+      "referenceExpression": "149597870,7 ÷ 120 ÷ 24 ÷ 365,25",
+      "assumptions": "Velocidad constante de 120 km/h sin una sola parada y distancia de una unidad astronómica (la media; en enero estamos un 1,7 % más cerca y en julio un 1,7 % más lejos).",
+      "confidence": "Dato científico",
+      "sources": [
+        {
+          "title": "Wikipedia · Astronomical unit",
+          "url": "https://en.wikipedia.org/wiki/Astronomical_unit",
+          "fact": "La UAI fijó en 2012 la unidad astronómica en exactamente 149.597.870.700 metros."
+        }
+      ],
+      "reasoning": {
+        "heading": "Distancia entre velocidad",
+        "steps": [
+          "El Sol está a unos 150 millones de km. A 120 km/h recorres unos 1.000.000 de km al año (120 × 8.766 horas).",
+          "150 millones entre 1 millón dan unos 150 años: ni tus nietos llegarían.",
+          "Con la unidad astronómica exacta salen 142,2 años. Si salieras en enero, cuando la Tierra está más cerca, te ahorrarías unos dos años y medio."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-10-22-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "hogar",
+      "tag": "Contenedor verde",
+      "title": "¿Cuántas botellas de vino recicla de media cada español al año?",
+      "detail": "Contamos todo el vidrio del contenedor verde como si fueran botellas de vino de 400 g. Los tarros de mermelada se hacen pasar por tinto.",
+      "unit": "botellas",
+      "answer": 47.75,
+      "math": "En 2024 cada español depositó de media 19,1 kg de vidrio en el contenedor verde (Ecovidrio, recogido por OKDiario). 19,1 ÷ 0,4 ≈ 47,8 botellas.",
+      "referenceExpression": "19,1 ÷ 0,4",
+      "assumptions": "Botella de vino de 400 g. Ecovidrio habla de unos 65 envases por persona porque muchos frascos y botellines pesan menos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "OKDiario · España vuelve a superar el millón de toneladas de envases de vidrio recuperadas",
+          "url": "https://okdiario.com/okgreen/espana-vuelve-superar-millon-toneladas-envases-vidrio-recuperadas-14433603",
+          "fact": "En 2024 cada ciudadano depositó 19,1 kg de vidrio en el contenedor verde, unos 65 envases por persona (datos de Ecovidrio)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilos de vidrio entre el peso de una botella",
+        "steps": [
+          "Una botella por semana y por persona parece razonable: unas 50 al año.",
+          "Si cada uno recicla unos 20 kg y una botella de vino pesa 400 g, salen 50.",
+          "Con los 19,1 kg de 2024 salen 47,8 botellas de vino equivalentes. Contando envases reales, más ligeros, Ecovidrio llega a 65."
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "2026-09-15",
+  "name": "Martes",
+  "theme": "Panamá, uvas y Niágara",
+  "questions": [
+    {
+      "id": "archivo-2026-09-15-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Esclusas sedientas",
+      "title": "¿Cuántas piscinas olímpicas de agua dulce gasta al día el canal de Panamá para mover barcos?",
+      "detail": "Cada barco que cruza deja caer al mar un lago entero de agua dulce. Toma el año fiscal 2025 y cuenta todos los tránsitos como si usaran el agua de las esclusas Panamax.",
+      "unit": "piscinas",
+      "answer": 3058.2808497539504,
+      "math": "En el año fiscal 2025 hubo 13.404 tránsitos: 36,72 al día. Cada tránsito equivalente usa unos 55 millones de galones, 208.198 m³. 36,72 × 208.198 = 7,65 millones de m³ al día; entre 2.500 m³ por piscina, unas 3.058 piscinas.",
+      "referenceExpression": "13404 ÷ 365 × 55000000 × 3,785411784 ÷ 1000 ÷ 2500",
+      "assumptions": "Todos los tránsitos con el consumo Panamax de 55 millones de galones; las esclusas Neopanamax con tinas de ahorro usan algo menos. Tránsitos repartidos por igual en el año.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Autoridad del Canal de Panamá · Preguntas frecuentes",
+          "url": "https://pancanal.com/preguntas-frecuentes/",
+          "fact": "Un esclusaje equivalente (tránsito) por las Panamax usa unos 55 millones de galones de agua; por las Neopanamax, unos 51 millones con tinas de ahorro."
+        },
+        {
+          "title": "Autoridad del Canal de Panamá · Resultados del año fiscal 2025",
+          "url": "https://pancanal.com/canal-de-panama-mantiene-solidez-operativa-y-financiera/",
+          "fact": "En el año fiscal 2025 el Canal registró un total de 13.404 tránsitos."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "50 × 25 m con 2 m de profundidad mínima: 2.500 m³ (2,5 millones de litros) de volumen nominal."
+        }
+      ],
+      "reasoning": {
+        "heading": "Agua por barco por barcos al día",
+        "steps": [
+          "Una esclusa es una caja de cientos de metros llena de agua, y cada barco necesita varias. Por tránsito hablamos de cientos de miles de metros cúbicos.",
+          "Si cruzan unos 35 barcos al día y cada uno gasta 200.000 m³, salen 7 millones de m³: unas 2.800 piscinas olímpicas.",
+          "Con 13.404 tránsitos en 2025 y 208.198 m³ por tránsito, salen 3.058 piscinas al día. Las esclusas nuevas reutilizan parte del agua, así que la cifra real puede ser algo menor."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-15-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Uvas en camión",
+      "title": "¿Cuántos camiones de 20 toneladas harían falta para llevar las uvas que se comen en España en Nochevieja?",
+      "detail": "Todo el país masticando a la vez frente al reloj de la Puerta del Sol. Cuenta a toda la población residente, bebés incluidos, con 12 uvas de 6 gramos cada una, y camiones cargados con 20 toneladas.",
+      "unit": "camiones",
+      "answer": 178.546954,
+      "math": "España tenía 49.596.376 residentes a 1 de enero de 2026. Doce uvas de 6 g son 72 g por persona: 49.596.376 × 0,072 = 3.570.939 kg. Entre 20.000 kg por camión: 178,5 camiones.",
+      "referenceExpression": "49596376 × 12 × 6 ÷ 1000 ÷ 20000",
+      "assumptions": "Todos los residentes comen sus doce uvas. Uva media de 6 g y camiones cargados con 20 toneladas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "INE · Estadística Continua de Población (2.º trimestre de 2026)",
+          "url": "https://www.ine.es/dyngs/Prensa/en/ECP2T26.htm",
+          "fact": "Población residente en España a 1 de enero de 2026: 49.596.376 personas (dato provisional)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Uvas por persona, personas por país",
+        "steps": [
+          "Doce uvas pesan poco, unos 70 gramos. Pero somos casi 50 millones.",
+          "50 millones × 70 g son unos 3,5 millones de kilos: 3.500 toneladas. Entre 20 t por camión, unos 175 camiones.",
+          "Con la población exacta salen 3.571 toneladas y 178,5 camiones, así que harían falta 179. Todo para comérselo en doce segundos."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-15-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "naturaleza",
+      "tag": "Piscinas al minuto",
+      "title": "¿Cuántas piscinas olímpicas caen por las cataratas del Niágara en un minuto?",
+      "detail": "El grifo más famoso del mundo, abierto a tope para los turistas. Usa el caudal mínimo que exige el tratado durante el día en temporada turística y piscinas de 2.500 m³.",
+      "unit": "piscinas",
+      "answer": 67.96043182080001,
+      "math": "De día, en temporada turística, deben caer al menos 100.000 pies cúbicos por segundo: 2.831,7 m³/s. En un minuto son 169.901 m³; entre 2.500 m³ por piscina, unas 68 piscinas.",
+      "referenceExpression": "100000 × 0,028316846592 × 60 ÷ 2500",
+      "assumptions": "Caudal igual al mínimo del tratado de 1950 para el día en temporada turística. De noche y fuera de temporada se desvía más agua a las centrales y el caudal baja a la mitad.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · International Control Dam",
+          "url": "https://en.wikipedia.org/wiki/International_Control_Dam",
+          "fact": "Durante el día, del 1 de abril al 31 de octubre, deben caer por las cataratas 100.000 pies cúbicos por segundo (unos 2.800 m³/s)."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "50 × 25 m con 2 m de profundidad mínima: 2.500 m³ (2,5 millones de litros) de volumen nominal."
+        }
+      ],
+      "reasoning": {
+        "heading": "Convierte el caudal a minutos",
+        "steps": [
+          "Un río grande mueve miles de metros cúbicos por segundo. Las cataratas, en temporada turística, deben ir bien servidas: digamos unos 3.000 m³/s.",
+          "En 60 segundos son 180.000 m³, y entre 2.500 m³ por piscina salen unas 70 piscinas cada minuto.",
+          "El tratado fija 100.000 pies cúbicos por segundo (2.831,7 m³/s): salen 67,96 piscinas por minuto. De noche se permite la mitad, unas 34."
+        ]
+      }
+    }
+  ]
+}

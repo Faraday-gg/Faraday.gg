@@ -1,0 +1,107 @@
+{
+  "id": "2026-09-05",
+  "name": "Sábado",
+  "theme": "Shinkansen, Tower Bridge y espaguetis",
+  "questions": [
+    {
+      "id": "archivo-2026-09-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "transporte",
+      "tag": "Bala contra baba",
+      "title": "¿Cuántas veces más rápido que un caracol va un tren bala japonés?",
+      "detail": "Comparamos un Shinkansen a su velocidad máxima comercial con un caracol de jardín en plena carrera de caracoles, a 2,4 mm/s. El caracol no lleva billete.",
+      "unit": "veces",
+      "answer": 37037.037037,
+      "math": "El Shinkansen circula hasta a 320 km/h. Un caracol de competición va a 2,4 mm/s = 8,64 m/h = 0,00864 km/h. 320 ÷ 0,00864 ≈ 37.037 veces.",
+      "referenceExpression": "320 ÷ (2,4 × 3,6 ÷ 1000)",
+      "assumptions": "Velocidad máxima comercial de los E5 en el Tōhoku Shinkansen y la mejor velocidad registrada en carreras de caracoles (Cornu aspersum). Un caracol paseando va bastante más lento.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Shinkansen",
+          "url": "https://en.wikipedia.org/wiki/Shinkansen",
+          "fact": "Desde 2014 los Shinkansen circulan regularmente a hasta 320 km/h en el Tōhoku Shinkansen."
+        },
+        {
+          "title": "Wikipedia · Cornu aspersum",
+          "url": "https://en.wikipedia.org/wiki/Cornu_aspersum",
+          "fact": "En competiciones de caracoles solo se han alcanzado velocidades de 2,4 mm/s."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los dos a la misma unidad",
+        "steps": [
+          "El tren bala es de los más rápidos del mundo; el caracol, el emblema de la lentitud. La diferencia tiene que ser enorme.",
+          "Un caracol rápido hace unos pocos metros por hora, unos 0,01 km/h. 320 entre 0,01 da unas 30.000 veces.",
+          "Salen 37.037 veces: lo que el tren recorre en un segundo, el caracol lo hace en más de 10 horas."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "arquitectura",
+      "tag": "Puente con bisagra",
+      "title": "¿Cuántas veces al año se levanta el Tower Bridge de Londres para dejar pasar barcos?",
+      "detail": "El Tower Bridge de Londres levanta sus dos hojas para dejar pasar barcos altos por el Támesis. Contamos las aperturas de un año normal; los autobuses rojos esperan.",
+      "unit": "aperturas",
+      "answer": 500,
+      "math": "Según la propia web del puente, el Tower Bridge se levanta unas 500 veces al año. Son 500 ÷ 365 ≈ 1,4 aperturas al día.",
+      "referenceExpression": "500",
+      "assumptions": "Cifra aproximada que da el puente; varía cada año según el tráfico de barcos y las obras de mantenimiento.",
+      "confidence": "Dato documentado",
+      "sources": [
+        {
+          "title": "Tower Bridge · Bridge lift times",
+          "url": "https://www.towerbridge.org.uk/lift-times",
+          "fact": "El Tower Bridge se levanta unas 500 veces al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del barco suelto al calendario anual",
+        "steps": [
+          "El puente es una de las imágenes de Londres, y cerrarlo al tráfico es un engorro: no se abrirá cada hora.",
+          "Si se abre una o dos veces al día, salen entre 365 y 730 aperturas al año.",
+          "Son unas 500: algo más de una al día. Si ves subir las hojas, apunta la hora: lo publican con antelación."
+        ]
+      }
+    },
+    {
+      "id": "archivo-2026-09-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-10",
+      "category": "comida",
+      "tag": "Pasta al metro",
+      "title": "¿Cuántos metros mide en fila un paquete de 500 g de espaguetis?",
+      "detail": "Sacamos todos los espaguetis de un paquete de 500 g y los ponemos en fila, punta con punta. Cada espagueti mide 25 cm y ninguno se rompe al sacarlo (milagro).",
+      "unit": "metros",
+      "answer": 149.911817,
+      "math": "Un fabricante contó una media de 68 espaguetis por ración de 2 onzas (56,7 g). 500 ÷ 56,7 × 68 ≈ 600 espaguetis por paquete. × 0,25 m ≈ 149,9 m.",
+      "referenceExpression": "500 ÷ 56,7 × 68 × 0,25",
+      "assumptions": "Espaguetis de 25 cm, el largo más corto del rango habitual de 25–30 cm, y el grosor de una marca concreta; con espaguetis más finos salen más metros.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Skinner Pasta · Nutrition and serving size FAQ",
+          "url": "https://www.skinnerpasta.com/en-US/faq/3/Nutrition/ServingSize.aspx",
+          "fact": "Contaron una media de 68 espaguetis por ración de 2 onzas."
+        },
+        {
+          "title": "Wikipedia · Spaghetti",
+          "url": "https://en.wikipedia.org/wiki/Spaghetti",
+          "fact": "Los espaguetis se venden sobre todo en largos de 25–30 cm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuenta espaguetis, luego metros",
+        "steps": [
+          "Un paquete tiene muchos espaguetis: cientos. Cada uno mide un palmo largo.",
+          "Si cada espagueti pesa casi un gramo, hay unos 500 o 600. A un cuarto de metro, unos 150 m.",
+          "Salen 149,9 m de pasta: tres largos de piscina olímpica con un solo paquete."
+        ]
+      }
+    }
+  ]
+}
