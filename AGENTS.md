@@ -71,6 +71,7 @@ Reglas para agentes:
   node tests/editorial.test.mjs
   node tests/vercel.test.mjs
   node tests/publicar.test.mjs
+  node tests/generar.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

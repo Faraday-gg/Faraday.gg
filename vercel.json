@@ -9,6 +9,9 @@
     { "source": "/api/:route", "destination": "/api?route=:route" }
   ],
   "functions": {
-    "api/index.mjs": { "includeFiles": "{dist/questions.json,content/archivo/*.json}" }
-  }
+    "api/index.mjs": { "includeFiles": "{dist/questions.json,dist/categories.js,content/banco-base.json,content/archivo/*.json}", "maxDuration": 300 }
+  },
+  "crons": [
+    { "path": "/api/generar-dia", "schedule": "30 23 * * *" }
+  ]
 }

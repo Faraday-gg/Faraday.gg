@@ -41,7 +41,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `id` | `date` | clave primaria | Fecha de la jornada en `Europe/Madrid`. Equivale a `day.id` de la app. |
 | `name` | `text` | obligatorio | Día de la semana mostrado («Lunes»). |
 | `theme` | `text` | por defecto `''` | Lema del día. |
-| `source` | `text` | `piloto` o `banco-editorial` | Origen: `piloto` para las jornadas escritas a mano (`content/archivo/` y `dist/questions.json`), `banco-editorial` para las de `content-engine.mjs`. El archivo usa `piloto` para no cambiar la restricción de la tabla. |
+| `source` | `text` | `piloto`, `banco-editorial` o `ia` (`ia`, desde la migración `20261110120000`, aún sin aplicar) | Origen: `piloto` para las jornadas escritas a mano (`content/archivo/` y `dist/questions.json`), `banco-editorial` para las de `content-engine.mjs` e `ia` para las generadas cada noche con OpenAI (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)). El archivo usa `piloto` para no cambiar la restricción de la tabla. |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
 ### `public.questions`
@@ -98,6 +98,9 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Si una fecha y posición ya tenía otra pregunta (otro `id`), la retira **solo si no tiene respuestas**. Si las tiene, la base de datos lo impide y la publicación falla explicando qué pregunta es. Nunca borra jornadas ni respuestas.
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
+- **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
+- **Tarea programada** (migración `20261110120000_jornadas_generadas`, **sin aplicar**): `pg_cron` ejecuta la tarea `generar-jornada` a las 22:01 y 23:01 UTC (las 00:01 de Madrid en verano y en invierno; la otra llamada no hace nada) y llama con `pg_net` a `https://faraday-gg.vercel.app/api/generar-dia` con el secreto `cron_secret` de Vault. El secreto se crea a mano en el editor SQL del panel, con el mismo valor que `CRON_SECRET` de Vercel, y nunca va al repositorio: `select vault.create_secret('<valor>', 'cron_secret');`. Para ver las ejecuciones: `select * from cron.job_run_details order by start_time desc limit 10;` y `select * from net._http_response order by created desc limit 10;`.
+
 ## Seguridad y acceso
 
 - **Imágenes**: el almacén `imagenes` es público solo para lectura por URL, porque las fotos ya se muestran en la web. Para subir o cambiar archivos hace falta la clave secreta.
@@ -114,6 +117,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | --- | --- |
 | `SUPABASE_URL` | `https://umiqvlccxxafvafroxii.supabase.co` |
 | `SUPABASE_SECRET_KEY` | Clave secreta del servidor (panel → Project Settings → API Keys). Solo en el servidor. |
+| `OPENAI_API_KEY`, `OPENAI_MODEL`, `CRON_SECRET` | Generación diaria con OpenAI, solo en Production (ver arriba). |
 
 ## Cómo se cambia el esquema
 
@@ -129,8 +133,9 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | --- | --- | --- | --- |
 | `20261109213854` | [esquema_inicial](../supabase/migrations/20261109213854_esquema_inicial.sql) | Crea `days`, `questions`, `answers`, `daily_scores`, RLS y permisos. | 2026-11-09, por Luis con Claude Code |
 | `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
+| `20261110120000` | [jornadas_generadas](../supabase/migrations/20261110120000_jornadas_generadas.sql) | `days.source` admite `ia`; activa `pg_cron` y `pg_net` y programa la tarea `generar-jornada` (00:01 de Madrid). | **Pendiente**: aplicar tras crear el secreto `cron_secret` en Vault |
 
 ## Pendiente
 
-- **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Las jornadas nuevas se añaden en el repositorio y se publican con el script.
+- **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Con la generación diaria (decisión 0017) cada fecha tendrá su jornada `ia` desde la noche anterior; falta configurarla (migración, Vault y variables de Vercel).
 - No se migran las respuestas de `runtime/answers.json`: son pruebas locales.

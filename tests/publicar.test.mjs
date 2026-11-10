@@ -33,14 +33,14 @@ const content=buildContent(URL_BASE);
 // 1. Primera publicación: todo.
 let result=await run();
 // Archivo (92 jornadas) + piloto (7) + banco editorial (29). Fotos distintas: las del archivo y el piloto (solo el 15–20 % lleva) y las del banco.
-assert.deepEqual(result,{images:60,days:128,questions:384,replaced:[]});
+assert.deepEqual(result,{images:60,days:128,questions:384,replaced:[],generated:0});
 assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,60);
 assert([...sb.questions.values()].every(q=>!q.content.image||q.content.image.src.startsWith(`${URL_BASE}/storage/v1/object/public/${BUCKET}/`)),'Las imágenes (cuando la pregunta lleva) apuntan a Storage');
 assert.equal(sb.days.get('2026-11-09').source,'piloto');assert.equal(sb.days.get('2026-12-14').source,'banco-editorial');
 
 // 2. Sin cambios: no escribe nada (aunque Postgres haya reordenado las claves de jsonb).
 sb.calls.length=0;result=await run();
-assert.deepEqual(result,{images:0,days:0,questions:0,replaced:[]});
+assert.deepEqual(result,{images:0,days:0,questions:0,replaced:[],generated:0});
 assert(sb.calls.every(c=>c.method==='GET'||c.path.startsWith('/storage/v1/object/list/')),'Solo lecturas');
 
 // 3. Prueba en seco: cuenta, pero no escribe.
@@ -62,10 +62,19 @@ assert(!sb.questions.has('pregunta-antigua')&&sb.questions.has(slot.id));
 sb.questions.delete(slot.id);sb.questions.set(old.id,old);sb.answered.add(old.id);
 await assert.rejects(run(),/ya tiene respuestas/);assert(sb.questions.has('pregunta-antigua'));
 
-// 7. En Vercel solo publica en producción, y sin claves no bloquea el despliegue.
+// 7. Las jornadas generadas con OpenAI (source «ia») no se tocan: ni la jornada ni sus preguntas.
+sb.answered.clear();sb.questions.delete(old.id);await run();
+const iaDay='2026-12-14';sb.days.get(iaDay).source='ia';
+for(const q of [...sb.questions.values()])if(q.day_id===iaDay)sb.questions.delete(q.id);
+for(const position of [1,2,3])sb.questions.set(`ia-${iaDay}-${position}`,{id:`ia-${iaDay}-${position}`,day_id:iaDay,position,revision:1,title:'generada',unit:'u',answer:1,content:{}});
+result=await run();
+assert.deepEqual(result,{images:0,days:0,questions:0,replaced:[],generated:1});
+assert.equal(sb.days.get(iaDay).source,'ia');assert(sb.questions.has(`ia-${iaDay}-1`),'Las preguntas generadas siguen ahí');
+
+// 8. En Vercel solo publica en producción, y sin claves no bloquea el despliegue.
 const script=env=>spawnSync(process.execPath,['scripts/publicar-contenido.mjs','--vercel'],{env:{PATH:process.env.PATH,...env},encoding:'utf8'});
 let r=script({VERCEL_ENV:'preview',SUPABASE_URL:'http://127.0.0.1:9',SUPABASE_SECRET_KEY:KEY});assert.equal(r.status,0);assert.match(r.stdout,/solo se publica en producción/);
 r=script({VERCEL_ENV:'production'});assert.equal(r.status,0);assert.match(r.stderr,/faltan SUPABASE_URL o SUPABASE_SECRET_KEY/);
 r=script({VERCEL_ENV:'production',SUPABASE_URL:'http://127.0.0.1:9',SUPABASE_SECRET_KEY:KEY});assert.equal(r.status,1,'Si Supabase falla en producción, el despliegue falla');
 
-console.log('OK: publicación incremental (primera carga, sin cambios, prueba en seco, cambios, sustitución segura) y build de Vercel solo en producción.');
+console.log('OK: publicación incremental (primera carga, sin cambios, prueba en seco, cambios, sustitución segura, jornadas generadas intactas) y build de Vercel solo en producción.');
