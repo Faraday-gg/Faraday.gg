@@ -1,7 +1,7 @@
 {
   "id": "2026-09-08",
   "name": "Martes",
-  "theme": "Prado, Expo 92 y fajo",
+  "theme": "Prado, Apolo 11 y millón",
   "questions": [
     {
       "id": "archivo-2026-09-08-1",
@@ -31,14 +31,6 @@
           "8.000 × 30 s son 240.000 s, unas 67 horas: casi tres días sin dormir.",
           "Con 8.529 pinturas salen 71,1 horas. Si te quedas cinco minutos ante Las meninas, el maratón no se resiente; si lo haces con todas, necesitas un mes."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-08-1.jpg",
-        "alt": "Fachada del Museo del Prado por la puerta de Velázquez, con la estatua del pintor delante",
-        "credit": "Diego Delso",
-        "url": "https://commons.wikimedia.org/wiki/File:Puerta_de_Vel%C3%A1zquez,_Museo_del_Prado,_Madrid,_Espa%C3%B1a,_2017-05-18,_DD_37.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     },
     {
@@ -46,37 +38,34 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Sevilla a rebosar",
-      "title": "¿Cuántas visitas recibió de media cada día la Expo 92 de Sevilla?",
-      "detail": "Repartimos todas las visitas de la Exposición Universal entre los días que estuvo abierta. Ojo: cuenta visitas, no personas distintas; Curro saluda igual.",
-      "unit": "visitas",
-      "answer": 237500,
-      "math": "La Expo 92 registró 41,8 millones de visitas en 176 días (del 20 de abril al 12 de octubre de 1992). 41.800.000 ÷ 176 = 237.500 visitas al día.",
-      "referenceExpression": "41800000 ÷ 176",
-      "assumptions": "Media uniforme; los fines de semana y las últimas semanas fueron mucho más concurridos. Una misma persona con pase de temporada cuenta muchas veces.",
-      "confidence": "Dato documentado",
+      "tag": "Memoria lunar",
+      "title": "¿Cuántos ordenadores del Apolo 11 harían falta para igualar la memoria RAM de un móvil de gama media?",
+      "detail": "Juntamos la memoria borrable (la RAM) de ordenadores de guiado del Apolo 11 hasta igualar los 8 GB de RAM de un móvil de gama media, como el Samsung Galaxy A56. Llevaron a Armstrong a la Luna; tu móvil, a los memes de gatos.",
+      "unit": "ordenadores",
+      "answer": 2097152,
+      "math": "El ordenador de guiado del Apolo tenía 2.048 palabras de RAM de 16 bits (2 bytes): 4.096 bytes, 4 KB. Un móvil con 8 GB tiene 8 × 1.024³ = 8.589.934.592 bytes. 8.589.934.592 ÷ 4.096 = 2.097.152 ordenadores.",
+      "referenceExpression": "8 × 1024 × 1024 × 1024 ÷ (2048 × 2)",
+      "assumptions": "Se compara solo la memoria borrable (RAM), no la memoria fija de 36.864 palabras ni la velocidad. Se usan unidades binarias (1 GB = 1.024³ bytes). Móvil de 8 GB de RAM, la versión básica del Galaxy A56.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Exposición Universal de Sevilla (1992)",
-          "url": "https://es.wikipedia.org/wiki/Exposición_Universal_de_Sevilla_(1992)",
-          "fact": "Abrió del 20 de abril al 12 de octubre de 1992, 176 días, y contabilizó 41,8 millones de visitas."
+          "title": "Wikipedia · Apollo Guidance Computer",
+          "url": "https://en.wikipedia.org/wiki/Apollo_Guidance_Computer",
+          "fact": "El ordenador del Block II tenía 2.048 palabras de memoria borrable (RAM) de núcleos magnéticos y 36.864 palabras de memoria fija; cada palabra era de 16 bits."
+        },
+        {
+          "title": "Wikipedia · Samsung Galaxy A56",
+          "url": "https://en.wikipedia.org/wiki/Samsung_Galaxy_A56",
+          "fact": "El Galaxy A56 5G, móvil de gama media de Samsung, se vende con 8 GB o 12 GB de RAM."
         }
       ],
       "reasoning": {
-        "heading": "Divide millones entre días",
+        "heading": "Pasa los dos a bytes",
         "steps": [
-          "La Expo fue un fenómeno: decenas de millones de visitas en unos seis meses.",
-          "40 millones entre 180 días dan más de 200.000 visitas diarias: como llenar un gran estadio tres veces cada día.",
-          "Con 41,8 millones y 176 días salen 237.500 visitas diarias. Las personas distintas fueron muchas menos, unos 15,5 millones, porque muchos repetían."
+          "El ordenador que llevó al hombre a la Luna tenía una memoria ridícula para hoy: unos pocos kilobytes. Un móvil normal tiene varios gigabytes.",
+          "Un giga es un millón de kilobytes, más o menos. 8 GB entre 4 KB dan unos 2 millones de ordenadores: ya sabemos que hablamos de millones.",
+          "Con las cifras exactas (2.048 palabras de 2 bytes contra 8 × 1.024³ bytes) salen 2.097.152 ordenadores del Apolo: uno por cada habitante de París, y aun así tu móvil se sobra para mirar fotos de gatos."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-08-2.jpg",
-        "alt": "Recinto de la Expo 92 en la isla de la Cartuja de Sevilla, con pabellones y el río",
-        "credit": "José Luis Filpo Cabana",
-        "url": "https://commons.wikimedia.org/wiki/File:Expo_92._Sevilla_1992-2011.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       }
     },
     {
@@ -84,14 +73,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Alfombra millonaria",
-      "title": "¿Cuántos metros cuadrados cubriría un millón de euros en billetes de 50 € puestos uno al lado del otro?",
-      "detail": "Extiendes los billetes en el suelo sin huecos ni solapes, como baldosas. Ideal para alfombrar el salón y no pisar nunca más.",
-      "unit": "m²",
-      "answer": 215.60000000000002,
-      "math": "Un millón de euros son 20.000 billetes de 50 €. Cada uno mide 140 × 77 mm = 0,01078 m². 20.000 × 0,01078 = 215,6 m².",
-      "referenceExpression": "1000000 ÷ 50 × 0,14 × 0,077",
-      "assumptions": "Billetes sin huecos ni solapes. Las dimensiones son las del billete de 50 €.",
+      "tag": "Cama de billetes",
+      "title": "¿Cuántos colchones de matrimonio cubriría un millón de euros en billetes de 50 € puestos uno al lado del otro?",
+      "detail": "Extiendes 20.000 billetes de 50 € sin huecos ni solapes, como baldosas, y los comparas con colchones de matrimonio de 150 × 190 cm. Dormir sobre el dinero, versión literal.",
+      "unit": "colchones",
+      "answer": 75.649123,
+      "math": "Un millón de euros son 20.000 billetes de 50 €. Cada uno mide 140 × 77 mm = 0,01078 m²: en total, 215,6 m². Un colchón de 150 × 190 cm ocupa 2,85 m². 215,6 ÷ 2,85 ≈ 75,6 colchones.",
+      "referenceExpression": "1000000 ÷ 50 × 0,14 × 0,077 ÷ (1,5 × 1,9)",
+      "assumptions": "Billetes sin huecos ni solapes. Colchón de matrimonio de 150 × 190 cm, una medida habitual en España.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -101,20 +90,12 @@
         }
       ],
       "reasoning": {
-        "heading": "Cuenta billetes y luego superficie",
+        "heading": "Primero la alfombra, luego las camas",
         "steps": [
           "Un millón en billetes de 50 son 20.000 billetes. Cada uno es algo más pequeño que una mano abierta.",
-          "Un billete ocupa algo más de 100 cm²: unos 100 billetes cubren un metro cuadrado. 20.000 billetes darían unos 200 m².",
-          "El cálculo exacto da 215,6 m²: un piso grande o media pista de baloncesto. Con billetes de 20 € la alfombra pasaría de 500 m²."
+          "Unos 100 billetes cubren un metro cuadrado, así que 20.000 dan unos 200 m². Un colchón de matrimonio ronda los 3 m²: salen unas 70 camas.",
+          "Con las medidas exactas salen 215,6 m² y 75,6 colchones: un hotel pequeño con todas las camas forradas de billetes naranjas."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-08-3.png",
-        "alt": "Los billetes en euros de la serie Europa, entre ellos el naranja de 50 euros",
-        "credit": "Bericht",
-        "url": "https://commons.wikimedia.org/wiki/File:Euro_banknotes,_Europa_series.png",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
       }
     }
   ]

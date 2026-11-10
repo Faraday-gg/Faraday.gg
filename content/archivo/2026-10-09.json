@@ -1,43 +1,45 @@
 {
   "id": "2026-10-09",
   "name": "Viernes",
-  "theme": "Sierra Nevada, Fuente Dé y Vía Láctea",
+  "theme": "Mundiales, ascensor y Vía Láctea",
   "questions": [
     {
       "id": "archivo-2026-10-09-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Esquí sin esquís",
-      "title": "Si bajaras andando por todas las pistas de Sierra Nevada, ¿cuántas horas tardarías?",
-      "detail": "Te olvidaste los esquís en el coche, pero no el orgullo. Recorre a pie todas las pistas balizadas a 4 km/h, una sola vez cada una, y con remontes gratis para subir.",
+      "tag": "Gol tras gol",
+      "title": "Si todos los goles de la historia de los Mundiales se marcaran seguidos, uno por minuto, ¿cuántas horas duraría la fiesta?",
+      "detail": "Todos los goles de las fases finales de los Mundiales masculinos, de Uruguay 1930 a Norteamérica 2026, sin contar tandas de penaltis. Un gol por minuto, sin descanso ni VAR.",
       "unit": "horas",
-      "answer": 26.4,
-      "math": "La estación suma 105,6 km de pistas balizadas. A 4 km/h: 105,6 ÷ 4 = 26,4 horas.",
-      "referenceExpression": "105,6 ÷ 4",
-      "assumptions": "Paso constante de 4 km/h cuesta abajo y sobre nieve, algo optimista. No cuenta el tiempo de subir en los remontes ni las paradas para recuperar el aliento. Los kilómetros balizados cambian un poco de una temporada a otra.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 50.46666666666667,
+      "math": "Hasta Qatar 2022 se habían marcado 2.548 goles en los Mundiales. Qatar 2022 sumó 172 y el Mundial de 2026, 308. Total: 2.548 + 172 + 308 = 3.028 goles. A uno por minuto: 3.028 ÷ 60 ≈ 50,5 horas.",
+      "referenceExpression": "(2548 + 172 + 308) ÷ 60",
+      "assumptions": "Contamos solo goles en partidos, no los de las tandas de penaltis, como hacen las estadísticas oficiales. Datos hasta el Mundial de 2026, que terminó el 19 de julio.",
+      "confidence": "Dato documentado",
       "sources": [
         {
-          "title": "Turismo de Andalucía · Sierra Nevada, datos prácticos",
-          "url": "https://www.andalucia.org/actividades-y-atracciones/deportes/sierra-nevada/datos-practicos/",
-          "fact": "Longitud total de pistas balizadas: 105,6 km en 120 pistas; desnivel de 1.200 m."
+          "title": "NBC Chicago · How Many Goals Have Been Scored in World Cup History? (18 de noviembre de 2022)",
+          "url": "https://www.nbcchicago.com/news/local/how-many-goals-have-been-scored-in-world-cup-history/3000761/?amp=1",
+          "fact": "Antes de Qatar 2022 se habían marcado en total 2.548 goles en los Mundiales."
+        },
+        {
+          "title": "Wikipedia · 2022 FIFA World Cup",
+          "url": "https://en.wikipedia.org/wiki/2022_FIFA_World_Cup",
+          "fact": "64 partidos y 172 goles (2,69 por partido)."
+        },
+        {
+          "title": "Wikipedia · 2026 FIFA World Cup",
+          "url": "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup",
+          "fact": "104 partidos y 308 goles (2,96 por partido); terminó el 19 de julio."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-09-1.jpg",
-        "alt": "Pistas nevadas de la estación de Sierra Nevada con esquiadores pequeños sobre la ladera",
-        "credit": "acebal from La Felguera, Spain",
-        "url": "https://commons.wikimedia.org/wiki/File:Sierra_Nevada_Ski_Station_(128785518).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Kilómetros de pista entre velocidad de paseo",
+        "heading": "Unos 3.000 goles, 60 por hora",
         "steps": [
-          "Una gran estación española tiene del orden de cien kilómetros de pistas. Andando a 4 km/h, cada 4 km es una hora.",
-          "100 ÷ 4 = 25 horas: más de un día entero caminando, pero no una semana.",
-          "Con los 105,6 km balizados salen 26,4 horas. Sobre nieve real irías más despacio que en asfalto, así que la cifra es un mínimo; si añades las colas del remonte, mejor reserva el fin de semana entero."
+          "Se han jugado 23 Mundiales y cada uno deja entre 70 y 300 goles: en total, unos pocos miles.",
+          "3.000 goles a uno por minuto son 3.000 minutos: 50 horas.",
+          "Con 3.028 goles salen 50,5 horas: más de dos días seguidos gritando «¡gol!». La garganta, de baja."
         ]
       }
     },
@@ -46,36 +48,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Ascensor de montaña",
-      "title": "¿A cuántos pisos por segundo te sube el teleférico de Fuente Dé?",
-      "detail": "En menos de cuatro minutos pasas del valle a lo alto de los Picos de Europa. Mide la subida en pisos de 3 m y reparte el desnivel por igual durante todo el trayecto.",
+      "tag": "Subida exprés",
+      "title": "¿A cuántos pisos por segundo sube el ascensor más rápido del mundo?",
+      "detail": "El ascensor del CTF Finance Centre de Cantón (China), récord Guinness de velocidad, a su velocidad máxima. Pisos de 3 m. Los oídos se taponan por su cuenta.",
       "unit": "pisos/s",
-      "answer": 1.1409090909090909,
-      "math": "El teleférico salva 753 m de desnivel en 3 min 40 s, es decir, 220 s. 753 ÷ 220 ≈ 3,42 m/s. Con pisos de 3 m: 3,42 ÷ 3 ≈ 1,14 pisos por segundo.",
-      "referenceExpression": "753 ÷ 220 ÷ 3",
-      "assumptions": "Ganancia de altura uniforme durante todo el viaje. En realidad la cabina recorre 1.450 m de cable a unos 10 m/s, pero solo una parte de ese movimiento es vertical.",
+      "answer": 7,
+      "math": "Los ascensores del CTF Finance Centre alcanzan 21 m/s. Con pisos de 3 m: 21 ÷ 3 = 7 pisos por segundo.",
+      "referenceExpression": "21 ÷ 3",
+      "assumptions": "Es la velocidad punta, no la media del viaje: el ascensor tiene que acelerar y frenar. Récord vigente a noviembre de 2026 según las fuentes consultadas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Fuente Dé cable car",
-          "url": "https://en.wikipedia.org/wiki/Fuente_D%C3%A9_cable_car",
-          "fact": "Desnivel de 753 m, trayecto de 3 min 40 s, 1.450 m de cable y cabinas a 10 m/s."
+          "title": "Wikipedia · Guangzhou CTF Finance Centre",
+          "url": "https://en.wikipedia.org/wiki/Guangzhou_CTF_Finance_Centre",
+          "fact": "Sus ascensores alcanzan 21 m/s, los más rápidos del mundo; en septiembre de 2019 recibieron el récord Guinness."
+        },
+        {
+          "title": "Wikipedia · Shanghai Tower",
+          "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+          "fact": "Los ascensores de la Shanghai Tower, a 20,5 m/s, tuvieron el récord hasta que los del CTF Finance Centre lo superaron en 2017 con 21 m/s."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-09-2.jpg",
-        "alt": "Cabina del teleférico de Fuente Dé suspendida frente a la pared de roca de los Picos de Europa",
-        "credit": "Javier Pais",
-        "url": "https://commons.wikimedia.org/wiki/File:Teleferico_de_Fuente_De.jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Sube metros y luego tradúcelos a pisos",
+        "heading": "Pasa los metros por segundo a pisos",
         "steps": [
-          "El teleférico salva unos 750 m de pared en unos 4 minutos, es decir, unos 240 segundos.",
-          "750 entre 240 da algo más de 3 m por segundo, justo un piso de 3 m cada segundo.",
-          "Con los 220 s exactos salen 3,42 m/s y 1,14 pisos por segundo. Como el cable va inclinado, la cabina se mueve a unos 10 m/s; la cifra vertical es la que notas en los oídos."
+          "Un ascensor normal sube a uno o dos metros por segundo. El más rápido del mundo va como un coche por autovía, a unos 75 km/h.",
+          "75 km/h son unos 20 m/s. Entre 3 m por piso, casi 7 pisos por segundo.",
+          "Con 21 m/s salen 7 pisos por segundo exactos: en lo que tardas en decir «buenos días» ya has subido una docena de plantas."
         ]
       }
     },
@@ -100,14 +99,6 @@
           "fact": "Los astrónomos estiman que hay unos 100.000 millones de estrellas solo en la Vía Láctea."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-09-3.jpg",
-        "alt": "Arco de la Vía Láctea sobre el cielo nocturno de La Palma",
-        "credit": "Amirreza Kamkar/IAU OAE",
-        "url": "https://commons.wikimedia.org/wiki/File:Milky_Way_Arch_over_La_Palma_(ann22042m).jpg",
-        "license": "CC BY 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-      },
       "reasoning": {
         "heading": "Un año son unos 30 millones de segundos",
         "steps": [

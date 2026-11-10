@@ -3,7 +3,9 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 
 const original=JSON.parse(fs.readFileSync(new URL('./dist/questions.json',import.meta.url),'utf8'));
-const base=original.flatMap(d=>d.questions);
+// Base congelada del banco editorial (16 nov – 14 dic): las 21 preguntas del piloto tal como se publicaron.
+// Así el banco no cambia aunque se revise el piloto en dist/questions.json.
+const base=JSON.parse(fs.readFileSync(new URL('./content/banco-base.json',import.meta.url),'utf8'));
 // Archivo editorial: una jornada verificada por archivo en content/archivo/AAAA-MM-DD.json, anteriores al piloto.
 const archiveDirectory=new URL('./content/archivo/',import.meta.url);
 export const archive=fs.existsSync(archiveDirectory)?fs.readdirSync(archiveDirectory).filter(f=>/^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().map(f=>JSON.parse(fs.readFileSync(new URL(f,archiveDirectory),'utf8'))):[];

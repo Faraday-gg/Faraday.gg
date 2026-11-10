@@ -1,43 +1,40 @@
 {
   "id": "2026-09-23",
   "name": "Miércoles",
-  "theme": "Metro, Big Mac y Correos",
+  "theme": "Metro CDMX, Big Mac y Amazon",
   "questions": [
     {
       "id": "archivo-2026-09-23-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Torniquete loco",
-      "title": "¿Cuántos viajeros entran al Metro de Madrid por cada segundo de servicio?",
-      "detail": "Los tornos de toda la red sumados en uno solo. Cuenta los viajes de 2025 y el horario de 6:00 a 1:30 todos los días del año.",
+      "tag": "Torniquete mexicano",
+      "title": "¿Cuántos viajeros entran al Metro de Ciudad de México por cada segundo de servicio?",
+      "detail": "Todos los viajes del Metro de la CDMX en 2025, repartidos por igual entre las horas en que está abierto. Supón 19 horas de servicio al día, todos los días, y nadie colándose.",
       "unit": "viajeros/s",
-      "answer": 28.75541505678492,
-      "math": "En 2025 hubo 736,8 millones de viajes. El servicio va de 6:00 a 1:30: 19,5 horas, 70.200 segundos al día. 736.800.000 ÷ (365 × 70.200) = 28,8 viajeros por segundo.",
-      "referenceExpression": "736800000 ÷ (365 × 19,5 × 3600)",
-      "assumptions": "Mismo horario todos los días; los fines de semana el metro cierra más tarde. Cada viaje cuenta como una entrada.",
+      "answer": 49.7309,
+      "math": "En 2025 el Metro registró 1.241.582.324 viajes. Entre 365 días son 3,4 millones al día; entre 19 horas de servicio (68.400 s): 49,73 viajeros por segundo.",
+      "referenceExpression": "1241582324 ÷ 365 ÷ 19 ÷ 3600",
+      "assumptions": "Se toma el horario de lunes a viernes (de 5:00 a 24:00) para todo el año; sábados y festivos abre más tarde, así que el ritmo real en servicio es algo mayor.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Metro de Madrid",
-          "url": "https://es.wikipedia.org/wiki/Metro_de_Madrid",
-          "fact": "736,8 millones de viajes en 2025; horario de servicio de 6:00 a 1:30."
+          "title": "Crónica · El Metro registró 1.241 millones de viajes en 2025",
+          "url": "https://www.cronica.com.mx/metropoli/2026/01/16/metro-registro-mil-241-millones-de-viajes-en-2025-6-mas-que-en-2024/",
+          "fact": "El Sistema de Transporte Colectivo registró 1.241.582.324 pasajeros en 2025, un 6 % más que en 2024."
+        },
+        {
+          "title": "Wikipedia · Metro de la Ciudad de México",
+          "url": "https://es.wikipedia.org/wiki/Metro_de_la_Ciudad_de_M%C3%A9xico",
+          "fact": "Horario: de lunes a viernes, de 5:00 a 24:00; sábados, de 6:00 a 24:00; domingos y festivos, de 7:00 a 24:00."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-23-1.jpg",
-        "alt": "Andén histórico de la estación de Chamberí del Metro de Madrid, con azulejos publicitarios",
-        "credit": "Emilio J. Rodríguez Posada",
-        "url": "https://commons.wikimedia.org/wiki/File:And%C3%A9n_0-_Estaci%C3%B3n_de_Chamber%C3%AD_(34809014541).jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
         "heading": "Viajes al año entre segundos abiertos",
         "steps": [
-          "El Metro mueve unos dos millones de viajes en un día laborable: del orden de 700 millones al año.",
-          "Abre unas 19 horas al día: unos 70.000 segundos. 2 millones ÷ 70.000 da unos 28 viajeros por segundo.",
-          "Con 736,8 millones y 19,5 horas salen 28,8 viajeros por segundo. En hora punta la cifra se multiplica varias veces."
+          "El Metro de la CDMX es de los más usados del mundo: más de mil millones de viajes al año, unos 3 millones al día.",
+          "Un día de servicio tiene unas 19 horas, casi 70.000 segundos: 3 millones entre 70.000 son unos 43 viajeros por segundo.",
+          "Con 1.241,6 millones de viajes salen 49,73 por segundo: medio centenar de personas cruzando torniquetes cada vez que parpadeas."
         ]
       }
     },
@@ -67,14 +64,6 @@
           "fact": "Precio del Big Mac en España: 5,75 € en julio de 2025 y 5,90 € en julio de 2026."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-23-2.jpg",
-        "alt": "Hamburguesa Big Mac sobre fondo blanco",
-        "credit": "Evan-Amos",
-        "url": "https://commons.wikimedia.org/wiki/File:Big_Mac_hamburger.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
         "heading": "Sueldo entre precio",
         "steps": [
@@ -89,36 +78,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Buzón ajetreado",
-      "title": "¿Cuántos envíos reparte Correos por segundo a lo largo de un año?",
-      "detail": "Cartas, paquetes y notificaciones, todo sumado y repartido de forma uniforme las 24 horas de los 365 días, aunque los carteros también descansen.",
-      "unit": "envíos/s",
-      "answer": 33.61237950279046,
-      "math": "Correos gestionó 1.060 millones de envíos en 2025. Un año tiene 31.536.000 segundos: 1.060.000.000 ÷ 31.536.000 = 33,6 envíos por segundo.",
-      "referenceExpression": "1060000000 ÷ (365 × 86400)",
-      "assumptions": "Reparto uniforme en todo el año, incluidas noches y festivos.",
+      "tag": "Llaman a la puerta",
+      "title": "¿Cuántos paquetes entrega Amazon en Estados Unidos cada segundo?",
+      "detail": "Todos los paquetes que repartió Amazon Logistics en Estados Unidos en 2024, repartidos por igual entre todos los segundos del año, noches y domingos incluidos. El repartidor no descansa; tu portero, tampoco.",
+      "unit": "paquetes/s",
+      "answer": 199.7717,
+      "math": "En 2024 Amazon Logistics entregó 6.300 millones de paquetes en Estados Unidos. Un año tiene 31.536.000 segundos: 6.300.000.000 ÷ 31.536.000 = 199,8 paquetes por segundo.",
+      "referenceExpression": "6300000000 ÷ (365 × 86400)",
+      "assumptions": "Solo Estados Unidos y solo los paquetes que reparte la propia red de Amazon; los envíos que entrega a través de otras empresas o en otros países no cuentan.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Correos · Dossier de prensa 2026 (cifras clave de 2025)",
-          "url": "https://cswetwebcorsta01.blob.core.windows.net/uploads/2026/10/Dossier-de-prensa_2026.pdf",
-          "fact": "Envíos totales en 2025: 1.060 millones; 48.141 efectivos medios y 2.353 oficinas."
+          "title": "Digital Commerce 360 · Amazon closing parcel delivery gap with USPS",
+          "url": "https://www.digitalcommerce360.com/2025/07/01/amazon-closing-parcel-delivery-gap-with-usps/",
+          "fact": "Según el índice de envíos de Pitney Bowes, Amazon Logistics entregó 6.300 millones de paquetes en 2024."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-23-3.jpg",
-        "alt": "Buzón amarillo de Correos en una calle de Alcalá la Real",
-        "credit": "Michelangelo-36",
-        "url": "https://commons.wikimedia.org/wiki/File:Buz%C3%B3n_de_Correos_en_Alcal%C3%A1_la_Real.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
-      },
       "reasoning": {
-        "heading": "Envíos al año entre segundos del año",
+        "heading": "Paquetes al año entre segundos",
         "steps": [
-          "Correos reparte cientos de millones de cartas y paquetes al año. Supón unos 1.000 millones.",
-          "Un año tiene unos 31,5 millones de segundos. 1.000 millones ÷ 31,5 millones da unos 32 por segundo.",
-          "Con 1.060 millones de envíos en 2025 salen 33,6 por segundo. Si solo cuentas jornadas laborables de 8 horas, la cifra se multiplica por más de cuatro."
+          "Estados Unidos tiene unos 340 millones de habitantes; si cada uno recibe una veintena de paquetes de Amazon al año, son unos 7.000 millones.",
+          "Un año tiene unos 31,5 millones de segundos: 7.000 millones entre 31,5 millones son unos 220 por segundo.",
+          "Con los 6.300 millones de 2024 salen 199,8 paquetes por segundo: doscientos timbres sonando a la vez."
         ]
       }
     }

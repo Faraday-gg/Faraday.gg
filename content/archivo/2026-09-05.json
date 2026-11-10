@@ -1,44 +1,41 @@
 {
   "id": "2026-09-05",
   "name": "Sábado",
-  "theme": "La Robla, Bizkaia y mejillón",
+  "theme": "Shinkansen, Tower Bridge y espaguetis",
   "questions": [
     {
       "id": "archivo-2026-09-05-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "transporte",
-      "tag": "Traviesas a la vista",
-      "title": "¿Cuántas traviesas tiene el ferrocarril de La Robla?",
-      "detail": "Toda la línea entre León y Bilbao con una traviesa cada 60 cm, sin contar desvíos ni estaciones. Para dormirse contando traviesas, mejor que ovejas.",
-      "unit": "traviesas",
-      "answer": 558333.3333333334,
-      "math": "La línea mide 335 km = 335.000 m. Con una traviesa cada 0,6 m: 335.000 ÷ 0,6 ≈ 558.333 traviesas.",
-      "referenceExpression": "335000 ÷ 0,6",
-      "assumptions": "Vía única con traviesas cada 60 cm de forma uniforme. No se cuentan apartaderos, vías de estación ni desvíos.",
+      "tag": "Bala contra baba",
+      "title": "¿Cuántas veces más rápido que un caracol va un tren bala japonés?",
+      "detail": "Comparamos un Shinkansen a su velocidad máxima comercial con un caracol de jardín en plena carrera de caracoles, a 2,4 mm/s. El caracol no lleva billete.",
+      "unit": "veces",
+      "answer": 37037.037037,
+      "math": "El Shinkansen circula hasta a 320 km/h. Un caracol de competición va a 2,4 mm/s = 8,64 m/h = 0,00864 km/h. 320 ÷ 0,00864 ≈ 37.037 veces.",
+      "referenceExpression": "320 ÷ (2,4 × 3,6 ÷ 1000)",
+      "assumptions": "Velocidad máxima comercial de los E5 en el Tōhoku Shinkansen y la mejor velocidad registrada en carreras de caracoles (Cornu aspersum). Un caracol paseando va bastante más lento.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Ferrocarril de La Robla",
-          "url": "https://es.wikipedia.org/wiki/Ferrocarril_de_La_Robla",
-          "fact": "La línea tiene una longitud de 335 km."
+          "title": "Wikipedia · Shinkansen",
+          "url": "https://en.wikipedia.org/wiki/Shinkansen",
+          "fact": "Desde 2014 los Shinkansen circulan regularmente a hasta 320 km/h en el Tōhoku Shinkansen."
+        },
+        {
+          "title": "Wikipedia · Cornu aspersum",
+          "url": "https://en.wikipedia.org/wiki/Cornu_aspersum",
+          "fact": "En competiciones de caracoles solo se han alcanzado velocidades de 2,4 mm/s."
         }
       ],
       "reasoning": {
-        "heading": "Pasa los kilómetros a pasitos de 60 cm",
+        "heading": "Pasa los dos a la misma unidad",
         "steps": [
-          "Una línea de cientos de kilómetros y una traviesa cada palmo largo: estamos hablando de cientos de miles.",
-          "Cada kilómetro tiene unas 1.700 traviesas a 60 cm. Con unos 300 km saldrían medio millón.",
-          "Con los 335 km de la línea salen 558.333 traviesas. Si se colocaran cada 50 cm, serían 670.000; las estaciones y desvíos añadirían todavía más."
+          "El tren bala es de los más rápidos del mundo; el caracol, el emblema de la lentitud. La diferencia tiene que ser enorme.",
+          "Un caracol rápido hace unos pocos metros por hora, unos 0,01 km/h. 320 entre 0,01 da unas 30.000 veces.",
+          "Salen 37.037 veces: lo que el tren recorre en un segundo, el caracol lo hace en más de 10 horas."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-05-1.jpg",
-        "alt": "Vía del ferrocarril de La Robla entre matorrales, con las traviesas a la vista sobre el balasto",
-        "credit": "Discasto",
-        "url": "https://commons.wikimedia.org/wiki/File:Ferrocarril_de_La_Robla_sobre_la_ruta_de_la_Tejeda_de_Tosande_(4_de_abril_de_2018,_Dehesa_de_Montejo)_04.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     },
     {
@@ -46,37 +43,29 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Transbordador incansable",
-      "title": "¿Cuántos viajes hace al año la barquilla del Puente de Bizkaia?",
-      "detail": "La barquilla cruza la ría de Portugalete a Getxo una y otra vez. Supón un viaje cada 8 minutos, 20 horas al día, todos los días del año.",
-      "unit": "viajes",
-      "answer": 54750,
-      "math": "20 horas son 1.200 minutos. 1.200 ÷ 8 = 150 viajes al día. 150 × 365 = 54.750 viajes al año.",
-      "referenceExpression": "20 × 60 ÷ 8 × 365",
-      "assumptions": "Servicio continuo de 20 horas diarias con un trayecto cada 8 minutos. En la práctica hay horarios nocturnos, paradas por mantenimiento y por viento.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Puente con bisagra",
+      "title": "¿Cuántas veces al año se levanta el Tower Bridge de Londres para dejar pasar barcos?",
+      "detail": "El Tower Bridge de Londres levanta sus dos hojas para dejar pasar barcos altos por el Támesis. Contamos las aperturas de un año normal; los autobuses rojos esperan.",
+      "unit": "aperturas",
+      "answer": 500,
+      "math": "Según la propia web del puente, el Tower Bridge se levanta unas 500 veces al año. Son 500 ÷ 365 ≈ 1,4 aperturas al día.",
+      "referenceExpression": "500",
+      "assumptions": "Cifra aproximada que da el puente; varía cada año según el tráfico de barcos y las obras de mantenimiento.",
+      "confidence": "Dato documentado",
       "sources": [
         {
-          "title": "Puente Bizkaia · Tarifas y horarios",
-          "url": "https://puente-colgante.com/tarifas-y-horarios/",
-          "fact": "Fuera del horario nocturno, la barquilla realiza viajes de forma continuada, de unos 8 minutos cada uno."
+          "title": "Tower Bridge · Bridge lift times",
+          "url": "https://www.towerbridge.org.uk/lift-times",
+          "fact": "El Tower Bridge se levanta unas 500 veces al año."
         }
       ],
       "reasoning": {
-        "heading": "Cuenta viajes por hora",
+        "heading": "Del barco suelto al calendario anual",
         "steps": [
-          "Si cada cruce lleva unos 8 minutos, salen unos 7 u 8 viajes por hora.",
-          "Con 20 horas al día, unos 150 viajes. Por 365 días, alrededor de 55.000.",
-          "El modelo da 54.750 viajes. Las paradas técnicas o por temporal lo bajan algo; lo admirable es que el puente lleva haciéndolo desde 1893."
+          "El puente es una de las imágenes de Londres, y cerrarlo al tráfico es un engorro: no se abrirá cada hora.",
+          "Si se abre una o dos veces al día, salen entre 365 y 730 aperturas al año.",
+          "Son unas 500: algo más de una al día. Si ves subir las hojas, apunta la hora: lo publican con antelación."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-05-2.jpg",
-        "alt": "Puente de Bizkaia sobre la ría del Nervión entre Getxo y Portugalete, con su barquilla colgante",
-        "credit": "Mikemod",
-        "url": "https://commons.wikimedia.org/wiki/File:Puente_de_Vizcaya-Guecho_y_Portugalete.jpg",
-        "license": "CC BY-SA 3.0 es",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
       }
     },
     {
@@ -84,42 +73,34 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Batea generosa",
-      "title": "¿Cuántos mejillones salen al año de una batea gallega?",
-      "detail": "Repartimos la producción gallega de mejillón de 2025 entre todas las bateas a partes iguales. Cada mejillón comercial pesa 20 g, con concha y todo.",
-      "unit": "mejillones",
-      "answer": 2612323.529411765,
-      "math": "En 2025 se produjeron 177.638 toneladas de mejillón en Galicia. Entre unas 3.400 bateas salen 52,2 t por batea. 52.246 kg ÷ 0,02 kg ≈ 2,6 millones de mejillones.",
-      "referenceExpression": "177638000 ÷ 3400 ÷ 0,02",
-      "assumptions": "Todas las bateas producen lo mismo y el mejillón medio pesa 20 g. El número de bateas es aproximado («casi 3.400», según el consejo regulador).",
+      "tag": "Pasta al metro",
+      "title": "¿Cuántos metros mide en fila un paquete de 500 g de espaguetis?",
+      "detail": "Sacamos todos los espaguetis de un paquete de 500 g y los ponemos en fila, punta con punta. Cada espagueti mide 25 cm y ninguno se rompe al sacarlo (milagro).",
+      "unit": "metros",
+      "answer": 149.911817,
+      "math": "Un fabricante contó una media de 68 espaguetis por ración de 2 onzas (56,7 g). 500 ÷ 56,7 × 68 ≈ 600 espaguetis por paquete. × 0,25 m ≈ 149,9 m.",
+      "referenceExpression": "500 ÷ 56,7 × 68 × 0,25",
+      "assumptions": "Espaguetis de 25 cm, el largo más corto del rango habitual de 25–30 cm, y el grosor de una marca concreta; con espaguetis más finos salen más metros.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Xunta de Galicia · Nota de prensa de la Consellería do Mar",
-          "url": "https://www.xunta.gal/notas-de-prensa/-/nova/025489/villaverde-apoia-sector-miticultor-busca-alternativas-para-garantir-subministro",
-          "fact": "En 2025, la acuicultura marina gallega produjo 189.251 t, de las que 177.638 t correspondieron al mejillón."
+          "title": "Skinner Pasta · Nutrition and serving size FAQ",
+          "url": "https://www.skinnerpasta.com/en-US/faq/3/Nutrition/ServingSize.aspx",
+          "fact": "Contaron una media de 68 espaguetis por ración de 2 onzas."
         },
         {
-          "title": "Xataka · bateas de mejillón en Galicia",
-          "url": "https://www.xataka.com/magnet/3-000-bateas-para-mejillon-sus-rias-galicia-ha-decidido-aclarar-cuestion-clave-su-contaminacion",
-          "fact": "Según el Consello Regulador Mexillón de Galicia, hay casi 3.400 bateas repartidas en 44 polígonos."
+          "title": "Wikipedia · Spaghetti",
+          "url": "https://en.wikipedia.org/wiki/Spaghetti",
+          "fact": "Los espaguetis se venden sobre todo en largos de 25–30 cm."
         }
       ],
       "reasoning": {
-        "heading": "Reparte toneladas entre bateas",
+        "heading": "Cuenta espaguetis, luego metros",
         "steps": [
-          "Galicia produce muchísimo mejillón: del orden de cientos de miles de toneladas al año, en unas pocas miles de bateas.",
-          "Unas 180.000 t entre 3.500 bateas dan unas 50 t por batea. A 20 g el mejillón, son unos 2,5 millones.",
-          "Con 177.638 t y 3.400 bateas salen 2,6 millones de mejillones por batea. Las bateas grandes y bien situadas superan con creces la media."
+          "Un paquete tiene muchos espaguetis: cientos. Cada uno mide un palmo largo.",
+          "Si cada espagueti pesa casi un gramo, hay unos 500 o 600. A un cuarto de metro, unos 150 m.",
+          "Salen 149,9 m de pasta: tres largos de piscina olímpica con un solo paquete."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-05-3.jpg",
-        "alt": "Bateas de mejillón flotando en la ría de Arousa con una lancha de trabajo",
-        "credit": "Chichole",
-        "url": "https://commons.wikimedia.org/wiki/File:Bateas_de_mejill%C3%B3n_y_una_lancha_en_la_r%C3%ADa_de_Arousa.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     }
   ]

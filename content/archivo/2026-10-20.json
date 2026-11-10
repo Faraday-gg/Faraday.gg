@@ -1,7 +1,7 @@
 {
   "id": "2026-10-20",
   "name": "Martes",
-  "theme": "Denario, Muralla China y Finisterre",
+  "theme": "Denario, Gran Muralla y Panamericana",
   "questions": [
     {
       "id": "archivo-2026-10-20-1",
@@ -24,14 +24,6 @@
           "fact": "Con Augusto el denario pesaba 3,9 g (1/84 de libra romana); la paga anual del legionario era de 225 denarios desde Julio César."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-20-1.jpg",
-        "alt": "Anverso y reverso de un denario de plata de Augusto",
-        "credit": "Classical Numismatic Group",
-        "url": "https://commons.wikimedia.org/wiki/File:Augustus_Denarius_19_BC_2230399.jpg",
-        "license": "CC BY-SA 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
-      },
       "reasoning": {
         "heading": "Monedas al año por gramos por moneda",
         "steps": [
@@ -62,14 +54,6 @@
           "fact": "El estudio de 2012 dio una longitud total de 21.196,18 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-20-2.jpg",
-        "alt": "La Gran Muralla en Mutianyu serpenteando por las crestas de las montañas",
-        "credit": "Arian Zwegers",
-        "url": "https://commons.wikimedia.org/wiki/File:Mutianyu_Great_Wall_(6222519140).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
         "heading": "Kilómetros de muralla entre kilómetros por día",
         "steps": [
@@ -84,41 +68,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Rumbo oeste",
-      "title": "¿Cuántas horas tardaría un velero a 10 km/h en navegar del cabo Finisterre a Nueva York?",
-      "detail": "Velero con viento constante a 10 km/h, rumbo directo por el camino más corto. Sin tormentas ni desvíos para ver ballenas.",
-      "unit": "horas",
-      "answer": 523.5,
-      "math": "Con las coordenadas del cabo Finisterre (42,8825° N, 9,2722° O) y de Nueva York (40,7128° N, 74,0061° O), ambas de Wikipedia, la distancia ortodrómica sale unos 5.235 km. 5.235 ÷ 10 ≈ 523,5 horas.",
-      "referenceExpression": "5235 ÷ 10",
-      "assumptions": "Círculo máximo calculado sobre una Tierra esférica; los veleros reales siguen vientos y corrientes y recorren más millas.",
+      "tag": "Carretera sin fin",
+      "title": "Conduciendo 8 horas al día a 90 km/h, ¿cuántos días tardarías en recorrer la carretera Panamericana entera?",
+      "detail": "De Alaska a Ushuaia, del frío al frío pasando por el trópico. Conduce 8 horas diarias a 90 km/h de media, sin días libres. El tapón del Darién, la selva entre Panamá y Colombia sin carretera, te lo saltas en barco sin contarlo.",
+      "unit": "días",
+      "answer": 41.666666666666664,
+      "math": "La Panamericana mide unos 30.000 km. 8 h × 90 km/h = 720 km al día. 30.000 ÷ 720 ≈ 41,7 días.",
+      "referenceExpression": "30000 ÷ (8 × 90)",
+      "assumptions": "Longitud aproximada de 30.000 km entre Prudhoe Bay (Alaska) y Ushuaia (Argentina); las cifras varían según el trazado que se tome. No cuenta el paso del Darién, fronteras, averías ni descansos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Cabo Finisterre",
-          "url": "https://es.wikipedia.org/wiki/Cabo_Finisterre",
-          "fact": "Coordenadas: 42°52′57″ N, 9°16′20″ O."
-        },
-        {
-          "title": "Wikipedia · New York City",
-          "url": "https://en.wikipedia.org/wiki/New_York_City",
-          "fact": "Coordenadas: 40,7128° N, 74,0061° O."
+          "title": "Wikipedia · Pan-American Highway",
+          "url": "https://en.wikipedia.org/wiki/Pan-American_Highway",
+          "fact": "La red se extiende unos 30.000 km, de Prudhoe Bay (Alaska) a Ushuaia (Argentina)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-20-3.jpg",
-        "alt": "Faro del cabo Finisterre sobre las rocas frente al Atlántico",
-        "credit": "Luis Miguel Bugallo Sánchez",
-        "url": "https://commons.wikimedia.org/wiki/File:Faro_de_Fisterra_-Galiza.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Primero el océano, luego la velocidad",
+        "heading": "Kilómetros entre kilómetros diarios",
         "steps": [
-          "Cruzar el Atlántico en velero suena a semanas. A 10 km/h, más o menos lo que corre una persona trotando, no parece rápido.",
-          "De Galicia a Nueva York hay unos 5.000 km. A 10 km/h son 500 horas: unos 21 días navegando sin parar.",
-          "Con los 5.235 km del círculo máximo salen 523,5 horas, casi 22 días. Al seguir los vientos alisios, como hacen los veleros reales, la travesía se alarga."
+          "Cruzar América de norte a sur son decenas de miles de kilómetros. Una jornada larga de coche son unos 700 km.",
+          "30.000 km entre 700 km al día dan algo más de 40 días: más de un mes al volante.",
+          "Con 30.000 km y 720 km diarios salen 41,7 días. Con fronteras, obras y el barco del Darién, fácilmente serían dos meses."
         ]
       }
     }

@@ -1,7 +1,7 @@
 {
   "id": "2026-09-20",
   "name": "Domingo",
-  "theme": "Medalla, Montjuïc y Wright",
+  "theme": "Medalla, pista y Wright",
   "questions": [
     {
       "id": "archivo-2026-09-20-1",
@@ -39,14 +39,6 @@
           "fact": "9 de noviembre de 2026: 1 € = 1,1193 $."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-20-1.jpg",
-        "alt": "Medalla de oro olímpica de Vancouver 2010 sujeta en la mano, que muestra su tamaño",
-        "credit": "Country wind",
-        "url": "https://commons.wikimedia.org/wiki/File:Olympic_gold_medal_(Vancouver_2010_winter_games).jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Olympic_gold_medal_(Vancouver_2010_winter_games).jpg"
-      },
       "reasoning": {
         "heading": "Separa el oro de la plata",
         "steps": [
@@ -62,17 +54,17 @@
       "verifiedAt": "2026-11-10",
       "category": "deportes",
       "tag": "Vuelta de balón",
-      "title": "¿Cuántos balones de fútbol en fila darían la vuelta a la calle 1 de la pista del Estadio Olímpico de Montjuïc?",
-      "detail": "La pista de los Juegos de Barcelona 92, recorrida a base de balones tocándose. Balones reglamentarios de 69 cm de circunferencia, en fila sobre la línea de medida de la calle 1.",
+      "title": "¿Cuántos balones de fútbol en fila darían la vuelta a una pista de atletismo olímpica?",
+      "detail": "Balones reglamentarios de talla 5, tocándose, sobre la línea de la calle 1, la de los 400 m. Supón balones de 69 cm de circunferencia y que nadie los chuta a la grada.",
       "unit": "balones",
-      "answer": 1821.213132515822,
-      "math": "La calle 1 de una pista reglamentaria mide 400 m. Un balón de 69 cm de circunferencia tiene 69 ÷ π = 21,96 cm de diámetro. 400 ÷ 0,2196 = 1.821,2 balones.",
+      "answer": 1821.2131,
+      "math": "Un balón de 69 cm de circunferencia mide 0,69 ÷ π = 0,2196 m de diámetro. La calle 1 mide 400 m: 400 ÷ 0,2196 = 1.821,2 balones.",
       "referenceExpression": "400 ÷ (0,69 ÷ π)",
-      "assumptions": "Pista estándar de 400 m, medida a 30 cm del bordillo. Balón con circunferencia de 69 cm, el punto medio del reglamento.",
+      "assumptions": "Circunferencia en el centro del margen reglamentario (68-70 cm). Se ignora que la fila de esferas en curva ocupa un poco distinto que en recta.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "IFAB · Reglas de Juego, regla 2: el balón",
+          "title": "IFAB · Reglas de Juego, Regla 2: el balón",
           "url": "https://www.theifab.com/laws/latest/the-ball/",
           "fact": "Circunferencia del balón de entre 68 y 70 cm; peso de entre 410 y 450 g al inicio del partido."
         },
@@ -82,20 +74,12 @@
           "fact": "La calle 1 de una pista de competición mide 400 m, medidos a 0,30 m del borde interior."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-20-2.jpg",
-        "alt": "Interior del Estadio Olímpico Lluís Companys de Montjuïc con la pista de atletismo y las gradas",
-        "credit": "Diliff",
-        "url": "https://commons.wikimedia.org/wiki/File:Estadi_Ol%C3%ADmpic_Llu%C3%ADs_Companys_-_Barcelona,_Spain_-_Jan_2007.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "De circunferencia a diámetro",
+        "heading": "Diámetro del balón, longitud de la vuelta",
         "steps": [
-          "Un balón de fútbol mide algo más de dos palmos de ancho: unos 22 cm.",
-          "400 m entre 0,22 m da unos 1.800 balones. En cada metro caben cuatro y pico.",
-          "Con la circunferencia de 69 cm, el diámetro es 21,96 cm y salen 1.821,2 balones. Con el balón más pequeño permitido, 68 cm, serían 1.848."
+          "Un balón de fútbol mide poco más de dos palmos de ancho: unos 20-25 cm.",
+          "Cuatro o cinco balones por metro; en 400 m caben entre 1.600 y 2.000.",
+          "Con 69 cm de circunferencia, cada balón mide 21,96 cm y salen 1.821,2 balones para cerrar la vuelta."
         ]
       }
     },
@@ -130,14 +114,6 @@
           "fact": "Coordenadas: 40,63972° N, 73,77889° O."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-20-3.jpg",
-        "alt": "Fotografía histórica del primer vuelo del Wright Flyer en 1903, con Wilbur corriendo junto al ala",
-        "credit": "John T. Daniels",
-        "url": "https://commons.wikimedia.org/wiki/File:First_flight2.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:First_flight2.jpg"
-      },
       "reasoning": {
         "heading": "Kilómetros entre metros",
         "steps": [

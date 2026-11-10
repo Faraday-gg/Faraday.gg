@@ -1,7 +1,7 @@
 {
   "id": "2026-08-29",
   "name": "Sábado",
-  "theme": "Gioconda, Keops y microondas",
+  "theme": "Gioconda, pirámide y microondas",
   "questions": [
     {
       "id": "archivo-2026-08-29-1",
@@ -24,14 +24,6 @@
           "fact": "El Louvre recibe unos 9 millones de visitantes al año."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-29-1.jpg",
-        "alt": "Multitud de visitantes con móviles delante de La Gioconda en el Louvre",
-        "credit": "Victor Grigas",
-        "url": "https://commons.wikimedia.org/wiki/File:Crowd_looking_at_the_Mona_Lisa_at_the_Louvre.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Reparte las horas entre la multitud",
         "steps": [
@@ -62,14 +54,6 @@
           "fact": "La pirámide se compone de unos 2,3 millones de bloques; se calcula que su construcción duró unos 26 años (Heródoto y Diodoro hablaban de 20)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-29-2.jpg",
-        "alt": "La Gran Pirámide de Keops en Guiza vista desde el desierto",
-        "credit": "Nina",
-        "url": "https://commons.wikimedia.org/wiki/File:Kheops-Pyramid.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
-      },
       "reasoning": {
         "heading": "Millones de bloques entre miles de horas",
         "steps": [
@@ -84,14 +68,14 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Tiovivo de cocina",
-      "title": "¿Cuántas vueltas da al año el plato del microondas de casa?",
-      "detail": "Diez minutos de microondas al día, todos los días del año, para calentar leche, sobras y la taza de café que se te enfrió.",
-      "unit": "vueltas",
-      "answer": 18250,
-      "math": "El motor típico del plato gira a 5 r/min con la red de 50 Hz de España. 5 vueltas × 10 minutos × 365 días = 18.250 vueltas al año.",
-      "referenceExpression": "5 × 10 × 365",
-      "assumptions": "Motor de 5/6 r/min: 5 con la red de 50 Hz y 6 con la de 60 Hz. Diez minutos al día de uso. Hay modelos más lentos.",
+      "tag": "Plato viajero",
+      "title": "¿Cuántos kilómetros recorre en un año el borde del plato del microondas de casa?",
+      "detail": "Diez minutos de microondas al día, todo el año, con un plato de 30 cm de diámetro. Medimos lo que viaja una miga pegada al borde, la gran viajera de tu cocina.",
+      "unit": "km",
+      "answer": 17.20022,
+      "math": "El motor del plato gira a 5 r/min con la red de 50 Hz: 5 × 10 min × 365 días = 18.250 vueltas al año. Cada vuelta del borde mide π × 0,3 m ≈ 0,94 m. 18.250 × 0,94 ≈ 17.200 m ≈ 17,2 km.",
+      "referenceExpression": "5 × 10 × 365 × π × 0,3 ÷ 1000",
+      "assumptions": "Motor de 5/6 r/min (5 con la red europea de 50 Hz), 10 minutos de uso diario y plato de 30 cm de diámetro, un tamaño habitual pero supuesto. Hay modelos más lentos y platos más pequeños.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -100,20 +84,12 @@
           "fact": "Motor de repuesto para el plato del microondas: 5/6 r/min a 30 V de corriente alterna."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-29-3.jpg",
-        "alt": "Interior de un microondas con el plato giratorio de cristal",
-        "credit": "Famartin",
-        "url": "https://commons.wikimedia.org/wiki/File:2021-06-18_12_31_52_The_interior_of_a_General_Electric_Turntable_Microwave_Oven_Model_JES738WH_001_in_the_Franklin_Farm_section_of_Oak_Hill,_Fairfax_County,_Virginia.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Una vuelta cada doce segundos",
+        "heading": "Vueltas lentas, kilómetros sorprendentes",
         "steps": [
-          "Mirando el plato girar, cada vuelta tarda unos diez segundos: unas 5 o 6 vueltas por minuto.",
-          "Diez minutos al día son unas 50 vueltas; al año, unas 18.000.",
-          "Con 5 r/min salen 18.250 vueltas al año. Con un motor de 6 r/min, como en los países con red de 60 Hz, serían 21.900."
+          "El plato gira despacio, unas pocas vueltas por minuto. Parece que no va a ninguna parte.",
+          "Diez minutos al día son unas 50 vueltas; en un año, unas 18.000. Cada vuelta del borde es casi un metro: salen más de 15 km.",
+          "Con 5 r/min y un plato de 30 cm, el borde recorre 17,2 km al año: un medio maratón y pico sin salir del electrodoméstico."
         ]
       }
     }

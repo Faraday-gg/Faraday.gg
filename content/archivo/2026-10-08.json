@@ -62,14 +62,6 @@
           "fact": "Peso de mil granos de trigo: de 33,66 a 48,46 g en Saskatchewan y de 26,59 a 50,84 g en el sur de Alberta (datos de 20/20 Seed Labs, 2013)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-08-2.jpg",
-        "alt": "Tablero de ajedrez con montoncitos de granos de arroz que crecen casilla a casilla",
-        "credit": "MartinThoma",
-        "url": "https://commons.wikimedia.org/wiki/File:Chessboard-with-rice.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
         "heading": "Las potencias de dos engañan a la vista",
         "steps": [
@@ -84,36 +76,41 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Desayuno desde 1894",
-      "title": "Si en San Ginés se friesen mil churros al día desde su apertura, ¿cuántos churros llevarían?",
-      "detail": "La chocolatería madrileña abrió como churrería en 1894 y sigue mojando. Supón mil churros diarios, todos los días del año, y cuenta 132 años, de 1894 a 2026.",
+      "tag": "Abrazo con chocolate",
+      "title": "¿Cuántos churros en fila harían falta para ir de una mano a la otra del Cristo Redentor?",
+      "detail": "Churros de 15 cm, puestos punta con punta a lo largo de los brazos abiertos de la estatua de Río de Janeiro. El chocolate para mojar lo pones tú.",
       "unit": "churros",
-      "answer": 48213000,
-      "math": "De 1894 a 2026 van 132 años. 132 × 365,25 días = 48.213 días. A 1.000 churros diarios: 48.213.000 churros.",
-      "referenceExpression": "132 × 365,25 × 1000",
-      "assumptions": "Los mil churros diarios son una condición del juego, no un dato de producción del local. Contamos años completos desde 1894, sin cierres por guerras, reformas ni vacaciones.",
+      "answer": 186.66666666666669,
+      "math": "Los brazos del Cristo Redentor miden 28 m de punta a punta. Un churro mide unos 15 cm. 28 ÷ 0,15 ≈ 186,7 churros.",
+      "referenceExpression": "28 ÷ 0,15",
+      "assumptions": "Hay churros más cortos y porras mucho más largas: con churros de 10 cm harían falta 280.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Chocolatería San Ginés · Historia",
-          "url": "https://chocolateriasangines.com/historia/",
-          "fact": "«La Chocolatería de San Ginés abrió al público en el año 1894 como churrería»."
+          "title": "Wikipedia · Christ the Redeemer (statue)",
+          "url": "https://en.wikipedia.org/wiki/Christ_the_Redeemer_(statue)",
+          "fact": "La estatua mide 30 m sin su pedestal de 8 m, y sus brazos se extienden 28 m de ancho."
+        },
+        {
+          "title": "¡HOLA! · Homemade churros recipe",
+          "url": "https://www.hola.com/us/food/20230224343085/homemade-churros-recipe",
+          "fact": "La receta forma tiras de churro de unos 15 cm de largo."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-10-08-3.jpg",
-        "alt": "Interior de la Chocolatería San Ginés con mesas de mármol, espejos y clientes desayunando",
-        "credit": "David Adam Kess",
-        "url": "https://commons.wikimedia.org/wiki/File:Inside_the_Chocolater%C3%ADa_San_Gin%C3%A9s_in_Madrid,_Spain.JPG",
+        "alt": "El Cristo Redentor de Río de Janeiro visto desde el aire, con los brazos abiertos y la plataforma llena de visitantes a sus pies",
+        "credit": "Mucio Scorzelli",
+        "url": "https://commons.wikimedia.org/wiki/File:Christ_the_Redeemer-(Corcovado)_front_view.jpg",
         "license": "CC BY-SA 4.0",
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       },
       "reasoning": {
-        "heading": "Un siglo largo de días, multiplicado por mil",
+        "heading": "Mide los brazos en churros",
         "steps": [
-          "Desde finales del siglo XIX hasta hoy van unos 130 años. Cada año tiene unos 365 días.",
-          "130 × 365 son unos 47.000 días. Por mil churros, unos 47 millones: decenas de millones, no miles de millones.",
-          "Con 132 años exactos y años de 365,25 días salen 48.213.000 churros. El dato firme es la fecha de apertura; los mil diarios son la condición del juego, y si fueran 3.000 la cifra se triplicaría."
+          "El Cristo es enorme: abierto de brazos ocupa como un edificio de diez pisos tumbado, unos 30 m.",
+          "30 m ÷ 0,15 m = 200 churros.",
+          "Con 28 m de envergadura salen 186,7 churros: unas 30 raciones de churrería, para desayunar con vistas a Copacabana."
         ]
       }
     }

@@ -1,43 +1,35 @@
 {
   "id": "2026-10-06",
   "name": "Martes",
-  "theme": "Salamanca, Doñana y escaleras",
+  "theme": "Oxford, Old Faithful y escaleras",
   "questions": [
     {
       "id": "archivo-2026-10-06-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "Promociones en serie",
-      "title": "¿Cuántas promociones de cuatro años han pasado por la Universidad de Salamanca desde su fundación?",
-      "detail": "Una promoción nueva cada cuatro años, de 1218 a 2026, sin pausas ni cierres temporales.",
+      "tag": "Promociones milenarias",
+      "title": "¿Cuántas promociones de cuatro años han pasado por la Universidad de Oxford desde que empezó a dar clases?",
+      "detail": "Promociones de cuatro años, una detrás de otra y sin huecos, desde las primeras clases documentadas hasta 2026. Ni pandemias ni guerras: aquí no repite nadie.",
       "unit": "promociones",
-      "answer": 202,
-      "math": "La Universidad de Salamanca se fundó en 1218. Hasta 2026 van 808 años: 808 ÷ 4 = 202 promociones.",
-      "referenceExpression": "(2026 − 1218) ÷ 4",
-      "assumptions": "Los estudios medievales no duraban cuatro años y hubo épocas de crisis; el modelo solo mide el paso del tiempo en «carreras».",
+      "answer": 232.5,
+      "math": "En Oxford ya se enseñaba en 1096. Hasta 2026 van 2026 − 1096 = 930 años. 930 ÷ 4 = 232,5 promociones.",
+      "referenceExpression": "(2026 − 1096) ÷ 4",
+      "assumptions": "Se sabe que en Oxford había enseñanza «de alguna forma» en 1096, pero no cuándo nació la universidad como tal; la cifra es un orden de magnitud.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Universidad de Salamanca · Historia",
-          "url": "https://www.usal.es/historia",
-          "fact": "Alfonso IX de León creó en 1218 las «scholas Salamanticae», germen de la actual universidad."
+          "title": "Wikipedia · University of Oxford",
+          "url": "https://en.wikipedia.org/wiki/University_of_Oxford",
+          "fact": "Se sabe que en Oxford ya existía enseñanza de alguna forma en 1096, aunque no está claro cuándo nació la universidad."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-06-1.jpg",
-        "alt": "Fachada plateresca de las Escuelas Mayores de la Universidad de Salamanca",
-        "credit": "Zarateman",
-        "url": "https://commons.wikimedia.org/wiki/File:Salamanca_-_Universidad,_Escuelas_Mayores,_fachada_02.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
-        "heading": "Años de historia entre años de carrera",
+        "heading": "Cuenta los siglos y divide entre cuatro",
         "steps": [
-          "Salamanca es una de las universidades más antiguas de Europa: tiene unos ocho siglos.",
-          "800 ÷ 4 = 200 promociones. El orden es de un par de centenares.",
-          "Con la fundación de 1218 salen 808 años y 202 promociones justas. En la realidad, las carreras han cambiado mucho de duración a lo largo de los siglos."
+          "Oxford es la universidad más antigua del mundo anglosajón: empezó a dar clases hace más de 900 años, en plena Edad Media.",
+          "900 años ÷ 4 = 225 promociones.",
+          "De 1096 a 2026 van 930 años: 232,5 promociones. La mitad de la última aún está con los exámenes."
         ]
       }
     },
@@ -46,36 +38,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Marismas reglamentarias",
-      "title": "¿Cuántos campos de fútbol cabrían en el Parque Nacional de Doñana?",
-      "detail": "Campos de 105 × 68 m, sin gradas ni aparcamiento. Solo el parque nacional, sin el parque natural que lo rodea.",
-      "unit": "campos",
-      "answer": 75983.19327731093,
-      "math": "Doñana ocupa 54.252 ha, es decir, 542.520.000 m². Un campo de 105 × 68 m mide 7.140 m². 542.520.000 ÷ 7.140 ≈ 75.983 campos.",
-      "referenceExpression": "54252 × 10000 ÷ (105 × 68)",
-      "assumptions": "Comparamos superficies sin tener en cuenta la forma. El campo de 105 × 68 m es una medida habitual, no la única permitida.",
+      "tag": "Géiser puntual",
+      "title": "¿Cuántas veces entra en erupción al año el géiser Old Faithful de Yellowstone?",
+      "detail": "Un año de 365,25 días y una erupción cada intervalo medio, sin vacaciones ni días de pereza. Los turistas que aplauden cada chorro van aparte.",
+      "unit": "erupciones",
+      "answer": 5844,
+      "math": "Un año tiene 365,25 × 24 × 60 = 525.960 minutos. El intervalo medio entre erupciones es de unos 90 minutos. 525.960 ÷ 90 ≈ 5.844 erupciones.",
+      "referenceExpression": "525960 ÷ 90",
+      "assumptions": "El intervalo real varía entre 50 y 127 minutos y ha ido alargándose con los años; usamos la media de 90 minutos que da el Servicio de Parques Nacionales.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Ministerio para la Transición Ecológica · Ficha del Parque Nacional de Doñana",
-          "url": "https://www.miteco.gob.es/content/dam/miteco/es/parques-nacionales-oapn/red-parques-nacionales/parques-nacionales/parquenacionaldedonana_tcm30-539906.pdf",
-          "fact": "Superficie total del parque nacional: 54.252 ha, con una zona periférica de protección de 74.278,95 ha."
+          "title": "National Park Service · Old Faithful Geyser",
+          "url": "https://www.nps.gov/articles/old-faithful-geyser.htm",
+          "fact": "Su intervalo medio entre erupciones es de unos 90 minutos, con variaciones entre 50 y 127 minutos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-06-2.jpg",
-        "alt": "Marismas de Doñana con agua somera, vegetación baja y horizonte llano",
-        "credit": "Dvazquezq",
-        "url": "https://commons.wikimedia.org/wiki/File:Marismas_de_Do%C3%B1ana.jpg",
-        "license": "CC BY-SA 3.0 es",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
-      },
       "reasoning": {
-        "heading": "Pasa las hectáreas a metros cuadrados",
+        "heading": "Un año tiene medio millón de minutos",
         "steps": [
-          "Doñana es enorme: decenas de miles de hectáreas. Un campo de fútbol tiene unos 0,7 ha.",
-          "Con 50.000 ha y 0,7 ha por campo salen unos 70.000 campos.",
-          "Con las 54.252 ha oficiales salen 75.983 campos. Si sumáramos la zona periférica de protección, la cifra más que se duplicaría."
+          "Old Faithful es famoso por puntual: entra en erupción cada hora y media, más o menos.",
+          "Eso son unas 16 erupciones al día. 16 × 365 ≈ 5.800 al año.",
+          "Con 525.960 minutos al año y 90 minutos de media salen 5.844 erupciones: unas 16 al día, más puntual que muchos trenes."
         ]
       }
     },
@@ -84,36 +68,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Cuarto sin ascensor",
-      "title": "Viviendo en un cuarto sin ascensor, ¿cuántos metros subes al año?",
-      "detail": "Cuatro plantas por encima de la calle, dos subidas al día, todos los días del año, sin contar las veces que vuelves por las llaves. Supón 3 m por planta.",
-      "unit": "metros",
-      "answer": 8760,
-      "math": "4 plantas × 3 m = 12 m por subida. 12 m × 2 subidas × 365 días = 8.760 m al año, casi 9 km de desnivel.",
-      "referenceExpression": "4 × 3 × 2 × 365",
-      "assumptions": "La altura entre plantas es un supuesto; varía según el edificio. Si no hay ascensor, el Código Técnico limita cada escalón a 17,5 cm, así que 3 m son unos 17 peldaños.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Everest doméstico",
+      "title": "Viviendo en un cuarto piso sin ascensor, ¿cuántas veces subes al año la altura del Everest?",
+      "detail": "Subes a pie dos veces al día, todos los días del año, cuatro plantas de 3 m cada una. Bajar no cuenta, que es cuesta abajo. Sherpa no incluido.",
+      "unit": "Everest",
+      "answer": 0.9899580284918057,
+      "math": "4 plantas × 3 m = 12 m por subida. 12 m × 2 subidas × 365 días = 8.760 m al año. El Everest mide 8.848,86 m. 8.760 ÷ 8.848,86 ≈ 0,99 Everest.",
+      "referenceExpression": "4 × 3 × 2 × 365 ÷ 8848,86",
+      "assumptions": "Una planta de 3 m equivale a unos 17 peldaños de 17,5 cm, la contrahuella máxima del Código Técnico cuando no hay ascensor. Quien suba más veces al día o viva más alto conquista el Everest antes de Nochevieja.",
+      "confidence": "Estimación con supuestos",
       "sources": [
         {
-          "title": "Código Técnico de la Edificación · DB SUA (Seguridad de utilización y accesibilidad)",
+          "title": "Código Técnico de la Edificación · DB SUA",
           "url": "https://www.codigotecnico.org/pdf/Documentos/SUA/DBSUA.pdf",
-          "fact": "En tramos rectos la huella mide 28 cm como mínimo; la contrahuella, entre 13 y 18,5 cm, y como máximo 17,5 cm cuando no hay ascensor como alternativa a la escalera."
+          "fact": "En tramos rectos la contrahuella mide entre 13 y 18,5 cm, y como máximo 17,5 cm cuando no hay ascensor como alternativa a la escalera."
+        },
+        {
+          "title": "Wikipedia · Mount Everest",
+          "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+          "fact": "Su altitud oficial es de 8.848,86 m, según la medición conjunta de Nepal y China de 2020."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-06-3.jpg",
-        "alt": "Hueco de escalera de un edificio de viviendas visto desde abajo, con varios tramos de peldaños",
-        "credit": "Warren Apel",
-        "url": "https://commons.wikimedia.org/wiki/File:Stairwell_Het_Nieuwe_Huis_Amsteradm.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Metros por subida, subidas por año",
+        "heading": "Del rellano a la cumbre",
         "steps": [
-          "Un cuarto piso está a unos 12 metros de la calle. Subiendo dos veces al día, en un año salen miles de metros.",
-          "12 × 2 × 365 ≈ 8.800 m. El orden es de casi nueve kilómetros en vertical.",
-          "Con 3 m exactos por planta salen 8.760 m al año, unos 50.000 peldaños si cada uno mide 17,5 cm. Cada bajada extra por algo olvidado suma 12 m más."
+          "Cuatro pisos son unos 12 m. Parece poco, pero lo subes cientos de veces al año.",
+          "12 m × 2 × 365 ≈ 9.000 m. El Everest mide casi 9.000 m: más o menos uno.",
+          "Con 8.760 m y 8.848,86 m sale 0,99 Everest: te quedas a 89 m de la cima. Con subir a por el pan un par de domingos, coronas."
         ]
       }
     }

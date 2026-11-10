@@ -1,43 +1,35 @@
 {
   "id": "2026-08-13",
   "name": "Jueves",
-  "theme": "Turrón, Benidorm y Cleopatra",
+  "theme": "Donuts, Copacabana y Cleopatra",
   "questions": [
     {
       "id": "archivo-2026-08-13-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Navidad en fila",
-      "title": "¿Cuántos kilómetros mediría una fila con las tabletas de turrón con IGP Jijona y Turrón de Alicante de un año?",
-      "detail": "Corta la producción media anual amparada por las IGP en tabletas de 250 g y 20 cm, y colócalas en fila. Prohibido picar por el camino.",
-      "unit": "km",
-      "answer": 4000,
-      "math": "La producción media amparada es de unos 5 millones de kilos. A 0,25 kg por tableta salen 20 millones de tabletas; × 0,2 m = 4.000.000 m, es decir, 4.000 km.",
-      "referenceExpression": "5000000 ÷ 0,25 × 0,2 ÷ 1000",
-      "assumptions": "Usamos la producción media anual que publica ICEX (sin año concreto) y tabletas iguales de 250 g y 20 cm. Hay formatos de muchos tamaños.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Galletas por segundo",
+      "title": "¿Cuántas galletas Oreo se fabrican en el mundo cada segundo?",
+      "detail": "Reparte la producción anual de Oreo entre todos los segundos del año, sin parar las fábricas ni de noche. Mojarlas en leche, por tu cuenta.",
+      "unit": "galletas/s",
+      "answer": 1267.523512561158,
+      "math": "En 2017 se fabricaban más de 40.000 millones de Oreo al año. Un año tiene 365,25 × 24 × 3.600 ≈ 31.557.600 segundos: 40.000.000.000 ÷ 31.557.600 ≈ 1.268 galletas por segundo.",
+      "referenceExpression": "40000000000 ÷ (365,25 × 24 × 3600)",
+      "assumptions": "Usamos la cifra de producción de 2017 (ficha de Mondelez citada por Wikipedia) y una producción repartida por igual en el año. La cifra es un mínimo («más de») y puede haber crecido desde entonces.",
+      "confidence": "Dato documentado con fecha + modelo",
       "sources": [
         {
-          "title": "ICEX · Foods & Wines from Spain · Jijona PGI",
-          "url": "https://www.foodswinesfromspain.com/en/food/products/sweets/jijona-pgi",
-          "fact": "Producción media de 5 millones de kilos; el 55 % se comercializa como Turrón de Alicante y el 45 % como Jijona."
+          "title": "Wikipedia · Oreo",
+          "url": "https://en.wikipedia.org/wiki/Oreo",
+          "fact": "En 2017 se fabricaban más de 40.000 millones de galletas Oreo al año en 18 países (ficha de Mondelez International)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-13-1.jpg",
-        "alt": "Tableta de turrón de Jijona cortada, con su textura blanda de almendra molida",
-        "credit": "Tamorlan",
-        "url": "https://commons.wikimedia.org/wiki/File:Turr%C3%B3n_de_Jijona_(Mallorquina).jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "De kilos a tabletas",
+        "heading": "Del año al segundo",
         "steps": [
-          "Una IGP pequeña pero muy navideña: piensa en millones de kilos al año. Cada kilo son cuatro tabletas de 250 g.",
-          "Con 5 millones de kilos salen 20 millones de tabletas. A 20 cm cada una, cinco tabletas hacen un metro: 4 millones de metros.",
-          "El resultado son 4.000 km. La producción real varía cada campaña, y con ella la longitud de la fila."
+          "Oreo es la galleta más vendida del mundo: piensa en decenas de miles de millones al año.",
+          "Un año tiene unos 31,5 millones de segundos. 30.000 millones entre 31,5 millones ya dan casi 1.000 por segundo.",
+          "Con los 40.000 millones de 2017 salen 1.268 galletas por segundo: en lo que tardas en separar las dos tapas, el mundo ha hecho otro millar."
         ]
       }
     },
@@ -47,35 +39,27 @@
       "verifiedAt": "2026-11-10",
       "category": "lugares",
       "tag": "Sombrilla con vistas",
-      "title": "¿Cuántas sombrillas cabrían en la playa de Levante de Benidorm?",
-      "detail": "Cubre toda la arena con una sombrilla cada 9 m², como si todo Benidorm bajara a la vez. Sin pasillos, sin socorristas y sin chiringuitos.",
+      "title": "¿Cuántas sombrillas cabrían en la arena de la playa de Copacabana?",
+      "detail": "Llena de sombrillas toda la arena de Copacabana, en Río de Janeiro, dejando 9 m² para cada una (sombrilla, toallas y un hueco para la caipiriña).",
       "unit": "sombrillas",
-      "answer": 8888.888888888889,
-      "math": "La playa de Levante mide 2.000 m de largo y 40 m de ancho: 80.000 m². Una sombrilla cada 9 m² da unas 8.889 sombrillas.",
-      "referenceExpression": "2000 × 40 ÷ 9",
-      "assumptions": "Modelo rectangular con la anchura de referencia de 40 m; la anchura real cambia por tramos y según la temporada. No es un aforo oficial.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 29972.222222222223,
+      "math": "La playa tiene unos 4,15 km de paseo y una franja de arena de 30 a 100 m. Con un ancho medio de 65 m: 4.150 × 65 ≈ 269.750 m². Entre 9 m² por sombrilla, unas 29.972 sombrillas.",
+      "referenceExpression": "4150 × 65 ÷ 9",
+      "assumptions": "Tomamos el punto medio del ancho de la arena (65 m) y 9 m² por sombrilla, un cuadrado de 3 × 3 m. Las fuentes dan entre 4,15 y 4,5 km de largo, y el ancho cambia con la marea y la temporada.",
+      "confidence": "Dato documentado + geometría",
       "sources": [
         {
-          "title": "Turespaña · spain.info · Playa de Levante (Benidorm)",
-          "url": "https://www.spain.info/es/playa/playa-levante-benidorm/",
-          "fact": "Longitud: 2.000 m. Anchura: 40 m."
+          "title": "Wikipedia (portugués) · Praia de Copacabana",
+          "url": "https://pt.wikipedia.org/wiki/Praia_de_Copacabana",
+          "fact": "Extensión del paseo marítimo: 4,15 km; franja de arena de 30 a 100 m de ancho."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-13-2.jpg",
-        "alt": "Playa de Levante de Benidorm con su arena llena de sombrillas y los rascacielos detrás",
-        "credit": "Diego Delso",
-        "url": "https://commons.wikimedia.org/wiki/File:Playa_de_Levante,_Benidorm,_Espa%C3%B1a,_2014-07-02,_DD_01.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Calcula la arena, no las sombrillas",
+        "heading": "Un rectángulo de arena",
         "steps": [
-          "La playa de Levante parece de un par de kilómetros, con unas decenas de metros de arena. Eso son decenas de miles de metros cuadrados.",
-          "2 km × 40 m = 80.000 m². Una sombrilla con su sombra y sus toallas pide unos 9 m², así que caben unas 9.000.",
-          "El cálculo da 8.889 sombrillas. Si la anchura fuese de 55 m, como dan otras fichas, pasarías de 12.000: la anchura decide más que la longitud."
+          "Copacabana es una media luna de unos 4 km. Si tuviera 50 m de ancho, serían 200.000 m² de arena.",
+          "Con 9 m² por sombrilla, 200.000 m² dan unas 22.000. Con algo más de ancho, la respuesta ronda las decenas de miles.",
+          "Con 4,15 km de largo y 65 m de ancho medio salen 269.750 m² y 29.972 sombrillas: casi 30.000 bajo el sol de Río."
         ]
       }
     },
@@ -105,14 +89,6 @@
           "fact": "Faraona de Egipto del 51 al 30 a. C."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-13-3.jpg",
-        "alt": "Busto de mármol de Cleopatra VII conservado en el Altes Museum de Berlín",
-        "credit": "Louis le Grand",
-        "url": "https://commons.wikimedia.org/wiki/File:Kleopatra-VII.-Altes-Museum-Berlin1.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Kleopatra-VII.-Altes-Museum-Berlin1.jpg"
-      },
       "reasoning": {
         "heading": "Pon las dos fechas en la misma regla",
         "steps": [

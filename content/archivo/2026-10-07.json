@@ -67,14 +67,6 @@
           "fact": "Encendida por primera vez en 1901; solo se ha apagado unas pocas veces desde entonces."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-07-2.jpg",
-        "alt": "La bombilla centenaria colgando del techo del parque de bomberos n.º 6 de Livermore, con su filamento tenue encendido",
-        "credit": "Rjaerial",
-        "url": "https://commons.wikimedia.org/wiki/File:Centennial_Bulb_in_Fire_Station_6,_Livermore,_California_in_April_2001.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Las horas de un año son el ladrillo",
         "steps": [
@@ -89,15 +81,15 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Ovillo cósmico",
-      "title": "Si estiraras todo el ADN de tu cuerpo, ¿cuántas veces irías de la Tierra al Sol?",
-      "detail": "Cada núcleo guarda unos dos metros de ADN enrollado como un cable de auriculares. Cuenta solo las células con núcleo y el viaje de ida, a la distancia media Tierra-Sol.",
+      "tag": "ADN hasta Plutón",
+      "title": "Si estiraras todo el ADN de tu cuerpo, ¿cuántas veces llegarías a Plutón?",
+      "detail": "El ADN de todas las células con núcleo de un hombre adulto, puesto en fila, comparado con la distancia media del Sol a Plutón. Sin nudos ni enredos.",
       "unit": "veces",
-      "answer": 152.10777996721845,
-      "math": "El cuerpo adulto tiene unos 37 billones de células (3,7 × 10¹³), pero el 70 % son glóbulos rojos, que no tienen núcleo: quedan 1,11 × 10¹³ células con ADN. Cada núcleo diploide de hombre guarda 2,05 m. 1,11 × 10¹³ × 2,05 m ≈ 2,28 × 10¹³ m. Entre 149.597.870.700 m de la unidad astronómica salen unas 152 veces.",
-      "referenceExpression": "3,7e13 × 0,30 × 2,05 ÷ 149597870700",
-      "assumptions": "Usamos el genoma diploide masculino (el femenino mide 2,08 m) y suponemos que todas las células con núcleo tienen exactamente dos copias. El recuento de células del cuerpo es una estimación con un margen de ±0,8 × 10¹³. Si contaras también los glóbulos rojos como si tuvieran ADN, saldrían unas 510 veces.",
-      "confidence": "Estimación científica + modelo",
+      "answer": 3.8567796610169487,
+      "math": "El cuerpo adulto tiene unos 37 billones de células (3,7 × 10¹³), pero el 70 % son glóbulos rojos, sin núcleo: quedan 1,11 × 10¹³ células con ADN. Cada núcleo de hombre guarda 2,05 m. 1,11 × 10¹³ × 2,05 m ≈ 2,28 × 10¹³ m: unos 22.755 millones de km. Plutón está de media a 5.900 millones de km del Sol. 22.755 ÷ 5.900 ≈ 3,86 veces.",
+      "referenceExpression": "3,7e13 × 0,3 × 2,05 ÷ 1000 ÷ 5,9e9",
+      "assumptions": "El número de células tiene un margen de ±0,8 × 10¹³, así que el resultado puede ir de unas 3 a casi 5 veces. Comparamos con la distancia media del Sol a Plutón.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "BioNumbers (Harvard) · Total cell number in body",
@@ -110,25 +102,17 @@
           "fact": "El genoma nuclear diploide masculino mide 205,00 cm; el femenino, 208,23 cm."
         },
         {
-          "title": "Wikipedia · Astronomical unit",
-          "url": "https://en.wikipedia.org/wiki/Astronomical_unit",
-          "fact": "La unidad astronómica se define como 149.597.870.700 m exactos."
+          "title": "NASA · Pluto: Facts",
+          "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
+          "fact": "De media, Plutón está a 5.900 millones de km del Sol, unas 39 unidades astronómicas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-07-3.jpg",
-        "alt": "Modelo de bolas de la doble hélice del ADN, con los átomos en colores",
-        "credit": "Ude",
-        "url": "https://commons.wikimedia.org/wiki/File:DNA_Helix_CPK.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:DNA_Helix_CPK.jpg"
-      },
       "reasoning": {
-        "heading": "Primero el ovillo de una célula, luego el de todas",
+        "heading": "Multiplica células por metros de ADN",
         "steps": [
-          "Una célula guarda unos 2 m de ADN y el cuerpo tiene decenas de billones de células. Si fueran 10 billones con núcleo, el hilo mediría 20 billones de metros.",
-          "El Sol está a unos 150.000 millones de metros. 20 billones entre 150.000 millones da algo más de 130: el viaje se repite más de cien veces, no un par.",
-          "Con 37 billones de células, de las que solo un 30 % tiene núcleo, y 2,05 m por núcleo salen unas 152 idas al Sol. Olvidarse de que los glóbulos rojos no tienen ADN triplicaría el resultado: es el detalle que más pesa."
+          "Cada célula guarda unos 2 m de ADN y tenemos billones de células: salen distancias astronómicas.",
+          "10 billones de células con núcleo × 2 m = 2 × 10¹³ m, es decir, 20.000 millones de km. Plutón está a unos 6.000 millones: 3 veces y pico.",
+          "Con 1,11 × 10¹³ células y 2,05 m por núcleo salen 22.755 millones de km: 3,9 viajes hasta Plutón. Y tú sin salir del sofá."
         ]
       }
     }

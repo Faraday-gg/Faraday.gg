@@ -24,14 +24,6 @@
           "fact": "Velocidad media de descenso de 1,45 ± 0,19 m/s, más lenta que la de ascenso (1,63 ± 0,22 m/s), en 23 cachalotes con marcas digitales."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-14-1.jpg",
-        "alt": "Una cachalote adulta y su cría nadando juntas en aguas azules",
-        "credit": "Gabriel Barathieu",
-        "url": "https://commons.wikimedia.org/wiki/File:Mother_and_baby_sperm_whale.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
         "heading": "Profundidad entre velocidad de buceo",
         "steps": [
@@ -67,14 +59,6 @@
           "fact": "10.714 atletas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-14-2.jpg",
-        "alt": "Fotografía antigua de la entrada del estadio Panatenaico durante los Juegos de Atenas 1896, con público abarrotando las gradas",
-        "credit": "(uploader:) Narayan89",
-        "url": "https://commons.wikimedia.org/wiki/File:Athens_1896-Entrance_of_the_Pan-Athenian_stadium.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Athens_1896-Entrance_of_the_Pan-Athenian_stadium.jpg"
-      },
       "reasoning": {
         "heading": "Unos cientos contra unos miles",
         "steps": [
@@ -89,36 +73,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Cámara del tesoro",
-      "title": "¿Cuántos lingotes de oro de 12,4 kg guarda el Banco de España?",
-      "detail": "El oro de las reservas españolas no está todo bajo Cibeles: parte se guarda en el extranjero. Cuenta el total de las reservas y conviértelo en lingotes estándar de 12,4 kg.",
+      "tag": "Equipaje dorado",
+      "title": "¿Cuántos lingotes de oro de 12,4 kg caben en una maleta de cabina?",
+      "detail": "La maleta de cabina con las medidas que recomienda la IATA, llena de lingotes estándar de los que guardan los bancos centrales. Ten en cuenta que ruedas, asa, carcasa y huecos entre lingotes se comen parte del espacio. Lo que no cabe es en el límite de peso de la aerolínea.",
       "unit": "lingotes",
-      "answer": 22661.290322580644,
-      "math": "España tiene unas 281 toneladas de oro, es decir, 281.000.000 g. Un lingote estándar pesa unos 12,4 kg (12.400 g). 281.000.000 ÷ 12.400 ≈ 22.661 lingotes.",
-      "referenceExpression": "281000000 ÷ 12400",
-      "assumptions": "Toda la reserva convertida en lingotes idénticos de 12,4 kg (el peso aproximado del lingote «Good Delivery» de 400 onzas). Una parte del oro está depositada en Estados Unidos, Reino Unido y Suiza, no en Madrid.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 63.736693548387095,
+      "math": "La IATA recomienda como máximo 56 × 45 × 25 cm, que son 63 L. Si solo se aprovecha el 65 % para el oro, quedan unos 41 L. El oro pesa 19,3 kg por litro: 41 × 19,3 ≈ 790 kg. 790 ÷ 12,4 ≈ 64 lingotes.",
+      "referenceExpression": "56 × 45 × 25 ÷ 1000 × 0,65 × 19,3 ÷ 12,4",
+      "assumptions": "Las medidas de la IATA son exteriores e incluyen ruedas y asas; se supone que el 65 % de ese volumen queda útil para el oro, contando los huecos entre lingotes trapezoidales. Lingotes «Good Delivery» de 400 onzas (unos 12,4 kg). La maleta pesaría casi 800 kg: imposible de levantar, y no digamos de meter en el compartimento.",
+      "confidence": "Dato físico + modelo",
       "sources": [
         {
-          "title": "Euronews · Del oro de Moscú a las reservas récord de 2025 (2/2/2026)",
-          "url": "https://es.euronews.com/business/2026/02/02/del-oro-de-moscu-a-las-reservas-record-de-2025-que-fue-del-oro-espanol",
-          "fact": "España tiene unas 281 toneladas de oro repartidas entre Madrid, Estados Unidos, Reino Unido y Suiza, según el World Gold Council."
+          "title": "Wikipedia · Hand luggage",
+          "url": "https://en.wikipedia.org/wiki/Hand_luggage",
+          "fact": "La IATA recomienda un tamaño máximo de equipaje de mano de 56 × 45 × 25 cm, incluidas ruedas, asas y bolsillos."
+        },
+        {
+          "title": "Wikipedia · Gold",
+          "url": "https://en.wikipedia.org/wiki/Gold",
+          "fact": "El oro tiene una densidad de 19,3 g/cm³."
+        },
+        {
+          "title": "Wikipedia · Gold bar",
+          "url": "https://en.wikipedia.org/wiki/Gold_bar",
+          "fact": "El lingote «Good Delivery» tiene un peso nominal de 400 onzas troy, unos 12,4 kg (entre 350 y 430 onzas)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-14-3.jpg",
-        "alt": "Fachada del edificio del Banco de España junto a la plaza de Cibeles, en Madrid",
-        "credit": "Luis García (Zaqarbal)",
-        "url": "https://commons.wikimedia.org/wiki/File:Banco_de_Espa%C3%B1a_(Madrid)_01.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-      },
       "reasoning": {
-        "heading": "Toneladas entre kilos por lingote",
+        "heading": "Litros de maleta por kilos de oro",
         "steps": [
-          "Un país mediano europeo suele tener unos cientos de toneladas de oro. Pongamos 300 toneladas.",
-          "300 toneladas son 300.000 kg. Entre 12 kg por lingote dan unos 25.000 lingotes: decenas de miles.",
-          "Con las 281 toneladas que da el World Gold Council salen 22.661 lingotes de 12,4 kg. El peso exacto de cada lingote varía un poco, así que la cifra es aproximada."
+          "Un lingote de 12 kg es pequeño: el oro es tan denso que cabe en la palma de dos manos, algo más de medio litro. En una maleta caben decenas.",
+          "Si la maleta tiene unos 40 litros útiles y cada lingote ocupa unos 0,65 L, salen unos 60 lingotes. El orden es de decenas, no de centenares.",
+          "Con 63 L exteriores de la IATA, el 65 % aprovechable y 19,3 kg por litro salen unos 64 lingotes y casi 800 kg. Si la maleta es más blanda o los huecos son menores, podrían entrar unos cuantos más."
         ]
       }
     }

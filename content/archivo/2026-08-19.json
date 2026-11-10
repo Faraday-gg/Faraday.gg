@@ -1,43 +1,40 @@
 {
   "id": "2026-08-19",
   "name": "Miércoles",
-  "theme": "Billete de 10, La Concha y Atapuerca",
+  "theme": "Billetes, Vaticano y T. rex",
   "questions": [
     {
       "id": "archivo-2026-08-19-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Fila de dieces",
-      "title": "¿Cuántos kilómetros mediría una fila con todos los billetes de 10 € en circulación?",
-      "detail": "Pon en fila, uno detrás de otro por su lado largo de 127 mm, todos los billetes de 10 € en circulación. Que no sople el viento.",
-      "unit": "km",
-      "answer": 406191.13160900003,
-      "math": "Hay unos 3.198.355.367 billetes de 10 € en circulación (abril de 2026). Cada uno mide 127 mm: 3.198.355.367 × 0,127 m ≈ 406.191 km.",
-      "referenceExpression": "3198355367 × 0,127 ÷ 1000",
-      "assumptions": "Dato de circulación de abril de 2026 publicado por el BCE y recogido en Wikipedia; la cifra cambia cada mes. Billetes colocados sin huecos.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Dinero lunar",
+      "title": "Puestos en fila, ¿cuántas veces llegarían a la Luna todos los billetes de 10 € en circulación?",
+      "detail": "Pon en fila, a lo largo, todos los billetes de 10 € que circulaban en abril de 2026 y compáralos con la distancia media a la Luna. El cambio, en monedas de 1 €.",
+      "unit": "viajes a la Luna",
+      "answer": 1.0566886878485953,
+      "math": "En abril de 2026 había 3.198.355.367 billetes de 10 € en circulación, de 127 mm de largo. 3.198.355.367 × 0,127 m ≈ 406.191 km. Entre 384.400 km hasta la Luna: unos 1,06 viajes.",
+      "referenceExpression": "3198355367 × 0,127 ÷ 1000 ÷ 384400",
+      "assumptions": "El número de billetes cambia cada mes; usamos el dato de abril de 2026. Los ponemos a lo largo, sin hueco, y usamos la distancia media de la Luna, que varía entre 363.000 y 405.000 km.",
+      "confidence": "Dato documentado con fecha + modelo",
       "sources": [
         {
           "title": "Wikipedia · 10 euro note",
           "url": "https://en.wikipedia.org/wiki/10_euro_note",
-          "fact": "Unos 3.198.355.367 billetes de 10 € en circulación en abril de 2026 (dato del BCE); tamaño de 127 × 67 mm."
+          "fact": "3.198.355.367 billetes de 10 € en circulación en abril de 2026 (dato del BCE); miden 127 × 67 mm."
+        },
+        {
+          "title": "NASA Science · Moon Facts",
+          "url": "https://science.nasa.gov/moon/facts/",
+          "fact": "La Luna está de media a 384.400 km de la Tierra."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-19-1.jpg",
-        "alt": "Billetes de 10 euros junto a monedas de 10 céntimos",
-        "credit": "Santeri Viinamäki",
-        "url": "https://commons.wikimedia.org/wiki/File:10_euro_banknotes_and_10_euro_cent_coins_20180207.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Billetes por centímetros",
+        "heading": "Billetes hasta la Luna",
         "steps": [
-          "Hay miles de millones de billetes de 10 €. Cada uno mide algo más de una cuarta, así que la fila se va a cientos de miles de kilómetros.",
-          "3.000 millones × 0,13 m ≈ 390.000 km: del orden de la distancia a la Luna.",
-          "Con 3.198 millones de billetes y 127 mm salen 406.191 km: más que la distancia media a la Luna (unos 384.400 km)."
+          "En la zona euro circulan miles de millones de billetes de 10 €, y cada uno mide algo más de una cuarta.",
+          "3.000 millones × 0,13 m son unos 390.000 km: casi lo que hay hasta la Luna.",
+          "Con 3.198.355.367 billetes de 127 mm salen 406.191 km: 1,06 viajes. Llegarías a la Luna y te sobrarían unos 22.000 km de billetes para el taxi."
         ]
       }
     },
@@ -46,36 +43,41 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "lugares",
-      "tag": "Codo con codo",
-      "title": "¿Cuántas personas podrían apoyarse a la vez en la barandilla de La Concha?",
-      "detail": "Llena la famosa barandilla blanca a lo largo de la playa de La Concha, con 60 cm por persona. Todos mirando al mar, nadie haciendo fotos de espaldas.",
+      "tag": "Corro papal",
+      "title": "¿Cuántas personas cogidas de la mano harían falta para rodear la Ciudad del Vaticano?",
+      "detail": "Rodea toda la frontera del Vaticano con Italia en un corro de personas con los brazos extendidos, 1,5 m por persona. La Guardia Suiza vigila que nadie se suelte.",
       "unit": "personas",
-      "answer": 2250,
-      "math": "La playa de La Concha tiene una longitud media de 1.350 m y la barandilla la acompaña de punta a punta. 1.350 ÷ 0,6 = 2.250 personas.",
-      "referenceExpression": "1350 ÷ 0,6",
-      "assumptions": "Suponemos que la barandilla mide lo mismo que la playa; su trazado real sigue el paseo y puede ser algo más larga. 60 cm de hombro a hombro.",
+      "answer": 2333.3333333333335,
+      "math": "La frontera del Vaticano con Italia mide unos 3,5 km. Con 1,5 m por persona: 3.500 ÷ 1,5 ≈ 2.333 personas.",
+      "referenceExpression": "3500 ÷ 1,5",
+      "assumptions": "Tomamos 1,5 m por persona, que es lo que abarca un adulto con los brazos abiertos. Las fuentes dan entre 3,2 y 4 km de frontera según cómo se mida, lo que movería el corro entre 2.100 y 2.700 personas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Playa de La Concha (San Sebastián)",
-          "url": "https://es.wikipedia.org/wiki/Playa_de_La_Concha_(San_Sebasti%C3%A1n)",
-          "fact": "La playa tiene una longitud media de 1.350 m."
+          "title": "Wikipedia · Geography of Vatican City",
+          "url": "https://en.wikipedia.org/wiki/Geography_of_Vatican_City",
+          "fact": "Frontera con Italia de 3,5 km."
+        },
+        {
+          "title": "Wikipedia · Ciudad del Vaticano",
+          "url": "https://es.wikipedia.org/wiki/Ciudad_del_Vaticano",
+          "fact": "La ficha da 4 km de fronteras y una superficie de 0,49 km² (44 hectáreas)."
         }
       ],
       "image": {
-        "src": "assets/archivo-2026-08-19-2.jpg",
-        "alt": "La barandilla blanca de La Concha con la bahía de San Sebastián al fondo",
-        "credit": "Xabier Garmendia",
-        "url": "https://commons.wikimedia.org/wiki/File:Kontxako_baranda._Euskal_Herria.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+        "alt": "Vista aérea de Roma con la Ciudad del Vaticano en el centro: la basílica de San Pedro, la plaza y los jardines rodeados de barrios",
+        "credit": "Ondřej Žváček",
+        "url": "https://commons.wikimedia.org/wiki/File:Leteck%C3%BD_pohled_na_Vatik%C3%A1n.jpg",
+        "license": "CC BY 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+        "src": "assets/archivo-2026-08-19-2.jpg"
       },
       "reasoning": {
-        "heading": "Longitud entre hombros",
+        "heading": "El país más pequeño en un corro",
         "steps": [
-          "La bahía de La Concha mide algo más de un kilómetro. Con poco más de medio metro por persona, caben unas 2.000.",
-          "1.300 m ÷ 0,6 m ≈ 2.170 personas. El orden de magnitud son miles.",
-          "Con 1.350 m salen 2.250 personas. Si cuentas también el tramo del paseo hacia Ondarreta, la cifra crece."
+          "El Vaticano mide alrededor de un kilómetro de lado a lado. Su contorno no debería pasar de unos pocos kilómetros.",
+          "Si la frontera midiera 3 km, con 1,5 m por persona harían falta unas 2.000 personas: lo que cabe en un pabellón.",
+          "Con 3,5 km de frontera salen 2.333 personas. Un país entero abrazado por menos gente de la que llena un concierto pequeño."
         ]
       }
     },
@@ -85,35 +87,27 @@
       "verifiedAt": "2026-11-10",
       "category": "historia",
       "tag": "Línea del tiempo",
-      "title": "Si cada año de antigüedad fuera un milímetro, ¿cuántos metros mediría la línea del tiempo hasta Homo antecessor de Atapuerca?",
-      "detail": "Dibuja una línea en la que cada año es un milímetro, desde hoy hasta los fósiles de Homo antecessor de la Gran Dolina. Toda la historia escrita cabe en el primer palmo.",
-      "unit": "metros",
-      "answer": 800,
-      "math": "Los fósiles de Homo antecessor de la Gran Dolina se han datado en unos 800.000 años. A 1 mm por año: 800.000 mm = 800 m.",
-      "referenceExpression": "800000 × 0,001",
-      "assumptions": "Fecha redonda de 800.000 años; las dataciones citadas van de 772.000 a 949.000 años, así que la línea podría medir entre 772 y 949 m.",
-      "confidence": "Dato documentado + modelo",
+      "title": "Si cada año fuera un milímetro, ¿cuántos kilómetros mediría la línea del tiempo hasta el último Tyrannosaurus rex?",
+      "detail": "Dibuja una línea en la que cada año desde hoy hacia atrás ocupe 1 mm, hasta la extinción de los últimos T. rex. Tu vida entera cabe en la uña del meñique.",
+      "unit": "km",
+      "answer": 66,
+      "math": "Los últimos Tyrannosaurus rex desaparecieron en la extinción del Cretácico, hace unos 66 millones de años. A 1 mm por año: 66.000.000 mm = 66 km.",
+      "referenceExpression": "66000000 ÷ 1000000",
+      "assumptions": "Usamos la fecha redonda de la extinción del Cretácico-Paleógeno. Los T. rex vivieron hace entre 69 y 66 millones de años, así que el primero de ellos quedaría unos 3 km más allá.",
+      "confidence": "Dato científico + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Homo antecessor",
-          "url": "https://es.wikipedia.org/wiki/Homo_antecessor",
-          "fact": "Los fósiles de Gran Dolina se han datado en hace unos 800.000 años; otras dataciones dan 780.000-850.000 y 772.000-949.000 años."
+          "title": "Wikipedia · Tyrannosaurus",
+          "url": "https://en.wikipedia.org/wiki/Tyrannosaurus",
+          "fact": "Vivió hace entre 69 y 66 millones de años y fue de los últimos dinosaurios no avianos antes de la extinción del Cretácico, hace unos 66 millones de años."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-19-3.jpg",
-        "alt": "Panorámica del yacimiento de Gran Dolina en la sierra de Atapuerca",
-        "credit": "Mario modesto, edited by Fir0002",
-        "url": "https://commons.wikimedia.org/wiki/File:Gran_Dolina-Atapuerca-Panoramica_edit3.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Gran_Dolina-Atapuerca-Panoramica_edit3.jpg"
-      },
       "reasoning": {
-        "heading": "Convierte años en milímetros",
+        "heading": "Milímetros prehistóricos",
         "steps": [
-          "Homo antecessor vivió hace cientos de miles de años. Si son casi un millón, la línea mediría casi un kilómetro.",
-          "Mil años son un metro. 800.000 años son 800 metros: ocho campos de fútbol en fila.",
-          "Con la datación de unos 800.000 años la línea mide 800 m. Los romanos quedarían a 2 m del principio: casi toda la línea es prehistoria."
+          "Los dinosaurios desaparecieron hace decenas de millones de años. Millones de milímetros son kilómetros: la respuesta está en las decenas.",
+          "Un kilómetro tiene un millón de milímetros. Con 60-70 millones de años salen 60-70 km.",
+          "Con 66 millones de años salen 66 km: un maratón y medio. Toda la historia escrita, unos 5.000 años, ocuparía los últimos 5 metros."
         ]
       }
     }
