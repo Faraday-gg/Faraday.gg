@@ -29,7 +29,7 @@ function playerId(){
 function questionMedia(q){
   if(!q.image)return '';
   const photo=q.image;
-  return `<figure class="question-photo"><a href="${photo.src}" target="_blank" rel="noopener" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="eager"></a><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
+  return `<figure class="question-photo"><button type="button" class="photo-zoom" data-photo-zoom aria-expanded="false" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="lazy"></button><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
 }
 function sourceMarkup(q){return `<details class="sources"><summary>Fuentes y supuestos</summary><p class="source-confidence">${q.confidence} · Comprobado el 09/11/2026</p><ul>${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)} ↗</a><p>${escapeHtml(s.fact)}</p></li>`).join('')}</ul><p class="source-assumptions"><strong>Qué estamos suponiendo</strong>${escapeHtml(q.assumptions)}</p></details>`}
 function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`}
@@ -38,7 +38,7 @@ function explainMarkup(q){
   const steps=q.reasoning?`<ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol>`:`<p>${escapeHtml(q.math)}</p>`;
   const sum=q.referenceExpression?`<p class="explain-sum"><code>${escapeHtml(q.referenceExpression)}</code><strong>≈ ${format(q.answer)} ${escapeHtml(q.unit)}</strong></p>`:'';
   const sources=`<ul class="explain-sources">${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a></li>`).join('')}</ul>`;
-  return `<div class="explain-head"><h3>Cómo se calcula</h3><button type="button" class="game-back" id="explain-close" aria-label="Cerrar">×</button></div><p class="explain-question">${escapeHtml(q.title)}</p>${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}<h4>Fuentes</h4>${sources}`;
+  return `<p class="explain-question">${escapeHtml(q.title)}</p>${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}<h4>Fuentes</h4>${sources}`;
 }
 function compactNumber(value){return new Intl.NumberFormat('es-ES',{notation:value>=1e12?'scientific':'compact',maximumFractionDigits:1}).format(value)}
 function reasoningMarkup(q){
