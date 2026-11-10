@@ -69,22 +69,28 @@
   <footer class="footer wrap"><span class="brand footer-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><p>Tres estimaciones nuevas cada día. Las fuentes y los supuestos se revelan al responder.</p><a href="#inicio">Volver arriba ↑</a></footer>
 
   <div class="game-shell" id="game-shell" hidden>
-    <div class="game-backdrop"></div>
     <div class="game-layout" id="game-layout" role="dialog" aria-modal="true" aria-labelledby="game-title">
       <section class="game-panel">
-        <div class="game-header">
-          <div class="game-brand"><span class="brand-mark">≈</span> Faraday.gg</div>
-          <div class="game-header-actions">
-            <button class="icon-button" id="game-close" type="button" aria-label="Cerrar juego">×</button>
-          </div>
+        <header class="game-bar">
+          <button class="game-back" id="game-close" type="button" aria-label="Volver al inicio">←</button>
+          <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+          <span></span>
+        </header>
+        <div class="game-stage">
+          <article class="game-card">
+            <div class="card-head">
+              <nav class="game-steps" id="game-steps" aria-label="Preguntas del reto"></nav>
+              <span class="game-edition" id="game-edition"></span>
+            </div>
+            <div class="game-content" id="game-content"></div>
+          </article>
         </div>
-        <div class="game-content" id="game-content"></div>
       </section>
       <aside class="workspace-panel" id="workspace-panel" aria-label="Calculadora y notas" hidden>
-        <div class="workspace-head"><div><span>MI BLOC DE IDEAS</span><h2>Haz cuentas.<br><em>Apunta todo.</em></h2></div><button class="icon-button workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
+        <div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
         <div class="workspace-body">
           <section class="workspace-section" aria-labelledby="calculator-title">
-            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3><span>01 / 02</span></div>
+            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3></div>
             <label class="sr-only" for="scratch-expression">Operación matemática</label>
             <div class="scratch-display"><input id="scratch-expression" type="text" inputmode="decimal" autocomplete="off" placeholder="24 × 2 × 220"><output id="scratch-result" aria-live="polite">=</output></div>
             <div class="calc-keys" id="calc-keys" aria-label="Teclas de calculadora">
@@ -96,14 +102,13 @@
             </div>
           </section>
           <section class="workspace-section" aria-labelledby="notes-title">
-            <div class="workspace-section-head"><h3 id="notes-title">Mi nota</h3><span>02 / 02</span></div>
-            <p class="workspace-help">Escribe ideas, listas o párrafos. Pulsa Enter para cambiar de línea.</p>
+            <div class="workspace-section-head"><h3 id="notes-title">Notas</h3></div>
             <div class="note-toolbar"><button type="button" id="insert-bullet">+ Viñeta</button><button type="button" id="insert-paragraph">¶ Párrafo</button><button type="button" id="clear-note" class="clear-note">Borrar nota</button></div>
             <label class="sr-only" for="scratch-note">Nota de este día</label>
             <textarea id="scratch-note" rows="7" placeholder="Por ejemplo:&#10;24 personas × 2 cafés...&#10;¿Y si son más?"></textarea>
-            <p class="save-note">Guardado en este navegador · Nota de este día</p>
+            <p class="save-note">Se guarda en este navegador.</p>
           </section>
-          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial de cálculos</h3><button type="button" id="clear-history">Borrar historial</button></div><ol id="history-list" aria-live="polite"></ol></section>
+          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial</h3><button type="button" id="clear-history">Borrar</button></div><ol id="history-list" aria-live="polite"></ol></section>
         </div>
       </aside>
     </div>
