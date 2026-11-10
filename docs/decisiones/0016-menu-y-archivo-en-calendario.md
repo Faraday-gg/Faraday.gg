@@ -23,3 +23,6 @@ Dentro del juego solo había una flecha para volver a la portada: para jugar otr
 ## Consecuencias
 - Sustituye la lista del archivo de la decisión 0015 y la flecha de volver del juego.
 - Las puntuaciones de días antiguos jugados antes de este cambio, si ya no están en la ventana de 30 días, se ven como «✓» hasta que se vuelve a abrir ese día.
+
+## Actualización (2026-11-10): la hamburguesa también en la portada
+Luis pidió poder llegar al archivo más fácil desde la portada. Ahora hay un botón de tres rayas fijo arriba a la izquierda (círculo papel con sombra), que abre el mismo cajón: «Reto de hoy» y el archivo. En la portada no aparece «Volver al inicio», porque ya estás en él, y el archivo abre el mes actual. Escape cierra el cajón también desde la portada. En el móvil la portada baja 70 px para que el botón no tape el logo de la tarjeta.

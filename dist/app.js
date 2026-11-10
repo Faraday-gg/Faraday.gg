@@ -137,25 +137,27 @@ function insertInNote(text){const input=$('#scratch-note'),start=input.selection
 function showToast(message){const toast=$('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
 async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
-// Menú hamburguesa del juego (decisión 0016): reto de hoy, volver al inicio y el archivo para saltar a otro día.
+// Menú hamburguesa (decisión 0016): en el juego y en la portada. Reto de hoy, volver al inicio y el archivo para saltar a otro día.
 const menuArchive=createArchive($('#menu-archive'),{compact:true});
 window.openArchiveDay=(id)=>{toggleMenu(false);openDate(id)};
 function menuOpen(){return document.body.classList.contains('menu-open')}
 function toggleMenu(open=!menuOpen()){
   if(open===menuOpen())return;
-  const drawer=$('#menu-drawer'),toggle=$('#menu-toggle');
+  const drawer=$('#menu-drawer'),inGame=!$('#game-shell').hidden,toggle=$(inGame?'#menu-toggle':'#home-menu-toggle');
   document.body.classList.toggle('menu-open',open);drawer.setAttribute('aria-hidden',String(!open));drawer.inert=!open;
-  toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+  document.querySelectorAll('.menu-toggle').forEach(button=>{button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});
+  $('#menu-home').hidden=!inGame;
   if(open){
     $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
-    if(activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
+    if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
     setTimeout(()=>drawer.querySelector('.menu-link:not(:disabled)')?.focus(),60);
-  }else if(!$('#game-shell').hidden)toggle.focus();
+  }else toggle.focus();
 }
 createArchive($('#home-archive'));
 renderWeek();
 document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
 $('#menu-toggle').addEventListener('click',()=>toggleMenu());
+$('#home-menu-toggle').addEventListener('click',()=>toggleMenu());
 document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
 $('#menu-home').addEventListener('click',closeGame);
@@ -169,7 +171,7 @@ $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
 $('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
 $('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
 $('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&&$('#game-shell').hidden){toggleMenu(false);return}if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});

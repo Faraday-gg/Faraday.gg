@@ -58,7 +58,7 @@
 .home-footer p{margin:0;font-size:13px;color:var(--muted)}
 .toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:11px 17px;border-radius:50px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:120}.toast.show{opacity:1;transform:translate(-50%,0)}body.modal-open{overflow:hidden}
 @media(max-width:760px){
-  .home{padding-top:16px}
+  .home{padding-top:70px}
   .home-hero{border-radius:26px;padding:20px 20px 34px}
   .home-hero h1{margin:44px 0 22px}
   .home-play{width:100%;justify-content:center;padding:17px 20px}
@@ -486,6 +486,9 @@
 .menu-toggle[aria-expanded=true] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .menu-toggle[aria-expanded=true] span:nth-child(2){opacity:0}
 .menu-toggle[aria-expanded=true] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+/* Portada: la misma hamburguesa, fija arriba a la izquierda para llegar al archivo desde cualquier punto (decisión 0016). */
+.home-menu-toggle{position:fixed;top:14px;left:14px;z-index:60;background:var(--paper);box-shadow:0 1px 2px #20263014,0 8px 20px -10px #20263066}
+.home-menu-toggle:hover{background:var(--paper);box-shadow:0 1px 2px #20263014,0 12px 24px -10px #20263080}
 .menu-drawer{position:fixed;inset:0;z-index:115;visibility:hidden;transition:visibility 0s .45s}
 body.menu-open .menu-drawer{visibility:visible;transition:none}
 .menu-scrim{position:absolute;inset:0;background:#20263059;opacity:0;transition:opacity .35s;backdrop-filter:blur(2px)}
@@ -500,6 +503,7 @@ body.menu-open .menu-panel{transform:none}
 .menu-link-today{background:var(--coral);border-color:var(--coral)}.menu-link-today small{color:var(--ink)}
 .menu-link-today:hover:not(:disabled){border-color:var(--ink)}
 .menu-link:disabled{cursor:default}
+.menu-link[hidden]{display:none}
 body.menu-open .menu-link{opacity:1;transform:none}
 body.menu-open .menu-link:disabled{opacity:.5}
 body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .menu-link:nth-child(2){transition-delay:.14s}
