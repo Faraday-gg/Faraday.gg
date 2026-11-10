@@ -17,6 +17,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
 | [0013](0013-preguntas-de-cultura-general.md) | Preguntas de cultura general, referentes conocidos y foto solo cuando ayuda | Aceptada | 2026-11-10 |
 | [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada | 2026-11-10 |
+| [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
 
 ## Plantilla
 
