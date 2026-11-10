@@ -32,10 +32,10 @@ const content=buildContent(URL_BASE);
 
 // 1. Primera publicación: todo.
 let result=await run();
-// Archivo (92 jornadas, 276 preguntas y fotos) + piloto (7 jornadas, 21) + banco editorial (29 jornadas, 87 preguntas sin foto propia).
-assert.deepEqual(result,{images:297,days:128,questions:384,replaced:[]});
-assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,297);
-assert([...sb.questions.values()].every(q=>q.content.image.src.startsWith(`${URL_BASE}/storage/v1/object/public/${BUCKET}/`)),'Las imágenes apuntan a Storage');
+// Archivo (92 jornadas) + piloto (7) + banco editorial (29). Fotos distintas: las del archivo y el piloto (solo el 15–20 % lleva) y las del banco.
+assert.deepEqual(result,{images:60,days:128,questions:384,replaced:[]});
+assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,60);
+assert([...sb.questions.values()].every(q=>!q.content.image||q.content.image.src.startsWith(`${URL_BASE}/storage/v1/object/public/${BUCKET}/`)),'Las imágenes (cuando la pregunta lleva) apuntan a Storage');
 assert.equal(sb.days.get('2026-11-09').source,'piloto');assert.equal(sb.days.get('2026-12-14').source,'banco-editorial');
 
 // 2. Sin cambios: no escribe nada (aunque Postgres haya reordenado las claves de jsonb).
@@ -44,13 +44,13 @@ assert.deepEqual(result,{images:0,days:0,questions:0,replaced:[]});
 assert(sb.calls.every(c=>c.method==='GET'||c.path.startsWith('/storage/v1/object/list/')),'Solo lecturas');
 
 // 3. Prueba en seco: cuenta, pero no escribe.
-sb.questions.get('piloto-v2-1').title='editado a mano';sb.calls.length=0;
-assert.equal((await run({dryRun:true})).questions,1);assert.equal(sb.questions.get('piloto-v2-1').title,'editado a mano');
+sb.questions.get('piloto-v2-2').title='editado a mano';sb.calls.length=0;
+assert.equal((await run({dryRun:true})).questions,1);assert.equal(sb.questions.get('piloto-v2-2').title,'editado a mano');
 
 // 4. Lo que cambia se vuelve a publicar: una pregunta y una imagen.
 sb.objects.set('las-canteras.jpg',Buffer.from('otra imagen'));
 result=await run();assert.equal(result.questions,1);assert.equal(result.images,1);
-assert.notEqual(sb.questions.get('piloto-v2-1').title,'editado a mano');
+assert.notEqual(sb.questions.get('piloto-v2-2').title,'editado a mano');
 
 // 5. Una pregunta antigua en la misma fecha y posición se retira si no tiene respuestas…
 const slot=content.questions[5],old={...structuredClone(sb.questions.get(slot.id)),id:'pregunta-antigua'};

@@ -24,14 +24,6 @@
           "fact": "La Gran Barrera de Coral mide aproximadamente 2.300 km (1.430 millas)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-14-1.jpg",
-        "alt": "Vista aérea de la Gran Barrera de Coral, con arrecifes turquesa sobre el azul oscuro del mar",
-        "credit": "Ank Kumar",
-        "url": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Great_Barrier_Reef_(Ank_Kumar)_01.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Longitud entre velocidad",
         "steps": [
@@ -67,14 +59,6 @@
           "fact": "En 2022 Cáritas financió proyectos con 1,4 millones de euros procedentes de las monedas de la fuente."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-14-2.jpg",
-        "alt": "Fontana di Trevi en Roma, con el agua turquesa del estanque donde caen las monedas",
-        "credit": "gnuckx",
-        "url": "https://commons.wikimedia.org/wiki/File:Fontana_di_Trevi_-_Italy_-_Roma_-_Creative_Commons_by_gnuckx_(3204230942).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
         "heading": "De euros al año a monedas al día",
         "steps": [
@@ -89,36 +73,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Vueltas de veterano",
-      "title": "¿Cuántas vueltas a la Tierra ha dado el telescopio Hubble desde su lanzamiento en 1990?",
-      "detail": "Cuenta desde el despegue del 24 de abril de 1990 hasta hoy, 14 de agosto de 2026, con una vuelta cada 95 minutos. Ni un día libre en 36 años.",
+      "tag": "Vueltas de cine",
+      "title": "¿Cuántas vueltas a la Tierra da el telescopio Hubble mientras ves la trilogía de El Padrino?",
+      "detail": "Ve las tres películas de El Padrino seguidas, en su versión de cine, mientras el Hubble orbita la Tierra. Una oferta que el telescopio no puede rechazar.",
       "unit": "vueltas",
-      "answer": 201000.90684210524,
-      "math": "Del 24 de abril de 1990 (12:33 UTC) al 14 de agosto de 2026 pasan unos 13.260 días, 19.095.086 minutos. Entre 95 minutos por órbita: unas 201.001 vueltas.",
-      "referenceExpression": "13260,48 × 1440 ÷ 95",
-      "assumptions": "Período constante de 95 minutos. La órbita ha ido bajando con los años y hoy el período ronda los 94 minutos, así que el número real es algo mayor.",
-      "confidence": "Dato documentado + modelo",
+      "answer": 5.73404255319149,
+      "math": "Las tres películas de El Padrino suman 539 minutos. El Hubble tarda 94 minutos en dar una vuelta: 539 ÷ 94 ≈ 5,7 vueltas.",
+      "referenceExpression": "539 ÷ 94",
+      "assumptions": "Sumamos el metraje de las tres películas sin pausas. El período del Hubble cambia un poco con los años porque su órbita baja lentamente.",
+      "confidence": "Dato documentado + división",
       "sources": [
+        {
+          "title": "Wikipedia · The Godfather (film series)",
+          "url": "https://en.wikipedia.org/wiki/The_Godfather_(film_series)",
+          "fact": "Las tres películas suman 539 minutos."
+        },
         {
           "title": "Wikipedia · Hubble Space Telescope",
           "url": "https://en.wikipedia.org/wiki/Hubble_Space_Telescope",
-          "fact": "Lanzado el 24 de abril de 1990 a las 12:33:51 UTC a bordo del Discovery (STS-31); período orbital actual de 94,0 minutos."
+          "fact": "Período orbital de 94,0 minutos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-14-3.jpg",
-        "alt": "El telescopio espacial Hubble en órbita sobre la Tierra, con sus paneles solares desplegados",
-        "credit": "NASA",
-        "url": "https://commons.wikimedia.org/wiki/File:Hubble_Space_Telescope_over_Earth_(during_the_STS-109_mission).jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Hubble_Space_Telescope_over_Earth_(during_the_STS-109_mission).jpg"
-      },
       "reasoning": {
-        "heading": "Cuenta minutos desde 1990",
+        "heading": "Minutos de cine contra minutos de órbita",
         "steps": [
-          "Una vuelta cada hora y media son unas 15 al día. En 36 años habrá dado cientos de miles de vueltas.",
-          "36 años × 365 días × 15 vueltas ≈ 197.000. El orden de magnitud está claro: unas 200.000.",
-          "Contando los 13.260 días exactos y 95 minutos por vuelta salen 201.001 vueltas. Con el período actual de 94 minutos serían unas 2.000 más."
+          "El Padrino dura casi tres horas, la segunda algo más y la tercera, cerca de tres: unas 9 horas en total.",
+          "El Hubble da una vuelta en hora y media. 9 horas entre 1,5 dan unas 6 vueltas.",
+          "Con 539 minutos de trilogía y 94 minutos por órbita salen 5,7 vueltas: el Hubble ve casi seis amaneceres mientras Michael Corleone hace de las suyas."
         ]
       }
     }

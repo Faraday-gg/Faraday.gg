@@ -1,43 +1,40 @@
 {
   "id": "2026-08-28",
   "name": "Viernes",
-  "theme": "Pulpo, lince y Venecia",
+  "theme": "Asado, panda y Venecia",
   "questions": [
     {
       "id": "archivo-2026-08-28-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "comida",
-      "tag": "Pulpo a feira",
-      "title": "¿Cuántas raciones de pulpo a feira se sirven en la Festa do Pulpo de O Carballiño?",
-      "detail": "Plato de madera, pimentón, aceite y sal gorda. Cada ración lleva 250 g de pulpo y nadie repite (es mucho suponer).",
-      "unit": "raciones",
-      "answer": 110000,
-      "math": "En la fiesta se preparan entre 25.000 y 30.000 kg de pulpo; tomamos el punto medio, 27.500 kg. Entre 0,25 kg por ración: 110.000 raciones.",
-      "referenceExpression": "27500 ÷ 0,25",
-      "assumptions": "Usamos el punto medio del rango y raciones de 250 g. No distinguimos entre pulpo crudo y cocido, que pierde peso al cocerse.",
+      "tag": "Asado para todos",
+      "title": "¿Para cuántas personas da la carne de una sola vaca en un asado argentino?",
+      "detail": "Un novillo de 544 kg (1.200 libras) despiezado, y el medio kilo por persona del saber popular asador. Las achuras y el chimichurri van aparte.",
+      "unit": "personas",
+      "answer": 436.35585994,
+      "math": "Un novillo de 1.200 lb da una canal de 744 lb (62 %); tras orearse quedan 718 lb, y al despiezarla, unas 481 lb de carne para llevar a casa (67 %), unos 218 kg. A medio kilo por persona: 218,2 ÷ 0,5 ≈ 436 personas.",
+      "referenceExpression": "481 × 0,45359237 ÷ 0,5",
+      "assumptions": "Usamos el ejemplo de la Universidad de Wisconsin para un novillo de engorde; el rendimiento cambia con la raza, la grasa y si los cortes llevan hueso. El medio kilo por persona es una regla popular, pensada para cortes con hueso como el asado de tira.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Spain.info · Fiesta del Pulpo de O Carballiño",
-          "url": "https://www.spain.info/es/agenda/fiesta-pulpo/",
-          "fact": "En la fiesta se preparan entre 25.000 y 30.000 kilos de pulpo."
+          "title": "University of Wisconsin-Madison Extension · How much meat should a beef animal yield?",
+          "url": "https://livestock.extension.wisc.edu/files/2020/09/Beef-animal-yield.pdf",
+          "fact": "Ejemplo: 1.200 lb de peso vivo × 62 % = 744 lb de canal; tras la merma, 718 lb; × 67 % = 481 lb de carne para llevar a casa."
+        },
+        {
+          "title": "Diario de Cuyo · Secretos de los asadores",
+          "url": "https://www.diariodecuyo.com.ar/noticias/secretos-de-los-asadores-777057.html",
+          "fact": "Popularmente se calcula medio kilo de carne por persona para un asado; con cortes sin hueso bastan unos 400 g."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-28-1.jpg",
-        "alt": "Ración de pulpo a feira con pimentón sobre un plato de madera",
-        "credit": "Tamorlan",
-        "url": "https://commons.wikimedia.org/wiki/File:Raci%C3%B3nPulpo.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
-      },
       "reasoning": {
-        "heading": "Toneladas de pulpo en platos de madera",
+        "heading": "Kilos de carne entre comensales",
         "steps": [
-          "Es una de las fiestas gastronómicas más grandes de Galicia: decenas de pulpeiros cocinando sin parar. Pensemos en decenas de toneladas.",
-          "Si fueran unas 25 toneladas y cada ración lleva un cuarto de kilo, salen unas 100.000 raciones.",
-          "Con el punto medio de 27.500 kg salen 110.000 raciones. Si cuentas el peso que pierde el pulpo al cocerlo, serían algunas menos."
+          "Una vaca pesa como un coche pequeño, pero solo una parte acaba en la parrilla. Saldrán cientos de comensales.",
+          "500 kg × 40 % ≈ 200 kg de carne; a medio kilo por cabeza, unas 400 personas.",
+          "Con 481 lb (218 kg) de carne salen 436 personas. Un asado de pueblo entero con una sola vaca."
         ]
       }
     },
@@ -46,41 +43,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Dieta de conejo",
-      "title": "¿Cuántas veces su propio peso come en conejos un lince ibérico a lo largo de un año?",
-      "detail": "Lince macho adulto, un conejo al día de 1,2 kg y ningún día de ayuno. Para él, el conejo no es plato: es menú.",
+      "tag": "Bambú a granel",
+      "title": "¿Cuántas veces su propio peso en bambú come un panda gigante en un año?",
+      "detail": "Un panda adulto de 100 kg comiendo 85 libras de bambú al día, la mitad del rango que da el zoo de Washington. Ni un día de dieta.",
       "unit": "veces",
-      "answer": 34.21875,
-      "math": "Un lince necesita aproximadamente un conejo al día. 365 conejos de 1,2 kg suman 438 kg al año. Un macho adulto pesa de media 12,8 kg: 438 ÷ 12,8 ≈ 34,2 veces su peso.",
-      "referenceExpression": "365 × 1,2 ÷ 12,8",
-      "assumptions": "Conejo silvestre de 1,2 kg, el extremo bajo del rango de 1,2-2,5 kg, porque el conejo ibérico es pequeño. Contamos el conejo entero, aunque el lince no se lo come todo.",
+      "answer": 140.7270327925,
+      "math": "85 libras son 38,56 kg de bambú al día. En un año: 38,56 × 365 ≈ 14.073 kg. Entre 100 kg de panda: ≈ 140,7 veces su peso.",
+      "referenceExpression": "85 × 0,45359237 × 365 ÷ 100",
+      "assumptions": "Tomamos el punto medio del rango de 70 a 100 libras diarias y un panda de 100 kg (los machos salvajes llegan a 113 kg y las hembras rara vez pasan de 104).",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Lynx pardinus",
-          "url": "https://es.wikipedia.org/wiki/Lynx_pardinus",
-          "fact": "Los machos adultos pesan de media 12,8 kg y las hembras unos 9,3 kg; sus necesidades energéticas equivalen aproximadamente a un conejo por día."
-        },
-        {
-          "title": "Wikipedia · Oryctolagus cuniculus",
-          "url": "https://es.wikipedia.org/wiki/Oryctolagus_cuniculus",
-          "fact": "El peso del conejo europeo varía de 1,2 a 2,5 kg."
+          "title": "Smithsonian's National Zoo · Giant panda",
+          "url": "https://nationalzoo.si.edu/animals/giant-panda",
+          "fact": "Un panda necesita de 70 a 100 libras de bambú al día; los machos salvajes pesan hasta 113 kg y las hembras rara vez pasan de 104 kg."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-28-2.jpg",
-        "alt": "Lince ibérico tumbado mirando a la cámara, con sus pinceles en las orejas",
-        "credit": "http://www.lynxexsitu.es",
-        "url": "https://commons.wikimedia.org/wiki/File:Iberian_Lynx_endrino03.JPG",
-        "license": "CC BY 3.0 es",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/es/deed.en"
-      },
       "reasoning": {
-        "heading": "Un conejo al día, todo el año",
+        "heading": "Bambú del año entre kilos de panda",
         "steps": [
-          "Un lince es como un gato grande: algo más de 10 kg. Un conejo pesa algo más de un kilo, y come más o menos uno al día.",
-          "Al año son unos 365 conejos: unos 400 kg de comida. 400 entre 12 da más de 30 veces su peso.",
-          "Con 1,2 kg por conejo y 12,8 kg por lince salen 34,2 veces. Con conejos más grandes, la cifra subiría."
+          "Un panda come más de un tercio de su peso cada día, así que en un año multiplica su peso por más de cien.",
+          "40 kg × 365 ≈ 14.600 kg; entre 100 kg, unas 146 veces.",
+          "Con 38,56 kg diarios salen 140,7 veces su peso. Un bosque de bambú al año por panda."
         ]
       }
     },
@@ -105,14 +89,6 @@
           "fact": "El centro histórico de Venecia tiene 435 puentes que unen 121 islas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-28-3.jpg",
-        "alt": "Puente de Rialto sobre el Gran Canal de Venecia con góndolas",
-        "credit": "Saffron Blaze",
-        "url": "https://commons.wikimedia.org/wiki/File:Rialto_Bridge_Grand_Canal.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Contar puentes antes que días",
         "steps": [

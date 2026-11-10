@@ -1,43 +1,40 @@
 {
   "id": "2026-09-24",
   "name": "Jueves",
-  "theme": "Frontón, maratón y Perito Moreno",
+  "theme": "Azteca, empanadas y Perito Moreno",
   "questions": [
     {
       "id": "archivo-2026-09-24-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Pelotazos en fila",
-      "title": "¿Cuántas pelotas de cesta punta en fila cubrirían la cancha del Frontón Beti Jai?",
-      "detail": "El gran frontón madrileño de 1894, recorrido a lo largo con pelotas tocándose. Supón pelotas de 6 cm de diámetro sobre la longitud de la cancha.",
-      "unit": "pelotas",
-      "answer": 1116.6666666666667,
-      "math": "La cancha del Beti Jai mide 67 m de largo. Con pelotas de 6 cm: 67 ÷ 0,06 = 1.116,7 pelotas.",
-      "referenceExpression": "67 ÷ 0,06",
-      "assumptions": "Pelota de 6 cm de diámetro como supuesto del modelo. Fila recta a lo largo de la cancha.",
+      "tag": "Tenis en el Azteca",
+      "title": "¿Cuántas pistas de tenis cabrían en el césped del Estadio Azteca?",
+      "detail": "Pistas reglamentarias con su espacio alrededor para correr (37 × 18 m aproximadamente), sobre el terreno de juego de 105 × 68 m. Encajarlas perfectas es otro partido: cuenta solo superficie.",
+      "unit": "pistas",
+      "answer": 10.6742,
+      "math": "El terreno de juego mide 105 × 68 m: 7.140 m². Una pista con su zona libre ocupa 120 × 60 pies, es decir, 36,576 × 18,288 m: 668,9 m². 7.140 ÷ 668,9 = 10,67 pistas.",
+      "referenceExpression": "105 × 68 ÷ (36,576 × 18,288)",
+      "assumptions": "Se divide superficie sin tener en cuenta cómo encajan: colocando rectángulos enteros caben menos (unas 10). Medidas de pista con la zona libre recomendada.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Frontón Beti Jai",
-          "url": "https://es.wikipedia.org/wiki/Front%C3%B3n_Beti_Jai",
-          "fact": "Cancha al aire libre de 67 m de largo, 20 m de ancho y 11 m de alto; inaugurado en 1894."
+          "title": "Wikipedia · Estadio Azteca",
+          "url": "https://es.wikipedia.org/wiki/Estadio_Azteca",
+          "fact": "Dimensiones del terreno de juego: 105 × 68 metros."
+        },
+        {
+          "title": "Wikipedia · Tennis court",
+          "url": "https://en.wikipedia.org/wiki/Tennis_court",
+          "fact": "La pista mide 23,77 × 10,97 m y, con el espacio libre recomendado, ocupa 120 × 60 pies (unos 37 × 18 m)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-24-1.jpg",
-        "alt": "Cancha y graderío curvo del Frontón Beti Jai de Madrid",
-        "credit": "Javier Perez Montes",
-        "url": "https://commons.wikimedia.org/wiki/File:Fronton_Beti_Jai_-_Madrid_01.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Longitud entre diámetro",
+        "heading": "Campo de fútbol entre pista de tenis",
         "steps": [
-          "El Beti Jai es enorme para ser un frontón: más de 60 m, como medio campo de fútbol.",
-          "Una pelota de cesta punta cabe en la mano: unos 6 cm. En un metro caben unas 17 pelotas.",
-          "67 m × 16,7 pelotas por metro = 1.116,7 pelotas. Con pelotas de 5 cm serían 1.340."
+          "Un campo de fútbol tiene unos 7.000 m²; una pista de tenis con su espacio alrededor ocupa como un piso de 700 m².",
+          "7.000 ÷ 700 = 10 pistas, más o menos.",
+          "Con 105 × 68 m y 36,6 × 18,3 m salen 10,67: diez pistas jugando a la vez y un trozo de césped sobrante."
         ]
       }
     },
@@ -46,36 +43,43 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Merienda olímpica",
-      "title": "¿Cuántas magdalenas quema un corredor de 70 kg en el Maratón de Nueva York?",
-      "detail": "Cinco distritos, cinco puentes y un montón de bollería. Usa la regla de 1 kcal por kilo de peso y kilómetro corrido y magdalenas de 150 kcal.",
-      "unit": "magdalenas",
-      "answer": 19.691,
-      "math": "Un maratón mide 42,195 km. Con 1 kcal por kg y km, un corredor de 70 kg gasta 70 × 42,195 = 2.953,7 kcal. Entre 150 kcal por magdalena: 19,7 magdalenas.",
-      "referenceExpression": "70 × 42,195 ÷ 150",
-      "assumptions": "Regla aproximada de 1 kcal/kg/km; el gasto real depende del ritmo, la técnica y el desnivel. Magdalena de 150 kcal.",
-      "confidence": "Modelo aproximado",
+      "tag": "Combustible de 42 km",
+      "title": "¿Cuántas empanadas quema un corredor de 70 kg en un maratón?",
+      "detail": "Un maratón completo de 42,195 km a 10 km/h, ritmo de corredor popular. Cuenta empanadas de carne de tamaño normal, de las de 130 g, y olvida el avituallamiento.",
+      "unit": "empanadas",
+      "answer": 6.3453,
+      "math": "Correr a unos 10 km/h gasta 9,3 MET, es decir, 9,3 kcal por kilo y hora. El maratón dura 4,2195 h: 9,3 × 70 × 4,2195 = 2.746,9 kcal. Una empanada de carne de 130 g tiene 130 × 3,33 = 432,9 kcal. 2.746,9 ÷ 432,9 = 6,35 empanadas.",
+      "referenceExpression": "9,3 × 70 × 42,195 ÷ 10 ÷ (130 × 3,33)",
+      "assumptions": "El MET incluye el gasto en reposo y es una media de población; la eficiencia de cada corredor varía. Empanada estándar de la base de datos del USDA; las caseras cambian mucho.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
+        {
+          "title": "Compendium of Physical Activities · Running",
+          "url": "https://pacompendium.com/adult-compendium/running/",
+          "fact": "Correr a 6-6,3 mph (unos 10 km/h): 9,3 MET."
+        },
+        {
+          "title": "Wikipedia · Metabolic equivalent of task",
+          "url": "https://en.wikipedia.org/wiki/Metabolic_equivalent_of_task",
+          "fact": "Un MET equivale a 1 kcal por kilo de peso y hora."
+        },
+        {
+          "title": "USDA FoodData Central · Empanada, beef",
+          "url": "https://fdc.nal.usda.gov/food-details/2708711/nutrients",
+          "fact": "333 kcal por 100 g; una empanada normal pesa 130 g."
+        },
         {
           "title": "Wikipedia · Marathon",
           "url": "https://en.wikipedia.org/wiki/Marathon",
-          "fact": "Distancia oficial: 42,195 km. Un corredor almacena unos 2.000 kcal de glucógeno, suficiente para unos 30 km."
+          "fact": "Distancia oficial: 42,195 km."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-24-2.jpg",
-        "alt": "Corredores del Maratón de Nueva York cruzando el puente Verrazzano-Narrows al inicio de la carrera",
-        "credit": "Martineric from Lille, France.",
-        "url": "https://commons.wikimedia.org/wiki/File:New_York_marathon_Verrazano_bridge.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
-        "heading": "Peso por distancia",
+        "heading": "Calorías del maratón entre calorías de empanada",
         "steps": [
-          "Correr gasta, a grandes rasgos, una kilocaloría por cada kilo de peso y kilómetro: un corredor de 70 kg quema unas 70 kcal por km.",
-          "42 km × 70 kcal = unas 2.950 kcal. Una magdalena tiene unas 150 kcal: unas 20 magdalenas.",
-          "El cálculo da 19,7 magdalenas. Cuadra con el dato del glucógeno: 2.000 kcal dan para unos 30 km, es decir, unas 67 kcal por km."
+          "Correr gasta más o menos una caloría por kilo y kilómetro: 70 kg × 42 km son unas 3.000 kcal.",
+          "Una empanada de carne grande ronda las 400 kcal: entre 7 y 8 empanadas.",
+          "Con 9,3 MET durante 4,22 h salen 2.746,9 kcal, y con 432,9 kcal por empanada, 6,35 empanadas: media docena larga."
         ]
       }
     },

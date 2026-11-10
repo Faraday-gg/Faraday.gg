@@ -1,7 +1,7 @@
 {
   "id": "2026-09-27",
   "name": "Domingo",
-  "theme": "Gato, Ávila y Nerja",
+  "theme": "Gato, Partenón y bambú",
   "questions": [
     {
       "id": "archivo-2026-09-27-1",
@@ -29,14 +29,6 @@
           "fact": "Más de la mitad de los gatos duermen entre 12 y 18 horas al día."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-27-1.jpg",
-        "alt": "Gato dormido y acurrucado en su cama de tela",
-        "credit": "JW2009",
-        "url": "https://commons.wikimedia.org/wiki/File:A_cat_sleeping_in_a_cat_bed.jpg",
-        "license": "CC BY 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
-      },
       "reasoning": {
         "heading": "Primero la fracción del día, luego la vida entera",
         "steps": [
@@ -51,36 +43,36 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "arquitectura",
-      "tag": "Almenas a ojo",
-      "title": "¿Cuántas almenas tiene la muralla de Ávila?",
-      "detail": "Prohibido subir a contarlas una a una. Supón una almena por cada metro de muralla a lo largo de todo su perímetro.",
-      "unit": "almenas",
-      "answer": 2516,
-      "math": "La muralla de Ávila tiene 2.516 m de perímetro, con 87 torreones y 9 puertas. Con una almena por metro: 2.516 almenas.",
-      "referenceExpression": "2516 ÷ 1",
-      "assumptions": "El reparto de una almena por metro es nuestro modelo, no un recuento oficial: torreones, puertas y tramos restaurados rompen el ritmo regular de almenas y huecos.",
+      "tag": "Cena en la Acrópolis",
+      "title": "¿Cuántas pizzas familiares harían falta para cubrir el suelo del Partenón?",
+      "detail": "Pizzas redondas de 40 cm sobre la planta del templo, de 69,5 × 30,9 m. Cuenta superficie, como si pudieras recortar los bordes para no dejar huecos (y te comieras los recortes).",
+      "unit": "pizzas",
+      "answer": 17089.6599,
+      "math": "El Partenón mide 69,5 × 30,9 m: 2.147,55 m². Una pizza de 40 cm ocupa π × 0,2² = 0,1257 m². 2.147,55 ÷ 0,1257 = 17.090 pizzas.",
+      "referenceExpression": "69,5 × 30,9 ÷ (π × 0,2 × 0,2)",
+      "assumptions": "Se reparte toda la superficie; colocando pizzas redondas enteras quedarían huecos y cabrían un 10 % menos. Las columnas también estorban.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Turismo de Castilla y León · Subida a la Muralla de Ávila",
-          "url": "https://www.turismocastillayleon.com/es/patrimonio-cultura/murallas-puertas/subida-muralla-avila",
-          "fact": "La muralla tiene 2.516 metros de perímetro, 87 torreones y 9 puertas; el adarve visitable ronda los 1.700 metros."
+          "title": "Wikipedia · Parthenon",
+          "url": "https://en.wikipedia.org/wiki/Parthenon",
+          "fact": "Dimensiones del templo: 69,5 × 30,9 m."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-09-27-2.jpg",
-        "alt": "Panorámica de la muralla de Ávila con sus torreones y almenas rodeando la ciudad",
-        "credit": "Ángel M. Felicísimo from Mérida, España",
-        "url": "https://commons.wikimedia.org/wiki/File:Murallas_de_%C3%81vila_(31907724543).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+        "alt": "Fachada oeste del Partenón, en la Acrópolis de Atenas",
+        "credit": "User:Mountain",
+        "url": "https://commons.wikimedia.org/wiki/File:Parthenon_from_west.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Parthenon_from_west.jpg"
       },
       "reasoning": {
-        "heading": "Mide el contorno y reparte las almenas",
+        "heading": "Planta del templo entre pizza",
         "steps": [
-          "La muralla rodea todo el casco antiguo: un paseo de unos dos kilómetros y pico. Si cada almena y su hueco ocupan más o menos un metro, saldrán unas pocas miles.",
-          "Con 2,5 km de muralla y una almena por metro: unas 2.500. Ni cientos ni decenas de miles.",
-          "Con el perímetro oficial de 2.516 m, nuestro modelo da 2.516 almenas. Es una estimación: los 87 torreones y las 9 puertas interrumpen la fila, y el ancho real de cada almena varía de un tramo a otro."
+          "El Partenón es como medio campo de fútbol pequeño: unos 70 × 30 m, más de 2.000 m².",
+          "Una pizza familiar ocupa algo más de una décima de metro cuadrado: caben unas 8 por m², así que serían unas 16.000.",
+          "Con 2.147,55 m² y 0,1257 m² por pizza salen 17.090: comida para una ciudad pequeña."
         ]
       }
     },
@@ -89,36 +81,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "naturaleza",
-      "tag": "Goteo paciente",
-      "title": "Si una columna creciera 1 cm cada siglo, ¿cuántos años tardaría en formarse la gran columna de la Cueva de Nerja?",
-      "detail": "Paciencia geológica: crecimiento constante de 1 cm por siglo, sin parones ni acelerones, de la base a lo más alto.",
-      "unit": "años",
-      "answer": 320000,
-      "math": "La gran columna de la Sala del Cataclismo mide 32 m: 3.200 cm. A 1 cm por siglo son 3.200 siglos, es decir, 320.000 años.",
-      "referenceExpression": "3200 × 100",
-      "assumptions": "El ritmo de 1 cm por siglo es un supuesto; el crecimiento real depende del goteo, del clima y de la química del agua. Además, la columna nace de la unión de una estalactita y una estalagmita que crecen a la vez, así que el tiempo real podría ser menor.",
+      "tag": "Crece mientras miras",
+      "title": "¿Cuántos centímetros crece un bambú gigante mientras ves una película de dos horas?",
+      "detail": "Un bambú de las especies más rápidas, en su mejor momento de crecimiento, mientras tú ves una película de dos horas justas. No hace falta que le pongas palomitas.",
+      "unit": "cm",
+      "answer": 7.5833,
+      "math": "Algunas especies de bambú crecen hasta 91 cm al día: 91 ÷ 24 = 3,79 cm por hora. En dos horas: 7,58 cm.",
+      "referenceExpression": "91 ÷ 24 × 2",
+      "assumptions": "Se toma el récord y un crecimiento uniforme durante el día; el ritmo normal es menor y varía con la hora y la temperatura.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Guía Repsol · Cueva de Nerja",
-          "url": "https://www.guiarepsol.com/es/viajar/vamos-de-excursion/visita-la-cueva-de-nerja-malaga/",
-          "fact": "Una columna de 32 metros de altura y 18 de diámetro preside la sala; figuró en el Libro Guinness de los Récords."
+          "title": "Guinness World Records · Fastest growing plant",
+          "url": "https://www.guinnessworldrecords.com/world-records/fastest-growing-plant",
+          "fact": "Algunas especies de bambú crecen hasta 91 cm al día, a 0,00003 km/h."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-27-3.jpg",
-        "alt": "Interior de la Cueva de Nerja con la gran columna de estalactitas a la derecha y la pasarela iluminada de los visitantes al fondo",
-        "credit": "Pedro J Pacheco",
-        "url": "https://commons.wikimedia.org/wiki/File:Gran_columna._Cueva_de_Nerja.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Pasa la altura a centímetros y cuenta siglos",
+        "heading": "Crecimiento diario entre horas",
         "steps": [
-          "La columna es enorme: más alta que un edificio de diez plantas. Digamos unos 30 m.",
-          "30 m son 3.000 cm, y a un centímetro por siglo son 3.000 siglos: 300.000 años. Hablamos de cientos de miles de años, no de miles.",
-          "Con los 32 m de la columna salen 320.000 años. El resultado depende por completo del ritmo supuesto: con 2 cm por siglo sería la mitad, y estalactita y estalagmita crecían a la vez desde arriba y desde abajo."
+          "El bambú es la planta que más rápido crece: casi un metro al día en las mejores condiciones.",
+          "Un metro en 24 horas son 4 cm por hora: en una película, unos 8 cm.",
+          "Con 91 cm al día salen 7,58 cm: lo que mide un dedo, mientras ruedan los créditos."
         ]
       }
     }

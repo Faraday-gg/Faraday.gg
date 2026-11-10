@@ -1,7 +1,7 @@
 {
   "id": "2026-10-13",
   "name": "Martes",
-  "theme": "El Capitán, Sant Jordi y pañales",
+  "theme": "El Capitán, Betty la fea y pañales",
   "questions": [
     {
       "id": "archivo-2026-10-13-1",
@@ -46,36 +46,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cultura",
-      "tag": "Libros a la carrera",
-      "title": "¿Cuántos libros se venden por minuto en Cataluña el día de Sant Jordi?",
-      "detail": "Rosas, colas de firmas y paradas en cada esquina. Reparte todas las ventas del día en 12 horas de jornada, al mismo ritmo de la mañana a la noche.",
-      "unit": "libros/min",
-      "answer": 2777.777777777778,
-      "math": "Por Sant Jordi 2026 se vendieron 2 millones de ejemplares. 12 horas son 720 minutos. 2.000.000 ÷ 720 ≈ 2.778 libros por minuto.",
-      "referenceExpression": "2000000 ÷ 720",
-      "assumptions": "Ventas repartidas por igual en 12 horas. En realidad hay picos al mediodía y por la tarde, y la cifra de 2 millones está redondeada por la Cambra del Llibre de Catalunya.",
+      "tag": "Maratón de telenovela",
+      "title": "¿Cuántas horas tardarías en ver todos los capítulos de Yo soy Betty, la fea?",
+      "detail": "Los 335 capítulos de la telenovela colombiana original, uno detrás de otro, sin saltarte ni las cabeceras. Las lágrimas con don Armando, aparte.",
+      "unit": "horas",
+      "answer": 111.66666666666667,
+      "math": "Yo soy Betty, la fea tiene 335 capítulos. En la versión de plataformas la mayoría dura unos 20 minutos. 335 × 20 = 6.700 minutos. 6.700 ÷ 60 ≈ 111,7 horas.",
+      "referenceExpression": "335 × 20 ÷ 60",
+      "assumptions": "Algunos capítulos rondan los 40 minutos, así que la cifra real puede ser algo mayor. Usamos la duración habitual de la versión publicada en plataformas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Nació · Balance definitivo de Sant Jordi 2026 (Cambra del Llibre de Catalunya)",
-          "url": "https://naciodigital.cat/cultura-i-mitjans/el-catala-no-recula-per-sant-jordi-representa-el-547-dels-llibres-venuts.html",
-          "fact": "Se vendieron 2 millones de ejemplares de 71.000 títulos distintos, con una facturación de 26,7 millones de euros."
+          "title": "Wikipedia en español · Yo soy Betty, la fea",
+          "url": "https://es.wikipedia.org/wiki/Yo_soy_Betty,_la_fea",
+          "fact": "Telenovela de Canal RCN emitida del 25 de octubre de 1999 al 8 de mayo de 2001, con 335 capítulos."
+        },
+        {
+          "title": "SensaCine México · ¿Cuánto tiempo te tomaría ver los 335 episodios de «Yo soy Betty, la fea»?",
+          "url": "https://www.sensacine.com.mx/noticias/noticia-18574900/",
+          "fact": "Algunos capítulos rondan los 40 minutos, pero en su mayoría duran unos 20 minutos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-13-2.jpg",
-        "alt": "Paradas de libros llenas de gente en una calle de Barcelona durante la Diada de Sant Jordi",
-        "credit": "Francis Lenn",
-        "url": "https://commons.wikimedia.org/wiki/File:Diada_de_Sant_Jordi_(5647318218).jpg",
-        "license": "CC BY 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
-      },
       "reasoning": {
-        "heading": "Ventas del día entre minutos de jornada",
+        "heading": "Capítulos por minutos",
         "steps": [
-          "Cataluña entera sale a comprar libros: pongamos un par de millones en un solo día.",
-          "Doce horas son 720 minutos, casi 700. Dos millones entre 700 dan unos 2.900 libros por minuto: decenas por segundo.",
-          "Con los 2 millones del balance y 720 minutos salen 2.778 libros por minuto, unos 46 por segundo. En las horas punta el ritmo sería bastante mayor."
+          "Una telenovela larga tiene cientos de capítulos; Betty pasa de los 300, y cada uno dura lo que un café largo.",
+          "300 capítulos × 20 minutos = 6.000 minutos: 100 horas.",
+          "Con 335 capítulos de 20 minutos salen 111,7 horas: casi cinco días sin dormir para ver a Betty triunfar en Ecomoda."
         ]
       }
     },
@@ -84,18 +81,18 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "hogar",
-      "tag": "Cambio constante",
-      "title": "¿Cuántos pañales usa un bebé hasta que deja de llevarlos?",
-      "detail": "Del primer cambio en el hospital a la despedida del último pañal. Cuenta 8 pañales al día el primer año y 6 al día el año y medio siguiente, hasta los 2,5 años.",
-      "unit": "pañales",
-      "answer": 6205,
-      "math": "Primer año: 365 × 8 = 2.920 pañales. Hasta los 2,5 años: 1,5 × 365 × 6 = 3.285. Total: 2.920 + 3.285 = 6.205 pañales.",
-      "referenceExpression": "365 × 8 + 1,5 × 365 × 6",
-      "assumptions": "Los pediatras sitúan el inicio del control de esfínteres entre los 2 y los 3 años; tomamos 2,5. El fabricante da de 12 pañales diarios al nacer a 6-8 a los 9-12 meses; usamos 8 de media el primer año y 6 después, una simplificación.",
-      "confidence": "Recomendaciones + modelo",
+      "tag": "Peso del pañal",
+      "title": "¿Cuántos kilos de pañales usados genera un bebé hasta que deja de llevarlos?",
+      "detail": "Un bebé que deja el pañal a los dos años y medio: 8 pañales al día el primer año y 6 después. Pesamos los pañales usados, con todo lo que llevan dentro.",
+      "unit": "kg",
+      "answer": 1240.0845081967213,
+      "math": "Primer año: 365 × 8 = 2.920 pañales. Hasta los 2,5 años: 1,5 × 365 × 6 = 3.285. Total: 6.205 pañales. En Baleares, 61 millones de pañales generaron 12.191 toneladas de residuos: unos 200 g por pañal usado. 6.205 × 0,1999 kg ≈ 1.240 kg.",
+      "referenceExpression": "(365 × 8 + 1,5 × 365 × 6) × 12191000 ÷ 61000000",
+      "assumptions": "El control de esfínteres empieza entre los 2 y los 3 años; tomamos 2,5. El peso por pañal sale del total de residuos de pañales infantiles de Baleares en 2024, así que es una media.",
+      "confidence": "Estimación con supuestos",
       "sources": [
         {
-          "title": "Familia y Salud (AEPap) · Control de esfínteres",
+          "title": "Familia y Salud (AEPap) · Aventuras y desventuras del control de esfínteres",
           "url": "https://www.familiaysalud.es/sites/default/files/05.control_esfinteres.pdf",
           "fact": "«Entre los 2 y 3 años se inicia el control de esfínteres»."
         },
@@ -103,22 +100,19 @@
           "title": "Pampers · How many diapers a day",
           "url": "https://www.pampers.com/en-us/baby/diapering/article/how-many-diapers-a-day",
           "fact": "De 8 a 12 pañales al día el primer mes, 8-10 de 2 a 4 meses, 7-9 de 5 a 8 meses y 6-8 de 9 a 12 meses."
+        },
+        {
+          "title": "Última Hora · Baleares consume al año 61 millones de pañales que generan 12.191 toneladas de residuos (31 de enero de 2026)",
+          "url": "https://www.ultimahora.es/noticias/local/2026/01/31/2560193/baleares-consume-ano-millones-panales-generan-12191-toneladas-residuos.html",
+          "fact": "Según la Fundación Rezero, los 27.834 niños de 0 a 2 años de Baleares usaron en 2024 61 millones de pañales, que generaron 12.191 toneladas de residuos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-13-3.jpg",
-        "alt": "Pañal desechable de bebé, limpio y abierto",
-        "credit": "Kyle Flood from Victoria, British Columbia, Canada",
-        "url": "https://commons.wikimedia.org/wiki/File:Baby_diaper.jpg",
-        "license": "CC BY-SA 2.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
-      },
       "reasoning": {
-        "heading": "Pañales por día, por días de pañal",
+        "heading": "Cuenta pañales y luego pésalos",
         "steps": [
-          "Un bebé gasta muchos pañales al principio y menos después. Una media de unos 7 al día parece razonable.",
-          "Dos años y medio son unos 900 días. 900 × 7 = 6.300 pañales: miles, no cientos.",
-          "Separando el primer año (8 al día) del resto (6 al día) salen 6.205 pañales. Si el pañal se retira a los 2 años en lugar de a los 2,5, son unos 1.100 menos."
+          "Un bebé gasta muchos pañales al día durante más de dos años: miles en total. Y un pañal usado pesa bastante más que uno limpio.",
+          "6.000 pañales × 0,2 kg = 1.200 kg.",
+          "Con 6.205 pañales de unos 200 g salen 1.240 kg: más de una tonelada, lo que pesa un coche pequeño. Por algo los padres huelen a heroísmo."
         ]
       }
     }

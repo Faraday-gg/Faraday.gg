@@ -8,36 +8,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "La Luna se va",
-      "title": "Si la Luna se aleja 3,8 cm cada año, ¿cuántos años tarda en alejarse la altura de un piso de 3 m?",
-      "detail": "Ritmo constante medido con los láseres que rebotan en los espejos del Apolo. Despídete sin prisa: hay tiempo.",
+      "tag": "Luna a la fuga",
+      "title": "Si la Luna se aleja 3,8 cm cada año, ¿cuántos años tarda en alejarse lo que mide Messi?",
+      "detail": "La Luna se va despidiendo de nosotros, muy despacito. Mide la huida en Messis: 1,70 m de altura según su ficha. Ni el mejor regate la frena.",
       "unit": "años",
-      "answer": 78.94736842105263,
-      "math": "Las medidas con láser muestran que la Luna se aleja unos 3,8 cm al año (NASA). 300 cm ÷ 3,8 ≈ 78,9 años.",
-      "referenceExpression": "300 ÷ 3,8",
-      "assumptions": "Ritmo constante. El alejamiento se debe a las mareas y cambia muy despacio a lo largo de millones de años.",
-      "confidence": "Dato documentado + división",
+      "answer": 44.73684210526316,
+      "math": "Las medidas con láser indican que la Luna se aleja unos 3,8 cm al año. Messi mide 1,70 m, 170 cm. 170 ÷ 3,8 ≈ 44,7 años.",
+      "referenceExpression": "170 ÷ 3,8",
+      "assumptions": "Ritmo de alejamiento constante de 3,8 cm al año, el medido en las últimas décadas con los reflectores que dejaron las misiones Apolo.",
+      "confidence": "Dato científico",
       "sources": [
         {
           "title": "NASA Goddard · Measuring the Moon's Distance",
           "url": "https://eclipse.gsfc.nasa.gov/help/ApolloLaser.html",
           "fact": "Las medidas muestran que la Luna se aleja de la Tierra a un ritmo de unos 3,8 centímetros al año."
+        },
+        {
+          "title": "Wikipedia · Lionel Messi",
+          "url": "https://en.wikipedia.org/wiki/Lionel_Messi",
+          "fact": "Altura: 1,70 m."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-27-1.jpg",
-        "alt": "Retrorreflector láser del Apolo 11 colocado sobre el suelo lunar",
-        "credit": "NASA",
-        "url": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Laser_Ranging_Experiment.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Apollo_11_Lunar_Laser_Ranging_Experiment.jpg"
-      },
       "reasoning": {
-        "heading": "Altura de un piso entre centímetros por año",
+        "heading": "Altura entre alejamiento anual",
         "steps": [
-          "3,8 cm al año es lo que crecen tus uñas. Un piso son 3 metros: ¿siglos?",
-          "300 cm entre unos 4 cm al año son unos 75 años.",
-          "Con 3,8 cm salen 78,9 años: más o menos una vida humana. En toda tu vida la Luna se aleja la altura de un piso."
+          "3,8 cm al año es más o menos lo que crecen tus uñas. Messi mide 170 cm.",
+          "170 entre 4 son unos 42 años: el orden es de décadas, no de siglos.",
+          "Con 3,8 cm exactos salen 44,7 años. Desde que nació Messi en 1987, la Luna se ha alejado ya algo más de 1,4 m: casi un Messi entero."
         ]
       }
     },
@@ -62,14 +59,6 @@
           "fact": "Rendimiento aproximado del jamón ibérico de bellota (50 % ibérico) cortado a mano: 43 %; deshuesado y a máquina, 58 %."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-27-2.jpg",
-        "alt": "Jamón en el jamonero con lonchas finas recién cortadas",
-        "credit": "Tamorlan",
-        "url": "https://commons.wikimedia.org/wiki/File:Jam%C3%B3n_cortado-Madrid-2009.jpg",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
         "heading": "Primero lo que se aprovecha, luego las lonchas",
         "steps": [
@@ -100,14 +89,6 @@
           "fact": "El agua supone el 60 % del peso corporal en el hombre y un 50 % en la mujer."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-27-3.jpg",
-        "alt": "Botellas de agua de plástico alineadas en la estantería de un supermercado",
-        "credit": "Zhiufook Hung Kwanling",
-        "url": "https://commons.wikimedia.org/wiki/File:HK_SKD_%E5%B0%87%E8%BB%8D%E6%BE%B3_TKO_%E5%BA%B7%E5%9F%8E%E8%B7%AF_Lohas_Park_Road_LOHAS_Park_%E6%97%A5%E5%87%BA%E5%BA%B7%E5%9F%8E%E5%95%86%E5%A0%B4_mall_shop_FRESH_%E6%96%B0%E9%AE%AE%E7%94%9F%E6%B4%BB_Supermarket_goods_November_2021_SS2_water_plastic_bottles.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
         "heading": "Peso por porcentaje, luego en botellas",
         "steps": [

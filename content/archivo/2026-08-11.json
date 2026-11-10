@@ -1,7 +1,7 @@
 {
   "id": "2026-08-11",
   "name": "Martes",
-  "theme": "Anillos, turistas y maratón",
+  "theme": "Anillos, Titanic y maratón",
   "questions": [
     {
       "id": "archivo-2026-08-11-1",
@@ -34,14 +34,6 @@
           "fact": "La edición extendida dura 263 minutos."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-11-1.jpg",
-        "alt": "Casas hobbit con puertas redondas en el decorado de Hobbiton, en Nueva Zelanda",
-        "credit": "Andres Iga",
-        "url": "https://commons.wikimedia.org/wiki/File:Hobbiton_Movie_Set,_Matamata.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
         "heading": "Suma minutos de película",
         "steps": [
@@ -56,36 +48,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Gasto al minuto",
-      "title": "¿Cuántos euros gastan los turistas internacionales en España por cada minuto del año?",
-      "detail": "Reparte todo el gasto de los turistas no residentes de 2025 por igual entre los minutos del año. Agosto no tiene más minutos, aunque lo parezca.",
-      "unit": "euros/min",
-      "answer": 256301.3698630137,
-      "math": "El INE estima un gasto de 134.712 millones de euros de los turistas no residentes en 2025. Un año tiene 525.600 minutos: 134.712 millones ÷ 525.600 ≈ 256.301 € por minuto.",
-      "referenceExpression": "134712000000 ÷ 525600",
-      "assumptions": "Reparto uniforme a lo largo del año, cuando en realidad el gasto se concentra en verano. Dato provisional de Egatur publicado en febrero de 2026.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Calderilla de transatlántico",
+      "title": "¿Cuántas monedas de 1 € pesarían lo mismo que el Titanic?",
+      "detail": "Compara el desplazamiento del Titanic con monedas de 1 € de 7,5 g. El iceberg no se cuenta y no hace falta llevar la hucha al muelle.",
+      "unit": "monedas",
+      "answer": 6974666666.666667,
+      "math": "El Titanic desplazaba 52.310 toneladas, 52.310.000 kg. Cada moneda de 1 € pesa 7,5 g (0,0075 kg): 52.310.000 ÷ 0,0075 ≈ 6.975 millones de monedas.",
+      "referenceExpression": "52310000 ÷ 0,0075",
+      "assumptions": "Usamos el desplazamiento (el peso del agua que movía el barco cargado), no el arqueo bruto, que mide volumen. La moneda de 1 € pesa exactamente 7,50 g.",
+      "confidence": "Dato documentado + división",
       "sources": [
         {
-          "title": "INE · Egatur, diciembre 2025 (nota de prensa)",
-          "url": "https://www.ine.es/dyngs/Prensa/EGATUR1225.htm",
-          "fact": "El gasto total de los turistas no residentes en España durante 2025 fue de 134.712 millones de euros."
+          "title": "Wikipedia · Titanic",
+          "url": "https://en.wikipedia.org/wiki/Titanic",
+          "fact": "El Titanic desplazaba 52.310 toneladas."
+        },
+        {
+          "title": "Banco Central Europeo · Monedas en euros",
+          "url": "https://www.ecb.europa.eu/euro/coins/common/html/index.en.html",
+          "fact": "La moneda de 1 € mide 23,25 mm de diámetro y pesa 7,50 g."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-11-2.jpg",
-        "alt": "Plaza de España de Sevilla con su gran edificio curvo, uno de los imanes turísticos del país",
-        "credit": "Carlos Delgado",
-        "url": "https://commons.wikimedia.org/wiki/File:Plaza_de_Espa%C3%B1a_(Sevilla)_-_01.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Del año al minuto",
+        "heading": "Pasa el barco a gramos",
         "steps": [
-          "España recibe casi 100 millones de turistas al año y cada uno gasta más de mil euros. Eso da más de 100.000 millones al año.",
-          "Un año tiene medio millón de minutos (525.600). 100.000 millones entre medio millón son 200.000 € por minuto.",
-          "Con los 134.712 millones de 2025 salen 256.301 € cada minuto. En agosto el ritmo real es mayor y en febrero menor: el promedio esconde la estacionalidad."
+          "Un transatlántico pesa decenas de miles de toneladas y una moneda unos pocos gramos: la respuesta tiene que estar en los miles de millones.",
+          "50.000 toneladas son 50.000 millones de gramos; entre 7,5 g por moneda, unos 6.700 millones de euros en calderilla.",
+          "Con las 52.310 toneladas del Titanic salen 6.975 millones de monedas. Casi una por cada habitante del planeta: menuda colecta para un barco."
         ]
       }
     },
@@ -94,36 +83,33 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Kilómetros en equipo",
-      "title": "Sumando lo que corren todos los que terminan el Maratón de Valencia, ¿cuántos kilómetros recorren entre todos?",
-      "detail": "Suma los 42,195 km de cada corredor que llegó a meta en la edición de 2025. Los que se retiraron por el camino no puntúan, aunque sudaron igual.",
-      "unit": "km",
-      "answer": 1298635.515,
-      "math": "La edición de 2025 tuvo 30.777 finishers. 30.777 × 42,195 km ≈ 1.298.636 km.",
-      "referenceExpression": "30777 × 42,195",
-      "assumptions": "Cada finisher recorre exactamente la distancia oficial; no contamos el calentamiento ni los zigzags para coger avituallamiento.",
+      "tag": "Kilómetros en compañía",
+      "title": "Sumando lo que corren todos los que terminan el Maratón de Nueva York, ¿cuántas veces llegarías a la Luna?",
+      "detail": "Suma los 42,195 km de cada finisher de la edición de 2025 y compáralos con la distancia media de la Tierra a la Luna. Solo ida: la vuelta, en taxi amarillo.",
+      "unit": "viajes a la Luna",
+      "answer": 6.4911584937565046,
+      "math": "En 2025 terminaron 59.135 corredores. 59.135 × 42,195 km ≈ 2.495.201 km. La Luna está de media a 384.400 km: 2.495.201 ÷ 384.400 ≈ 6,5 viajes.",
+      "referenceExpression": "59135 × 42,195 ÷ 384400",
+      "assumptions": "Contamos solo a quienes cruzaron la meta en 2025 y la distancia oficial del maratón. Las fuentes dan cifras de finishers ligeramente distintas (59.135 o 59.226), lo que no cambia el resultado.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Official Press · Maratón Valencia 2025",
-          "url": "https://officialpress.es/maraton-valencia-2025-rompe-record-de-30-000-corredores/",
-          "fact": "La 45.ª edición superó por primera vez los 30.000 finishers: 30.777 corredores en meta."
+          "title": "Wikipedia · New York City Marathon",
+          "url": "https://en.wikipedia.org/wiki/New_York_City_Marathon",
+          "fact": "La edición de 2025 tuvo 59.135 finishers; es el maratón más grande del mundo."
+        },
+        {
+          "title": "NASA Science · Moon Facts",
+          "url": "https://science.nasa.gov/moon/facts/",
+          "fact": "La Luna está de media a 384.400 km de la Tierra."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-11-3.jpg",
-        "alt": "Corredores del Maratón de Valencia pasando junto a las Torres de Serranos",
-        "credit": "Carlesmari",
-        "url": "https://commons.wikimedia.org/wiki/File:Marat%C3%B3_de_Val%C3%A8ncia_2006_al_seu_pas_per_les_Torres_de_Serrans.JPG",
-        "license": "CC BY 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
-      },
       "reasoning": {
-        "heading": "Multiplica corredores por distancia",
+        "heading": "Corredores contra la Luna",
         "steps": [
-          "Un maratón grande reúne decenas de miles de corredores. Con unos 30.000 en meta y 42 km cada uno, salen más de un millón de kilómetros.",
-          "30.000 × 42 = 1.260.000 km: más de tres viajes de ida a la Luna en zapatillas.",
-          "Con los 30.777 finishers de 2025 y 42,195 km, el total es 1.298.636 km. En otra edición el número de llegados cambia y con él, todo el resultado."
+          "Nueva York tiene el maratón más grande del mundo, con decenas de miles de corredores. 50.000 × 40 km ya son 2 millones de km.",
+          "La Luna está a unos 400.000 km. 2 millones entre 400.000 dan 5 viajes: la respuesta anda entre 5 y 10.",
+          "Con 59.135 finishers y 42,195 km cada uno salen 2.495.201 km: 6,5 viajes a la Luna en una sola mañana de noviembre."
         ]
       }
     }

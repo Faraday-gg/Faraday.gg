@@ -1,7 +1,7 @@
 {
   "id": "2026-09-17",
   "name": "Jueves",
-  "theme": "Saliva, Robledo y euros",
+  "theme": "Saliva, FAST y Ferrari",
   "questions": [
     {
       "id": "archivo-2026-09-17-1",
@@ -24,14 +24,6 @@
           "fact": "La producción diaria total de saliva en un adulto es de entre 1 y 1,5 litros."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-17-1.png",
-        "alt": "Ilustración anatómica de una cabeza con las glándulas salivales señaladas",
-        "credit": "Laboratoires Servier",
-        "url": "https://commons.wikimedia.org/wiki/File:Glands_-_Salivary_glands_--_Smart-Servier.png",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Un litro al día da para mucho",
         "steps": [
@@ -46,36 +38,41 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Paraguas galáctico",
-      "title": "¿Cuántos paraguas abiertos cubrirían la gran antena de 70 m de Robledo de Chavela?",
-      "detail": "La oreja con la que la NASA escucha a las sondas lejanas, protegida de la lluvia madrileña. Paraguas de 1 m de diámetro y cuenta superficie equivalente, como si pudieras recortarlos y encajarlos sin huecos.",
+      "tag": "Paraguas cósmicos",
+      "title": "¿Cuántos paraguas de golf abiertos harían falta para cubrir el radiotelescopio FAST de China, el mayor del mundo?",
+      "detail": "Un plato de 500 m de diámetro encajado en un valle de Guizhou, tapado con paraguas de golf de 157 cm, sin solapes ni huecos. Por si llueve en el universo.",
       "unit": "paraguas",
-      "answer": 4900,
-      "math": "La antena DSS-63 mide 70 m de diámetro. Como antena y paraguas son círculos, la relación de áreas es el cuadrado de la relación de diámetros: (70 ÷ 1)² = 4.900 paraguas.",
-      "referenceExpression": "(70 ÷ 1)²",
-      "assumptions": "Tratamos el plato como un círculo plano, aunque es una parábola algo más extensa. Superficie equivalente, sin huecos entre paraguas.",
+      "answer": 101243.438179,
+      "math": "La superficie colectora de FAST es de 196.000 m². Un paraguas de golf de 157 cm cubre π × 0,785² ≈ 1,936 m². 196.000 ÷ 1,936 ≈ 101.243 paraguas.",
+      "referenceExpression": "196000 ÷ (π × 0,785 × 0,785)",
+      "assumptions": "Solo se compara superficie, sin contar los huecos entre círculos ni la curvatura del plato. Paraguas de golf de 157 cm de diámetro.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "NASA · Madrid Deep Space Communications Complex · DSS-63",
-          "url": "https://www.mdscc.nasa.gov/index.php/en/dss-63-2/",
-          "fact": "Diámetro de la antena DSS-63: 70 metros."
+          "title": "Wikipedia · Five-hundred-meter Aperture Spherical Telescope",
+          "url": "https://en.wikipedia.org/wiki/Five-hundred-meter_Aperture_Spherical_Telescope",
+          "fact": "El plato de FAST mide 500 m de diámetro y tiene una superficie colectora de 196.000 m²."
+        },
+        {
+          "title": "Wikipedia · Umbrella",
+          "url": "https://en.wikipedia.org/wiki/Umbrella",
+          "fact": "Los paraguas de golf, de los más grandes habituales, miden normalmente unas 62 pulgadas (157 cm) de lado a lado."
         }
       ],
       "image": {
         "src": "assets/archivo-2026-09-17-2.jpg",
-        "alt": "Grandes antenas parabólicas del complejo de espacio profundo de Robledo de Chavela",
-        "credit": "Hector Blanco de Frutos",
-        "url": "https://commons.wikimedia.org/wiki/File:Madrid_Deep_Space_Network_Complex.jpg",
-        "license": "CC BY 2.5",
-        "licenseUrl": "https://creativecommons.org/licenses/by/2.5"
+        "alt": "El gran plato blanco del radiotelescopio FAST encajado entre montañas verdes, rodeado de torres metálicas que dan la escala",
+        "credit": "SCJiang",
+        "url": "https://commons.wikimedia.org/wiki/File:202508_FAST_(Five-hundred-meter_Aperture_Spherical_radio_Telescope).jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       },
       "reasoning": {
-        "heading": "Con círculos, compara diámetros al cuadrado",
+        "heading": "Superficie del plato entre superficie del paraguas",
         "steps": [
-          "Un paraguas abierto mide alrededor de un metro. La antena tiene 70: el lado de un campo de fútbol, más o menos.",
-          "Si duplicas el diámetro, el área se multiplica por cuatro. Con 70 veces más diámetro, el área es 70² veces mayor.",
-          "70² = 4.900 paraguas. Si los dejas redondos sin recortar, quedarían huecos y harían falta bastantes más."
+          "El plato mide medio kilómetro de lado a lado, casi cinco campos de fútbol puestos en fila. Un paraguas de golf grande cubre unos 2 m².",
+          "Un círculo de 500 m de diámetro tiene unos 200.000 m². Entre 2 m² por paraguas, unos 100.000.",
+          "Con los 196.000 m² oficiales salen 101.243 paraguas de golf. Con paraguas plegables normales, de 1 m, harían falta unos 250.000."
         ]
       }
     },
@@ -84,36 +81,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Fábrica de calderilla",
-      "title": "¿Cuántas monedas acuñó de media cada fábrica europea para el estreno del euro?",
-      "detail": "Antes del 1 de enero de 2002 había que llenar de calderilla doce países a la vez, y la Fábrica Nacional de Moneda y Timbre fue una de las fábricas. Reparte el total por igual entre todas.",
-      "unit": "monedas",
-      "answer": 3250000000,
-      "math": "Para la introducción del euro se acuñaron unos 52.000 millones de monedas en 16 fábricas europeas: 52.000 ÷ 16 = 3.250 millones de monedas por fábrica.",
-      "referenceExpression": "52000000000 ÷ 16",
-      "assumptions": "Reparto igual entre fábricas. En realidad cada una acuñó según la población y las necesidades de su país.",
+      "tag": "Hucha de lujo",
+      "title": "Ahorrando 1 € al día, ¿cuántos años tardarías en comprarte un Ferrari?",
+      "detail": "Un euro diario en la hucha hasta pagar al contado una Ferrari Amalfi, el modelo de entrada de 2025, por su precio de lista de 240.000 € con IVA en Italia. Sin intereses, sin inflación y sin extras de color rojo.",
+      "unit": "años",
+      "answer": 657.534247,
+      "math": "La Ferrari Amalfi cuesta 240.000 € con IVA. Ahorrando 1 € al día juntas 365 € al año. 240.000 ÷ 365 ≈ 657,5 años.",
+      "referenceExpression": "240000 ÷ 365",
+      "assumptions": "Precio de lista en Italia, IVA incluido; en España puede variar por impuestos y opciones. Sin intereses ni subidas de precio, y años de 365 días.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Banco Central Europeo · Introducción del euro en 2002",
-          "url": "https://ecb.europa.eu/euro/changeover/2002/html/index.es.html",
-          "fact": "Se acuñaron aproximadamente 52.000 millones de monedas, por 15.750 millones de euros, en 16 fábricas de monedas europeas, con 250.000 toneladas de metal."
+          "title": "Auto.it · Ferrari Amalfi",
+          "url": "https://www.auto.it/marche/ferrari-fer/modelli/amalfi-3432",
+          "fact": "Precio de lista de la Ferrari Amalfi 3.9 F1 DCT: 240.000 €, IVA incluido (Italia)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-09-17-3.jpg",
-        "alt": "Montón de monedas de euro de distintos valores",
-        "credit": "Jesse Siirilä",
-        "url": "https://commons.wikimedia.org/wiki/File:Euro_coins_2.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Monedas por persona, personas por país",
+        "heading": "Divide el precio entre lo que ahorras al año",
         "steps": [
-          "La zona euro empezó con unos 300 millones de habitantes. Si cada uno necesitaba más de cien monedas en el bolsillo, el monedero, la caja y el banco, hablamos de decenas de miles de millones.",
-          "Con 50.000 millones repartidos entre una quincena de fábricas, cada una tendría que hacer unos 3.000 millones.",
-          "El BCE da 52.000 millones en 16 fábricas: 3.250 millones de media. Si las colocaras en fila, cada fábrica habría hecho una hilera de varias decenas de miles de kilómetros."
+          "Un Ferrari nuevo de los más baratos cuesta ya varios cientos de miles de euros. Un euro al día son unos 365 al año.",
+          "250.000 entre 365 dan unos 700 años.",
+          "Con 240.000 € salen 657,5 años. Si hubieras empezado a ahorrar a mediados del siglo XIV, poco después de la peste negra, ahora estarías a punto de recogerlo."
         ]
       }
     }

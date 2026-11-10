@@ -1,43 +1,40 @@
 {
   "id": "2026-08-22",
   "name": "Sábado",
-  "theme": "Donación, pedales y Mezquita",
+  "theme": "Sangre, salto y Mezquita",
   "questions": [
     {
       "id": "archivo-2026-08-22-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Bolsas solidarias",
-      "title": "¿Cuántas bolsas de donación de sangre equivalen a toda la sangre de un adulto?",
-      "detail": "Pura aritmética, nada de vaciar a nadie: una persona de 65 kg y bolsas estándar. El bocadillo de después de donar no entra en el cálculo.",
-      "unit": "bolsas",
-      "answer": 11.11111111111111,
-      "math": "Una persona de 65 kg tiene unos 5 litros de sangre (5.000 ml). Cada donación llena una bolsa de 450 ml: 5.000 ÷ 450 ≈ 11,1 bolsas.",
-      "referenceExpression": "5000 ÷ 450",
-      "assumptions": "Usamos el ejemplo de 65 kg; el volumen de sangre es aproximadamente 1/13 del peso corporal, así que cambia con cada persona. Es una comparación de volúmenes, no algo que pueda hacerse.",
-      "confidence": "Dato documentado",
+      "tag": "Refresco rojo",
+      "title": "¿Cuántas latas de refresco llenarías con toda la sangre de un adulto?",
+      "detail": "Pura aritmética, nada de vaciar a nadie: una persona de 65 kg y latas de 33 cl. Ni gas ni burbujas, por favor.",
+      "unit": "latas",
+      "answer": 15.151515151515152,
+      "math": "Una persona de 65 kg tiene unos 5 litros de sangre. Una lata estándar en Europa es de 330 ml: 5.000 ÷ 330 ≈ 15,2 latas.",
+      "referenceExpression": "5.000 ÷ 330",
+      "assumptions": "Usamos el ejemplo de 65 kg; la sangre es aproximadamente 1/13 del peso corporal, así que cambia con cada persona.",
+      "confidence": "Dato documentado + modelo",
       "sources": [
         {
           "title": "Comunidad de Madrid · Donación de sangre",
           "url": "https://www.comunidad.madrid/salud/donacion-sangre",
-          "fact": "Se dona una bolsa de sangre de 450 cc. La sangre es 1/13 del peso corporal: unos 5 litros en una persona de 65 kg."
+          "fact": "La sangre es 1/13 del peso corporal: unos 5 litros en una persona de 65 kg."
+        },
+        {
+          "title": "Wikipedia · Drink can",
+          "url": "https://en.wikipedia.org/wiki/Drink_can",
+          "fact": "En Europa, la lata estándar es de 330 ml."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-22-1.jpg",
-        "alt": "Donante de sangre apretando una pelota mientras se llena la bolsa de donación",
-        "credit": "U.S. Navy photo by Mass Communication Specialist Seaman Kathleen Gorby",
-        "url": "https://commons.wikimedia.org/wiki/File:US_Navy_070321-N-4776G-072_Chief_Yeoman_Rafael_Villarreal,_from_San_Antonio,_rolls_a_foam_ball_in_his_hand_promoting_blood_flow_allowing_him_to_fill_a_bag_during_a_blood_drive_held_on_32nd_Street_Naval_Base.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:US_Navy_070321-N-4776G-072_Chief_Yeoman_Rafael_Villarreal,_from_San_Antonio,_rolls_a_foam_ball_in_his_hand_promoting_blood_flow_allowing_him_to_fill_a_bag_during_a_blood_drive_held_on_32nd_Street_Naval_Base.jpg"
-      },
       "reasoning": {
-        "heading": "Medio litro contra cinco",
+        "heading": "Litros entre latas",
         "steps": [
-          "Una bolsa de donación parece pequeña: cerca de medio litro. Un adulto lleva unos cuantos litros dentro, quizá cinco.",
-          "Cinco litros entre medio litro dan 10 bolsas. El orden de magnitud está claro: una decena.",
-          "Con los 450 ml de la bolsa y los 5 litros de una persona de 65 kg salen 11,1 bolsas. Por eso se puede donar sin problema: cada vez se va menos de una décima parte de la sangre."
+          "Un adulto lleva unos cuantos litros de sangre, y una lata es un tercio de litro. Saldrá una docena larga de latas.",
+          "5 litros × 3 latas por litro = 15 latas. El orden de magnitud: unas quince.",
+          "Con 5.000 ml y latas de 330 ml salen 15,2 latas. Un pack de doce y unas cuantas sueltas."
         ]
       }
     },
@@ -46,36 +43,28 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "Pedalear sin fin",
-      "title": "¿Cuántas pedaladas da un ciclista en una etapa llana de 180 km del Tour de Francia?",
-      "detail": "Ciclista con el plato grande y el piñón pequeño (53 × 11) todo el día, sin ir a rueda ni dejar de pedalear. Un modelo más optimista que el propio ciclista.",
-      "unit": "pedaladas",
-      "answer": 18000,
-      "math": "Con un desarrollo de 53 × 11, cada vuelta de pedales avanza unos 10,0 m. 180 km son 180.000 m: 180.000 ÷ 10 = 18.000 pedaladas.",
-      "referenceExpression": "180000 ÷ 10",
-      "assumptions": "Contamos una pedalada por vuelta completa de los pedales y suponemos el desarrollo más largo durante toda la etapa. En la realidad hay desarrollos más cortos, bajadas sin pedalear y frenazos, así que el número real varía.",
+      "tag": "Brinco de récord",
+      "title": "¿Cuántas pizzas familiares en fila mide el récord mundial de salto de longitud?",
+      "detail": "El salto de Mike Powell en Tokio en 1991, medido con pizzas familiares de 40 cm puestas en fila, borde con borde. Prohibido comerse ninguna antes de medir.",
+      "unit": "pizzas",
+      "answer": 22.374999999999996,
+      "math": "El récord mundial es de 8,95 m. Con pizzas de 40 cm (0,40 m): 8,95 ÷ 0,40 ≈ 22,4 pizzas.",
+      "referenceExpression": "8,95 ÷ 0,40",
+      "assumptions": "Pizza familiar de 40 cm de diámetro, una suposición del juego: el tamaño «familiar» cambia según la pizzería.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Bicycle gearing",
-          "url": "https://en.wikipedia.org/wiki/Bicycle_gearing",
-          "fact": "El desarrollo es la distancia que recorre la bici por cada vuelta de los pedales; en su tabla, la combinación 53/11 equivale a unos 10,0 m."
+          "title": "Wikipedia · Men's long jump world record progression",
+          "url": "https://en.wikipedia.org/wiki/Men%27s_long_jump_world_record_progression",
+          "fact": "El récord mundial es de 8,95 m, de Mike Powell (EE. UU.), en Tokio el 30 de agosto de 1991."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-22-2.jpg",
-        "alt": "Pelotón del Tour de Francia rodando agrupado por una carretera",
-        "credit": "Florian Pépellin",
-        "url": "https://commons.wikimedia.org/wiki/File:Tour_de_France_2021_%C3%89tape_10_%C3%A0_Chamb%C3%A9ry_-_Peloton_(3).JPG",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Cuánto avanzas por vuelta",
+        "heading": "Metros entre pizzas",
         "steps": [
-          "Una bici de carretera con el plato grande avanza mucho en cada vuelta de pedales: varias vueltas de rueda, quizá unos 10 metros.",
-          "Si cada pedalada vale 10 metros, 180 km son 180.000 metros y salen unas 18.000 pedaladas.",
-          "El desarrollo 53 × 11 da justo unos 10,0 m, así que el cálculo deja 18.000 pedaladas. Con desarrollos más cortos en los repechos, la cifra real sería algo mayor."
+          "Un salto de récord es casi la longitud de dos coches; una pizza grande, menos de medio metro. Caben un par de decenas.",
+          "9 m ÷ 0,4 m = 22,5. El orden de magnitud: unas veinte pizzas.",
+          "Con 8,95 m salen 22,4 pizzas. Una fiesta de cumpleaños cubierta con un solo salto."
         ]
       }
     },

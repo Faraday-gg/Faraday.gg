@@ -1,7 +1,7 @@
 {
   "id": "2026-10-05",
   "name": "Lunes",
-  "theme": "Ebro, Gordo y Picasso",
+  "theme": "Nilo, Gordo y Picasso",
   "questions": [
     {
       "id": "archivo-2026-10-05-1",
@@ -9,35 +9,32 @@
       "verifiedAt": "2026-11-10",
       "category": "lugares",
       "tag": "Mensaje en una botella",
-      "title": "¿Cuántos días tardaría una botella flotando a 2 km/h en bajar el Ebro desde su nacimiento hasta el mar?",
-      "detail": "Una botella con mensaje y mucha paciencia. Corriente constante de 2 km/h, sin presas, sin remolinos y sin pescadores curiosos.",
+      "title": "¿Cuántos días tardaría una botella flotando a 2 km/h en bajar el Nilo de punta a punta?",
+      "detail": "La botella sale de las fuentes del Nilo y llega al Mediterráneo sin atascarse en presas, cataratas ni cocodrilos curiosos. Corriente constante de 2 km/h, de día y de noche.",
       "unit": "días",
-      "answer": 19.375,
-      "math": "El Ebro recorre 930 km. A 2 km/h son 465 horas: 19,4 días.",
-      "referenceExpression": "930 ÷ 2 ÷ 24",
-      "assumptions": "Ignoramos los embalses, donde el agua casi se para, y los tramos rápidos. La longitud del río cambia según dónde se fije el nacimiento y cómo se mida.",
+      "answer": 142.77083333333334,
+      "math": "El Nilo mide 6.853 km. A 2 km/h son 6.853 ÷ 2 = 3.426,5 horas. Entre 24 horas: unos 142,8 días.",
+      "referenceExpression": "6853 ÷ 2 ÷ 24",
+      "assumptions": "La longitud del Nilo es discutida: según la fuente que se tome como nacimiento se dan entre unos 6.650 y más de 7.000 km. Con 6.650 km saldrían 138,5 días.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Ebro",
-          "url": "https://en.wikipedia.org/wiki/Ebro",
-          "fact": "El Ebro recorre 930 km (otro apartado del artículo da 928 km)."
+          "title": "Wikipedia en español · Nilo",
+          "url": "https://es.wikipedia.org/wiki/Nilo",
+          "fact": "Tiene una longitud de 6.853 km, lo que lo convierte en el río más largo del mundo, aunque con controversias."
+        },
+        {
+          "title": "National Geographic Education · Nile River",
+          "url": "https://education.nationalgeographic.org/resource/nile-river/",
+          "fact": "El Nilo recorre más de 6.800 km antes de desembocar en el mar Mediterráneo."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-05-1.jpg",
-        "alt": "Arrozales del delta del Ebro, junto a un canal de riego, donde el río llega al Mediterráneo",
-        "credit": "Alberto-g-rovi",
-        "url": "https://commons.wikimedia.org/wiki/File:Delta_del_ebro_(10).JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
-        "heading": "Longitud del río entre velocidad de paseo",
+        "heading": "Pasa los kilómetros a horas y las horas a días",
         "steps": [
-          "El Ebro cruza medio norte peninsular, de Cantabria al Mediterráneo: casi mil kilómetros.",
-          "A 2 km/h, 1.000 km son 500 horas, unos 21 días. Hablamos de unas tres semanas.",
-          "Con los 930 km salen 19,4 días. En la realidad, los embalses dejarían la botella atascada durante semanas."
+          "El Nilo es el río más largo del mundo, casi 7.000 km. A paso de paseo lento, tardará meses.",
+          "7.000 km ÷ 2 km/h = 3.500 horas. Entre 24, unos 145 días.",
+          "Con 6.853 km salen 142,8 días: la botella saldría en verano y llegaría al Mediterráneo para Navidad."
         ]
       }
     },
@@ -67,14 +64,6 @@
           "fact": "El primer premio reparte 4.000.000 € a la serie: 400.000 € por décimo."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-05-2.jpg",
-        "alt": "Cola de personas ante una administración de lotería en la Puerta del Sol de Madrid en Navidad",
-        "credit": "Barcex",
-        "url": "https://commons.wikimedia.org/wiki/File:Madrid_-_Loter%C3%ADa_Navidad_-_141203_110431.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
-      },
       "reasoning": {
         "heading": "Premio entre sueldo anual",
         "steps": [
@@ -105,14 +94,6 @@
           "fact": "En una carrera de 75 años, Picasso produjo unos 13.500 cuadros y diseños, 100.000 grabados, 34.000 ilustraciones de libros y 300 esculturas y cerámicas."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-10-05-3.jpg",
-        "alt": "Retrato en blanco y negro de Pablo Picasso",
-        "credit": "Argentina. Revista Vea y Lea",
-        "url": "https://commons.wikimedia.org/wiki/File:Pablo_picasso_1.jpg",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Pablo_picasso_1.jpg"
-      },
       "reasoning": {
         "heading": "Suma todo el catálogo y repártelo por días",
         "steps": [

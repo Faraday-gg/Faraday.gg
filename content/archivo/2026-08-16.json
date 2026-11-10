@@ -1,43 +1,35 @@
 {
   "id": "2026-08-16",
   "name": "Domingo",
-  "theme": "GTC, sueños y Colón",
+  "theme": "Báscula, sueños y Colón",
   "questions": [
     {
       "id": "archivo-2026-08-16-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "espacio",
-      "tag": "Espejito, espejito",
-      "title": "¿Cuántos espejos de baño de 60 × 80 cm suman la superficie del espejo del Gran Telescopio Canarias?",
-      "detail": "Compara la superficie colectora del espejo primario del GTC con espejos de baño de 0,48 m². Peinarse con el GTC no está permitido.",
-      "unit": "espejos",
-      "answer": 157.70833333333334,
-      "math": "Los 36 segmentos del espejo primario del GTC suman 75,7 m² de superficie colectora. Entre 0,48 m² por espejo de baño: unos 157,7 espejos.",
-      "referenceExpression": "75,7 ÷ (0,6 × 0,8)",
-      "assumptions": "Comparamos superficies, no calidad óptica. El espejo de baño mide exactamente 60 × 80 cm.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Dieta marciana",
+      "title": "¿Cuántos kilos marcaría en Marte la báscula de un astronauta que en la Tierra pesa 80 kg?",
+      "detail": "Usa una báscula de baño normal, ajustada para la gravedad de la Tierra, y súbete en la superficie de Marte (sin contar el traje espacial). La dieta más cara del sistema solar.",
+      "unit": "kg",
+      "answer": 30.386965376782076,
+      "math": "La gravedad media en Marte es de 3,73 m/s² y en la Tierra de 9,82 m/s². Una báscula calibrada en la Tierra marcaría 80 × 3,73 ÷ 9,82 ≈ 30,4 kg.",
+      "referenceExpression": "80 × 3,73 ÷ 9,82",
+      "assumptions": "La báscula mide la fuerza con que la empujas y la convierte en kilos con la gravedad terrestre. La masa del astronauta sigue siendo 80 kg; solo cambia lo que marca.",
+      "confidence": "Dato oficial + física",
       "sources": [
         {
-          "title": "IAC · Gran Telescopio Canarias",
-          "url": "https://iac.es/en/observatorios-de-canarias/telescopes-and-experiments/gran-telescopio-canarias",
-          "fact": "El espejo primario está formado por 36 segmentos hexagonales que juntos tienen una superficie colectora de 75,7 m²."
+          "title": "NASA · Mars Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+          "fact": "Gravedad media en superficie: 3,73 m/s² en Marte y 9,82 m/s² en la Tierra (proporción 0,380)."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-16-1.jpg",
-        "alt": "Interior de la cúpula del Gran Telescopio Canarias con su estructura y espejo",
-        "credit": "Michele Albrigo",
-        "url": "https://commons.wikimedia.org/wiki/File:Gran_Telescopio_Canarias_-_interior.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
-      },
       "reasoning": {
-        "heading": "Superficie entre superficie",
+        "heading": "Pesa la gravedad, no el astronauta",
         "steps": [
-          "El GTC tiene un espejo de unos 10 m de diámetro. Un círculo así ocupa unos 80 m²; un espejo de baño, medio metro cuadrado. Saldrían unos 160.",
-          "Con 80 m² ÷ 0,5 m² = 160 espejos. El orden de magnitud son cientos, no miles.",
-          "Con los 75,7 m² del IAC salen 157,7 espejos de baño. Para cubrir el hueco central y las juntas de los 36 hexágonos, el cálculo con el diámetro exagera un poco."
+          "Marte es más pequeño que la Tierra y tira mucho menos: algo más de un tercio. La báscula marcaría unos 30 kg.",
+          "La proporción oficial es 0,380. 80 × 0,38 = 30,4 kg.",
+          "Con 3,73 m/s² contra 9,82 m/s² salen 30,4 kg: casi 50 kilos menos sin dejar los dulces. Eso sí, el billete de vuelta cuesta más que el gimnasio."
         ]
       }
     },
@@ -46,15 +38,15 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "cuerpo",
-      "tag": "Cine nocturno",
-      "title": "¿Cuántos sueños tienes a lo largo de 80 años?",
-      "detail": "Cuenta un sueño por cada ciclo de sueño con fase REM: cinco por noche, todas las noches durante 80 años. Recordarlos es otro cantar.",
-      "unit": "sueños",
-      "answer": 146100,
-      "math": "Una noche tiene normalmente de 4 a 6 ciclos de sueño, y se sueña sobre todo en la fase REM. Con 5 sueños por noche: 80 × 365,25 × 5 = 146.100 sueños.",
-      "referenceExpression": "80 × 365,25 × 5",
-      "assumptions": "Un sueño por ciclo, cinco ciclos cada noche, desde el nacimiento. Los bebés duermen más y la estructura del sueño cambia con la edad.",
-      "confidence": "Dato documentado + modelo",
+      "tag": "Series nocturnas",
+      "title": "Si cada sueño fuera un capítulo, ¿cuántas temporadas de diez capítulos soñarías a lo largo de 80 años?",
+      "detail": "Cuenta un sueño por cada ciclo de sueño, con cinco ciclos por noche durante 80 años, y agrúpalos en temporadas de diez capítulos. Sin anuncios, pero con algún final raro.",
+      "unit": "temporadas",
+      "answer": 14610,
+      "math": "Normalmente hay de 4 a 6 ciclos de sueño por noche y se sueña sobre todo en la fase REM. Con 5 sueños por noche: 80 × 365,25 × 5 = 146.100 sueños. Entre 10 capítulos por temporada: 14.610 temporadas.",
+      "referenceExpression": "80 × 365,25 × 5 ÷ 10",
+      "assumptions": "Suponemos un sueño por ciclo, cinco por noche, todas las noches. Muchos sueños no se recuerdan y los bebés tienen otros ritmos, así que es una cuenta de orden de magnitud.",
+      "confidence": "Rango fisiológico + modelo",
       "sources": [
         {
           "title": "NHLBI (NIH) · Sleep Phases and Stages",
@@ -62,20 +54,12 @@
           "fact": "Normalmente hay de cuatro a seis ciclos por noche, de 80 a 100 minutos; los sueños suelen ocurrir en la fase REM."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-16-2.png",
-        "alt": "Pintura de una mujer dormida en la cama, de Henri de Toulouse-Lautrec",
-        "credit": "Henri de Toulouse-Lautrec",
-        "url": "https://commons.wikimedia.org/wiki/File:Woman_Sleeping_-_Henri_de_Toulouse-Lautrec.png",
-        "license": "Public domain",
-        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Woman_Sleeping_-_Henri_de_Toulouse-Lautrec.png"
-      },
       "reasoning": {
-        "heading": "Noches por ciclos",
+        "heading": "De noches a temporadas",
         "steps": [
-          "Si sueñas varias veces cada noche durante toda la vida, la cifra pasa enseguida de las decenas de miles.",
-          "80 años son unas 29.000 noches. Con 5 sueños por noche, unas 146.000.",
-          "El cálculo da 146.100 sueños. Con 4 ciclos por noche serían 116.880; con 6, 175.320. La inmensa mayoría no los recordarás."
+          "80 años son unas 29.000 noches. Si cada noche trae varios sueños, hablamos de más de cien mil capítulos.",
+          "Con 5 ciclos por noche salen unos 146.000 sueños; en temporadas de 10, unas 15.000.",
+          "La cuenta exacta da 146.100 sueños y 14.610 temporadas: ninguna plataforma de streaming tiene tanto catálogo, y casi todo lo olvidas al despertar."
         ]
       }
     },
@@ -84,36 +68,38 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "historia",
-      "tag": "A toda vela",
-      "title": "¿A cuántos km/h navegó de media la flota de Colón entre La Gomera y Guanahaní?",
-      "detail": "Divide la travesía, simplificada como una línea recta de 6.000 km, entre el tiempo que pasó desde que dejaron Canarias hasta avistar tierra. Sin motor y sin GPS.",
-      "unit": "km/h",
-      "answer": 6.944444444444445,
-      "math": "La flota dejó Canarias el 6 de septiembre de 1492 y avistó tierra el 12 de octubre: 36 días, 864 horas. 6.000 km ÷ 864 h ≈ 6,94 km/h.",
-      "referenceExpression": "6000 ÷ (36 × 24)",
-      "assumptions": "La distancia de 6.000 km es un modelo de trayectoria recta, no una medida histórica; la ruta real zigzagueó y hubo días de calma. Contamos días completos de navegación.",
-      "confidence": "Fechas documentadas + modelo de distancia",
+      "tag": "Colón con prisas",
+      "title": "Si Colón hubiera cruzado el Atlántico en moto de agua a 60 km/h, ¿cuántas horas habría tardado de La Gomera a Guanahaní?",
+      "detail": "Ve en línea recta de San Sebastián de La Gomera a la isla de San Salvador (la probable Guanahaní) a 60 km/h, sin paradas para repostar. Los Reyes Católicos no pagan la gasolina.",
+      "unit": "horas",
+      "answer": 94.96666666666667,
+      "math": "Con las coordenadas de San Sebastián de La Gomera (28°5′N 17°7′O) y de San Salvador (24°2′N 74°30′O), la distancia más corta por la esfera terrestre es de unos 5.698 km. A 60 km/h: 5.698 ÷ 60 ≈ 95 horas.",
+      "referenceExpression": "5698 ÷ 60",
+      "assumptions": "Calculamos la distancia en línea recta sobre la Tierra (ortodrómica), con un radio medio de 6.371 km. La flota real navegó más, del 6 de septiembre al 12 de octubre de 1492, y la identificación de Guanahaní con San Salvador es la más aceptada, pero no segura.",
+      "confidence": "Dato documentado + modelo de distancia",
       "sources": [
         {
-          "title": "Wikipedia · Primer viaje de Colón",
-          "url": "https://es.wikipedia.org/wiki/Primer_viaje_de_Col%C3%B3n",
-          "fact": "La flota permaneció en Canarias hasta el 6 de septiembre de 1492; el 12 de octubre Rodrigo de Triana avistó tierra."
+          "title": "Wikipedia · Voyages of Christopher Columbus",
+          "url": "https://en.wikipedia.org/wiki/Voyages_of_Christopher_Columbus",
+          "fact": "El 6 de septiembre de 1492 las naves salieron de San Sebastián de La Gomera; el 12 de octubre desembarcaron en Guanahaní."
+        },
+        {
+          "title": "Wikipedia · San Sebastián de La Gomera",
+          "url": "https://en.wikipedia.org/wiki/San_Sebasti%C3%A1n_de_La_Gomera",
+          "fact": "Coordenadas: 28°5′32″N 17°6′36″O."
+        },
+        {
+          "title": "Wikipedia · San Salvador Island",
+          "url": "https://en.wikipedia.org/wiki/San_Salvador_Island",
+          "fact": "Coordenadas: 24°2′6″N 74°29′51″O; lugar probable del primer desembarco de Colón el 12 de octubre de 1492."
         }
       ],
-      "image": {
-        "src": "assets/archivo-2026-08-16-3.jpg",
-        "alt": "Réplica de la nao Santa María navegando por el Támesis",
-        "credit": "Jodiepedia",
-        "url": "https://commons.wikimedia.org/wiki/File:34_Nao_Santa_Maria_in_the_Thames_-_IMG_5752_-_Nao.jpg",
-        "license": "CC0",
-        "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
-      },
       "reasoning": {
-        "heading": "Distancia entre horas de travesía",
+        "heading": "De 36 días a 4",
         "steps": [
-          "Un velero del siglo XV avanza a ritmo de bicicleta tranquila o menos. Cruzar el Atlántico en algo más de un mes sugiere pocos km/h.",
-          "6.000 km en unos 35 días son unos 170 km diarios: entre 24 horas, alrededor de 7 km/h.",
-          "Con 36 días exactos salen 6,94 km/h, unos 3,7 nudos. La velocidad real en ruta fue más alta en los días buenos y casi nula en las calmas."
+          "Cruzar el Atlántico por esa latitud son unos 5.000-6.000 km. A 60 km/h, unas 100 horas.",
+          "Dividiendo 6.000 km entre 60 km/h salen 100 horas; con 5.500 km, unas 92. Cuatro días largos.",
+          "Con 5.698 km en línea recta salen 95 horas: unos 4 días frente a los 36 que tardó la flota. Eso sí, nadie habría avistado tierra después de 95 horas sin dormir encima de una moto."
         ]
       }
     }

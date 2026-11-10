@@ -1,44 +1,36 @@
 {
   "id": "2026-09-03",
   "name": "Jueves",
-  "theme": "Athletic, agua del grifo y PIB",
+  "theme": "Socios, grifo y Cristiano",
   "questions": [
     {
       "id": "archivo-2026-09-03-1",
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "deportes",
-      "tag": "La cola rojiblanca",
-      "title": "Si todos los socios del Athletic Club hicieran cola, ¿cuántos kilómetros mediría?",
-      "detail": "Cola india, sin colarse nadie, cada socio ocupando 50 cm. Sí, también los que se quejan del árbitro.",
+      "tag": "Cola merengue",
+      "title": "Si todos los socios del Real Madrid hicieran cola, ¿cuántos kilómetros mediría?",
+      "detail": "Todos los socios del Real Madrid, en fila india, sin colarse nadie. Cada uno ocupa 50 cm, con bufanda incluida.",
       "unit": "km",
-      "answer": 21.8245,
-      "math": "El club tenía 43.649 socios a 30 de junio de 2024. 43.649 × 0,5 m = 21.824,5 m ≈ 21,8 km.",
-      "referenceExpression": "43649 × 0,5 ÷ 1000",
-      "assumptions": "Cada persona ocupa 50 cm de cola. El número de socios cambia cada temporada; usamos el dato de junio de 2024.",
+      "answer": 49.136,
+      "math": "El club tenía 98.272 socios según su presidente en la Asamblea General de 2025. 98.272 × 0,5 m = 49.136 m ≈ 49,1 km.",
+      "referenceExpression": "98272 × 0,5 ÷ 1000",
+      "assumptions": "Cada persona ocupa 50 cm de cola. El número de socios cambia cada temporada; usamos el dato que dio el club en la Asamblea de noviembre de 2025.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Athletic Club",
-          "url": "https://es.wikipedia.org/wiki/Athletic_Club",
-          "fact": "Número de socios: 43.649 (a 30 de junio de 2024)."
+          "title": "Real Madrid · Discurso de Florentino Pérez en la Asamblea General Ordinaria 2025",
+          "url": "https://static.realmadrid.com/StaticFiles/RealMadrid/img/pdf/discurso_integro_Florentino_Perez_Asamblea_General_Ordinaria_2025.pdf",
+          "fact": "«Los casi 100.000 socios del Real Madrid, exactamente 98.272 socios»."
         }
       ],
       "reasoning": {
-        "heading": "Cuenta personas, luego pasos",
+        "heading": "Socios por medio metro",
         "steps": [
-          "San Mamés se llena con unas 50.000 personas, así que los socios serán del orden de decenas de miles.",
-          "Con 40.000 personas a medio metro, la cola mediría 20 km: más o menos de Bilbao a Getxo y vuelta.",
-          "Con los 43.649 socios de 2024 salen 21,8 km. Si la gente se apretujara a 40 cm bajaría a 17,5 km; la lista de espera para hacerse socio la alargaría bastante."
+          "El Real Madrid tiene muchos socios, más de los que caben en medio Bernabéu: unas decenas de miles.",
+          "Con unos 100.000 socios a medio metro cada uno salen unos 50 km de cola.",
+          "Con 98.272 socios la cola mide 49,1 km: desde el Bernabéu casi hasta Toledo."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-03-1.jpg",
-        "alt": "Estadio de San Mamés en Bilbao, casa de los socios del Athletic",
-        "credit": "Julen.82",
-        "url": "https://commons.wikimedia.org/wiki/File:San_Mames_Stadium.JPG",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       }
     },
     {
@@ -69,14 +61,6 @@
           "Ducha, varias cisternas, cocina y lavadora suman algo más de 100 litros. Eso son unas 70–80 botellas.",
           "El INE da 128 litros por persona y día en 2024: 85,3 botellas. Una persona que se duche largo o riegue el jardín se dispara; un hogar con jardín y piscina, ni te cuento."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-03-2.jpg",
-        "alt": "Agua saliendo de un grifo, el lugar por donde se escapan las botellas diarias",
-        "credit": "Victor Balter",
-        "url": "https://commons.wikimedia.org/wiki/File:Agua_saliendo_de_un_grifo.jpg",
-        "license": "CC BY-SA 4.0",
-        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
       }
     },
     {
@@ -84,37 +68,34 @@
       "revision": 1,
       "verifiedAt": "2026-11-10",
       "category": "dinero",
-      "tag": "Economía al segundo",
-      "title": "¿Cuántos euros produce la economía española en cada segundo?",
-      "detail": "Cogemos todo el PIB de 2025 y lo repartimos por igual entre todos los segundos del año, incluidos los de la siesta.",
-      "unit": "euros/s",
-      "answer": 53589.92897006596,
-      "math": "El PIB de 2025 a precios corrientes fue de 1.690.012 millones de euros. Un año tiene 365 × 86.400 = 31.536.000 s. 1.690.012.000.000 ÷ 31.536.000 ≈ 53.590 €/s.",
-      "referenceExpression": "1690012000000 ÷ (365 × 86400)",
-      "assumptions": "Producción repartida uniformemente durante el año. El PIB real se concentra en horas laborables y se revisa con el tiempo.",
+      "tag": "Sueldo de 90 minutos",
+      "title": "¿Cuántos euros gana Cristiano Ronaldo mientras dura un partido de fútbol?",
+      "detail": "Repartimos lo que ganó Cristiano en un año, sueldo y publicidad, entre todos los minutos del año, y contamos los 90 de un partido. Sin descuento: el árbitro no le paga extra.",
+      "unit": "euros",
+      "answer": 45894.633265,
+      "math": "Forbes estima que ganó 300 millones de dólares entre mayo de 2025 y mayo de 2026. Al cambio del BCE del 9-11-2026 (1,1193 $/€) son unos 268 millones de euros. Un año tiene 365 × 24 × 60 = 525.600 minutos: 268.024.658 ÷ 525.600 × 90 ≈ 45.895 €.",
+      "referenceExpression": "300000000 ÷ 1,1193 ÷ (365 × 24 × 60) × 90",
+      "assumptions": "Ingresos antes de impuestos y comisiones, repartidos por igual entre todos los minutos del año. El cambio euro-dólar del 9 de noviembre de 2026; con otro día cambia unos cientos de euros.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "INE · Contabilidad Nacional Anual de España, revisión 2025",
-          "url": "https://www.ine.es/dyngs/Prensa/CNA2025.htm",
-          "fact": "El valor del PIB a precios corrientes para 2025 fue de 1.690.012 millones de euros."
+          "title": "Forbes Australia · The World’s 10 Highest-Paid Athletes 2026",
+          "url": "https://www.forbes.com.au/news/sport/the-worlds-10-highest-paid-athletes-2026/",
+          "fact": "Cristiano Ronaldo ganó unos 300 millones de dólares (235 en el campo y 65 fuera) entre el 1 de mayo de 2025 y el 1 de mayo de 2026."
+        },
+        {
+          "title": "BCE · Tipo de cambio de referencia del euro frente al dólar",
+          "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-usd.en.html",
+          "fact": "Tipo de referencia del 9 de noviembre de 2026: 1,1193 dólares por euro."
         }
       ],
       "reasoning": {
-        "heading": "Divide un billón y pico entre 31 millones",
+        "heading": "Sueldo anual entre minutos",
         "steps": [
-          "El PIB español anda por encima del billón y medio de euros. Un año tiene unos 31,5 millones de segundos.",
-          "1,6 billones entre 30 millones da algo más de 50.000 € por segundo: un coche por segundo, más o menos.",
-          "Con el dato de 2025 (1.690.012 millones) salen 53.590 €/s. Mientras lees esta frase se han producido unos 250.000 euros, aunque no los vayas a ver."
+          "Cristiano es el deportista mejor pagado del mundo: cientos de millones al año.",
+          "Un año tiene medio millón de minutos. 270 millones entre 500.000 son unos 500 € por minuto; por 90 minutos, unos 45.000 €.",
+          "Salen 45.895 € por partido: mientras tú ves el encuentro, él gana el sueldo de un año de mucha gente. Siiiu."
         ]
-      },
-      "image": {
-        "src": "assets/archivo-2026-09-03-3.jpg",
-        "alt": "Paseo de la Castellana en Madrid, con oficinas donde se mueve parte de la economía",
-        "credit": "Luis García (Zaqarbal)",
-        "url": "https://commons.wikimedia.org/wiki/File:Paseo_de_la_Castellana_(Madrid)_01.jpg",
-        "license": "CC BY-SA 3.0",
-        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
       }
     }
   ]
