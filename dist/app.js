@@ -11,8 +11,6 @@ const editionNumber = (id) => Math.round((Date.parse(id+'T12:00:00Z')-Date.parse
 const categoriesOf = (day) => day.categories || (day.questions||[]).map(q=>q.category);
 const icons = (day, className) => categoriesOf(day).map(key=>window.categoryIcon?.(key,className)||'').join('');
 const loadedDays = new Map();
-let archiveOpen = false;
-const ARCHIVE_PREVIEW = 7;
 let activeDay = currentDay;
 let activeIndex = 0;
 let toastTimer;
@@ -45,17 +43,7 @@ function renderWeek(){
   const roundsList=$('#hero-rounds');
   roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
   roundsList.hidden=!roundsList.innerHTML;
-  // Archivo: jornadas completas del calendario y resúmenes de las antiguas, de la más reciente a la más antigua, sin las futuras.
-  const byId=new Map([...(window.DAILY_CALENDAR?.archive||[]),...DAYS].map(day=>[day.id,day]));
-  const past=[...byId.values()].filter(day=>day.id<=todayKey).sort((a,b)=>a.id<b.id?1:-1);
-  const shown=archiveOpen?past:past.slice(0,ARCHIVE_PREVIEW);
-  $('#archive-count').textContent=past.length;
-  $('#week-list').innerHTML=shown.map(day=>{
-    const done=getGuesses(day).length===3,today=day.id===todayKey;
-    return `<button type="button" class="week-item ${today?'today':''}" data-date="${day.id}" aria-label="Jugar el reto número ${editionNumber(day.id)}, ${day.name} ${prettyDate(day.id)}: ${day.theme}"><span class="week-day">Nº ${editionNumber(day.id)}</span><strong>${day.name}: ${day.theme}${today?'<span class="week-badge">HOY</span>':''}${done?'<span class="week-badge">HECHO</span>':''}</strong><span class="week-icons" aria-hidden="true">${icons(day)}</span><span class="week-date">${prettyDate(day.id)}</span><span class="week-arrow">↗</span></button>`;
-  }).join('');
-  const more=$('#archive-more');more.hidden=past.length<=ARCHIVE_PREVIEW;
-  more.textContent=archiveOpen?'Ver solo los últimos días':`Ver todo el archivo (${past.length} días)`;
+  renderArchives();
 }
 async function openDate(id){
   let day=loadedDays.get(id)||DAYS.find(d=>d.id===id&&d.questions);
@@ -68,7 +56,7 @@ async function openDate(id){
 // El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
 // Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
 function openDay(day){activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
-function hideGame(){toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
+function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
 function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
 window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
 function renderGame(){
@@ -133,7 +121,7 @@ function saveWorkspace(){sessionWorkspaces.set(activeDay.id,workspaceData);try{l
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
-function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#game-close')).focus()}
+function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
 function evaluateCalculation(source){
   const expression=source.trim().replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s+/g,'');
   if(!expression||expression.length>100||!/^[\d.+*/()-]+$/.test(expression))throw Error('Operación no válida');
@@ -149,11 +137,28 @@ function insertInNote(text){const input=$('#scratch-note'),start=input.selection
 function showToast(message){const toast=$('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
 async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
+// Menú hamburguesa del juego (decisión 0016): reto de hoy, volver al inicio y el archivo para saltar a otro día.
+const menuArchive=createArchive($('#menu-archive'),{compact:true});
+window.openArchiveDay=(id)=>{toggleMenu(false);openDate(id)};
+function menuOpen(){return document.body.classList.contains('menu-open')}
+function toggleMenu(open=!menuOpen()){
+  if(open===menuOpen())return;
+  const drawer=$('#menu-drawer'),toggle=$('#menu-toggle');
+  document.body.classList.toggle('menu-open',open);drawer.setAttribute('aria-hidden',String(!open));drawer.inert=!open;
+  toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú');
+  if(open){
+    $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
+    if(activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
+    setTimeout(()=>drawer.querySelector('.menu-link:not(:disabled)')?.focus(),60);
+  }else if(!$('#game-shell').hidden)toggle.focus();
+}
+createArchive($('#home-archive'));
 renderWeek();
 document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
-$('#week-list').addEventListener('click',event=>{const button=event.target.closest('[data-date]');if(button)openDate(button.dataset.date)});
-$('#archive-more').addEventListener('click',()=>{archiveOpen=!archiveOpen;renderWeek();if(!archiveOpen)$('#semana').scrollIntoView()});
-$('#game-close').addEventListener('click',closeGame);
+$('#menu-toggle').addEventListener('click',()=>toggleMenu());
+document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
+$('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
+$('#menu-home').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
 $('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});
 $('#scratch-expression').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();calculate()}});
@@ -164,7 +169,7 @@ $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
 $('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
 $('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
 $('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
-document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('#game-shell').hidden){if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});
