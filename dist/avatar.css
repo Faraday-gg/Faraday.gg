@@ -68,3 +68,11 @@
 /* La chapa del perfil se coloca a la izquierda del botón de cuenta (inicio de sesión), que ocupa la esquina. */
 .home-profile{right:118px}
 body:has(.home-account.is-signed) .home-profile{right:68px}
+
+/* Nombre de usuario: en la portada, sobre la placa del nivel, y editable en el perfil. */
+.home-avatar-name{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 18px var(--display);letter-spacing:-.02em}
+.profile-name{display:grid;gap:4px;background:var(--paper);border-radius:18px;padding:10px 14px}
+.profile-name span{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.profile-name input{width:100%;min-width:0;border:0;border-bottom:2px solid var(--line);background:transparent;color:var(--ink);padding:2px 0 4px;font:700 18px var(--display);letter-spacing:-.02em;outline:0}
+.profile-name input:focus{border-color:var(--ink)}
+@media(max-width:760px){.profile-name{grid-column:1/-1}}

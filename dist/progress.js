@@ -30,7 +30,9 @@
   // Las misiones de cada día y cada semana salen de la fecha: son las mismas para todo el mundo.
   function pick(pool,count,seed){let h=2166136261;for(const c of seed)h=Math.imul(h^c.charCodeAt(0),16777619);const list=[...pool];for(let i=list.length-1;i>0;i--){h=Math.imul(h^h>>>13,1274126177);const j=(h>>>0)%(i+1);[list[i],list[j]]=[list[j],list[i]]}return list.slice(0,count)}
 
-  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{}};
+  // Nombre de usuario: hasta 16 caracteres. Es el que ven los rivales en los duelos.
+  const cleanName=value=>String(value??'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,16).trim();
+  let state={v:1,name:'',xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{}};
   try{
     const saved=JSON.parse(localStorage.getItem(KEY));
     if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
@@ -40,6 +42,10 @@
   if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
   if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+  // Quien ya tenía apodo en los duelos lo conserva; si no, se le da uno provisional.
+  state.name=cleanName(state.name);
+  if(!state.name){let old='';try{old=JSON.parse(localStorage.getItem('casi-casi:duelo:perfil'))?.name}catch{}state.name=cleanName(old)||'Jugador '+(100+Math.floor(Math.random()*900));save()}
+  function setName(value){const name=cleanName(value);if(name&&name!==state.name){state.name=name;save();refresh();document.dispatchEvent(new CustomEvent('faraday:name'))}return state.name}
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
   const levelOf=xp=>Math.floor((1+Math.sqrt(1+xp/12.5))/2),levelStart=level=>50*level*(level-1);
@@ -98,7 +104,7 @@
   function refresh(){
     if(chip){const waiting=pending();chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} misiones por recoger">${waiting}</i>`:''}`}
     // Avatar de cuerpo entero en la portada: es la puerta al armario y a la tienda.
-    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${Avatar.render(look(),{live:true,emote:'wave'})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta">Personalizar <span aria-hidden="true">→</span></span>`;
+    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${Avatar.render(look(),{live:true,emote:'wave'})}</span><span class="home-avatar-name">${escapeHtml(state.name)}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta">Personalizar <span aria-hidden="true">→</span></span>`;
     if(!shell.hidden)draw();
   }
 
@@ -123,6 +129,7 @@
       ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre diario recogido ✓':`Recoge las tres de hoy y llévate un cofre de +${REWARD.dailyChest} ${COIN}`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul>`;
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
+<label class="profile-name"><span>Nombre de usuario</span><input id="profile-name" type="text" maxlength="16" autocomplete="nickname" spellcheck="false" value="${escapeHtml(state.name)}"></label>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}</div></section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button></div>${side}</section>`;
@@ -158,13 +165,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       const result=reward({xp:10,coins:gained});showToast(`+${gained} ≈ · +10 XP${note}${levelNote(result)}`);
     }
   });
+  shell.addEventListener('change',event=>{if(event.target.id==='profile-name'){const name=setName(event.target.value);event.target.value=name;showToast(`Ahora te llamas ${name}`)}});
   $('#profile-close').addEventListener('click',close);
   document.querySelectorAll('[data-open-profile]').forEach(button=>button.addEventListener('click',()=>open()));
   document.addEventListener('click',event=>{const button=event.target.closest('[data-open-profile-inline]');if(button)open(button.dataset.openProfileInline||undefined)});
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 
-  window.Progress={look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD};
+  window.Progress={name:()=>state.name,setName,look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
   if(!state.welcome){state.welcome=true;state.coins+=REWARD.welcome}
   periods();save();refresh();

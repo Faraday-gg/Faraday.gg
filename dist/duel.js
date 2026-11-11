@@ -7,8 +7,8 @@
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  let profile=saved.get('perfil',null);
-  if(!profile||typeof profile.name!=='string')profile={name:'Jugador '+(100+Math.floor(Math.random()*900))};
+  // El nombre con el que se juega es el nombre de usuario del perfil (progress.js).
+  const profile={get name(){return Progress.name()}};
   const DAILY_FULL=3,CAPPED_FACTOR=.25,BOT_FACTOR=.5;
   let stats={xp:0,wins:0,losses:0,draws:0,streak:0,best:0,lastWin:'',...saved.get('progreso',{})};
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
@@ -130,7 +130,7 @@
 ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo <span aria-hidden="true">→</span></button></div>`:''}
 <div class="duel-profile">
   <div class="duel-me"><span class="duel-stage">${figure({avatar:Progress.look()},'',{drag:true})}</span><button type="button" class="game-secondary" data-open-profile-inline="armario">Personalizar avatar</button></div>
-  <label class="duel-name-field"><span>Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
+  <label class="duel-name-field"><span>Nombre de usuario</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
 </div>
 <div class="duel-stats"><div class="duel-xp"><span><b>Nivel ${progress.level}</b><small>${int(progress.done)} / ${int(progress.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${progress.ratio}"></i></div></div><span class="duel-stat"><b>${stats.streak?'🔥 ':''}${stats.streak}</b><small>racha</small></span><span class="duel-stat"><b>${stats.wins}–${stats.losses}</b><small>victorias–derrotas</small></span></div>
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
@@ -311,7 +311,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   function stopTimers(){clearTimeout(pollTimer);clearTimeout(endTimer);clearInterval(ticker);ticker=0;stopMusic();shell.dataset.rush=''}
 
   // Acciones
-  function readProfile(){const input=$('#duel-name');if(input){profile.name=input.value.replace(/\s+/g,' ').trim().slice(0,16)||profile.name}saved.set('perfil',profile)}
+  function readProfile(){const input=$('#duel-name');if(input)input.value=Progress.setName(input.value)}
   async function begin(action,extra={}){
     if(busy)return;busy=true;readProfile();shell.classList.add('is-busy');
     const response=await call(action,{...identity(),...extra});busy=false;shell.classList.remove('is-busy');
