@@ -28,6 +28,7 @@ node tests/editorial.test.mjs
 node tests/vercel.test.mjs
 node tests/publicar.test.mjs
 node tests/generar.test.mjs
+node tests/duelos.test.mjs
 ```
 
 ## Despliegue: Vercel y Supabase

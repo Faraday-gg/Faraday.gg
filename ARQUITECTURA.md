@@ -58,12 +58,14 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
+  duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0021)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
+lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -92,6 +94,15 @@ runtime/                 Estado local generado; excluido de Git
 5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador (en `runtime/answers.json` o en Supabase); y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
 
 El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
+
+## Duelos 1 vs 1
+
+Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pierde vida ([decisión 0021](docs/decisiones/0021-duelos-1vs1.md)). Cada uno empieza con 6000; una respuesta vale de 0 a 5000 puntos según su distancia a la cifra real y quien puntúa menos pierde la diferencia, multiplicada a partir de la ronda 4. Hay 3 minutos por pregunta, que bajan a 30 segundos cuando el rival responde.
+
+- `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `responder`, `bot`, `salir` y `revancha`.
+- `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
+- El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. **La migración `20261111120000_duelos` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel.
+- El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
 
 ## Contenido y recursos
 
@@ -139,6 +150,7 @@ node tests/editorial.test.mjs
 node tests/vercel.test.mjs
 node tests/publicar.test.mjs
 node tests/generar.test.mjs
+node tests/duelos.test.mjs
 # Qué cambiaría en Supabase (no escribe nada; la publicación real la hace Vercel):
 node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
