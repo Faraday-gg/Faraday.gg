@@ -59,8 +59,8 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
-  avatar.js              Catálogo de piezas del avatar y traducción de un look a lo que se dibuja (decisiones 0024 y 0025)
-  avatar3d.js            Avatar en 3D: construye el personaje con Three.js y lo pinta en todos los huecos de la página (decisión 0025)
+  avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0027)
+  avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025 y 0027)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
   progress.js            Nivel, faradios, racha, misiones y perfil con armario y tienda (decisión 0024)
@@ -113,7 +113,7 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 
 ## Avatar, faradios y misiones
 
-Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)). Parte de la ropa y las zapatillas son de marcas reales, con su logotipo (`dist/avatar-logos.js`), sin licencia de las marcas ([decisión 0026](docs/decisiones/0026-marcas-reales-en-la-tienda.md)). Cada jugador tiene también un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
+Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)). El avatar puede ser de hombre o de mujer, cada uno con su colección de 185 piezas, y se anima con una postura base y 20 gestos ([decisión 0027](docs/decisiones/0027-avatar-de-mujer-y-animaciones.md)). Parte de la ropa y las zapatillas son de marcas reales, con su logotipo (`dist/avatar-logos.js`), sin licencia de las marcas ([decisión 0026](docs/decisiones/0026-marcas-reales-en-la-tienda.md)). Cada jugador tiene también un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
 
 - `app.js` y `duel.js` avisan con eventos del documento (`faraday:answer`, `faraday:day`, `faraday:duel`) y `progress.js` reparte la experiencia, los faradios y el avance de las misiones.
 - Todo se guarda en `localStorage` (clave `casi-casi:progreso`). No hay pagos ni datos en el servidor.

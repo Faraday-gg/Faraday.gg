@@ -22,6 +22,9 @@
 .profile-figure{width:min(260px,86%);filter:none}
 .profile-figure svg{animation:none}
 .profile-hint{margin:-6px 0 0;text-align:center;font-size:11px;color:var(--muted)}
+.profile-body{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 0 12px;padding:4px;border-radius:30px;background:var(--cream)}
+.profile-body button{border:0;border-radius:30px;background:transparent;padding:7px 20px;font:700 13px var(--font);color:var(--muted);cursor:pointer}
+.profile-body button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
 .profile-slots{flex-wrap:wrap;overflow:visible;padding-bottom:4px}
 .profile-count{margin:0 0 10px;font-size:12px;color:var(--muted)}
 .profile-items{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}

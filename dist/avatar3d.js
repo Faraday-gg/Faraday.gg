@@ -1,5 +1,5 @@
 // Avatar en 3D (decisión 0025). Personaje propio, de estética de calle: cabeza de cubo redondeado, mirada con párpado
-// caído, ropa ancha y contorno de tinta. Todo se construye con formas de Three.js y texturas pintadas en un lienzo
+// caído, ropa ancha y contorno de tinta. Hay dos cuerpos, hombre y mujer (decisión 0027). Todo se construye con formas de Three.js y texturas pintadas en un lienzo
 // (chaquetas, estampados, puños): no hay modelos descargados ni logotipos o diseños de terceros. Las piezas de marca
 // (decisión 0026) son la excepción: llevan el logotipo real (avatar-logos.js, o dibujado aquí en DRAWN).
 // avatar.js escribe en la página huecos <span class="avatar-view"> con el look ya traducido; este archivo los rellena.
@@ -62,13 +62,14 @@ function paint(draw,size=512){
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.wrapS=THREE.RepeatWrapping;texture.anisotropy=4;return texture;
 }
 const wave=(c,x,y,w,color,width)=>{c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';for(const dy of [-w*.2,w*.2]){c.beginPath();c.moveTo(x-w/2,y+dy);c.bezierCurveTo(x-w/4,y+dy-w*.28,x-w/8,y+dy+w*.28,x,y+dy);c.bezierCurveTo(x+w/8,y+dy-w*.28,x+w/4,y+dy+w*.28,x+w/2,y+dy);c.stroke()}};
-function torsoTexture(type,main,trim,print){
+// stretch = cuánto más estirado está lo vertical que lo horizontal en el lienzo (depende del largo de la prenda); k = tamaño del estampado.
+function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
   const texture=paint((c,S)=>{
     const F=s=>(.75+s*.25)*S,B=s=>(.25+s*.25)*S,Y=v=>(1-v)*S,dark=shade(main,.78),on=light(main)?INK:PAPER,onTrim=light(trim)?INK:PAPER;
     // brand = logotipo de una marca real ('@nike'): sustituye a FRDY y al sello ≈ de la prenda.
     const brand=print[0]==='@'?print.slice(1):'',tag=brand||'FRDY';
-    // Dibuja con proporción real: en el lienzo, lo vertical está 2,6 veces más estirado que lo horizontal.
-    const at=(x,y,fn)=>{c.save();c.translate(x,y);c.scale(1,2.6);fn();c.restore()};
+    // Dibuja con proporción real: en el lienzo, lo vertical está más estirado que lo horizontal (2,6 veces en el torso de hombre).
+    const at=(x,y,fn)=>{c.save();c.translate(x,y);c.scale(1,stretch);fn();c.restore()};
     const badge=(x,y,r,bg,fg)=>brand||at(x,y,()=>{c.fillStyle=bg;c.beginPath();c.arc(0,0,r,0,7);c.fill();c.lineWidth=r*.14;c.strokeStyle=fg;c.stroke();wave(c,0,0,r*1.15,fg,r*.2)});
     const word=(text,x,y,size,fill,stroke,italic=true,max=200)=>at(x,y,()=>{c.font=`${italic?'italic ':''}900 ${size}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';const fit=Math.min(1,max/c.measureText(text).width);c.scale(fit,fit);if(stroke){c.lineWidth=size*.22;c.lineJoin='round';c.strokeStyle=stroke;c.strokeText(text,0,0)}c.fillStyle=fill;c.fillText(text,0,0)});
     const bands=(v0,v1,colors)=>colors.forEach((color,i)=>{c.fillStyle=color;c.fillRect(0,Y(v1)+(Y(v0)-Y(v1))*i/colors.length,S,(Y(v0)-Y(v1))/colors.length+1)});
@@ -94,9 +95,9 @@ function torsoTexture(type,main,trim,print){
     }
     if(type==='sudadera'){
       bands(0,.09,[dark]);c.fillStyle=dark;c.beginPath();c.roundRect(F(-.5),Y(.36),F(.5)-F(-.5),Y(.12)-Y(.36),18);c.fill();c.strokeStyle=shade(main,.6);c.lineWidth=3;c.stroke();
-      graphic(F(0),brand?.47:.62,brand?1.05:1.25);if(brand)mark(B(0),Y(.62),84,40,on);else word('FRDY',B(0),Y(.7),30,on,null);
+      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else word('FRDY',B(0),Y(.7),30,on,null);
     }
-    if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5);badge(B(0),Y(.8),14,on,main)}
+    if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5*k);badge(B(0),Y(.8),14,on,main)}
     if(type==='chandal'){
       if(!brand){c.fillStyle=trim;c.fillRect(0,0,S,Y(.62));c.fillStyle=PAPER;c.fillRect(0,Y(.62)-5,S,10)}bands(0,.08,[dark]);bands(.92,1,[shade(trim,.8)]);
       c.fillStyle=PAPER;c.fillRect(F(0)-3,Y(.92),6,Y(.08)-Y(.92));c.fillStyle=INK;c.fillRect(F(0)-5,Y(.86),10,26);
@@ -141,102 +142,148 @@ function fitLogo(c,name,color,w,h){const [x0,y0,x1,y1]=logoBox(name),k=Math.min(
 const logoTexture=(name,color)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.translate(S/2,S/2);fitLogo(c,name,color,S*.94,S*.94)},256);
 // Logotipo pegado sobre una pieza (gorros, plumas, pantalones, zapatillas). flip = -1 lo pone en espejo.
 const decal=(parent,name,color,position,size,rotation=[],flip=1)=>{add(parent,new THREE.PlaneGeometry(size,size),new THREE.MeshBasicMaterial({map:logoTexture(name,color),transparent:true,alphaTest:.05,side:THREE.DoubleSide}),position,[flip,1,1],rotation).castShadow=false};
+// Tablas de la falda: líneas verticales algo más oscuras.
+const pleats=color=>paint((c,S)=>{c.fillStyle=color;c.fillRect(0,0,S,S);c.fillStyle=shade(color,.8);for(let i=0;i<14;i++)c.fillRect(i*S/14,0,S/80,S)},128);
+const heart=()=>{const shape=new THREE.Shape();shape.moveTo(0,-.11);shape.bezierCurveTo(-.2,.02,-.1,.16,0,.06);shape.bezierCurveTo(.1,.16,.2,.02,0,-.11);return new THREE.ShapeGeometry(shape,10)};
 const dotted=()=>paint((c,S)=>{c.fillStyle='#e5383b';c.fillRect(0,0,S,S);c.fillStyle=PAPER;for(let i=0;i<8;i++)for(let j=0;j<6;j++){c.beginPath();c.arc((i+(j%2)/2)*S/8+S/16,j*S/6+S/12,S/60,0,7);c.fill()}},128);
 
+// Peinados de mujer: se montan con piezas. skirt = falda de pelo de las sienes a la mandíbula; back = melena por la espalda
+// (medio largo); sides = mechones sobre los hombros; fringe = flequillo; y coletas, moños y trenzas.
+const FEM_HAIR={calva:{bald:1},liso:{skirt:1,back:.42,sides:.4,fringe:'cortina'},bob:{skirt:1,fringe:'recto'},ondas:{skirt:1,back:.34,curls:1,fringe:'cortina'},pixie:{fringe:'lado',nape:1},
+  media:{skirt:1,back:.27,fringe:'lado'},'mono-alto':{bun:1,fringe:'cortina'},'dos-trenzas':{braids:2,fringe:'recto'},coletas:{tails:1,fringe:'recto'},box:{box:1},afro:{afro:1},
+  flequillo:{skirt:1,back:.42,sides:.4,fringe:'recto'},'coleta-alta':{pony:1,fringe:'lado'},trenza:{braids:1,nape:1,fringe:'lado'},semi:{skirt:1,back:.42,sides:.4,knot:1,fringe:'cortina'},
+  monos:{skirt:1,buns:1,fringe:'recto'},extra:{skirt:1,back:.62,sides:.62,fringe:'cortina'}};
+// Esqueleto: body (cadera) → upper (gira por la cintura: torso y brazos) → neck (cuello) → head. Cada brazo dobla por el codo
+// (fore) y las zapatillas van aparte de las piernas para que se queden en el suelo cuando la cadera se mueve.
+const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3;
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
 function buildModel(look){
-  const model=new THREE.Group();
+  const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
   const main=CLOTH[look.topColor]||PAPER,trim=CLOTH[look.trimColor]||INK,pantsC=DENIM[look.bottomColor]||DENIM.lavado,pants=mat(pantsC),pantsDark=mat(shade(pantsC,.78));
   const ink=flat(INK),white=mat(PAPER),gold=new THREE.MeshStandardMaterial({color:GOLD,roughness:.28,metalness:.75});
   const type=look.top,sleeved=!['camiseta','baloncesto'].includes(type),bare=type==='baloncesto',O=.03,brandKey=look.print&&look.print[0]==='@'?look.print.slice(1):'';
-  const body=new THREE.Group();model.add(body);
+  const body=new THREE.Group(),upper=new THREE.Group(),up=new THREE.Group(),neck=new THREE.Group(),head=new THREE.Group();
+  model.add(body);upper.position.y=WAIST;up.position.y=-WAIST;upper.add(up);body.add(upper);neck.position.y=NECK;up.add(neck);head.position.y=1.8-NECK;neck.add(head);
 
-  // Piernas: pantalón ancho que se arruga sobre la zapatilla
-  const lift={plataforma:.08,runner:.04,botas:.03}[look.shoes]||0,boots=look.shoes==='botas',short=look.bottom==='corto';body.position.y=lift;
-  add(body,sphere(),pants,[0,.64,0],[.35,.17,.27],[],O);
+  // Piernas: pantalón ancho que se arruga sobre la zapatilla. En mujer hay además falda (con calcetín) y mallas.
+  const lift={plataforma:.08,runner:.04,botas:.03}[look.shoes]||0,boots=look.shoes==='botas',short=look.bottom==='corto',skirt=fem&&look.bottom==='falda',tights=fem&&look.bottom==='mallas',gap=fem?.16:.18,legs=[],feet=[];body.position.y=lift;
+  if(skirt){
+    add(body,lathe([[0,-.215],[.4,-.215],[.42,-.2],[.36,-.05],[.3,.1],[.285,.15],[.25,.17],[0,.17]]),mat(pantsC,pleats(pantsC)),[0,.62,0],[1.02,1,.84],[],O);
+    add(body,ring(.285,.03),pantsDark,[0,.765,0],[1.02,.84,1],[Math.PI/2,0,0]);
+    if(look.bottomLogo==='levis')add(body,new THREE.BoxGeometry(.03,.05,.014),flat('#c8102e'),[.2,.69,.268]);
+  }else add(body,sphere(),pants,[0,.64,0],fem?[.325,.15,.26]:[.35,.17,.27],[],O);
   for(const side of [-1,1]){
-    const leg=new THREE.Group();leg.position.set(side*.18,.64,0);body.add(leg);
-    if(short){add(leg,capsule(.1,.2),skin,[0,-.4,0],[],[],O);add(leg,capsule(.185,.16),pants,[0,-.17,0],[1,1,.95],[],O);add(leg,new THREE.CylinderGeometry(.108,.108,.16,20),white,[0,-.46,0],[],[],O)}
-    else{add(leg,capsule(.178,.22),pants,[0,-.26,0],[1,1,.95],[],O);for(const [y,r] of [[-.4,.172],[-.475,.182]])add(leg,ring(r,.045),pants,[0,y,0],[1,1,1],[Math.PI/2,0,0],O)}
-    if(look.bottom==='cargo')add(leg,box(5),pantsDark,[side*.17,-.24,0],[.05,.1,.11],[],O);
-    if(look.bottom==='chandal')for(const d of look.bottomLogo==='adidas'?[-.05,0,.05]:look.bottomLogo?[]:[-.035,.035])add(leg,new THREE.BoxGeometry(.012,short?.3:.5,.03),flat(PAPER),[side*.181,short?-.17:-.26,d]);
-    if(look.bottomLogo==='levis')add(leg,new THREE.BoxGeometry(.014,.05,.028),flat('#c8102e'),[side*.192,-.1,-.05]);
-    else if(look.bottomLogo&&side===1)decal(leg,look.bottomLogo,light(pantsC)?INK:PAPER,[0,short?-.17:-.2,short?.184:.178],.12);
-    const shoe=new THREE.Group();shoe.position.set(side*.18,-lift,.07);shoe.rotation.y=side*.14;body.add(shoe);
-    const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upper=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
-    add(shoe,box(),upper,[0,.15+lift,.02],[.17,.115,.265],[],O);
+    const leg=new THREE.Group();leg.position.set(side*gap,.64,0);body.add(leg);legs.push(leg);
+    if(skirt){add(leg,capsule(.092,.3),skin,[0,-.3,0],[],[],O);add(leg,new THREE.CylinderGeometry(.1,.1,.13,20),white,[0,-.47,0],[],[],O)}
+    else if(tights)add(leg,capsule(.125,.3),pants,[0,-.28,0],[1,1,.95],[],O);
+    else if(short){add(leg,capsule(.1*K,.2),skin,[0,-.4,0],[],[],O);add(leg,capsule(.185*K,fem?.1:.16),pants,[0,fem?-.13:-.17,0],[1,1,.95],[],O);add(leg,new THREE.CylinderGeometry(.108*K,.108*K,.16,20),white,[0,-.46,0],[],[],O)}
+    else{add(leg,capsule(.178*K,.22),pants,[0,-.26,0],[1,1,.95],[],O);for(const [y,r] of [[-.4,.172],[-.475,.182]])add(leg,ring(r*K,.045),pants,[0,y,0],[1,1,1],[Math.PI/2,0,0],O)}
+    if(look.bottom==='cargo')add(leg,box(5),pantsDark,[side*.17*K,-.24,0],[.05,.1,.11],[],O);
+    const bands=look.bottomLogo==='adidas'?[-.05,0,.05]:look.bottomLogo?[]:[-.035,.035];
+    if(look.bottom==='chandal')for(const d of bands)add(leg,new THREE.BoxGeometry(.012,short?.3:.5,.03),flat(PAPER),[side*.181*K,short?-.17:-.26,d]);
+    if(tights&&look.bottomLogo==='adidas')for(const d of bands)add(leg,new THREE.BoxGeometry(.012,.46,.024),flat(PAPER),[side*.127,-.28,d*.8]);
+    if(look.bottomLogo==='levis'){if(!skirt)add(leg,new THREE.BoxGeometry(.014,.05,.028),flat('#c8102e'),[side*.192*K,-.1,-.05])}
+    else if(look.bottomLogo&&side===1&&!(tights&&look.bottomLogo==='adidas'))decal(leg,look.bottomLogo,light(pantsC)?INK:PAPER,[0,short?(fem?-.13:-.17):-.2,tights?.128:(short?.184:.178)*K],tights?.1:.12);
+    const shoe=new THREE.Group();shoe.position.set(side*gap,-lift,.07);shoe.rotation.y=side*.14;if(fem)shoe.scale.setScalar(.92);shoe.userData.home=[side*gap,-lift,.07];body.add(shoe);feet.push(shoe);
+    const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upperM=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
+    add(shoe,box(),upperM,[0,.15+lift,.02],[.17,.115,.265],[],O);
     add(shoe,box(),sole,[0,.055+lift/2,.02],[.185,.06+lift/2,.285],[],O);
     add(shoe,box(),sole,[0,.12+lift,.215],[.15,.07,.08]);
     add(shoe,box(),accent||mat(shade(shoeC,light(shoeC)?.86:1.5)),[0,.27+lift,.06],[.095,.09,.05],[-.45,0,0],O);
-    if(look.shoes==='altas')add(shoe,capsule(.14,.05),look.shoesLogo==='converse'?upper:accent||upper,[0,.3,-.07],[1,1,1.05],[],O);
+    if(look.shoes==='altas')add(shoe,capsule(.14,.05),look.shoesLogo==='converse'?upperM:accent||upperM,[0,.3,-.07],[1,1,1.05],[],O);
     if(look.shoesLogo){const ankle=look.shoesLogo==='converse';decal(shoe,look.shoesLogo,CLOTH[look.shoesLogoColor]||trimC||INK,ankle?[side*.153,.31,-.07]:[side*.18,.17+lift,.02],ankle?.14:.26,[0,side*Math.PI/2,0],side)}
     else add(shoe,new THREE.BoxGeometry(.012,trimC?.075:.05,trimC?.21:.16),flat(trimC||(light(shoeC)?INK:PAPER)),[side*.172,.17+lift,.03]);
     // Dos colores: lengüeta, franja y talón en el segundo color. Las botas lo llevan solo en el pespunte de la suela.
     if(accent&&!boots){add(shoe,box(),accent,[0,.175+lift,-.2],[.15,.1,.075],[],O);add(shoe,box(),accent,[0,.222+lift,.15],[.125,.045,.085],[-.25,0,0],O)}
     if(look.shoes==='runner'){add(shoe,box(),sole,[0,.1+lift,-.11],[.193,.09,.17],[],O);add(shoe,box(3),accent||mat(shade(shoeC,.8)),[0,.085+lift,-.13],[.199,.032,.1])}
-    if(boots){add(shoe,capsule(.15,.12),upper,[0,.34,-.06],[1,1,1.05],[],O);add(shoe,ring(.135,.035),mat(shade(shoeC,light(shoeC)?.7:1.6)),[0,.47,-.06],[1,1.05,1],[Math.PI/2,0,0],O);add(shoe,box(),accent||sole,[0,.122+lift,.02],[.192,.014,.292])}
+    if(boots){add(shoe,capsule(.15,.12),upperM,[0,.34,-.06],[1,1,1.05],[],O);add(shoe,ring(.135,.035),mat(shade(shoeC,light(shoeC)?.7:1.6)),[0,.47,-.06],[1,1.05,1],[Math.PI/2,0,0],O);add(shoe,box(),accent||sole,[0,.122+lift,.02],[.192,.014,.292])}
   }
 
-  // Torso: perfil cuadrado y corto, con la prenda pintada alrededor
-  const profile=type!=='baloncesto'?[[0,-.4],[.3,-.4],[.36,-.385],[.372,-.33],[.4,-.27],[.412,-.05],[.4,.14],[.36,.27],[.26,.36],[.12,.4],[0,.4]]:[[0,-.4],[.27,-.4],[.33,-.37],[.35,-.2],[.345,.1],[.3,.27],[.2,.36],[.1,.4],[0,.4]];
-  const torso=add(body,lathe(profile),type==='plumas'?mat(main):mat(main,torsoTexture(type,main,trim,look.print)),[0,.94,0],[1.06,1,.8],[],O);
-  if(type==='plumas')for(const y of [.68,.84,1,1.16])add(body,ring(.37,.062),mat(brandKey&&y>1.1?trim:main),[0,y,0],[1.1,.82,1],[Math.PI/2,0,0],O);
-  if(type==='plumas')add(body,new THREE.BoxGeometry(.02,.6,.02),flat(INK),[0,.92,.35]);
-  if(type==='plumas'&&brandKey)decal(body,brandKey,light(trim)?INK:PAPER,[.2,1.15,.365],.17,[0,.5,0]);
+  // Torso: perfil cuadrado y corto, con la prenda pintada alrededor. En mujer, con cintura: la camiseta es un top corto (crop)
+  // que deja ver una franja de tripa, y las prendas de manga larga llegan solo hasta la cintura (cut).
+  const crop=fem&&type==='camiseta',cut=fem&&sleeved,tscale=fem?[1.04,1,.78]:[1.06,1,.8];
+  const profile=crop?[[0,-.1],[.27,-.1],[.3,-.085],[.305,-.02],[.32,.1],[.335,.2],[.32,.28],[.25,.36],[.12,.4],[0,.4]]
+    :cut?[[0,-.2],[.3,-.2],[.345,-.185],[.355,-.13],[.365,-.02],[.37,.12],[.355,.24],[.32,.3],[.24,.36],[.12,.4],[0,.4]]
+    :fem?[[0,-.4],[.25,-.4],[.3,-.37],[.31,-.28],[.285,-.12],[.275,-.02],[.295,.1],[.32,.2],[.29,.29],[.2,.36],[.1,.4],[0,.4]]
+    :type!=='baloncesto'?[[0,-.4],[.3,-.4],[.36,-.385],[.372,-.33],[.4,-.27],[.412,-.05],[.4,.14],[.36,.27],[.26,.36],[.12,.4],[0,.4]]:[[0,-.4],[.27,-.4],[.33,-.37],[.35,-.2],[.345,.1],[.3,.27],[.2,.36],[.1,.4],[0,.4]];
+  if(crop)add(up,lathe([[0,-.4],[.25,-.4],[.29,-.3],[.275,-.15],[.27,-.05],[.28,.04],[0,.04]]),skin,[0,.94,0],tscale,[],O);
+  const torso=add(up,lathe(profile),type==='plumas'?mat(main):mat(main,torsoTexture(type,main,trim,look.print,fem?{stretch:crop?3.8:cut?3.1:2.4,k:crop?.72:.9}:{})),[0,.94,0],tscale,[],O);
+  if(type==='plumas'){
+    for(const y of fem?[.8,.94,1.07,1.2]:[.68,.84,1,1.16])add(up,ring(fem?.335:.37,fem?.058:.062),mat(brandKey&&y>1.1?trim:main),[0,y,0],[1.1,.82,1],[Math.PI/2,0,0],O);
+    add(up,new THREE.BoxGeometry(.02,fem?.46:.6,.02),flat(INK),[0,fem?1:.92,fem?.318:.35]);
+    if(brandKey)decal(up,brandKey,light(trim)?INK:PAPER,fem?[.17,1.17,.335]:[.2,1.15,.365],fem?.15:.17,[0,.5,0]);
+  }
   const arms=[];
   for(const side of [-1,1]){
-    const arm=new THREE.Group();arm.position.set(side*.41,1.16,0);arm.rotation.z=side*.42;body.add(arm);arms.push(arm);
+    const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);arms.push({arm,fore,side});
     const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'&&(!brandKey||brandKey==='adidas')?mat(main,sleeveTexture(main,brandKey?trim:PAPER,!!brandKey)):mat(sleeveC);
-    add(arm,capsule(.09,.36),skin,[0,-.27,0],[],[],O);
+    add(arm,capsule(.09*K,.17),skin,[0,-.15,0],[],[],O);add(fore,capsule(.086*K,.13),skin,[0,-.11,0],[],[],O);
     if(sleeved){
-      add(arm,capsule(.145,.27),sleeve,[0,-.19,0],[],[],O);
+      add(arm,capsule(.145*K,.12),sleeve,[0,-.13,0],[],[],O);add(fore,capsule(.138*K,.02),sleeve,[0,-.03,0],[],[],O);
       const cuff=type==='universitaria'?mat(null,stripes([trim,PAPER,trim,PAPER,trim])):mat(shade(sleeveC,.78));
-      if(type!=='plumas')add(arm,new THREE.CylinderGeometry(.125,.118,.085,24),cuff,[0,-.42,0],[],[],O);else for(const y of [-.1,-.24,-.38])add(arm,ring(.135,.05),brandKey&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
-    }else if(!bare)add(arm,capsule(.165,.1),mat(main),[0,-.09,0],[],[],O);
-    add(arm,sphere(),skin,[0,-.55,0],[.105,.125,.09],[],O);add(arm,sphere(.045),skin,[0,-.52,.085]);
+      if(type!=='plumas')add(fore,new THREE.CylinderGeometry(.125*K,.118*K,.085,24),cuff,[0,-.12,0],[],[],O);
+      else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
+    }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
+    add(fore,sphere(),skin,[0,-.25,0],[.105*K,.125*K,.09*K],[],O);add(fore,sphere(.045*K),skin,[0,-.22,.085*K]);
   }
   if(type==='sudadera'||type==='plumas'){
-    if(look.hat!=='capucha')add(body,ring(.27,.125),mat(shade(type==='plumas'&&brandKey?trim:main,.85)),[0,1.27,-.17],[1.2,1,1],[Math.PI/2+.5,0,0],O);
-    if(type==='sudadera')for(const x of [-.075,.075])add(body,new THREE.CylinderGeometry(.014,.014,.2),white,[x,1.08,.33]);
+    if(look.hat!=='capucha')add(up,ring(fem?.24:.27,fem?.11:.125),mat(shade(type==='plumas'&&brandKey?trim:main,.85)),[0,1.27,fem?-.15:-.17],[1.2,1,1],[Math.PI/2+.5,0,0],O);
+    if(type==='sudadera')for(const x of [-.075,.075])add(up,new THREE.CylinderGeometry(.014,.014,fem?.16:.2),white,[x,fem?1.1:1.08,fem?.295:.33]);
   }
-  if(has('cadena'))add(body,ring(.25,.022),gold,[0,1.13,.1],[1,1.3,1],[2.05,0,0]);
+  // Collares: un aro inclinado que cae sobre el pecho. onChain da el punto del aro en el ángulo a (π/2 = delante y abajo).
+  const chain=fem?{r:.2,z:.04}:{r:.25,z:.1},onChain=a=>[Math.cos(a)*chain.r,1.13+Math.sin(a)*chain.r*1.3*Math.cos(2.05),chain.z+Math.sin(a)*chain.r*1.3*Math.sin(2.05)];
+  if(has('cadena'))add(up,ring(chain.r,.022),gold,[0,1.13,chain.z],[1,1.3,1],[2.05,0,0]);
+  if(has('colgante')){const [x,y,z]=onChain(Math.PI/2);add(up,ring(chain.r,.011),gold,[0,1.13,chain.z],[1,1.3,1],[2.05,0,0]);add(up,heart(),mat(CLOTH.rojo),[x,y-.01,z+.025],[.5,.5,1]).castShadow=false}
+  if(has('perlas'))for(let i=0;i<22;i++)add(up,sphere(.03,12,8),white,onChain(i/22*Math.PI*2));
 
-  // Cabeza y cara: ojos altos con párpado caído, cejas y media sonrisa
-  const head=new THREE.Group();head.position.set(0,1.8,0);body.add(head);
+  // Cabeza y cara: ojos altos con párpado caído, cejas y media sonrisa. La mujer lleva pestañas y la ceja más fina.
   add(head,box(HEAD.n),skin,[],[HEAD.a,HEAD.b,HEAD.c],[],.022);
   for(const side of [-1,1]){
     add(head,sphere(),skin,[side*.635,-.06,-.02],[.07,.12,.1],[],O);
     if(has('aros'))add(head,ring(.05,.013),gold,[side*.66,-.19,-.02],[1,1,1],[0,Math.PI/2,0]);
+    if(has('arosg'))add(head,ring(.09,.014),gold,[side*.665,-.25,-.02],[1,1,1],[0,Math.PI/2,0]);
+    if(has('diamantes'))add(head,new THREE.OctahedronGeometry(.045),new THREE.MeshStandardMaterial({color:'#dff3ff',roughness:.1,metalness:.55}),[side*.66,-.17,-.02]);
   }
-  const eyes=[],lids=[],face=look.face,hidden=has('sol')||has('visor');
+  const eyes=[],lids=[],face=look.face,hidden=has('sol')||has('visor')||has('visor2')||has('corazon');
   if(!hidden)for(const side of [-1,1]){
-    const eye=add(head,sphere(.07),ink,onHead(side*.215,-.04,1.004),[1,1.55,.4]);eye.castShadow=false;eyes.push(eye);
+    const eye=add(head,sphere(fem?.074:.07),ink,onHead(side*.215,-.04,1.004),[1,1.55,.4]);eye.castShadow=false;eye.userData.x=eye.position.x;eyes.push(eye);
     add(eye,sphere(.024),flat(PAPER),[side*-.012,.022,.06],[1,.65,1]).castShadow=false;
+    if(fem)for(const [dx,dy,rz] of [[.062,.1,.75],[.09,.062,1.15]])add(head,capsule(.011,.045),ink,onHead(side*(.215+dx),-.04+dy,1.012),[1,1,.6],[0,0,-side*rz]).castShadow=false;
     if(face!=='feliz'){const lid=add(head,sphere(),skin,onHead(side*.215,.055,1.02),[.095,.075,.04],[0,0,side*(face==='serio'?.32:.16)]);lid.castShadow=false;lids.push(lid)}
   }
   for(const side of [-1,1]){
-    const brow=add(head,capsule(.02,.12),flat(shade(hairC,.6)),onHead(side*.215,face==='feliz'?.2:.15,1.02),[1,1,.6],[0,0,Math.PI/2+side*(face==='feliz'?-.12:face==='serio'?.38:.24)]);brow.castShadow=false;
+    const brow=add(head,capsule(fem?.015:.02,.12),flat(shade(hairC,.6)),onHead(side*.215,face==='feliz'?.2:.15,1.02),[1,1,.6],[0,0,Math.PI/2+side*(face==='feliz'?-.12:face==='serio'?.38:.24)]);brow.castShadow=false;
+    if(fem&&face==='feliz')add(head,new THREE.CircleGeometry(.075,20),flat('#ff7aa8',.38),onHead(side*.37,-.2,1.025),[1,.7,1],[0,side*.55,0]).castShadow=false;
   }
   const mouth=onHead(face==='chulo'?.06:0,-.27,1.012);
   if(face==='serio')add(head,capsule(.016,.13),ink,mouth,[1,1,.6],[0,0,Math.PI/2+.04]).castShadow=false;
   else add(head,ring(.09,.017,Math.PI*(face==='chulo'?.62:1)),ink,mouth,[1,1,1],[.38,0,Math.PI+(face==='chulo'?.5:0)]).castShadow=false;
   if(has('oro')&&face!=='serio')add(head,new THREE.BoxGeometry(.035,.04,.02),gold,[mouth[0]+.03,mouth[1]-.045,mouth[2]+.004],[],[.38,0,0]);
-  if(has('visor')){
-    const frame=flat(INK);add(head,new THREE.BoxGeometry(.6,.03,.035),frame,[0,.035,.6]);add(head,new THREE.BoxGeometry(.58,.14,.02),flat('#ff6548'),[0,-.045,.6]);add(head,new THREE.BoxGeometry(.5,.035,.012),flat('#ffc93c'),[0,-.005,.612]);
+  if(has('visor')||has('visor2')){
+    const frame=flat(INK),[lens,band]=has('visor')?['#ff6548','#ffc93c']:['#ff9dbd','#cdbcff'];add(head,new THREE.BoxGeometry(.6,.03,.035),frame,[0,.035,.6]);add(head,new THREE.BoxGeometry(.58,.14,.02),flat(lens),[0,-.045,.6]);add(head,new THREE.BoxGeometry(.5,.035,.012),flat(band),[0,-.005,.612]);
     add(head,new THREE.BoxGeometry(.07,.05,.03),frame,[0,-.115,.6]);for(const side of [-1,1])add(head,new THREE.BoxGeometry(.035,.05,.5),frame,[side*.31,-.01,.36],[],[0,side*-.3,0]);
   }
-  if(has('aviador')){
-    for(const side of [-1,1]){add(head,new THREE.CircleGeometry(.125,28),flat('#2f3a4a',.72),[side*.2,-.05,.606],[1,1.12,1]).castShadow=false;add(head,ring(.125,.012),gold,[side*.2,-.05,.608],[1,1.12,1]);add(head,new THREE.BoxGeometry(.016,.016,.46),gold,[side*.35,-.01,.38],[],[0,side*-.28,0])}
-    add(head,new THREE.BoxGeometry(.16,.014,.014),gold,[0,.02,.615]);add(head,new THREE.BoxGeometry(.1,.014,.014),gold,[0,-.03,.615]);
+  if(has('aviador')||has('redondas')){
+    const tall=has('aviador')?1.12:1;
+    for(const side of [-1,1]){add(head,new THREE.CircleGeometry(.125,28),flat('#2f3a4a',.72),[side*.2,-.05,.606],[1,tall,1]).castShadow=false;add(head,ring(.125,.012),gold,[side*.2,-.05,.608],[1,tall,1]);add(head,new THREE.BoxGeometry(.016,.016,.46),gold,[side*.35,-.01,.38],[],[0,side*-.28,0])}
+    if(has('aviador')){add(head,new THREE.BoxGeometry(.16,.014,.014),gold,[0,.02,.615]);add(head,new THREE.BoxGeometry(.1,.014,.014),gold,[0,-.03,.615])}else add(head,new THREE.BoxGeometry(.1,.014,.014),gold,[0,-.02,.615]);
   }
   if(has('sol')){
     const frame=flat(INK);add(head,new THREE.BoxGeometry(.56,.105,.03),frame,[0,-.03,.595]);
     for(const side of [-1,1]){add(head,new THREE.BoxGeometry(.2,.065,.01),flat('#3d4656'),[side*.15,-.022,.612]);add(head,new THREE.BoxGeometry(.03,.03,.5),frame,[side*.3,-.02,.36],[],[0,side*-.3,0])}
   }
+  if(has('corazon')){
+    const frame=flat(INK);add(head,new THREE.BoxGeometry(.12,.022,.02),frame,[0,-.01,.612]);
+    for(const side of [-1,1]){add(head,heart(),frame,[side*.2,-.032,.604],[1.2,1.2,1]).castShadow=false;add(head,heart(),flat('#e5383b'),[side*.2,-.03,.611]).castShadow=false;add(head,new THREE.BoxGeometry(.03,.03,.5),frame,[side*.33,-.01,.36],[],[0,side*-.3,0])}
+  }
   if(has('gafas')&&!hidden){
     const frame=flat(INK);for(const side of [-1,1]){add(head,ring(.125,.018),frame,[side*.215,-.04,.61]);add(head,new THREE.BoxGeometry(.02,.02,.46),frame,[side*.36,-.03,.38],[],[0,side*-.28,0])}
     add(head,new THREE.BoxGeometry(.18,.02,.02),frame,[0,-.02,.62]);
+  }
+  if(has('gato')&&!hidden){
+    const frame=flat(CLOTH.burdeos);for(const side of [-1,1]){add(head,ring(.12,.02),frame,[side*.215,-.04,.61],[1.1,.84,1]);add(head,new THREE.ConeGeometry(.035,.1,4),frame,[side*.345,.045,.6],[1,1,.4],[0,0,-side]);add(head,new THREE.BoxGeometry(.02,.02,.46),frame,[side*.37,-.01,.38],[],[0,side*-.28,0])}
+    add(head,new THREE.BoxGeometry(.16,.02,.02),frame,[0,-.01,.62]);
   }
   if(has('panuelo')){
     add(head,shell(HEAD.n,0,Math.PI*2,Math.PI*.58,Math.PI*.3),mat(null,dotted()),[0,-.02,0],[HEAD.a*1.05,HEAD.b*1.08,HEAD.c*1.06]).material.side=THREE.DoubleSide;
@@ -244,10 +291,34 @@ function buildModel(look){
   }
 
   // Pelo: una capa sobre el cráneo y, encima, los mechones de cada peinado. Con gorro solo asoma lo que cabe.
-  const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola'].includes(hat);
+  // sway = lo que cuelga (melena, coletas, trenzas): al animar se balancea con retardo respecto a la cabeza.
+  const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola','lazo','diadema','tiara'].includes(hat),F=fem?FEM_HAIR[hair]:null,sway=[];
   const scalp=(arc=.5,tilt=-.5,grow=1.045)=>add(head,shell(HEAD.n,0,Math.PI*2,0,Math.PI*arc),hairM,[0,.012,-.01],[HEAD.a*grow,HEAD.b*grow,HEAD.c*grow],[tilt,0,0],.02);
   const spike=(x,y,z,rx,rz,size=1)=>add(head,new THREE.ConeGeometry(.1*size,.3*size,8),hairM,[x,y,z],[1,1,.7],[rx,0,rz],.05);
-  if(hair!=='calvo'){
+  const dangle=(x,y,z)=>{const group=new THREE.Group();group.position.set(x,y,z);head.add(group);sway.push(group);return group};
+  if(F){if(!F.bald){
+    const low=covered||hooded;scalp(F.afro?.55:.5);
+    if(F.fringe==='cortina')for(const side of [-1,1])add(head,box(3),hairM,[side*.33,low?.2:.31,.5],[.3,.13,.1],[.12,side*.25,side*-.55],O);
+    if(F.fringe==='recto')add(head,box(3),hairM,[0,low?.2:.3,.5],[.5,.15,.11],[.16,0,0],O);
+    if(F.fringe==='lado'){add(head,box(3),hairM,[.1,low?.2:.32,.5],[.46,.15,.11],[.14,.12,-.3],O);add(head,box(3),hairM,[-.42,low?.15:.24,.4],[.16,.12,.1],[.1,-.5,.5],O)}
+    if(!hooded){
+      if(F.skirt)add(head,shell(2.8,Math.PI/2+.8,Math.PI*2-1.6,Math.PI*.27,Math.PI*.5),hairM,[0,.02,-.03],[HEAD.a*1.1,HEAD.b*1.1,HEAD.c*1.1],[],.02).material.side=THREE.DoubleSide;
+      if(F.back)add(dangle(0,-.1,-.42),box(3),hairM,[0,.05-F.back,0],[.52,F.back,.2],[.1,0,0],O);
+      if(F.sides)for(const side of [-1,1])add(dangle(side*.62,-.2,-.1),capsule(.1,F.sides),hairM,[0,-.1-F.sides/2,0],[.8,1,1.2],[0,0,side*-.06],.06);
+      if(F.curls)for(let i=0;i<9;i++){const a=Math.PI*i/8;add(head,sphere(.17),hairM,[Math.cos(a)*.66,-.62-(i%2)*.1,-Math.sin(a)*.5-.05],[],[],.06)}
+      if(F.nape)add(head,box(3),hairM,[0,-.3,-.45],[.42,.2,.16],[.2,0,0],O);
+      if(F.pony){const tail=dangle(0,covered?.05:.42,-.6);add(tail,sphere(.14),hairM,[],[],[],.06);add(tail,capsule(.11,.5),hairM,[0,-.36,-.1],[1,1,.8],[.3,0,0],.06)}
+      if(F.tails)for(const side of [-1,1]){const tail=dangle(side*.62,covered?0:.22,-.12);add(tail,sphere(.12),hairM,[],[],[],.06);add(tail,capsule(.105,.45),hairM,[side*.07,-.36,0],[1,1,.85],[0,0,side*.16],.06)}
+      if(F.braids)for(const side of F.braids===2?[-1,1]:[1]){const braid=dangle(side*.5,-.28,F.braids===2?-.15:-.05),fwd=F.braids===2?.03:.05;for(let i=0;i<9;i++)add(braid,sphere(.095-i*.005),hairM,[side*i*.012,-i*.125,i*fwd],[],[],.06);add(braid,sphere(.05),mat(CLOTH.coral),[side*.1,-1.07,9*fwd])}
+      if(F.box)for(let i=0;i<13;i++){const a=Math.PI*i/12,length=.75+((i*7)%3)*.1;add(head,capsule(.05,length),hairM,[Math.cos(a)*.63,-.08-length/2,-Math.sin(a)*.57-.03],[],[0,0,Math.cos(a)*.08],.07)}
+    }
+    if(!low){
+      if(F.bun){add(head,box(3),hairM,[0,.5,-.02],[.34,.14,.42],[],O);add(head,sphere(.23),hairM,[0,.78,-.12],[],[],.05)}
+      if(F.buns)for(const side of [-1,1])add(head,sphere(.2),hairM,[side*.4,.63,-.08],[],[],.05);
+      if(F.knot)add(head,sphere(.15),hairM,[0,.52,-.42],[],[],.06);
+      if(F.afro)add(head,sphere(.82,32,24),hairM,[0,.34,-.2],[],[],.025);
+    }
+  }}else if(hair!=='calvo'){
     if(['rapado','degradado','mono','cresta'].includes(hair))add(head,shell(HEAD.n,0,Math.PI*2,0,Math.PI*.56),mat(shade(hairC,light(hairC)?.8:1.7)),[0,.005,-.005],[HEAD.a*1.012,HEAD.b*1.012,HEAD.c*1.012],[-.5,0,0]);
     else scalp(hair==='afro'?.55:.5);
     if(!hooded){
@@ -289,21 +360,33 @@ function buildModel(look){
     }
     if(hat==='gorro'){cap.rotation.x=-.3;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.12,0],[.685,.66,.655],[],.025);add(cap,ring(.63,.085),dark,[0,.16,0],[1.07,1.02,1],[Math.PI/2,0,0],.03);add(cap,sphere(),color,[0,.66,-.2],[.26,.18,.26],[.5,0,0],O);if(look.hatBrand)decal(cap,look.hatBrand,light(shade(hatC,.72))?INK:PAPER,[0,.16,.75],.2)}
     if(hat==='pescador'){cap.rotation.x=-.16;add(cap,shell(3.4,0,Math.PI*2,0,Math.PI*.5),color,[0,.2,0],[.67,.5,.64],[],.025);add(cap,new THREE.CylinderGeometry(.66,.95,.2,40,1,true),color,[0,.2,0]).material.side=THREE.DoubleSide;add(cap,ring(.675,.03),mat(hatTrim),[0,.3,0],[1,.97,1],[Math.PI/2,0,0]);if(look.hatBrand)decal(cap,look.hatBrand,light(hatC)?INK:PAPER,[0,.45,.66],.2,[-.12,0,0])}
+    if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.6,.05),dark,[0,.36,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);
   if(hat==='corona'){
     add(head,new THREE.CylinderGeometry(.4,.36,.2,24,1,true),gold,[0,.66,-.03],[],[-.1,0,0]).material.side=THREE.DoubleSide;
     for(let i=0;i<7;i++){const a=i/7*Math.PI*2;add(head,new THREE.ConeGeometry(.085,.2,4),gold,[Math.sin(a)*.4,.84,Math.cos(a)*.4-.05]);add(head,sphere(.035),mat(CLOTH.rojo),[Math.sin(a)*.4,.96,Math.cos(a)*.4-.05])}
   }
+  if(hat==='lazo'){
+    const bow=new THREE.Group(),color=mat(CLOTH[look.hatColor]||CLOTH.rojo);bow.position.set(.3,.64,.14);bow.rotation.set(-.2,0,-.4);head.add(bow);
+    for(const side of [-1,1])add(bow,box(3),color,[side*.17,0,0],[.17,.125,.07],[0,0,side*.2],O);add(bow,box(3),color,[0,0,.02],[.07,.09,.075],[],O);
+  }
+  if(hat==='diadema')add(head,ring(.7,.04,Math.PI),look.hatColor==='oro'?gold:mat(CLOTH[look.hatColor]||INK),[0,.02,.06],[1,1.02,1],[-.12,0,0],look.hatColor==='oro'?0:.05);
+  if(hat==='tiara'){
+    const tiara=new THREE.Group();tiara.position.set(0,.56,0);tiara.rotation.x=-.12;head.add(tiara);
+    add(tiara,new THREE.CylinderGeometry(.43,.41,.08,24,1,true,-Math.PI*.3,Math.PI*.6),gold).material.side=THREE.DoubleSide;
+    for(let i=-2;i<=2;i++){const a=i*.24,h=.2-Math.abs(i)*.05;add(tiara,new THREE.ConeGeometry(.055,h,4),gold,[Math.sin(a)*.42,.04+h/2,Math.cos(a)*.42])}
+    add(tiara,sphere(.04),mat(CLOTH.rosa),[0,.27,.42]);
+  }
   if(hooded){
     add(head,shell(2.8,Math.PI/2+.85,Math.PI*2-1.7,0,Math.PI*.78),mat(shade(main,.92)),[0,.03,-.04],[HEAD.a*1.2,HEAD.b*1.2,HEAD.c*1.16]).material.side=THREE.DoubleSide;
     add(head,ring(.62,.05,Math.PI*1.25),mat(shade(main,.75)),[0,.03,.33],[1.05,1.05,1],[0,0,-Math.PI*.125]);
   }
-  if(has('cascos')){
-    add(head,ring(.7,.04,Math.PI),mat(INK),[0,0,-.02],[1,1.03,1],[],.06);
-    for(const side of [-1,1])add(head,box(3),mat(CLOTH.coral),[side*.7,-.06,-.02],[.08,.2,.17],[],O);
+  if(has('cascos')||has('cascos2')){
+    const alt=has('cascos2');add(head,ring(.7,.04,Math.PI),mat(alt?PAPER:INK),[0,0,-.02],[1,1.03,1],[],.06);
+    for(const side of [-1,1])add(head,box(3),mat(alt?CLOTH.lila:CLOTH.coral),[side*.7,-.06,-.02],[.08,.2,.17],[],O);
   }
-  return {group:model,parts:{body,torso,head,arms,eyes,lids},base:lift};
+  return {group:model,parts:{body,upper,torso,neck,head,arms,legs,feet,eyes,lids,sway},base:lift,fem};
 }
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
@@ -332,24 +415,93 @@ function snapshot(look,mode,width,height){
   }
   return canvas;
 }
-// Avatares animados (portada, perfil, duelo): respiran, parpadean y hacen gestos.
+// Avatares animados (portada, perfil, duelo): respiran, parpadean, cambian de postura y hacen gestos.
 const live=new Set(),queue=new Set(),asleep=new Set();
+// ---------- Animación (decisión 0027). Hay una postura base que respira y se mece sin repetirse, y encima gestos sueltos
+// («clips») que entran y salen suaves; cada cierto rato se elige uno al azar. Cada canal persigue a su objetivo con retardo:
+// la cabeza y los antebrazos llegan un poco después que el cuerpo, que es lo que evita el aire de robot.
+// Canales: px, py, air = cadera (lado, altura, salto); ry, rz = giro y balanceo del cuerpo; s* = cintura; h* = cuello;
+// en cada brazo (a = el de la izquierda de la pantalla, b = el de la derecha): S = adelante/atrás, O = abrir, E = doblar el
+// codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye = mirada; lid = párpados (no se suaviza).
+const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye'];
+const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22};
+const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x),hold=(u,a=.2,b=.8)=>ease(u/a)*ease((1-u)/(1-b));
+// Deriva irregular: tres ondas de periodos que no casan, para que el vaivén no se note en bucle.
+const drift=(t,seed)=>Math.sin(t*1.13+seed)*.5+Math.sin(t*.71+seed*2.3)*.3+Math.sin(t*1.93+seed*.7)*.2;
+const both=values=>{const result={};for(const key in values){result['a'+key]=values[key];result['b'+key]=values[key]}return result};
+function basePose(item,t){
+  const s=item.seed,m=reduced?0:1,sad=item.mood==='sad'?1:0,lean=item.lean,br=Math.sin(t*(sad?1.2:1.7)+s)*m,d=(speed,offset,size)=>drift(t*speed,s+offset)*size*m;
+  return {br,px:lean*.035+d(.5,0,.008),py:0,air:0,ry:d(.3,2,.03),rz:-lean*.02,sx:.02+sad*.1+d(.33,9,.014),sy:d(.27,4,.03),sz:lean*.045+d(.4,5,.012),
+    hx:sad*.3+d(.45,3,.04),hy:d(.36,1,sad?.05:.15),hz:-lean*.05-.02+d(.3,7,.03),
+    aS:.02+d(.6,11,.05),aO:.34-sad*.1+br*.012,aE:-.28+sad*.1+br*.02,aI:-.08,aY:br*.006-sad*.02,
+    bS:.02+d(.55,12,.05),bO:.34-sad*.1+br*.012,bE:-.28+sad*.1-br*.015,bI:-.08,bY:br*.006-sad*.02,
+    fa:0,fb:0,eye:d(.8,13,.5),lid:sad*.3};
+}
+// Gestos. d = duración en segundos; f(u, t, item) = lo que suma a la postura base (u va de 0 a 1).
+const CLIPS={
+  // Para cuando está tranquilo
+  mirar:{d:3.6,f:u=>{const k=hold(u,.15,.85),side=Math.sin(u*Math.PI*2);return {hy:side*.55*k,sy:side*.14*k,eye:side*k,hx:-.05*k}}},
+  peso:{d:1.3,start:item=>{item.lean=-item.lean},f:u=>({py:-.016*Math.sin(u*Math.PI)})},
+  estirar:{d:3.4,f:u=>{const k=hold(u,.3,.72);return {...both({O:2.3*k,E:.25*k,I:.25*k,Y:.04*k}),sx:-.13*k,hx:-.2*k,py:.03*k,lid:.8*k}}},
+  rascar:{d:2.8,f:(u,t)=>{const k=hold(u,.22,.78);return {aO:1.75*k,aI:(1.45+Math.sin(t*15)*.13)*k,aE:.2*k,hz:.15*k,hx:.06*k,sz:.05*k}}},
+  jarras:{d:4.4,f:(u,t,item)=>{const k=hold(u,.14,.88);return {...both({O:.6*k,I:(item.entry.fem?-1.95:-1.75)*k,S:.3*k,E:.1*k}),sx:-.05*k,hx:-.04*k}}},
+  botar:{d:1.5,f:u=>{const h=Math.abs(Math.sin(u*Math.PI*2)),k=hold(u,.1,.9);return {air:h*.07*k,py:-.03*(1-h)*k,...both({O:.12*h*k,E:-.2*h*k})}}},
+  pie:{d:2.6,f:(u,t)=>{const k=hold(u,.15,.85);return {fb:Math.max(0,Math.sin(t*11))*.4*k,hx:.12*k,hy:.18*k,...both({S:.25*k,O:-.1*k,I:-.5*k})}}},
+  hombros:{d:1.9,f:u=>{const k=hold(u,.3,.7);return {...both({Y:.07*k,O:.28*k,E:-.8*k,I:.35*k}),hz:.14*k,sx:-.03*k}}},
+  bailar:{d:4,f:(u,t)=>{const k=hold(u,.12,.88),w=t*5.2,s=Math.sin(w);return {px:s*.05*k,rz:-s*.04*k,ry:Math.sin(w*.5)*.25*k,py:-Math.abs(s)*.03*k,sz:s*.08*k,hz:Math.sin(w+.6)*.1*k,hx:.05*k,aE:(-1.1+s*.35)*k,bE:(-1.1-s*.35)*k,aO:.25*k,bO:.25*k,aS:s*.3*k,bS:-s*.3*k}}},
+  cuello:{d:3.2,f:u=>{const k=hold(u,.15,.85),a=u*Math.PI*2;return {hz:Math.sin(a)*.26*k,hx:(.08-Math.cos(a)*.16)*k,...both({Y:.02*k}),lid:k}}},
+  pensar:{d:4,f:u=>{const k=hold(u,.18,.82);return {bS:-1.25*k,bE:-1.75*k,bI:-.55*k,bO:-.15*k,aS:-.5*k,aE:-.9*k,aI:-.9*k,hz:-.1*k,hx:-.06*k,hy:-.2*k,eye:-.8*k,sz:-.03*k}}},
+  // Saludos
+  saludo:{d:2.4,f:(u,t)=>{const k=hold(u,.18,.8);return {bO:2.05*k,bI:(.2+Math.sin(t*11)*.4)*k,bE:.2*k,hz:.1*k,sz:-.05*k,aO:.06*k}}},
+  saludo2:{d:2.2,f:(u,t)=>{const k=hold(u,.2,.8);return {bO:.9*k,bI:(1.85+Math.sin(t*12)*.3)*k,bE:.15*k,bS:-.2*k,hz:-.08*k,hy:.1*k}}},
+  // Celebrar
+  salto:{d:1.5,f:u=>{const crouch=u<.22?Math.sin(u/.22*Math.PI/2):u<.3?1-(u-.22)/.08:u>.82?Math.sin((1-u)/.18*Math.PI)*.6:0,fly=u>.26&&u<.82?Math.sin((u-.26)/.56*Math.PI):0,arms=ease((u-.18)/.14)*ease((1-u)/.2);return {py:-.08*crouch,air:.3*fly,...both({O:2.3*arms,E:.2*arms}),hx:-.15*fly}}},
+  puno:{d:1.9,f:u=>{const k=hold(u,.15,.85),p=Math.max(0,Math.sin(u*Math.PI*5));return {bO:(1.7+p*.6)*k,bI:(1-p*.8)*k,bE:.15*k,air:p*.05*k,aO:.1*k,aE:-.9*k,hx:-.1*k,sz:-.06*k}}},
+  giro:{d:1.5,end:item=>{item.pose.ry-=Math.PI*2},f:u=>{const k=hold(u,.2,.8);return {ry:ease(u)*Math.PI*2,air:Math.sin(u*Math.PI)*.12,...both({O:k,E:.2*k})}}},
+  // Lamentarse
+  suspiro:{d:2.8,f:u=>{const k=Math.sin(u*Math.PI)**2*(u<.5?1:-.4);return {...both({Y:.05*k}),sx:-.06*k,hx:-.1*k}}},
+  negar:{d:2.2,f:u=>{const k=hold(u,.15,.85);return {hy:Math.sin(u*Math.PI*5)*.3*k,hx:.05*k,lid:.4*k}}},
+  // Encajar un golpe
+  golpe:{d:.9,f:u=>{const k=(1-u)*ease(u/.08);return {px:Math.sin(u*30)*.07*k,sx:-.22*k,hx:-.25*k,...both({O:.5*k,E:-.5*k}),lid:u<.5?1:0}}},
+  tambaleo:{d:1.5,f:u=>{const k=(1-u)*ease(u/.08),w=u*9.5;return {px:Math.sin(w)*.1*k,rz:-Math.sin(w)*.1*k,sz:Math.sin(w+1)*.1*k,hz:Math.sin(w+2)*.15*k,...both({O:.5*k}),lid:u<.4?1:0}}}
+};
+const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso'];
+const POOL={cheer:['salto','puno','giro','bailar'],sad:['suspiro','negar','pie']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
+const any=list=>list[Math.random()*list.length|0];
+function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
+function nextClip(item,t){const pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);let name;do name=any(pool);while(name===item.lastClip);play(item,name,t)}
 function animate(item,now){
-  const {body,torso,head,arms,eyes,lids}=item.entry.parts,t=now/1000,age=(now-item.born)/1000,move=reduced?0:1,emote=reduced?'':item.data.emote;
+  const R=item.entry.parts,t=(now-item.born)/1000,dt=Math.min(.1,Math.max(0,(now-item.last)/1000));item.last=now;
   if(!item.dragging){item.turn+=item.spin;item.spin*=.92}
-  body.position.set(0,item.entry.base+Math.sin(t*1.9)*.012*move,0);torso.scale.y=1+Math.sin(t*1.9)*.012*move;body.rotation.z=Math.sin(t*.95)*.018*move;
-  head.rotation.set(0,Math.sin(t*.6)*.12*move,Math.sin(t*.95)*.035*move-.03);
-  arms.forEach((arm,i)=>{arm.rotation.z=(i?1:-1)*.42;arm.rotation.x=Math.sin(t*1.9+i*Math.PI)*.06*move});
-  const blink=t%4.2<.13&&move;eyes.forEach(eye=>{eye.scale.y=blink?.15:1.55});lids.forEach(lid=>{lid.visible=!blink});
-  if(emote==='wave'&&age<1.9){arms[1].rotation.z=2.5+Math.sin(age*13)*.3;arms[1].rotation.x=0;head.rotation.z=.12}
-  if(emote==='cheer'&&age%4<1.5){const k=age%4;body.position.y+=Math.abs(Math.sin(k*Math.PI/.5))*.26;arms.forEach((arm,i)=>{arm.rotation.z=(i?1:-1)*(2.6+Math.sin(k*18)*.12);arm.rotation.x=0})}
-  if(emote==='sad'){head.rotation.x=.3;head.rotation.y=0;arms.forEach((arm,i)=>{arm.rotation.z=(i?1:-1)*.2})}
-  if(emote==='hurt'&&age<.7)body.position.x=Math.sin(age*46)*.07*(1-age/.7);
+  if(!reduced){
+    if(item.clip&&t-item.clipAt>=item.clip.d){if(item.clip.end)item.clip.end(item);item.clip=null;item.wait=t+(item.mood==='cheer'?.5+Math.random()*.9:2.2+Math.random()*4)}
+    if(!item.clip&&t>=item.wait)nextClip(item,t);
+    // Parpadeo a intervalos irregulares; de vez en cuando, doble.
+    if(t>=item.blinkAt){item.blinkFrom=t;item.blinkAt=t+(Math.random()<.18?.3:1.8+Math.random()*4.2)}
+  }
+  const P=basePose(item,t);
+  if(item.clip){const extra=item.clip.f(Math.max(0,(t-item.clipAt)/item.clip.d),t,item);for(const key in extra)P[key]+=extra[key]}
+  const cur=item.pose||(item.pose={...P});
+  for(const key of KEYS)cur[key]+=(P[key]-cur[key])*(1-Math.exp(-dt*(RATE[key]||18)));
+  R.body.position.set(cur.px,item.entry.base+cur.py+cur.air,0);R.body.rotation.set(0,cur.ry,cur.rz);
+  R.upper.rotation.set(cur.sx,cur.sy,cur.sz);R.torso.scale.y=1+P.br*.012;
+  R.neck.position.y=NECK+P.br*.007;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
+  R.arms.forEach(({arm,fore,side},i)=>{const p=i?'b':'a';arm.position.y=SHOULDER+P.br*.008+cur[p+'Y'];arm.rotation.set(cur[p+'S'],0,side*cur[p+'O']);fore.rotation.set(cur[p+'E'],0,side*cur[p+'I'])});
+  // Los pies se quedan en el suelo: la pierna se inclina y se encoge para seguir a la cadera. En el aire, las punteras caen.
+  const tilt=-Math.atan(cur.px/.55),stretch=1+cur.py/.55,toes=Math.min(.5,cur.air*3);
+  R.legs.forEach(leg=>{leg.rotation.z=tilt;leg.scale.y=stretch});
+  R.feet.forEach((shoe,i)=>{const [x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];shoe.position.set(x-cur.px,y-cur.py+tap*.05,z);shoe.rotation.x=toes-tap});
+  const since=t-item.blinkFrom,lid=Math.min(1,Math.max(P.lid,since<.15?Math.sin(since/.15*Math.PI):0));
+  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid);eye.position.x=eye.userData.x+cur.eye*.014});R.lids.forEach(part=>{part.visible=lid<.5});
+  // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
+  const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
+  if(item.lagRoll===undefined){item.lagRoll=roll;item.lagNod=nod}item.lagRoll+=(roll-item.lagRoll)*lag;item.lagNod+=(nod-item.lagNod)*lag;
+  for(const group of R.sway){group.rotation.z=-roll*.7+(item.lagRoll-roll)*1.2;group.rotation.x=-nod*.7+(item.lagNod-nod)*1.2}
 }
 let running=false,last=0;
 function loop(now){
   if(!live.size){running=false;return}
-  requestAnimationFrame(loop);if(document.hidden||now-last<30)return;last=now;
+  requestAnimationFrame(loop);if(document.hidden||now-last<(live.size>2?30:14))return;last=now;
   const covered=document.body.classList.contains('modal-open');
   for(const item of live){
     if(!item.el.isConnected){dispose(item.entry);live.delete(item);continue}
@@ -371,7 +523,12 @@ function hydrate(el){
   let data;try{data=JSON.parse(decodeURIComponent(el.dataset.avatar))}catch{return}
   const [width,height]=sizeOf(el,data.mode),canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;el.dataset.ready='1';
   if(data.live){
-    const item={el,canvas,context:canvas.getContext('2d'),entry:buildModel(data.look),data,turn:TURN,spin:0,dragging:false,born:performance.now(),home:!!el.closest('.home')};
+    const born=performance.now(),emote=reduced?'':data.emote;
+    const item={el,canvas,context:canvas.getContext('2d'),entry:buildModel(data.look),data,turn:TURN,spin:0,dragging:false,born,last:born,home:!!el.closest('.home'),
+      seed:Math.random()*100,lean:Math.random()<.5?-1:1,mood:emote==='cheer'||emote==='sad'?emote:'',clip:null,wait:1.2+Math.random()*2.6,blinkAt:.8+Math.random()*3,blinkFrom:-9};
+    if(FIRST[emote])play(item,any(FIRST[emote]),0);
+    // En la portada, al pasar el ratón por encima vuelve a saludar.
+    if(emote==='wave')el.addEventListener('pointerenter',()=>{if(!item.clip)play(item,any(FIRST.wave),(performance.now()-item.born)/1000)});
     animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);
     el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);
     if(!running){running=true;requestAnimationFrame(loop)}
@@ -393,4 +550,5 @@ new MutationObserver(records=>{for(const record of records)for(const node of rec
 // Los que nacen dentro de algo oculto esperan a tener tamaño.
 setInterval(()=>{for(const el of asleep){if(!el.isConnected)asleep.delete(el);else if(el.clientWidth){asleep.delete(el);queue.add(el)}}if(queue.size)schedule()},350);
 enqueue(document.body);
-window.Avatar3D={ready:true,views:live};
+// play(nombre) lanza un gesto en todos los avatares animados (o solo en el de la posición index): sirve para probarlos desde la consola.
+window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};

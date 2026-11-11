@@ -29,6 +29,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0024](0024-avatar-faradios-y-misiones.md) | Avatar personalizable, faradios y misiones | Propuesta | 2026-11-11 |
 | [0025](0025-avatar-3d.md) | Avatar en 3D con estética de calle | Propuesta | 2026-11-11 |
 | [0026](0026-marcas-reales-en-la-tienda.md) | Piezas de marcas reales en la tienda, con su logotipo | Propuesta | 2026-11-11 |
+| [0027](0027-avatar-de-mujer-y-animaciones.md) | Avatar de hombre o de mujer, con su colección, y animaciones más naturales | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

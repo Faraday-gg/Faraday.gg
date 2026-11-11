@@ -1,5 +1,5 @@
 // Progreso del jugador (decisión 0024): nivel y experiencia, faradios (la moneda del juego), racha diaria,
-// misiones diarias y semanales, y el armario del avatar (3D, decisión 0025) con su tienda. Todo se guarda en este navegador:
+// misiones diarias y semanales, y el armario del avatar (3D, decisión 0025; hombre o mujer, decisión 0027) con su tienda. Todo se guarda en este navegador:
 // no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 (()=>{
@@ -30,7 +30,8 @@
   // Las misiones de cada día y cada semana salen de la fecha: son las mismas para todo el mundo.
   function pick(pool,count,seed){let h=2166136261;for(const c of seed)h=Math.imul(h^c.charCodeAt(0),16777619);const list=[...pool];for(let i=list.length-1;i>0;i--){h=Math.imul(h^h>>>13,1274126177);const j=(h>>>0)%(i+1);[list[i],list[j]]=[list[j],list[i]]}return list.slice(0,count)}
 
-  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{}};
+  // look = lo que lleva puesto (incluye el cuerpo, hombre o mujer); closet = el último look de cada cuerpo, para recuperarlo al cambiar.
+  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},closet:{},days:[],streak:{count:0,last:''},missions:{}};
   try{
     const saved=JSON.parse(localStorage.getItem(KEY));
     if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
@@ -38,7 +39,7 @@
     else{const old=JSON.parse(localStorage.getItem('casi-casi:duelo:progreso'));if(old?.xp>0)state.xp=old.xp}
   }catch{}
   if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
-  if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];
+  if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];if(!state.closet||typeof state.closet!=='object')state.closet={};
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
@@ -46,7 +47,7 @@
   const info=(xp=state.xp)=>{const level=levelOf(xp),from=levelStart(level),to=levelStart(level+1);return {level,done:xp-from,need:to-from,ratio:(xp-from)/(to-from)}};
   const owns=item=>(!item.price&&!item.level)||(item.level&&levelOf(state.xp)>=item.level)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
-  function look(){const result=Avatar.normalize(state.look);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=Avatar.DEFAULT[slot];return result}
+  function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
 
   function periods(){
     const today=madrid(),week=monday(today),m=state.missions;
@@ -69,7 +70,7 @@
     const before=levelOf(state.xp);state.xp+=xp;const after=levelOf(state.xp);let levelCoins=0;
     for(let level=before+1;level<=after;level++)levelCoins+=REWARD.levelCoins(level);
     state.coins+=gained+levelCoins;save();refresh();
-    const unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after):[];
+    const body=look().body,unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after&&(!item.for||item.for===body)):[];
     return {levelUp:after>before,level:after,levelCoins,unlocked};
   }
   const levelNote=result=>result.levelUp?` · ¡Nivel ${result.level}! +${result.levelCoins} ≈${result.unlocked.length?` · Nuevo: ${result.unlocked.map(item=>item.name).join(', ')}`:''}`:'';
@@ -109,7 +110,7 @@
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
-    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item),{bust:!zoom,zoom})}</span><span class="tile-name">${item.name}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${status}</button>`;
+    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span><span class="tile-name">${item.name}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${status}</button>`;
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
@@ -118,9 +119,9 @@
   function draw(){
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(state.coins);
-    const missing=trying?trying.price-state.coins:0,pieces=Avatar.CATALOG.filter(item=>item.slot===slot);
+    const missing=trying?trying.price-state.coins:0,pieces=Avatar.pieces(slot,current.body);
     const side=tab==='armario'
-      ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
+      ?`<div class="profile-body" role="group" aria-label="Cuerpo del avatar">${Avatar.BODIES.map(([id,label])=>`<button type="button" aria-pressed="${id===current.body}" data-body="${id}">${label}</button>`).join('')}</div><div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre diario recogido ✓':`Recoge las tres de hoy y llévate un cofre de +${REWARD.dailyChest} ${COIN}`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul>`;
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
@@ -140,6 +141,12 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const target=event.target.closest('button');if(!target)return;
     if(target.dataset.tab){tab=target.dataset.tab;trying=null;draw();return}
     if(target.dataset.slot){slot=target.dataset.slot;trying=null;draw();return}
+    // Cambiar de cuerpo: cada uno guarda su ropa y su peinado; la piel y el color de pelo se conservan.
+    if(target.dataset.body){
+      const now=look(),next=target.dataset.body;
+      if(next!==now.body&&Avatar.BODIES.some(([id])=>id===next)){state.closet={...state.closet,[now.body]:now};state.look={...(state.closet[next]||Avatar.defaults(next)),body:next,skin:now.skin,hairColor:now.hairColor};trying=null;save();refresh()}
+      return;
+    }
     if(target.dataset.item!==undefined){
       const [itemSlot,id]=target.dataset.item.split(':'),item=Avatar.find(itemSlot,id);
       if(owns(item)){state.look={...look(),[itemSlot]:id};trying=null;save();refresh()}else{trying=trying===item?null:item;draw()}
