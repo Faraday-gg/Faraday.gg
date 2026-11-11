@@ -374,12 +374,10 @@
 .explain-sum{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;margin:10px 0;padding:8px 2px;border-top:1px dashed var(--g-line);border-bottom:1px dashed var(--g-line);font-size:13px}
 .explain-sum code{font-size:12px;overflow-wrap:anywhere;color:var(--g-muted)}
 .explain-note{font-size:12px;line-height:1.5;color:var(--g-muted);margin:0 0 10px}
-/* La foto se amplía en su sitio al pulsarla, sin pantalla completa. */
+/* Al pulsar la foto se abre ampliada encima de la tarjeta (lightbox, en community.js). */
 .explain-panel .question-photo{margin:6px 0 4px}
 .photo-zoom{display:block;width:100%;padding:0;border:0;background:none;cursor:zoom-in;border-radius:14px;overflow:hidden}
-.photo-zoom img{display:block;width:100%;height:110px;max-height:none;object-fit:cover;border-radius:14px;transition:height .5s cubic-bezier(.22,1,.36,1)}
-.photo-zoom[aria-expanded=true]{cursor:zoom-out}
-.photo-zoom[aria-expanded=true] img{height:min(380px,55vh)}
+.photo-zoom img{display:block;width:100%;height:110px;max-height:none;object-fit:cover;border-radius:14px}
 .explain-panel .question-photo figcaption{color:inherit;opacity:.7;margin-top:4px}
 .explain-panel h4{margin:16px 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
 .explain-sources{margin:8px 0 0;font-size:12px;line-height:1.5;color:var(--g-muted)}
@@ -657,3 +655,25 @@ body:has(#game-shell:not([hidden])) .home-account{display:none}
 .auth-message:empty{margin-top:6px}
 .auth-fine{margin:6px 0 0;font-size:12px;color:var(--muted)}
 @media(max-width:560px){.auth-dialog{padding:22px 18px 16px;border-radius:24px}.auth-step h2{font-size:26px}}
+.lightbox{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:rgba(6,12,24,.86);cursor:zoom-out;animation:lightbox-in .22s ease-out both}
+.lightbox img{max-width:min(640px,100%);max-height:min(70vh,100%);width:auto;height:auto;object-fit:contain;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:lightbox-pop .28s cubic-bezier(.2,.8,.2,1) both}
+.lightbox.closing{animation:lightbox-out .18s ease-in both;pointer-events:none}
+.lightbox.closing img{animation:lightbox-pop-out .18s ease-in both}
+body.lightbox-open{overflow:hidden}
+@keyframes lightbox-in{from{opacity:0}to{opacity:1}}
+@keyframes lightbox-out{to{opacity:0}}
+@keyframes lightbox-pop{from{opacity:0;transform:scale(.92) translateY(8px)}to{opacity:1;transform:none}}
+@keyframes lightbox-pop-out{to{opacity:0;transform:scale(.95)}}
+@media (prefers-reduced-motion:reduce){.lightbox,.lightbox img,.lightbox.closing,.lightbox.closing img{animation:none}}
+/* Foto de la pregunta: pegada al borde derecho de la tarjeta, a medias dentro y fuera. En pantallas estrechas va en el flujo. */
+.hint-photo{margin:0 0 18px}
+.hint-photo .photo-zoom{overflow:visible}
+.hint-photo .photo-zoom img{height:auto;max-height:240px;object-fit:contain}
+@media(min-width:1000px){
+  .hint-photo{position:absolute;z-index:3;top:84px;left:calc(100% - 28px);width:300px;margin:0;transform:rotate(2deg);transition:transform .3s cubic-bezier(.2,.8,.2,1);animation:hint-in .35s cubic-bezier(.2,.8,.2,1) backwards}
+  .hint-photo:hover{transform:rotate(-1deg) scale(1.05) translateY(-4px)}
+  .hint-photo .photo-zoom img{width:100%;height:auto;max-height:none;border:3px solid #14181d;border-radius:14px;box-shadow:0 14px 34px -10px rgba(20,28,40,.5);transition:box-shadow .3s}
+  .hint-photo:hover .photo-zoom img{box-shadow:0 22px 44px -12px rgba(20,28,40,.55)}
+  .hint-photo .question-photo figcaption{margin-top:8px;font-size:10px;color:var(--muted)}
+}
+@keyframes hint-in{from{opacity:0;transform:translateX(-24px) rotate(2deg) scale(.94)}}
