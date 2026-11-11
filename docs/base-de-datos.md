@@ -20,7 +20,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
 | `public.duels` (**pendiente de aplicar**) | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
-| `public.usernames` (**pendiente de aplicar**) | `runtime/names.json` en el servidor local | Nombres de usuario reservados: una fila por jugador. |
+| `public.usernames` | `runtime/names.json` en el servidor local | Nombres de usuario reservados: una fila por jugador. |
 
 ### Qué está en Supabase y qué no
 
@@ -89,7 +89,7 @@ Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No
 
 Índice parcial `duels_waiting_idx` sobre `created_at` para los duelos públicos en espera. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Las filas no se borran (ver [mejoras](mejoras/README.md)). Contiene apodos escritos por los jugadores, pero ningún dato que los identifique.
 
-### `public.usernames` (migración `20261111180000_nombres_de_usuario`, **sin aplicar**)
+### `public.usernames`
 
 Nombres de usuario únicos ([decisión 0025](decisiones/0025-avatar-3d.md), `lib/nombres.mjs`). Una fila por jugador que ha reservado nombre.
 
@@ -132,7 +132,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
 - **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
-- **`POST /api/nombre`** (`lib/nombres.mjs`): sin `name` lee el nombre reservado del jugador; con `name` lo valida y hace un `upsert` por `player_hash`. Si `name_key` ya es de otro jugador, la base de datos responde 409 y la API contesta «Ese nombre ya lo tiene otro jugador». `POST /api/jugador` devuelve además el nombre reservado, y `POST /api/duelo` usa siempre el nombre reservado del jugador. Si la tabla no existe, la API responde 503 y el nombre se queda solo en el navegador.
+- **`POST /api/nombre`** (`lib/nombres.mjs`): sin `name` lee el nombre reservado del jugador; con `name` lo valida y hace un `upsert` por `player_hash`. Si `name_key` ya es de otro jugador, la base de datos responde 409 y la API contesta «Ese nombre ya lo tiene otro jugador». `POST /api/jugador` devuelve además el nombre reservado, y `POST /api/duelo` usa siempre el nombre reservado del jugador. Si Supabase no responde, la API contesta 503 y el nombre se queda solo en el navegador.
 - **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
 - **Tarea programada** (migración `20261110120000_jornadas_generadas`, **sin aplicar**): `pg_cron` ejecuta la tarea `generar-jornada` a las 22:01 y 23:01 UTC (las 00:01 de Madrid en verano y en invierno; la otra llamada no hace nada) y llama con `pg_net` a `https://faraday-gg.vercel.app/api/generar-dia` con el secreto `cron_secret` de Vault. El secreto se crea a mano en el editor SQL del panel, con el mismo valor que `CRON_SECRET` de Vercel, y nunca va al repositorio: `select vault.create_secret('<valor>', 'cron_secret');`. Para ver las ejecuciones: `select * from cron.job_run_details order by start_time desc limit 10;` y `select * from net._http_response order by created desc limit 10;`.
 
@@ -170,7 +170,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
 | `20261110120000` | [jornadas_generadas](../supabase/migrations/20261110120000_jornadas_generadas.sql) | `days.source` admite `ia`; activa `pg_cron` y `pg_net` y programa la tarea `generar-jornada` (00:01 de Madrid). | **Pendiente**: aplicar tras crear el secreto `cron_secret` en Vault |
 | `20261111120000` | [duelos](../supabase/migrations/20261111120000_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | **Pendiente**: sin ella los duelos responden 503 en Vercel |
-| `20261111180000` | [nombres_de_usuario](../supabase/migrations/20261111180000_nombres_de_usuario.sql) | Crea la tabla `usernames` (nombres de usuario únicos) con RLS y sin permisos públicos. | **Pendiente**: sin ella los nombres se guardan solo en el navegador y no son únicos. |
+| `20261111125432` | [nombres_de_usuario](../supabase/migrations/20261111125432_nombres_de_usuario.sql) | Crea la tabla `usernames` (nombres de usuario únicos) con RLS y sin permisos públicos. | Aplicada el 11 de noviembre de 2026, antes de fusionar la PR, a petición expresa de Luis. |
 
 ## Pendiente
 
