@@ -1,6 +1,8 @@
 // Progreso del jugador (decisión 0024): nivel y experiencia, faradios (la moneda del juego), racha diaria,
 // misiones diarias y semanales, y el armario del avatar (3D, decisión 0025) con su tienda. Todo se guarda en este navegador:
-// no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto.
+// no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto y cofres.
+// Los cofres (decisión 0027) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
+// en chest-open.js. Aquí se guardan, se conceden y se reparten sus premios.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 (()=>{
   const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile'),stage=$('#home-avatar');
@@ -11,8 +13,10 @@
   const monday=day=>shift(day,-((new Date(day+'T12:00:00Z').getUTCDay()+6)%7));
 
   // Recompensas: un reto del día da para una pieza sencilla cada dos días; una pieza especial pide una o dos semanas.
-  const REWARD={welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,dailyChest:20,
-    duel:{win:15,draw:8,loss:5},levelCoins:level=>40+10*level};
+  // Subir de nivel da 30 ≈ y un cofre (Rayo en los niveles múltiplos de 5, Chispa en el resto). charge = lo que carga
+  // la batería de cofres cada reto; la de los duelos la calcula duel.js, con su tope diario.
+  const REWARD={welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,missionXp:10,
+    duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:level=>level%5?'chispa':'rayo',charge:{today:40,archive:10,full:100}};
   const MISSIONS={
     'reto-hoy':{text:'Completa el reto de hoy',goal:1,coins:20,on:'day',when:d=>d.today},
     'cerca-2':{text:'Queda a menos de 2× en una pregunta',goal:1,coins:15,on:'answer',when:d=>d.factor<2},
@@ -30,7 +34,8 @@
   // Las misiones de cada día y cada semana salen de la fecha: son las mismas para todo el mundo.
   function pick(pool,count,seed){let h=2166136261;for(const c of seed)h=Math.imul(h^c.charCodeAt(0),16777619);const list=[...pool];for(let i=list.length-1;i>0;i--){h=Math.imul(h^h>>>13,1274126177);const j=(h>>>0)%(i+1);[list[i],list[j]]=[list[j],list[i]]}return list.slice(0,count)}
 
-  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{}};
+  // chests = cofres sin abrir; charge = batería (0–99); pity = cofres seguidos sin épica ni legendaria; bought = compras de hoy.
+  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{},chests:{},charge:0,pity:0,bought:{day:'',count:0}};
   try{
     const saved=JSON.parse(localStorage.getItem(KEY));
     if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
@@ -39,6 +44,10 @@
   }catch{}
   if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
   if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];
+  if(!state.chests||typeof state.chests!=='object')state.chests={};
+  for(const type of Chests.TYPES)if(!Number.isInteger(state.chests[type])||state.chests[type]<0)state.chests[type]=0;
+  if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
+  if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
@@ -51,7 +60,7 @@
   function periods(){
     const today=madrid(),week=monday(today),m=state.missions;
     if(m.day?.key!==today)m.day={key:today,ids:['reto-hoy',...pick(DAILY,2,today)],progress:{},claimed:[],chest:false};
-    if(m.week?.key!==week)m.week={key:week,ids:pick(WEEKLY,3,week),progress:{},claimed:[]};
+    if(m.week?.key!==week)m.week={key:week,ids:pick(WEEKLY,3,week),progress:{},claimed:[],chest:false};
     return [m.day,m.week];
   }
   const pending=()=>periods().reduce((sum,period)=>sum+period.ids.filter(id=>(period.progress[id]||0)>=MISSIONS[id].goal&&!period.claimed.includes(id)).length,0);
@@ -64,15 +73,23 @@
     }
     return completed;
   }
-  // Suma experiencia y faradios. Al subir de nivel hay premio y se desbloquean las piezas de ese nivel.
+  // Cofres: se guardan sin abrir hasta que el jugador los abre.
+  const chestTotal=()=>Chests.TYPES.reduce((sum,type)=>sum+state.chests[type],0);
+  const grant=(type,count=1)=>{state.chests[type]+=count};
+  // La batería se carga jugando y, al llenarse, da un cofre Chispa. Lo que sobra se conserva.
+  function charge(amount){state.charge+=amount;let full=0;while(state.charge>=REWARD.charge.full){state.charge-=REWARD.charge.full;full++}if(full)grant('chispa',full);return full}
+  const chargeNote=full=>full?' · ¡Batería llena: cofre Chispa!':'';
+  const bought=()=>state.bought.day===madrid()?state.bought.count:0;
+  // Suma experiencia y faradios. Al subir de nivel hay premio (faradios y un cofre) y se desbloquean las piezas de ese nivel.
   function reward({xp=0,coins:gained=0}={}){
-    const before=levelOf(state.xp);state.xp+=xp;const after=levelOf(state.xp);let levelCoins=0;
-    for(let level=before+1;level<=after;level++)levelCoins+=REWARD.levelCoins(level);
+    const before=levelOf(state.xp);state.xp+=xp;const after=levelOf(state.xp),chests=[];
+    for(let level=before+1;level<=after;level++){const type=REWARD.levelChest(level);grant(type);chests.push(Chests.CHESTS[type].name)}
+    const levelCoins=(after-before)*REWARD.levelCoins;
     state.coins+=gained+levelCoins;save();refresh();
     const unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after):[];
-    return {levelUp:after>before,level:after,levelCoins,unlocked};
+    return {levelUp:after>before,level:after,levelCoins,unlocked,chests};
   }
-  const levelNote=result=>result.levelUp?` · ¡Nivel ${result.level}! +${result.levelCoins} ≈${result.unlocked.length?` · Nuevo: ${result.unlocked.map(item=>item.name).join(', ')}`:''}`:'';
+  const levelNote=result=>result.levelUp?` · ¡Nivel ${result.level}! +${result.levelCoins} ≈ y cofre ${result.chests.join(' y ')}${result.unlocked.length?` · Nuevo: ${result.unlocked.map(item=>item.name).join(', ')}`:''}`:'';
   const missionNote=count=>count?` · ${count===1?'Misión lista':count+' misiones listas'} para recoger`:'';
 
   document.addEventListener('faraday:answer',({detail})=>{
@@ -82,30 +99,39 @@
   document.addEventListener('faraday:day',({detail})=>{
     const done=bump('day',detail);
     if(state.days.includes(detail.day)){save();refresh();if(done)showToast(missionNote(done).slice(3));return}
-    state.days.push(detail.day);let gained=REWARD.archiveCoins,xp=REWARD.archiveXp,extra='';
+    state.days.push(detail.day);let gained=REWARD.archiveCoins,xp=REWARD.archiveXp,extra='',storm='';
+    const full=charge(detail.today?REWARD.charge.today:REWARD.charge.archive);
     if(detail.today){
       const today=madrid();
-      if(state.streak.last!==today){state.streak.count=state.streak.last===shift(today,-1)?state.streak.count+1:1;state.streak.last=today}
+      if(state.streak.last!==today){
+        state.streak.count=state.streak.last===shift(today,-1)?state.streak.count+1:1;state.streak.last=today;
+        // Hitos de racha (7, 14, 30, 50, 100…): un cofre Tormenta.
+        if(Chests.streakMilestone(state.streak.count)){grant('tormenta');storm=` · ¡${state.streak.count} días: cofre Tormenta!`}
+      }
       const accuracy=detail.average<1.5?15:detail.average<2?10:detail.average<3?5:0,streak=Math.min(state.streak.count,REWARD.streakCap)*REWARD.streakCoins;
       gained=REWARD.todayCoins+accuracy+streak;xp=REWARD.todayXp;extra=state.streak.count>1?` · 🔥 ${state.streak.count} días seguidos`:'';
     }
     const result=reward({xp,coins:gained});
-    showToast(`Reto completado: +${gained} ≈ · +${xp} XP${extra}${levelNote(result)}${missionNote(done)}`);
+    showToast(`Reto completado: +${gained} ≈ · +${xp} XP${extra}${storm}${chargeNote(full)}${levelNote(result)}${missionNote(done)}`);
   });
-  document.addEventListener('faraday:duel',({detail})=>{const done=bump('duel',detail);save();refresh();if(done)setTimeout(()=>showToast(missionNote(done).slice(3)),2500)});
+  document.addEventListener('faraday:duel',({detail})=>{
+    const done=bump('duel',detail),full=charge(detail.charge||0);save();refresh();
+    if(done||full)setTimeout(()=>showToast((chargeNote(full)+missionNote(done)).slice(3)),2500);
+  });
 
-  // Chapa de la portada: avatar, nivel, faradios y un punto si hay misiones por recoger.
+  // Chapa de la portada: avatar, nivel, faradios y un punto si hay misiones por recoger o cofres por abrir.
   function refresh(){
-    if(chip){const waiting=pending();chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} misiones por recoger">${waiting}</i>`:''}`}
+    const boxes=chestTotal();
+    if(chip){const waiting=pending()+boxes;chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} avisos: misiones por recoger o cofres por abrir">${waiting}</i>`:''}`}
     // Avatar de cuerpo entero en la portada: es la puerta al armario y a la tienda.
-    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${Avatar.render(look(),{live:true,emote:'wave'})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta">Personalizar <span aria-hidden="true">→</span></span>`;
+    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${Avatar.render(look(),{live:true,emote:'wave'})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta${boxes?' has-chest':''}">${boxes?`Abrir ${boxes===1?'cofre':boxes+' cofres'}`:'Personalizar'} <span aria-hidden="true">→</span></span>`;
     if(!shell.hidden)draw();
   }
 
-  // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda) o las misiones.
+  // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
   let tab='armario',slot='top',trying=null;
   // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
-  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'};
+  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
@@ -115,20 +141,56 @@
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
     return `<li class="mission${claimed?' is-claimed':done?' is-done':''}"><div><p>${mission.text}</p><div class="mission-bar"><i style="--m:${progress/mission.goal}"></i></div><small>${progress} / ${mission.goal}</small></div>${claimed?'<span class="mission-check" aria-label="Recogida">✓</span>':done?`<button type="button" class="game-primary" data-claim="${id}">Recoger +${mission.coins} ${COIN}</button>`:`<span class="mission-prize">+${coins(mission.coins)}</span>`}</li>`;
   }
+  // Abre un cofre. El sorteo se hace y se guarda aquí, antes de la animación: cerrar o recargar no cambia lo que ha tocado.
+  const dice=()=>{try{return crypto.getRandomValues(new Uint32Array(1))[0]/2**32}catch{return Math.random()}};
+  function openChest(type){
+    if(!state.chests[type]||ChestOpen.open)return;
+    const missing=Avatar.CATALOG.filter(item=>item.price>0&&!item.level&&!owns(item)).map(item=>({key:item.slot+':'+item.id,rarity:Avatar.rarity(item)}));
+    const result=Chests.roll(type,{items:missing,pity:state.pity,random:dice}),current=look();
+    state.chests[type]--;state.pity=result.pity;
+    const rewards=result.rewards.map(reward=>{
+      if(reward.kind==='coins'){state.coins+=reward.amount;return reward}
+      state.owned.push(reward.key);const [itemSlot,id]=reward.key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
+      return {...reward,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
+    });
+    save();refresh();
+    ChestOpen.play(type,rewards,{more:chestTotal(),onClose:refresh,
+      onEquip:key=>{const [itemSlot,id]=key.split(':');state.look={...look(),[itemSlot]:id};save()},
+      onMore:()=>openChest(state.chests[type]?type:Chests.TYPES.find(other=>state.chests[other]))});
+  }
+  // Comprar un cofre con faradios: como mucho Chests.BUY_CAP al día. Se abre en el momento.
+  function buyChest(type){
+    const chest=Chests.CHESTS[type];if(state.coins<chest.price||bought()>=Chests.BUY_CAP)return;
+    state.coins-=chest.price;state.bought={day:madrid(),count:bought()+1};grant(type);save();refresh();openChest(type);
+  }
+  // Pestaña Cofres: la batería, los tres cofres (abrir o comprar) y las probabilidades, siempre a la vista.
+  function chestTab(){
+    const left=Math.max(0,Chests.BUY_CAP-bought()),percent=chance=>(chance*100).toLocaleString('es-ES',{maximumFractionDigits:1})+' %',lower=kind=>Chests.LABEL[kind].toLowerCase();
+    const card=type=>{
+      const chest=Chests.CHESTS[type],have=state.chests[type];
+      return `<li class="chest-item${have?' has':''}">${have?`<i class="profile-dot chest-count" aria-label="Tienes ${have}">${have}</i>`:''}${ChestOpen.art(type)}<h4>${chest.name}</h4><p>${Chests.count(type)} premios${chest.sure?`<br>1 ${lower(Object.keys(chest.sure)[0])} o mejor`:''}</p>${have?`<button type="button" class="game-primary" data-open-chest="${type}">Abrir</button>`:''}<button type="button" class="chest-buy" data-buy-chest="${type}"${state.coins<chest.price||!left?' disabled':''} aria-label="Comprar cofre ${chest.name} por ${chest.price} faradios">${int(chest.price)} ${COIN}</button></li>`;
+    };
+    const sure=Chests.TYPES.filter(type=>Chests.CHESTS[type].sure).map(type=>`${Chests.CHESTS[type].name} trae además un premio seguro: ${Object.entries(Chests.CHESTS[type].sure).map(([kind,chance])=>`${lower(kind)} ${percent(chance)}`).join(', ')}.`).join(' ');
+    return `<div class="battery"><p><b>Batería</b><span>${Math.floor(state.charge)} / ${REWARD.charge.full}</span></p><div class="battery-bar" role="img" aria-label="Batería al ${Math.floor(state.charge)} por ciento"><i style="--m:${state.charge/REWARD.charge.full}"></i></div><small>Se carga jugando: reto de hoy +${REWARD.charge.today}, reto del archivo +${REWARD.charge.archive}, duelo +20. Llena, da un cofre Chispa.</small></div>
+<ul class="chest-shelf">${Chests.TYPES.map(card).join('')}</ul>
+<p class="chest-note">Los cofres se ganan jugando: Chispa con las tres misiones del día, la batería y al subir de nivel; Rayo con las tres de la semana y cada 5 niveles; Tormenta con las rachas de 7, 14, 30, 50 y 100 días. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
+<details class="chest-odds"><summary>Probabilidades</summary><table><thead><tr><th scope="col">Cada premio</th>${Chests.TYPES.map(type=>`<th scope="col">${Chests.CHESTS[type].name}</th>`).join('')}</tr></thead><tbody>${['faradios',...Chests.RARITIES].map(kind=>`<tr data-glow="${kind}"><td><i class="odds-dot" aria-hidden="true"></i>${Chests.LABEL[kind]}</td>${Chests.TYPES.map(type=>`<td>${percent(Chests.CHESTS[type].odds[kind])}</td>`).join('')}</tr>`).join('')}</tbody></table>
+<p>${sure} Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
+  }
   function draw(){
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(state.coins);
     const missing=trying?trying.price-state.coins:0,pieces=Avatar.CATALOG.filter(item=>item.slot===slot);
-    const side=tab==='armario'
+    const side=tab==='cofres'?chestTab():tab==='armario'
       ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
-      :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre diario recogido ✓':`Recoge las tres de hoy y llévate un cofre de +${REWARD.dailyChest} ${COIN}`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul>`;
+      :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre Chispa del día conseguido ✓':'Recoge las tres de hoy y llévate un cofre Chispa'}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}</div></section>
-<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button></div>${side}</section>`;
+<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button></div>${side}</section>`;
   }
   function open(which){
-    if(which)tab=which;trying=null;shell.hidden=false;document.body.classList.add('modal-open');
+    if(which)tab=which;else if(chestTotal())tab='cofres';trying=null;shell.hidden=false;document.body.classList.add('modal-open');
     if(typeof toggleMenu==='function')toggleMenu(false);draw();$('#profile-close').focus();
   }
   function close(){
@@ -150,12 +212,16 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       state.coins-=trying.price;state.owned.push(trying.slot+':'+trying.id);state.look={...look(),[trying.slot]:trying.id};
       showToast(`${trying.name}: ¡ya es tuyo!`);trying=null;save();refresh();return;
     }
+    if(target.dataset.openChest){openChest(target.dataset.openChest);return}
+    if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
     if(target.dataset.claim){
       const id=target.dataset.claim,period=periods().find(p=>p.ids.includes(id));
       if(!period||period.claimed.includes(id)||(period.progress[id]||0)<MISSIONS[id].goal)return;
-      period.claimed.push(id);let gained=MISSIONS[id].coins,note='';
-      if(period===state.missions.day&&!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;gained+=REWARD.dailyChest;note=' · ¡Cofre diario!'}
-      const result=reward({xp:10,coins:gained});showToast(`+${gained} ≈ · +10 XP${note}${levelNote(result)}`);
+      period.claimed.push(id);const gained=MISSIONS[id].coins;let won='';
+      // Las tres del día dan un cofre Chispa; las tres de la semana, un cofre Rayo. Se abre en el momento.
+      if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;won=period===state.missions.day?'chispa':'rayo';grant(won)}
+      const result=reward({xp:REWARD.missionXp,coins:gained});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
+      if(won){tab='cofres';draw();openChest(won)}
     }
   });
   $('#profile-close').addEventListener('click',close);
@@ -164,8 +230,10 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 
-  window.Progress={look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD};
+  window.Progress={look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
   if(!state.welcome){state.welcome=true;state.coins+=REWARD.welcome}
+  // Un cofre Chispa de regalo para estrenar los cofres, también para quien ya jugaba antes de que existieran.
+  if(!state.cofres){state.cofres=true;grant('chispa')}
   periods();save();refresh();
 })();
