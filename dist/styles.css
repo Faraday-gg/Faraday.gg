@@ -23,6 +23,23 @@
 .home-play:disabled{cursor:default;opacity:.7;transform:none}
 .home-title{text-align:center;font:700 clamp(32px,4.4vw,44px) var(--display);letter-spacing:-.05em;margin:110px 0 20px}
 .home-title mark,.home-step h3 mark{background:linear-gradient(transparent 55%,var(--yellow) 55%,var(--yellow) 92%,transparent 92%);color:inherit;padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+/* El circuito de la portada: un cable une las secciones, con una bobina, un galvanómetro y un condensador (el experimento de inducción de Faraday) y electrones que bajan por él. */
+.wire{width:200px;height:104px;margin:34px auto 0;pointer-events:none}
+.wire svg{display:block;width:200px;height:104px;overflow:visible}
+.wire path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wire-dial{fill:var(--paper);stroke:var(--ink);stroke-width:1.6}
+.wire-pivot{fill:var(--ink)}
+.wire-needle{stroke:var(--coral)!important;stroke-width:2!important;transform-origin:100px 62px;animation:wire-needle 3.4s ease-in-out infinite alternate}
+.wire-e{fill:var(--coral);animation:wire-flow 2.2s linear infinite}
+.wire-e2{animation-delay:-1.1s}
+.wire-f{font:italic 400 17px Georgia,serif;fill:var(--ink)}
+.wire-n{font:800 8.5px var(--font);letter-spacing:.14em;fill:var(--muted)}
+.wire+section>.home-title{margin-top:26px}
+.home-how .wire{margin:-30px auto}
+.wire-ground{height:84px;margin-top:10px}
+@keyframes wire-flow{from{transform:translateY(0);opacity:0}12%,88%{opacity:1}to{transform:translateY(104px);opacity:0}}
+@keyframes wire-needle{from{transform:rotate(-42deg)}to{transform:rotate(38deg)}}
+@media(prefers-reduced-motion:reduce){.wire-e{animation:none;opacity:0}.wire-needle{animation:none;transform:rotate(24deg)}}
 .home-step{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(32px,7vw,96px);padding:56px 0}
 .home-step-flip .home-step-copy{order:2}
 .home-step h3{font:700 clamp(24px,3vw,30px)/1.25 var(--display);letter-spacing:-.04em;margin:0 0 16px}
@@ -67,6 +84,7 @@
   .home-step-flip .home-step-copy{order:0}
   .home-step p{font-size:16px}
   .demo,.home-step-flip .demo{transform:none}
+  .home-how .wire{margin:-16px auto}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
