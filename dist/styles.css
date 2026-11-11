@@ -223,7 +223,8 @@
 .history-item button:last-child{font-size:17px;line-height:1;padding:4px 7px}
 .history-empty{font-size:12px;color:var(--muted);line-height:1.5;padding:9px 0}
 @media(max-width:760px){
-  .workspace-panel{position:fixed;inset:0;width:100%;z-index:110;border-left:0}
+  .workspace-panel{position:fixed;inset:0;width:100%;height:auto;z-index:110;border-left:0;overflow:hidden;display:grid;place-items:end center;padding:12px;background:rgba(14,20,32,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);animation:ws-scrim .2s ease-out both}
+  .workspace-sheet{width:min(420px,100%);max-height:min(62dvh,520px);overflow:auto;overscroll-behavior:contain;background:var(--paper);border-radius:22px;box-shadow:0 24px 60px -12px rgba(0,0,0,.5);animation:ws-sheet .28s cubic-bezier(.2,.8,.2,1) both}
   .game-bar{grid-template-columns:40px 1fr auto;padding:8px 10px}
   .game-step{padding:7px 8px}
   .game-step .cat-icon{display:none}
@@ -677,3 +678,25 @@ body.lightbox-open{overflow:hidden}
   .hint-photo .question-photo figcaption{margin-top:8px;font-size:10px;color:var(--muted)}
 }
 @keyframes hint-in{from{opacity:0;transform:translateX(-24px) rotate(2deg) scale(.94)}}
+
+/* Calculadora y notas: en escritorio es una columna lateral; el envoltorio no añade caja. */
+.workspace-sheet{display:contents}
+@media(max-width:760px){.workspace-sheet{display:block}}
+@keyframes ws-scrim{from{opacity:0}}
+@keyframes ws-sheet{from{opacity:0;transform:translateY(16px) scale(.96)}}
+@media(prefers-reduced-motion:reduce){.workspace-panel,.workspace-sheet{animation:none}}
+
+/* Portada en móvil: las demos de «Cómo se juega» son ejemplos pequeños, no otra tarjeta de juego. */
+@media(max-width:760px){
+  .demo,.home-step-flip .demo{width:84%;padding:14px 16px 16px;border-radius:18px;transform:rotate(1.5deg);box-shadow:0 1px 2px #20263014,0 14px 26px -16px #20263066}
+  .home-step-flip .demo{transform:rotate(-1.5deg)}
+  .demo-head{margin-bottom:12px;font-size:10px}
+  .demo-q{font-size:16px;margin-bottom:18px}
+  .demo-guess{font-size:16px}
+  .demo-icon{width:32px;height:32px;font-size:13px}
+  .demo-btn{padding:9px 16px;font-size:12px}
+  .demo-verdict strong{font-size:44px}
+  .demo-ledger{margin:12px 0}.demo-ledger b{font-size:18px}
+  .demo-bars{height:44px}
+  .demo-score{font-size:52px;margin:2px 0 12px}
+}
