@@ -4,21 +4,47 @@ const PLAYER_KEY='casi-casi:anonymous-player',validPlayer=id=>/^[a-f0-9-]{36}$/i
 // Al cargar, el servidor guarda el identificador en una cookie propia (sin registro, sin IP ni huella).
 // Si el navegador perdió localStorage (Safari lo vacía a los 7 días sin visitas), la cookie lo devuelve
 // junto con las respuestas guardadas, y se rellenan los días que no tengan progreso local.
-const playerReady=(async()=>{
+// Con sesión iniciada (decisión 0018) manda el jugador de la cuenta: su progreso sustituye al local
+// y los días jugados aquí sin cuenta se suben a ella. auth.js escucha el evento faraday:cuenta.
+let currentAccount=null;
+async function syncPlayer(){
   let stored=null;try{stored=localStorage.getItem(PLAYER_KEY)}catch{}
   try{
     const response=await fetch('/api/jugador',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(validPlayer(stored)?{player:stored}:{}),credentials:'same-origin',signal:AbortSignal.timeout(8000)});
     if(!response.ok)return;
-    const data=await response.json();if(validPlayer(stored)||!validPlayer(data.player)||anonymousPlayer)return;
+    const data=await response.json();
+    if('account' in data){currentAccount=data.account;document.dispatchEvent(new CustomEvent('faraday:cuenta',{detail:{account:data.account,available:true}}))}
+    if(!validPlayer(data.player)||data.player===stored||(validPlayer(stored)&&!data.account))return;
     anonymousPlayer=data.player;try{localStorage.setItem(PLAYER_KEY,anonymousPlayer)}catch{}
+    const fromAccount=Boolean(data.account&&validPlayer(stored));
     let restored=0;
     for(const [date,guesses] of Object.entries(data.progress||{})){
       if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Array.isArray(guesses)||!guesses.length||!guesses.every(n=>Number.isFinite(n)&&n>0))continue;
-      try{if(localStorage.getItem(`casi-casi:v2:${date}`))continue;localStorage.setItem(`casi-casi:v2:${date}`,JSON.stringify(guesses.slice(0,3)));restored++}catch{}
+      try{const local=localStorage.getItem(`casi-casi:v2:${date}`);if(local&&(!fromAccount||local===JSON.stringify(guesses.slice(0,3))))continue;localStorage.setItem(`casi-casi:v2:${date}`,JSON.stringify(guesses.slice(0,3)));sessionGuesses.delete(date);restored++}catch{}
     }
+    if(fromAccount)await uploadLocalDays(data.progress||{});
     if(restored){if(typeof renderWeek==='function')renderWeek();if(typeof showToast==='function')showToast(`Hemos recuperado tu progreso de ${restored} ${restored===1?'día':'días'}.`)}
   }catch{}
-})();
+}
+// Días jugados en este navegador sin cuenta que la cuenta aún no tiene: se guardan con el jugador de la cuenta.
+async function uploadLocalDays(progress){
+  for(const day of (typeof DAYS!=='undefined'?DAYS:[])){
+    if(progress[day.id])continue;
+    let guesses=[];try{guesses=JSON.parse(localStorage.getItem(`casi-casi:v2:${day.id}`)||'[]')}catch{}
+    if(!Array.isArray(guesses))continue;
+    for(const [i,guess] of guesses.slice(0,day.questions.length).entries()){
+      if(!Number.isFinite(guess)||guess<=0)break;
+      try{await fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:day.questions[i].id,player:anonymousPlayer,guess}),signal:AbortSignal.timeout(8000)})}catch{break}
+    }
+  }
+}
+// Al salir de la cuenta el servidor da un jugador anónimo nuevo: el progreso queda en la cuenta, no en este navegador.
+function leaveAccount(player){
+  currentAccount=null;anonymousPlayer=validPlayer(player)?player:crypto.randomUUID();
+  try{localStorage.setItem(PLAYER_KEY,anonymousPlayer);for(const key of Object.keys(localStorage))if(key.startsWith('casi-casi:v2:'))localStorage.removeItem(key)}catch{}
+  sessionGuesses.clear();if(typeof renderWeek==='function')renderWeek();
+}
+const playerReady=syncPlayer();
 function playerId(){
   if(anonymousPlayer)return anonymousPlayer;
   try{anonymousPlayer=localStorage.getItem(PLAYER_KEY)}catch{}
