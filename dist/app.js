@@ -63,6 +63,7 @@ function renderGame(){
   const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
+  $('.game-card')?.classList.remove('explaining');
   if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;
 }
@@ -72,7 +73,7 @@ function renderBar(guesses){
   steps.push(`<button type="button" class="game-step${guesses.length===3?' done':''}" data-step="3"${guesses.length<3?' disabled':''}${activeIndex===3?' aria-current="step"':''}><span>Total</span></button>`);
   $('#game-steps').innerHTML=steps.join('');
 }
-function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`<h2 id="game-title">${q.title}</h2><form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;$('#guess-input').focus()}
+function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${q.image?`<div class="hint-photo">${questionMedia(q)}</div>`:''}<h2 id="game-title">${q.title}</h2><form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;$('#guess-input').focus()}
 // Tarjeta de respuesta (decisión 0012): solo el multiplicador, tu cifra frente a la real y la distribución.
 // La pregunta y la explicación no se ven; «Cómo se calcula» abre un panel dentro de la tarjeta.
 const whole=(n)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:n<10?2:0,useGrouping:'always'}).format(n);
@@ -82,11 +83,11 @@ function renderResult(guesses){
   const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer);
   const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
   $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
-<div class="verdict verdict-${verdict[0]}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
-<dl class="ledger"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
+<div class="verdict verdict-${verdict[0]}${times(factor).length>=11?' is-long is-xlong':times(factor).length>=8?' is-long':''}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
+<dl class="ledger${Math.max(whole(guess).length,rounded(q.answer).length)>=9?' is-long':''}"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
-<section class="explain-panel" id="explain-panel" hidden aria-label="Cómo se calcula">${explainMarkup(q)}</section>`;
+<div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
   animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
 }
 function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
@@ -105,8 +106,36 @@ function animateTimes(element,factor){
   // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
   setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+400);
 }
-function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle');if(!panel)return false;open??=panel.hidden;panel.hidden=!open;button.setAttribute('aria-expanded',String(open));$('.game-card').classList.toggle('explaining',open);if(open)panel.scrollTop=0;return true}
-function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>`;loadDailyDistribution(activeDay,guesses)}
+// «Cómo se calcula» (decisión 0021): una hoja translúcida que sube dentro de la tarjeta, entre el multiplicador y los botones.
+// El resultado queda detrás, atenuado, y «Siguiente» sigue a la vista: no hace falta desplazarse. Si el texto no cabe, solo se desplaza la hoja.
+function placeExplain(){
+  const card=$('.game-card'),panel=$('#explain-panel'),verdict=$('.verdict'),actions=$('.card-actions');if(!card||!panel||!verdict||!actions)return;
+  const box=card.getBoundingClientRect(),bottom=box.bottom-actions.getBoundingClientRect().top+10;
+  let top=verdict.getBoundingClientRect().bottom-box.top+14;
+  if(box.height-top-bottom<260)top=14; // Pantallas bajas: la hoja ocupa también el hueco del multiplicador.
+  panel.style.bottom=bottom+'px';panel.style.maxHeight=(box.height-top-bottom)+'px'; // Crece desde los botones y se ajusta al texto.
+}
+function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle'),card=$('.game-card');if(!panel)return false;open??=panel.hidden;button.setAttribute('aria-expanded',String(open));
+  if(open){
+    // Si la tarjeta no cabe entera, se recoloca una vez con el multiplicador arriba.
+    const view=$('.game-panel'),box=card.getBoundingClientRect();if(box.bottom>innerHeight||box.top<0)view.scrollTop+=box.top-8; // Pantallas bajas: el multiplicador arriba; los botones quedan pegados abajo (sticky).
+    placeExplain();panel.hidden=false;panel.scrollTop=0;card.classList.add('explaining');markMore(panel);requestAnimationFrame(()=>requestAnimationFrame(()=>panel.classList.add('open')));
+  }else{panel.classList.remove('open');card.classList.remove('explaining');setTimeout(()=>{if(!panel.classList.contains('open'))panel.hidden=true},380)}
+  return true}
+addEventListener('resize',()=>{if($('#explain-panel.open'))placeExplain()});
+// Degradado abajo mientras quede texto por leer dentro de la hoja.
+function markMore(panel){panel.classList.toggle('more',panel.scrollTop+panel.clientHeight<panel.scrollHeight-6)}
+document.addEventListener('scroll',event=>{if(event.target.id==='explain-panel')markMore(event.target)},true);
+function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${moreDaysMarkup(activeDay)}`;loadDailyDistribution(activeDay,guesses)}
+// «Otros días» (decisión 0021): el día anterior y el siguiente del archivo, con su estado, y el calendario completo en el menú.
+function moreDaysMarkup(day){
+  const days=archiveDays(),i=days.findIndex(d=>d.id===day.id),prev=i>0?days[i-1]:null,next=i>=0&&i<days.length-1?days[i+1]:null;
+  const short=id=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',timeZone:'Europe/Madrid'}).format(new Date(id+'T12:00:00Z')).replace('.','');
+  const state=d=>{const value=dayScore(d);return value==null?(getGuesses(d).length?'A medias':'Sin jugar'):format(value)+'×'};
+  const link=(d,dir)=>d?`<button type="button" class="more-day more-day-${dir}" data-open-day="${d.id}"><span class="more-day-arrow" aria-hidden="true">${dir==='prev'?'←':'→'}</span><span><small>${dir==='prev'?'Anterior':'Siguiente'} · Nº ${editionNumber(d.id)}</small><b>${d.id===todayKey?'Hoy':short(d.id)}</b><em>${state(d)}</em></span></button>`:'<span class="more-day more-day-empty" aria-hidden="true"></span>';
+  const today=currentDay&&day.id!==todayKey&&getGuesses(currentDay).length<3?`<button type="button" class="game-primary more-today" data-open-day="${todayKey}">Jugar el reto de hoy <span aria-hidden="true">→</span></button>`:'';
+  return `<section class="more-days" aria-labelledby="more-days-title"><h3 id="more-days-title">Seguir jugando</h3>${today}<div class="more-days-nav">${link(prev,'prev')}<button type="button" class="more-calendar" id="more-calendar"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Elegir día</span></button>${link(next,'next')}</div></section>`;
+}
 function formatEstimateInput(input){
   const cursor=input.selectionStart??input.value.length;
   const meaningful=input.value.slice(0,cursor).replace(/[^\d,]/g,'').length;
@@ -130,7 +159,7 @@ function saveWorkspace(){const id=workspaceId||activeDay.id;sessionWorkspaces.se
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
-function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
+function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open&&!matchMedia('(max-width:760px)').matches)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
 function evaluateCalculation(source){
   const expression=source.trim().replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s+/g,'');
   if(!expression||expression.length>100||!/^[\d.+*/()-]+$/.test(expression))throw Error('Operación no válida');
@@ -171,6 +200,7 @@ document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
 $('#menu-home').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
+$('#workspace-panel').addEventListener('click',event=>{if(event.target===event.currentTarget)toggleWorkspace(false)});
 $('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});
 $('#scratch-expression').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();calculate()}});
 $('#scratch-expression').addEventListener('input',()=>{$('#scratch-result').textContent='='});
@@ -184,7 +214,7 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});
-$('#game-content').addEventListener('click',event=>{const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame()});
+$('#game-content').addEventListener('click',event=>{if($('.game-card.explaining')&&event.target.closest('.verdict,.ledger,.population')){toggleExplain(false);return}const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame();if(id==='more-calendar')toggleMenu(true);const other=event.target.closest('[data-open-day]');if(other)openDate(other.dataset.openDay);});
 $('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
 $('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});

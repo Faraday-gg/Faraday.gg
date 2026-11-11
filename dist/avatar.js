@@ -1,4 +1,4 @@
-// Catálogo del avatar (decisiones 0022 y 0023). El avatar es un personaje 3D propio, de estética de calle, que dibuja
+// Catálogo del avatar (decisiones 0024 y 0025). El avatar es un personaje 3D propio, de estética de calle, que dibuja
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel. Las marcas de la ropa son inventadas (≈, FRDY): no se copian logotipos reales.

@@ -3,12 +3,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {createApi} from './lib/api.mjs';
 import {fileStore,supabaseStore} from './lib/stores.mjs';
+import {createAuth} from './lib/auth.mjs';
 
 // Con SUPABASE_URL y SUPABASE_SECRET_KEY usa Supabase; si no, el archivo local de siempre.
 const store=process.env.SUPABASE_URL&&process.env.SUPABASE_SECRET_KEY
   ?supabaseStore({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY})
   :fileStore(process.env.ANSWERS_FILE||'runtime/answers.json');
-const api=createApi({store});
+// El inicio de sesión solo funciona con Supabase configurado (crea usuarios reales: solo hay producción).
+const api=createApi({store,auth:createAuth({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY})});
 const root=path.resolve('dist');
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg'};
 const server=http.createServer(async(req,res)=>{
@@ -22,7 +24,9 @@ const server=http.createServer(async(req,res)=>{
         body=Buffer.concat(chunks);
       }
       const response=await api.handle(new Request(url,{method:req.method,headers:Object.entries(req.headers).filter(([,value])=>typeof value==='string'),body}));
-      res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));return;
+      // Set-Cookie puede repetirse: se copia aparte para no juntar varias cookies en una sola cabecera.
+      const headers=Object.fromEntries([...response.headers].filter(([name])=>name!=='set-cookie'));const cookies=response.headers.getSetCookie();if(cookies.length)headers['Set-Cookie']=cookies;
+      res.writeHead(response.status,headers);res.end(Buffer.from(await response.arrayBuffer()));return;
     }
     if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405);res.end();return}
     const target=path.resolve(root,`.${decodeURIComponent(url.pathname)}`);

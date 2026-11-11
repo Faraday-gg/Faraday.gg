@@ -1,4 +1,4 @@
--- Duelos 1 vs 1 (decisión 0021, lib/duelos.mjs).
+-- Duelos 1 vs 1 (decisión 0023, lib/duelos.mjs).
 -- Una fila por duelo. El estado completo (jugadores, vida, rondas y respuestas) va en state y lo
 -- escribe solo el servidor. version permite guardar sin pisarse: cada escritura exige la versión leída.
 -- Acceso: como el resto del esquema, solo desde el servidor con la clave secreta (RLS sin políticas).

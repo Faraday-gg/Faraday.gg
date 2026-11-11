@@ -1,4 +1,4 @@
-# 0021. Duelos 1 vs 1 con vida, al estilo GeoGuessr
+# 0023. Duelos 1 vs 1 con vida, al estilo GeoGuessr
 
 - **Estado:** propuesta (código en la PR de `feat/duelos-1vs1`; la migración `20261111120000_duelos` está **sin aplicar**)
 - **Fecha:** 2026-11-11

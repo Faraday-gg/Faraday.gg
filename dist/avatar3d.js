@@ -1,4 +1,4 @@
-// Avatar en 3D (decisión 0023). Personaje propio, de estética de calle: cabeza de cubo redondeado, mirada con párpado
+// Avatar en 3D (decisión 0025). Personaje propio, de estética de calle: cabeza de cubo redondeado, mirada con párpado
 // caído, ropa ancha y contorno de tinta. Todo se construye con formas de Three.js y texturas pintadas en un lienzo
 // (chaquetas, estampados, puños): no hay modelos descargados ni logotipos o diseños de terceros (marcas inventadas: ≈, FRDY).
 // avatar.js escribe en la página huecos <span class="avatar-view"> con el look ya traducido; este archivo los rellena.

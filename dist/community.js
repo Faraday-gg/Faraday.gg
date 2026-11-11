@@ -4,21 +4,47 @@ const PLAYER_KEY='casi-casi:anonymous-player',validPlayer=id=>/^[a-f0-9-]{36}$/i
 // Al cargar, el servidor guarda el identificador en una cookie propia (sin registro, sin IP ni huella).
 // Si el navegador perdió localStorage (Safari lo vacía a los 7 días sin visitas), la cookie lo devuelve
 // junto con las respuestas guardadas, y se rellenan los días que no tengan progreso local.
-const playerReady=(async()=>{
+// Con sesión iniciada (decisión 0018) manda el jugador de la cuenta: su progreso sustituye al local
+// y los días jugados aquí sin cuenta se suben a ella. auth.js escucha el evento faraday:cuenta.
+let currentAccount=null;
+async function syncPlayer(){
   let stored=null;try{stored=localStorage.getItem(PLAYER_KEY)}catch{}
   try{
     const response=await fetch('/api/jugador',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(validPlayer(stored)?{player:stored}:{}),credentials:'same-origin',signal:AbortSignal.timeout(8000)});
     if(!response.ok)return;
-    const data=await response.json();if(validPlayer(stored)||!validPlayer(data.player)||anonymousPlayer)return;
+    const data=await response.json();
+    if('account' in data){currentAccount=data.account;document.dispatchEvent(new CustomEvent('faraday:cuenta',{detail:{account:data.account,available:true}}))}
+    if(!validPlayer(data.player)||data.player===stored||(validPlayer(stored)&&!data.account))return;
     anonymousPlayer=data.player;try{localStorage.setItem(PLAYER_KEY,anonymousPlayer)}catch{}
+    const fromAccount=Boolean(data.account&&validPlayer(stored));
     let restored=0;
     for(const [date,guesses] of Object.entries(data.progress||{})){
       if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Array.isArray(guesses)||!guesses.length||!guesses.every(n=>Number.isFinite(n)&&n>0))continue;
-      try{if(localStorage.getItem(`casi-casi:v2:${date}`))continue;localStorage.setItem(`casi-casi:v2:${date}`,JSON.stringify(guesses.slice(0,3)));restored++}catch{}
+      try{const local=localStorage.getItem(`casi-casi:v2:${date}`);if(local&&(!fromAccount||local===JSON.stringify(guesses.slice(0,3))))continue;localStorage.setItem(`casi-casi:v2:${date}`,JSON.stringify(guesses.slice(0,3)));sessionGuesses.delete(date);restored++}catch{}
     }
+    if(fromAccount)await uploadLocalDays(data.progress||{});
     if(restored){if(typeof renderWeek==='function')renderWeek();if(typeof showToast==='function')showToast(`Hemos recuperado tu progreso de ${restored} ${restored===1?'día':'días'}.`)}
   }catch{}
-})();
+}
+// Días jugados en este navegador sin cuenta que la cuenta aún no tiene: se guardan con el jugador de la cuenta.
+async function uploadLocalDays(progress){
+  for(const day of (typeof DAYS!=='undefined'?DAYS:[])){
+    if(progress[day.id])continue;
+    let guesses=[];try{guesses=JSON.parse(localStorage.getItem(`casi-casi:v2:${day.id}`)||'[]')}catch{}
+    if(!Array.isArray(guesses))continue;
+    for(const [i,guess] of guesses.slice(0,day.questions.length).entries()){
+      if(!Number.isFinite(guess)||guess<=0)break;
+      try{await fetch('/api/answers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:day.questions[i].id,player:anonymousPlayer,guess}),signal:AbortSignal.timeout(8000)})}catch{break}
+    }
+  }
+}
+// Al salir de la cuenta el servidor da un jugador anónimo nuevo: el progreso queda en la cuenta, no en este navegador.
+function leaveAccount(player){
+  currentAccount=null;anonymousPlayer=validPlayer(player)?player:crypto.randomUUID();
+  try{localStorage.setItem(PLAYER_KEY,anonymousPlayer);for(const key of Object.keys(localStorage))if(key.startsWith('casi-casi:v2:'))localStorage.removeItem(key)}catch{}
+  sessionGuesses.clear();if(typeof renderWeek==='function')renderWeek();
+}
+const playerReady=syncPlayer();
 function playerId(){
   if(anonymousPlayer)return anonymousPlayer;
   try{anonymousPlayer=localStorage.getItem(PLAYER_KEY)}catch{}
@@ -29,7 +55,7 @@ function playerId(){
 function questionMedia(q){
   if(!q.image)return '';
   const photo=q.image;
-  return `<figure class="question-photo"><a href="${photo.src}" target="_blank" rel="noopener" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="eager"></a><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
+  return `<figure class="question-photo"><button type="button" class="photo-zoom" data-photo-zoom aria-expanded="false" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="lazy"></button><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
 }
 function sourceMarkup(q){return `<details class="sources"><summary>Fuentes y supuestos</summary><p class="source-confidence">${q.confidence} · Comprobado el 09/11/2026</p><ul>${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)} ↗</a><p>${escapeHtml(s.fact)}</p></li>`).join('')}</ul><p class="source-assumptions"><strong>Qué estamos suponiendo</strong>${escapeHtml(q.assumptions)}</p></details>`}
 function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`}
@@ -37,8 +63,8 @@ function populationMarkup(q){return `<section class="population" aria-label="Có
 function explainMarkup(q){
   const steps=q.reasoning?`<ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol>`:`<p>${escapeHtml(q.math)}</p>`;
   const sum=q.referenceExpression?`<p class="explain-sum"><code>${escapeHtml(q.referenceExpression)}</code><strong>≈ ${format(q.answer)} ${escapeHtml(q.unit)}</strong></p>`:'';
-  const sources=`<ul class="explain-sources">${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a></li>`).join('')}</ul>`;
-  return `<div class="explain-head"><h3>Cómo se calcula</h3><button type="button" class="game-back" id="explain-close" aria-label="Cerrar">×</button></div><p class="explain-question">${escapeHtml(q.title)}</p>${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}<h4>Fuentes</h4>${sources}`;
+  const sources=`<p class="explain-sources">Fuentes: ${q.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a>`).join(' · ')}</p>`;
+  return `${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}${sources}`;
 }
 function compactNumber(value){return new Intl.NumberFormat('es-ES',{notation:value>=1e12?'scientific':'compact',maximumFractionDigits:1}).format(value)}
 function reasoningMarkup(q){
@@ -107,3 +133,23 @@ function distributionSvg(q,guess,{bins,low,high,count,simulated}){
   return `<svg class="distribution-svg" viewBox="0 0 560 214" role="img" aria-label="${simulated?'Distribución simulada':count+' respuestas de otros jugadores'}. Tu estimación ${format(guess)}; referencia ${format(q.answer)}. Escala logarítmica."><path class="chart-grid" d="M20 166H540"/><g class="distribution-bars">${bars}</g><path class="reference-line" d="M${answer} 40V172"/><path class="guess-line" d="M${own} 36V172"/><rect class="you-tag" x="${tagX}" y="10" width="${tagWidth}" height="24" rx="12"/><text class="you-tag-text" x="${tagX+tagWidth/2}" y="27" text-anchor="middle">${label}</text><text class="axis-label" x="20" y="192">${compactNumber(q.answer*10**low)}</text><text class="axis-label answer-axis" x="${answer}" y="192" text-anchor="middle">${compactNumber(q.answer)}</text><text class="axis-label" x="540" y="192" text-anchor="end">${compactNumber(q.answer*10**high)}</text><text class="axis-caption" x="${answer}" y="209" text-anchor="middle">real</text>${simulated?'<text class="chart-sim-label" x="540" y="22" text-anchor="end">simulación</text>':''}</svg>`;
 }
 document.addEventListener('click',event=>{const button=event.target.closest('[data-refresh-distribution]');if(!button)return;const index=activeDay.questions.findIndex(q=>q.id===button.dataset.refreshDistribution);if(index>=0)loadDistribution(activeDay.questions[index],getGuesses(activeDay)[index])});
+
+// Ampliar fotografía: al pulsar la imagen se abre encima de todo; se cierra pulsando fuera o con Escape.
+(()=>{
+  let box=null,opener=null;
+  const close=()=>{if(!box||box.classList.contains('closing'))return;const el=box,back=opener;box=null;opener=null;el.classList.add('closing');setTimeout(()=>el.remove(),190);document.body.classList.remove('lightbox-open');if(back&&back.isConnected)back.focus()};
+  document.addEventListener('click',event=>{
+    const link=event.target.closest&&event.target.closest('[data-photo-zoom]');
+    if(!link||box)return;
+    event.preventDefault();
+    const img=link.querySelector('img');
+    opener=link;
+    box=document.createElement('div');
+    box.className='lightbox';box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-label','Fotografía ampliada');
+    const big=document.createElement('img');big.src=img.src;big.alt=img.alt;
+    box.appendChild(big);
+    box.addEventListener('click',close);
+    document.body.appendChild(box);document.body.classList.add('lightbox-open');
+  });
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&box){event.stopImmediatePropagation();event.preventDefault();close()}},true);
+})();

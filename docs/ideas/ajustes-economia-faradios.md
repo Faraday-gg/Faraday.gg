@@ -6,7 +6,7 @@
 
 ## Qué
 
-Ajustes pendientes tras analizar con REA cómo funcionan los niveles, las misiones y la tienda de GeoGuessr, Duolingo y Habitica (ver el apartado «Análisis con REA» de la [decisión 0022](../decisiones/0022-avatar-faradios-y-misiones.md)). El tope diario de los duelos y el premio reducido del bot ya están hechos; lo que sigue está sin decidir.
+Ajustes pendientes tras analizar con REA cómo funcionan los niveles, las misiones y la tienda de GeoGuessr, Duolingo y Habitica (ver el apartado «Análisis con REA» de la [decisión 0024](../decisiones/0024-avatar-faradios-y-misiones.md)). El tope diario de los duelos y el premio reducido del bot ya están hechos; lo que sigue está sin decidir.
 
 | Ajuste | Cambio propuesto | En qué se apoya |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ Ajustes pendientes tras analizar con REA cómo funcionan los niveles, las mision
 
 ## Lo que no copiaríamos
 
-- Cajas al azar (el armario encantado de Habitica, la caja misteriosa de GeoGuessr): la 0022 las descarta.
+- Cajas al azar (el armario encantado de Habitica, la caja misteriosa de GeoGuessr): la 0024 las descarta.
 - La tienda diaria rotatoria de GeoGuessr: daría en qué gastar, pero roza las ofertas con cuenta atrás que también descartamos.
 - Un pase de temporada con escalones reservados a quien paga.
 

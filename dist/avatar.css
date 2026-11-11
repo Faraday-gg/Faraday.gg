@@ -1,4 +1,4 @@
-/* Avatar 3D (decisión 0023): huecos que rellena avatar3d.js, tienda con rarezas, avatar grande en la portada y en los
+/* Avatar 3D (decisión 0025): huecos que rellena avatar3d.js, tienda con rarezas, avatar grande en la portada y en los
    duelos, y las animaciones nuevas del duelo. Va en su propio archivo, después de styles.css, y pisa lo que haga falta. */
 .avatar-view{display:block;width:100%;aspect-ratio:1;line-height:0}
 .avatar-view[data-mode=full]{aspect-ratio:2/3}
@@ -64,3 +64,7 @@
 .duel-shell[data-rush="1"] .duel-card{animation:duel-rush 1s ease-in-out infinite}
 @keyframes duel-rush{50%{box-shadow:0 0 0 4px #ff654866,0 0 40px 6px #ff65484d}}
 @media(prefers-reduced-motion:reduce){.duel-flash,.duel-bell,.duel-vs-mark,.duel-shell[data-rush="1"] .duel-card,.home-avatar{animation:none!important;transition:none}}
+
+/* La chapa del perfil se coloca a la izquierda del botón de cuenta (inicio de sesión), que ocupa la esquina. */
+.home-profile{right:118px}
+body:has(.home-account.is-signed) .home-profile{right:68px}

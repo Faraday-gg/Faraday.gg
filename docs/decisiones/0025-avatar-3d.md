@@ -1,13 +1,13 @@
-# 0023. Avatar en 3D con estética de calle
+# 0025. Avatar en 3D con estética de calle
 
 - **Estado:** propuesta (código en la rama `feat/avatar-tienda-misiones`)
 - **Fecha:** 2026-11-11
 - **Quién:** Luis, con Claude Code
-- **Sustituye a:** la parte del avatar de la [0022](0022-avatar-faradios-y-misiones.md) (muñeco por capas en SVG). Los faradios, las misiones y los niveles de la 0022 siguen igual.
+- **Sustituye a:** la parte del avatar de la [0024](0024-avatar-faradios-y-misiones.md) (muñeco por capas en SVG). Los faradios, las misiones y los niveles de la 0024 siguen igual.
 
 ## Contexto
 
-El avatar en SVG de la 0022 se veía plano y demasiado infantil. Luis quiere que el avatar tenga peso en el juego, como en GeoGuessr: en 3D, grande en varias pantallas, sin fondos y con ropa de calle (gorra plana, chaqueta universitaria, pantalón ancho, zapatillas gruesas).
+El avatar en SVG de la 0024 se veía plano y demasiado infantil. Luis quiere que el avatar tenga peso en el juego, como en GeoGuessr: en 3D, grande en varias pantallas, sin fondos y con ropa de calle (gorra plana, chaqueta universitaria, pantalón ancho, zapatillas gruesas).
 
 Se buscaron alternativas ya hechas. Ready Player Me cerró el 31 de enero de 2026; los sustitutos comerciales crean avatares realistas a partir de un selfie, no un muñeco con tienda propia. Hay personajes base con licencia CC0 (Quaternius), pero no se encontró ropa de calle 3D gratuita, y la de pago obliga a revisar si su licencia permite servir los modelos en un repositorio público.
 
@@ -16,7 +16,7 @@ Se buscaron alternativas ya hechas. Ready Player Me cerró el 31 de enero de 202
 - **Personaje propio construido en el código** (`dist/avatar3d.js`), con Three.js. Cabeza de cubo redondeado, ojos altos con párpado caído, cejas y media sonrisa; contorno de tinta y sombreado por tonos, tipo cómic. No hay modelos descargados: el cuerpo son formas básicas y la ropa se pinta en un lienzo que envuelve el torso (broches, parches, dorsales, estampados).
 - **No es una copia del avatar de GeoGuessr.** Comparte el género (muñeco cabezón de cuerpo entero), pero la cara, las proporciones y las marcas son nuestras: ≈ y FRDY. No se reproducen logotipos ni diseños de marcas reales (por ejemplo, el chándal lleva dos franjas, no tres).
 - **Un solo contexto 3D para toda la página.** `dist/avatar.js` escribe huecos `<span class="avatar-view">` con el look ya traducido y una silueta plana de reserva; `avatar3d.js` los rellena. Los avatares pequeños (marcador, avisos, tienda) son una imagen fija que se dibuja una vez y se guarda; los grandes (portada, perfil, duelo) se animan a unos 30 fotogramas por segundo. Así no se agota el límite de contextos 3D del navegador.
-- **Catálogo nuevo: 153 piezas en 11 huecos** (`dist/avatar.js`): ropa, pantalón, zapatillas, cabeza, peinado, color de pelo, gafas, cuello, extras, gesto y piel. Ya no hay fondos ni objetos en la mano. Precios por rareza: común hasta 99 faradios, especial desde 100, rara desde 250, épica desde 600 y legendaria desde 1.400. Todo el catálogo suma 34.900 faradios, cuatro veces más que el de la 0022.
+- **Catálogo nuevo: 153 piezas en 11 huecos** (`dist/avatar.js`): ropa, pantalón, zapatillas, cabeza, peinado, color de pelo, gafas, cuello, extras, gesto y piel. Ya no hay fondos ni objetos en la mano. Precios por rareza: común hasta 99 faradios, especial desde 100, rara desde 250, épica desde 600 y legendaria desde 1.400. Todo el catálogo suma 34.900 faradios, cuatro veces más que el de la 0024.
 - **Piezas por nivel:** camiseta ≈ dorada (3), gorra dorada (5), diente de oro (8), aureola (10) y corona (15).
 - **El avatar en grande:** en la portada (lleva al armario), en el perfil (se gira arrastrando), en el portal del duelo, al encontrar rival, en el resultado de cada ronda (el que pierde se sacude, el que gana salta) y al final.
 - **Faraday-bot** tiene su propio aspecto de robot (piel de metal, cascos y gafas oscuras) y sigue llamándose siempre «Faraday-bot».

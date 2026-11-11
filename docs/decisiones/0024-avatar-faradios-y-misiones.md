@@ -1,10 +1,10 @@
-# 0022. Avatar personalizable, faradios y misiones
+# 0024. Avatar personalizable, faradios y misiones
 
 - **Estado:** propuesta (código en la rama `feat/avatar-tienda-misiones`, que parte de `feat/duelos-1vs1`)
 - **Fecha:** 2026-11-11
 - **Quién:** Luis, con Claude Code
 
-> **Nota:** el avatar por capas en SVG, sus piezas, los fondos y la lista de piezas por nivel de esta decisión quedan sustituidos por la [0023](0023-avatar-3d.md) (avatar en 3D). Los faradios, las misiones, los niveles y la racha siguen como aquí se describen.
+> **Nota:** el avatar por capas en SVG, sus piezas, los fondos y la lista de piezas por nivel de esta decisión quedan sustituidos por la [0025](0025-avatar-3d.md) (avatar en 3D). Los faradios, las misiones, los niveles y la racha siguen como aquí se describen.
 
 ## Contexto
 
@@ -26,7 +26,7 @@ Luis pidió analizar aplicaciones parecidas con REA (`morluto/rea`, una herramie
   | Cada respuesta del reto diario o del archivo | — | 5 |
   | Completar el reto de hoy | 20, + hasta 15 por precisión, + 2 por día de racha (máx. 14) | 30 |
   | Completar un reto del archivo (una vez por reto) | 5 | 10 |
-  | Duelo ganado / empatado / perdido | 15 / 8 / 5 | como en la [0021](0021-duelos-1vs1.md) |
+  | Duelo ganado / empatado / perdido | 15 / 8 / 5 | como en la [0023](0023-duelos-1vs1.md) |
   | Duelo a partir del cuarto del día | el 25 % | el 25 % |
   | Duelo contra Faraday-bot | solo el primero del día | la mitad |
   | Subir de nivel | 40 + 10 × nivel | — |

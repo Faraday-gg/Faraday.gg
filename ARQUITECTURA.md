@@ -58,11 +58,11 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
-  duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0021)
-  avatar.js              Catálogo de piezas del avatar y traducción de un look a lo que se dibuja (decisiones 0022 y 0023)
-  avatar3d.js            Avatar en 3D: construye el personaje con Three.js y lo pinta en todos los huecos de la página (decisión 0023)
+  duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
+  avatar.js              Catálogo de piezas del avatar y traducción de un look a lo que se dibuja (decisiones 0024 y 0025)
+  avatar3d.js            Avatar en 3D: construye el personaje con Three.js y lo pinta en todos los huecos de la página (decisión 0025)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
-  progress.js            Nivel, faradios, racha, misiones y perfil con armario y tienda (decisión 0022)
+  progress.js            Nivel, faradios, racha, misiones y perfil con armario y tienda (decisión 0024)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
@@ -78,6 +78,7 @@ content/banco-base.json  Las 21 preguntas del piloto tal como se publicaron, bas
 content-engine.mjs       Calendario, archivo, piloto y banco editorial posterior al piloto
 lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
 lib/generar.mjs          Generación de la jornada de mañana con la API de OpenAI (decisión 0017)
+lib/auth.mjs             Inicio de sesión con Supabase Auth desde el servidor (decisión 0022)
 scripts/generar-jornada.mjs  La ejecuta a mano (--prueba para verla sin guardar)
 scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
@@ -95,13 +96,14 @@ runtime/                 Estado local generado; excluido de Git
 2. `lib/api.mjs` expone `GET /api/calendar`, `GET /api/day?date=AAAA-MM-DD` y `GET /daily-content.js`. En local los sirve `preview-server.mjs` junto con `dist/`; en Vercel, la función `api/index.mjs`. El navegador refresca el calendario al volver a la pestaña y periódicamente mientras está abierta.
 3. `app.js` muestra las preguntas, valida un número positivo y calcula la distancia multiplicativa a la respuesta de referencia: `max(estimación / referencia, referencia / estimación)`. `1×` es una respuesta exacta. La puntuación diaria es la media de las tres distancias.
 4. El navegador guarda la progresión y el bloc en `localStorage`. `community.js` crea y conserva un UUID anónimo por navegador. Al cargar, llama a `POST /api/jugador`, que guarda ese UUID en la cookie propia `faraday_jugador` (`HttpOnly`, un año). Si `localStorage` se ha vaciado, la cookie devuelve el UUID y las respuestas guardadas de ese jugador, y el navegador rellena su progreso ([decisión 0009](docs/decisiones/0009-jugador-sin-registro-con-cookie.md)). Sin registro, sin IP y sin huella del dispositivo. Al mostrar resultados, envía el identificador y la estimación a `POST /api/answers`.
+   Con sesión iniciada (opcional, [decisión 0022](docs/decisiones/0022-inicio-de-sesion-desde-el-servidor.md)), `POST /api/jugador` devuelve el jugador enlazado a la cuenta y su progreso. El inicio de sesión va por `/api/auth/` (`estado`, `codigo`, `verificar`, `salir`, `google` y `callback`), que `lib/auth.mjs` resuelve con la API REST de Supabase Auth; la sesión queda en las cookies `HttpOnly` `faraday_sesion` y `faraday_refresco`. El navegador no habla con Supabase.
 5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador (en `runtime/answers.json` o en Supabase); y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
 
 El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
 
 ## Duelos 1 vs 1
 
-Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pierde vida ([decisión 0021](docs/decisiones/0021-duelos-1vs1.md)). Cada uno empieza con 6000; una respuesta vale de 0 a 5000 puntos según su distancia a la cifra real y quien puntúa menos pierde la diferencia, multiplicada a partir de la ronda 4. Hay 3 minutos por pregunta, que bajan a 30 segundos cuando el rival responde.
+Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pierde vida ([decisión 0023](docs/decisiones/0023-duelos-1vs1.md)). Cada uno empieza con 6000; una respuesta vale de 0 a 5000 puntos según su distancia a la cifra real y quien puntúa menos pierde la diferencia, multiplicada a partir de la ronda 4. Hay 3 minutos por pregunta, que bajan a 30 segundos cuando el rival responde.
 
 - `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `responder`, `bot`, `salir` y `revancha`.
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
@@ -110,7 +112,7 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 
 ## Avatar, faradios y misiones
 
-Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0023](docs/decisiones/0023-avatar-3d.md)) y un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0022](docs/decisiones/0022-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
+Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)) y un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
 
 - `app.js` y `duel.js` avisan con eventos del documento (`faraday:answer`, `faraday:day`, `faraday:duel`) y `progress.js` reparte la experiencia, los faradios y el avance de las misiones.
 - Todo se guarda en `localStorage` (clave `casi-casi:progreso`). No hay pagos ni datos en el servidor.
@@ -129,7 +131,7 @@ Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [de
 **Vercel** sirve `dist/` como web estática y toda la API con una única función, `api/index.mjs`, como recomienda Vercel para funciones sin framework. `vercel.json` define:
 
 - `outputDirectory: dist`. Solo se publica la web: no se exponen `runtime/`, `research/`, `docs/` ni el código del servidor.
-- Reescrituras de `/api/<ruta>` y `/daily-content.js` hacia `/api?route=<ruta>`.
+- Reescrituras de `/api/<ruta>`, `/api/auth/<acción>` y `/daily-content.js` hacia `/api?route=<ruta>`.
 - Región `fra1` (Frankfurt), la misma que la base de datos. En el plan Hobby solo se admite una región.
 - `includeFiles` para que la función lleve `dist/questions.json`.
 

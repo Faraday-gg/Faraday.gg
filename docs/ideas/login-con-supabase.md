@@ -1,6 +1,6 @@
 # Inicio de sesión con correo, Google y Apple
 
-- **Estado:** abierta (implementación futura)
+- **Estado:** aprobada el 2026-11-11 con correo (código de 6 cifras) y Google, sin Apple, y hecha desde el servidor: ver [decisión 0022](../decisiones/0022-inicio-de-sesion-desde-el-servidor.md)
 - **Fecha:** 2026-11-10
 - **Propuesta por:** Luis
 

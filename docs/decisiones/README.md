@@ -15,7 +15,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0009](0009-jugador-sin-registro-con-cookie.md) | Jugador sin registro: cookie propia con el identificador anónimo | Aceptada | 2026-11-10 |
 | [0010](0010-juego-a-pantalla-completa.md) | Juego a pantalla completa, centrado en la pregunta | Aceptada; la parte de pantalla completa la sustituye la 0011 | 2026-11-10 |
 | [0011](0011-juego-en-tarjeta.md) | El juego dentro de una tarjeta | Aceptada | 2026-11-10 |
-| [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada | 2026-11-10 |
+| [0012](0012-tarjeta-de-respuesta-clara.md) | Tarjeta de respuesta: solo lo que importa | Aceptada (acciones y panel revisados en 0021) | 2026-11-10 |
 | [0013](0013-preguntas-de-cultura-general.md) | Preguntas de cultura general, referentes conocidos y foto solo cuando ayuda | Aceptada | 2026-11-10 |
 | [0014](0014-distribucion-simulada-y-cifras.md) | Distribución simulada, multiplicador animado y cifras más legibles | Aceptada (cifras y animación revisadas en 0020) | 2026-11-10 |
 | [0015](0015-portada-sencilla.md) | Portada sencilla: el reto de hoy y los tres pasos | Aceptada | 2026-11-10 |
@@ -23,9 +23,11 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0017](0017-jornada-diaria-generada-con-openai.md) | La jornada de cada día se genera sola con la API de OpenAI | Aceptada (pendiente de configurar) | 2026-11-10 |
 | [0018](0018-color-de-la-pregunta-por-categoria.md) | Color de la tarjeta de pregunta según su categoría (seis tonos) | Aceptada | 2026-11-10 |
 | [0020](0020-multiplicador-suave-y-cifras-geist.md) | Multiplicador suave y cifras en Geist | Aceptada | 2026-11-10 |
-| [0021](0021-duelos-1vs1.md) | Duelos 1 vs 1 con vida, al estilo GeoGuessr | Propuesta (migración sin aplicar) | 2026-11-11 |
-| [0022](0022-avatar-faradios-y-misiones.md) | Avatar personalizable, faradios y misiones | Propuesta | 2026-11-11 |
-| [0023](0023-avatar-3d.md) | Avatar en 3D con estética de calle | Propuesta | 2026-11-11 |
+| [0021](0021-explicacion-en-tarjeta-y-seguir-jugando.md) | «Cómo se calcula» dentro de la tarjeta, foto ampliable y «Seguir jugando» | Aceptada | 2026-11-10 |
+| [0022](0022-inicio-de-sesion-desde-el-servidor.md) | Inicio de sesión opcional con código por correo o Google, hecho desde el servidor | Aceptada (pendiente de configurar) | 2026-11-11 |
+| [0023](0023-duelos-1vs1.md) | Duelos 1 vs 1 con vida, al estilo GeoGuessr | Propuesta (migración sin aplicar) | 2026-11-11 |
+| [0024](0024-avatar-faradios-y-misiones.md) | Avatar personalizable, faradios y misiones | Propuesta | 2026-11-11 |
+| [0025](0025-avatar-3d.md) | Avatar en 3D con estética de calle | Propuesta | 2026-11-11 |
 
 ## Plantilla
 

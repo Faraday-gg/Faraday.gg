@@ -6,7 +6,7 @@
 
 ## Qué
 
-Ahora los faradios solo se ganan jugando ([decisión 0022](../decisiones/0022-avatar-faradios-y-misiones.md)). Para que el juego dé ingresos sin dar ventajas de pago, las opciones son:
+Ahora los faradios solo se ganan jugando ([decisión 0024](../decisiones/0024-avatar-faradios-y-misiones.md)). Para que el juego dé ingresos sin dar ventajas de pago, las opciones son:
 
 1. **Pase de apoyo** (pago único o mensual pequeño): un par de piezas exclusivas por temporada, un distintivo junto al nombre en los duelos y el doble de faradios en las misiones. Es la opción que mejor encaja: quien paga apoya el juego y lo enseña.
 2. **Colecciones de temporada** (Navidad, verano, Mundial): se pueden conseguir jugando durante la temporada o comprar directamente.

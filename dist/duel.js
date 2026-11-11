@@ -1,4 +1,4 @@
-// Duelos 1 vs 1 (decisión 0021). El servidor manda (lib/duelos.mjs): aquí solo se le pregunta cada segundo
+// Duelos 1 vs 1 (decisión 0023). El servidor manda (lib/duelos.mjs): aquí solo se le pregunta cada segundo
 // por el estado del duelo y se pinta: avatares, barras de vida, temporizador, avisos y sonidos.
 // El perfil (apodo y avatar) y el progreso (nivel, racha) se guardan en este navegador, como el resto del juego.
 (()=>{

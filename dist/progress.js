@@ -1,5 +1,5 @@
-// Progreso del jugador (decisión 0022): nivel y experiencia, faradios (la moneda del juego), racha diaria,
-// misiones diarias y semanales, y el armario del avatar (3D, decisión 0023) con su tienda. Todo se guarda en este navegador:
+// Progreso del jugador (decisión 0024): nivel y experiencia, faradios (la moneda del juego), racha diaria,
+// misiones diarias y semanales, y el armario del avatar (3D, decisión 0025) con su tienda. Todo se guarda en este navegador:
 // no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 (()=>{
