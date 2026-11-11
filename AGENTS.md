@@ -74,6 +74,7 @@ Reglas para agentes:
   node tests/generar.test.mjs
   node tests/duelos.test.mjs
   node tests/auth.test.mjs
+  node tests/nombres.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

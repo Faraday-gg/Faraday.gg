@@ -76,3 +76,4 @@ body:has(.home-account.is-signed) .home-profile{right:68px}
 .profile-name input{width:100%;min-width:0;border:0;border-bottom:2px solid var(--line);background:transparent;color:var(--ink);padding:2px 0 4px;font:700 18px var(--display);letter-spacing:-.02em;outline:0}
 .profile-name input:focus{border-color:var(--ink)}
 @media(max-width:760px){.profile-name{grid-column:1/-1}}
+.profile-name small{font-size:11px;color:var(--muted)}

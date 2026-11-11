@@ -30,7 +30,8 @@
   // Las misiones de cada día y cada semana salen de la fecha: son las mismas para todo el mundo.
   function pick(pool,count,seed){let h=2166136261;for(const c of seed)h=Math.imul(h^c.charCodeAt(0),16777619);const list=[...pool];for(let i=list.length-1;i>0;i--){h=Math.imul(h^h>>>13,1274126177);const j=(h>>>0)%(i+1);[list[i],list[j]]=[list[j],list[i]]}return list.slice(0,count)}
 
-  // Nombre de usuario: hasta 16 caracteres. Es el que ven los rivales en los duelos.
+  // Nombre de usuario: de 3 a 16 caracteres y único entre todos los jugadores (lo reserva el servidor, /api/nombre).
+  // Es el que ven los rivales en los duelos. claimed = el servidor lo ha reservado para este jugador.
   const cleanName=value=>String(value??'').replace(/[\u0000-\u001f<>]/g,'').replace(/\s+/g,' ').trim().slice(0,16).trim();
   let state={v:1,name:'',xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},days:[],streak:{count:0,last:''},missions:{}};
   try{
@@ -45,7 +46,28 @@
   // Quien ya tenía apodo en los duelos lo conserva; si no, se le da uno provisional.
   state.name=cleanName(state.name);
   if(!state.name){let old='';try{old=JSON.parse(localStorage.getItem('casi-casi:duelo:perfil'))?.name}catch{}state.name=cleanName(old)||'Jugador '+(100+Math.floor(Math.random()*900));save()}
-  function setName(value){const name=cleanName(value);if(name&&name!==state.name){state.name=name;save();refresh();document.dispatchEvent(new CustomEvent('faraday:name'))}return state.name}
+  function keepName(name,claimed){if(name!==state.name||claimed!==!!state.claimed){state.name=name;state.claimed=claimed;save();refresh();document.dispatchEvent(new CustomEvent('faraday:name'))}return state.name}
+  async function nameApi(extra={}){
+    try{
+      await playerReady;
+      const response=await fetch('/api/nombre',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({player:playerId(),...extra}),signal:AbortSignal.timeout(8000)});
+      return {status:response.status,data:await response.json()};
+    }catch{return {status:0,data:{}}}
+  }
+  // Intenta reservar el nombre. Si otro jugador lo tiene, se queda el anterior y se avisa. Si el servidor no puede
+  // reservar nombres (sin conexión, o la tabla aún no existe), se guarda solo en este dispositivo.
+  async function setName(value){
+    const name=cleanName(value);if(!name||(name===state.name&&state.claimed))return state.name;
+    if(name.length<3){showToast('El nombre debe tener entre 3 y 16 caracteres');return state.name}
+    const {status,data}=await nameApi({name});
+    if(status===200){showToast(`Ahora te llamas ${data.name}`);return keepName(data.name,true)}
+    if(status===400||status===409){showToast(data.error||'Ese nombre no se puede usar');return state.name}
+    showToast('Nombre guardado solo en este dispositivo');return keepName(name,false);
+  }
+  // Al cargar, el nombre reservado en el servidor manda sobre el del navegador (por ejemplo, al iniciar sesión en otro dispositivo).
+  // Si este jugador no tiene ninguno reservado y el del navegador era de otra sesión, vuelve a uno provisional.
+  const syncName=()=>nameApi().then(({status,data})=>{if(status!==200)return;if(data.name)keepName(data.name,true);else if(state.claimed)keepName('Jugador '+(100+Math.floor(Math.random()*900)),false)});
+  syncName();
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
   const levelOf=xp=>Math.floor((1+Math.sqrt(1+xp/12.5))/2),levelStart=level=>50*level*(level-1);
@@ -129,7 +151,7 @@
       ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre diario recogido ✓':`Recoge las tres de hoy y llévate un cofre de +${REWARD.dailyChest} ${COIN}`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul>`;
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
-<label class="profile-name"><span>Nombre de usuario</span><input id="profile-name" type="text" maxlength="16" autocomplete="nickname" spellcheck="false" value="${escapeHtml(state.name)}"></label>
+<label class="profile-name"><span>Nombre de usuario</span><input id="profile-name" type="text" minlength="3" maxlength="16" autocomplete="nickname" spellcheck="false" value="${escapeHtml(state.name)}"><small>${state.claimed?'Reservado: nadie más puede usarlo':'Elige uno único, de 3 a 16 caracteres'}</small></label>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}</div></section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button></div>${side}</section>`;
@@ -165,14 +187,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       const result=reward({xp:10,coins:gained});showToast(`+${gained} ≈ · +10 XP${note}${levelNote(result)}`);
     }
   });
-  shell.addEventListener('change',event=>{if(event.target.id==='profile-name'){const name=setName(event.target.value);event.target.value=name;showToast(`Ahora te llamas ${name}`)}});
+  shell.addEventListener('change',async event=>{if(event.target.id==='profile-name'){const input=event.target,name=await setName(input.value);if(input.isConnected)input.value=name}});
   $('#profile-close').addEventListener('click',close);
   document.querySelectorAll('[data-open-profile]').forEach(button=>button.addEventListener('click',()=>open()));
   document.addEventListener('click',event=>{const button=event.target.closest('[data-open-profile-inline]');if(button)open(button.dataset.openProfileInline||undefined)});
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 
-  window.Progress={name:()=>state.name,setName,look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD};
+  window.Progress={name:()=>state.name,claimed:()=>!!state.claimed,setName,syncName,look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
   if(!state.welcome){state.welcome=true;state.coins+=REWARD.welcome}
   periods();save();refresh();

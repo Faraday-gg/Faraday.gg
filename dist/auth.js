@@ -47,7 +47,7 @@
     try{
       const r=await post('verificar',{email,code,player:playerId()}),data=await r.json().catch(()=>({}));
       if(!r.ok){say(data.error||'El código no es correcto.');$id('auth-code').select();return}
-      await syncPlayer();account=currentAccount||data.account;render();dialog.close();
+      await syncPlayer();window.Progress?.syncName();account=currentAccount||data.account;render();dialog.close();
       showToast('Sesión iniciada. Tu progreso ya se guarda en tu cuenta.');
     }catch{say('No hay conexión. Inténtalo de nuevo.')}finally{busy=false}
   }
@@ -55,7 +55,7 @@
     if(busy)return;busy=true;say('Cerrando sesión…');
     try{
       const r=await post('salir'),data=await r.json().catch(()=>({}));if(!r.ok)throw Error();
-      leaveAccount(data.player);account=null;render();dialog.close();showToast('Has cerrado la sesión.');
+      leaveAccount(data.player);window.Progress?.syncName();account=null;render();dialog.close();showToast('Has cerrado la sesión.');
     }catch{say('No se pudo cerrar la sesión. Inténtalo de nuevo.')}finally{busy=false}
   }
   document.querySelectorAll('[data-auth-open]').forEach(button=>button.addEventListener('click',open));

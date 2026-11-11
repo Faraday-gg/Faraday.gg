@@ -70,6 +70,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
+lib/nombres.mjs          Nombres de usuario únicos: validación y reserva (POST /api/nombre)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -165,6 +166,7 @@ node tests/vercel.test.mjs
 node tests/publicar.test.mjs
 node tests/generar.test.mjs
 node tests/duelos.test.mjs
+node tests/nombres.test.mjs
 # Qué cambiaría en Supabase (no escribe nada; la publicación real la hace Vercel):
 node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
