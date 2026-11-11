@@ -116,7 +116,9 @@ function formatEstimateInput(input){
   let position=0,count=0;while(position<input.value.length&&count<meaningful){if(/[\d,]/.test(input.value[position]))count++;position++}
   input.setSelectionRange(position,position)
 }
-function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);renderGame()}
+function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);renderGame()}
+// Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
+function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
 function loadWorkspace(day){
   if(sessionWorkspaces.has(day.id))return sessionWorkspaces.get(day.id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}

@@ -21,5 +21,8 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Revisar las jornadas generadas con OpenAI | Se publican sin revisión humana ([decisión 0017](../decisiones/0017-jornada-diaria-generada-con-openai.md)). La validación comprueba la forma, la cuenta y que las URL existan, no que el dato sea cierto. Las generadas tampoco llevan foto. | Pendiente |
 | Caché del calendario | Cada carga consulta Supabase. Con tráfico real conviene cachear unos minutos. | Pendiente |
 | Aplicar la migración de los duelos | Sin la tabla `duels` (migración `20261111120000_duelos`), los duelos 1 vs 1 responden 503 en Vercel ([decisión 0021](../decisiones/0021-duelos-1vs1.md)). | Pendiente (Luis) |
+| Progreso y compras en el servidor | Nivel, faradios, racha, misiones y piezas compradas viven en `localStorage`: se pueden falsear y no viajan entre dispositivos ([decisión 0022](../decisiones/0022-avatar-faradios-y-misiones.md)). Necesario antes de vender nada. | Pendiente (depende del inicio de sesión) |
+| Analizar aplicaciones parecidas con REA | Luis lo pidió para afinar niveles y misiones. La herramienta (`morluto/rea`) no se instaló: cambia la configuración del agente y hay que reiniciar la sesión. | Pendiente (Luis decide si la instala) |
+| Pruebas automáticas del progreso | `dist/progress.js` y `dist/avatar.js` solo se han probado a mano en el navegador. | Pendiente |
 | Limpiar los duelos terminados | Las filas de `duels` no se borran nunca. Conviene una tarea que elimine las de más de unos días. | Pendiente |
 | Consultas de los duelos | Cada jugador pregunta el estado una vez por segundo. Si los duelos crecen, revisar los límites de Vercel Hobby y de Supabase o pasar a avisos en tiempo real. | Pendiente |

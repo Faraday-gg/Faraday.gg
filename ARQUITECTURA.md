@@ -11,7 +11,7 @@ Este documento describe el código existente a 9 de noviembre de 2026 y la evolu
 | Contenido | Supabase (`days`, `questions`, Storage `imagenes`); origen editorial en JSON y módulos JavaScript | La API sirve las jornadas, preguntas e imágenes desde Supabase. Se editan en el repositorio; Vercel los publica al desplegar producción (`scripts/publicar-contenido.mjs`). |
 | Persistencia compartida | Supabase (Postgres) en Vercel; archivos JSON en `runtime/` en local | Respuestas anónimas por pregunta y jugador. `lib/stores.mjs` ofrece los dos almacenes con la misma interfaz. |
 | Despliegue | Vercel: web estática de `dist/` y una función Node en `fra1` | Configurado en `vercel.json`. |
-| Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos. |
+| Persistencia personal | `localStorage` del navegador | Estimaciones del jugador, identificador anónimo, notas e historial de cálculos, y el progreso: nivel, faradios, misiones y avatar. |
 | Pruebas | `node:assert`, un proceso Node aislado y un Supabase simulado | Integración del servidor local, banco editorial y función de Vercel con Supabase. |
 
 El esquema de Supabase está creado (ver [Entornos y servicios](#entornos-y-servicios) y [docs/base-de-datos.md](docs/base-de-datos.md)) y el código que lo usa desde el servidor local y desde Vercel está en el repositorio (ver [Despliegue](#despliegue-vercel-y-supabase)). El proyecto de Vercel `faraday-gg` está creado y producción sirve la versión actual desde el 9 de noviembre de 2026 (PR #13), con las dos variables de Supabase configuradas. No hay SDK de Supabase: se usa su API REST con `fetch`. Tampoco hay autenticación de usuarios ni cuentas personales.
@@ -59,6 +59,8 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0021)
+  avatar.js              Avatar por capas en SVG y catálogo de piezas (decisión 0022)
+  progress.js            Nivel, faradios, racha, misiones y perfil con armario y tienda (decisión 0022)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
@@ -103,6 +105,14 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. **La migración `20261111120000_duelos` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
+
+## Avatar, faradios y misiones
+
+Cada jugador tiene un avatar por capas dibujado en SVG (`dist/avatar.js`: piel, peinado, ropa, gorro, gafas, objeto y fondo) y un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0022](docs/decisiones/0022-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
+
+- `app.js` y `duel.js` avisan con eventos del documento (`faraday:answer`, `faraday:day`, `faraday:duel`) y `progress.js` reparte la experiencia, los faradios y el avance de las misiones.
+- Todo se guarda en `localStorage` (clave `casi-casi:progreso`). No hay pagos ni datos en el servidor.
+- En los duelos, el navegador envía los identificadores de las piezas del avatar; el servidor los limpia y se los pasa al rival, sin comprobar que se hayan comprado.
 
 ## Contenido y recursos
 

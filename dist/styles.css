@@ -743,3 +743,88 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
   .duel-alert{font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.duel-shell *,.duel-shell *:before{animation:none!important}}
+
+/* Avatar, perfil, tienda y misiones (decisión 0022). El avatar es un SVG por capas (avatar.js); los faradios (≈) son la moneda del juego. */
+.avatar-svg{display:block;width:100%;height:100%}
+.duel-avatar{overflow:hidden}
+.duel-me{display:flex;align-items:center;gap:16px}
+.coin{display:inline-grid;place-items:center;width:1.25em;height:1.25em;border-radius:50%;background:var(--coral);color:var(--ink);font:700 .95em/1 var(--display);vertical-align:-.2em;box-shadow:inset 0 0 0 1.5px #20263033}
+.toast{width:max-content;max-width:calc(100vw - 24px);text-align:center;border-radius:22px;line-height:1.4}
+.profile-dot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--coral);color:var(--ink);font:800 11px/1 var(--font);font-style:normal}
+.home-profile{position:fixed;top:14px;right:14px;z-index:60;display:flex;align-items:center;gap:8px;border:0;border-radius:40px;background:var(--paper);color:var(--ink);padding:5px 14px 5px 5px;box-shadow:0 1px 2px #20263014,0 8px 20px -10px #20263066;transition:transform .15s,box-shadow .15s}
+.home-profile:hover{transform:translateY(-2px);box-shadow:0 1px 2px #20263014,0 12px 24px -10px #20263080}
+.home-profile:empty{display:none}
+.home-profile-text{display:grid;text-align:left;line-height:1.2;font:500 12px var(--num);font-variant-numeric:tabular-nums}
+.home-profile-text b{font:700 13px var(--display)}
+.home-profile .profile-dot{position:absolute;top:-4px;right:-4px;animation:arc-pulse 2.2s ease-out infinite}
+.profile-shell[hidden]{display:none}
+.profile-shell{position:fixed;inset:0;z-index:106;background:var(--cream);color:var(--ink)}
+.profile-layout{height:100dvh;overflow:auto;display:flex;flex-direction:column}
+.profile-shell .game-bar{grid-template-columns:44px 1fr auto;background:var(--cream)}
+.coin-pill{display:inline-flex;align-items:center;gap:5px;border-radius:30px;background:var(--paper);padding:8px 14px;font:500 15px var(--num);font-variant-numeric:tabular-nums;box-shadow:inset 0 0 0 1.5px var(--line)}
+.profile-main{display:grid;grid-template-columns:minmax(260px,330px) minmax(0,1fr);gap:20px;align-items:start;width:min(1000px,calc(100% - 32px));margin:8px auto 40px}
+.profile-card{position:sticky;top:76px;display:grid;gap:12px;border-radius:28px;padding:22px 20px 18px;box-shadow:0 1px 2px #20263014,0 18px 40px -18px #20263059;transition:background .4s}
+.profile-figure{width:min(210px,70%);margin:0 auto;filter:drop-shadow(0 12px 8px #2026302e)}
+.profile-figure svg{animation:avatar-bob 3.6s ease-in-out infinite}
+@keyframes avatar-bob{50%{transform:translateY(-4px)}}
+.profile-level,.profile-try{background:var(--paper);border-radius:18px;padding:12px 14px}
+.profile-level>span{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
+.profile-level small{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.profile-level .duel-xpbar{background:#2026301f}
+.profile-level .duel-xpbar i{background:var(--coral)}
+.profile-level p{margin:8px 0 0;font-size:13px;font-weight:700}
+.profile-try{display:grid;gap:8px;text-align:center;animation:calm-rise .35s var(--ease-calm)}
+.profile-try p{margin:0;font-size:14px}
+.profile-try-note{color:var(--muted)}
+.profile-shell .game-primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.profile-shell .game-primary:hover{background:#3a4350}
+.profile-shell .game-primary:disabled{opacity:.55;cursor:default}
+.profile-try .duel-link{margin:0 auto;color:var(--muted)}
+.profile-side{background:var(--paper);border-radius:28px;padding:18px;box-shadow:0 1px 2px #20263014,0 18px 40px -18px #20263059}
+.profile-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--cream);border-radius:40px;padding:5px;margin-bottom:16px}
+.profile-tabs button{display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:40px;background:transparent;padding:10px;font:700 15px var(--display);color:var(--muted)}
+.profile-tabs button[aria-selected=true]{background:var(--ink);color:var(--paper)}
+.profile-slots{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:8px;scrollbar-width:thin}
+.profile-slots button{flex:none;border:1.5px solid var(--line);border-radius:30px;background:transparent;padding:7px 13px;font-size:13px;font-weight:700;color:var(--ink)}
+.profile-slots button[aria-selected=true]{background:var(--yellow);border-color:var(--ink)}
+.profile-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));gap:10px}
+.profile-tile{display:grid;justify-items:center;align-content:start;gap:4px;border:2px solid transparent;border-radius:18px;background:var(--cream);color:var(--ink);padding:10px 6px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),border-color .15s,background .15s}
+.profile-tile:hover{transform:translateY(-3px);border-color:var(--line)}
+.profile-tile.is-on{background:var(--yellow);border-color:var(--ink)}
+.profile-tile.is-trying{border-color:var(--coral);background:#ff654822}
+.tile-art{width:72px;height:72px;border-radius:50%;overflow:hidden}
+.tile-art.full{width:62px;height:88px;border-radius:0;overflow:visible}
+.tile-name{font-size:12px;font-weight:700;line-height:1.2;text-align:center}
+.tile-state{font:500 12px var(--num);color:var(--muted)}
+.tile-state.on,.tile-state.price{color:var(--ink);font-weight:700}
+.mission-title{display:flex;justify-content:space-between;align-items:baseline;margin:6px 0 10px;font:700 17px var(--display);letter-spacing:-.02em}
+.mission-title small{font:500 12px var(--font);letter-spacing:0;color:var(--muted)}
+.mission-list{list-style:none;display:grid;gap:8px;margin:0 0 12px;padding:0}
+.mission{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;background:var(--cream);border-radius:16px;padding:12px 14px;transition:background .3s}
+.mission p{margin:0 0 8px;font-size:14px;font-weight:600}
+.mission small{font-size:11px;color:var(--muted)}
+.mission-bar{height:8px;border-radius:8px;background:#2026301a;overflow:hidden;margin-bottom:3px}
+.mission-bar i{display:block;height:100%;width:calc(var(--m,0)*100%);border-radius:inherit;background:var(--coral);transition:width .6s cubic-bezier(.22,1,.36,1)}
+.mission-prize{font:500 14px var(--num);white-space:nowrap}
+.mission .game-primary{padding:10px 14px;font-size:13px;white-space:nowrap;animation:duel-urge 1.6s ease-in-out infinite}
+.mission.is-done{background:var(--yellow)}
+.mission.is-claimed{opacity:.6}
+.mission-check{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#2fd67b;font-weight:800}
+.mission-chest{margin:0 0 22px;padding:10px 14px;border:1.5px dashed var(--line);border-radius:14px;font-size:13px;text-align:center;color:var(--muted)}
+.mission-chest.is-open{border-style:solid;color:var(--ink)}
+@media(max-width:760px){
+  .profile-main{grid-template-columns:1fr;gap:12px;width:calc(100% - 20px)}
+  .profile-card{position:static;grid-template-columns:112px 1fr;align-items:center;padding:14px;border-radius:22px}
+  .profile-figure{width:104px}
+  .profile-try{grid-column:1/-1}
+  .profile-side{border-radius:22px;padding:14px}
+  .profile-items{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+  .tile-art{width:60px;height:60px}.tile-art.full{width:52px;height:74px}
+  .mission{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.profile-shell *,.home-profile *{animation:none!important}}
+
+.duel-figure{display:block;width:92px;margin:0 auto;filter:drop-shadow(0 8px 6px #2026302e)}
+.duel-figure.is-winner{animation:duel-win 1.2s cubic-bezier(.34,1.56,.64,1)}
+.profile-card,.profile-side,.profile-level{min-width:0}
+@media(max-width:760px){.profile-main{grid-template-columns:minmax(0,1fr)}.profile-card{grid-template-columns:104px minmax(0,1fr)}}

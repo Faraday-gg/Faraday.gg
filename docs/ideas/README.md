@@ -5,6 +5,7 @@ Propuestas que aún no hemos decidido hacer: funcionalidades, cambios en el jueg
 | Idea | Propuesta por | Estado | Fecha |
 | --- | --- | --- | --- |
 | [Inicio de sesión con correo, Google y Apple](login-con-supabase.md) | Luis | abierta | 2026-11-10 |
+| [Ingresos con cosméticos del avatar](monetizacion-cosmeticos.md) | Luis | abierta | 2026-11-11 |
 
 Estados: **abierta** (por discutir), **aprobada** (enlazar a la decisión o PR), **descartada** (dejar el motivo).
 

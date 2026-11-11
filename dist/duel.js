@@ -2,19 +2,15 @@
 // por el estado del duelo y se pinta: avatares, barras de vida, temporizador, avisos y sonidos.
 // El perfil (apodo y avatar) y el progreso (nivel, racha) se guardan en este navegador, como el resto del juego.
 (()=>{
-  const AVATARS=['🦊','🐙','🦉','🐸','🐼','🦁','🐧','🦄','🐢','🐝','🦖','👾'];
-  const COLORS=['#ffb627','#b49bff','#3fc5f0','#2fd67b','#ff7aa8','#ffdb70','#b9d6e1','#ff6548'];
   const KEY='casi-casi:duelo:',shell=$('#duel-shell'),content=$('#duel-content'),hud=$('#duel-hud');
   const saved={get(key,fallback){try{return JSON.parse(localStorage.getItem(KEY+key))??fallback}catch{return fallback}},set(key,value){try{localStorage.setItem(KEY+key,JSON.stringify(value))}catch{}},remove(key){try{localStorage.removeItem(KEY+key)}catch{}}};
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let profile=saved.get('perfil',null);
-  if(!profile||typeof profile.name!=='string'||!AVATARS[profile.avatar])profile={name:'Jugador '+(100+Math.floor(Math.random()*900)),avatar:Math.floor(Math.random()*AVATARS.length)};
+  if(!profile||typeof profile.name!=='string')profile={name:'Jugador '+(100+Math.floor(Math.random()*900))};
   let stats={xp:0,wins:0,losses:0,draws:0,streak:0,best:0,lastWin:'',...saved.get('progreso',{})};
-  // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
-  const levelOf=xp=>Math.floor((1+Math.sqrt(1+xp/12.5))/2),levelStart=level=>50*level*(level-1);
-  const levelProgress=xp=>{const level=levelOf(xp),from=levelStart(level),to=levelStart(level+1);return {level,done:xp-from,need:to-from,ratio:(xp-from)/(to-from)}};
+  // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
 
   let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,busy=false;
   const serverNow=()=>Date.now()+offset;
@@ -54,8 +50,10 @@
       return {ok:response.ok,status:response.status,data:await response.json()};
     }catch{return {ok:false,status:0,data:{error:'Sin conexión con el servidor'}}}
   }
-  const identity=()=>({name:profile.name,avatar:profile.avatar,level:levelOf(stats.xp)});
-  const avatar=(player,extra='')=>`<span class="duel-avatar ${extra}" style="--av:${player.bot?'#b9d6e1':COLORS[player.avatar%COLORS.length]}" aria-hidden="true">${player.bot?'🤖':AVATARS[player.avatar]||AVATARS[0]}</span>`;
+  const identity=()=>({name:profile.name,avatar:Progress.look(),level:Progress.level()});
+  const avatar=(player,extra='')=>`<span class="duel-avatar ${extra}" aria-hidden="true">${player.bot?'🤖':Avatar.render(player.avatar,{bust:true})}</span>`;
+  // Cuerpo entero para las pantallas grandes (presentación y final); el bot sigue con su icono.
+  const figure=(player,extra='')=>player.bot?avatar(player,'big'):`<span class="duel-figure ${extra}" aria-hidden="true">${Avatar.render(player.avatar)}</span>`;
   const setView=(view,tone='')=>{shell.dataset.view=view;shell.dataset.tone=tone;shell.dataset.screen=duel?.phase||'lobby'};
   function alertBar(html,ms=4200){const bar=$('#duel-alert');bar.innerHTML=html;bar.classList.add('show');clearTimeout(alertBar.timer);alertBar.timer=setTimeout(()=>bar.classList.remove('show'),ms)}
 
@@ -93,12 +91,12 @@
   // Pantallas
   function renderLobby(message=''){
     duel=null;shown='lobby';hud.hidden=true;setView('result');stopTimers();saved.remove('actual');
-    const progress=levelProgress(stats.xp);
+    const progress=Progress.info();
     content.innerHTML=`<p class="duel-kicker">Duelo 1 vs 1</p>
 <h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
 ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo <span aria-hidden="true">→</span></button></div>`:''}
 <div class="duel-profile">
-  <div class="duel-avatars" role="radiogroup" aria-label="Elige tu avatar">${AVATARS.map((emoji,i)=>`<button type="button" role="radio" aria-checked="${i===profile.avatar}" aria-label="Avatar ${i+1}" data-avatar="${i}" style="--av:${COLORS[i%COLORS.length]}">${emoji}</button>`).join('')}</div>
+  <div class="duel-me">${avatar({avatar:Progress.look()},'big')}<button type="button" class="game-secondary" data-open-profile-inline="armario">Personalizar avatar</button></div>
   <label class="duel-name-field"><span>Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
 </div>
 <div class="duel-stats"><div class="duel-xp"><span><b>Nivel ${progress.level}</b><small>${int(progress.done)} / ${int(progress.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${progress.ratio}"></i></div></div><span class="duel-stat"><b>${stats.streak?'🔥 ':''}${stats.streak}</b><small>racha</small></span><span class="duel-stat"><b>${stats.wins}–${stats.losses}</b><small>victorias–derrotas</small></span></div>
@@ -119,7 +117,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${avatar(me(),'big')}<strong>${escapeHtml(me().name)}</strong><small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${avatar(rival(),'big')}<strong>${escapeHtml(rival().name)}</strong><small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
+    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}</strong><small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}</strong><small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
 <h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. Suerte.</p>`;
     sfx.found();
   }
@@ -168,7 +166,7 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
   function finishStats(){
     const counted=saved.get('contados',[]);if(counted.includes(duel.id)||duel.reason==='cancelado'||duel.players.length<2)return null;
     saved.set('contados',[...counted,duel.id].slice(-30));
-    const before=levelOf(stats.xp),today=new Date().toLocaleDateString('en-CA'),rounds=duel.rounds?.length||0,parts=[];
+    const today=new Date().toLocaleDateString('en-CA'),rounds=duel.rounds?.length||0,parts=[];
     if(duel.winner==='you'){
       stats.wins++;stats.streak++;stats.best=Math.max(stats.best,stats.streak);parts.push(['Victoria',100]);
       if(stats.lastWin!==today){parts.push(['Primera victoria del día',50]);stats.lastWin=today}
@@ -176,20 +174,23 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
     }else if(duel.winner==='draw'){stats.draws++;parts.push(['Empate',60])}
     else{stats.losses++;stats.streak=0;if(duel.reason!=='abandono')parts.push(['Duelo completado',40])}
     if(rounds&&!(duel.winner==='rival'&&duel.reason==='abandono'))parts.push([`${rounds} ${rounds===1?'ronda':'rondas'}`,rounds*10]);
-    const gained=parts.reduce((sum,[,xp])=>sum+xp,0),from=stats.xp;stats.xp+=gained;saved.set('progreso',stats);
-    return {parts,gained,from,levelUp:levelOf(stats.xp)>before};
+    const gained=parts.reduce((sum,[,xp])=>sum+xp,0),fromRatio=Progress.info().ratio,abandoned=duel.winner==='rival'&&duel.reason==='abandono';
+    const key=duel.winner==='you'?'win':duel.winner==='draw'?'draw':'loss',coins=abandoned?0:Progress.REWARD.duel[key];
+    saved.set('progreso',stats);const outcome=Progress.reward({xp:gained,coins});
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned}}));
+    return {parts,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){
     clearTimeout(endTimer);
     if(duel.reason==='cancelado'||duel.players.length<2){renderLobby();return}
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();setHp(false);
-    const won=duel.winner==='you',draw=duel.winner==='draw',result=finishStats(),progress=levelProgress(stats.xp),name=escapeHtml(rival().name);
+    const won=duel.winner==='you',draw=duel.winner==='draw',result=finishStats(),progress=Progress.info(),name=escapeHtml(rival().name);
     setView(won?'summary':'result');saved.remove('actual');shell.dataset.screen='end';
     const why=duel.reason==='abandono'?(won?`${name} ha abandonado el duelo.`:'Has abandonado el duelo.'):duel.reason==='rondas'?(draw?'Diez rondas y la misma vida. Nadie cede.':`Diez rondas: gana quien conserva más vida.`):won?`Has dejado a ${name} sin vida.`:`${name} te ha dejado sin vida.`;
     content.innerHTML=`<p class="duel-kicker">Duelo terminado</p>
-<div class="duel-final">${avatar(me(),'big'+(won?' is-winner':''))}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':'Derrota'}</h2></div>
+<div class="duel-final">${figure(me(),won?'is-winner':'')}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':'Derrota'}</h2></div>
 <p class="duel-note">${why}</p>
-<div class="duel-reward"><div class="duel-xp"><span><b>Nivel ${progress.level}${result?.levelUp?' <em>¡Subes de nivel!</em>':''}</b><small>${result?`+${result.gained} XP`:`${int(progress.done)} / ${int(progress.need)} XP`}</small></span><div class="duel-xpbar"><i style="--xp:${result&&!result.levelUp?levelProgress(result.from).ratio:0}" data-xp="${progress.ratio}"></i></div></div>
+<div class="duel-reward"><div class="duel-xp"><span><b>Nivel ${progress.level}${result?.levelUp?' <em>¡Subes de nivel!</em>':''}</b><small>${result?`+${result.gained} XP · +${result.coins+result.levelCoins} ≈`:`${int(progress.done)} / ${int(progress.need)} XP`}</small></span><div class="duel-xpbar"><i style="--xp:${result&&!result.levelUp?result.fromRatio:0}" data-xp="${progress.ratio}"></i></div></div>
 ${result?`<ul class="duel-chips">${result.parts.map(([label,xp])=>`<li>${escapeHtml(label)} <b>+${xp}</b></li>`).join('')}${stats.streak>1?`<li class="hot">🔥 ${stats.streak} seguidas</li>`:''}</ul>`:''}</div>
 ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><span>R${i+1}</span><b class="${r.loser==='rival'?'up':''}">${int(r.points[duel.you])}</b><i>–</i><b class="${r.loser==='you'?'up':''}">${int(r.points[1-duel.you])}</b><em class="${r.loser||'even'}">${r.loser===null?'=':r.loser==='rival'?'+'+int(r.damage):'−'+int(r.damage)}</em></li>`).join('')}</ol>`:''}
 <p class="form-error" id="duel-error" role="alert"></p>
@@ -321,8 +322,6 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
 
   shell.addEventListener('click',event=>{
     audio?.resume?.();
-    const pick=event.target.closest('[data-avatar]');
-    if(pick){profile.avatar=Number(pick.dataset.avatar);saved.set('perfil',profile);content.querySelectorAll('[data-avatar]').forEach(button=>button.setAttribute('aria-checked',String(button===pick)));sfx.tap();return}
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
     if(action==='calc'){toggleCalc();return}
@@ -343,6 +342,8 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   content.addEventListener('input',event=>{if(event.target.id==='duel-guess'&&!event.isComposing)formatEstimateInput(event.target);if(event.target.id==='duel-code')event.target.value=event.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'')});
   content.addEventListener('change',event=>{if(event.target.id==='duel-name')readProfile()});
   $('#duel-close').addEventListener('click',close);
+  // Al volver del armario, el portal del duelo enseña el avatar nuevo.
+  document.addEventListener('faraday:look',()=>{if(!shell.hidden&&shown==='lobby'){readProfile();renderLobby()}});
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   $('#duel-sound').addEventListener('click',()=>{soundOn=!soundOn;saved.set('sonido',soundOn);$('#duel-sound').setAttribute('aria-pressed',String(soundOn));if(soundOn)sfx.send()});
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
