@@ -5,6 +5,8 @@
 - **Quién:** Luis, con Claude Code
 
 > **Nota:** el avatar por capas en SVG, sus piezas, los fondos y la lista de piezas por nivel de esta decisión quedan sustituidos por la [0025](0025-avatar-3d.md) (avatar en 3D). Los faradios, las misiones, los niveles y la racha siguen como aquí se describen.
+>
+> **Nota (2026-11-12):** la [0027](0027-cofres.md) cambia el punto de «no hacemos cajas de premios al azar» (ahora hay cofres) y las cifras del cofre diario, del premio por nivel y de la racha.
 
 ## Contexto
 
@@ -59,7 +61,7 @@ La pantalla final del duelo lo avisa («Tope diario: premio al 25 %», «Prácti
 
 Lo que engancha de forma sana: una razón corta para volver cada día (el reto y tres misiones), progreso visible (nivel, racha, armario) y algo propio que enseñar a los demás (el avatar en los duelos).
 
-Lo que no hacemos: cajas de premios al azar, ofertas con cuenta atrás, avisos que castiguen por no entrar, ventajas de pago en el juego ni monedas que caduquen.
+Lo que no hacemos: cajas de premios al azar (cambiado por la [0027](0027-cofres.md)), ofertas con cuenta atrás, avisos que castiguen por no entrar, ventajas de pago en el juego ni monedas que caduquen.
 
 ## Alternativas descartadas
 

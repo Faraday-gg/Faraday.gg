@@ -27,7 +27,7 @@ Ajustes pendientes tras analizar con REA cómo funcionan los niveles, las mision
 
 ## Lo que no copiaríamos
 
-- Cajas al azar (el armario encantado de Habitica, la caja misteriosa de GeoGuessr): la 0024 las descarta.
+- Cajas al azar (el armario encantado de Habitica, la caja misteriosa de GeoGuessr): la 0024 las descartaba. **Cambiado el 12 de noviembre de 2026:** la [decisión 0027](../decisiones/0027-cofres.md) añade cofres con premio al azar, y con ellos resuelve dos puntos de esta idea: la racha vuelve a premiar pasado el día 7 (hitos) y los faradios tienen otro sitio donde gastarse.
 - La tienda diaria rotatoria de GeoGuessr: daría en qué gastar, pero roza las ofertas con cuenta atrás que también descartamos.
 - Un pase de temporada con escalones reservados a quien paga.
 
