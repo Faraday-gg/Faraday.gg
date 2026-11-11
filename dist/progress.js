@@ -1,9 +1,9 @@
 // Progreso del jugador (decisión 0022): nivel y experiencia, faradios (la moneda del juego), racha diaria,
-// misiones diarias y semanales, y el armario del avatar con su tienda. Todo se guarda en este navegador:
+// misiones diarias y semanales, y el armario del avatar (3D, decisión 0023) con su tienda. Todo se guarda en este navegador:
 // no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 (()=>{
-  const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile');
+  const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile'),stage=$('#home-avatar');
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const COIN='<span class="coin" aria-hidden="true">≈</span>',coins=n=>`${int(n)} ${COIN}<span class="sr-only"> faradios</span>`;
   const madrid=(date=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(date);
@@ -97,15 +97,19 @@
   // Chapa de la portada: avatar, nivel, faradios y un punto si hay misiones por recoger.
   function refresh(){
     if(chip){const waiting=pending();chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} misiones por recoger">${waiting}</i>`:''}`}
+    // Avatar de cuerpo entero en la portada: es la puerta al armario y a la tienda.
+    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${Avatar.render(look(),{live:true,emote:'wave'})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta">Personalizar <span aria-hidden="true">→</span></span>`;
     if(!shell.hidden)draw();
   }
 
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda) o las misiones.
-  let tab='armario',slot='hat',trying=null;
+  let tab='armario',slot='top',trying=null;
+  // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
+  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'legs'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'};
   function tile(item,current){
-    const preview={...current,[item.slot]:item.id},own=owns(item),worn=current[item.slot]===item.id,full=['top','bottom','item'].includes(item.slot);
+    const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
-    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}" data-item="${item.slot}:${item.id}" aria-pressed="${worn}"><span class="tile-art${full?' full':''}">${Avatar.render(preview,{bust:!full})}</span><span class="tile-name">${item.name}</span>${status}</button>`;
+    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item),{bust:!zoom,zoom})}</span><span class="tile-name">${item.name}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${status}</button>`;
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
@@ -114,11 +118,11 @@
   function draw(){
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(state.coins);
-    const missing=trying?trying.price-state.coins:0;
+    const missing=trying?trying.price-state.coins:0,pieces=Avatar.CATALOG.filter(item=>item.slot===slot);
     const side=tab==='armario'
-      ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><div class="profile-items">${Avatar.CATALOG.filter(item=>item.slot===slot).map(item=>tile(item,current)).join('')}</div>`
+      ?`<div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre diario recogido ✓':`Recoge las tres de hoy y llévate un cofre de +${REWARD.dailyChest} ${COIN}`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul>`;
-    main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar'})}</div>
+    main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}</div></section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button></div>${side}</section>`;

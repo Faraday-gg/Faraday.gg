@@ -6,6 +6,7 @@ Propuestas que aún no hemos decidido hacer: funcionalidades, cambios en el jueg
 | --- | --- | --- | --- |
 | [Inicio de sesión con correo, Google y Apple](login-con-supabase.md) | Luis | abierta | 2026-11-10 |
 | [Ingresos con cosméticos del avatar](monetizacion-cosmeticos.md) | Luis | abierta | 2026-11-11 |
+| [Ajustes a la economía de faradios, misiones y niveles](ajustes-economia-faradios.md) | Luis | abierta | 2026-11-11 |
 
 Estados: **abierta** (por discutir), **aprobada** (enlazar a la decisión o PR), **descartada** (dejar el motivo).
 

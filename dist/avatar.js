@@ -1,122 +1,109 @@
-// Avatar por capas (decisión 0022): un muñeco propio, cabezón y de trazo grueso, dibujado en SVG sin dependencias.
-// Cada pieza (piel, peinado, ropa, gorro, gafas, objeto, fondo) es un identificador del catálogo; un «look» es
-// {hueco: identificador}. El precio se paga con faradios, la moneda que se gana jugando (progress.js).
-// level = se desbloquea gratis al llegar a ese nivel.
+// Catálogo del avatar (decisiones 0022 y 0023). El avatar es un personaje 3D propio, de estética de calle, que dibuja
+// avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
+// ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
+// desbloquea gratis al llegar a ese nivel. Las marcas de la ropa son inventadas (≈, FRDY): no se copian logotipos reales.
 (()=>{
-  const INK='#202630',S=`stroke="${INK}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"`;
-  const thin=`stroke="${INK}" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"`;
-  const SLOTS=[['skin','Piel'],['hair','Peinado'],['hairColor','Color de pelo'],['top','Ropa'],['bottom','Pantalón'],['hat','Gorro'],['face','Gafas y más'],['item','En la mano'],['bg','Fondo']];
-  // Peinados: back va detrás de la cabeza y front delante. H es el color del pelo.
-  const fringe=H=>`<path d="M25 54C20 4 100 4 95 54C91 42 76 36 60 38C44 36 29 42 25 54Z" fill="${H}" ${S}/>`;
-  const HAIR={
-    corto:H=>({front:fringe(H)}),
-    melena:H=>({back:`<path d="M21 50C21 2 99 2 99 50L99 86Q99 93 92 93L28 93Q21 93 21 86Z" fill="${H}" ${S}/>`,front:`<path d="M25 54C20 4 100 4 95 54L95 47C80 41 40 41 25 47Z" fill="${H}" ${S}/>`}),
-    largo:H=>({back:`<path d="M21 50C21 2 99 2 99 50L103 108Q104 116 96 116L24 116Q16 116 17 108Z" fill="${H}" ${S}/>`,front:fringe(H)}),
-    rizos:H=>({back:`<circle cx="24" cy="56" r="9" fill="${H}" ${S}/><circle cx="96" cy="56" r="9" fill="${H}" ${S}/>`,front:[[29,40,12],[38,24,12],[52,15,12],[68,15,12],[82,24,12],[91,40,12],[60,25,13]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${H}" ${S}/>`).join('')+`<path d="M34 36Q60 22 86 36Q60 30 34 36Z" fill="${H}"/>`}),
-    pincho:H=>({front:`<path d="M25 54L22 30L33 37L35 15L48 28L56 6L66 26L79 11L83 31L96 22L95 54C91 42 76 37 60 39C44 37 29 42 25 54Z" fill="${H}" ${S}/>`}),
-    mono:H=>({front:`<circle cx="60" cy="9" r="11" fill="${H}" ${S}/>`+fringe(H)}),
-    coleta:H=>({back:`<path d="M88 34C116 38 114 84 100 98C103 78 98 62 86 54Z" fill="${H}" ${S}/>`,front:fringe(H)}),
-    cresta:H=>({front:`<path d="M51 40L49 4Q60 -6 71 4L69 40Z" fill="${H}" ${S}/>`}),
-    calvo:()=>({})
+  const PAPER='#fffdf7';
+  const PALETTE={
+    SKIN:{clara:'#ffd9b8',miel:'#f2bd8c',tostada:'#d99c6c',canela:'#b5744a',cacao:'#8a5637',ebano:'#5e3a26',robot:'#c9ccd3'},
+    HAIR:{castano:'#6b4a34',negro:'#24242b',rubio:'#f0c75e',pelirrojo:'#d9683c',gris:'#b9b6ae',platino:'#f2efe6',azul:'#3fa9f5',rosa:'#ff7aa8',verde:'#2fd67b',violeta:'#9a7df0'},
+    CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c'},
+    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0'}
   };
-  // Gorros. clip: oculta el pelo por encima de esa altura para que no asome.
-  const dome=color=>`<path d="M25 44C21 0 99 0 95 44Z" fill="${color}" ${S}/>`;
-  const HAT={
-    gorra:()=>dome('#ff6548')+`<path d="M62 44L16 44Q5 44 7 50Q32 54 62 47Z" fill="#23395b" ${S}/><circle cx="62" cy="24" r="9" fill="#fffdf7" ${S}/><path d="M57 22.5q2.5-3 5 0t5 0M57 27q2.5-3 5 0t5 0" fill="none" ${thin}/>`,
-    lana:()=>dome('#3fc5f0')+`<rect x="22" y="33" width="76" height="13" rx="6.5" fill="#fffdf7" ${S}/><circle cx="60" cy="4" r="8" fill="#fffdf7" ${S}/>`,
-    cascos:()=>`<path d="M22 52C20 -2 100 -2 98 52" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round"/><path d="M22 52C20 -2 100 -2 98 52" fill="none" stroke="#ffdb70" stroke-width="3.5" stroke-linecap="round"/><rect x="13" y="43" width="13" height="24" rx="6" fill="#ff6548" ${S}/><rect x="94" y="43" width="13" height="24" rx="6" fill="#ff6548" ${S}/>`,
-    fiesta:()=>`<path d="M45 24L60 -10L75 24Z" fill="#ffdb70" ${S}/><path d="M51 12L68 8M48 19L72 15" fill="none" stroke="#ff6548" stroke-width="3.5" stroke-linecap="round"/><circle cx="60" cy="-11" r="4.5" fill="#ff6548" ${S}/>`,
-    chef:()=>`<circle cx="44" cy="6" r="11" fill="#fffdf7" ${S}/><circle cx="76" cy="6" r="11" fill="#fffdf7" ${S}/><circle cx="60" cy="0" r="13" fill="#fffdf7" ${S}/><rect x="38" y="10" width="44" height="15" rx="3" fill="#fffdf7" ${S}/>`,
-    birrete:()=>`<path d="M41 24L41 12L79 12L79 24Z" fill="${INK}" ${S}/><path d="M20 10L60 -3L100 10L60 23Z" fill="#2b313c" ${S}/><path d="M60 10L88 15L88 28" fill="none" stroke="#ffdb70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="88" cy="30" r="3.5" fill="#ffdb70" ${thin}/>`,
-    chistera:()=>`<rect x="40" y="-10" width="40" height="32" rx="3" fill="#2b313c" ${S}/><rect x="40" y="10" width="40" height="8" fill="#ff6548" ${thin}/><rect x="28" y="19" width="64" height="8" rx="4" fill="#2b313c" ${S}/>`,
-    mago:()=>`<path d="M33 25L64 -13L89 25Z" fill="#b49bff" ${S}/><ellipse cx="60" cy="26" rx="43" ry="7" fill="#b49bff" ${S}/><path d="M60 6l2 4.5 5 .5-3.7 3.3 1 4.9L60 16.8l-4.3 2.4 1-4.9L53 11l5-.5z" fill="#ffdb70" ${thin}/>`,
-    corona:()=>`<path d="M35 27L31 3L46 14L60 -3L74 14L89 3L85 27Z" fill="#ffdb70" ${S}/><circle cx="60" cy="16" r="4" fill="#ff6548" ${thin}/><circle cx="43" cy="20" r="2.6" fill="#3fc5f0" ${thin}/><circle cx="77" cy="20" r="2.6" fill="#3fc5f0" ${thin}/>`,
-    aureola:()=>`<ellipse cx="60" cy="4" rx="24" ry="6.5" fill="none" stroke="${INK}" stroke-width="7"/><ellipse cx="60" cy="4" rx="24" ry="6.5" fill="none" stroke="#ffdb70" stroke-width="3.5"/>`,
-    astronauta:()=>`<circle cx="60" cy="50" r="43" fill="#b9d6e155" ${S}/><path d="M30 34Q38 18 54 14" fill="none" stroke="#fffdf7" stroke-width="4" stroke-linecap="round"/><rect x="34" y="84" width="52" height="10" rx="5" fill="#fffdf7" ${S}/>`
-  };
-  const HAT_CLIP={gorra:42,lana:42};
-  // Ropa: color del torso y las mangas, más un detalle dibujado encima (o una capa por detrás).
-  const TOP={
-    blanca:{color:'#fffdf7'},coral:{color:'#ff6548'},azul:{color:'#3fc5f0'},
-    marinera:{color:'#fffdf7',detail:`<path d="M43 94H77M42.5 102H77.5M42.5 110H77.5" fill="none" stroke="#23395b" stroke-width="3.2"/>`},
-    faraday:{color:'#ffdb70',detail:`<path d="M52 99q4-5 8 0t8 0M52 107q4-5 8 0t8 0" fill="none" ${S}/>`},
-    sudadera:{color:'#b49bff',detail:`<path d="M50 108H70L72 121H48Z" fill="#9a7df0" ${thin}/><path d="M55 86V97M65 86V97" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/>`,back:`<path d="M30 80Q60 62 90 80Q90 94 60 96Q30 94 30 80Z" fill="#9a7df0" ${S}/>`},
-    futbol:{color:'#2fd67b',detail:`<rect x="55" y="83" width="10" height="38" fill="#fffdf7"/><text x="60" y="110" text-anchor="middle" font-family="Arial,sans-serif" font-weight="800" font-size="12" fill="${INK}">10</text>`},
-    bata:{color:'#fffdf7',detail:`<path d="M60 84L52 96L60 106L68 96Z" fill="#3fc5f0" ${thin}/><path d="M60 106V121" fill="none" ${thin}/><rect x="64" y="108" width="9" height="8" rx="1.5" fill="none" ${thin}/><path d="M67 108V103" fill="none" stroke="#ff6548" stroke-width="2.4" stroke-linecap="round"/>`},
-    traje:{color:'#2b313c',detail:`<path d="M52 83L60 100L68 83Z" fill="#fffdf7" ${thin}/><path d="M60 88L56.5 97L60 111L63.5 97Z" fill="#ff6548" ${thin}/>`},
-    heroe:{color:'#ff6548',detail:`<path d="M60 92l3 6.4 7 .8-5.2 4.7 1.4 6.9L60 107.3l-6.2 3.5 1.4-6.9L50 99.2l7-.8z" fill="#ffdb70" ${thin}/>`,back:`<path d="M44 86L20 136Q60 148 100 136L76 86Z" fill="#23395b" ${S}/>`},
-    dorada:{color:'#ffc93c',detail:`<path d="M50 90l1.5 3.5 3.5 1.5-3.5 1.5L50 100l-1.5-3.5L45 95l3.5-1.5zM69 104l1.2 2.8 2.8 1.2-2.8 1.2L69 112l-1.2-2.8L65 108l2.800-1.2z" fill="#fffdf7"/><path d="M60 84V121" fill="none" ${thin}/>`}
-  };
-  const FACE={
-    gafas:`<circle cx="48" cy="56" r="8.5" fill="#ffffff66" ${S}/><circle cx="72" cy="56" r="8.5" fill="#ffffff66" ${S}/><path d="M56.500 56H63.500M39.500 55L27 51M80.500 55L93 51" fill="none" ${S}/>`,
-    sol:`<rect x="37" y="49" width="21" height="14" rx="6" fill="${INK}" ${S}/><rect x="62" y="49" width="21" height="14" rx="6" fill="${INK}" ${S}/><path d="M58 54H62M37 53L27 50M83 53L93 50" fill="none" ${S}/><path d="M42 53l5 0M67 53l5 0" stroke="#fffdf7" stroke-width="2" stroke-linecap="round" opacity=".6"/>`,
-    monoculo:`<circle cx="72" cy="56" r="9.500" fill="#ffffff66" stroke="${INK}" stroke-width="5"/><circle cx="72" cy="56" r="9.500" fill="none" stroke="#ffdb70" stroke-width="2.2"/><path d="M79 63Q86 74 82 86" fill="none" stroke="#ffdb70" stroke-width="1.8"/>`,
-    bigote:`<path d="M46 67Q53 59 60 65Q67 59 74 67Q67 71 60 67.500Q53 71 46 67Z" fill="${INK}" ${thin}/>`,
-    parche:`<path d="M27 42L93 50" fill="none" ${thin}/><ellipse cx="48" cy="56" rx="8.500" ry="7.500" fill="${INK}" ${S}/>`
-  };
-  // Objetos en la mano derecha del muñeco (a la derecha de quien mira), cerca de (88,112).
-  const ITEM={
-    calculadora:`<g transform="rotate(12 92 104)"><rect x="84" y="91" width="18" height="25" rx="3.500" fill="#23395b" ${S}/><rect x="87" y="94.500" width="12" height="6" rx="1" fill="#b9d6e1"/><path d="M88.500 105h.1M93 105h.1M97.500 105h.1M88.500 110h.1M93 110h.1M97.500 110h.1" stroke="#fffdf7" stroke-width="2.6" stroke-linecap="round"/></g>`,
-    lapiz:`<path d="M85 118L99 84" stroke="${INK}" stroke-width="9" stroke-linecap="round"/><path d="M85 118L99 84" stroke="#ffdb70" stroke-width="5" stroke-linecap="round"/><path d="M98 86.500L99.500 82.500" stroke="#ff6548" stroke-width="5" stroke-linecap="round"/>`,
-    cafe:`<path d="M85 100H99L97.500 117H86.500Z" fill="#fffdf7" ${S}/><rect x="83.500" y="96" width="17" height="5" rx="2" fill="#ff6548" ${thin}/><path d="M89 91q-2-3 0-6M95 91q-2-3 0-6" fill="none" ${thin}/>`,
-    lupa:`<path d="M90 108L94 100" fill="none" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><circle cx="98" cy="91" r="10" fill="#b9d6e199" stroke="${INK}" stroke-width="3.500"/>`,
-    globo:`<path d="M88 110Q98 84 101 62" fill="none" ${thin}/><ellipse cx="102" cy="46" rx="13" ry="16" fill="#ff6548" ${S}/><path d="M96 40Q98 34 103 33" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/>`,
-    varita:`<path d="M86 116L100 90" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><path d="M101 78l2.200 5 5.300.600-4 3.600 1.100 5.300L101 89.800l-4.600 2.700 1.100-5.300-4-3.600 5.300-.600z" fill="#ffdb70" ${thin}/>`,
-    trofeo:`<path d="M84 90H102Q102 104 93 105Q84 104 84 90Z" fill="#ffdb70" ${S}/><path d="M84 93Q78 93 80 99Q82 102 86 101M102 93Q108 93 106 99Q104 102 100 101" fill="none" ${thin}/><path d="M93 105V111M87 113H99" fill="none" ${S}/>`
-  };
-  const BG={crema:'#efe7d4',amarillo:'#ffdb70',azul:'#b9d6e1',coral:'#ff8f78',verde:'#8fe6b5',violeta:'#cdbcff',rosa:'#ffb1cb',noche:'#23395b'};
-  const BG_ART={
-    atardecer:id=>`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b49bff"/><stop offset=".55" stop-color="#ff7aa8"/><stop offset="1" stop-color="#ffdb70"/></linearGradient></defs><rect x="-20" y="-40" width="160" height="220" fill="url(#${id})"/>`,
-    estrellas:()=>`<rect x="-20" y="-40" width="160" height="220" fill="#1a2740"/>`+[[14,2,2],[104,-4,1.600],[96,40,2],[10,60,1.600],[30,-8,1.400],[110,78,1.600],[16,104,2],[102,120,1.400],[84,-10,1.200]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#ffdb70"/>`).join('')
-  };
-  const item=(slot,id,name,price=0,extra={})=>({slot,id,name,price,...extra});
+  const SLOTS=[['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
+  // set = lo que la pieza cambia en el dibujo; extras = accesorios que se suman.
+  const item=(slot,id,name,price=0,more={})=>({slot,id,name,price,...more});
+  const top=(id,name,price,type,color,trim,print='',more={})=>item('top',id,name,price,{set:{top:type,topColor:color,trimColor:trim,print},...more});
+  const bottom=(id,name,price,type,color)=>item('bottom',id,name,price,{set:{bottom:type,bottomColor:color}});
+  const shoes=(id,name,price,type,color)=>item('shoes',id,name,price,{set:{shoes:type,shoesColor:color}});
+  const hat=(id,name,price,type,color='negro',trim='blanco',more={})=>item('hat',id,name,price,{set:{hat:type,hatColor:color,hatTrim:trim},...more});
   const CATALOG=[
-    ...[['clara','Clara','#ffd9b8'],['miel','Miel','#f2bd8c'],['tostada','Tostada','#d99c6c'],['canela','Canela','#b5744a'],['cacao','Cacao','#8a5637'],['ebano','Ébano','#5e3a26']].map(([id,name,color])=>item('skin',id,name,0,{color})),
-    item('hair','corto','Corto'),item('hair','melena','Melena'),item('hair','largo','Largo'),item('hair','rizos','Rizos'),item('hair','calvo','Sin pelo'),
-    item('hair','mono','Moño',40),item('hair','coleta','Coleta',40),item('hair','pincho','De punta',60),item('hair','cresta','Cresta',150),
-    ...[['castano','Castaño','#6b4a34'],['negro','Negro','#2b2b33'],['rubio','Rubio','#f0c75e'],['pelirrojo','Pelirrojo','#d9683c'],['gris','Gris','#b9b6ae']].map(([id,name,color])=>item('hairColor',id,name,0,{color})),
-    ...[['azul','Azul','#3fa9f5',60],['rosa','Rosa','#ff7aa8',60],['verde','Verde','#2fd67b',60],['violeta','Violeta','#9a7df0',60]].map(([id,name,color,price])=>item('hairColor',id,name,price,{color})),
-    item('top','blanca','Camiseta blanca'),item('top','coral','Camiseta coral'),item('top','azul','Camiseta azul'),
-    item('top','marinera','Marinera',60),item('top','faraday','Camiseta ≈',80),item('top','futbol','El 10',150),item('top','sudadera','Sudadera',150),
-    item('top','bata','Bata de laboratorio',0,{level:3}),item('top','traje','Traje',400),item('top','heroe','Superhéroe',600),item('top','dorada','Chaqueta dorada',900),
-    ...[['beige','Beige','#e9dcc3',0],['vaquero','Vaquero','#5b7fb5',0],['negro','Negro','#2b313c',0],['verde','Verde','#4fae7c',40],['rosa','Rosa','#ff9dbd',40]].map(([id,name,color,price])=>item('bottom',id,name,price,{color})),
-    item('hat','','Sin gorro'),item('hat','gorra','Gorra ≈',80),item('hat','lana','Gorro de lana',80),item('hat','fiesta','Gorrito de fiesta',120),item('hat','cascos','Cascos',200),
-    item('hat','chef','Gorro de chef',250),item('hat','birrete','Birrete',0,{level:5}),item('hat','chistera','Chistera',400),item('hat','mago','Sombrero de mago',600),
-    item('hat','aureola','Aureola',0,{level:10}),item('hat','astronauta','Casco espacial',1200),item('hat','corona','Corona',0,{level:15}),
-    item('face','','Nada'),item('face','gafas','Gafas',60),item('face','sol','Gafas de sol',150),item('face','bigote','Bigote',100),item('face','parche','Parche pirata',200),item('face','monoculo','Monóculo',300),
-    item('item','','Nada'),item('item','lapiz','Lápiz',40),item('item','calculadora','Calculadora',80),item('item','cafe','Café',80),item('item','lupa','Lupa',120),item('item','globo','Globo',200),
-    item('item','varita','Varita',400),item('item','trofeo','Trofeo',0,{level:8}),
-    item('bg','crema','Crema'),item('bg','amarillo','Amarillo'),item('bg','azul','Azul'),item('bg','coral','Coral',40),item('bg','verde','Verde',40),item('bg','violeta','Violeta',40),
-    item('bg','rosa','Rosa',40),item('bg','noche','Noche',100),item('bg','atardecer','Atardecer',250),item('bg','estrellas','Estrellas',400)
+    top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
+    top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
+    top('cam-blanca-frdy','Oversize FRDY',100,'camiseta','blanco','rojo','frdy'),top('cam-negra-frdy','Oversize FRDY negra',120,'camiseta','negro','coral','frdy'),
+    top('cam-azul-tag','Oversize 1,2× azul',140,'camiseta','azul','amarillo','tag'),top('cam-blanca-tag','Oversize 1,2×',140,'camiseta','blanco','coral','tag'),
+    top('cam-crema-ajedrez','Oversize ajedrez',180,'camiseta','crema','negro','ajedrez'),top('cam-rosa-ajedrez','Oversize ajedrez rosa',180,'camiseta','rosa','negro','ajedrez'),
+    top('cam-negra-llamas','Oversize en llamas',220,'camiseta','negro','coral','llamas'),top('cam-blanca-llamas','Oversize llamas blanca',220,'camiseta','blanco','coral','llamas'),
+    top('sud-gris','Sudadera gris',150,'sudadera','gris','negro'),top('sud-negra','Sudadera negra',160,'sudadera','negro','blanco'),top('sud-crema','Sudadera crema',160,'sudadera','crema','negro'),
+    top('sud-negra-logo','Sudadera ≈',220,'sudadera','negro','amarillo','logo'),top('sud-rosa-logo','Sudadera ≈ rosa',240,'sudadera','rosa','burdeos','logo'),top('sud-lila-frdy','Sudadera FRDY lila',240,'sudadera','lila','morado','frdy'),
+    top('sud-verde-tag','Sudadera 1,2× verde',260,'sudadera','verde','crema','tag'),top('sud-negra-tag','Sudadera 1,2×',280,'sudadera','negro','coral','tag'),
+    top('sud-marino-ajedrez','Sudadera ajedrez',320,'sudadera','marino','blanco','ajedrez'),top('sud-negra-llamas','Sudadera en llamas',400,'sudadera','negro','coral','llamas'),
+    top('bal-morado','Baloncesto morada',280,'baloncesto','morado','amarillo'),top('bal-rojo','Baloncesto roja',280,'baloncesto','rojo','blanco'),top('bal-negro','Baloncesto negra',300,'baloncesto','negro','coral'),
+    top('bal-azul','Baloncesto azul',300,'baloncesto','azul','blanco'),top('bal-verde','Baloncesto verde',320,'baloncesto','verde','amarillo'),
+    top('cha-rojo','Chándal rojo',380,'chandal','rojo','negro'),top('cha-negro','Chándal negro',380,'chandal','negro','gris'),top('cha-azul','Chándal azul',420,'chandal','azul','morado'),
+    top('cha-verde','Chándal verde',420,'chandal','verde','crema'),top('cha-marino','Chándal marino',460,'chandal','marino','coral'),top('cha-lila','Chándal lila',520,'chandal','lila','rosa'),
+    top('plu-amarillo','Plumas amarillo',550,'plumas','amarillo','negro'),top('plu-negro','Plumas negro',600,'plumas','negro','negro'),top('plu-lila','Plumas lila',600,'plumas','lila','negro'),
+    top('plu-menta','Plumas menta',600,'plumas','menta','negro'),top('plu-coral','Plumas coral',650,'plumas','coral','negro'),top('plu-blanco','Plumas blanco',700,'plumas','blanco','negro'),
+    top('uni-marino','Universitaria marina',650,'universitaria','marino','amarillo'),top('uni-burdeos','Universitaria burdeos',650,'universitaria','burdeos','crema'),
+    top('uni-morado','Universitaria morada',700,'universitaria','morado','lila'),top('uni-verde','Universitaria verde',700,'universitaria','verde','menta'),
+    top('uni-negra','Universitaria negra',750,'universitaria','negro','blanco'),top('uni-roja','Universitaria roja',750,'universitaria','rojo','blanco'),
+    top('uni-crema','Universitaria crema',800,'universitaria','crema','verde'),top('uni-rosa','Universitaria rosa',900,'universitaria','rosa','blanco'),
+    top('uni-negra-coral','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
+    top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
+
+    bottom('ancho-lavado','Ancho lavado',0,'ancho','lavado'),bottom('ancho-vaquero','Ancho vaquero',0,'ancho','vaquero'),bottom('corto-negro','Corto negro',0,'corto','negro'),
+    bottom('corto-vaquero','Corto vaquero',50,'corto','vaquero'),bottom('corto-crema','Corto crema',50,'corto','crema'),bottom('ancho-negro','Ancho negro',80,'ancho','negro'),bottom('ancho-crema','Ancho crema',80,'ancho','crema'),
+    bottom('ancho-indigo','Ancho índigo',100,'ancho','indigo'),bottom('ancho-gris','Ancho gris',100,'ancho','gris'),bottom('cha-negro','Chándal negro',100,'chandal','negro'),bottom('cha-gris','Chándal gris',100,'chandal','gris'),
+    bottom('corto-burdeos','Corto burdeos',120,'corto','burdeos'),bottom('corto-morado','Corto morado',120,'corto','morado'),bottom('cha-burdeos','Chándal burdeos',160,'chandal','burdeos'),bottom('cha-morado','Chándal morado',160,'chandal','morado'),
+    bottom('cargo-oliva','Cargo oliva',200,'cargo','oliva'),bottom('cargo-arena','Cargo arena',200,'cargo','arena'),bottom('cargo-negro','Cargo negro',220,'cargo','negro'),bottom('cargo-gris','Cargo gris',220,'cargo','gris'),
+
+    shoes('skate-blanco','Skate blancas',0,'skate','blanco'),shoes('skate-negro','Skate negras',0,'skate','negro'),shoes('skate-crema','Skate crema',100,'skate','crema'),
+    shoes('skate-rojo','Skate rojas',120,'skate','rojo'),shoes('skate-azul','Skate azules',120,'skate','azul'),shoes('skate-verde','Skate verdes',120,'skate','verde'),
+    shoes('altas-negro','Caña alta negras',180,'altas','negro'),shoes('altas-blanco','Caña alta blancas',180,'altas','blanco'),shoes('altas-rojo','Caña alta rojas',220,'altas','rojo'),
+    shoes('altas-morado','Caña alta moradas',260,'altas','morado'),shoes('altas-amarillo','Caña alta amarillas',300,'altas','amarillo'),
+    shoes('plat-blanco','Plataforma blancas',350,'plataforma','blanco'),shoes('plat-negro','Plataforma negras',400,'plataforma','negro'),shoes('plat-coral','Plataforma coral',500,'plataforma','coral'),
+    shoes('plat-menta','Plataforma menta',500,'plataforma','menta'),shoes('plat-rosa','Plataforma rosas',550,'plataforma','rosa'),shoes('plat-lila','Plataforma lila',600,'plataforma','lila'),
+
+    item('hat','','Nada'),hat('gorro-negro','Gorro negro',80,'gorro','negro'),hat('gorro-oliva','Gorro oliva',100,'gorro','oliva'),hat('gorro-burdeos','Gorro burdeos',100,'gorro','burdeos'),
+    hat('gorro-crema','Gorro crema',100,'gorro','crema'),hat('gorro-coral','Gorro coral',120,'gorro','coral'),hat('capucha','Capucha puesta',150,'capucha'),
+    hat('atras-negra','Gorra atrás negra',180,'atras','negro','negro'),hat('pesca-crema','Pescador crema',180,'pescador','crema','negro'),hat('atras-coral','Gorra atrás coral',200,'atras','coral','negro'),
+    hat('atras-azul','Gorra atrás azul',200,'atras','azul','blanco'),hat('pesca-negro','Pescador negro',200,'pescador','negro','amarillo'),hat('pesca-verde','Pescador verde',200,'pescador','verde','crema'),
+    hat('lado-roja','Gorra ladeada roja',220,'ladeada','rojo','negro'),hat('lado-negra','Gorra ladeada negra',220,'ladeada','negro','coral'),hat('plana-marino','Gorra plana marina',240,'plana','marino','amarillo'),
+    hat('plana-negra','Gorra plana negra',240,'plana','negro','blanco'),hat('plana-roja','Gorra plana roja',260,'plana','rojo','negro'),hat('plana-burdeos','Gorra plana burdeos',260,'plana','burdeos','crema'),
+    hat('lado-amarilla','Gorra ladeada amarilla',260,'ladeada','amarillo','negro'),hat('plana-morada','Gorra plana morada',280,'plana','morado','lila'),hat('plana-verde','Gorra plana verde',280,'plana','verde','menta'),
+    hat('plana-crema','Gorra plana crema',300,'plana','crema','verde'),
+    hat('gorra-oro','Gorra dorada',0,'plana','amarillo','negro',{level:5}),hat('aureola','Aureola',0,'aureola','amarillo','amarillo',{level:10}),hat('corona','Corona',0,'corona','amarillo','rojo',{level:15}),
+
+    item('hair','puntas','Flequillo de puntas'),item('hair','cortina','Cortina'),item('hair','rizos','Rizos'),item('hair','rapado','Rapado'),item('hair','calvo','Sin pelo'),
+    item('hair','degradado','Degradado',120),item('hair','mono','Moño alto',150),item('hair','trenzas','Trenzas',220),item('hair','mullet','Mullet',250),item('hair','rastas','Rastas',350),item('hair','afro','Afro',400),
+    ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
+
+    item('glasses','','Nada'),item('glasses','gafas','Gafas',60,{extras:['gafas']}),item('glasses','sol','Gafas de sol',150,{extras:['sol']}),
+    item('neck','','Nada'),item('neck','cadena','Cadenón',200,{extras:['cadena']}),item('neck','panuelo','Pañuelo',220,{extras:['panuelo']}),
+    item('extra','','Nada'),item('extra','aros','Aros',80,{extras:['aros']}),item('extra','cascos','Cascos',200,{extras:['cascos']}),item('extra','aros-cascos','Aros y cascos',320,{extras:['aros','cascos']}),
+    item('extra','oro','Diente de oro',0,{extras:['oro'],level:8}),
+
+    item('face','chulo','Chulo'),item('face','serio','Serio'),item('face','feliz','Feliz'),
+    ...[['clara','Clara'],['miel','Miel'],['tostada','Tostada'],['canela','Canela'],['cacao','Cacao'],['ebano','Ébano']].map(([id,name])=>item('skin',id,name,0,{color:PALETTE.SKIN[id]}))
   ];
-  const DEFAULT={skin:'miel',hair:'corto',hairColor:'castano',top:'blanca',bottom:'beige',hat:'',face:'',item:'',bg:'amarillo'};
+  const DEFAULT={top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
   const find=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
-  // Un look siempre completo: las piezas desconocidas (por ejemplo, de una versión más nueva del rival) pasan a las de por defecto.
+  // Un look siempre completo: las piezas desconocidas (de una versión anterior o más nueva) pasan a las de por defecto.
   function normalize(look){const result={};for(const [slot] of SLOTS){const id=look&&typeof look[slot]==='string'?look[slot]:null;result[slot]=id!==null&&find(slot,id)?id:DEFAULT[slot]}return result}
-  let counter=0;
-  // bust: solo cabeza y hombros sobre el fondo (marcador, avisos). Sin bust: cuerpo entero, sin fondo.
-  function render(look,{bust=false,label=''}={}){
-    const L=normalize(look),uid='avatar-'+(++counter),skin=find('skin',L.skin).color,H=find('hairColor',L.hairColor).color,top=TOP[L.top],legs=find('bottom',L.bottom).color;
-    const hair=HAIR[L.hair](H),clip=HAT_CLIP[L.hat],shades=L.face==='sol';
-    const clipped=markup=>markup&&clip?`<g clip-path="url(#${uid}-clip)">${markup}</g>`:markup||'';
-    const parts=[
-      clip?`<defs><clipPath id="${uid}-clip"><rect x="-20" y="${clip}" width="160" height="200"/></clipPath></defs>`:'',
-      bust?(BG_ART[L.bg]?BG_ART[L.bg](uid+'-bg'):`<rect x="-20" y="-40" width="160" height="220" fill="${BG[L.bg]}"/>`):'',
-      top.back||'',clipped(hair.back),
-      `<rect x="46" y="116" width="12.500" height="28" rx="5" fill="${legs}" ${S}/><rect x="61.500" y="116" width="12.500" height="28" rx="5" fill="${legs}" ${S}/>`,
-      `<path d="M43 146Q43 140 50 140H58V147H44Q43 147 43 146ZM77 146Q77 140 70 140H62V147H76Q77 147 77 146Z" fill="${INK}" ${thin}/>`,
-      `<path d="M46 92L33 110M74 92L87 110" fill="none" stroke="${INK}" stroke-width="15" stroke-linecap="round"/><path d="M46 92L33 110M74 92L87 110" fill="none" stroke="${top.color}" stroke-width="10" stroke-linecap="round"/>`,
-      `<rect x="42" y="82" width="36" height="40" rx="11" fill="${top.color}" ${S}/>`,top.detail||'',
-      ITEM[L.item]||'',
-      `<circle cx="32" cy="112" r="6" fill="${skin}" ${S}/><circle cx="88" cy="112" r="6" fill="${skin}" ${S}/>`,
-      `<circle cx="27" cy="57" r="5.500" fill="${skin}" ${S}/><circle cx="93" cy="57" r="5.500" fill="${skin}" ${S}/><ellipse cx="60" cy="52" rx="34" ry="31" fill="${skin}" ${S}/>`,
-      shades?'':`<ellipse cx="48" cy="56" rx="3.300" ry="4.800" fill="${INK}"/><ellipse cx="72" cy="56" rx="3.300" ry="4.800" fill="${INK}"/><circle cx="49.200" cy="54.200" r="1.200" fill="#fff"/><circle cx="73.200" cy="54.200" r="1.200" fill="#fff"/>`,
-      `<ellipse cx="39" cy="66" rx="5" ry="3" fill="#ff6548" opacity=".28"/><ellipse cx="81" cy="66" rx="5" ry="3" fill="#ff6548" opacity=".28"/><path d="M54 69Q60 74.500 66 69" fill="none" ${S}/>`,
-      clipped(hair.front),FACE[L.face]||'',HAT[L.hat]?HAT[L.hat]():''
-    ];
-    return `<svg class="avatar-svg" viewBox="${bust?'8 -16 104 104':'0 -20 120 170'}" xmlns="http://www.w3.org/2000/svg" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'}>${parts.join('')}</svg>`;
+  // Look → lo que dibuja avatar3d.js. Un look con _raw ya viene traducido (el bot de los duelos).
+  function resolve(look){
+    if(look&&look._raw)return look._raw;
+    const L=normalize(look),raw={skin:L.skin,face:L.face,hair:L.hair,hairColor:L.hairColor,extras:[]};
+    for(const [slot] of SLOTS){const entry=find(slot,L[slot]);if(entry.set)Object.assign(raw,entry.set);if(entry.extras)raw.extras.push(...entry.extras)}
+    return raw;
   }
-  // Fondo del look como color CSS, para la tarjeta del perfil.
-  const background=look=>{const id=normalize(look).bg;return id==='atardecer'?'linear-gradient(#b49bff,#ff7aa8 55%,#ffdb70)':id==='estrellas'?'#1a2740':BG[id]};
-  window.Avatar={SLOTS,CATALOG,DEFAULT,find,normalize,render,background};
+  // Cómo se enseña una pieza en la tienda: el muñeco por defecto con esa pieza puesta.
+  const preview=entry=>({...DEFAULT,[entry.slot]:entry.id});
+  // Rareza según el precio: da color a la etiqueta de la tienda.
+  const rarity=entry=>entry.level?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
+  function fallback(raw,mode){
+    const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;
+    const view={bust:'10 0 100 100',legs:'20 118 80 80',torso:'15 78 90 90'}[mode]||'0 0 120 180';
+    return `<svg class="avatar-fallback" viewBox="${view}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#1b1f27" stroke-width="3" stroke-linejoin="round"><rect x="44" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="62" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="39" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="61" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="34" y="90" width="52" height="46" rx="14" fill="${body}"/><rect x="24" y="16" width="72" height="68" rx="26" fill="${skin}"/>${raw.hair==='calvo'?'':`<path d="M24 46Q24 14 60 14Q96 14 96 46Q78 30 60 34Q42 30 24 46Z" fill="${hair}"/>`}</g><ellipse cx="46" cy="54" rx="4" ry="7" fill="#1b1f27"/><ellipse cx="74" cy="54" rx="4" ry="7" fill="#1b1f27"/></svg>`;
+  }
+  // bust: cabeza y hombros (marcador, avisos). zoom: 'legs' o 'torso' para la tienda. live: animado, para las pantallas
+  // grandes; drag: se puede girar arrastrando; emote: gesto ('cheer', 'sad' o 'hurt').
+  function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote=''}={}){
+    const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote}));
+    return `<span class="avatar-view" data-mode="${mode}" data-avatar="${data}" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'}>${fallback(raw,mode)}</span>`;
+  }
+  // Ya no hay fondos: el avatar se enseña sobre un foco claro.
+  const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
+  window.Avatar={SLOTS,CATALOG,DEFAULT,PALETTE,find,normalize,resolve,preview,render,background,rarity};
 })();
