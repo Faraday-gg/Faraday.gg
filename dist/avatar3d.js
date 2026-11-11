@@ -8,30 +8,36 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.m
 
 const INK='#1b1f27',PAPER='#fffdf7',GOLD='#ffc93c';
 const {SKIN,HAIR:HAIR_COLORS,CLOTH,DENIM}=window.Avatar.PALETTE;
-const BUF_W=640,BUF_H=960,renderer=new THREE.WebGLRenderer({antialias:true,alpha:true});
+// El lienzo interno es el doble de grande que el avatar más grande: cada avatar se dibuja al doble (o al triple) de su
+// tamaño y se reduce al copiarlo, lo que suaviza los bordes, el contorno y los escalones del sombreado.
+const BUF_W=1280,BUF_H=1920,MAX_W=640,renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(1);renderer.setSize(BUF_W,BUF_H,false);renderer.setClearColor(0x000000,0);renderer.setScissorTest(true);
-renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(27,1,.1,50);
 scene.add(new THREE.HemisphereLight('#ffffff','#cdbfa6',1.25));
-const key=new THREE.DirectionalLight('#fff3e0',2.4);key.position.set(2.8,5,4.4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.radius=7;key.shadow.bias=-.0006;
-Object.assign(key.shadow.camera,{left:-2.6,right:2.6,top:3.6,bottom:-1,near:.5,far:14});scene.add(key);
+const key=new THREE.DirectionalLight('#fff3e0',2.4);key.position.set(2.8,5,4.4);scene.add(key);
 const rim=new THREE.DirectionalLight('#9fc4ff',1.1);rim.position.set(-3,2.6,-4);scene.add(rim);
-const floor=new THREE.Mesh(new THREE.CircleGeometry(2.4,48),new THREE.ShadowMaterial({opacity:.22}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+// Sombra de contacto: una mancha difuminada bajo los pies, en vez de una sombra proyectada de borde duro.
+const blot=document.createElement('canvas');blot.width=blot.height=256;
+{const c=blot.getContext('2d'),g=c.createRadialGradient(128,128,8,128,128,128);g.addColorStop(0,'rgba(27,31,39,.42)');g.addColorStop(.55,'rgba(27,31,39,.16)');g.addColorStop(1,'rgba(27,31,39,0)');c.fillStyle=g;c.fillRect(0,0,256,256)}
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(2.5,2.5),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(blot),transparent:true,depthWrite:false}));floor.rotation.x=-Math.PI/2;floor.position.set(.12,.004,-.06);floor.scale.set(1,.62,1);scene.add(floor);
 
 // Sombreado por tonos (tres escalones) y contorno de tinta: le dan aire de cómic en vez de plástico blando.
-const ramp=new THREE.DataTexture(new Uint8Array([120,120,120,255,196,196,196,255,255,255,255,255]),3,1);ramp.minFilter=ramp.magFilter=THREE.NearestFilter;ramp.needsUpdate=true;
+// Los tres tonos se funden en una franja estrecha para que el salto entre uno y otro no salga dentado.
+const ramp=(()=>{const n=256,data=new Uint8Array(n*4),mix=(a,b,t)=>a+(b-a)*t*t*(3-2*t),step=(x,at)=>Math.min(1,Math.max(0,(x-at+.02)/.04));
+  for(let i=0;i<n;i++){const x=i/(n-1),v=Math.round(mix(mix(128,198,step(x,.34)),255,step(x,.67)));data.set([v,v,v,255],i*4)}
+  const texture=new THREE.DataTexture(data,n,1);texture.minFilter=texture.magFilter=THREE.LinearFilter;texture.needsUpdate=true;return texture})();
 const mat=(color,map=null)=>new THREE.MeshToonMaterial({color:map?'#ffffff':color,map,gradientMap:ramp});
 const flat=(color,opacity=1)=>new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity});
 const lineMat=new THREE.MeshBasicMaterial({color:INK,side:THREE.BackSide});
 const shade=(hex,k)=>'#'+new THREE.Color(hex).multiplyScalar(k).getHexString();
 const light=hex=>new THREE.Color(hex).getHSL({h:0,s:0,l:0}).l>.6;
 function add(parent,geometry,material,[x=0,y=0,z=0]=[],[sx=1,sy=1,sz=1]=[],[rx=0,ry=0,rz=0]=[],line=0){
-  const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);mesh.scale.set(sx,sy,sz);mesh.rotation.set(rx,ry,rz);mesh.castShadow=true;parent.add(mesh);
+  const mesh=new THREE.Mesh(geometry,material);mesh.position.set(x,y,z);mesh.scale.set(sx,sy,sz);mesh.rotation.set(rx,ry,rz);parent.add(mesh);
   if(line){const edge=new THREE.Mesh(geometry,lineMat);edge.scale.setScalar(1+line);mesh.add(edge)}
   return mesh;
 }
-const sphere=(r=1,w=28,h=20)=>new THREE.SphereGeometry(r,w,h),capsule=(r,length)=>new THREE.CapsuleGeometry(r,length,8,20);
-const ring=(r,tube,arc=Math.PI*2)=>new THREE.TorusGeometry(r,tube,10,36,arc);
+const sphere=(r=1,w=40,h=28)=>new THREE.SphereGeometry(r,w,h),capsule=(r,length)=>new THREE.CapsuleGeometry(r,length,12,32);
+const ring=(r,tube,arc=Math.PI*2)=>new THREE.TorusGeometry(r,tube,16,56,arc);
 // Cubo redondeado: se lleva cada vértice de una esfera a la «esfera» de norma n. Las normales salen de la fórmula.
 function blob(geometry,n=4){
   const p=geometry.attributes.position,normal=geometry.attributes.normal,v=new THREE.Vector3();
@@ -42,22 +48,24 @@ function blob(geometry,n=4){
   }
   return geometry;
 }
-const box=(n=4)=>blob(sphere(1,32,24),n);
-const shell=(n,phi0,phi,theta0,theta)=>blob(new THREE.SphereGeometry(1,40,20,phi0,phi,theta0,theta),n);
+const box=(n=4)=>blob(sphere(1,56,40),n);
+const shell=(n,phi0,phi,theta0,theta)=>blob(new THREE.SphereGeometry(1,64,32,phi0,phi,theta0,theta),n);
 // Cabeza: cubo redondeado de radios A × B × C. onHead devuelve el punto de la superficie para ojos, cejas y boca.
 const HEAD={a:.64,b:.585,c:.6,n:2.7};
 const onHead=(x,y,out=1)=>[x*out,y*out,HEAD.c*Math.max(0,1-Math.abs(x/HEAD.a)**HEAD.n-Math.abs(y/HEAD.b)**HEAD.n)**(1/HEAD.n)*out];
 // Cuerpo de revolución a partir de un perfil [radio, altura]; la textura se reparte por altura (v) y por ángulo (u).
-function lathe(profile,segments=48){
+function lathe(profile,segments=80){
   const curve=new THREE.SplineCurve(profile.map(([r,y])=>new THREE.Vector2(Math.max(0,r),y))),geometry=new THREE.LatheGeometry(curve.getPoints(44).map(point=>new THREE.Vector2(Math.max(0,point.x),point.y)),segments);
   const p=geometry.attributes.position,uv=geometry.attributes.uv,low=profile[0][1],high=profile[profile.length-1][1];
   for(let i=0;i<p.count;i++)uv.setY(i,(p.getY(i)-low)/(high-low));
   return geometry;
 }
 // Lienzo → textura. En el torso, el frente queda centrado en x = 0,75 y la espalda en x = 0,25 (la costura, bajo el brazo).
-function paint(draw,size=512){
-  const canvas=document.createElement('canvas');canvas.width=canvas.height=size;draw(canvas.getContext('2d'),size);
-  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.wrapS=THREE.RepeatWrapping;texture.anisotropy=4;return texture;
+// Se pinta siempre en un espacio de 512 unidades y se escala al tamaño real del lienzo.
+const ANISOTROPY=renderer.capabilities.getMaxAnisotropy();
+function paint(draw,size=1024){
+  const canvas=document.createElement('canvas'),context=canvas.getContext('2d');canvas.width=canvas.height=size;context.scale(size/512,size/512);draw(context,512);
+  const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.wrapS=THREE.RepeatWrapping;texture.anisotropy=ANISOTROPY;return texture;
 }
 const wave=(c,x,y,w,color,width)=>{c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';for(const dy of [-w*.2,w*.2]){c.beginPath();c.moveTo(x-w/2,y+dy);c.bezierCurveTo(x-w/4,y+dy-w*.28,x-w/8,y+dy+w*.28,x,y+dy);c.bezierCurveTo(x+w/8,y+dy-w*.28,x+w/4,y+dy+w*.28,x+w/2,y+dy);c.stroke()}};
 function torsoTexture(type,main,trim,print){
@@ -104,9 +112,9 @@ function torsoTexture(type,main,trim,print){
 }
 const stripes=colors=>paint((c,S)=>colors.forEach((color,i)=>{c.fillStyle=color;c.fillRect(0,i*S/colors.length,S,S/colors.length+1)}),64);
 // Manga de chándal: dos franjas finas por fuera (no las tres bandas de nadie).
-const sleeveTexture=(main,line)=>paint((c,S)=>{c.fillStyle=main;c.fillRect(0,0,S,S);c.fillStyle=line;for(const u of [.25,.75])for(const d of [-.035,.035])c.fillRect((u+d)*S-4,0,8,S)},128);
-const capLogo=(bg,fg)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.fillStyle=bg;c.beginPath();c.roundRect(S*.08,S*.2,S*.84,S*.6,S*.12);c.fill();c.strokeStyle=fg;c.lineWidth=S*.04;c.stroke();wave(c,S/2,S/2,S*.5,fg,S*.07)},128);
-const dotted=()=>paint((c,S)=>{c.fillStyle='#e5383b';c.fillRect(0,0,S,S);c.fillStyle=PAPER;for(let i=0;i<8;i++)for(let j=0;j<6;j++){c.beginPath();c.arc((i+(j%2)/2)*S/8+S/16,j*S/6+S/12,S/60,0,7);c.fill()}},128);
+const sleeveTexture=(main,line)=>paint((c,S)=>{c.fillStyle=main;c.fillRect(0,0,S,S);c.fillStyle=line;for(const u of [.25,.75])for(const d of [-.035,.035])c.fillRect((u+d)*S-13,0,26,S)},256);
+const capLogo=(bg,fg)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.fillStyle=bg;c.beginPath();c.roundRect(S*.08,S*.2,S*.84,S*.6,S*.12);c.fill();c.strokeStyle=fg;c.lineWidth=S*.04;c.stroke();wave(c,S/2,S/2,S*.5,fg,S*.07)},256);
+const dotted=()=>paint((c,S)=>{c.fillStyle='#e5383b';c.fillRect(0,0,S,S);c.fillStyle=PAPER;for(let i=0;i<8;i++)for(let j=0;j<6;j++){c.beginPath();c.arc((i+(j%2)/2)*S/8+S/16,j*S/6+S/12,S/60,0,7);c.fill()}},512);
 
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
 function buildModel(look){
@@ -247,27 +255,31 @@ function buildModel(look){
 }
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
-const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SCALE=Math.min(window.devicePixelRatio||1,3),TURN=-.3,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara.
 const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},torso:{ratio:1,frame:1.6,target:1}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
-function shoot(context,width,height,entry,mode,turn){
+// over = cuántas veces más grande se dibuja antes de reducirlo (2 en los animados, 3 en las imágenes fijas).
+function shoot(context,width,height,entry,mode,turn,over=2){
+  const zoom=Math.max(1,Math.min(over,BUF_W/width,BUF_H/height)),big=Math.floor(width*zoom),tall=Math.floor(height*zoom);
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
   camera.aspect=aspect;camera.position.set(0,view.target+distance*.03,distance);camera.lookAt(0,view.target,0);camera.updateProjectionMatrix();
   entry.group.rotation.y=turn;scene.add(entry.group);
-  renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,camera);
+  renderer.setViewport(0,0,big,tall);renderer.setScissor(0,0,big,tall);renderer.clear();renderer.render(scene,camera);
   scene.remove(entry.group);
-  context.clearRect(0,0,width,height);context.drawImage(renderer.domElement,0,BUF_H-height,width,height,0,0,width,height);
+  context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';
+  context.clearRect(0,0,width,height);context.drawImage(renderer.domElement,0,BUF_H-tall,big,tall,0,0,width,height);
 }
 const dispose=entry=>entry.group.traverse(o=>{if(o.material===lineMat)return;o.geometry?.dispose();o.material?.map?.dispose();o.material?.dispose()});
-const sizeOf=(el,mode)=>{const view=VIEWS[mode]||VIEWS.full,width=Math.min(BUF_W,Math.ceil(el.clientWidth*SCALE/16)*16,Math.floor(BUF_H*view.ratio));return [width,Math.round(width/view.ratio)]};
+// Tamaño del lienzo en píxeles reales de pantalla, para que no se reescale al mostrarlo.
+const sizeOf=(el,mode)=>{const view=VIEWS[mode]||VIEWS.full,width=Math.max(16,Math.min(MAX_W,Math.round(el.clientWidth*SCALE)));return [width,Math.round(width/view.ratio)]};
 // Imágenes fijas (marcador, avisos, tienda): se dibujan una vez y se guardan.
 const shots=new Map();
 function snapshot(look,mode,width,height){
   const id=mode+width+JSON.stringify(look);let canvas=shots.get(id);
   if(!canvas){
     canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
-    const entry=buildModel(look);shoot(canvas.getContext('2d'),width,height,entry,mode,TURN);dispose(entry);
+    const entry=buildModel(look);shoot(canvas.getContext('2d'),width,height,entry,mode,TURN,3);dispose(entry);
     if(shots.size>400)shots.delete(shots.keys().next().value);shots.set(id,canvas);
   }
   return canvas;
