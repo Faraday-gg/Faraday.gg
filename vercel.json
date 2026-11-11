@@ -6,6 +6,7 @@
   "regions": ["fra1"],
   "rewrites": [
     { "source": "/daily-content.js", "destination": "/api?route=daily-content.js" },
+    { "source": "/api/auth/:accion", "destination": "/api?route=auth/:accion" },
     { "source": "/api/:route", "destination": "/api?route=:route" }
   ],
   "functions": {

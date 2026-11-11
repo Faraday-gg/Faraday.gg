@@ -72,6 +72,7 @@ content/banco-base.json  Las 21 preguntas del piloto tal como se publicaron, bas
 content-engine.mjs       Calendario, archivo, piloto y banco editorial posterior al piloto
 lib/publicar.mjs         Publicación incremental de jornadas, preguntas e imágenes en Supabase
 lib/generar.mjs          Generación de la jornada de mañana con la API de OpenAI (decisión 0017)
+lib/auth.mjs             Inicio de sesión con Supabase Auth desde el servidor (decisión 0022)
 scripts/generar-jornada.mjs  La ejecuta a mano (--prueba para verla sin guardar)
 scripts/publicar-contenido.mjs  La ejecuta (build de producción de Vercel o a mano)
 research/                Fuentes, análisis y scripts de preparación editorial
@@ -89,6 +90,7 @@ runtime/                 Estado local generado; excluido de Git
 2. `lib/api.mjs` expone `GET /api/calendar`, `GET /api/day?date=AAAA-MM-DD` y `GET /daily-content.js`. En local los sirve `preview-server.mjs` junto con `dist/`; en Vercel, la función `api/index.mjs`. El navegador refresca el calendario al volver a la pestaña y periódicamente mientras está abierta.
 3. `app.js` muestra las preguntas, valida un número positivo y calcula la distancia multiplicativa a la respuesta de referencia: `max(estimación / referencia, referencia / estimación)`. `1×` es una respuesta exacta. La puntuación diaria es la media de las tres distancias.
 4. El navegador guarda la progresión y el bloc en `localStorage`. `community.js` crea y conserva un UUID anónimo por navegador. Al cargar, llama a `POST /api/jugador`, que guarda ese UUID en la cookie propia `faraday_jugador` (`HttpOnly`, un año). Si `localStorage` se ha vaciado, la cookie devuelve el UUID y las respuestas guardadas de ese jugador, y el navegador rellena su progreso ([decisión 0009](docs/decisiones/0009-jugador-sin-registro-con-cookie.md)). Sin registro, sin IP y sin huella del dispositivo. Al mostrar resultados, envía el identificador y la estimación a `POST /api/answers`.
+   Con sesión iniciada (opcional, [decisión 0022](docs/decisiones/0022-inicio-de-sesion-desde-el-servidor.md)), `POST /api/jugador` devuelve el jugador enlazado a la cuenta y su progreso. El inicio de sesión va por `/api/auth/` (`estado`, `codigo`, `verificar`, `salir`, `google` y `callback`), que `lib/auth.mjs` resuelve con la API REST de Supabase Auth; la sesión queda en las cookies `HttpOnly` `faraday_sesion` y `faraday_refresco`. El navegador no habla con Supabase.
 5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador (en `runtime/answers.json` o en Supabase); y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
 
 El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
@@ -106,7 +108,7 @@ Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [de
 **Vercel** sirve `dist/` como web estática y toda la API con una única función, `api/index.mjs`, como recomienda Vercel para funciones sin framework. `vercel.json` define:
 
 - `outputDirectory: dist`. Solo se publica la web: no se exponen `runtime/`, `research/`, `docs/` ni el código del servidor.
-- Reescrituras de `/api/<ruta>` y `/daily-content.js` hacia `/api?route=<ruta>`.
+- Reescrituras de `/api/<ruta>`, `/api/auth/<acción>` y `/daily-content.js` hacia `/api?route=<ruta>`.
 - Región `fra1` (Frankfurt), la misma que la base de datos. En el plan Hobby solo se admite una región.
 - `includeFiles` para que la función lleve `dist/questions.json`.
 

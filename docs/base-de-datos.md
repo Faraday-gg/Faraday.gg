@@ -29,7 +29,8 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Respuestas anónimas | **Supabase** (`answers`) | |
 | Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y Vercel lo publica al desplegar producción. |
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
-| Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | No hay cuentas: sin autenticación no se puede asociar a nadie en el servidor. |
+| Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
+| Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
 | HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
 
 ## Tablas

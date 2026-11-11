@@ -24,6 +24,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0018](0018-color-de-la-pregunta-por-categoria.md) | Color de la tarjeta de pregunta según su categoría (seis tonos) | Aceptada | 2026-11-10 |
 | [0020](0020-multiplicador-suave-y-cifras-geist.md) | Multiplicador suave y cifras en Geist | Aceptada | 2026-11-10 |
 | [0021](0021-explicacion-en-tarjeta-y-seguir-jugando.md) | «Cómo se calcula» dentro de la tarjeta, foto ampliable y «Seguir jugando» | Aceptada | 2026-11-10 |
+| [0022](0022-inicio-de-sesion-desde-el-servidor.md) | Inicio de sesión opcional con código por correo o Google, hecho desde el servidor | Aceptada (pendiente de configurar) | 2026-11-11 |
 
 ## Plantilla
 
