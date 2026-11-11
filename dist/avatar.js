@@ -1,22 +1,26 @@
 // Catálogo del avatar (decisiones 0024 y 0025). El avatar es un personaje 3D propio, de estética de calle, que dibuja
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
-// desbloquea gratis al llegar a ese nivel. Las marcas de la ropa son inventadas (≈, FRDY): no se copian logotipos reales.
+// desbloquea gratis al llegar a ese nivel. Además de las marcas propias (≈, FRDY) hay piezas con el nombre de marcas reales
+// (decisión 0026): solo el nombre, escrito con nuestra letra; no se copian sus logotipos ni sus diseños.
 (()=>{
   const PAPER='#fffdf7';
   const PALETTE={
     SKIN:{clara:'#ffd9b8',miel:'#f2bd8c',tostada:'#d99c6c',canela:'#b5744a',cacao:'#8a5637',ebano:'#5e3a26',robot:'#c9ccd3'},
-    HAIR:{castano:'#6b4a34',negro:'#24242b',rubio:'#f0c75e',pelirrojo:'#d9683c',gris:'#b9b6ae',platino:'#f2efe6',azul:'#3fa9f5',rosa:'#ff7aa8',verde:'#2fd67b',violeta:'#9a7df0'},
-    CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c'},
-    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0'}
+    HAIR:{castano:'#6b4a34',negro:'#24242b',rubio:'#f0c75e',pelirrojo:'#d9683c',gris:'#b9b6ae',platino:'#f2efe6',azul:'#3fa9f5',rosa:'#ff7aa8',verde:'#2fd67b',violeta:'#9a7df0',naranja:'#ff8a2a',turquesa:'#22c7c0'},
+    CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c',marron:'#8a5a33',trigo:'#d9a441'},
+    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',marron:'#8a5a33'}
   };
   const SLOTS=[['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
   // set = lo que la pieza cambia en el dibujo; extras = accesorios que se suman.
   const item=(slot,id,name,price=0,more={})=>({slot,id,name,price,...more});
   const top=(id,name,price,type,color,trim,print='',more={})=>item('top',id,name,price,{set:{top:type,topColor:color,trimColor:trim,print},...more});
   const bottom=(id,name,price,type,color)=>item('bottom',id,name,price,{set:{bottom:type,bottomColor:color}});
-  const shoes=(id,name,price,type,color)=>item('shoes',id,name,price,{set:{shoes:type,shoesColor:color}});
+  // trim = segundo color de la zapatilla (puntera, talón y franja).
+  const shoes=(id,name,price,type,color,trim='')=>item('shoes',id,name,price,{set:{shoes:type,shoesColor:color,shoesTrim:trim}});
   const hat=(id,name,price,type,color='negro',trim='blanco',more={})=>item('hat',id,name,price,{set:{hat:type,hatColor:color,hatTrim:trim},...more});
+  // Piezas de marca: el estampado '@NOMBRE' escribe ese nombre en la prenda; en los gorros va en una etiqueta.
+  const brandHat=(id,name,price,type,color,trim,brand)=>hat(id,name,price,type,color,trim,{set:{hat:type,hatColor:color,hatTrim:trim,hatBrand:brand}});
   const CATALOG=[
     top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
     top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
@@ -40,12 +44,24 @@
     top('uni-crema','Universitaria crema',800,'universitaria','crema','verde'),top('uni-rosa','Universitaria rosa',900,'universitaria','rosa','blanco'),
     top('uni-negra-coral','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
+    top('cam-puma-roja','Camiseta Puma roja',240,'camiseta','rojo','blanco','@PUMA'),top('cam-nike-blanca','Camiseta Nike blanca',260,'camiseta','blanco','negro','@NIKE'),
+    top('cam-nike-negra','Camiseta Nike negra',260,'camiseta','negro','blanco','@NIKE'),top('cam-adidas-blanca','Camiseta Adidas blanca',260,'camiseta','blanco','negro','@adidas'),
+    top('cam-lacoste-verde','Camiseta Lacoste verde',450,'camiseta','verde','blanco','@LACOSTE'),top('cam-supreme','Camiseta Supreme',700,'camiseta','blanco','rojo','@Supreme'),
+    top('cam-gucci','Camiseta Gucci crema',1500,'camiseta','crema','verde','@GUCCI'),top('cam-balenciaga','Camiseta Balenciaga negra',1600,'camiseta','negro','blanco','@BALENCIAGA'),
+    top('sud-champion-marino','Sudadera Champion marina',380,'sudadera','marino','blanco','@Champion'),top('sud-nike-gris','Sudadera Nike gris',420,'sudadera','gris','negro','@NIKE'),
+    top('sud-adidas-negra','Sudadera Adidas negra',420,'sudadera','negro','blanco','@adidas'),top('sud-carhartt-oliva','Sudadera Carhartt oliva',480,'sudadera','oliva','amarillo','@Carhartt'),
+    top('sud-stussy-crema','Sudadera Stüssy crema',650,'sudadera','crema','negro','@Stüssy'),top('sud-gucci-negra','Sudadera Gucci negra',1800,'sudadera','negro','amarillo','@GUCCI'),
+    top('cha-adidas-negro','Chándal Adidas negro',620,'chandal','negro','blanco','@adidas'),top('cha-nike-rojo','Chándal Nike rojo',640,'chandal','rojo','negro','@NIKE'),
+    top('bal-jordan-roja','Baloncesto Jordan roja',800,'baloncesto','rojo','negro','@JORDAN'),
+    top('plu-tnf-negro','Plumas The North Face',1100,'plumas','negro','blanco','@THE NORTH FACE'),top('plu-moncler-marino','Plumas Moncler marino',2400,'plumas','marino','blanco','@MONCLER'),
 
     bottom('ancho-lavado','Ancho lavado',0,'ancho','lavado'),bottom('ancho-vaquero','Ancho vaquero',0,'ancho','vaquero'),bottom('corto-negro','Corto negro',0,'corto','negro'),
     bottom('corto-vaquero','Corto vaquero',50,'corto','vaquero'),bottom('corto-crema','Corto crema',50,'corto','crema'),bottom('ancho-negro','Ancho negro',80,'ancho','negro'),bottom('ancho-crema','Ancho crema',80,'ancho','crema'),
     bottom('ancho-indigo','Ancho índigo',100,'ancho','indigo'),bottom('ancho-gris','Ancho gris',100,'ancho','gris'),bottom('cha-negro','Chándal negro',100,'chandal','negro'),bottom('cha-gris','Chándal gris',100,'chandal','gris'),
     bottom('corto-burdeos','Corto burdeos',120,'corto','burdeos'),bottom('corto-morado','Corto morado',120,'corto','morado'),bottom('cha-burdeos','Chándal burdeos',160,'chandal','burdeos'),bottom('cha-morado','Chándal morado',160,'chandal','morado'),
     bottom('cargo-oliva','Cargo oliva',200,'cargo','oliva'),bottom('cargo-arena','Cargo arena',200,'cargo','arena'),bottom('cargo-negro','Cargo negro',220,'cargo','negro'),bottom('cargo-gris','Cargo gris',220,'cargo','gris'),
+    bottom('corto-levis','Corto Levi\'s lavado',300,'corto','lavado'),bottom('cha-adidas-azul','Chándal Adidas azul',320,'chandal','vaquero'),bottom('cha-nike-marino','Chándal Nike marino',320,'chandal','indigo'),
+    bottom('cargo-dickies','Cargo Dickies crema',400,'cargo','crema'),bottom('cargo-carhartt','Cargo Carhartt marrón',420,'cargo','marron'),
 
     shoes('skate-blanco','Skate blancas',0,'skate','blanco'),shoes('skate-negro','Skate negras',0,'skate','negro'),shoes('skate-crema','Skate crema',100,'skate','crema'),
     shoes('skate-rojo','Skate rojas',120,'skate','rojo'),shoes('skate-azul','Skate azules',120,'skate','azul'),shoes('skate-verde','Skate verdes',120,'skate','verde'),
@@ -53,6 +69,10 @@
     shoes('altas-morado','Caña alta moradas',260,'altas','morado'),shoes('altas-amarillo','Caña alta amarillas',300,'altas','amarillo'),
     shoes('plat-blanco','Plataforma blancas',350,'plataforma','blanco'),shoes('plat-negro','Plataforma negras',400,'plataforma','negro'),shoes('plat-coral','Plataforma coral',500,'plataforma','coral'),
     shoes('plat-menta','Plataforma menta',500,'plataforma','menta'),shoes('plat-rosa','Plataforma rosas',550,'plataforma','rosa'),shoes('plat-lila','Plataforma lila',600,'plataforma','lila'),
+    shoes('vans-old','Vans Old Skool',350,'skate','burdeos','blanco'),shoes('converse-chuck','Converse Chuck Taylor',400,'altas','marino','blanco'),shoes('adidas-samba','Adidas Samba',500,'skate','crema','negro'),
+    shoes('adidas-superstar','Adidas Superstar',550,'plataforma','blanco','negro'),shoes('nb-574','New Balance 574',600,'runner','gris','marino'),shoes('nike-dunk','Nike Dunk Panda',650,'skate','blanco','negro'),
+    shoes('nike-airmax','Nike Air Max',700,'runner','blanco','rojo'),shoes('martens','Dr. Martens 1460',800,'botas','negro','amarillo'),shoes('timberland','Timberland',900,'botas','trigo','marron'),
+    shoes('jordan-1','Air Jordan 1',1200,'altas','blanco','rojo'),shoes('gucci-ace','Gucci Ace',1700,'skate','blanco','verde'),
 
     item('hat','','Nada'),hat('gorro-negro','Gorro negro',80,'gorro','negro'),hat('gorro-oliva','Gorro oliva',100,'gorro','oliva'),hat('gorro-burdeos','Gorro burdeos',100,'gorro','burdeos'),
     hat('gorro-crema','Gorro crema',100,'gorro','crema'),hat('gorro-coral','Gorro coral',120,'gorro','coral'),hat('capucha','Capucha puesta',150,'capucha'),
@@ -62,13 +82,17 @@
     hat('plana-negra','Gorra plana negra',240,'plana','negro','blanco'),hat('plana-roja','Gorra plana roja',260,'plana','rojo','negro'),hat('plana-burdeos','Gorra plana burdeos',260,'plana','burdeos','crema'),
     hat('lado-amarilla','Gorra ladeada amarilla',260,'ladeada','amarillo','negro'),hat('plana-morada','Gorra plana morada',280,'plana','morado','lila'),hat('plana-verde','Gorra plana verde',280,'plana','verde','menta'),
     hat('plana-crema','Gorra plana crema',300,'plana','crema','verde'),
+    brandHat('gorro-carhartt','Gorro Carhartt',360,'gorro','marron','amarillo','Carhartt'),brandHat('plana-nike','Gorra Nike blanca',380,'plana','blanco','negro','NIKE'),
+    brandHat('plana-newera','Gorra New Era negra',420,'plana','negro','blanco','NEW ERA'),brandHat('atras-supreme','Gorra Supreme roja',750,'atras','rojo','blanco','Supreme'),
+    brandHat('pesca-gucci','Pescador Gucci',1500,'pescador','crema','verde','GUCCI'),
     hat('gorra-oro','Gorra dorada',0,'plana','amarillo','negro',{level:5}),hat('aureola','Aureola',0,'aureola','amarillo','amarillo',{level:10}),hat('corona','Corona',0,'corona','amarillo','rojo',{level:15}),
 
     item('hair','puntas','Flequillo de puntas'),item('hair','cortina','Cortina'),item('hair','rizos','Rizos'),item('hair','rapado','Rapado'),item('hair','calvo','Sin pelo'),
     item('hair','degradado','Degradado',120),item('hair','mono','Moño alto',150),item('hair','trenzas','Trenzas',220),item('hair','mullet','Mullet',250),item('hair','rastas','Rastas',350),item('hair','afro','Afro',400),
-    ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
+    item('hair','tupe','Tupé',180),item('hair','coleta','Coleta',200),item('hair','melena','Melena corta',260),item('hair','cresta','Cresta',280),item('hair','monos','Dos moños',300),item('hair','largo','Pelo largo',320),
+    ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80],['naranja','Naranja',80],['turquesa','Turquesa',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
 
-    item('glasses','','Nada'),item('glasses','gafas','Gafas',60,{extras:['gafas']}),item('glasses','sol','Gafas de sol',150,{extras:['sol']}),
+    item('glasses','','Nada'),item('glasses','gafas','Gafas',60,{extras:['gafas']}),item('glasses','sol','Gafas de sol',150,{extras:['sol']}),item('glasses','aviador','Ray-Ban Aviator',450,{extras:['aviador']}),item('glasses','visor','Oakley deportivas',500,{extras:['visor']}),
     item('neck','','Nada'),item('neck','cadena','Cadenón',200,{extras:['cadena']}),item('neck','panuelo','Pañuelo',220,{extras:['panuelo']}),
     item('extra','','Nada'),item('extra','aros','Aros',80,{extras:['aros']}),item('extra','cascos','Cascos',200,{extras:['cascos']}),item('extra','aros-cascos','Aros y cascos',320,{extras:['aros','cascos']}),
     item('extra','oro','Diente de oro',0,{extras:['oro'],level:8}),
