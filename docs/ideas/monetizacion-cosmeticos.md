@@ -20,6 +20,7 @@ Los cosméticos son la forma de ingreso que menos molesta en un juego de conocim
 ## Dudas y riesgos
 
 - Hace falta inicio de sesión y guardar el progreso en el servidor antes de vender nada: hoy todo está en el navegador y se puede falsear ([idea de login](login-con-supabase.md)).
+- La tienda tiene piezas de marcas reales sin licencia ([decisión 0026](../decisiones/0026-marcas-reales-en-la-tienda.md)): no se pueden vender por dinero sin permiso de cada marca. Antes de cobrar hay que retirarlas o dejarlas fuera de lo que se paga.
 - Hace falta un proveedor de pagos, facturación e impuestos, y revisar la normativa si juegan menores.
 - No queremos cajas de premios al azar ni ofertas con cuenta atrás. Cualquier propuesta que las incluya se descarta.
 - No sabemos cuánta gente pagaría. Antes de construir pagos conviene medir cuántos jugadores abren el armario y gastan faradios.

@@ -105,7 +105,7 @@
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda) o las misiones.
   let tab='armario',slot='top',trying=null;
   // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
-  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'legs'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'};
+  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'};
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;

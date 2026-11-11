@@ -29,3 +29,7 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Pruebas automáticas del progreso | `dist/progress.js` y `dist/avatar.js` solo se han probado a mano en el navegador. | Pendiente |
 | Limpiar los duelos terminados | Las filas de `duels` no se borran nunca. Conviene una tarea que elimine las de más de unos días. | Pendiente |
 | Consultas de los duelos | Cada jugador pregunta el estado una vez por segundo. Si los duelos crecen, revisar los límites de Vercel Hobby y de Supabase o pasar a avisos en tiempo real. | Pendiente |
+| Permiso para usar las marcas de la tienda | Las piezas de marca llevan logotipos y nombres registrados sin licencia ([decisión 0026](../decisiones/0026-marcas-reales-en-la-tienda.md)). Hay que retirarlas o conseguir permiso antes de cobrar dinero real, anunciarlas o pasar a producción con mucho público. | Pendiente (decidir Luis y Álvaro) |
+| Logotipos dibujados a mano | Supreme, Gucci, Balenciaga, Vans y Converse no están en Simple Icons y se dibujan en `dist/avatar3d.js` (`DRAWN`): se reconocen, pero no son calcos exactos. | Pendiente |
+| Peinados largos y capucha | La melena, el pelo largo y «Cortina» atraviesan un poco la capucha puesta. | Pendiente |
+| Cuenta de GitHub para abrir PR desde el equipo de Luis | El `gh` de ese equipo está con una cuenta que no es colaboradora del repositorio: los agentes pueden subir ramas, pero no abrir la PR ni comentarla. Hay que iniciar sesión en `gh` con `borgesinmas`. | Pendiente (Luis) |

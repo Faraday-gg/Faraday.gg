@@ -28,6 +28,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0023](0023-duelos-1vs1.md) | Duelos 1 vs 1 con vida, al estilo GeoGuessr | Propuesta (migración sin aplicar) | 2026-11-11 |
 | [0024](0024-avatar-faradios-y-misiones.md) | Avatar personalizable, faradios y misiones | Propuesta | 2026-11-11 |
 | [0025](0025-avatar-3d.md) | Avatar en 3D con estética de calle | Propuesta | 2026-11-11 |
+| [0026](0026-marcas-reales-en-la-tienda.md) | Piezas de marcas reales en la tienda, con su logotipo | Propuesta | 2026-11-11 |
 
 ## Plantilla
 
