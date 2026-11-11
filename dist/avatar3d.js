@@ -1,11 +1,12 @@
 // Avatar en 3D (decisión 0025). Personaje propio, de estética de calle: cabeza de cubo redondeado, mirada con párpado
 // caído, ropa ancha y contorno de tinta. Todo se construye con formas de Three.js y texturas pintadas en un lienzo
 // (chaquetas, estampados, puños): no hay modelos descargados ni logotipos o diseños de terceros. Las piezas de marca
-// (decisión 0026) llevan solo el nombre de la marca escrito con nuestra letra, nunca su logotipo.
+// (decisión 0026) son la excepción: llevan el logotipo real (avatar-logos.js, o dibujado aquí en DRAWN).
 // avatar.js escribe en la página huecos <span class="avatar-view"> con el look ya traducido; este archivo los rellena.
 // Hay un solo contexto 3D para toda la página: cada avatar se dibuja en él y se copia a su propio lienzo.
 // PENDIENTE: Three.js se carga desde una CDN; hay que traer la librería al repositorio (docs/mejoras).
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
+import {LOGOS} from './avatar-logos.js';
 
 const INK='#1b1f27',PAPER='#fffdf7',GOLD='#ffc93c';
 const {SKIN,HAIR:HAIR_COLORS,CLOTH,DENIM}=window.Avatar.PALETTE;
@@ -64,15 +65,17 @@ const wave=(c,x,y,w,color,width)=>{c.strokeStyle=color;c.lineWidth=width;c.lineC
 function torsoTexture(type,main,trim,print){
   const texture=paint((c,S)=>{
     const F=s=>(.75+s*.25)*S,B=s=>(.25+s*.25)*S,Y=v=>(1-v)*S,dark=shade(main,.78),on=light(main)?INK:PAPER,onTrim=light(trim)?INK:PAPER;
-    // brand = nombre de una marca real ('@NIKE'): sustituye a FRDY y al sello ≈ de la prenda.
+    // brand = logotipo de una marca real ('@nike'): sustituye a FRDY y al sello ≈ de la prenda.
     const brand=print[0]==='@'?print.slice(1):'',tag=brand||'FRDY';
     // Dibuja con proporción real: en el lienzo, lo vertical está 2,6 veces más estirado que lo horizontal.
     const at=(x,y,fn)=>{c.save();c.translate(x,y);c.scale(1,2.6);fn();c.restore()};
     const badge=(x,y,r,bg,fg)=>brand||at(x,y,()=>{c.fillStyle=bg;c.beginPath();c.arc(0,0,r,0,7);c.fill();c.lineWidth=r*.14;c.strokeStyle=fg;c.stroke();wave(c,0,0,r*1.15,fg,r*.2)});
     const word=(text,x,y,size,fill,stroke,italic=true,max=200)=>at(x,y,()=>{c.font=`${italic?'italic ':''}900 ${size}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';const fit=Math.min(1,max/c.measureText(text).width);c.scale(fit,fit);if(stroke){c.lineWidth=size*.22;c.lineJoin='round';c.strokeStyle=stroke;c.strokeText(text,0,0)}c.fillStyle=fill;c.fillText(text,0,0)});
     const bands=(v0,v1,colors)=>colors.forEach((color,i)=>{c.fillStyle=color;c.fillRect(0,Y(v1)+(Y(v0)-Y(v1))*i/colors.length,S,(Y(v0)-Y(v1))/colors.length+1)});
+    const mark=(x,y,w,h,color=trim)=>at(x,y,()=>fitLogo(c,brand,color,w,h));
     const graphic=(x,v,scale)=>{
-      if(brand)word(brand,x,Y(v),40*scale,trim,null,false,96*scale);
+      if(brand)mark(x,Y(v),88*scale,40*scale);
+      if(brand==='gucci')at(x,Y(v-.07*scale),()=>['#1f6b45','#c8102e','#1f6b45'].forEach((color,i)=>{c.fillStyle=color;c.fillRect(-44*scale,(i-1.5)*4*scale,88*scale,4*scale+.5)}));
       if(print==='logo')badge(x,Y(v),30*scale,trim,onTrim);
       if(print==='frdy')word('FRDY',x,Y(v),40*scale,trim,onTrim);
       if(print==='tag')at(x,Y(v),()=>{c.rotate(-.14);c.font=`italic 900 ${46*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=9*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,2×',0,0);c.fillStyle=trim;c.fillText('1,2×',0,0);c.fillStyle=PAPER;c.fillRect(-52*scale,24*scale,104*scale,5*scale)});
@@ -91,28 +94,53 @@ function torsoTexture(type,main,trim,print){
     }
     if(type==='sudadera'){
       bands(0,.09,[dark]);c.fillStyle=dark;c.beginPath();c.roundRect(F(-.5),Y(.36),F(.5)-F(-.5),Y(.12)-Y(.36),18);c.fill();c.strokeStyle=shade(main,.6);c.lineWidth=3;c.stroke();
-      graphic(F(0),brand?.46:.62,brand?1.1:1.25);word(tag,B(0),Y(.7),30,on,null,!brand);
+      graphic(F(0),brand?.47:.62,brand?1.05:1.25);if(brand)mark(B(0),Y(.62),84,40,on);else word('FRDY',B(0),Y(.7),30,on,null);
     }
     if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5);badge(B(0),Y(.8),14,on,main)}
     if(type==='chandal'){
-      c.fillStyle=trim;c.fillRect(0,0,S,Y(.62));c.fillStyle=PAPER;c.fillRect(0,Y(.62)-5,S,10);bands(0,.08,[dark]);bands(.92,1,[shade(trim,.8)]);
+      if(!brand){c.fillStyle=trim;c.fillRect(0,0,S,Y(.62));c.fillStyle=PAPER;c.fillRect(0,Y(.62)-5,S,10)}bands(0,.08,[dark]);bands(.92,1,[shade(trim,.8)]);
       c.fillStyle=PAPER;c.fillRect(F(0)-3,Y(.92),6,Y(.08)-Y(.92));c.fillStyle=INK;c.fillRect(F(0)-5,Y(.86),10,26);
-      badge(F(.44),Y(.5),15,PAPER,main);if(brand)word(brand,F(.44),Y(.5),17,PAPER,null,false,58);word(tag,B(0),Y(.46),38,PAPER,null,!brand);
+      badge(F(.44),Y(.5),15,PAPER,main);if(brand){mark(F(.46),Y(.62),46,22);mark(B(0),Y(.56),96,44)}else word('FRDY',B(0),Y(.46),38,PAPER,null);
     }
     if(type==='baloncesto'){
       bands(0,.06,[trim]);bands(.93,1,[trim]);for(const s of [-1,1]){c.fillStyle=trim;c.fillRect(F(s)-9,Y(.93),18,Y(.5)-Y(.93));c.fillRect(B(s)-9,Y(.93),18,Y(.5)-Y(.93))}
-      const number=brand?'23':'12';word(tag,F(0),Y(.74),26,trim,onTrim,!brand);word(number,F(0),Y(.46),74,trim,onTrim,false);word(number,B(0),Y(.5),84,trim,onTrim,false);
+      const number=brand?'23':'12';if(brand)mark(F(0),Y(.69),46,26);else word('FRDY',F(0),Y(.74),26,trim,onTrim);word(number,F(0),Y(brand?.4:.46),brand?58:74,trim,onTrim,false);word(number,B(0),Y(.5),84,trim,onTrim,false);
     }
   });
   texture.offset.set(.75,0);return texture;
 }
 const stripes=colors=>paint((c,S)=>colors.forEach((color,i)=>{c.fillStyle=color;c.fillRect(0,i*S/colors.length,S,S/colors.length+1)}),64);
 // Manga de chándal: dos franjas finas por fuera (no las tres bandas de nadie).
-const sleeveTexture=(main,line)=>paint((c,S)=>{c.fillStyle=main;c.fillRect(0,0,S,S);c.fillStyle=line;for(const u of [.25,.75])for(const d of [-.035,.035])c.fillRect((u+d)*S-4,0,8,S)},128);
+const sleeveTexture=(main,line,three=false)=>paint((c,S)=>{c.fillStyle=main;c.fillRect(0,0,S,S);c.fillStyle=line;for(const u of [.25,.75])for(const d of three?[-.055,0,.055]:[-.035,.035])c.fillRect((u+d)*S-S/(three?44:32),0,S/(three?22:16),S)},128);
 const capLogo=(bg,fg)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.fillStyle=bg;c.beginPath();c.roundRect(S*.08,S*.2,S*.84,S*.6,S*.12);c.fill();c.strokeStyle=fg;c.lineWidth=S*.04;c.stroke();wave(c,S/2,S/2,S*.5,fg,S*.07)},128);
-// Etiqueta con el nombre de una marca (gorros y plumas): una placa de 3 × 1 con el texto ajustado al ancho.
-const nameTag=(text,bg,fg)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.fillStyle=bg;c.beginPath();c.roundRect(S*.02,S*.36,S*.96,S*.28,S*.05);c.fill();c.font=`900 ${S*.17}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';const fit=Math.min(1,S*.84/c.measureText(text).width);c.translate(S/2,S*.505);c.scale(fit,Math.max(fit,.7));c.fillStyle=fg;c.fillText(text,0,0)},256);
-const tagMesh=(parent,text,bg,fg,position,width,rotation=[])=>{add(parent,new THREE.PlaneGeometry(width,width),new THREE.MeshBasicMaterial({map:nameTag(text,bg,fg),transparent:true}),position,[],rotation).castShadow=false};
+// Logotipos de marcas reales (decisión 0026). Los de avatar-logos.js son trazados exactos; los de DRAWN se dibujan aquí,
+// en el mismo cuadro de 24 × 24, porque no están en esa colección.
+const DRAWN={
+  supreme(c){c.fillStyle='#e4002b';c.fillRect(1,8,22,7.4);c.fillStyle='#fff';c.font='italic 900 4.6px "Arial Black",Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('Supreme',11.8,11.9)},
+  gucci(c,color){c.strokeStyle=color;c.lineWidth=1.5;for(const s of [1,-1]){c.save();c.translate(12,12);c.scale(s,1);c.beginPath();c.arc(-2.6,0,4.6,0,Math.PI*2-.85);c.stroke();c.beginPath();c.moveTo(2.75,0);c.lineTo(-2.2,0);c.stroke();c.restore()}},
+  gucciweb(c){['#1f6b45','#c8102e','#1f6b45'].forEach((color,i)=>{c.fillStyle=color;c.fillRect(8+i*2.7,3,2.75,18)})},
+  balenciaga(c,color){c.fillStyle=color;c.font='700 3.6px Arial,Helvetica,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('BALENCIAGA',12,12)},
+  adidas3(c,color){c.fillStyle=color;for(let i=0;i<3;i++){c.beginPath();c.moveTo(4+i*5.2,18);c.lineTo(8.5+i*5.2,6);c.lineTo(11.3+i*5.2,6);c.lineTo(6.8+i*5.2,18);c.fill()}},
+  vans(c,color){c.strokeStyle=color;c.lineWidth=2;c.lineCap='round';c.beginPath();c.moveTo(2,15);c.bezierCurveTo(7,15.5,8,8.5,12.5,9.5);c.bezierCurveTo(16,10.3,18.5,12.5,22,8.5);c.stroke()},
+  converse(c,color){c.fillStyle=PAPER;c.beginPath();c.arc(12,12,10.5,0,7);c.fill();c.strokeStyle=color;c.lineWidth=1.2;c.beginPath();c.arc(12,12,9.2,0,7);c.stroke();c.fillStyle=color;c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,r=i%2?2.6:6.4;c.lineTo(12+Math.cos(a)*r,12+Math.sin(a)*r)}c.fill()}
+};
+const rawLogo=(c,name,color)=>{if(LOGOS[name]){c.fillStyle=color;c.fill(new Path2D(LOGOS[name]))}else if(DRAWN[name])DRAWN[name](c,color)};
+// Hueco que ocupa cada logotipo dentro de su cuadro: se mide una vez, pintándolo en pequeño.
+const logoBoxes=new Map();
+function logoBox(name){
+  if(!logoBoxes.has(name)){
+    const n=96,canvas=document.createElement('canvas');canvas.width=canvas.height=n;const c=canvas.getContext('2d',{willReadFrequently:true});c.scale(n/24,n/24);rawLogo(c,name,'#000');
+    const data=c.getImageData(0,0,n,n).data;let x0=n,y0=n,x1=0,y1=0;
+    for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(data[(y*n+x)*4+3]>40){x0=Math.min(x0,x);x1=Math.max(x1,x+1);y0=Math.min(y0,y);y1=Math.max(y1,y+1)}
+    logoBoxes.set(name,x1>x0?[x0,y0,x1,y1].map(v=>v*24/n):[0,0,24,24]);
+  }
+  return logoBoxes.get(name);
+}
+// Dibuja el logotipo centrado en el origen, tan grande como quepa en w × h.
+function fitLogo(c,name,color,w,h){const [x0,y0,x1,y1]=logoBox(name),k=Math.min(w/(x1-x0),h/(y1-y0));c.save();c.scale(k,k);c.translate(-(x0+x1)/2,-(y0+y1)/2);rawLogo(c,name,color);c.restore()}
+const logoTexture=(name,color)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.translate(S/2,S/2);fitLogo(c,name,color,S*.94,S*.94)},256);
+// Logotipo pegado sobre una pieza (gorros, plumas, pantalones, zapatillas). flip = -1 lo pone en espejo.
+const decal=(parent,name,color,position,size,rotation=[],flip=1)=>{add(parent,new THREE.PlaneGeometry(size,size),new THREE.MeshBasicMaterial({map:logoTexture(name,color),transparent:true,alphaTest:.05,side:THREE.DoubleSide}),position,[flip,1,1],rotation).castShadow=false};
 const dotted=()=>paint((c,S)=>{c.fillStyle='#e5383b';c.fillRect(0,0,S,S);c.fillStyle=PAPER;for(let i=0;i<8;i++)for(let j=0;j<6;j++){c.beginPath();c.arc((i+(j%2)/2)*S/8+S/16,j*S/6+S/12,S/60,0,7);c.fill()}},128);
 
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
@@ -121,7 +149,7 @@ function buildModel(look){
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
   const main=CLOTH[look.topColor]||PAPER,trim=CLOTH[look.trimColor]||INK,pantsC=DENIM[look.bottomColor]||DENIM.lavado,pants=mat(pantsC),pantsDark=mat(shade(pantsC,.78));
   const ink=flat(INK),white=mat(PAPER),gold=new THREE.MeshStandardMaterial({color:GOLD,roughness:.28,metalness:.75});
-  const type=look.top,sleeved=!['camiseta','baloncesto'].includes(type),bare=type==='baloncesto',O=.03;
+  const type=look.top,sleeved=!['camiseta','baloncesto'].includes(type),bare=type==='baloncesto',O=.03,brandKey=look.print&&look.print[0]==='@'?look.print.slice(1):'';
   const body=new THREE.Group();model.add(body);
 
   // Piernas: pantalón ancho que se arruga sobre la zapatilla
@@ -132,15 +160,18 @@ function buildModel(look){
     if(short){add(leg,capsule(.1,.2),skin,[0,-.4,0],[],[],O);add(leg,capsule(.185,.16),pants,[0,-.17,0],[1,1,.95],[],O);add(leg,new THREE.CylinderGeometry(.108,.108,.16,20),white,[0,-.46,0],[],[],O)}
     else{add(leg,capsule(.178,.22),pants,[0,-.26,0],[1,1,.95],[],O);for(const [y,r] of [[-.4,.172],[-.475,.182]])add(leg,ring(r,.045),pants,[0,y,0],[1,1,1],[Math.PI/2,0,0],O)}
     if(look.bottom==='cargo')add(leg,box(5),pantsDark,[side*.17,-.24,0],[.05,.1,.11],[],O);
-    if(look.bottom==='chandal')for(const d of [-.035,.035])add(leg,new THREE.BoxGeometry(.012,short?.3:.5,.03),flat(PAPER),[side*.181,short?-.17:-.26,d]);
+    if(look.bottom==='chandal')for(const d of look.bottomLogo==='adidas'?[-.05,0,.05]:look.bottomLogo?[]:[-.035,.035])add(leg,new THREE.BoxGeometry(.012,short?.3:.5,.03),flat(PAPER),[side*.181,short?-.17:-.26,d]);
+    if(look.bottomLogo==='levis')add(leg,new THREE.BoxGeometry(.014,.05,.028),flat('#c8102e'),[side*.192,-.1,-.05]);
+    else if(look.bottomLogo&&side===1)decal(leg,look.bottomLogo,light(pantsC)?INK:PAPER,[0,short?-.17:-.2,short?.184:.178],.12);
     const shoe=new THREE.Group();shoe.position.set(side*.18,-lift,.07);shoe.rotation.y=side*.14;body.add(shoe);
-    const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upper=mat(shoeC),sole=mat(boots?'#2e2823':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
+    const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upper=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
     add(shoe,box(),upper,[0,.15+lift,.02],[.17,.115,.265],[],O);
     add(shoe,box(),sole,[0,.055+lift/2,.02],[.185,.06+lift/2,.285],[],O);
     add(shoe,box(),sole,[0,.12+lift,.215],[.15,.07,.08]);
     add(shoe,box(),accent||mat(shade(shoeC,light(shoeC)?.86:1.5)),[0,.27+lift,.06],[.095,.09,.05],[-.45,0,0],O);
-    if(look.shoes==='altas')add(shoe,capsule(.14,.05),accent||upper,[0,.3,-.07],[1,1,1.05],[],O);
-    add(shoe,new THREE.BoxGeometry(.012,trimC?.075:.05,trimC?.21:.16),flat(trimC||(light(shoeC)?INK:PAPER)),[side*.172,.17+lift,.03]);
+    if(look.shoes==='altas')add(shoe,capsule(.14,.05),look.shoesLogo==='converse'?upper:accent||upper,[0,.3,-.07],[1,1,1.05],[],O);
+    if(look.shoesLogo){const ankle=look.shoesLogo==='converse';decal(shoe,look.shoesLogo,CLOTH[look.shoesLogoColor]||trimC||INK,ankle?[side*.153,.31,-.07]:[side*.18,.17+lift,.02],ankle?.14:.26,[0,side*Math.PI/2,0],side)}
+    else add(shoe,new THREE.BoxGeometry(.012,trimC?.075:.05,trimC?.21:.16),flat(trimC||(light(shoeC)?INK:PAPER)),[side*.172,.17+lift,.03]);
     // Dos colores: lengüeta, franja y talón en el segundo color. Las botas lo llevan solo en el pespunte de la suela.
     if(accent&&!boots){add(shoe,box(),accent,[0,.175+lift,-.2],[.15,.1,.075],[],O);add(shoe,box(),accent,[0,.222+lift,.15],[.125,.045,.085],[-.25,0,0],O)}
     if(look.shoes==='runner'){add(shoe,box(),sole,[0,.1+lift,-.11],[.193,.09,.17],[],O);add(shoe,box(3),accent||mat(shade(shoeC,.8)),[0,.085+lift,-.13],[.199,.032,.1])}
@@ -150,23 +181,23 @@ function buildModel(look){
   // Torso: perfil cuadrado y corto, con la prenda pintada alrededor
   const profile=type!=='baloncesto'?[[0,-.4],[.3,-.4],[.36,-.385],[.372,-.33],[.4,-.27],[.412,-.05],[.4,.14],[.36,.27],[.26,.36],[.12,.4],[0,.4]]:[[0,-.4],[.27,-.4],[.33,-.37],[.35,-.2],[.345,.1],[.3,.27],[.2,.36],[.1,.4],[0,.4]];
   const torso=add(body,lathe(profile),type==='plumas'?mat(main):mat(main,torsoTexture(type,main,trim,look.print)),[0,.94,0],[1.06,1,.8],[],O);
-  if(type==='plumas')for(const y of [.68,.84,1,1.16])add(body,ring(.37,.062),mat(main),[0,y,0],[1.1,.82,1],[Math.PI/2,0,0],O);
+  if(type==='plumas')for(const y of [.68,.84,1,1.16])add(body,ring(.37,.062),mat(brandKey&&y>1.1?trim:main),[0,y,0],[1.1,.82,1],[Math.PI/2,0,0],O);
   if(type==='plumas')add(body,new THREE.BoxGeometry(.02,.6,.02),flat(INK),[0,.92,.35]);
-  if(type==='plumas'&&look.print&&look.print[0]==='@')tagMesh(body,look.print.slice(1),light(main)?INK:PAPER,light(main)?PAPER:INK,[.2,1.16,.35],.32,[0,.5,0]);
+  if(type==='plumas'&&brandKey)decal(body,brandKey,light(trim)?INK:PAPER,[.2,1.15,.365],.17,[0,.5,0]);
   const arms=[];
   for(const side of [-1,1]){
     const arm=new THREE.Group();arm.position.set(side*.41,1.16,0);arm.rotation.z=side*.42;body.add(arm);arms.push(arm);
-    const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'?mat(main,sleeveTexture(main,PAPER)):mat(sleeveC);
+    const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'&&(!brandKey||brandKey==='adidas')?mat(main,sleeveTexture(main,brandKey?trim:PAPER,!!brandKey)):mat(sleeveC);
     add(arm,capsule(.09,.36),skin,[0,-.27,0],[],[],O);
     if(sleeved){
       add(arm,capsule(.145,.27),sleeve,[0,-.19,0],[],[],O);
       const cuff=type==='universitaria'?mat(null,stripes([trim,PAPER,trim,PAPER,trim])):mat(shade(sleeveC,.78));
-      if(type!=='plumas')add(arm,new THREE.CylinderGeometry(.125,.118,.085,24),cuff,[0,-.42,0],[],[],O);else for(const y of [-.1,-.24,-.38])add(arm,ring(.135,.05),sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
+      if(type!=='plumas')add(arm,new THREE.CylinderGeometry(.125,.118,.085,24),cuff,[0,-.42,0],[],[],O);else for(const y of [-.1,-.24,-.38])add(arm,ring(.135,.05),brandKey&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(.165,.1),mat(main),[0,-.09,0],[],[],O);
     add(arm,sphere(),skin,[0,-.55,0],[.105,.125,.09],[],O);add(arm,sphere(.045),skin,[0,-.52,.085]);
   }
   if(type==='sudadera'||type==='plumas'){
-    if(look.hat!=='capucha')add(body,ring(.27,.125),mat(shade(main,.85)),[0,1.27,-.17],[1.2,1,1],[Math.PI/2+.5,0,0],O);
+    if(look.hat!=='capucha')add(body,ring(.27,.125),mat(shade(type==='plumas'&&brandKey?trim:main,.85)),[0,1.27,-.17],[1.2,1,1],[Math.PI/2+.5,0,0],O);
     if(type==='sudadera')for(const x of [-.075,.075])add(body,new THREE.CylinderGeometry(.014,.014,.2),white,[x,1.08,.33]);
   }
   if(has('cadena'))add(body,ring(.25,.022),gold,[0,1.13,.1],[1,1.3,1],[2.05,0,0]);
@@ -253,11 +284,11 @@ function buildModel(look){
       add(cap,shell(3.2,Math.PI/2-.62,1.24,.12,Math.PI/2-.12),mat(hatTrim),[0,.14,0],[.7,.608,.67]);
       add(cap,new THREE.CylinderGeometry(.5,.5,.045,36,1,false,-Math.PI/2,Math.PI),dark,[0,.16,.5],[1.02,1,.86],[.06,0,0],.03);
       add(cap,sphere(.05),dark,[0,.745,0]);
-      add(cap,new THREE.PlaneGeometry(.3,.3),new THREE.MeshBasicMaterial({map:look.hatBrand?nameTag(look.hatBrand,PAPER,INK):capLogo(PAPER,INK),transparent:true}),[0,.42,.665],[look.hatBrand?1.3:1,look.hatBrand?1.3:1,1],[-.2,0,0]).castShadow=false;
+      add(cap,new THREE.PlaneGeometry(.3,.3),new THREE.MeshBasicMaterial({map:look.hatBrand?logoTexture(look.hatBrand,light(hatTrim)?INK:PAPER):capLogo(PAPER,INK),transparent:true}),[0,.42,.665],[look.hatBrand?1.15:1,look.hatBrand?1.15:1,1],[-.2,0,0]).castShadow=false;
       add(cap,new THREE.CircleGeometry(.07,20),flat(GOLD),[.24,.188,.75],[],[-Math.PI/2+.06,0,0]).castShadow=false;
     }
-    if(hat==='gorro'){cap.rotation.x=-.3;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.12,0],[.685,.66,.655],[],.025);add(cap,ring(.63,.085),dark,[0,.16,0],[1.07,1.02,1],[Math.PI/2,0,0],.03);add(cap,sphere(),color,[0,.66,-.2],[.26,.18,.26],[.5,0,0],O);if(look.hatBrand)tagMesh(cap,look.hatBrand,CLOTH[look.hatTrim]||PAPER,INK,[0,.16,.745],.34)}
-    if(hat==='pescador'){cap.rotation.x=-.16;add(cap,shell(3.4,0,Math.PI*2,0,Math.PI*.5),color,[0,.2,0],[.67,.5,.64],[],.025);add(cap,new THREE.CylinderGeometry(.66,.95,.2,40,1,true),color,[0,.2,0]).material.side=THREE.DoubleSide;add(cap,ring(.675,.03),mat(hatTrim),[0,.3,0],[1,.97,1],[Math.PI/2,0,0]);if(look.hatBrand)tagMesh(cap,look.hatBrand,CLOTH[look.hatTrim]||PAPER,PAPER,[0,.47,.655],.36,[-.12,0,0])}
+    if(hat==='gorro'){cap.rotation.x=-.3;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.12,0],[.685,.66,.655],[],.025);add(cap,ring(.63,.085),dark,[0,.16,0],[1.07,1.02,1],[Math.PI/2,0,0],.03);add(cap,sphere(),color,[0,.66,-.2],[.26,.18,.26],[.5,0,0],O);if(look.hatBrand)decal(cap,look.hatBrand,light(shade(hatC,.72))?INK:PAPER,[0,.16,.75],.2)}
+    if(hat==='pescador'){cap.rotation.x=-.16;add(cap,shell(3.4,0,Math.PI*2,0,Math.PI*.5),color,[0,.2,0],[.67,.5,.64],[],.025);add(cap,new THREE.CylinderGeometry(.66,.95,.2,40,1,true),color,[0,.2,0]).material.side=THREE.DoubleSide;add(cap,ring(.675,.03),mat(hatTrim),[0,.3,0],[1,.97,1],[Math.PI/2,0,0]);if(look.hatBrand)decal(cap,look.hatBrand,light(hatC)?INK:PAPER,[0,.45,.66],.2,[-.12,0,0])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);
   if(hat==='corona'){
@@ -277,8 +308,8 @@ function buildModel(look){
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
 const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara.
-const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},torso:{ratio:1,frame:1.6,target:1}};
+// Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara. shoes se ve de lado, para que se vea el logotipo.
+const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},shoes:{ratio:1,frame:.8,target:.2},torso:{ratio:1,frame:1.6,target:1}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
 function shoot(context,width,height,entry,mode,turn){
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
@@ -296,7 +327,7 @@ function snapshot(look,mode,width,height){
   const id=mode+width+JSON.stringify(look);let canvas=shots.get(id);
   if(!canvas){
     canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;
-    const entry=buildModel(look);shoot(canvas.getContext('2d'),width,height,entry,mode,TURN);dispose(entry);
+    const entry=buildModel(look);shoot(canvas.getContext('2d'),width,height,entry,mode,mode==='shoes'?-1.05:TURN);dispose(entry);
     if(shots.size>400)shots.delete(shots.keys().next().value);shots.set(id,canvas);
   }
   return canvas;
