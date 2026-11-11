@@ -37,8 +37,8 @@ function populationMarkup(q){return `<section class="population" aria-label="Có
 function explainMarkup(q){
   const steps=q.reasoning?`<ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol>`:`<p>${escapeHtml(q.math)}</p>`;
   const sum=q.referenceExpression?`<p class="explain-sum"><code>${escapeHtml(q.referenceExpression)}</code><strong>≈ ${format(q.answer)} ${escapeHtml(q.unit)}</strong></p>`:'';
-  const sources=`<ul class="explain-sources">${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a></li>`).join('')}</ul>`;
-  return `<p class="explain-question">${escapeHtml(q.title)}</p>${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}<h4>Fuentes</h4>${sources}`;
+  const sources=`<p class="explain-sources">Fuentes: ${q.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a>`).join(' · ')}</p>`;
+  return `${steps}${sum}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}${sources}`;
 }
 function compactNumber(value){return new Intl.NumberFormat('es-ES',{notation:value>=1e12?'scientific':'compact',maximumFractionDigits:1}).format(value)}
 function reasoningMarkup(q){

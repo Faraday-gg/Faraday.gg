@@ -12,8 +12,9 @@ Luis vio tres problemas en la tarjeta del juego:
 
 ## Decisión
 - **Desplegable en el flujo:** «Cómo se calcula ▾» es una fila a todo el ancho bajo el gráfico. Al abrirse, el contenido se despliega con suavidad debajo, empuja los botones hacia abajo y la vista baja hasta el título. El resultado sigue arriba, a un desplazamiento. Ya no hay botón de cerrar: se pliega con la misma fila (o con Esc).
+- **Compacto:** no repite la pregunta, pasos a 14 px, cuenta y supuestos en gris pequeño y fuentes en una sola línea («Fuentes: … · …»).
 - **Botonera:** queda el bloc a la izquierda y «Siguiente →» (o «Ver total →») a la derecha.
-- **Foto:** se muestra recortada (160 px de alto) y al pulsarla crece en su sitio hasta unos 380 px. Se vuelve a pulsar para reducirla. Ya no abre una pestaña nueva. Los créditos y la licencia siguen debajo.
+- **Foto:** se muestra recortada (110 px de alto) y al pulsarla crece en su sitio hasta unos 380 px. Se vuelve a pulsar para reducirla. Ya no abre una pestaña nueva. Los créditos y la licencia siguen debajo.
 - **«Seguir jugando»** en el resumen del día, bajo «Compartir» y «Volver al inicio»:
   - «Jugar el reto de hoy», si el día terminado no es el de hoy y el de hoy no está completo.
   - El día anterior y el siguiente del archivo, con su número, su fecha y su estado («Sin jugar», «A medias» o la puntuación).
