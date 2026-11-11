@@ -63,6 +63,7 @@ function renderGame(){
   const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
+  $('.game-card')?.classList.remove('explaining');
   if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;
 }
@@ -82,11 +83,11 @@ function renderResult(guesses){
   const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer);
   const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
   $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
-<div class="verdict verdict-${verdict[0]}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
-<dl class="ledger"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
+<div class="verdict verdict-${verdict[0]}${times(factor).length>=11?' is-long is-xlong':times(factor).length>=8?' is-long':''}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
+<dl class="ledger${Math.max(whole(guess).length,rounded(q.answer).length)>=9?' is-long':''}"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
 ${populationMarkup(q)}
-<section class="explain"><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▾</span></button><div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div></section>
-<div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>`;
+<div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
+<div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
   animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
 }
 function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
@@ -105,11 +106,26 @@ function animateTimes(element,factor){
   // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
   setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+400);
 }
-// Al abrirse empuja los botones hacia abajo y la vista baja con suavidad hasta el título; el resultado sigue arriba, a un desplazamiento.
-function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle');if(!panel)return false;open??=panel.hidden;button.setAttribute('aria-expanded',String(open));
-  if(open){panel.hidden=false;requestAnimationFrame(()=>{panel.classList.add('open');button.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})})}
-  else{panel.classList.remove('open');setTimeout(()=>{if(!panel.classList.contains('open'))panel.hidden=true},320)}
+// «Cómo se calcula» (decisión 0021): una hoja translúcida que sube dentro de la tarjeta, entre el multiplicador y los botones.
+// El resultado queda detrás, atenuado, y «Siguiente» sigue a la vista: no hace falta desplazarse. Si el texto no cabe, solo se desplaza la hoja.
+function placeExplain(){
+  const card=$('.game-card'),panel=$('#explain-panel'),verdict=$('.verdict'),actions=$('.card-actions');if(!card||!panel||!verdict||!actions)return;
+  const box=card.getBoundingClientRect(),bottom=box.bottom-actions.getBoundingClientRect().top+10;
+  let top=verdict.getBoundingClientRect().bottom-box.top+14;
+  if(box.height-top-bottom<260)top=14; // Pantallas bajas: la hoja ocupa también el hueco del multiplicador.
+  panel.style.bottom=bottom+'px';panel.style.maxHeight=(box.height-top-bottom)+'px'; // Crece desde los botones y se ajusta al texto.
+}
+function toggleExplain(open){const panel=$('#explain-panel'),button=$('#explain-toggle'),card=$('.game-card');if(!panel)return false;open??=panel.hidden;button.setAttribute('aria-expanded',String(open));
+  if(open){
+    // Si la tarjeta no cabe entera, se recoloca una vez con el multiplicador arriba.
+    const view=$('.game-panel'),box=card.getBoundingClientRect();if(box.bottom>innerHeight||box.top<0)view.scrollTop+=box.top-8; // Pantallas bajas: el multiplicador arriba; los botones quedan pegados abajo (sticky).
+    placeExplain();panel.hidden=false;panel.scrollTop=0;card.classList.add('explaining');markMore(panel);requestAnimationFrame(()=>requestAnimationFrame(()=>panel.classList.add('open')));
+  }else{panel.classList.remove('open');card.classList.remove('explaining');setTimeout(()=>{if(!panel.classList.contains('open'))panel.hidden=true},380)}
   return true}
+addEventListener('resize',()=>{if($('#explain-panel.open'))placeExplain()});
+// Degradado abajo mientras quede texto por leer dentro de la hoja.
+function markMore(panel){panel.classList.toggle('more',panel.scrollTop+panel.clientHeight<panel.scrollHeight-6)}
+document.addEventListener('scroll',event=>{if(event.target.id==='explain-panel')markMore(event.target)},true);
 function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${moreDaysMarkup(activeDay)}`;loadDailyDistribution(activeDay,guesses)}
 // «Otros días» (decisión 0021): el día anterior y el siguiente del archivo, con su estado, y el calendario completo en el menú.
 function moreDaysMarkup(day){
@@ -193,7 +209,7 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});
-$('#game-content').addEventListener('click',event=>{const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame();if(id==='more-calendar')toggleMenu(true);const other=event.target.closest('[data-open-day]');if(other)openDate(other.dataset.openDay);const photo=event.target.closest('[data-photo-zoom]');if(photo){const big=photo.getAttribute('aria-expanded')!=='true';photo.setAttribute('aria-expanded',String(big));photo.setAttribute('aria-label',big?'Reducir fotografía':'Ampliar fotografía')}});
+$('#game-content').addEventListener('click',event=>{if($('.game-card.explaining')&&event.target.closest('.verdict,.ledger,.population')){toggleExplain(false);return}const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame();if(id==='more-calendar')toggleMenu(true);const other=event.target.closest('[data-open-day]');if(other)openDate(other.dataset.openDay);const photo=event.target.closest('[data-photo-zoom]');if(photo){const big=photo.getAttribute('aria-expanded')!=='true';photo.setAttribute('aria-expanded',String(big));photo.setAttribute('aria-label',big?'Reducir fotografía':'Ampliar fotografía')}});
 $('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
 $('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});
