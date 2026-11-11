@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`): migración `20261111120000_duelos` escrita y **sin aplicar**. Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -19,6 +19,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.answers` | `runtime/answers.json` | Estimaciones anónimas de los jugadores. |
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
+| `public.duels` (**pendiente de aplicar**) | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
 
 ### Qué está en Supabase y qué no
 
@@ -71,6 +72,22 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 
 Única por `(question_id, player_hash)`: un jugador anónimo responde una sola vez a cada pregunta. Si vuelve a enviar la misma cifra, el servidor debe tratarlo como éxito; si envía otra distinta, como el actual `409 Ya has respondido esta pregunta`.
 
+### `public.duels` (migración `20261111120000_duelos`, **sin aplicar**)
+
+Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No tiene relación con las demás tablas: las preguntas se guardan por su id dentro de `state`.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `uuid` | clave primaria | Lo genera el servidor. |
+| `code` | `text` | único, 6 caracteres `A-Z2-9` | Código para invitar a un amigo. |
+| `status` | `text` | `waiting`, `playing` o `finished` | Copia de `state.status`, para buscar. |
+| `public` | `boolean` | por defecto `false` | `true` = partida rápida: cualquiera puede emparejarse mientras espera. |
+| `state` | `jsonb` | obligatorio | El duelo completo tal y como lo usa `lib/duelos.mjs`: jugadores (SHA-256 del UUID anónimo, apodo, avatar, nivel y vida), ids de las preguntas y rondas con las respuestas, puntos y horas límite. |
+| `version` | `integer` | por defecto 1 | Control de concurrencia: el servidor solo actualiza la fila si la versión es la que leyó (`PATCH ...?id=eq.X&version=eq.N`). |
+| `created_at`, `updated_at` | `timestamptz` | por defecto `now()` | `updated_at` lo pone el servidor en cada escritura; en un duelo en espera indica que su creador sigue conectado. |
+
+Índice parcial `duels_waiting_idx` sobre `created_at` para los duelos públicos en espera. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Las filas no se borran (ver [mejoras](mejoras/README.md)). Contiene apodos escritos por los jugadores, pero ningún dato que los identifique.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -100,6 +117,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Si una fecha y posición ya tenía otra pregunta (otro `id`), la retira **solo si no tiene respuestas**. Si las tiene, la base de datos lo impide y la publicación falla explicando qué pregunta es. Nunca borra jornadas ni respuestas.
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
+- **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
 - **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
 - **Tarea programada** (migración `20261110120000_jornadas_generadas`, **sin aplicar**): `pg_cron` ejecuta la tarea `generar-jornada` a las 22:01 y 23:01 UTC (las 00:01 de Madrid en verano y en invierno; la otra llamada no hace nada) y llama con `pg_net` a `https://faraday-gg.vercel.app/api/generar-dia` con el secreto `cron_secret` de Vault. El secreto se crea a mano en el editor SQL del panel, con el mismo valor que `CRON_SECRET` de Vercel, y nunca va al repositorio: `select vault.create_secret('<valor>', 'cron_secret');`. Para ver las ejecuciones: `select * from cron.job_run_details order by start_time desc limit 10;` y `select * from net._http_response order by created desc limit 10;`.
 
@@ -136,6 +154,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261109213854` | [esquema_inicial](../supabase/migrations/20261109213854_esquema_inicial.sql) | Crea `days`, `questions`, `answers`, `daily_scores`, RLS y permisos. | 2026-11-09, por Luis con Claude Code |
 | `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
 | `20261110120000` | [jornadas_generadas](../supabase/migrations/20261110120000_jornadas_generadas.sql) | `days.source` admite `ia`; activa `pg_cron` y `pg_net` y programa la tarea `generar-jornada` (00:01 de Madrid). | **Pendiente**: aplicar tras crear el secreto `cron_secret` en Vault |
+| `20261111120000` | [duelos](../supabase/migrations/20261111120000_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | **Pendiente**: sin ella los duelos responden 503 en Vercel |
 
 ## Pendiente
 

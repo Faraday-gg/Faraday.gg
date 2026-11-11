@@ -25,6 +25,9 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0020](0020-multiplicador-suave-y-cifras-geist.md) | Multiplicador suave y cifras en Geist | Aceptada | 2026-11-10 |
 | [0021](0021-explicacion-en-tarjeta-y-seguir-jugando.md) | «Cómo se calcula» dentro de la tarjeta, foto ampliable y «Seguir jugando» | Aceptada | 2026-11-10 |
 | [0022](0022-inicio-de-sesion-desde-el-servidor.md) | Inicio de sesión opcional con código por correo o Google, hecho desde el servidor | Aceptada (pendiente de configurar) | 2026-11-11 |
+| [0023](0023-duelos-1vs1.md) | Duelos 1 vs 1 con vida, al estilo GeoGuessr | Propuesta (migración sin aplicar) | 2026-11-11 |
+| [0024](0024-avatar-faradios-y-misiones.md) | Avatar personalizable, faradios y misiones | Propuesta | 2026-11-11 |
+| [0025](0025-avatar-3d.md) | Avatar en 3D con estética de calle | Propuesta | 2026-11-11 |
 
 ## Plantilla
 

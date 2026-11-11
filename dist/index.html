@@ -8,16 +8,22 @@
   <title>Faraday.gg — El juego de acertar más o menos</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="avatar.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
   <script src="archive.js" defer></script>
   <script src="app.js" defer></script>
   <script src="community.js" defer></script>
+  <script src="avatar.js" defer></script>
+  <script src="progress.js" defer></script>
+  <script src="duel.js" defer></script>
   <script src="auth.js" defer></script>
+  <script type="module" src="avatar3d.js"></script>
 </head>
 <body>
   <button class="menu-toggle home-menu-toggle" id="home-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
+  <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel y misiones"></button>
   <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
   <main id="inicio" class="home">
     <section class="home-hero" aria-labelledby="hero-title">
@@ -25,7 +31,9 @@
       <h1 id="hero-title">La respuesta<br>está <em>por ahí.</em></h1>
       <p class="home-date" id="today-date"></p>
       <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
+      <button class="home-avatar" id="home-avatar" type="button" data-open-profile aria-label="Tu avatar: abrir el armario y la tienda"></button>
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
+      <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
     </section>
 
     <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>
@@ -86,6 +94,8 @@
         <details class="faq-item"><summary>¿Qué es Faraday.gg?</summary><p>Un juego diario de estimación. Cada día hay tres preguntas cuya respuesta es una cifra: no se trata de saberla, sino de razonar hasta acercarte lo más posible.</p></details>
         <details class="faq-item"><summary>¿Puedo buscar la respuesta en internet?</summary><p>Poder, puedes, pero pierde la gracia. La idea es usar la intuición y hacer cuentas: para eso tienes el bloc de ideas con calculadora y notas dentro del juego.</p></details>
         <details class="faq-item"><summary>¿Cómo se mide si me he acercado?</summary><p>Con tu distancia: cuántas veces te has pasado o te has quedado corto respecto a la referencia. 1× es exacto y 2× significa el doble o la mitad. Cuanto más cerca de 1×, mejor.</p></details>
+        <details class="faq-item"><summary>¿Cómo funcionan los duelos 1 vs 1?</summary><p>Tú y tu rival respondéis la misma pregunta a la vez. Cada uno empieza con 6.000 de vida y, en cada ronda, quien se aleja más de la cifra real pierde la diferencia de puntos. Hay 3 minutos por pregunta, pero en cuanto uno responde al otro le quedan 30 segundos. Puedes buscar rival o retar a un amigo con un código.</p></details>
+        <details class="faq-item"><summary>¿Qué son los faradios y las misiones?</summary><p>Los faradios (≈) son la moneda del juego. Se ganan jugando: al completar el reto del día, en los duelos, al subir de nivel y con las misiones diarias y semanales. Sirven para vestir a tu avatar con ropa, gorras, zapatillas y accesorios. No se compran con dinero y no dan ninguna ventaja al jugar.</p></details>
         <details class="faq-item"><summary>¿Necesito una cuenta para jugar?</summary><p>No. Se juega sin registrarse. Tu progreso y tus notas se guardan en este navegador; si cambias de dispositivo o borras los datos del navegador, empiezas de cero.</p></details>
         <details class="faq-item"><summary>¿Qué pasa si me pierdo un día?</summary><p>Nada: en el archivo están todos los retos anteriores y puedes jugarlos cuando quieras. Al responder verás también cómo calcularlo y de dónde salen los datos.</p></details>
       </div>
@@ -141,12 +151,42 @@
       </aside>
     </div>
   </div>
+  <div class="game-shell duel-shell" id="duel-shell" data-view="result" hidden>
+    <div class="duel-layout" id="duel-layout" role="dialog" aria-modal="true" aria-labelledby="duel-title">
+     <section class="duel-panel">
+      <header class="game-bar">
+        <button class="game-back" id="duel-close" type="button" aria-label="Salir del duelo">×</button>
+        <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+        <button class="game-back duel-sound" id="duel-sound" type="button" aria-pressed="true" aria-label="Sonido" title="Sonido"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="duel-sound-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="duel-sound-off" d="m16 9.5 5 5m0-5-5 5"/></svg></button>
+      </header>
+      <div class="duel-hud" id="duel-hud" hidden></div>
+      <div class="game-stage">
+        <article class="game-card duel-card">
+          <div class="duel-alert" id="duel-alert" role="status" aria-live="polite"></div>
+          <div class="game-content duel-content" id="duel-content"></div>
+        </article>
+      </div>
+     </section>
+    </div>
+  </div>
+  <div class="profile-shell" id="profile-shell" hidden>
+    <div class="profile-layout" role="dialog" aria-modal="true" aria-labelledby="profile-title">
+      <header class="game-bar">
+        <button class="game-back" id="profile-close" type="button" aria-label="Cerrar">×</button>
+        <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+        <span class="coin-pill" id="profile-coins" title="Faradios: se ganan jugando"></span>
+      </header>
+      <div class="profile-main" id="profile-main"></div>
+    </div>
+  </div>
   <div class="menu-drawer" id="menu-drawer" aria-hidden="true" inert>
     <div class="menu-scrim" data-menu-close></div>
     <nav class="menu-panel" aria-label="Menú">
       <div class="menu-head"><span class="home-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><button class="game-back" type="button" data-menu-close aria-label="Cerrar menú">×</button></div>
       <div class="menu-links">
         <button type="button" class="menu-link menu-link-today" id="menu-today"><span>Reto de hoy</span><small id="menu-today-number"></small></button>
+        <button type="button" class="menu-link" data-open-duel><span>Duelo 1 vs 1</span><small aria-hidden="true">⚔</small></button>
+        <button type="button" class="menu-link" data-open-profile><span>Avatar y misiones</span><small aria-hidden="true">≈</small></button>
         <button type="button" class="menu-link" id="menu-home"><span>Volver al inicio</span><small aria-hidden="true">↩</small></button>
       </div>
       <h2 class="menu-title">Tu cuenta</h2>

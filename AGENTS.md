@@ -72,6 +72,7 @@ Reglas para agentes:
   node tests/vercel.test.mjs
   node tests/publicar.test.mjs
   node tests/generar.test.mjs
+  node tests/duelos.test.mjs
   node tests/auth.test.mjs
   ```
 
