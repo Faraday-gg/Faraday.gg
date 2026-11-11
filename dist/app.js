@@ -196,6 +196,7 @@ document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
 $('#menu-home').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
+$('#workspace-panel').addEventListener('click',event=>{if(event.target===event.currentTarget)toggleWorkspace(false)});
 $('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});
 $('#scratch-expression').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();calculate()}});
 $('#scratch-expression').addEventListener('input',()=>{$('#scratch-result').textContent='='});
