@@ -133,3 +133,23 @@ function distributionSvg(q,guess,{bins,low,high,count,simulated}){
   return `<svg class="distribution-svg" viewBox="0 0 560 214" role="img" aria-label="${simulated?'Distribución simulada':count+' respuestas de otros jugadores'}. Tu estimación ${format(guess)}; referencia ${format(q.answer)}. Escala logarítmica."><path class="chart-grid" d="M20 166H540"/><g class="distribution-bars">${bars}</g><path class="reference-line" d="M${answer} 40V172"/><path class="guess-line" d="M${own} 36V172"/><rect class="you-tag" x="${tagX}" y="10" width="${tagWidth}" height="24" rx="12"/><text class="you-tag-text" x="${tagX+tagWidth/2}" y="27" text-anchor="middle">${label}</text><text class="axis-label" x="20" y="192">${compactNumber(q.answer*10**low)}</text><text class="axis-label answer-axis" x="${answer}" y="192" text-anchor="middle">${compactNumber(q.answer)}</text><text class="axis-label" x="540" y="192" text-anchor="end">${compactNumber(q.answer*10**high)}</text><text class="axis-caption" x="${answer}" y="209" text-anchor="middle">real</text>${simulated?'<text class="chart-sim-label" x="540" y="22" text-anchor="end">simulación</text>':''}</svg>`;
 }
 document.addEventListener('click',event=>{const button=event.target.closest('[data-refresh-distribution]');if(!button)return;const index=activeDay.questions.findIndex(q=>q.id===button.dataset.refreshDistribution);if(index>=0)loadDistribution(activeDay.questions[index],getGuesses(activeDay)[index])});
+
+// Ampliar fotografía: al pulsar la imagen se abre encima de todo; se cierra pulsando fuera o con Escape.
+(()=>{
+  let box=null,opener=null;
+  const close=()=>{if(!box||box.classList.contains('closing'))return;const el=box,back=opener;box=null;opener=null;el.classList.add('closing');setTimeout(()=>el.remove(),190);document.body.classList.remove('lightbox-open');if(back&&back.isConnected)back.focus()};
+  document.addEventListener('click',event=>{
+    const link=event.target.closest&&event.target.closest('[data-photo-zoom]');
+    if(!link||box)return;
+    event.preventDefault();
+    const img=link.querySelector('img');
+    opener=link;
+    box=document.createElement('div');
+    box.className='lightbox';box.setAttribute('role','dialog');box.setAttribute('aria-modal','true');box.setAttribute('aria-label','Fotografía ampliada');
+    const big=document.createElement('img');big.src=img.src;big.alt=img.alt;
+    box.appendChild(big);
+    box.addEventListener('click',close);
+    document.body.appendChild(box);document.body.classList.add('lightbox-open');
+  });
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&box){event.stopImmediatePropagation();event.preventDefault();close()}},true);
+})();
