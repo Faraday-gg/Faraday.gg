@@ -22,5 +22,4 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Caché del calendario | Cada carga consulta Supabase. Con tráfico real conviene cachear unos minutos. | Pendiente |
 | Aplicar la migración de los duelos | Sin la tabla `duels` (migración `20261111120000_duelos`), los duelos 1 vs 1 responden 503 en Vercel ([decisión 0021](../decisiones/0021-duelos-1vs1.md)). | Pendiente (Luis) |
 | Limpiar los duelos terminados | Las filas de `duels` no se borran nunca. Conviene una tarea que elimine las de más de unos días. | Pendiente |
-| Bloc con calculadora en los duelos | En el duelo no se puede abrir el bloc del reto diario. | Pendiente |
 | Consultas de los duelos | Cada jugador pregunta el estado una vez por segundo. Si los duelos crecen, revisar los límites de Vercel Hobby y de Supabase o pasar a avisos en tiempo real. | Pendiente |

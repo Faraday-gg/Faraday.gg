@@ -51,4 +51,4 @@ No copiamos (por ahora): divisiones y clasificación por puntos, emoticonos dura
 - Las Preview de Vercel comparten la tabla con producción ([0001](0001-supabase-un-solo-entorno.md)): alguien en la Preview puede emparejarse con alguien de producción.
 - El apodo lo escribe el jugador y lo ve su rival. Se limpia de HTML, pero no hay filtro de palabras.
 - Trampas posibles: las respuestas de los días pasados son públicas (`/api/day`), así que quien quiera puede buscarlas. Igual que en el reto diario, no se intenta impedir.
-- En el duelo no está el bloc con calculadora. Los duelos terminados se quedan en la tabla: falta una limpieza periódica. Ambas cosas están en [mejoras](../mejoras/README.md).
+- El duelo usa el mismo bloc (calculadora y notas) del reto diario, con sus propias notas. Los duelos terminados se quedan en la tabla: falta una limpieza periódica, anotada en [mejoras](../mejoras/README.md).

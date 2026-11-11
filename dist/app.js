@@ -55,7 +55,7 @@ async function openDate(id){
 }
 // El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
 // Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
-function openDay(day){activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
+function openDay(day){workspaceId=null;activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
 function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
 function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
 window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
@@ -122,7 +122,9 @@ function loadWorkspace(day){
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
   catch{return {note:'',history:[]}}
 }
-function saveWorkspace(){sessionWorkspaces.set(activeDay.id,workspaceData);try{localStorage.setItem(`casi-casi:workspace:${activeDay.id}`,JSON.stringify(workspaceData))}catch{showToast('El bloc durará solo hasta cerrar esta pestaña.')}}
+// workspaceId: el duelo comparte el bloc con el reto diario, con sus propias notas (duel.js lo fija mientras está abierto).
+let workspaceId=null;
+function saveWorkspace(){const id=workspaceId||activeDay.id;sessionWorkspaces.set(id,workspaceData);try{localStorage.setItem(`casi-casi:workspace:${id}`,JSON.stringify(workspaceData))}catch{showToast('El bloc durará solo hasta cerrar esta pestaña.')}}
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}

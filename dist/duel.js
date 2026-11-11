@@ -126,7 +126,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question;setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
-    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multiplier>1?` · daño ×${format(round.multiplier,1)}`:''}</span><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div>
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multiplier>1?` · daño ×${format(round.multiplier,1)}`:''}</span><div class="duel-tools"><button class="workspace-launch" type="button" data-duel="calc" aria-label="${panel.hidden?'Abrir':'Cerrar'} calculadora y notas" aria-expanded="${!panel.hidden}" title="Calculadora y notas">${calcIcon}</button><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
 <h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q):''}
 <div id="duel-answer"></div>`;
@@ -283,7 +283,24 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
     try{if(navigator.share){await navigator.share({title:'Duelo en Faraday.gg',text,url});return}await navigator.clipboard.writeText(`${text}\n${url}`);showToast('Copiado al portapapeles.')}
     catch(error){if(error?.name!=='AbortError')showToast('No se pudo compartir ahora mismo.')}
   }
+  // Calculadora y notas: el mismo bloc del reto diario, que se coloca al lado del duelo mientras está abierto.
+  const panel=$('#workspace-panel'),duelLayout=$('#duel-layout');
+  const calcIcon='<svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg>';
+  function toggleCalc(open=panel.hidden){
+    panel.hidden=!open;
+    const button=content.querySelector('[data-duel=calc]');
+    if(button){button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}
+    if(open)$('#scratch-expression').focus();else $('#guess-input')?.focus();
+  }
+  function attachWorkspace(){
+    duelLayout.append(panel);panel.hidden=true;workspaceId='duelo';
+    workspaceData=loadWorkspace({id:'duelo'});renderWorkspace();
+  }
+  function detachWorkspace(){
+    panel.hidden=true;$('#game-layout').append(panel);workspaceId=null;
+  }
   async function open(code=''){
+    attachWorkspace();
     inviteCode=/^[A-Za-z2-9]{6}$/.test(code)?code.toUpperCase():'';
     shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(soundOn));
     if(typeof toggleMenu==='function')toggleMenu(false);
@@ -298,7 +315,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
       if(!window.confirm('¿Abandonar el duelo? Tu rival ganará la partida.'))return;
       const response=await call('salir',{id:duel.id});if(response.ok){duel=response.data;finishStats()}
     }else if(duel?.phase==='waiting')call('salir',{id:duel.id});
-    stopTimers();duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');
+    stopTimers();duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();
     if($('#game-shell').hidden)document.body.classList.remove('modal-open');
   }
 
@@ -308,6 +325,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
     if(pick){profile.avatar=Number(pick.dataset.avatar);saved.set('perfil',profile);content.querySelectorAll('[data-avatar]').forEach(button=>button.setAttribute('aria-checked',String(button===pick)));sfx.tap();return}
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
+    if(action==='calc'){toggleCalc();return}
     if(action==='quick')begin('buscar');
     if(action==='friend')begin('crear');
     if(action==='accept')begin('unirse',{code:inviteCode});
@@ -325,9 +343,10 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   content.addEventListener('input',event=>{if(event.target.id==='duel-guess'&&!event.isComposing)formatEstimateInput(event.target);if(event.target.id==='duel-code')event.target.value=event.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'')});
   content.addEventListener('change',event=>{if(event.target.id==='duel-name')readProfile()});
   $('#duel-close').addEventListener('click',close);
+  $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   $('#duel-sound').addEventListener('click',()=>{soundOn=!soundOn;saved.set('sonido',soundOn);$('#duel-sound').setAttribute('aria-pressed',String(soundOn));if(soundOn)sfx.send()});
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();close()}},true);
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
   const invited=new URLSearchParams(location.search).get('duelo');
