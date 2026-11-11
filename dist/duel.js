@@ -311,9 +311,9 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   function stopTimers(){clearTimeout(pollTimer);clearTimeout(endTimer);clearInterval(ticker);ticker=0;stopMusic();shell.dataset.rush=''}
 
   // Acciones
-  function readProfile(){const input=$('#duel-name');if(input)input.value=Progress.setName(input.value)}
+  async function readProfile(){const input=$('#duel-name');if(!input)return;const name=await Progress.setName(input.value);if(input.isConnected)input.value=name}
   async function begin(action,extra={}){
-    if(busy)return;busy=true;readProfile();shell.classList.add('is-busy');
+    if(busy)return;busy=true;shell.classList.add('is-busy');await readProfile();
     const response=await call(action,{...identity(),...extra});busy=false;shell.classList.remove('is-busy');
     if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data)}
     else{const error=$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.')}
