@@ -74,7 +74,7 @@ function renderBar(guesses){
   $('#game-steps').innerHTML=steps.join('');
 }
 function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${q.image?`<div class="hint-photo">${questionMedia(q)}</div>`:''}<h2 id="game-title">${q.title}</h2><form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;$('#guess-input').focus()}
-// Tarjeta de respuesta (decisión 0012): solo el multiplicador, tu cifra frente a la real y la distribución.
+// Tarjeta de respuesta (decisión 0012): tu cifra frente a la real arriba, debajo el multiplicador y la distribución.
 // La pregunta y la explicación no se ven; «Cómo se calcula» abre un panel dentro de la tarjeta.
 const whole=(n)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:n<10?2:0,useGrouping:'always'}).format(n);
 const rounded=(n)=>new Intl.NumberFormat('es-ES',{maximumSignificantDigits:3,useGrouping:'always'}).format(n);
@@ -83,8 +83,8 @@ function renderResult(guesses){
   const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer);
   const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
   $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
-<div class="verdict verdict-${verdict[0]}${times(factor).length>=11?' is-long is-xlong':times(factor).length>=8?' is-long':''}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
 <dl class="ledger${Math.max(whole(guess).length,rounded(q.answer).length)>=9?' is-long':''}"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
+<div class="verdict verdict-${verdict[0]}${times(factor).length>=11?' is-long is-xlong':times(factor).length>=8?' is-long':''}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
@@ -98,16 +98,16 @@ function animateTimes(element,factor){
   if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
   const final=times(factor),digits=(final.split(',')[1]||'').replace(/D/g,'').length,
     fmt=new Intl.NumberFormat('es-ES',{minimumFractionDigits:digits,maximumFractionDigits:digits,useGrouping:'always'}),
-    start=performance.now()+120,duration=Math.min(2200,1300+Math.log10(factor)*180),end=Math.log10(factor);
+    start=performance.now()+420,duration=Math.min(2200,1300+Math.log10(factor)*180),end=Math.log10(factor);
   element.style.minWidth=element.getBoundingClientRect().width+'px';
   element.classList.add('counting');
   const finish=()=>{element.textContent=final;element.classList.remove('counting')};
   const step=now=>{if(!element.isConnected)return;const t=Math.max(0,Math.min(1,(now-start)/duration));if(t<1){element.textContent=fmt.format(10**(end*(1-(1-t)**4)))+'×';requestAnimationFrame(step)}else finish()};
   element.textContent=fmt.format(1)+'×';requestAnimationFrame(step);
   // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
-  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+400);
+  setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+700);
 }
-// «Cómo se calcula» (decisión 0021): una hoja translúcida que sube dentro de la tarjeta, entre el multiplicador y los botones.
+// «Cómo se calcula» (decisión 0021): una hoja translúcida que sube dentro de la tarjeta, entre el multiplicador (bajo «Tú» y «Real») y los botones.
 // El resultado queda detrás, atenuado, y «Siguiente» sigue a la vista: no hace falta desplazarse. Si el texto no cabe, solo se desplaza la hoja.
 function placeExplain(){
   const card=$('.game-card'),panel=$('#explain-panel'),verdict=$('.verdict'),actions=$('.card-actions');if(!card||!panel||!verdict||!actions)return;
