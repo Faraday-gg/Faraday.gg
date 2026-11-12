@@ -58,6 +58,8 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
+  share-card.js          Tarjeta para stories: dibuja la imagen de 1080 × 1920 del resultado y la comparte o descarga (decisión 0032)
+  share-card.css         Estilos de la vista previa de la tarjeta
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025 y 0028)
