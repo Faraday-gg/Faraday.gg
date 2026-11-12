@@ -10,7 +10,7 @@ Luis aprobó tres mejoras para que el juego se comparta más: una tarjeta para s
 
 Limitaciones: Supabase solo se usa desde el servidor ([0002](0002-acceso-a-supabase-solo-desde-el-servidor.md)), se juega sin registro con un identificador anónimo ([0009](0009-jugador-sin-registro-con-cookie.md)) y el inicio de sesión es opcional ([0022](0022-inicio-de-sesion-desde-el-servidor.md)). Los duelos ([0023](0023-duelos-1vs1.md)) ya resolvieron cómo guardar estado compartido: memoria en local, tabla en Supabase y 503 si la tabla no existe.
 
-Los números de decisión reservados (0028 tarjeta, 0029 «Casi casi», 0030 ligas) chocaban con la 0028 del avatar de mujer, que entró antes en `preprod`, y después también con la 0029 del cálculo por pasos. Las tres sesiones acordaron correr un número y esta usa la **0031**; la tarjeta y «Casi casi» tendrán que elegir números libres al fusionar.
+Los números de decisión reservados (0028 tarjeta, 0029 «Casi casi», 0030 ligas) chocaban con la 0028 del avatar de mujer, que entró antes en `preprod`, y después también con la 0029 del cálculo por pasos. Esta usa la **0031**; la tarjeta para stories quedó en la [0032](0032-tarjeta-para-stories.md).
 
 ## Decisión
 
