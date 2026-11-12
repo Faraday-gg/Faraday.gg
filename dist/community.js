@@ -52,10 +52,10 @@ function playerId(){
   try{localStorage.setItem(PLAYER_KEY,anonymousPlayer)}catch{}
   return anonymousPlayer;
 }
-function questionMedia(q){
+function questionMedia(q,{eager=false}={}){
   if(!q.image)return '';
   const photo=q.image;
-  return `<figure class="question-photo"><button type="button" class="photo-zoom" data-photo-zoom aria-expanded="false" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="lazy"></button><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
+  return `<figure class="question-photo"><button type="button" class="photo-zoom" data-photo-zoom aria-expanded="false" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="${eager?'eager" fetchpriority="high':'lazy'}"></button><figcaption><a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a></figcaption></figure>`;
 }
 function sourceMarkup(q){return `<details class="sources"><summary>Fuentes y supuestos</summary><p class="source-confidence">${q.confidence} · Comprobado el 09/11/2026</p><ul>${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)} ↗</a><p>${escapeHtml(s.fact)}</p></li>`).join('')}</ul><p class="source-assumptions"><strong>Qué estamos suponiendo</strong>${escapeHtml(q.assumptions)}</p></details>`}
 function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`}

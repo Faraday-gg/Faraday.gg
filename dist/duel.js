@@ -160,7 +160,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     const round=duel.round,q=round.question;setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
     content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
-<h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q):''}
+<h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q,{eager:true}):''}
 <div id="duel-answer"></div>`;
     lastSecond=-1;renderAnswerBox(true);sfx.go();
     if(round.answered[1-duel.you]&&round.yourGuess==null)alertBar(`${avatar(rival(),'tiny')}<span><b>${escapeHtml(rival().name)}</b> ya ha respondido</span>`);

@@ -1051,3 +1051,19 @@ body.lightbox-open{overflow:hidden}
 /* Duelo: la calculadora abajo a la izquierda, como en el reto diario, junto al estado del rival y «Confirmar». */
 .duel-content .game-actions .workspace-launch{flex:none}
 .duel-content .game-actions .duel-rival-state{flex:1}
+
+/* Foto de la pregunta en móvil y tableta: una polaroid inclinada a la derecha de la pregunta; el título la rodea.
+   Se toca para ampliarla. La autoría y la licencia van dentro del marco, porque la vista ampliada no las enseña. */
+@media(max-width:999px){
+  .hint-photo{float:right;width:clamp(118px,38%,190px);margin:4px -8px 14px 14px;padding:6px 6px 0;border-radius:6px;background:#fff;color:#6b7078;transform:rotate(3deg);box-shadow:0 14px 24px -12px #20263080;animation:hint-in-sm .35s cubic-bezier(.2,.8,.2,1) backwards}
+  .hint-photo .question-photo{margin:0}
+  .hint-photo .photo-zoom{border-radius:2px;overflow:hidden}
+  .hint-photo .photo-zoom img{width:100%;height:auto;aspect-ratio:1;max-height:none;object-fit:cover;border-radius:2px;background:#e9e4d8}
+  .hint-photo .photo-zoom::after{content:'Toca para ampliar';display:block;padding:7px 0 1px;font:800 8px/1.2 var(--font);letter-spacing:.14em;text-transform:uppercase;color:#7b8088;text-align:center}
+  .hint-photo .question-photo figcaption{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:2px 0 6px;font-size:8px;line-height:1.35;text-align:center;color:#8a8f96;overflow-wrap:anywhere}
+  .hint-photo .question-photo figcaption a{color:inherit}
+  .hint-photo+#game-title{text-wrap:pretty}
+  #game-title~*{clear:both}
+}
+@keyframes hint-in-sm{from{opacity:0;transform:translateY(-10px) rotate(6deg) scale(.92)}}
+@media(prefers-reduced-motion:reduce){.hint-photo{animation:none}}
