@@ -1,6 +1,18 @@
 /* Circuito de amigos (decisión 0038): referidos con premio para los dos. Usa la ventana y las piezas de las ligas
    (league-shell, league-content, league-share) y añade el tablero de enchufes, la invitación y la lista de invitados. */
-.home-circuit{margin-top:0}
+/* Invitar amigos vive arriba a la derecha, como el regalo de las apps: perfil, regalo y cuenta en una misma barra. */
+.home-actions{position:fixed;top:14px;right:14px;z-index:60;display:flex;align-items:center;gap:8px}
+.home-actions>.home-profile,.home-actions>.home-account{position:relative;top:auto;right:auto}
+.home-invite{position:relative;flex:none;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:var(--paper);color:var(--ink);box-shadow:0 1px 2px #20263014,0 8px 20px -10px #20263066;cursor:pointer;transition:box-shadow .15s,transform .15s}
+.home-invite svg{width:22px;height:22px}
+.home-invite:hover{transform:translateY(-1px);box-shadow:0 1px 2px #20263014,0 12px 24px -10px #20263080}
+.home-invite:hover svg{animation:gift-wiggle .5s ease-in-out}
+.home-invite:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.home-invite-dot{position:absolute;top:6px;right:6px;width:9px;height:9px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 2px var(--paper)}
+body:has(#game-shell:not([hidden])) .home-invite{display:none}
+@keyframes gift-wiggle{25%{transform:rotate(-12deg)}50%{transform:rotate(10deg)}75%{transform:rotate(-6deg)}}
+@media(prefers-reduced-motion:reduce){.home-invite:hover svg{animation:none}}
+@media(max-width:380px){.home-actions{gap:6px}}
 
 /* Bienvenida de quien entra invitado */
 .circuit-welcome{position:relative;display:flex;justify-content:center;margin:14px 0 4px}

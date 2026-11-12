@@ -9,9 +9,10 @@
 .duel-reconnect-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--yellow);animation:reconnect-pulse 1.4s ease-in-out infinite}
 .duel-reconnect.is-finished{background:var(--yellow);color:var(--ink);border-color:var(--ink)}
 .duel-reconnect.is-finished .duel-reconnect-dot{animation:none;background:var(--ink)}
-.menu-link-reconnect{background:var(--coral);border-color:var(--coral)}
-.menu-link-reconnect[hidden]{display:none}
-.menu-link-reconnect small{color:var(--ink)}
+.menu-reconnect-item[hidden]{display:none}
+.menu-link-reconnect .menu-ico{background:var(--ink);color:var(--yellow)}
+.menu-link-reconnect b{color:var(--ink)}
+.menu-link-reconnect small{font-weight:600}
 body.modal-open .duel-reconnect,body.menu-open .duel-reconnect{display:none}
 @keyframes reconnect-in{from{opacity:0;transform:translateX(-50%) translateY(16px)}}
 @keyframes reconnect-pulse{50%{opacity:.35;transform:scale(.7)}}
