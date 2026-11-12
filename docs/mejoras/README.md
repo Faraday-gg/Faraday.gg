@@ -32,6 +32,9 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Oír y afinar el sonido de los cofres | El sonido de la apertura se generó sin poder escucharlo. | Pendiente (Luis) |
 | Faradios de los duelos contra el bot | La decisión 0024 dice «mitad de experiencia y faradios», pero el primer duelo del día contra el bot da los faradios enteros (`dist/duel.js`). | Pendiente |
 | Fecha del tope diario de duelos | El tope de duelos usa la fecha del dispositivo y las misiones, la de Madrid. | Pendiente |
+| Aplicar la migración de las ligas | Sin las tablas `leagues`, `league_members` y `daily_results` (migración `20261112120000_ligas`), las ligas responden 503 en Vercel ([decisión 0031](../decisiones/0031-ligas-de-amigos.md)). | Pendiente (Luis) |
+| Limpiar `daily_results` | Crece una fila por jugador y día. Las ligas solo usan la semana actual y la anterior: se pueden borrar las filas de hace más de unas semanas. | Pendiente |
+| Filtro de palabras en apodos y nombres de liga | Los ven otros jugadores. Se limpian de HTML, pero no de insultos. Afecta también a los duelos. | Pendiente |
 | Limpiar los duelos terminados | Las filas de `duels` no se borran nunca. Conviene una tarea que elimine las de más de unos días. | Pendiente |
 | Consultas de los duelos | Cada jugador pregunta el estado una vez por segundo. Si los duelos crecen, revisar los límites de Vercel Hobby y de Supabase o pasar a avisos en tiempo real. | Pendiente |
 | Permiso para usar las marcas de la tienda | Las piezas de marca llevan logotipos y nombres registrados sin licencia ([decisión 0026](../decisiones/0026-marcas-reales-en-la-tienda.md)). Hay que retirarlas o conseguir permiso antes de cobrar dinero real, anunciarlas o pasar a producción con mucho público. | Pendiente (decidir Luis y Álvaro) |
