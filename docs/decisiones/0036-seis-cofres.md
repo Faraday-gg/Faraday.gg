@@ -1,4 +1,4 @@
-# 0035. Seis cofres, cada uno con su cualidad y su precio
+# 0036. Seis cofres, cada uno con su cualidad y su precio
 
 - **Estado:** propuesta (código en la rama `feat/seis-cofres`)
 - **Fecha:** 2026-11-12

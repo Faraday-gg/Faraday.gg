@@ -66,11 +66,13 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
-  progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi» y perfil con armario y tienda (decisiones 0024, 0027 y 0030)
-  chests.js              Cofres: los seis que hay, probabilidades y sorteo (decisiones 0027 y 0035)
+  progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi», cifras de las medallas y perfil con armario, tienda y vitrina (decisiones 0024, 0027, 0030 y 0035)
+  medals.js              Medallas e insignias: catálogo, regla, dibujo, aviso y ceremonia (decisión 0035)
+  medals.css             Estilos de las medallas (dibujo en CSS), la vitrina, la pestaña «Medallas», el aviso y la ceremonia
+  chests.js              Cofres: los seis que hay, probabilidades y sorteo (decisiones 0027 y 0036)
   chest-open.js          Apertura de un cofre: animación, partículas, cartas y sonido
   chest.css              Estilos de los cofres y de su apertura
-  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres (campanillas, reverberación y cama de fondo, decisión 0036), «¡Casi casi!» y reto diario
+  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres (campanillas, reverberación y cama de fondo, decisión 0037), «¡Casi casi!» y reto diario
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
@@ -136,8 +138,9 @@ Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hor
 Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)). El avatar puede ser de hombre o de mujer, cada uno con su colección de 185 piezas, y se anima con una postura base y 20 gestos ([decisión 0028](docs/decisiones/0028-avatar-de-mujer-y-animaciones.md)). Parte de la ropa y las zapatillas son de marcas reales, con su logotipo (`dist/avatar-logos.js`), sin licencia de las marcas ([decisión 0026](docs/decisiones/0026-marcas-reales-en-la-tienda.md)). Cada jugador tiene también un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
 
 - `app.js` y `duel.js` avisan con eventos del documento (`faraday:answer`, `faraday:day`, `faraday:duel`) y `progress.js` reparte la experiencia, los faradios y el avance de las misiones.
-- Los seis cofres ([decisión 0027](docs/decisiones/0027-cofres.md), ampliada por la [0035](docs/decisiones/0035-seis-cofres.md)) se ganan jugando o se compran con faradios. `chests.js` tiene las reglas y el sorteo, `progress.js` los guarda y reparte los premios, y `chest-open.js` enseña la apertura. Nada de esto pasa por el servidor.
+- Los seis cofres ([decisión 0027](docs/decisiones/0027-cofres.md), ampliada por la [0036](docs/decisiones/0036-seis-cofres.md)) se ganan jugando o se compran con faradios. `chests.js` tiene las reglas y el sorteo, `progress.js` los guarda y reparte los premios, y `chest-open.js` enseña la apertura. Nada de esto pasa por el servidor.
 - Momento «¡Casi casi!» ([decisión 0030](docs/decisiones/0030-momento-casi-casi.md)): una respuesta a menos de 1,1× celebra en la tarjeta (`casi.js`, `casi.css`, `Sound.casi`) y dice qué porcentaje de los demás la clavó, con el campo `near` que devuelve `/api/answers` (nunca con la muestra simulada). `progress.js` lleva el contador, una vez por pregunta, y a los 10 desbloquea gratis la Sudadera «Casi casi» (pieza con `casi: 10`, como las de nivel). En los duelos solo hay un indicador, que no cuenta. `community.js` avisa de cada distribución cargada con el evento `faraday:distribucion`.
+- Medallas e insignias ([decisión 0035](docs/decisiones/0035-medallas-e-insignias.md)): 59 logros (12 medallas con cuatro niveles y 11 insignias). `medals.js` tiene el catálogo, la regla y el dibujo; `progress.js` lleva las cifras, guarda lo conseguido y pinta la vitrina y la pestaña «Medallas» del perfil. `ligas.js` avisa con el evento `faraday:liga`. La medalla destacada viaja con el avatar (campo `badge`) y se ve junto al nombre en los duelos y en las ligas.
 - Todo se guarda en `localStorage` (clave `casi-casi:progreso`). No hay pagos ni datos en el servidor.
 - En los duelos, el navegador envía los identificadores de las piezas del avatar; el servidor los limpia y se los pasa al rival, sin comprobar que se hayan comprado.
 

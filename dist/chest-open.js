@@ -1,4 +1,4 @@
-// Apertura de un cofre (decisiones 0027 y 0035): la pantalla que se ve desde que cae el cofre hasta el resumen de premios.
+// Apertura de un cofre (decisiones 0027 y 0036): la pantalla que se ve desde que cae el cofre hasta el resumen de premios.
 // Los premios ya están sorteados y guardados cuando esto empieza (progress.js): aquí solo se enseñan. Cerrar, saltar o
 // recargar no cambia nada, y lo que se ve en cada carta es exactamente lo que ha tocado.
 //
@@ -6,7 +6,7 @@
 // un instante de silencio → estalla → salen las cartas boca abajo → se giran de una en una → resumen.
 // Con «reducir movimiento» activado se va directamente al resumen.
 //
-// Sonido (decisión 0036): cada rareza tiene su propio sonido, más largo, con más voces y más registro cuanto mejor
+// Sonido (decisión 0037): cada rareza tiene su propio sonido, más largo, con más voces y más registro cuanto mejor
 // es (sfx.reveal), y por debajo suena una cama de fondo (Sound.bed) que crece con los toques, se calla antes del
 // estallido y se queda en un acorde más lleno según lo que va saliendo. Un lote de faradios nunca suena a premio gordo.
 (()=>{

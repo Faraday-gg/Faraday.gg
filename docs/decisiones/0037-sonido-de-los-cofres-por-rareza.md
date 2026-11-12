@@ -1,9 +1,9 @@
-# 0036. Sonido de los cofres: uno por rareza y una cama de fondo
+# 0037. Sonido de los cofres: uno por rareza y una cama de fondo
 
 - **Estado:** propuesta (código en la rama `feat/seis-cofres`)
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
-- **Amplía a:** la [0027](0027-cofres.md) (apertura de los cofres) y convive con la [0035](0035-seis-cofres.md). Mantiene las protecciones de la 0027, en especial la celebración proporcional.
+- **Amplía a:** la [0027](0027-cofres.md) (apertura de los cofres) y convive con la [0036](0036-seis-cofres.md). Mantiene las protecciones de la 0027, en especial la celebración proporcional.
 
 ## Contexto
 

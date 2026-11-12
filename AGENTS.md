@@ -77,6 +77,7 @@ Reglas para agentes:
   node tests/casi.test.mjs
   node tests/auth.test.mjs
   node tests/ligas.test.mjs
+  node tests/medallas.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

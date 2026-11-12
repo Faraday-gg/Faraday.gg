@@ -71,7 +71,9 @@
       return {ok:response.ok,status:response.status,data:await response.json()};
     }catch{return {ok:false,status:0,data:{error:'Sin conexión con el servidor'}}}
   }
-  const identity=()=>({name:profile.name,avatar:Progress.look(),level:Progress.level()});
+  // badge = la medalla destacada (decisión 0035): viaja con el avatar y el rival la ve junto al nombre.
+  const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level()});
+  const badge=player=>player.bot?'':Medals.chip(player.avatar?.badge);
   // El bot tiene su propio aspecto de robot (piel de metal, cascos y gafas oscuras) y siempre se llama Faraday-bot.
   const BOT_LOOK={_raw:{skin:'robot',face:'serio',hair:'calvo',hairColor:'gris',top:'plumas',topColor:'gris',trimColor:'negro',print:'',bottom:'cargo',bottomColor:'gris',shoes:'plataforma',shoesColor:'negro',hat:'',extras:['cascos','sol']}};
   const lookOf=player=>player.bot?BOT_LOOK:player.avatar;
@@ -84,7 +86,7 @@
   // Marcador: avatar, nombre, nivel y barra de vida de cada jugador. La vida perdida se queda un momento
   // marcada en la barra antes de desaparecer, y la cifra del golpe sube flotando.
   function renderHud(){
-    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span><span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span><span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${who}"></span></div>`;
+    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span>${badge(player)}<span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span><span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${who}"></span></div>`;
     hud.innerHTML=side(me(),'you')+`<div class="duel-mid"><span id="duel-round"></span><b id="duel-mult"></b></div>`+side(rival(),'rival');
     hud.hidden=false;hud.dataset.duel=duel.id;setHp(false);
   }
@@ -144,7 +146,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}</strong><small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}</strong><small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
+    content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}${badge(me())}</strong><small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}${badge(rival())}</strong><small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
 <h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
     sfx.tension();
   }
@@ -214,7 +216,7 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
     if(!abandoned)stats.day={date:today,count:daily.count+1,bot:daily.bot+(bot?1:0)};
     saved.set('progreso',stats);const outcome=Progress.reward({xp:gained,coins});
     // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
-    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){

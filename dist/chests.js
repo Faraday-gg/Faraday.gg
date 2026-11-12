@@ -1,4 +1,4 @@
-// Cofres (decisiones 0027 y 0035): qué lleva cada uno y cómo se sortea. Aquí solo hay reglas y números, sin pantalla ni
+// Cofres (decisiones 0027 y 0036): qué lleva cada uno y cómo se sortea. Aquí solo hay reglas y números, sin pantalla ni
 // almacenamiento, para poder probarlas con Node (tests/cofres.test.mjs). progress.js guarda los cofres y reparte los
 // premios; chest-open.js pone la apertura.
 //

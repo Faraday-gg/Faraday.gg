@@ -1,4 +1,4 @@
-/* Cofres (decisiones 0027 y 0035): la pestaña Cofres del perfil y la pantalla de apertura (chest-open.js). */
+/* Cofres (decisiones 0027 y 0036): la pestaña Cofres del perfil y la pantalla de apertura (chest-open.js). */
 
 /* Colores de cada cofre y de cada rareza. --glow es el color con el que brilla un premio. */
 .chest-art{display:block;width:100%;height:auto;overflow:visible;--c1:#ffc93c;--c2:#e8961c;--c3:#202630;--c4:#ffdb70}
