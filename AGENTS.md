@@ -80,6 +80,7 @@ Reglas para agentes:
   node tests/referidos.test.mjs
   node tests/medallas.test.mjs
   node tests/pistas.test.mjs
+  node tests/apuestas.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

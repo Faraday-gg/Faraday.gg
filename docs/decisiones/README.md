@@ -43,6 +43,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
 | [0039](0039-pistas.md) | Pistas: una por pregunta, con faradios o con un anuncio | Propuesta | 2026-11-12 |
 | [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
+| [0044](0044-apuestas-en-duelos.md) | Apuestas de faradios en los duelos 1 vs 1, contra la banca, desde el nivel 10 | Propuesta | 2026-11-12 |
 
 ## Plantilla
 
