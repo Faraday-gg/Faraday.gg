@@ -1048,6 +1048,10 @@ body.lightbox-open{overflow:hidden}
   .bet-picker.is-locked .bet-lock{justify-content:flex-start;margin-top:4px}
 }
 
+/* Duelo: la calculadora abajo a la izquierda, como en el reto diario, junto al estado del rival y «Confirmar». */
+.duel-content .game-actions .workspace-launch{flex:none}
+.duel-content .game-actions .duel-rival-state{flex:1}
+
 /* Foto de la pregunta en móvil y tableta: una polaroid inclinada a la derecha de la pregunta; el título la rodea.
    Se toca para ampliarla. La autoría y la licencia van dentro del marco, porque la vista ampliada no las enseña. */
 @media(max-width:999px){
