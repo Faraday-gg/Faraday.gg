@@ -25,6 +25,20 @@
   // Piezas de marca: el estampado '@marca' pone su logotipo en la prenda; en gorros, pantalones y zapatillas va aparte.
   const brandHat=(id,name,price,type,color,trim,brand)=>hat(id,name,price,type,color,trim,{set:{hat:type,hatColor:color,hatTrim:trim,hatBrand:brand}});
   const BODIES=[['hombre','Hombre'],['mujer','Mujer']];
+  // Camisetas de selección (decisión 0045): todos los países hispanohablantes y algunos europeos. El estampado '#código' pone
+  // la bandera en el pecho y las siglas del país a la espalda (avatar3d.js). [código, país, color de la prenda, color de las siglas].
+  const FLAGS=[
+    ['es','España','rojo','amarillo'],['mx','México','verde','blanco'],['co','Colombia','amarillo','azul'],['ar','Argentina','blanco','azul'],
+    ['pe','Perú','blanco','rojo'],['ve','Venezuela','burdeos','amarillo'],['cl','Chile','rojo','blanco'],['ec','Ecuador','amarillo','marino'],
+    ['gt','Guatemala','azul','blanco'],['cu','Cuba','marino','rojo'],['bo','Bolivia','verde','amarillo'],['do','República Dominicana','marino','rojo'],
+    ['hn','Honduras','blanco','azul'],['py','Paraguay','rojo','blanco'],['sv','El Salvador','azul','blanco'],['ni','Nicaragua','blanco','azul'],
+    ['cr','Costa Rica','rojo','blanco'],['pa','Panamá','rojo','blanco'],['uy','Uruguay','azul','blanco'],['pr','Puerto Rico','blanco','rojo'],
+    ['gq','Guinea Ecuatorial','verde','blanco'],
+    ['fr','Francia','marino','blanco'],['it','Italia','azul','blanco'],['pt','Portugal','burdeos','amarillo'],['de','Alemania','blanco','negro'],
+    ['gb','Reino Unido','blanco','marino'],['ie','Irlanda','verde','blanco'],['nl','Países Bajos','coral','blanco'],['be','Bélgica','rojo','amarillo'],
+    ['gr','Grecia','blanco','azul'],['ch','Suiza','rojo','blanco'],['se','Suecia','amarillo','azul'],['pl','Polonia','blanco','rojo']
+  ];
+  const flagTops=prefix=>FLAGS.map(([code,country,color,trim])=>top('bandera-'+code,prefix+' '+country,200,'camiseta',color,trim,'#'+code));
   const MEN=[
     top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
     top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
@@ -65,6 +79,7 @@
     top('cha-adidas-negro','Chándal Adidas negro',620,'chandal','negro','blanco','@adidas'),top('cha-nike-rojo','Chándal Nike rojo',640,'chandal','rojo','blanco','@nike'),
     top('bal-jordan-roja','Baloncesto Jordan roja',800,'baloncesto','rojo','negro','@jordan'),
     top('plu-tnf-negro','Plumas The North Face negro',1100,'plumas','negro','negro','@tnf'),top('plu-tnf-amarillo','Plumas The North Face amarillo',1600,'plumas','amarillo','negro','@tnf'),
+    ...flagTops('Camiseta'),
 
     bottom('ancho-lavado','Ancho lavado',0,'ancho','lavado'),bottom('ancho-vaquero','Ancho vaquero',0,'ancho','vaquero'),bottom('corto-negro','Corto negro',0,'corto','negro'),
     bottom('corto-vaquero','Corto vaquero',50,'corto','vaquero'),bottom('corto-crema','Corto crema',50,'corto','crema'),bottom('ancho-negro','Ancho negro',80,'ancho','negro'),bottom('ancho-crema','Ancho crema',80,'ancho','crema'),
@@ -152,6 +167,7 @@
     top('cha-adidas','Chándal Adidas rosa',620,'chandal','rosa','blanco','@adidas'),top('cha-nike','Chándal Nike negro',640,'chandal','negro','blanco','@nike'),
     top('bal-jordan','Baloncesto Jordan negra',800,'baloncesto','negro','rojo','@jordan'),
     top('plu-tnf-negro','Plumas The North Face negro',1100,'plumas','negro','negro','@tnf'),top('plu-tnf-rosa','Plumas The North Face rosa',1600,'plumas','rosa','negro','@tnf'),
+    ...flagTops('Top'),
 
     bottom('ancho-lavado','Vaquero ancho lavado',0,'ancho','lavado'),bottom('falda-vaquera','Falda vaquera',0,'falda','vaquero'),bottom('mallas-negras','Mallas negras',0,'mallas','negro'),
     bottom('corto-vaquero','Corto vaquero',50,'corto','vaquero'),bottom('falda-crema','Falda crema',50,'falda','crema'),bottom('ancho-negro','Vaquero ancho negro',80,'ancho','negro'),bottom('falda-negra','Falda negra',80,'falda','negro'),
