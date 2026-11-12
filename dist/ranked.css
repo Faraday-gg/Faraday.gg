@@ -1,0 +1,59 @@
+/* Clasificatorias y rangos de los duelos (decisión 0043, dist/ranked.js). */
+.ranked-badge{display:block;flex:none;filter:drop-shadow(0 3px 5px #20263033)}
+.ranked-badge[data-rank="cientifico"]{filter:drop-shadow(0 0 6px #ff5a3699) drop-shadow(0 3px 5px #20263033)}
+
+/* Selector «Normal / Clasificatoria» y tarjeta de rango del portal */
+.ranked-lobby{display:grid;gap:10px;margin:14px 0 4px}
+.ranked-modes{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:50px;background:var(--g-hover,#2026300d)}
+.ranked-modes button{border:0;border-radius:50px;padding:10px 12px;background:transparent;color:inherit;font-weight:800;font-size:14px;transition:background .15s,box-shadow .15s}
+.ranked-modes button[aria-checked="true"]{background:var(--paper);color:var(--ink);box-shadow:0 2px 8px -3px #20263055}
+.ranked-modes button[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.ranked-lock-note{margin:0;font-size:12px;color:var(--g-muted,var(--muted));text-align:center}
+.ranked-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:18px;background:var(--g-hover,#2026300d);text-align:left}
+.ranked-card>div{flex:1;min-width:0;display:grid;gap:2px}
+.ranked-card b{font:700 16px var(--display);letter-spacing:-.01em}
+.ranked-card b em{font:800 11px var(--font);font-style:normal;background:var(--ink);color:var(--paper);border-radius:50px;padding:2px 7px;margin-left:4px;vertical-align:2px}
+.ranked-card small{font-size:12px;color:var(--g-muted,var(--muted));font-variant-numeric:tabular-nums}
+.ranked-card.is-locked{opacity:.75}
+.ranked-card.is-locked .ranked-badge{filter:grayscale(1)}
+.ranked-bar{height:7px;border-radius:7px;background:var(--g-line,#2026301f);overflow:hidden;margin-top:4px}
+.ranked-bar i{display:block;height:100%;width:max(5px,calc(var(--pr,0)*100%));border-radius:inherit;background:linear-gradient(90deg,#2f74d0,#7a4cd0);transition:width 1.4s cubic-bezier(.22,1,.36,1) .5s}
+.ranked-top{flex-basis:100%;font-size:13px}
+.ranked-top summary{cursor:pointer;font-weight:800}
+.ranked-top ol{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:3px}
+.ranked-top li{display:grid;grid-template-columns:22px 1fr auto;gap:6px;align-items:baseline}
+.ranked-top li.you{font-weight:800}
+.ranked-top li span{color:var(--g-muted,var(--muted))}
+.ranked-top li i{font-style:normal;font-variant-numeric:tabular-nums}
+
+/* Perfil */
+.ranked-profile .ranked-card{background:var(--paper)}
+
+/* Chip del marcador y de la presentación */
+.ranked-chip{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:800;white-space:nowrap;color:var(--g-muted,var(--muted))}
+.ranked-chip .ranked-badge{filter:none}
+.duel-vs .ranked-chip{font-size:12px}
+@media (max-width:560px){.duel-hud .ranked-chip span{display:none}}
+
+/* Resultado: «+18 PR», barra y animación al subir o bajar */
+.ranked-result{display:flex;align-items:center;gap:14px;margin:14px 0 0;padding:12px 16px;border-radius:18px;background:var(--g-hover,#2026300d);text-align:left}
+.ranked-result-badge{position:relative;flex:none;display:grid;place-items:center}
+.ranked-result-info{flex:1;min-width:0;display:grid;gap:3px}
+.ranked-result-head{margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.ranked-result-head b{font:700 18px var(--display);letter-spacing:-.01em}
+.ranked-delta{font:800 20px var(--display);font-variant-numeric:tabular-nums;animation:ranked-pop .6s cubic-bezier(.22,1,.36,1) .3s both}
+.ranked-delta.up{color:#1f8a4c}.ranked-delta.down{color:#c2412d}.ranked-delta.even{color:var(--g-muted,var(--muted))}
+.ranked-change{margin:0;font-weight:800;font-size:14px}
+.ranked-result small{font-size:12px;color:var(--g-muted,var(--muted))}
+.ranked-pending{margin:0;font-size:13px;color:var(--g-muted,var(--muted))}
+.ranked-result.is-up .ranked-badge{animation:ranked-up 1.3s cubic-bezier(.22,1,.36,1) .4s both}
+.ranked-result.is-up .ranked-change{color:#1f8a4c;animation:ranked-pop .5s ease 1.2s both}
+.ranked-result.is-down .ranked-badge{animation:ranked-down 1s ease .4s both}
+.ranked-result.is-down .ranked-change{color:#c2412d}
+.ranked-burst{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,#ffd25e99 0,#ffd25e00 65%);animation:ranked-burst 1.4s ease-out .5s both;pointer-events:none}
+@keyframes ranked-pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes ranked-up{0%{transform:scale(.4) rotate(-12deg);opacity:0}55%{transform:scale(1.25) rotate(4deg);opacity:1}100%{transform:none}}
+@keyframes ranked-down{0%{transform:none}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px) translateY(3px);filter:grayscale(.6)}100%{transform:translateY(3px);filter:grayscale(.25)}}
+@keyframes ranked-burst{0%{transform:scale(.3);opacity:0}30%{opacity:1}100%{transform:scale(1.8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ranked-result .ranked-badge,.ranked-delta,.ranked-change,.ranked-burst{animation:none!important}.ranked-bar i{transition:none}}
+@media (max-width:420px){.ranked-result{gap:10px;padding:10px 12px}.ranked-result .ranked-badge{width:52px;height:61px}}
