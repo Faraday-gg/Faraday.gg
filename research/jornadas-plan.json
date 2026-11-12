@@ -1,0 +1,756 @@
+[
+  {
+    "date": "2026-11-16",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "transporte",
+        "idea": "TransMilenio de Bogotá (Colombia): pasajeros al día comparados con la población de un país",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "naturaleza",
+        "idea": "Cataratas del Iguazú: bañeras por segundo de caudal medio",
+        "photo": true
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "cuerpo",
+        "idea": "Encogemos durante el día: cuánto más alto eres al despertar, en hojas de papel apiladas",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-17",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "historia",
+        "idea": "Colibrí de las líneas de Nazca (Perú): cuántos colibríes reales en fila miden lo que el geoglifo",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "naturaleza",
+        "idea": "Elefante africano: comida al día en algo cotidiano",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "lugares",
+        "idea": "Murallas de Cartagena de Indias (Colombia): personas de la mano para rodearlas",
+        "photo": true
+      }
+    ]
+  },
+  {
+    "date": "2026-11-18",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "espacio",
+        "idea": "Starship de SpaceX: personas apiladas hasta su punta",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "transporte",
+        "idea": "Bicicletas en Ámsterdam: bicis por habitante",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "arquitectura",
+        "idea": "Burj Khalifa (Dubái): hamburguesas apiladas hasta la punta",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "comida",
+        "idea": "Nutella: frascos al año en fila",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "naturaleza",
+        "idea": "Aconcagua (Argentina): alfajores apilados hasta su cumbre",
+        "photo": true
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "arquitectura",
+        "idea": "Taj Mahal (India): baldosas de mármol o algo cotidiano en su superficie",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "lugares",
+        "idea": "Hundimiento de Ciudad de México: años que tarda en hundirse lo que mide una persona",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "arquitectura",
+        "idea": "Obelisco de Buenos Aires: personas subidas a hombros hasta la punta",
+        "photo": true
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "dinero",
+        "idea": "Zara (Inditex): prendas vendidas por segundo",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-21",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "naturaleza",
+        "idea": "Guepardo: velocidad punta frente a un auto o una persona",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "historia",
+        "idea": "Pirámide del Sol de Teotihuacan (México): piscinas olímpicas de tierra que caben en su volumen",
+        "photo": true
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "dinero",
+        "idea": "Billetes de Monopoly impresos frente a billetes reales",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-22",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "arquitectura",
+        "idea": "Big Ben (Londres): campanadas al año",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "dinero",
+        "idea": "Lotería de Navidad, «El Gordo»: décimos emitidos apilados o en fila",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "cultura",
+        "idea": "Pokémon: horas para atrapar a todas las especies a un ritmo fijo",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-23",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "naturaleza",
+        "idea": "Gran Barrera de Coral: canchas de fútbol que caben en ella",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "dinero",
+        "idea": "Billetes de 100 dólares en circulación apilados",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "espacio",
+        "idea": "Telescopio ELT en Atacama (Chile): pizzas familiares que cubrirían su espejo de 39 m",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-24",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "cultura",
+        "idea": "Obras de Mozart: minutos de música compuestos por cada año de vida",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "comida",
+        "idea": "Kétchup Heinz: botellas al año",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "tecnologia",
+        "idea": "Horas de video que se suben a YouTube por minuto",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-25",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "naturaleza",
+        "idea": "Tortugas gigantes de Galápagos (Ecuador): cuántas pesan lo mismo que un auto pequeño",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "cuerpo",
+        "idea": "Corredores rarámuri (México): pasos en una carrera de 100 km con sandalias",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "arquitectura",
+        "idea": "Empire State Building: escalones de la carrera anual y pisos por minuto",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-26",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "deportes",
+        "idea": "«Gol del siglo» de Maradona en México 86: velocidad media de la carrera comparada con algo cotidiano",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "cuerpo",
+        "idea": "Vasos sanguíneos de una persona: vueltas a la Tierra",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "hogar",
+        "idea": "Yerba mate en Argentina: kilos al año por persona, en mates cebados",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-27",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "historia",
+        "idea": "Cleopatra: más cerca en el tiempo del primer iPhone que de la Gran Pirámide, años de diferencia",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "cultura",
+        "idea": "Las Meninas de Velázquez: cuántas hojas de papel o teléfonos cubren el cuadro",
+        "photo": true
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "deportes",
+        "idea": "Pau Gasol en la NBA: puntos totales convertidos en algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-11-28",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "tecnologia",
+        "idea": "Búsquedas en Google por segundo",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "lugares",
+        "idea": "Central Park: campos de fútbol que caben",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "espacio",
+        "idea": "Telescopio James Webb: parasol del tamaño de una cancha de tenis, toallas que lo cubren",
+        "photo": true
+      }
+    ]
+  },
+  {
+    "date": "2026-11-29",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "cultura",
+        "idea": "Canciones de los Beatles: horas de escucha seguida",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "hogar",
+        "idea": "Cepillarse los dientes: días enteros cepillándose en toda una vida",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "arquitectura",
+        "idea": "Mezquita-catedral de Córdoba: columnas del bosque de columnas en fila",
+        "photo": true
+      }
+    ]
+  },
+  {
+    "date": "2026-11-30",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "transporte",
+        "idea": "Ruta 66: días en bicicleta",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "arquitectura",
+        "idea": "Puente de Brooklyn: cables o personas que lo cruzan",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "hogar",
+        "idea": "Estantería Billy de IKEA: cada cuántos segundos se vende una",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-01",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "historia",
+        "idea": "Ciudad Prohibida (Pekín): años durmiendo una noche en cada habitación",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "tecnologia",
+        "idea": "Mensajes de WhatsApp al día por persona del planeta",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "cultura",
+        "idea": "Rosalía: reproducciones de una canción famosa convertidas en algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-02",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "historia",
+        "idea": "Monte Rushmore: narices humanas que caben en la nariz de un presidente",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "lugares",
+        "idea": "Gran Vía de Madrid: churros puestos en fila de punta a punta",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "cultura",
+        "idea": "Encierro de San Fermín (875 m): velocidad de los toros comparada con algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-03",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "transporte",
+        "idea": "Ascensores Otis: personas que transportan al día frente a la población mundial",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "cultura",
+        "idea": "«Thriller» de Michael Jackson: discos vendidos apilados",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "espacio",
+        "idea": "Día en Marte: minutos de más frente al día terrestre, sumados en un año",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-04",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "espacio",
+        "idea": "Júpiter: cuántas Tierras caben",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "lugares",
+        "idea": "Times Square: visitantes al día comparados con una ciudad",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "tecnologia",
+        "idea": "Satélites Starlink en órbita: cuántos por país del mundo",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-05",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "transporte",
+        "idea": "Canal de Suez: barcos al día",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "deportes",
+        "idea": "Maratón de Nueva York: corredores en fila",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "cultura",
+        "idea": "Obras completas de Shakespeare: horas leyendo en voz alta",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-06",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "cuerpo",
+        "idea": "Piel muerta que suelta una persona en toda su vida",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "transporte",
+        "idea": "AVE Madrid-Barcelona: cuántas veces más rápido que ir caminando",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "comida",
+        "idea": "Aguacates de México: guacamole que se come en EE. UU. el fin de semana del Super Bowl, en piscinas olímpicas",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-07",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "espacio",
+        "idea": "Asteroide de los dinosaurios: tamaño frente a algo cotidiano o una ciudad",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "comida",
+        "idea": "Tequila: botellas que salen de una piña de agave azul",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "deportes",
+        "idea": "Festejo de Argentina campeona del mundo 2022 en Buenos Aires: cuántas Bomboneras llenas",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-08",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "naturaleza",
+        "idea": "Monte Fuji: escalones de escalera hasta la cima",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "comida",
+        "idea": "Chupa Chups (logotipo de Dalí): chupetines vendidos al día",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "transporte",
+        "idea": "SEAT 600: unidades fabricadas puestas en fila",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-09",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "comida",
+        "idea": "Fideos instantáneos (ramen): raciones al año por persona",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "espana",
+        "category": "naturaleza",
+        "idea": "Olivos de España: olivos por habitante",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "deportes",
+        "idea": "Kipchoge y la maratón en menos de 2 horas: ritmo frente a algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-10",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "lugares",
+        "idea": "Venecia: puentes que cruzarías en un paseo por todos",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "tecnologia",
+        "idea": "Cables submarinos de internet: vueltas a la Tierra",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "deportes",
+        "idea": "Parada en boxes de Fórmula 1: neumáticos cambiados en el tiempo de algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-11",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "comida",
+        "idea": "Bananas producidas en el mundo al año, en fila",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "dinero",
+        "idea": "Anuncios del Super Bowl: dólares por segundo",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "espana",
+        "category": "espacio",
+        "idea": "Gran Telescopio Canarias (La Palma): espejo de 10,4 m cubierto de algo cotidiano",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-12",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "lugares",
+        "idea": "Palm Jumeirah (Dubái): camiones de arena",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "cultura",
+        "idea": "«Despacito» (Luis Fonsi y Daddy Yankee): si cada reproducción en YouTube durara un segundo, cuántos años",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "hogar",
+        "idea": "Papel higiénico: rollos que usa una persona al año, desenrollados",
+        "photo": false
+      }
+    ]
+  },
+  {
+    "date": "2026-12-13",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "mundial",
+        "category": "historia",
+        "idea": "Muro de Berlín: personas de la mano a lo largo de su recorrido",
+        "photo": false
+      },
+      {
+        "position": 2,
+        "ambito": "latam",
+        "category": "cultura",
+        "idea": "Día de Muertos: flores de cempasúchil que se cosechan en México, comparadas con algo cotidiano",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "latam",
+        "category": "lugares",
+        "idea": "Salto Ángel (Venezuela): jirafas apiladas para igualar su caída",
+        "photo": true
+      }
+    ]
+  },
+  {
+    "date": "2026-12-14",
+    "questions": [
+      {
+        "position": 1,
+        "ambito": "latam",
+        "category": "transporte",
+        "idea": "Mi Teleférico de La Paz y El Alto (Bolivia): kilómetros de la red y viajes al día",
+        "photo": true
+      },
+      {
+        "position": 2,
+        "ambito": "mundial",
+        "category": "deportes",
+        "idea": "Pelé y sus goles: minutos de celebración",
+        "photo": false
+      },
+      {
+        "position": 3,
+        "ambito": "mundial",
+        "category": "naturaleza",
+        "idea": "Secuoya General Sherman: lápices que saldrían de su madera",
+        "photo": true
+      }
+    ]
+  }
+]

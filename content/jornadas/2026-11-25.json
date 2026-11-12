@@ -1,0 +1,152 @@
+{
+  "id": "2026-11-25",
+  "name": "Miércoles",
+  "theme": "Tortugas, huaraches y rascacielos",
+  "questions": [
+    {
+      "id": "jornada-2026-11-25-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "latam",
+      "tag": "Tortugas al peso",
+      "title": "¿Cuántas tortugas gigantes de Galápagos pesan lo mismo que un Volkswagen Escarabajo?",
+      "detail": "Tortugas macho adultas de las subespecies grandes contra el clásico Escarabajo (el «vocho» en México). Las tortugas no aceptan subirse a la báscula todas a la vez.",
+      "unit": "tortugas",
+      "answer": 2.8183361629881154,
+      "math": "El Escarabajo pesa entre 730 y 930 kg según la versión: 830 kg de media. Un macho adulto de tortuga gigante pesa de 272 a 317 kg: 294,5 kg de media. 830 ÷ 294,5 ≈ 2,8 tortugas.",
+      "referenceExpression": "(730 + 930) ÷ 2 ÷ ((272 + 317) ÷ 2)",
+      "assumptions": "Tomamos el punto medio de cada rango. La tortuga más pesada medida llegó a 417 kg: con ella bastarían unas dos.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Galápagos tortoise",
+          "url": "https://en.wikipedia.org/wiki/Gal%C3%A1pagos_tortoise",
+          "fact": "Los machos adultos de las subespecies grandes pesan unos 272–317 kg; el máximo registrado es de 417 kg."
+        },
+        {
+          "title": "Wikipedia · Volkswagen Beetle",
+          "url": "https://en.wikipedia.org/wiki/Volkswagen_Beetle",
+          "fact": "El Escarabajo (Tipo 1) pesa en vacío de 730 a 930 kg; el último se fabricó en Puebla (México) en 2003."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un auto pequeño y unas tortugas enormes",
+        "steps": [
+          "Un auto pequeño y antiguo pesa algo menos de una tonelada; una tortuga gigante adulta, unos cientos de kilos.",
+          "Con 800 kg de auto y 300 kg de tortuga salen unas 2,7 tortugas.",
+          "Con los puntos medios, 830 kg y 294,5 kg, salen 2,8: casi tres tortugas por vocho."
+        ]
+      },
+      "calc": {
+        "intro": "El peso del auto entre el de una tortuga adulta.",
+        "rows": [
+          {
+            "label": "Escarabajo (media de 730 y 930 kg)",
+            "value": "830 kg"
+          },
+          {
+            "label": "Tortuga macho (media de 272 y 317 kg)",
+            "value": "÷ 294,5 kg"
+          }
+        ],
+        "result": "Tortugas"
+      }
+    },
+    {
+      "id": "jornada-2026-11-25-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cuerpo",
+      "ambito": "latam",
+      "tag": "Huaraches de fondo",
+      "title": "¿Cuántos pasos da una corredora rarámuri en una carrera de 100 km con huaraches?",
+      "detail": "Como Lorena Ramírez, que en 2025 terminó los 100 km del ultramaratón de Hong Kong en sandalias y falda tradicional. Cada paso mide lo que el de una corredora media.",
+      "unit": "pasos",
+      "answer": 109890.10989010989,
+      "math": "Las corredoras recreativas dan pasos de 0,91 m de media. 100 km son 100.000 m: 100.000 ÷ 0,91 ≈ 109.890 pasos.",
+      "referenceExpression": "100000 ÷ 0,91",
+      "assumptions": "Paso medio de corredoras recreativas en cinta, a su ritmo cómodo. En un ultramaratón de 26 horas se camina a ratos y el paso se acorta, así que el número real sería mayor.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Claro Sports · Lorena Ramírez completa el ultramaratón de Hong Kong",
+          "url": "https://www.clarosports.com/otros-deportes/ni-las-heridas-en-los-pies-la-detuvieron-lorena-ramirez-corredora-raramuri-completa-el-ultramaraton-de-hong-kong/",
+          "fact": "La corredora rarámuri terminó los 100 km del ultramaratón de Hong Kong (enero de 2025) con huaraches, en 26:02:12."
+        },
+        {
+          "title": "Malisoux et al. (2023) · Orthopaedic Journal of Sports Medicine",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10588426/",
+          "fact": "En 860 corredores recreativos, el paso medio de las mujeres es de 0,91 m (1,07 m en los hombres), a 164 pasos por minuto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Metro a metro",
+        "steps": [
+          "Corriendo, cada paso mide más o menos un metro.",
+          "100 km son 100.000 m: unos 100.000 pasos.",
+          "Con el paso medio de una corredora, 0,91 m, salen 109.890 pasos: unos 4.200 por hora en las 26 horas de Lorena Ramírez."
+        ]
+      },
+      "calc": {
+        "intro": "La distancia de la carrera dividida entre lo que mide un paso.",
+        "rows": [
+          {
+            "label": "Distancia de la carrera",
+            "value": "100.000 m"
+          },
+          {
+            "label": "Un paso de corredora",
+            "value": "÷ 0,91 m"
+          }
+        ],
+        "result": "Pasos"
+      }
+    },
+    {
+      "id": "jornada-2026-11-25-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "mundial",
+      "tag": "Ascensor humano",
+      "title": "¿Cuántos pisos por minuto subió el récord de la carrera de escaleras del Empire State Building?",
+      "detail": "La carrera anual sube 1.576 escalones hasta el piso 86. El plusmarquista lo hizo sin ascensor, sin pausa para la foto y, suponemos, sin aliento.",
+      "unit": "pisos por minuto",
+      "answer": 9.00523560209424,
+      "math": "Paul Crake subió los 86 pisos en 9 min 33 s, es decir, 9,55 minutos. 86 ÷ 9,55 ≈ 9,0 pisos por minuto.",
+      "referenceExpression": "86 ÷ (9 + 33 ÷ 60)",
+      "assumptions": "Ritmo medio de toda la subida; contamos los 86 pisos de la carrera como iguales.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Fastest run up the Empire State Building (male)",
+          "url": "https://www.guinnessworldrecords.com/world-records/71179-empire-state-building-run-up-fastest-time-male",
+          "fact": "Paul Crake (Australia) subió los 1.576 escalones hasta el piso 86 en 9 min 33 s el 4 de febrero de 2003."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pisos entre minutos",
+        "steps": [
+          "Subir 86 pisos andando cuesta media hora o más; un campeón lo hace en unos 10 minutos.",
+          "86 pisos en 10 minutos son unos 8 o 9 pisos por minuto.",
+          "Con el récord de 9 min 33 s salen 9 pisos por minuto: unos 2,75 escalones cada segundo."
+        ]
+      },
+      "calc": {
+        "intro": "Los pisos de la carrera entre el tiempo del récord.",
+        "rows": [
+          {
+            "label": "Pisos de la carrera",
+            "value": "86"
+          },
+          {
+            "label": "Tiempo récord (9 min 33 s)",
+            "value": "÷ 9,55 min"
+          }
+        ],
+        "result": "Pisos por minuto"
+      }
+    }
+  ]
+}

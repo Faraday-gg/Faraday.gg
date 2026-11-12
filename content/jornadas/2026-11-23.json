@@ -1,0 +1,185 @@
+{
+  "id": "2026-11-23",
+  "name": "Lunes",
+  "theme": "Arrecife, billetes y telescopio",
+  "questions": [
+    {
+      "id": "jornada-2026-11-23-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "mundial",
+      "tag": "Liga submarina",
+      "title": "¿Cuántas canchas de fútbol caben en la Gran Barrera de Coral?",
+      "detail": "Canchas reglamentarias de 105 × 68 m, puestas una junto a otra sin huecos sobre toda la superficie del parque marino. Los peces hacen de público.",
+      "unit": "canchas",
+      "answer": 48235294.11764706,
+      "math": "La Gran Barrera de Coral ocupa unos 344.400 km², es decir, 344.400.000.000 m². Una cancha de 105 × 68 m tiene 7.140 m². 344.400.000.000 ÷ 7.140 ≈ 48,2 millones de canchas.",
+      "referenceExpression": "344400000000 ÷ (105 × 68)",
+      "assumptions": "Usamos la superficie del área protegida (344.400 km²), que incluye mar abierto entre los arrecifes, no solo el coral. Cancha de 105 × 68 m, la medida recomendada por la FIFA.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Barrier Reef",
+          "url": "https://en.wikipedia.org/wiki/Great_Barrier_Reef",
+          "fact": "Ocupa unos 344.400 km² y se extiende a lo largo de más de 2.300 km."
+        },
+        {
+          "title": "LALIGA · Historia del Santiago Bernabéu",
+          "url": "https://www.laliga.com/es-US/noticias/historia-santiago-bernabeu-estadio-real-madrid",
+          "fact": "El terreno de juego mide 105 × 68 m, la medida que recomienda la FIFA."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-23-1.jpg",
+        "alt": "Vista aérea de la Gran Barrera de Coral: manchas turquesa de arrecife y un banco de arena blanca en medio del mar azul, que se pierde hasta el horizonte",
+        "credit": "Ank Kumar",
+        "url": "https://commons.wikimedia.org/wiki/File:Aerial_View_of_Great_Barrier_Reef_(Ank_Kumar)_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Del kilómetro cuadrado a la cancha",
+        "steps": [
+          "El arrecife mide más de 2.000 km de largo y más de 100 km de ancho en promedio: del orden de 300.000 km².",
+          "Una cancha ocupa unos 7.000 m², así que en un km² caben unas 140. 300.000 × 140 ≈ 42 millones de canchas.",
+          "Con los 344.400 km² y canchas de 7.140 m² salen 48,2 millones de canchas: un campeonato muy, muy largo."
+        ]
+      },
+      "calc": {
+        "intro": "Toda la superficie del arrecife, en canchas reglamentarias.",
+        "rows": [
+          {
+            "label": "Superficie del arrecife",
+            "value": "344.400 km²"
+          },
+          {
+            "label": "En metros cuadrados",
+            "value": "= 344.400.000.000 m²"
+          },
+          {
+            "label": "Una cancha de 105 × 68 m",
+            "value": "÷ 7.140 m²"
+          }
+        ],
+        "result": "Canchas de fútbol"
+      }
+    },
+    {
+      "id": "jornada-2026-11-23-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "dinero",
+      "ambito": "mundial",
+      "tag": "Billetes a la Luna",
+      "title": "Si pusieras en fila todos los billetes de 100 dólares que circulan por el mundo, ¿cuántas veces llegarías a la Luna?",
+      "detail": "Billetes colocados a lo largo, uno detrás de otro, en línea recta. Cuenta solo la ida y la distancia media a la Luna.",
+      "unit": "viajes a la Luna",
+      "answer": 8.073684703433923,
+      "math": "Circulan 19.900 millones de billetes de 100 $. Cada uno mide 6,14 pulgadas (15,6 cm) de largo. 19.900.000.000 × 15,6 cm ≈ 3,1 millones de km. Entre 384.400 km hasta la Luna: unas 8,1 veces.",
+      "referenceExpression": "19900000000 × 6,14 × 2,54 ÷ 100000 ÷ 384400",
+      "assumptions": "Billetes en circulación a 31 de diciembre de 2025. Medimos los billetes a lo largo, sin hueco entre ellos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Federal Reserve · Currency in Circulation: Volume",
+          "url": "https://www.federalreserve.gov/paymentsystems/coin_currcircvolume.htm",
+          "fact": "A 31 de diciembre de 2025 había 19.900 millones de billetes de 100 $ en circulación."
+        },
+        {
+          "title": "U.S. Currency Education Program · $100 note",
+          "url": "https://www.uscurrency.gov/denominations/100",
+          "fact": "Desde 1929 los billetes de la Reserva Federal miden 6,14 × 2,61 pulgadas."
+        },
+        {
+          "title": "NASA · Moon facts",
+          "url": "https://science.nasa.gov/moon/facts/",
+          "fact": "La Luna está a una distancia media de 384.400 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Muchos billetes cortos",
+        "steps": [
+          "Un billete mide unos 15 cm. Los de 100 $ son el billete más común en circulación: decenas de miles de millones.",
+          "20.000 millones × 15 cm = 3.000 millones de metros: 3 millones de km. La Luna está a unos 400.000 km: unas 7 u 8 veces.",
+          "Con 19.900 millones de billetes de 15,6 cm salen 3,1 millones de km: 8,1 viajes a la Luna."
+        ]
+      },
+      "calc": {
+        "intro": "Todos los billetes de 100 dólares, uno detrás de otro.",
+        "rows": [
+          {
+            "label": "Billetes de 100 $ en circulación",
+            "value": "19.900.000.000"
+          },
+          {
+            "label": "Largo de un billete",
+            "value": "× 15,6 cm"
+          },
+          {
+            "label": "Fila completa",
+            "value": "= 3.103.524 km"
+          },
+          {
+            "label": "Distancia a la Luna",
+            "value": "÷ 384.400 km"
+          }
+        ],
+        "result": "Viajes a la Luna"
+      }
+    },
+    {
+      "id": "jornada-2026-11-23-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "latam",
+      "tag": "Espejo con queso",
+      "title": "¿Cuántas pizzas familiares de 40 cm tendrían la misma superficie que el espejo principal del telescopio ELT de Chile?",
+      "detail": "Compara áreas: el espejo es un círculo de 39 m de diámetro y cada pizza, uno de 40 cm. No hace falta encajar círculos; puedes estirar la masa.",
+      "unit": "pizzas",
+      "answer": 9506.249999999998,
+      "math": "Dos círculos se comparan por el cuadrado de su diámetro: (39 ÷ 0,4)² = 97,5² ≈ 9.506 pizzas.",
+      "referenceExpression": "39 × 39 ÷ (0,4 × 0,4)",
+      "assumptions": "Tratamos el espejo como un círculo lleno de 39 m, aunque en realidad está hecho de 798 segmentos hexagonales y tiene un hueco central. La pizza familiar de 40 cm es una condición del juego.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "ESO · ELT: el espejo primario M1",
+          "url": "https://elt.eso.org/mirror/M1/",
+          "fact": "El espejo primario del ELT tiene 39 m de diámetro y está formado por 798 segmentos de unos 1,45 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Diámetros al cuadrado",
+        "steps": [
+          "El espejo del ELT, en el desierto de Atacama, mide casi 40 m de lado a lado; una pizza familiar, 0,4 m. El diámetro es 100 veces mayor.",
+          "Las superficies crecen con el cuadrado: 100² = 10.000 pizzas.",
+          "Con 39 m exactos, 39 ÷ 0,4 = 97,5, y 97,5² = 9.506 pizzas familiares para cubrir el espejo."
+        ]
+      },
+      "calc": {
+        "intro": "Dos círculos: se comparan los diámetros al cuadrado.",
+        "rows": [
+          {
+            "label": "Diámetro del espejo",
+            "value": "39 m"
+          },
+          {
+            "label": "Diámetro de la pizza",
+            "value": "÷ 0,4 m"
+          },
+          {
+            "label": "Veces más ancho",
+            "value": "= 97,5"
+          },
+          {
+            "label": "Al cuadrado",
+            "value": "× 97,5"
+          }
+        ],
+        "result": "Pizzas familiares"
+      }
+    }
+  ]
+}

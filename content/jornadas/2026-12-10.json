@@ -1,0 +1,156 @@
+{
+  "id": "2026-12-10",
+  "name": "Jueves",
+  "theme": "Góndolas, cables y boxes",
+  "questions": [
+    {
+      "id": "jornada-2026-12-10-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "mundial",
+      "tag": "Góndolas en fila",
+      "title": "¿Cuántas góndolas puestas en fila, de proa a popa, harían falta para cubrir el Gran Canal de Venecia de punta a punta?",
+      "detail": "El Gran Canal cruza Venecia en forma de S gigante. Llénalo de góndolas una detrás de otra siguiendo su recorrido, de un extremo al otro. El gondolero que canta va incluido.",
+      "unit": "góndolas",
+      "answer": 345.45454545454544,
+      "math": "El Gran Canal mide unos 3,8 km: 3.800 m. Una góndola mide hasta 11 m de largo. 3.800 ÷ 11 ≈ 345 góndolas.",
+      "referenceExpression": "3800 ÷ 11",
+      "assumptions": "Góndolas de 11 m, el largo máximo de una góndola moderna, siguiendo el recorrido del canal sin huecos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Grand Canal (Venice)",
+          "url": "https://en.wikipedia.org/wiki/Grand_Canal_(Venice)",
+          "fact": "El Gran Canal mide 3,8 km de largo y entre 30 y 90 m de ancho."
+        },
+        {
+          "title": "Wikipedia · Gondola",
+          "url": "https://en.wikipedia.org/wiki/Gondola",
+          "fact": "Una góndola moderna mide hasta 11 m de largo y 1,6 m de ancho."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el canal",
+        "steps": [
+          "El Gran Canal es la avenida principal de Venecia: cruza toda la ciudad, que se atraviesa a pie en un rato: unos pocos kilómetros. Una góndola es larga, como dos autos y pico.",
+          "Unos 4 km entre unos 10 m por góndola dan unas 400.",
+          "Con 3.800 m y góndolas de 11 m: 345 góndolas. Un atasco veneciano de lujo."
+        ]
+      },
+      "calc": {
+        "intro": "El largo del canal, medido en góndolas.",
+        "rows": [
+          {
+            "label": "Largo del Gran Canal",
+            "value": "3.800 m"
+          },
+          {
+            "label": "Una góndola",
+            "value": "÷ 11 m"
+          }
+        ],
+        "result": "Góndolas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-10-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "tecnologia",
+      "ambito": "mundial",
+      "tag": "Internet bajo el mar",
+      "title": "¿Cuántas vueltas a la Tierra darían todos los cables submarinos de internet puestos uno detrás de otro?",
+      "detail": "Casi todo lo que haces en internet entre continentes viaja por cables tendidos en el fondo del mar. Únelos todos en uno solo y enróllalo alrededor del ecuador. Los tiburones, avisados.",
+      "unit": "vueltas",
+      "answer": 37.42981908920773,
+      "math": "Hay más de 1,5 millones de km de cables submarinos en servicio. El ecuador mide 40.075 km. 1.500.000 ÷ 40.075 ≈ 37,4 vueltas.",
+      "referenceExpression": "1500000 ÷ 40075",
+      "assumptions": "Cifra de TeleGeography a principios de 2026 («más de 1,5 millones de km»), así que el resultado es un mínimo. Vueltas por el ecuador.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "TeleGeography · Submarine cable FAQs",
+          "url": "https://www2.telegeography.com/submarine-cable-faqs-frequently-asked-questions",
+          "fact": "A principios de 2026 había más de 1,5 millones de km de cables submarinos en servicio en el mundo."
+        },
+        {
+          "title": "Wikipedia · Earth's circumference",
+          "url": "https://en.wikipedia.org/wiki/Earth%27s_circumference",
+          "fact": "La circunferencia ecuatorial de la Tierra es de 40.075,017 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Océanos llenos de cable",
+        "steps": [
+          "Cruzar el Atlántico son unos 6.000 km de cable, y hay cientos de cables entre todos los continentes. El total debería sumar más de un millón de kilómetros.",
+          "Un millón y medio de kilómetros entre 40.000 km por vuelta dan unas 37 vueltas.",
+          "Con 1.500.000 km y 40.075 km por vuelta: 37,4 vueltas al ecuador. Un ovillo de internet bien apretado."
+        ]
+      },
+      "calc": {
+        "intro": "Todo el cable submarino, enrollado alrededor del ecuador.",
+        "rows": [
+          {
+            "label": "Cable en servicio",
+            "value": "1.500.000 km"
+          },
+          {
+            "label": "Una vuelta al ecuador",
+            "value": "÷ 40.075 km"
+          }
+        ],
+        "result": "Vueltas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-10-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "mundial",
+      "tag": "Microondas en boxes",
+      "title": "Al ritmo de la parada en boxes más rápida de la Fórmula 1, ¿cuántos neumáticos cambiarías mientras se calienta un café en el microondas?",
+      "detail": "En Catar 2023 el equipo McLaren cambió las cuatro ruedas de un auto en un suspiro. Pon el microondas un minuto y cambia neumáticos a ese ritmo, sin pausa, hasta que suene el pitido.",
+      "unit": "neumáticos",
+      "answer": 133.33333333333334,
+      "math": "La parada récord duró 1,80 s y cambió 4 neumáticos. Un minuto son 60 s: 60 ÷ 1,8 = 33,3 paradas. 33,3 × 4 ≈ 133 neumáticos.",
+      "referenceExpression": "60 ÷ 1,8 × 4",
+      "assumptions": "Un minuto de microondas es un supuesto del modelo. Paradas una detrás de otra, sin tiempo para que entre y salga el auto.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Formula 1 · 2023 DHL Fastest Pit Stop Award",
+          "url": "https://www.formula1.com/en/results/2023/awards/fastest-pit-stops",
+          "fact": "La parada en boxes más rápida de 2023 fue de McLaren en el Gran Premio de Catar: 1,80 s, récord mundial."
+        }
+      ],
+      "reasoning": {
+        "heading": "Dos segundos por auto",
+        "steps": [
+          "Una parada en boxes de primera dura unos dos segundos y cambia cuatro ruedas. En un minuto caben muchas.",
+          "A unos 2 s por parada, en 60 s caben 30 paradas: unos 120 neumáticos.",
+          "Con el récord de 1,80 s: 33,3 paradas en un minuto, 133 neumáticos. Y el café, todavía tibio."
+        ]
+      },
+      "calc": {
+        "intro": "Cuántas paradas récord caben en un minuto, por cuatro ruedas.",
+        "rows": [
+          {
+            "label": "Un minuto de microondas",
+            "value": "60 s"
+          },
+          {
+            "label": "Parada récord",
+            "value": "÷ 1,8 s"
+          },
+          {
+            "label": "Ruedas por parada",
+            "value": "× 4"
+          }
+        ],
+        "result": "Neumáticos"
+      }
+    }
+  ]
+}

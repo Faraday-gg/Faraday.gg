@@ -138,7 +138,7 @@ try{
   // Respuestas guardadas con el jugador anonimizado; jornadas y preguntas publicadas una sola vez.
   assert.equal(supabase.tables.answers.size,9,'3 + 1 + 3 + 1 + 1 respuestas válidas');
   assert([...supabase.tables.answers.values()].every(row=>/^[0-9a-f]{64}$/.test(row.player_hash)&&row.player_hash!==first));
-  assert.deepEqual([...supabase.tables.days.values()].map(d=>[d.id,d.source]),[['2026-11-09','piloto'],['2026-11-16','banco-editorial']]);
+  assert.deepEqual([...supabase.tables.days.values()].map(d=>[d.id,d.source]),[['2026-11-09','piloto'],['2026-11-16','piloto']]);
   assert.equal(supabase.tables.questions.size,6);
   const pilotQuestion=supabase.tables.questions.get('piloto-v3-2026-11-09-1');assert.equal(pilotQuestion.position,1);assert.equal(pilotQuestion.revision,1);assert.equal(pilotQuestion.content.id,'piloto-v3-2026-11-09-1');
   assert.equal(supabase.calls.filter(c=>c.method==='POST'&&c.url.pathname.endsWith('/days')).length,2,'Cada jornada se publica una vez por instancia');
