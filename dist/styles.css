@@ -332,13 +332,13 @@
   .game-content h2{font-size:clamp(25px,7vw,32px)}
 }
 
-/* Tarjeta de respuesta (decisión 0012): multiplicador, tu cifra frente a la real y la distribución. Nada más a la vista. */
+/* Tarjeta de respuesta (decisión 0012): tu cifra frente a la real arriba, debajo el multiplicador (tamaño contenido) y la distribución. Nada más a la vista. */
 .game-card{position:relative}
-.verdict{display:grid;grid-template-columns:auto 1fr;align-items:end;column-gap:16px;row-gap:6px}
+.verdict{display:grid;grid-template-columns:auto 1fr;align-items:end;column-gap:14px;row-gap:4px;margin:18px 0 0}
 .verdict-x{grid-row:span 2;font:700 clamp(64px,11vw,104px)/.9 var(--display);letter-spacing:-.06em;color:var(--g-accent)}
 .verdict-chip{justify-self:start;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:30px;background:var(--g-fg);color:var(--g-bg);font-size:14px;font-weight:700}
 .verdict-rank{font-size:14px;color:var(--g-muted);min-height:20px}
-.ledger{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:26px 0 0}
+.ledger{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0}
 .ledger>div{padding:14px 16px;border-radius:16px;background:var(--g-hover)}
 .ledger .ledger-real{background:var(--g-fg);color:var(--g-bg)}
 .ledger dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
@@ -361,7 +361,7 @@
 .explain-panel.open{opacity:1;transform:none}
 .explain-panel.more{-webkit-mask-image:linear-gradient(#000 calc(100% - 40px),#0000);mask-image:linear-gradient(#000 calc(100% - 40px),#0000)}
 .game-card .verdict,.game-card .ledger,.game-card .population{transition:opacity .4s ease,transform .5s cubic-bezier(.22,1,.36,1),filter .4s ease}
-.game-card.explaining .ledger,.game-card.explaining .population{opacity:.28;transform:translateY(-8px);filter:blur(1.5px);cursor:pointer}
+.game-card.explaining .population{opacity:.28;transform:translateY(-8px);filter:blur(1.5px);cursor:pointer}
 .game-card.explaining .verdict{cursor:pointer}
 @media(prefers-reduced-motion:reduce){.explain-panel,.game-card .ledger,.game-card .population{transition:opacity .2s}.explain-panel{transform:none}.game-card.explaining .ledger,.game-card.explaining .population{transform:none}}
 .explain-inner>:first-child{margin-top:16px}
@@ -384,7 +384,7 @@
 .explain-sources{margin:8px 0 0;font-size:12px;line-height:1.5;color:var(--g-muted)}
 .explain-sources a,.explain-panel figcaption a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:760px){
-  .verdict-x{font-size:clamp(56px,17vw,80px)}
+  .verdict-x{font-size:clamp(40px,12vw,48px)}
   .ledger>div{padding:12px}
   .card-actions{grid-template-columns:auto 1fr;}
   .card-actions .game-primary{grid-column:1/-1;width:100%}
@@ -393,24 +393,24 @@
 /* Cifras (decisión 0020): Geist fina, con números tabulares, para que las cifras respiren. */
 :root{--num:'Geist','DM Sans',Arial,sans-serif;--ease-calm:cubic-bezier(.22,1,.36,1)}
 .verdict-x,.ledger dd,.summary-score,.summary-row strong,.result-numbers dd{font-family:var(--num);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.02em}
-.verdict-x{display:inline-block;font-weight:300;font-size:clamp(56px,10vw,92px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
+.verdict-x{display:inline-block;font-weight:300;font-size:clamp(40px,7vw,56px);line-height:1;letter-spacing:-.045em;white-space:nowrap}
 .ledger dd{font-weight:400;font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em}
 .summary-score{font-weight:300;letter-spacing:-.04em}
 .summary-row strong{font-weight:500}
 /* Cifras largas (más de 7 caracteres): el multiplicador ocupa su propia línea y baja de tamaño para no salirse de la tarjeta. */
-.verdict.is-long .verdict-x{grid-column:1/-1;grid-row:auto;font-size:clamp(44px,13vw,84px)}
-.verdict.is-xlong .verdict-x{font-size:clamp(36px,11vw,72px)}
+.verdict.is-long .verdict-x{grid-column:1/-1;grid-row:auto;font-size:clamp(36px,10vw,52px)}
+.verdict.is-xlong .verdict-x{font-size:clamp(30px,9vw,46px)}
 .ledger.is-long dd{font-size:clamp(14px,4vw,24px);overflow-wrap:normal;white-space:nowrap}
 /* Entrada del resultado: todo aparece despacio y en orden, sin saltos. */
 @keyframes calm-rise{from{opacity:0;transform:translateY(10px)}}
 @keyframes calm-focus{from{opacity:0;filter:blur(8px);transform:translateY(6px)}}
 @keyframes calm-grow{from{transform:scaleY(0)}}
-.verdict-x{animation:calm-focus .9s var(--ease-calm) both}
-.verdict-chip{animation:calm-rise .7s var(--ease-calm) .25s both}
+.verdict-x{animation:calm-focus .9s var(--ease-calm) .3s both}
+.verdict-chip{animation:calm-rise .7s var(--ease-calm) .55s both}
 .verdict-rank:not(:empty){animation:calm-rise .7s var(--ease-calm) both}
-.ledger>div{animation:calm-rise .8s var(--ease-calm) .35s both}
-.ledger>div+div{animation-delay:.45s}
-.ledger-unit{animation:calm-rise .8s var(--ease-calm) .55s both}
+.ledger>div{animation:calm-rise .8s var(--ease-calm) both}
+.ledger>div+div{animation-delay:.1s}
+.ledger-unit{animation:calm-rise .8s var(--ease-calm) .2s both}
 .game-shell .distribution-bars rect{transform-box:fill-box;transform-origin:50% 100%;animation:calm-grow .9s var(--ease-calm) both;animation-delay:calc(var(--i,0) * 18ms)}
 .game-shell .distribution-svg .guess-line,.game-shell .distribution-svg .reference-line,.game-shell .distribution-svg .you-tag,.game-shell .distribution-svg .you-tag-text{animation:calm-rise .7s var(--ease-calm) .4s both}
 @media(prefers-reduced-motion:reduce){.verdict-x,.verdict-chip,.verdict-rank,.ledger>div,.ledger-unit,.game-shell .distribution-bars rect,.game-shell .distribution-svg *{animation:none!important}}
