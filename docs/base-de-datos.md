@@ -22,6 +22,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.duels` | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
 | `public.leagues`, `public.league_members`, `public.daily_results` | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
 | `public.referral_codes`, `public.referrals` | `runtime/referidos.json` del servidor local | Circuito de amigos (referidos): el código de cada jugador y quién invitó a quién, con los premios ya cobrados. |
+| `public.ranks` (**sin aplicar**) | `runtime/rangos.json` del servidor local | Clasificatorias de los duelos: valoración, partidas y colchón de cada jugador. |
 
 ### Qué está en Supabase y qué no
 
@@ -160,6 +161,26 @@ Cobrar es un `PATCH` con `*_claimed = eq.false` que devuelve la fila: si no la d
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Clasificatorias (migración `20261112200000_rangos`, **sin aplicar**)
+
+[Decisión 0043](decisiones/0043-clasificatorias-y-rangos.md), `lib/rangos.mjs`. Hasta que se aplique, la opción «Clasificatoria» responde 503 («Las clasificatorias no están disponibles ahora mismo») y los duelos normales siguen funcionando.
+
+**`public.ranks`**
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | SHA-256 del UUID anónimo. |
+| `rating` | `integer` | ≥ 0, por defecto 300 | 100 por división desde Bronce III (0). Desde 2100, Científico. |
+| `games`, `wins`, `losses`, `draws` | `integer` | ≥ 0 | Las 5 primeras partidas son de posicionamiento. |
+| `shield` | `integer` | 0 a 10 | Partidas de colchón que quedan tras subir de división. |
+| `peak` | `integer` | ≥ 0 | La valoración más alta alcanzada. |
+| `seen` | `jsonb` | por defecto `{}` | Últimos 30 duelos apuntados (id → resultado): un duelo no cuenta dos veces. |
+| `name`, `avatar` | `text`, `jsonb` | apodo de hasta 16 | Para la clasificación de la cumbre (Científico). |
+| `version` | `integer` | por defecto 1 | Concurrencia optimista, como en `duels`. |
+| `updated_at` | `timestamptz` | por defecto `now()` | |
+
+Índice parcial `ranks_rating_idx` (`rating desc`, solo `rating >= 2100`) para la cumbre. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Los duelos clasificatorios no necesitan columnas nuevas en `duels`: el modo, la valoración de cada jugador al empezar y el resultado van en `state` (`mode`, `players[].rank`, `rankResult`, `rankSettled`).
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -190,6 +211,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
 - **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
+- **Clasificatorias** (`lib/rangos.mjs`, acción `buscar` con `mode: 'ranked'` y acción `rango` de `/api/duelo`): al buscar, lee la fila de `ranks` del jugador; al terminar el duelo, por cada jugador lee su fila, calcula los PR y la guarda con `PATCH … version=eq.<leída>` (o la inserta si no existía), apuntando el duelo en `seen`. Si la fila ya tiene ese duelo en `seen`, devuelve el mismo resultado sin tocarla. Si la tabla no existe, `buscar` en clasificatoria y `rango` responden 503 y los PR de un duelo se reintentan en la siguiente consulta.
 - **`POST /api/liga`** (`lib/ligas.mjs`): crea ligas e inserta miembros, y para la clasificación lee `daily_results` de los miembros entre el lunes y el domingo. `POST /api/answers` (al responder la última pregunta del reto de hoy) y `POST /api/daily-scores` insertan en `daily_results`, ignorando duplicados; si falla, la respuesta se guarda igual. Si las tablas no existen o Supabase falla, `/api/liga` responde 503 sin afectar al resto de la API.
 - **`POST /api/referido`** (`lib/referidos.mjs`): `codigo` crea o actualiza tu fila de `referral_codes`. `abrir` inserta en `referrals` (ignorando duplicados) si el jugador no tiene respuestas en `answers`. `estado` y `reclamar` leen `daily_results` de los invitados para marcar `connected_at` y cobran los premios con el `PATCH` condicionado. Si las tablas no existen o Supabase falla, responde 503 sin afectar al resto de la API.
 - **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
@@ -232,6 +254,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261112005952` | [duelos](../supabase/migrations/20261112005952_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
+| `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
 
