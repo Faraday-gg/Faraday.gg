@@ -1,0 +1,88 @@
+/* Armario y tienda del avatar (decisión 0047): el avatar siempre a la vista mientras se mira el catálogo (en el móvil, fijo
+   arriba como un probador) y cartas de tienda con el color de su rareza. Va después de styles.css y avatar.css y pisa lo que haga falta. */
+
+/* Cabecera: colección y cuerpo */
+.wardrobe-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:0 0 14px}
+.wardrobe-collection{flex:1;min-width:0;max-width:260px}
+.wardrobe-collection p{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0 0 6px;font-size:13px}
+.wardrobe-collection b{font:700 15px var(--display);letter-spacing:-.02em}
+.wardrobe-collection span{white-space:nowrap;font:600 12px var(--num);font-variant-numeric:tabular-nums;color:var(--muted)}
+.wardrobe-collection .mission-bar{height:6px;margin:0}
+.wardrobe-collection .mission-bar i{background:linear-gradient(90deg,var(--coral),#ffb648)}
+.wardrobe-head .profile-body{flex:none;margin:0}
+
+/* Partes del avatar: una fila de pestañas con icono que se desliza */
+.wardrobe-slots{display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;margin:0 -18px 10px;padding:2px 18px 10px;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 32px),transparent)}
+.wardrobe-slots::-webkit-scrollbar{display:none}
+.wardrobe-slots button{flex:none;scroll-snap-align:start;display:grid;justify-items:center;gap:2px;min-width:74px;border:0;border-radius:16px;background:var(--cream);padding:9px 8px 7px;color:var(--muted);font:700 12px/1.1 var(--font);transition:background .2s,color .2s,transform .15s}
+.wardrobe-slots button:hover{color:var(--ink);transform:translateY(-1px)}
+.wardrobe-slots button[aria-selected=true]{background:var(--ink);color:var(--paper);border:0}
+.wardrobe-slots small{font:600 10px var(--num);font-variant-numeric:tabular-nums;opacity:.7}
+.slot-icon{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.wardrobe-slots button[aria-selected=true] .slot-icon{stroke:var(--yellow)}
+
+/* Filtro: todo, tuyas, por conseguir */
+.wardrobe-filter{display:flex;gap:6px;margin:0 0 14px}
+.wardrobe-filter button{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:30px;background:transparent;padding:6px 12px;font:700 12px var(--font);color:var(--muted)}
+.wardrobe-filter button[aria-pressed=true]{border-color:var(--ink);color:var(--ink);background:var(--paper);box-shadow:inset 0 0 0 .5px var(--ink)}
+.wardrobe-filter small{font:600 11px var(--num);opacity:.7}
+.wardrobe-empty{grid-column:1/-1;margin:8px 0;padding:28px 16px;border:1.5px dashed var(--line);border-radius:18px;text-align:center;font-size:14px;color:var(--muted)}
+
+/* Cartas de la tienda: el color de la rareza en el fondo de la pieza y en la etiqueta */
+.profile-items{grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+.profile-tile{--r:#b9ae98;--r-soft:#efe8da;position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;min-width:0;border:0;border-radius:18px;background:var(--paper);padding:0;overflow:hidden;text-align:center;box-shadow:0 0 0 1.5px #2026301a,0 8px 18px -14px #20263080;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
+.profile-tile[data-rarity=especial]{--r:#3fa9f5;--r-soft:#d7ecfd}
+.profile-tile[data-rarity=rara]{--r:#8f6ff0;--r-soft:#e6defd}
+.profile-tile[data-rarity=epica]{--r:#ff6548;--r-soft:#ffdccf}
+.profile-tile[data-rarity=legendaria]{--r:#f2a516;--r-soft:#ffe9a8}
+.profile-tile[data-rarity=nivel]{--r:#1fae6c;--r-soft:#d3f3e2}
+.profile-tile:hover{transform:translateY(-3px);border-color:transparent;box-shadow:0 0 0 1.5px var(--r),0 14px 26px -14px #20263099}
+.profile-tile[data-rarity=epica],.profile-tile[data-rarity=legendaria]{background:var(--paper)}
+.profile-tile .tile-art{position:relative;display:block;width:100%;height:auto;aspect-ratio:1;border-radius:0;overflow:hidden;background:radial-gradient(circle at 50% 40%,#fffdf7 0,var(--r-soft) 72%);border-bottom:3px solid var(--r)}
+.profile-tile.is-locked .tile-art{background:radial-gradient(circle at 50% 40%,#fffdf7 0,var(--r-soft) 72%)}
+.profile-tile.is-gated .tile-art .avatar-view{filter:saturate(.35) brightness(1.04);opacity:.8}
+.profile-tile[data-rarity=legendaria] .tile-art::after{content:'';position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 42%,#fff8 50%,transparent 58%);animation:tile-shine 3.6s ease-in-out infinite;pointer-events:none}
+@keyframes tile-shine{0%,55%{transform:translateX(-60%)}100%{transform:translateX(60%)}}
+.tile-rarity{position:absolute;top:8px;left:8px;z-index:1;border-radius:20px;padding:2px 8px;background:var(--r)!important;color:#fff!important;font:800 9px/1.5 var(--font);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 2px 6px -2px #20263066}
+.profile-tile[data-rarity=legendaria] .tile-rarity{color:#3d2a00!important;background:linear-gradient(90deg,#ffd75e,#f2a516)!important}
+.tile-badge{position:absolute;top:7px;right:7px;z-index:1;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--yellow);font:800 13px/1 var(--font);box-shadow:0 2px 6px -2px #20263099}
+.profile-tile .tile-name{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.5em;margin:9px 10px 0;font:700 13px/1.25 var(--font);text-align:center}
+.profile-tile .tile-state{align-self:center;display:inline-flex;align-items:center;gap:4px;margin:7px 10px 11px;border-radius:30px;padding:4px 11px;background:var(--cream);color:var(--muted);font:700 12px var(--num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.profile-tile .tile-state.price{background:var(--ink);color:var(--paper)}
+.profile-tile .tile-state.price .coin{color:var(--yellow)}
+.profile-tile .tile-state.on{background:var(--yellow);color:var(--ink)}
+.profile-tile .tile-state.lock{background:transparent;padding-inline:4px;color:var(--muted);font:600 11px var(--font)}
+.tile-state.lock svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.profile-tile.is-on{background:var(--paper);box-shadow:0 0 0 2.5px var(--ink),0 10px 22px -14px #202630aa}
+.profile-tile.is-trying{background:var(--paper);transform:translateY(-3px);box-shadow:0 0 0 2.5px var(--coral),0 14px 28px -12px #ff6548aa}
+
+/* Escritorio: el avatar a la izquierda ya se queda fijo; las pestañas de partes, también, al bajar por el catálogo */
+@media(min-width:761px){
+  .profile-main.is-wardrobe .wardrobe-slots{position:sticky;top:68px;z-index:3;background:var(--paper)}
+}
+
+/* Móvil: probador. El avatar arriba, fijo, y el catálogo se desliza por debajo. */
+@media(max-width:760px){
+  .profile-main.is-wardrobe{--stage:min(33vh,270px);--bar:60px}
+  .profile-main.is-wardrobe .profile-card{position:sticky;top:var(--bar);z-index:4;display:block;height:var(--stage);margin:-8px -10px 0;padding:0;border-radius:0 0 28px 28px;overflow:hidden;box-shadow:0 14px 24px -18px #20263080}
+  .profile-main.is-wardrobe .profile-card>:not(.profile-figure):not(.profile-try){display:none}
+  .profile-main.is-wardrobe .profile-figure{width:calc((var(--stage) - 18px)*2/3);margin:10px auto 0}
+  .profile-main.is-wardrobe .profile-card:has(.profile-try) .profile-figure{width:calc((var(--stage) - 74px)*2/3);margin-top:4px}
+  .profile-main.is-wardrobe .profile-try{position:absolute;left:10px;right:10px;bottom:10px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:4px 8px;padding:8px 8px 8px 14px;text-align:left;box-shadow:0 10px 24px -12px #202630aa}
+  .profile-main.is-wardrobe .profile-try p{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .profile-main.is-wardrobe .profile-try .profile-try-note{grid-column:1/-1;grid-row:2;white-space:normal;font-size:11px;line-height:1.3}
+  .profile-main.is-wardrobe .profile-try .game-primary,.profile-main.is-wardrobe .profile-try .game-secondary{padding:9px 14px;font-size:13px;white-space:nowrap}
+  .profile-main.is-wardrobe .profile-try .duel-link{margin:0;padding:6px;font-size:13px}
+  .profile-main.is-wardrobe .profile-side{margin-top:4px}
+  .profile-main.is-wardrobe .wardrobe-slots{position:sticky;top:calc(var(--bar) + var(--stage) - 8px);z-index:3;background:var(--paper);margin:0 -14px 10px;padding:10px 14px}
+  .wardrobe-head{gap:10px}
+  .wardrobe-slots button{min-width:68px;padding:8px 6px 6px}
+  .profile-items{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .profile-tile{border-radius:16px}
+  .profile-tile .tile-name{margin:7px 6px 0;font-size:11.5px}
+  .profile-tile .tile-state{margin:6px 6px 9px;padding:3px 8px;font-size:11px}
+  .tile-rarity{top:6px;left:6px;padding:1px 6px;font-size:8px}
+  .tile-badge{top:5px;right:5px;width:20px;height:20px;font-size:11px}
+}
+@media(max-width:360px){.profile-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){.profile-tile[data-rarity=legendaria] .tile-art::after{animation:none;display:none}}

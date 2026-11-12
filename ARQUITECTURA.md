@@ -68,6 +68,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
+  armario.css            Armario y tienda del avatar: probador con el avatar siempre a la vista (fijo arriba en el móvil), pestañas con icono, filtro y cartas por rareza (decisión 0047)
   progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi», cifras de las medallas y perfil con armario, tienda y vitrina (decisiones 0024, 0027, 0030 y 0035)
   medals.js              Medallas e insignias: catálogo, regla, dibujo, aviso y ceremonia (decisión 0035)
   medals.css             Estilos de las medallas (dibujo en CSS), la vitrina, la pestaña «Medallas», el aviso y la ceremonia
