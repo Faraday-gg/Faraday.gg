@@ -3,7 +3,7 @@
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
-// Hay dos cuerpos, hombre y mujer (decisión 0027), cada uno con su colección: las mismas piezas por hueco y a los mismos
+// Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
 // precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
 (()=>{
   const PAPER='#fffdf7';
@@ -198,7 +198,7 @@
   // Piezas de un hueco que puede llevar un cuerpo: las suyas y las compartidas.
   const pieces=(slot,body)=>CATALOG.filter(entry=>entry.slot===slot&&(!entry.for||entry.for===body));
   // Un look siempre completo: las piezas desconocidas (de una versión anterior o más nueva) o del otro cuerpo pasan a las de
-  // por defecto. Un look sin cuerpo (anterior a la decisión 0027) es de hombre.
+  // por defecto. Un look sin cuerpo (anterior a la decisión 0028) es de hombre.
   function normalize(look){
     const body=bodyOf(look),result={body};
     for(const [slot] of SLOTS){const id=look&&typeof look[slot]==='string'?look[slot]:null,entry=id!==null&&find(slot,id);result[slot]=entry&&(!entry.for||entry.for===body)?id:DEFAULTS[body][slot]}

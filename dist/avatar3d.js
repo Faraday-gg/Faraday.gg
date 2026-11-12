@@ -1,5 +1,5 @@
 // Avatar en 3D (decisión 0025). Personaje propio, de estética de calle: cabeza de cubo redondeado, mirada con párpado
-// caído, ropa ancha y contorno de tinta. Hay dos cuerpos, hombre y mujer (decisión 0027). Todo se construye con formas de Three.js y texturas pintadas en un lienzo
+// caído, ropa ancha y contorno de tinta. Hay dos cuerpos, hombre y mujer (decisión 0028). Todo se construye con formas de Three.js y texturas pintadas en un lienzo
 // (chaquetas, estampados, puños): no hay modelos descargados ni logotipos o diseños de terceros. Las piezas de marca
 // (decisión 0026) son la excepción: llevan el logotipo real (avatar-logos.js, o dibujado aquí en DRAWN).
 // avatar.js escribe en la página huecos <span class="avatar-view"> con el look ya traducido; este archivo los rellena.
@@ -417,7 +417,7 @@ function snapshot(look,mode,width,height){
 }
 // Avatares animados (portada, perfil, duelo): respiran, parpadean, cambian de postura y hacen gestos.
 const live=new Set(),queue=new Set(),asleep=new Set();
-// ---------- Animación (decisión 0027). Hay una postura base que respira y se mece sin repetirse, y encima gestos sueltos
+// ---------- Animación (decisión 0028). Hay una postura base que respira y se mece sin repetirse, y encima gestos sueltos
 // («clips») que entran y salen suaves; cada cierto rato se elige uno al azar. Cada canal persigue a su objetivo con retardo:
 // la cabeza y los antebrazos llegan un poco después que el cuerpo, que es lo que evita el aire de robot.
 // Canales: px, py, air = cadera (lado, altura, salto); ry, rz = giro y balanceo del cuerpo; s* = cintura; h* = cuello;

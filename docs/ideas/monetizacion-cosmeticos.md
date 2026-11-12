@@ -22,5 +22,5 @@ Los cosméticos son la forma de ingreso que menos molesta en un juego de conocim
 - Hace falta inicio de sesión y guardar el progreso en el servidor antes de vender nada: hoy todo está en el navegador y se puede falsear ([idea de login](login-con-supabase.md)).
 - La tienda tiene piezas de marcas reales sin licencia ([decisión 0026](../decisiones/0026-marcas-reales-en-la-tienda.md)): no se pueden vender por dinero sin permiso de cada marca. Antes de cobrar hay que retirarlas o dejarlas fuera de lo que se paga.
 - Hace falta un proveedor de pagos, facturación e impuestos, y revisar la normativa si juegan menores.
-- No queremos cajas de premios al azar ni ofertas con cuenta atrás. Cualquier propuesta que las incluya se descarta.
+- No queremos ofertas con cuenta atrás ni cajas de premios al azar **de pago**. Desde la [decisión 0027](../decisiones/0027-cofres.md) hay cofres al azar que se ganan jugando o se compran con faradios; si algún día se venden faradios por dinero, esos cofres hay que revisarlos o retirarlos antes (normativa de cajas botín y menores).
 - No sabemos cuánta gente pagaría. Antes de construir pagos conviene medir cuántos jugadores abren el armario y gastan faradios.

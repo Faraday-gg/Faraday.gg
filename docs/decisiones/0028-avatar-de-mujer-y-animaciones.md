@@ -1,4 +1,4 @@
-# 0027. Avatar de hombre o de mujer, con su colección, y animaciones más naturales
+# 0028. Avatar de hombre o de mujer, con su colección, y animaciones más naturales
 
 - **Estado:** propuesta (código en la rama `feat/avatar-mujer-animaciones`)
 - **Fecha:** 2026-11-12
@@ -52,7 +52,8 @@ El avatar solo tenía un cuerpo, de chico, y se movía de forma mecánica: un va
 
 ## Consecuencias
 
-- **Las piezas compradas son de un cuerpo.** Quien cambia de cuerpo empieza con las piezas gratuitas del otro y tiene que comprar las suyas. Si resulta frustrante, se puede regalar la pareja de cada pieza comprada: los precios coinciden uno a uno.
+- **Los cofres ([decisión 0027](0027-cofres.md)) solo dan piezas del cuerpo que se lleva puesto** y las comunes, para que el premio siempre se pueda estrenar. Con el catálogo de cada cuerpo igual de grande y a los mismos precios, el valor medio de un cofre no cambia.
+- **Las piezas compradas son de un cuerpo.** Quien cambia de cuerpo empieza con las piezas gratuitas del otro y tiene que comprar las suyas. Si resulta frustrante, se puede regalar la pareja de cada pieza comprada: los precios coinciden uno a uno ([idea](../ideas/piezas-para-los-dos-cuerpos.md)).
 - Más piezas de marcas reales (42: las parejas de las de la 0026), con el mismo riesgo legal que describe esa decisión.
 - El servidor de duelos acepta el campo `body` (`lib/duelos.mjs`) y sigue sin comprobar que las piezas se hayan comprado. Un rival con una versión anterior de la web ve a una jugadora con el avatar por defecto de hombre.
 - Los brazos son cortos y la cabeza grande: las manos no llegan a la cara ni a lo alto de la cabeza, y algunos gestos (estirarse, rascarse) quedan en parte tapados por la cabeza o el pelo.

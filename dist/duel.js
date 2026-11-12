@@ -17,18 +17,8 @@
   const serverNow=()=>Date.now()+offset;
   const me=()=>duel.players[duel.you],rival=()=>duel.players[1-duel.you];
 
-  // Sonidos: tonos cortos y suaves generados en el navegador (sin archivos). Se pueden silenciar.
-  let audio=null,soundOn=saved.get('sonido',true);
-  function tone(frequency,at,duration,{type='sine',gain=.06,to}={}){
-    if(!soundOn)return;
-    try{
-      audio??=new (window.AudioContext||window.webkitAudioContext)();
-      const oscillator=audio.createOscillator(),volume=audio.createGain(),start=audio.currentTime+at;
-      oscillator.type=type;oscillator.frequency.setValueAtTime(frequency,start);if(to)oscillator.frequency.exponentialRampToValueAtTime(to,start+duration);
-      volume.gain.setValueAtTime(.0001,start);volume.gain.exponentialRampToValueAtTime(gain,start+.015);volume.gain.exponentialRampToValueAtTime(.0001,start+duration);
-      oscillator.connect(volume).connect(audio.destination);oscillator.start(start);oscillator.stop(start+duration+.03);
-    }catch{}
-  }
+  // Sonidos: tonos cortos y suaves generados en el navegador (sound.js, sin archivos). Se pueden silenciar.
+  const tone=Sound.tone;let audio=null;
   const sfx={
     tap:()=>tone(520,0,.07,{gain:.03}),
     found:()=>{tone(523,0,.16,{type:'triangle'});tone(784,.13,.3,{type:'triangle'})},
@@ -67,9 +57,9 @@
   function pump(){if(!music||!audio)return;while(music.next<audio.currentTime+.3){musicStep(music.mode,music.step++,Math.max(0,music.next-audio.currentTime));music.next+=music.gap}}
   function stopMusic(){if(music){clearInterval(music.timer);music=null}}
   function startMusic(mode){
-    if(!soundOn){stopMusic();return}
+    if(!Sound.on){stopMusic();return}
     if(music?.mode===mode)return;stopMusic();
-    try{audio??=new (window.AudioContext||window.webkitAudioContext)()}catch{return}
+    audio=Sound.context();if(!audio)return;
     music={mode,step:0,gap:mode==='calm'?.3:.165,next:audio.currentTime+.08,timer:setInterval(pump,90)};pump();
   }
 
@@ -219,7 +209,8 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
     const coins=abandoned||(bot&&daily.bot)?0:Math.round(Progress.REWARD.duel[key]*(capped?CAPPED_FACTOR:1));
     if(!abandoned)stats.day={date:today,count:daily.count+1,bot:daily.bot+(bot?1:0)};
     saved.set('progreso',stats);const outcome=Progress.reward({xp:gained,coins});
-    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned}}));
+    // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){
@@ -349,7 +340,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   async function open(code=''){
     attachWorkspace();
     inviteCode=/^[A-Za-z2-9]{6}$/.test(code)?code.toUpperCase():'';
-    shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(soundOn));
+    shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(Sound.on));
     if(typeof toggleMenu==='function')toggleMenu(false);
     renderLobby();
     // Si se recarga la página en mitad de un duelo, se vuelve a él.
@@ -367,7 +358,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   }
 
   shell.addEventListener('click',event=>{
-    audio?.resume?.();
+    Sound.resume();
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
     if(action==='calc'){toggleCalc();return}
@@ -391,7 +382,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   // Al volver del armario, el portal del duelo enseña el avatar nuevo.
   document.addEventListener('faraday:look',()=>{if(!shell.hidden&&shown==='lobby'){readProfile();renderLobby()}});
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
-  $('#duel-sound').addEventListener('click',()=>{soundOn=!soundOn;saved.set('sonido',soundOn);$('#duel-sound').setAttribute('aria-pressed',String(soundOn));if(soundOn)sfx.send();else stopMusic()});
+  $('#duel-sound').addEventListener('click',()=>{const on=Sound.toggle();$('#duel-sound').setAttribute('aria-pressed',String(on));if(on)sfx.send();else stopMusic()});
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
