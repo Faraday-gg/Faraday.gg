@@ -61,6 +61,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   share-card.js          Tarjeta para stories: dibuja la imagen de 1080 × 1920 del resultado y la comparte o descarga (decisión 0032)
   share-card.css         Estilos de la vista previa de la tarjeta
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
+  reconectar.js, reconectar.css  «Reconectar a la partida»: aviso en la portada y el menú si tienes un duelo en marcha (decisión 0039)
   ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
   circuito.js, circuito.css  Circuito de amigos (referidos): enlace ?de=, invitación, premios, tablero de enchufes y corriente compartida (decisión 0038)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
@@ -121,7 +122,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pierde vida ([decisión 0023](docs/decisiones/0023-duelos-1vs1.md)). Cada uno empieza con 6000; una respuesta vale de 0 a 5000 puntos según su distancia a la cifra real y quien puntúa menos pierde la diferencia, multiplicada a partir de la ronda 4. Hay 3 minutos por pregunta, que bajan a 30 segundos cuando el rival responde.
 
-- `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `responder`, `bot`, `salir` y `revancha`.
+- `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `activo` (¿tengo un duelo en marcha?, decisión 0039), `responder`, `bot`, `salir` y `revancha`.
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. La migración `20261112005952_duelos` se aplicó el 12 de noviembre de 2026; si la tabla fallara, la ruta responde 503 sin afectar al resto.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
