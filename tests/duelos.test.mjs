@@ -118,6 +118,41 @@ try{
   assert.equal((await duel('responder',ana,{id,guess:-3})).status,400);
   assert.equal((await duel('estado',ana,{id},{headers:{'Content-Type':'application/json',origin:'https://otra.test'}})).status,403,'Origen ajeno');
 
+  // Reconectar a la partida (decisión 0039): el servidor dice si el jugador tiene un duelo en marcha.
+  const [p1,p2,p3]=[randomUUID(),randomUUID(),randomUUID()];
+  assert.equal((await duel('activo',p1)).data.active,null,'Sin duelos, no hay nada que reconectar');
+  assert.equal((await duel('activo','no-es-un-jugador')).status,400);
+  let w=await duel('crear',p1,{name:'Pía'});
+  let r=await duel('activo',p1);
+  assert.equal(r.data.active.id,w.data.id);assert.equal(r.data.active.status,'waiting');assert.equal(r.data.active.code,w.data.code,'Un reto con código en espera se puede retomar');
+  assert.equal((await duel('activo',p2)).data.active,null,'Solo lo ve quien participa');
+  clock+=RULES.waitingMs+1000;
+  assert.equal((await duel('activo',p1)).data.active,null,'Una espera abandonada hace rato ya no se ofrece');
+  w=await duel('buscar',p1,{name:'Pía'});w=await duel('buscar',p2,{name:'Quim'});
+  clock+=RULES.introMs+30000;
+  r=await duel('activo',p1);
+  assert.equal(r.data.active.id,w.data.id);assert.equal(r.data.active.status,'playing');assert.equal(r.data.active.phase,'question');assert.equal(r.data.active.you,0);assert.equal(r.data.active.round,1);
+  assert.equal(r.data.active.rival.name,'Quim');assert.deepEqual(r.data.active.hp,[RULES.maxHp,RULES.maxHp]);
+  assert(!JSON.stringify(r.data).includes('answer'),'Reconectar no filtra la cifra real');
+  assert.equal((await duel('activo',p2)).data.active.you,1);assert.equal((await duel('activo',p3)).data.active,null);
+  // Con el duelo en marcha se vuelve a él con «estado» y se ve la ronda actual, no una nueva.
+  assert.equal((await duel('estado',p1,{id:w.data.id})).data.round.number,1);
+  // Salir a propósito es rendirse: quien se fue no vuelve a verlo; el rival ve cómo acabó.
+  await duel('salir',p1,{id:w.data.id});
+  assert.equal((await duel('activo',p1)).data.active,null,'Quien se rinde no ve «Reconectar»');
+  r=await duel('activo',p2);assert.equal(r.data.active.status,'finished');assert.equal(r.data.active.winner,'you');assert.equal(r.data.active.reason,'abandono');
+  clock+=RULES.resultMs+1000;
+  assert.equal((await duel('activo',p2)).data.active,null,'El resultado caduca');
+  // Un duelo que termina por el reloj mientras estás fuera: sigue disponible para ver el resultado.
+  w=await duel('crear',p3,{name:'Ona'});await duel('bot',p3,{id:w.data.id});
+  assert.equal((await duel('activo',p3)).data.active.status,'playing');
+  clock+=RULES.maxRounds*(RULES.roundMs+RULES.revealMs);
+  r=await duel('activo',p3);assert.equal(r.data.active.status,'finished');assert.equal(r.data.active.winner,'rival','El bot respondió y tú no');assert.equal(r.data.active.rival.bot,true);
+  assert.equal((await duel('estado',p3,{id:w.data.id})).data.phase,'finished');
+  // Un duelo cancelado (nadie llegó) no se ofrece.
+  w=await duel('crear',p1,{});await duel('salir',p1,{id:w.data.id});
+  assert.equal((await duel('activo',p1)).data.active,null,'Un duelo cancelado no se ofrece');
+
   // Almacén de Supabase contra una tabla duels simulada: control de versión y fallo si la tabla no existe.
   const rows=new Map();
   const fake=async(input,init={})=>{
@@ -126,6 +161,8 @@ try{
     if(init.method==='POST'){const row=JSON.parse(init.body);if([...rows.values()].some(r=>r.code===row.code))return new Response('{}',{status:409});rows.set(row.id,row);return new Response(null,{status:201})}
     if(init.method==='PATCH'){const row=rows.get(eq('id'));if(!row||row.version!==Number(eq('version')))return Response.json([]);Object.assign(row,JSON.parse(init.body));return Response.json([{version:row.version}])}
     let found=[...rows.values()];
+    const contains=url.searchParams.get('state');
+    if(contains)found=found.filter(r=>r.state.players.some(p=>p.hash===JSON.parse(contains.replace(/^cs\./,'')).players[0].hash)&&r.updated_at>=url.searchParams.get('updated_at').replace(/^gte\./,''));
     if(eq('id'))found=found.filter(r=>r.id===eq('id'));if(eq('code'))found=found.filter(r=>r.code===eq('code'));
     if(eq('status'))found=found.filter(r=>r.status===eq('status')&&r.public&&r.updated_at>=url.searchParams.get('updated_at').replace(/^gte\./,''));
     return Response.json(found.map(({state,version})=>({state,version})));
@@ -134,8 +171,9 @@ try{
   a=await remote('buscar',ana,{name:'Ana'});b=await remote('buscar',luis,{name:'Luis'});
   assert.equal(b.data.id,a.data.id);assert.equal(rows.get(a.data.id).status,'playing');assert.equal(rows.get(a.data.id).version,2);
   clock+=RULES.introMs;a=await remote('responder',ana,{id:a.data.id,guess:5});assert.deepEqual(a.data.round.answered,[true,false]);assert.equal(rows.get(a.data.id).version,3);
+  r=await remote('activo',ana);assert.equal(r.data.active.id,a.data.id);assert.equal(r.data.active.status,'playing');assert.equal((await remote('activo',randomUUID())).data.active,null);
   const broken=build(supabaseStore({url:'https://x.supabase.co',key:'clave',fetch:async()=>new Response('{"message":"relation does not exist"}',{status:404})}));
   assert.equal((await broken('buscar',ana,{})).status,503,'Sin la tabla duels, la API responde 503 y no rompe el resto');
 
-  console.log('OK: duelos (emparejamiento, reloj de 3 min y 30 s, vida, K.O., revancha, abandono, código, bot, validación y Supabase).');
+  console.log('OK: duelos (emparejamiento, reloj de 3 min y 30 s, vida, K.O., revancha, abandono, reconexión, código, bot, validación y Supabase).');
 }finally{if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}
