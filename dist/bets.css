@@ -1,0 +1,55 @@
+/* Apuestas en los duelos (decisión 0041): selector de fichas, ficha junto al nombre y resultado en la pantalla final.
+   Usa los colores del juego (--g-*) para encajar en la vista oscura del portal y en la amarilla de la victoria. */
+.bet-picker{margin:16px 0 4px;padding:14px;border-radius:20px;background:var(--g-hover);text-align:left}
+.bet-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
+.bet-top h3{margin:0;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--g-muted)}
+.bet-balance{font-size:13px;font-weight:600;color:var(--g-muted);white-space:nowrap}
+.bet-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.bet-card{--bet:#ffdb70;position:relative;display:grid;justify-items:center;align-content:start;gap:3px;min-width:0;padding:12px 6px 10px;border:0;border-radius:16px;background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1.5px #2026301f,0 6px 14px -10px #000a;font:inherit;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
+.bet-card[data-tier="1"]{--bet:#ffdb70}.bet-card[data-tier="2"]{--bet:#ffb627}.bet-card[data-tier="3"]{--bet:#ff6548}
+.bet-card.bet-none{--bet:#c9c3b6}
+.bet-card:hover:not(:disabled){transform:translateY(-2px)}
+.bet-card:focus-visible{outline:3px solid var(--g-accent);outline-offset:2px}
+.bet-card[aria-pressed=true]{transform:translateY(-2px);box-shadow:inset 0 0 0 3px var(--ink),0 0 0 3px var(--bet),0 10px 18px -10px #000c}
+.bet-card[aria-pressed=true]::after{content:'✓';position:absolute;top:-7px;right:-5px;display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:11px;font-weight:800;animation:duel-pop .35s cubic-bezier(.34,1.56,.64,1)}
+.bet-card:disabled{cursor:default;opacity:.55;box-shadow:inset 0 0 0 1.5px #2026301f}
+.bet-bolts{display:flex;align-items:center;justify-content:center;height:30px;min-width:30px;padding:0 6px;border-radius:15px;background:var(--bet);color:var(--ink);font-weight:800}
+.bet-bolts svg{width:15px;height:15px;fill:currentColor;margin:0 -2px}
+.bet-name{font:700 14px/1.15 var(--display);letter-spacing:-.02em;text-align:center}
+.bet-amount{font:600 13px var(--num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bet-note{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#4d5359;text-align:center;line-height:1.2}
+.bet-note svg,.bet-lock svg{width:12px;height:12px;flex:none}
+.bet-help{margin:10px 0 0;font-size:12px;line-height:1.45;color:var(--g-muted)}
+.bet-lock{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;font-size:13px;font-weight:800;color:var(--g-fg)}
+.bet-lock svg{width:15px;height:15px}
+.bet-picker.is-locked .bet-card{filter:grayscale(.6)}
+.bet-picker.is-compact{margin-top:14px}
+.duel-shell[data-screen=end] .bet-picker{text-align:left}
+
+/* Ficha de la apuesta junto al nombre: marcador y presentación */
+.bet-chip{display:inline-flex;align-items:center;gap:3px;flex:none;border-radius:20px;padding:2px 7px 2px 4px;background:#ffdb70;color:var(--ink);font:700 11px var(--num);font-variant-numeric:tabular-nums;white-space:nowrap;box-shadow:inset 0 0 0 1.5px #20263026;animation:duel-pop .4s cubic-bezier(.34,1.56,.64,1)}
+.bet-chip[data-tier="2"]{background:#ffb627}.bet-chip[data-tier="3"]{background:#ff6548}
+.bet-chip svg{width:12px;height:12px;fill:currentColor}
+.bet-chip .coin{width:1.15em;height:1.15em;background:var(--paper)}
+.duel-vs .bet-chip{font-size:12px;padding:3px 9px 3px 5px}
+
+/* Resultado de la apuesta en la pantalla final */
+.bet-result{display:grid;justify-items:center;gap:4px;margin:14px 0 0;padding:14px 16px;border-radius:18px;background:var(--g-hover);animation:duel-pop .5s cubic-bezier(.34,1.56,.64,1) .3s both}
+.bet-result-tag{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted)}
+.bet-result-tag svg{width:13px;height:13px;fill:currentColor}
+.bet-delta{display:inline-flex;align-items:center;gap:6px;font:700 40px/1 var(--display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.bet-result.is-up .bet-delta{color:#14834a}
+.duel-shell[data-view=result] .bet-result.is-up .bet-delta{color:#2fd67b}
+.bet-result.is-down .bet-delta{color:#c8321a}
+.duel-shell[data-view=result] .bet-result.is-down .bet-delta{color:#ff8a73}
+.bet-result p{margin:0;font-size:13px;line-height:1.4;color:var(--g-muted)}
+.bet-result small{font-size:12px;font-weight:700}
+
+@media(max-width:560px){
+  .bet-picker{padding:12px;margin-top:12px}
+  .bet-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .bet-card{grid-template-columns:auto 1fr;grid-template-areas:"bolt name" "bolt amount" "note note";justify-items:start;align-items:center;column-gap:8px;padding:10px}
+  .bet-bolts{grid-area:bolt}.bet-name{grid-area:name;text-align:left}.bet-amount{grid-area:amount}.bet-note{grid-area:note;text-align:left}
+  .duel-player .bet-chip{padding:1px 5px 1px 3px;font-size:10px}
+  .duel-player .bet-chip .coin{display:none}
+}
