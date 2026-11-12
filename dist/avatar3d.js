@@ -103,6 +103,8 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
       if(print==='frdy')word('FRDY',x,Y(v),40*scale,trim,onTrim);
       if(print==='tag')at(x,Y(v),()=>{c.rotate(-.14);c.font=`italic 900 ${46*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=9*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,2×',0,0);c.fillStyle=trim;c.fillText('1,2×',0,0);c.fillStyle=PAPER;c.fillRect(-52*scale,24*scale,104*scale,5*scale)});
       // Sudadera exclusiva «Casi casi» (decisión 0030): «1,1×» sobre una diana delante y el lema a la espalda.
+      // Piezas exclusivas del Circuito de amigos (decisión 0038): un rayo dentro de un círculo.
+      if(print==='rayo')at(x,Y(v),()=>{c.fillStyle=trim;c.beginPath();c.arc(0,0,34*scale,0,7);c.fill();c.lineWidth=5*scale;c.strokeStyle=INK;c.stroke();c.beginPath();for(const [px,py] of [[6,-26],[-14,4],[-1,4],[-7,26],[15,-6],[2,-6],[8,-26]])c.lineTo(px*scale,py*scale);c.closePath();c.fillStyle=INK;c.fill()});
       if(print==='casi'){at(x,Y(v),()=>{c.lineWidth=5*scale;c.strokeStyle=trim;for(const r of [36,24,12]){c.beginPath();c.arc(0,0,r*scale,0,7);c.stroke()}c.rotate(-.12);c.font=`italic 900 ${42*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=10*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,1×',0,0);c.fillStyle=PAPER;c.fillText('1,1×',0,0)})}
     };
     c.fillStyle=main;c.fillRect(0,0,S,S);
@@ -119,7 +121,7 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
     }
     if(type==='sudadera'){
       bands(0,.09,[dark]);c.fillStyle=dark;c.beginPath();c.roundRect(F(-.5),Y(.36),F(.5)-F(-.5),Y(.12)-Y(.36),18);c.fill();c.strokeStyle=shade(main,.6);c.lineWidth=3;c.stroke();
-      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else word('FRDY',B(0),Y(.7),30,on,null);
+      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else if(print==='rayo')word('CIRCUITO',B(0),Y(.7),30,trim,null);else word('FRDY',B(0),Y(.7),30,on,null);
     }
     if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5*k);badge(B(0),Y(.8),14,on,main)}
     if(type==='chandal'){

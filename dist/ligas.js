@@ -145,7 +145,7 @@ ${data.leagues.map(league=>{const top=league.winners[0],won=league.winners.some(
     return response.data;
   }
   async function share(league){
-    const url=`${location.origin}${location.pathname}?liga=${league.code}`,text=`Únete a mi liga «${league.name}» en Faraday.gg: tres estimaciones al día y clasificación cada semana. Código ${league.code}`;
+    const url=(window.Circuito?Circuito.link:String)(`${location.origin}${location.pathname}?liga=${league.code}`),text=`Únete a mi liga «${league.name}» en Faraday.gg: tres estimaciones al día y clasificación cada semana. Código ${league.code}`;
     try{if(navigator.share){await navigator.share({title:'Liga en Faraday.gg',text,url});return}await navigator.clipboard.writeText(`${text}\n${url}`);showToast('Enlace copiado. Pégalo en tu grupo de WhatsApp.')}
     catch(error){if(error?.name!=='AbortError')showToast('No se pudo compartir ahora mismo.')}
   }

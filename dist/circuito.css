@@ -1,0 +1,45 @@
+/* Circuito de amigos (decisión 0038): referidos con premio para los dos. Usa la ventana y las piezas de las ligas
+   (league-shell, league-content, league-share) y añade el tablero de enchufes, la invitación y la lista de invitados. */
+.home-circuit{margin-top:0}
+
+/* Bienvenida de quien entra invitado */
+.circuit-welcome{position:relative;display:flex;justify-content:center;margin:14px 0 4px}
+.circuit-spark{position:absolute;right:calc(50% - 64px);top:-4px;font-size:30px;animation:circuit-spark 1.6s var(--ease-calm,ease) infinite alternate}
+@keyframes circuit-spark{from{transform:rotate(-8deg) scale(.92)}to{transform:rotate(10deg) scale(1.08)}}
+.circuit-lead{font-size:16px;line-height:1.45;margin:0 0 10px}
+.circuit-shell [data-circuit="play"]{margin-top:14px}
+
+/* Quien te invitó */
+.circuit-sponsor{display:flex;align-items:center;gap:12px;background:var(--cream);border-radius:18px;padding:10px 14px;margin:0 0 16px}
+.circuit-sponsor p{margin:0;font-size:14px;line-height:1.4}
+
+/* Tablero: 10 enchufes que se llenan con el avatar de cada amigo conectado */
+.circuit-board{background:var(--ink);color:var(--paper);border-radius:22px;padding:16px 16px 18px;margin:0 0 16px}
+.circuit-count{margin:0 0 14px;font-size:14px;font-weight:600}
+.circuit-count b{font:700 30px/1 var(--display);color:var(--yellow);margin-right:4px;vertical-align:-3px}
+.circuit-sockets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:16px 8px}
+.circuit-socket{position:relative;display:grid;justify-items:center;gap:4px}
+.circuit-socket>span:not(.duel-avatar){display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px dashed color-mix(in srgb,var(--paper) 35%,transparent);font-weight:700;font-size:13px;color:color-mix(in srgb,var(--paper) 55%,transparent)}
+.circuit-socket.is-tier>span:not(.duel-avatar){border-color:var(--yellow);color:var(--yellow)}
+.circuit-socket.is-on .duel-avatar{box-shadow:0 0 0 3px var(--yellow),0 0 16px 2px color-mix(in srgb,var(--yellow) 60%,transparent);border-radius:50%}
+.circuit-socket small{font-size:10px;line-height:1.15;text-align:center;font-weight:700;color:var(--yellow);max-width:70px}
+
+/* Cómo funciona */
+.circuit-steps{margin:18px 0 0;padding-left:22px;display:grid;gap:8px;font-size:14px;line-height:1.45}
+
+/* Invitados y corriente compartida */
+.circuit-friends,.circuit-current{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.circuit-friend{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:16px;padding:8px 12px}
+.circuit-friend.is-on{border-color:var(--ink)}
+.circuit-friend>span:last-child{display:grid;gap:2px;min-width:0}
+.circuit-friend b{font:700 16px var(--display);letter-spacing:-.02em}
+.circuit-state{font-size:12px;font-weight:600;color:var(--muted)}
+.circuit-state.is-on{color:#2f7d55}
+.circuit-state.is-off{color:#c8321a}
+.circuit-current li{background:var(--cream);border-radius:14px;padding:10px 12px;font-size:14px}
+
+@media (max-width:420px){
+  .circuit-sockets{gap:14px 4px}
+  .circuit-socket>span:not(.duel-avatar){width:38px;height:38px}
+}
+@media (prefers-reduced-motion:reduce){.circuit-spark{animation:none}}
