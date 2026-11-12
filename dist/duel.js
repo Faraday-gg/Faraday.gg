@@ -134,7 +134,7 @@ ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</str
 ${window.Bets?Bets.picker():''}
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
 ${window.Ranked?Ranked.lobby():''}
-<div class="duel-modes"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
+<div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
 <p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival</p>`;
     window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
