@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-12, ligas de amigos (rama `feat/ligas-amigos`): migración `20261112120000_ligas` escrita y **sin aplicar**. Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`): migración `20261111120000_duelos` escrita y **sin aplicar**. Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -19,8 +19,8 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.answers` | `runtime/answers.json` | Estimaciones anónimas de los jugadores. |
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
-| `public.duels` (**pendiente de aplicar**) | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
-| `public.leagues`, `public.league_members`, `public.daily_results` (**pendientes de aplicar**) | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
+| `public.duels` | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
+| `public.leagues`, `public.league_members`, `public.daily_results` | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
 
 ### Qué está en Supabase y qué no
 
@@ -73,7 +73,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 
 Única por `(question_id, player_hash)`: un jugador anónimo responde una sola vez a cada pregunta. Si vuelve a enviar la misma cifra, el servidor debe tratarlo como éxito; si envía otra distinta, como el actual `409 Ya has respondido esta pregunta`.
 
-### `public.duels` (migración `20261111120000_duelos`, **sin aplicar**)
+### `public.duels` (migración `20261112005952_duelos`, aplicada el 2026-11-12)
 
 Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No tiene relación con las demás tablas: las preguntas se guardan por su id dentro de `state`.
 
@@ -89,7 +89,7 @@ Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No
 
 Índice parcial `duels_waiting_idx` sobre `created_at` para los duelos públicos en espera. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Las filas no se borran (ver [mejoras](mejoras/README.md)). Contiene apodos escritos por los jugadores, pero ningún dato que los identifique.
 
-### Ligas de amigos (migración `20261112120000_ligas`, **sin aplicar**)
+### Ligas de amigos (migración `20261112010003_ligas`, aplicada el 2026-11-12)
 
 [Decisión 0031](decisiones/0031-ligas-de-amigos.md), `lib/ligas.mjs`.
 
@@ -198,8 +198,9 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261109213854` | [esquema_inicial](../supabase/migrations/20261109213854_esquema_inicial.sql) | Crea `days`, `questions`, `answers`, `daily_scores`, RLS y permisos. | 2026-11-09, por Luis con Claude Code |
 | `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
 | `20261110120000` | [jornadas_generadas](../supabase/migrations/20261110120000_jornadas_generadas.sql) | `days.source` admite `ia`; activa `pg_cron` y `pg_net` y programa la tarea `generar-jornada` (00:01 de Madrid). | **Pendiente**: aplicar tras crear el secreto `cron_secret` en Vault |
-| `20261111120000` | [duelos](../supabase/migrations/20261111120000_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | **Pendiente**: sin ella los duelos responden 503 en Vercel |
-| `20261112120000` | [ligas](../supabase/migrations/20261112120000_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | **Pendiente**: sin ella las ligas responden 503 en Vercel |
+| `20261111125432` | nombres_de_usuario (archivo en otra rama) | Crea `usernames`. | Aplicada en Supabase; el archivo no está en esta rama |
+| `20261112005952` | [duelos](../supabase/migrations/20261112005952_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
+| `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 
 ## Pendiente
 
