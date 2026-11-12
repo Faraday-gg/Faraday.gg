@@ -13,9 +13,11 @@
   let menuLink=null;
   function ensureMenuLink(){
     if(menuLink?.isConnected)return menuLink;
-    const links=document.querySelector('.menu-links');if(!links)return null;
-    menuLink=document.createElement('button');menuLink.type='button';menuLink.className='menu-link menu-link-reconnect';menuLink.hidden=true;
-    links.prepend(menuLink);menuLink.addEventListener('click',go);return menuLink;
+    // Menú rediseñado (decisión 0041): primera fila de la lista «Juega», con el mismo formato que las demás.
+    const list=document.querySelector('.menu-list');if(!list)return null;
+    menuLink=document.createElement('li');menuLink.className='menu-reconnect-item';menuLink.hidden=true;
+    menuLink.innerHTML='<button type="button" class="menu-link menu-link-reconnect"></button>';
+    list.prepend(menuLink);menuLink.firstChild.addEventListener('click',go);return menuLink;
   }
 
   const counted=()=>{try{return JSON.parse(localStorage.getItem(COUNTED))||[]}catch{return[]}};
@@ -34,7 +36,7 @@
     const {title,note}=describe(active),finished=active.status==='finished';
     pill.classList.toggle('is-finished',finished);
     pill.innerHTML=`<span class="duel-reconnect-dot" aria-hidden="true"></span><span class="duel-reconnect-text"><b>${title}</b>${note?`<small>${note}</small>`:''}</span><span aria-hidden="true">→</span>`;
-    if(link)link.innerHTML=`<span>${title}</span><small aria-hidden="true">${finished?'🏁':'⚔'}</small>`;
+    if(link)link.firstChild.innerHTML=`<span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${finished?'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>':'<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/>'}</svg></span><span class="menu-text"><b>${title}</b>${note?`<small>${note}</small>`:''}</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>`;
   }
   async function check(){
     if(checking||document.hidden||!shell.hidden||typeof playerId!=='function')return;
