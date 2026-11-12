@@ -158,7 +158,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question;setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
-    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><button class="workspace-launch" type="button" data-duel="calc" aria-label="${panel.hidden?'Abrir':'Cerrar'} calculadora y notas" aria-expanded="${!panel.hidden}" title="Calculadora y notas">${calcIcon}</button><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
 <h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q):''}
 <div id="duel-answer"></div>`;
@@ -170,7 +170,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     if(round.yourGuess!=null){
       box.innerHTML=`<div class="duel-sent"><small>Tu respuesta</small><strong>${whole(round.yourGuess)}</strong><span>${round.question.unit}</span></div><p class="duel-rival-state" id="duel-rival-state"></p>`;
     }else if(!$('#duel-form')){
-      box.innerHTML=`<form id="duel-form"><label class="sr-only" for="duel-guess">Tu estimación, en ${round.question.unit}</label><div class="guess-row"><input id="duel-guess" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="duel-help" required><span class="guess-unit">${round.question.unit}</span></div><div class="form-error" id="duel-help" role="alert"></div><div class="game-actions"><p class="duel-rival-state" id="duel-rival-state"></p><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;
+      box.innerHTML=`<form id="duel-form"><label class="sr-only" for="duel-guess">Tu estimación, en ${round.question.unit}</label><div class="guess-row"><input id="duel-guess" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="duel-help" required><span class="guess-unit">${round.question.unit}</span></div><div class="form-error" id="duel-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" data-duel="calc" aria-label="${panel.hidden?'Abrir':'Cerrar'} calculadora y notas" aria-expanded="${!panel.hidden}" title="Calculadora y notas">${calcIcon}</button><p class="duel-rival-state" id="duel-rival-state"></p><button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;
       if(focus)$('#duel-guess').focus();
     }
     updateRivalState();

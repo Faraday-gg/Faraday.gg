@@ -1047,3 +1047,7 @@ body.lightbox-open{overflow:hidden}
   .bet-picker.is-locked .bet-cards{display:none}
   .bet-picker.is-locked .bet-lock{justify-content:flex-start;margin-top:4px}
 }
+
+/* Duelo: la calculadora abajo a la izquierda, como en el reto diario, junto al estado del rival y «Confirmar». */
+.duel-content .game-actions .workspace-launch{flex:none}
+.duel-content .game-actions .duel-rival-state{flex:1}
