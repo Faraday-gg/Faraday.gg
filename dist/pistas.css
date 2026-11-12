@@ -1,0 +1,45 @@
+/* Pistas (decisión 0039): botón junto a la calculadora, la pista bajo el título, la oferta y el anuncio simulado. */
+.game-actions .hint-launch{margin-right:auto}
+.hint-launch svg{width:22px;height:22px}
+
+.hint-box{margin:-26px 0 30px;padding:14px 16px;border-radius:18px;background:color-mix(in srgb,var(--g-fg,#202630) 10%,transparent);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--g-fg,#202630) 22%,transparent);font-size:15px;line-height:1.45;animation:hint-in .4s cubic-bezier(.22,1,.36,1)}
+.hint-box p{margin:0}
+.hint-box p+p{margin-top:6px}
+.hint-box b{font-weight:800}
+.hint-kicker{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px!important}
+.hint-start{font-size:14px;opacity:.85}
+@keyframes hint-in{from{opacity:0;transform:translateY(-6px)}}
+.hint-used{font-weight:800}
+
+/* Oferta: pagar faradios o ver un anuncio. Comparte la forma de la ventana de la tarjeta para stories. */
+.hint-dialog,.ad-dialog{width:min(380px,calc(100% - 32px));max-height:calc(100% - 32px);border:0;border-radius:28px;background:var(--cream);color:var(--ink);padding:24px 22px 20px;box-shadow:0 30px 70px -20px #20263099;overflow:auto;text-align:center}
+.hint-dialog::backdrop,.ad-dialog::backdrop{background:#20263073;backdrop-filter:blur(2px)}
+.hint-dialog[open],.ad-dialog[open]{animation:share-in .35s cubic-bezier(.22,1,.36,1)}
+.hint-dialog-icon{margin:4px 0 6px;font-size:34px;line-height:1}
+.hint-dialog h2{margin:0 0 8px;font:700 24px/1.15 var(--display);letter-spacing:-.04em}
+.hint-dialog-text{margin:0 0 20px;font-size:14px;line-height:1.45;color:#4d5359}
+.hint-options{display:grid;gap:6px}
+/* Las ventanas viven fuera del juego y no heredan sus colores (--g-*): se fijan aquí. */
+.hint-dialog .game-primary,.ad-dialog .game-primary{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.hint-dialog .game-primary:hover,.ad-dialog .game-primary:hover{background:#3a4350}
+.hint-dialog .game-secondary{border-color:var(--ink);color:var(--ink)}
+.hint-dialog .game-secondary:hover{background:#ebe5d7}
+.hint-options .game-primary,.hint-options .game-secondary{width:100%}
+.hint-options .game-secondary{margin-top:10px}
+.hint-options .game-primary:disabled{opacity:.5;cursor:default}
+.hint-options .game-primary:disabled:hover{background:var(--ink)}
+.hint-balance{margin:0;font-size:12px;color:#4d5359}
+
+/* Anuncio simulado (ads.js). El hueco tiene la proporción de un vídeo vertical corto. */
+.ad-top{display:flex;align-items:center;justify-content:space-between;margin:-8px -6px 12px}
+.ad-label{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#4d5359;background:#2026300f;padding:5px 10px;border-radius:20px}
+.ad-close{width:36px;height:36px;border-radius:50%;border:1.5px solid #20263040;background:transparent;color:var(--ink);font-size:22px;line-height:1}
+.ad-close:hover{background:#2026300f}
+.ad-slot{display:grid;place-items:center;align-content:center;gap:8px;aspect-ratio:4/5;max-height:46vh;margin:0 auto;border-radius:18px;background:repeating-linear-gradient(-45deg,#ece6d8 0 14px,#e4ddcc 14px 28px);box-shadow:inset 0 0 0 1.5px var(--line);padding:20px}
+.ad-slot b{font:700 20px var(--display);letter-spacing:-.03em}
+.ad-slot small{font-size:12px;color:#4d5359}
+.ad-mock-mark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--coral);font:700 30px/1 var(--display)}
+.ad-progress{height:6px;margin:16px 0 10px;border-radius:6px;background:#2026301a;overflow:hidden}
+.ad-progress i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--ink);border-radius:6px;transition:width .25s linear}
+.ad-status{margin:0 0 4px;min-height:2.9em;font-size:13px;line-height:1.45;color:#4d5359}
+.ad-done{width:100%;margin-top:6px}

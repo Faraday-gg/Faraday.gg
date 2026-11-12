@@ -26,7 +26,7 @@ Lo que sigue describe los duelos de GeoGuessr tal y como los conocemos; no se ha
 | Retención: niveles y experiencia, rachas, recompensa diaria, revancha inmediata, partida rápida, retar a amigos. | Nivel y XP, racha de victorias, «primera victoria del día» (+50 XP), botón de revancha (el rival ve «quiere la revancha»), partida rápida, reto por enlace o código y compartir el resultado. |
 | Sonidos cortos de confirmación, aviso, golpe y victoria. | Tonos generados en el navegador (Web Audio, sin archivos), con botón para silenciarlos. |
 
-No copiamos (por ahora): divisiones y clasificación por puntos, misiones, temporadas ni monetización. Las reacciones y el chat durante la partida llegaron después, en la [0039](0039-chat-en-los-duelos.md).
+No copiamos (por ahora): divisiones y clasificación por puntos, misiones, temporadas ni monetización. Las reacciones y el chat durante la partida llegaron después, en la [0040](0040-chat-en-los-duelos.md).
 
 ## Decisión
 

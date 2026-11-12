@@ -112,7 +112,7 @@ try{
   clock+=3600000;a=await duel('estado',ana,{id:a.data.id});assert.equal(a.data.status,'finished');
   const cancel=await duel('crear',ana,{});assert.equal((await duel('salir',ana,{id:cancel.data.id})).data.reason,'cancelado');
 
-  // Chat de la partida (decisión 0039): reacciones y frases de una lista cerrada y texto libre corto.
+  // Chat de la partida (decisión 0040): reacciones y frases de una lista cerrada y texto libre corto.
   {
     let c=await duel('crear',ana,{name:'Ana'});const chatId=c.data.id;
     assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'ok'})).status,409,'Sin rival no hay chat');

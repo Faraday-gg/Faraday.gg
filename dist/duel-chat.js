@@ -1,4 +1,4 @@
-// Chat de la partida en los duelos (decisión 0039): reacciones con un toque, frases ya escritas y mensajes cortos.
+// Chat de la partida en los duelos (decisión 0040): reacciones con un toque, frases ya escritas y mensajes cortos.
 // El servidor guarda los mensajes dentro del duelo (lib/duelos.mjs) y llegan con la misma consulta de cada segundo;
 // aquí solo se pintan: un botón con el número de mensajes sin leer, el panel del chat y bocadillos junto al marcador.
 // duel.js conecta el envío (connect) y pasa cada estado nuevo (update).

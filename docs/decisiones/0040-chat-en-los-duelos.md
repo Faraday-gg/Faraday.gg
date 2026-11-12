@@ -1,4 +1,4 @@
-# 0039. Chat en los duelos: reacciones, frases rápidas y mensajes escritos
+# 0040. Chat en los duelos: reacciones, frases rápidas y mensajes escritos
 
 - **Estado:** propuesta (código en la PR de `feat/chat-duelos`; no necesita migración)
 - **Fecha:** 2026-11-12

@@ -325,7 +325,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
     if(response.ok){sfx.send();const first=!response.data.round?.answered[1-response.data.you]&&response.data.phase==='question';apply(response.data);if(first)alertBar(`<span class="duel-bell" aria-hidden="true">🔔</span><span>Has respondido primero · a <b>${escapeHtml(rival().name)}</b> le quedan <b>30 s</b></span>`,3500)}
     else if($('#duel-help'))$('#duel-help').textContent=response.data.error||'No se ha podido enviar. Inténtalo otra vez.';
   }
-  // Chat de la partida (duel-chat.js, decisión 0039): el envío pasa por aquí para pintar al momento el estado que devuelve.
+  // Chat de la partida (duel-chat.js, decisión 0040): el envío pasa por aquí para pintar al momento el estado que devuelve.
   async function chatSend(kind,value){
     if(!duel)return {ok:false,data:{}};
     const id=duel.id,response=await call('chat',{id,kind,value});
