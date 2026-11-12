@@ -1,7 +1,7 @@
 // Prueba la generación automática de jornadas (lib/generar.mjs), la ruta /api/generar-dia (lib/api.mjs)
 // y los métodos de Supabase que usa (lib/stores.mjs), con OpenAI y Supabase simulados. No usa red ni claves reales.
 import assert from 'node:assert/strict';
-import {generateDay,evaluate,validate,wantsCurrent,addDays,SOURCE} from '../lib/generar.mjs';
+import {generateDay,evaluate,validate,wantsCurrent,addDays,ambitos,PESOS,SOURCE} from '../lib/generar.mjs';
 import {createApi} from '../lib/api.mjs';
 import {supabaseStore} from '../lib/stores.mjs';
 
@@ -14,7 +14,8 @@ assert(Number.isNaN(evaluate('process.exit()')));assert(Number.isNaN(evaluate('2
 const question=(category,actualidad=false,expression='100 ÷ 4',answer=25)=>({category,tag:'Etiqueta',title:`¿Cuántas cosas de ${category}?`,detail:'Condiciones y una broma.',unit:'cosas',answer,math:'100 ÷ 4 = 25.',referenceExpression:expression,assumptions:'Supuestos.',confidence:'Dato documentado + cálculo',sources:[{title:'Fuente · Página',url:`https://fuente.test/${category}`,fact:'Dato.'}],reasoning:{heading:'Paso a paso',steps:['a','b','c']},calc:{intro:'La idea.',rows:[{label:'Dato',value:'100'},{label:'Entre',value:'÷ 4'}],result:'Cosas'},actualidad});
 const jornada=(current,overrides={})=>({theme:'Tema del día',questions:[question('comida',current),question('espacio'),question('deportes')],...overrides});
 
-// OpenAI simulado: devuelve las respuestas de la cola en orden y guarda las peticiones. Las URL de las fuentes responden 200 salvo las /rota.
+// OpenAI simulado: devuelve las respuestas de la cola en orden y guarda las peticiones. Si una pregunta no trae
+// ámbito, le pone el que pide el prompt para esa posición. Las URL de las fuentes responden 200 salvo las /rota.
 function fakeOpenAI(queue){
   const requests=[];
   async function fetch(url,init={}){
@@ -23,6 +24,8 @@ function fakeOpenAI(queue){
     const body=JSON.parse(init.body);requests.push(body);
     assert.deepEqual(body.tools,[{type:'web_search'}]);assert.equal(body.text.format.type,'json_schema');assert.equal(body.text.format.strict,true);
     const next=queue.shift();if(!next)throw Error('Sin más respuestas simuladas');
+    const asked=[...body.input[1].content.matchAll(/Pregunta (\d): ambito «(\w+)»/g)].map(m=>m[2]);
+    next.questions=next.questions.map((q,i)=>({ambito:asked[i],...q}));
     return Response.json({status:'completed',output:[{type:'web_search_call'},{type:'message',content:[{type:'output_text',text:JSON.stringify(next)}]}]});
   }
   return {fetch,requests};
@@ -56,7 +59,7 @@ assert.deepEqual([result.status,result.reason],['omitida','ya estaba generada'])
 
 // 4. No toca jornadas escritas a mano ni del banco que ya tengan respuestas.
 assert.equal((await generateDay({date:'2026-11-12',store:fakeStore(),apiKey:'sk-prueba',fetch:ai.fetch,log:quiet})).reason,'jornada escrita a mano');
-assert.equal((await generateDay({date:'2026-12-14',store:fakeStore({'2026-12-14':{id:'2026-12-14',info:{source:'banco-editorial',questions:3,answered:true}}}),apiKey:'sk-prueba',fetch:ai.fetch,log:quiet})).reason,'la jornada ya tiene respuestas');
+assert.equal((await generateDay({date:'2027-01-04',store:fakeStore({'2027-01-04':{id:'2027-01-04',info:{source:'banco-editorial',questions:3,answered:true}}}),apiKey:'sk-prueba',fetch:ai.fetch,log:quiet})).reason,'la jornada ya tiene respuestas');
 
 // 5. Un intento no válido se reintenta explicando el error; la jornada del banco sin respuestas se sustituye.
 const bad=jornada(false,{questions:[question('comida',false,'100 ÷ 5'),question('espacio'),question('deportes')]});
@@ -73,12 +76,31 @@ ai=fakeOpenAI([broken,broken]);
 await assert.rejects(generateDay({date:calmDate,store,apiKey:'sk-prueba',fetch:ai.fetch,now,log:quiet}),/fuente que no existe: https:\/\/fuente\.test\/rota → 404/);
 assert(validate(jornada(false,{questions:[question('comida'),question('comida'),question('deportes')]})).includes('categorías repetidas'));
 
-// 7. Modo prueba: genera sin guardar y sin Supabase.
+// 7. Ámbito de cada pregunta (decisión 0046): sorteo estable por fecha, mayoría mundial, sin fórmula fija.
+assert.deepEqual(ambitos('2026-12-20'),ambitos('2026-12-20'));
+{
+  const count={mundial:0,espana:0,latam:0},patterns=new Set();
+  for(let i=0;i<365;i++){const a=ambitos(addDays('2027-01-01',i));a.forEach(x=>count[x]++);patterns.add(a.join())}
+  assert(count.mundial>count.espana+count.latam,'Más preguntas mundiales que de España y Latinoamérica juntas');
+  assert(count.espana>30&&count.latam>30,'España y Latinoamérica aparecen a menudo');
+  assert(patterns.size>=10,'Los días no siguen una fórmula fija');
+  assert(Math.abs(PESOS.mundial+PESOS.espana+PESOS.latam-1)<1e-9);
+}
+assert.match(ai.requests[0].input[1].content,/Pregunta 1: ambito «(mundial|espana|latam)»/);
+assert.match(ai.requests[0].input[0].content,/español neutro/);
+{
+  const slots=ambitos(calmDate),wrong=jornada(false);wrong.questions=wrong.questions.map((q,i)=>({...q,ambito:slots[i]}));
+  assert.deepEqual(validate(wrong,{current:false,slots}),[]);
+  wrong.questions[0].ambito=slots[0]==='latam'?'mundial':'latam';
+  assert.match(validate(wrong,{current:false,slots}).join(),/P1 el ámbito debe ser/);
+}
+
+// 8. Modo prueba: genera sin guardar y sin Supabase.
 ai=fakeOpenAI([jornada(false)]);
 result=await generateDay({date:calmDate,store:null,save:false,apiKey:'sk-prueba',fetch:ai.fetch,now,log:quiet});
 assert.equal(result.status,'prueba');assert.equal(result.day.questions.length,3);
 
-// 8. La ruta /api/generar-dia exige el secreto y genera la jornada de mañana.
+// 9. La ruta /api/generar-dia exige el secreto y genera la jornada de mañana.
 const emptyStore={async read(){return {}},async add(){}},runs=[];
 const api=createApi({store:emptyStore,persistDays:false,log:quiet,generator:{secret:'secreto-cron',async run(date){runs.push(date);return {status:'creada',day:{questions:[{title:'¿Una?'}]}}}}});
 const call=(headers={},query='')=>api.handle(new Request('https://casi.test/api/generar-dia'+query,{headers}));
@@ -93,7 +115,7 @@ const failing=createApi({store:emptyStore,persistDays:false,log:quiet,generator:
 response=await failing.handle(new Request('https://casi.test/api/generar-dia',{headers:{Authorization:'Bearer s'}}));
 assert.equal(response.status,502);assert.match((await response.json()).error,/OpenAI respondió 500/);
 
-// 9. supabaseStore: dayInfo y saveGeneratedDay contra un PostgREST simulado (con la restricción days_source_check de la migración nueva).
+// 10. supabaseStore: dayInfo y saveGeneratedDay contra un PostgREST simulado (con la restricción days_source_check de la migración nueva).
 const db={days:new Map([['2027-01-05',{id:'2027-01-05',name:'Martes',theme:'',source:'banco-editorial'}]]),questions:new Map([['daily-1',{id:'daily-1',day_id:'2027-01-05',position:1}]]),answers:[]};
 async function rest(input,init={}){
   const url=new URL(input),table=url.pathname.split('/').pop(),method=init.method||'GET',p=url.searchParams;

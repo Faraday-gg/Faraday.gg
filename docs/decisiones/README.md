@@ -43,9 +43,11 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
 | [0039](0039-pistas.md) | Pistas: una por pregunta, con faradios o con un anuncio | Propuesta | 2026-11-12 |
 | [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
+| [0041](0041-menu-rediseno.md) | Menú lateral rediseñado y logo que vuelve al inicio | Propuesta | 2026-11-12 |
 | [0042](0042-reconectar-a-la-partida.md) | Reconectar a la partida de duelo | Propuesta | 2026-11-12 |
 | [0043](0043-clasificatorias-y-rangos.md) | Clasificatorias y rangos en los duelos, de Bronce a Científico | Propuesta | 2026-11-12 |
 | [0045](0045-camisetas-de-banderas.md) | Camisetas de selección con las banderas de los países hispanohablantes y de Europa | Propuesta | 2026-11-12 |
+| [0046](0046-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
 
 ## Plantilla
 

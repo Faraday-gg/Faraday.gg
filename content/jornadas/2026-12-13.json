@@ -1,0 +1,168 @@
+{
+  "id": "2026-12-13",
+  "name": "Domingo",
+  "theme": "Muro, flores y pirámides",
+  "questions": [
+    {
+      "id": "jornada-2026-12-13-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "historia",
+      "ambito": "mundial",
+      "tag": "Cadena humana",
+      "title": "¿Cuántas personas tomadas de la mano harían falta para recorrer todo el Muro de Berlín?",
+      "detail": "Todo el perímetro de la frontera que rodeaba Berlín Occidental, con los brazos extendidos y 1,5 m de espacio para cada persona. Esta vez nadie dispara: solo se canta.",
+      "unit": "personas",
+      "answer": 103333.33333333333,
+      "math": "Las fortificaciones que rodeaban Berlín Occidental medían 155 km, es decir, 155.000 m. Con 1,5 m por persona: 155.000 ÷ 1,5 ≈ 103.333 personas.",
+      "referenceExpression": "155 × 1000 ÷ 1,5",
+      "assumptions": "Contamos los 155 km de frontera alrededor de Berlín Occidental; solo el tramo que separaba las dos mitades de la ciudad medía 43,1 km (unas 28.733 personas). Los 1,5 m por persona con los brazos extendidos son un supuesto del modelo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Gobierno Federal de Alemania · Eine traurige Bilanz",
+          "url": "https://www.bundesregierung.de/breg-de/themen/deutsche-einheit/innerdeutsche-grenze-393916",
+          "fact": "El muro entre Berlín Este y Berlín Oeste medía 43,1 km, y las fortificaciones fronterizas alrededor de Berlín Occidental, 155 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "De la ciudad partida a la cadena",
+        "steps": [
+          "El muro no solo cortaba Berlín por la mitad: rodeaba entera la parte occidental, así que medía más de cien kilómetros.",
+          "Si fueran unos 150 km y cada persona ocupa metro y medio con los brazos abiertos, harían falta unas 100.000 personas.",
+          "Con los 155 km oficiales salen 103.333 personas: un estadio lleno, y aún sobraría gente para la grada."
+        ]
+      },
+      "calc": {
+        "intro": "Pasamos el muro a metros y repartimos metro y medio por persona.",
+        "rows": [
+          {
+            "label": "Frontera de Berlín Occidental",
+            "value": "155 km"
+          },
+          {
+            "label": "En metros",
+            "value": "× 1.000"
+          },
+          {
+            "label": "Brazos extendidos",
+            "value": "÷ 1,5 m"
+          }
+        ],
+        "result": "Personas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-13-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "latam",
+      "tag": "Flor para todos",
+      "title": "Si se repartiera toda la cosecha de cempasúchil de México entre sus habitantes, ¿cuántos gramos de flor tocarían a cada uno?",
+      "detail": "Toda la flor de Día de Muertos producida en México en 2024, repartida a partes iguales entre todos sus habitantes, bebés incluidos. Como referencia, una manzana pesa unos 150 g.",
+      "unit": "gramos",
+      "answer": 163.94207044765113,
+      "math": "En 2024 México produjo 20.659 toneladas de cempasúchil: 20.659 millones de gramos. Entre 126.014.024 habitantes: unos 164 g por persona.",
+      "referenceExpression": "20659 × 1000000 ÷ 126014024",
+      "assumptions": "Producción de 2024 según el SIAP de la Secretaría de Agricultura, recogida por la prensa. Población del Censo de 2020 (126.014.024 habitantes); con la población de 2024, algo mayor, tocaría un poco menos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Por Esto! · Producción de cempasúchil en México",
+          "url": "https://www.poresto.com/mexico/2026/10/17/produccion-cempasuchil-mexico-mil-toneladas-millones-plantas-flor-muertos.html",
+          "fact": "Según el SIAP, en 2024 la producción nacional de cempasúchil fue de 20.659 toneladas en 2.203 hectáreas."
+        },
+        {
+          "title": "Wikipedia · Censo de México de 2020 (datos del INEGI)",
+          "url": "https://es.wikipedia.org/wiki/Censo_de_M%C3%A9xico_de_2020",
+          "fact": "El censo de 2020 contó 126.014.024 habitantes."
+        }
+      ],
+      "reasoning": {
+        "heading": "De los campos naranjas a cada ofrenda",
+        "steps": [
+          "Para el Día de Muertos se llenan de cempasúchil altares, panteones y mercados de todo el país: la cosecha se mide en miles de toneladas.",
+          "Si fueran unas 20.000 toneladas para unos 125 millones de personas, saldrían unos 160 g por cabeza.",
+          "Con 20.659 toneladas y 126 millones de habitantes tocan 164 g de flor por persona: algo más que una manzana para cada ofrenda."
+        ]
+      },
+      "calc": {
+        "intro": "Pasamos la cosecha a gramos y la repartimos.",
+        "rows": [
+          {
+            "label": "Cosecha de 2024",
+            "value": "20.659 t"
+          },
+          {
+            "label": "En gramos",
+            "value": "× 1.000.000"
+          },
+          {
+            "label": "Habitantes de México",
+            "value": "÷ 126.014.024"
+          }
+        ],
+        "result": "Gramos por persona"
+      }
+    },
+    {
+      "id": "jornada-2026-12-13-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "latam",
+      "tag": "Jirafas en la selva",
+      "title": "¿Cuántas jirafas apiladas harían falta para llegar a lo alto del Templo IV de Tikal?",
+      "detail": "Jirafas macho de 5,5 m, una encima de otra, desde la plataforma del templo maya más alto de Tikal (Guatemala) hasta la punta de su crestería. La de arriba vería la selva entera… y a los monos aulladores muy sorprendidos.",
+      "unit": "jirafas",
+      "answer": 11.745454545454544,
+      "math": "El Templo IV mide 64,6 m desde su plataforma hasta lo alto de la crestería. Una jirafa macho mide hasta 5,5 m. 64,6 ÷ 5,5 ≈ 11,7 jirafas.",
+      "referenceExpression": "64,6 ÷ 5,5",
+      "assumptions": "Medimos desde la plataforma que sostiene el templo hasta la crestería (64,6 m); si se cuenta desde el suelo de la plaza se suele dar unos 70 m, y harían falta unas 12,7 jirafas. Jirafa macho de altura máxima (5,5 m).",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Tikal Temple IV",
+          "url": "https://en.wikipedia.org/wiki/Tikal_Temple_IV",
+          "fact": "El Templo IV mide 64,6 m desde su plataforma hasta lo más alto de la crestería; es la segunda estructura precolombina en pie más alta de América."
+        },
+        {
+          "title": "San Diego Zoo · Giraffe",
+          "url": "https://animals.sandiegozoo.org/animals/giraffe",
+          "fact": "Las hembras miden hasta 4,3 m y los machos hasta 5,5 m."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-12-13-3.jpg",
+        "alt": "El Templo IV de Tikal: la crestería de piedra asoma por encima de la selva, sobre una ancha escalinata",
+        "credit": "Simon Burchell",
+        "url": "https://commons.wikimedia.org/wiki/File:Tikal_Temple_IV,_2022_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Del cuello largo a la crestería",
+        "steps": [
+          "Los templos de Tikal se ven por encima de los árboles de la selva, así que su cima está muy alta: como un edificio de unos 20 pisos.",
+          "Si el templo mide unos 60 m y una jirafa unos 5 m, harían falta unas 12 jirafas.",
+          "Con los 64,6 m del Templo IV y jirafas macho de 5,5 m salen 11,7 jirafas: casi 12, y la última, asomando la cabeza por la crestería."
+        ]
+      },
+      "calc": {
+        "intro": "Un templo como un edificio de 20 pisos; una jirafa, como dos pisos.",
+        "rows": [
+          {
+            "label": "Altura del Templo IV",
+            "value": "64,6 m"
+          },
+          {
+            "label": "Una jirafa macho",
+            "value": "÷ 5,5 m"
+          }
+        ],
+        "result": "Jirafas"
+      }
+    }
+  ]
+}

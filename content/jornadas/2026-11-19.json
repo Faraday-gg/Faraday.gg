@@ -1,0 +1,175 @@
+{
+  "id": "2026-11-19",
+  "name": "Jueves",
+  "theme": "Avellanas, alfajores y mármol",
+  "questions": [
+    {
+      "id": "jornada-2026-11-19-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "mundial",
+      "tag": "Avellanas contadas",
+      "title": "¿Cuántas avellanas lleva un frasco de Nutella de 750 g?",
+      "detail": "La crema de cacao más famosa del mundo es sobre todo azúcar y aceite, pero lleva avellanas de verdad. Cuenta las que caben en un frasco grande de 750 g. Para comprobarlo no hace falta comérselo entero... aunque ayuda.",
+      "unit": "avellanas",
+      "answer": 97.5,
+      "math": "La Nutella tiene un 13 % de avellanas. En un frasco de 750 g: 750 × 0,13 = 97,5 g de avellanas. Según la marca, eso son unas 97 avellanas, a 1 g cada una: 97,5 ÷ 1 ≈ 97 avellanas.",
+      "referenceExpression": "750 × 0,13 ÷ 1",
+      "assumptions": "El 13 % y las «aproximadamente 97 avellanas» por frasco de 750 g son datos de la marca; de ahí sale una avellana de 1 g. La receta puede variar un poco según el país.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Nutella · Preguntas frecuentes",
+          "url": "https://www.nutella.com/in/en/faq",
+          "fact": "Nutella tiene un 13 % de avellanas; un frasco de 750 g contiene aproximadamente 97 avellanas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el porcentaje, luego la avellana",
+        "steps": [
+          "En la etiqueta, el primer ingrediente es el azúcar: las avellanas deben de ser una parte pequeña, quizá un 10 o 15 %.",
+          "Un 13 % de 750 g son unos 100 g de avellanas. Una avellana pelada pesa más o menos un gramo: unas 100.",
+          "La marca da el número: unas 97 avellanas por frasco de 750 g. Es decir, unas 13 avellanas por cada 100 g de crema."
+        ]
+      },
+      "calc": {
+        "intro": "Solo una parte pequeña del frasco es avellana.",
+        "rows": [
+          {
+            "label": "Frasco grande",
+            "value": "750 g"
+          },
+          {
+            "label": "Avellanas en la receta",
+            "value": "× 0,13"
+          },
+          {
+            "label": "Una avellana",
+            "value": "÷ 1 g"
+          }
+        ],
+        "result": "Avellanas"
+      }
+    },
+    {
+      "id": "jornada-2026-11-19-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "latam",
+      "tag": "Combustible de cumbre",
+      "title": "¿Cuántos alfajores de energía hacen falta para subir tu cuerpo del campo base a la cima del Aconcagua?",
+      "detail": "De Plaza de Mulas, el campo base, a la cumbre del Aconcagua hay más de 2.600 m de desnivel. Calcula solo la energía física para elevar 80 kg (tú más la mochila) y mídela en alfajores de chocolate de 55 g (206 kcal). Tus músculos gastan bastante más, pero eso es otra pregunta.",
+      "unit": "alfajores",
+      "answer": 2.4227707958194884,
+      "math": "Desnivel: 6.960,8 − 4.300 = 2.660,8 m. Energía para elevar 80 kg: 80 × 9,81 × 2.660,8 ≈ 2.088.196 J ≈ 499 kcal (1 kcal = 4.184 J). Un alfajor de 55 g tiene 206 kcal. 499 ÷ 206 ≈ 2,4 alfajores.",
+      "referenceExpression": "80 × 9,81 × (6960,8 − 4300) ÷ 4184 ÷ 206",
+      "assumptions": "Es solo la energía potencial (masa × gravedad × altura) para subir 80 kg. El cuerpo humano convierte en movimiento solo una parte de lo que come, y el resto se pierde en calor, frío y respiración: en la montaña real se gasta varias veces más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Aconcagua",
+          "url": "https://es.wikipedia.org/wiki/Aconcagua",
+          "fact": "La altura oficial del Aconcagua es de 6.960,8 m (UNCuyo e IGN); el campo base de Plaza de Mulas está a 4.300 m."
+        },
+        {
+          "title": "Open Food Facts · Havanna Alfajores Chocolate Clásico",
+          "url": "https://world.openfoodfacts.org/product/7791875000440",
+          "fact": "Una unidad pesa 55 g y el producto tiene 375 kcal por 100 g, unas 206 kcal por alfajor."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-19-2.jpg",
+        "alt": "El Aconcagua nevado bajo un cielo azul, visto desde un valle de tierra parda en los Andes de Mendoza",
+        "credit": "Mariordo Mario Roberto Duran Ortiz",
+        "url": "https://commons.wikimedia.org/wiki/File:Aconcagua_13.JPG",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero la física, luego la merienda",
+        "steps": [
+          "Subir una montaña agota, así que uno pensaría en decenas de alfajores. Pero la física pura de elevar un cuerpo es sorprendentemente barata.",
+          "Subir 80 kg unos 2.700 m pide unos 2 millones de julios, unas 500 kcal: dos o tres alfajores.",
+          "Con 2.660,8 m de desnivel y alfajores de 206 kcal salen 2,4 alfajores. El resto de lo que comes en la expedición se va en calor, frío y respirar aire con poco oxígeno."
+        ]
+      },
+      "calc": {
+        "intro": "La energía para elevar 80 kg más de 2.600 metros, medida en alfajores.",
+        "rows": [
+          {
+            "label": "Masa a subir",
+            "value": "80 kg"
+          },
+          {
+            "label": "Gravedad",
+            "value": "× 9,81 m/s²"
+          },
+          {
+            "label": "Desnivel",
+            "value": "× 2.660,8 m"
+          },
+          {
+            "label": "Julios a kilocalorías",
+            "value": "÷ 4.184"
+          },
+          {
+            "label": "Un alfajor",
+            "value": "÷ 206 kcal"
+          }
+        ],
+        "result": "Alfajores"
+      }
+    },
+    {
+      "id": "jornada-2026-11-19-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "mundial",
+      "tag": "Baldosa imperial",
+      "title": "¿Cuántas baldosas de 30 × 30 cm harían falta para cubrir la terraza de mármol que rodea el Taj Mahal?",
+      "detail": "El mausoleo del Taj Mahal (India) se levanta sobre un zócalo cuadrado de mármol de 95,5 m de lado. Cubre la parte al aire libre del zócalo, sin el edificio, con baldosas de 30 × 30 cm, sin huecos ni cortes. Quítate los zapatos: allí es obligatorio.",
+      "unit": "baldosas",
+      "answer": 64855.111111111124,
+      "math": "El zócalo mide 95,5 × 95,5 = 9.120,25 m². El edificio ocupa unos 57,3 × 57,3 = 3.283,29 m². Queda una terraza de 5.836,96 m². Cada baldosa ocupa 0,3 × 0,3 = 0,09 m². 5.836,96 ÷ 0,09 ≈ 64.855 baldosas.",
+      "referenceExpression": "(95,5 × 95,5 − 57,3 × 57,3) ÷ (0,3 × 0,3)",
+      "assumptions": "Tratamos el mausoleo como un cuadrado de 57,3 m de lado, aunque tiene las esquinas achaflanadas; los minaretes de las esquinas no se descuentan. Las baldosas de 30 × 30 cm son un modelo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Taj Mahal",
+          "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+          "fact": "El mausoleo se alza sobre un zócalo cuadrado de 6 m de alto y 95,5 m de lado; la base del edificio mide unos 57,3 m por lado."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el cuadrado, luego el hueco",
+        "steps": [
+          "El zócalo es una gran plaza cuadrada, como un campo de fútbol y pico, y el edificio ocupa más o menos un tercio.",
+          "Unos 9.000 m² de zócalo menos unos 3.000 m² de edificio dejan 6.000 m². Una baldosa de 30 cm ocupa 0,09 m²: unas 11 por metro cuadrado, unas 66.000.",
+          "Con 95,5 m de lado y 57,3 m de edificio quedan 5.836,96 m²: 64.855 baldosas de 30 × 30 cm."
+        ]
+      },
+      "calc": {
+        "intro": "Un cuadrado grande menos el cuadrado del edificio, en baldosas pequeñas.",
+        "rows": [
+          {
+            "label": "Zócalo de 95,5 × 95,5 m",
+            "value": "9.120,25 m²"
+          },
+          {
+            "label": "Edificio de 57,3 × 57,3 m",
+            "value": "− 3.283,29 m²"
+          },
+          {
+            "label": "Una baldosa de 30 × 30 cm",
+            "value": "÷ 0,09 m²"
+          }
+        ],
+        "result": "Baldosas"
+      }
+    }
+  ]
+}

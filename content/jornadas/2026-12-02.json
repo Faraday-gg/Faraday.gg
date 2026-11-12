@@ -1,0 +1,134 @@
+{
+  "id": "2026-12-02",
+  "name": "Miércoles",
+  "theme": "Narices, churros y toros",
+  "questions": [
+    {
+      "id": "jornada-2026-12-02-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "historia",
+      "ambito": "mundial",
+      "tag": "Nariz presidencial",
+      "title": "¿Cuántas narices humanas, una encima de otra, harían falta para igualar la nariz de Washington en el monte Rushmore?",
+      "detail": "Narices de 5 cm, de la raíz a la punta, apiladas en vertical. Mide la de George Washington, la más larga del monumento. Prohibido estornudar.",
+      "unit": "narices",
+      "answer": 128,
+      "math": "El Servicio de Parques Nacionales da 6,4 m a la nariz de Washington. Entre 0,05 m por nariz humana: 128 narices.",
+      "assumptions": "Nariz humana de 5 cm fijada para el juego. Se usa la nariz de Washington (6,4 m); las de los otros tres presidentes miden unos 6 m.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "National Park Service · Mount Rushmore: How Big Are The Heads?",
+          "url": "https://www.nps.gov/moru/learn/kidsyouth/how-big-are-the-heads.htm",
+          "fact": "La cabeza de George Washington mide 60 pies (18,3 m) de alto y su nariz, 21 pies (6,4 m)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Una cabeza de seis pisos tiene una nariz de dos",
+        "steps": [
+          "Cada cabeza mide lo que un edificio de varios pisos, y la nariz ocupa más o menos un tercio de la cara. Debe medir varios metros.",
+          "Si la cara mide unos 18 m y la nariz un tercio, son unos 6 m. Con narices de 5 cm: 6 ÷ 0,05 = 120 narices.",
+          "El dato oficial es 6,4 m: 6,4 ÷ 0,05 = 128 narices humanas apiladas. Es decir, una escalera de narices de la altura de una casa de dos plantas."
+        ]
+      },
+      "referenceExpression": "6,4 ÷ 0,05",
+      "calc": {
+        "intro": "La nariz de piedra contra una nariz normal de 5 cm.",
+        "rows": [
+          {"label": "Nariz de Washington", "value": "6,4 m"},
+          {"label": "Una nariz humana", "value": "÷ 0,05 m"}
+        ],
+        "result": "Narices"
+      },
+      "image": {
+        "src": "assets/jornada-2026-12-02-1.jpg",
+        "alt": "Las cuatro cabezas del monte Rushmore con operarios de mantenimiento colgados de cuerdas, diminutos junto a los rostros.",
+        "credit": "Jeffwaddell",
+        "url": "https://commons.wikimedia.org/wiki/File:Mount_Rushmore_maintenance.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Mount_Rushmore_maintenance.jpg"
+      }
+    },
+    {
+      "id": "jornada-2026-12-02-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "espana",
+      "tag": "Desayuno kilométrico",
+      "title": "¿Cuántos churros puestos en fila harían falta para ir de punta a punta de la Gran Vía de Madrid?",
+      "detail": "Churros rectos de 15 cm, punta con punta, de la calle de Alcalá a la plaza de España. El chocolate, para después.",
+      "unit": "churros",
+      "answer": 8773.333333333334,
+      "math": "La Gran Vía mide 1.316 m según su proyecto. Entre 0,15 m por churro: unos 8.773 churros.",
+      "assumptions": "Longitud de 1.316 m del proyecto de la calle; otras fuentes dan entre 1.300 y 1.360 m según dónde se mida. Churro recto de 15 cm fijado para el juego.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Gran Vía (Madrid)",
+          "url": "https://es.wikipedia.org/wiki/Gran_V%C3%ADa_(Madrid)",
+          "fact": "Comienza en la calle de Alcalá y termina en la plaza de España; la longitud total del proyecto es de 1.316 m."
+        }
+      ],
+      "reasoning": {
+        "heading": "Pasa los metros a churros",
+        "steps": [
+          "La Gran Vía se recorre andando en un cuarto de hora: mide algo más de un kilómetro. Un churro cabe en la mano.",
+          "Con 1.300 m y churros de 15 cm, salen unos 6,7 churros por metro: 1.300 × 6,7 ≈ 8.700 churros.",
+          "Con los 1.316 m del proyecto: 1.316 ÷ 0,15 = 8.773 churros. A una docena por persona, desayunarían 731 madrileños."
+        ]
+      },
+      "referenceExpression": "1316 ÷ 0,15",
+      "calc": {
+        "intro": "La calle entera, medida en churros de 15 cm.",
+        "rows": [
+          {"label": "Longitud de la Gran Vía", "value": "1.316 m"},
+          {"label": "Un churro", "value": "÷ 0,15 m"}
+        ],
+        "result": "Churros"
+      }
+    },
+    {
+      "id": "jornada-2026-12-02-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "espana",
+      "tag": "Paseo con prisa",
+      "title": "En el encierro más rápido de San Fermín, ¿cuántas veces más deprisa que alguien que va paseando iban los toros?",
+      "detail": "Recorrido de 875 m en 2 minutos y 5 segundos, frente a un paseo tranquilo de 5 km/h. Velocidad media de toda la carrera, curva de Estafeta incluida.",
+      "unit": "veces",
+      "answer": 5.04,
+      "math": "875 m en 125 s son 7 m/s, es decir, 25,2 km/h. Frente a un paseo de 5 km/h: 25,2 ÷ 5 = 5,04 veces más rápido.",
+      "assumptions": "Se toma el encierro más rápido de la lista de sanfermin.com (2 min 5 s, 14 de julio de 2015, toros de Miura). Paseo de 5 km/h fijado para el juego. Velocidad media del recorrido completo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Sanfermin.com · The fastest running of the bulls in history",
+          "url": "https://www.sanfermin.com/en/bullruns/the-fastest-running-of-the-bulls-in-history/",
+          "fact": "El recorrido mide 875 m; el encierro más rápido de la lista duró 2 min 5 s, el 14 de julio de 2015, con toros de Miura."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero pasa minutos y metros a kilómetros por hora",
+        "steps": [
+          "Casi un kilómetro en poco más de dos minutos: eso ya es ir corriendo de verdad, bastante más rápido que un paseo.",
+          "Redondeando, 900 m en 2 minutos son 450 m por minuto, unos 27 km/h. Entre 5 km/h de un paseo, algo más de 5 veces.",
+          "Con los datos exactos: 875 ÷ 125 = 7 m/s; × 3,6 = 25,2 km/h. Y 25,2 ÷ 5 = 5,04 veces. Ese día, mejor ver el encierro desde el balcón."
+        ]
+      },
+      "referenceExpression": "875 ÷ 125 × 3,6 ÷ 5",
+      "calc": {
+        "intro": "Velocidad media de la manada frente a un paseo.",
+        "rows": [
+          {"label": "Recorrido del encierro", "value": "875 m"},
+          {"label": "Encierro más rápido", "value": "÷ 125 s"},
+          {"label": "De m/s a km/h", "value": "× 3,6"},
+          {"label": "Paso de paseo", "value": "÷ 5 km/h"}
+        ],
+        "result": "Veces más rápido"
+      }
+    }
+  ]
+}

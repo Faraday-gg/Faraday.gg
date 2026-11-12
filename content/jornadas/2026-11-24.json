@@ -1,0 +1,159 @@
+{
+  "id": "2026-11-24",
+  "name": "Martes",
+  "theme": "Mozart, kétchup y YouTube",
+  "questions": [
+    {
+      "id": "jornada-2026-11-24-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "mundial",
+      "tag": "Genio por minutos",
+      "title": "¿Cuántos minutos de música compuso Mozart por cada año que vivió?",
+      "detail": "Toma la edición completa de su obra, quita las versiones repetidas y reparte los minutos entre sus 35 años de vida, incluidos los que pasó aprendiendo a caminar.",
+      "unit": "minutos por año",
+      "answer": 349.7142857142857,
+      "math": "La edición completa Mozart 225 tiene 200 CD y 240 horas. Quitando los 30 CD de versiones alternativas quedan 170: 240 × 60 × 170 ÷ 200 = 12.240 minutos. Entre 35 años: unos 350 minutos por año.",
+      "referenceExpression": "240 × 60 × 170 ÷ 200 ÷ 35",
+      "assumptions": "Suponemos que todos los CD duran lo mismo para descontar los 30 de versiones alternativas. La edición incluye también fragmentos y obras completadas por otros. Mozart vivió de 1756 a 1791: 35 años.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Fundación Mozarteum de Salzburgo · Mozart 225",
+          "url": "https://mozarteum.at/en/press_release/monumental-new-200-cd-box-set-of-all-of-mozarts-works",
+          "fact": "La edición tiene 200 CD con todas las obras de Mozart y 240 horas de música, incluidos 30 CD de interpretaciones alternativas."
+        },
+        {
+          "title": "Wikipedia · Wolfgang Amadeus Mozart",
+          "url": "https://en.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart",
+          "fact": "Nació el 27 de enero de 1756 en Salzburgo y murió el 5 de diciembre de 1791 en Viena, a los 35 años."
+        }
+      ],
+      "reasoning": {
+        "heading": "Horas de música entre años de vida",
+        "steps": [
+          "La obra completa de Mozart ocupa unos 200 CD de algo más de una hora: unas 200 horas.",
+          "200 horas son 12.000 minutos; entre 35 años, unos 340 minutos por año.",
+          "Con 240 horas en 200 CD, descontando 30 CD repetidos, quedan 12.240 minutos: 350 minutos por año, casi seis horas de música por cumpleaños."
+        ]
+      },
+      "calc": {
+        "intro": "Toda su música, sin repeticiones, repartida entre sus años de vida.",
+        "rows": [
+          {
+            "label": "Edición completa",
+            "value": "14.400 min"
+          },
+          {
+            "label": "Sin versiones repetidas",
+            "value": "× 170 ÷ 200"
+          },
+          {
+            "label": "Música propia",
+            "value": "= 12.240 min"
+          },
+          {
+            "label": "Años de vida",
+            "value": "÷ 35"
+          }
+        ],
+        "result": "Minutos por año"
+      }
+    },
+    {
+      "id": "jornada-2026-11-24-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "mundial",
+      "tag": "Lluvia de kétchup",
+      "title": "¿Cuántas botellas de kétchup Heinz se venden en el mundo cada segundo?",
+      "detail": "Reparte por igual las ventas de un año entre todos sus segundos, de día y de noche. Las hamburguesas van aparte.",
+      "unit": "botellas por segundo",
+      "answer": 20.61136478944698,
+      "math": "Heinz vende unos 650 millones de botellas de kétchup al año. Un año tiene 31.536.000 segundos. 650.000.000 ÷ 31.536.000 ≈ 20,6 botellas por segundo.",
+      "referenceExpression": "650000000 ÷ (365 × 24 × 60 × 60)",
+      "assumptions": "Es la cifra aproximada que dio la propia empresa en 2019. Año de 365 días y ventas repartidas por igual.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Kraft Heinz · HEINZ Relishes 150 Years (2019)",
+          "url": "https://news.kraftheinzcompany.com/press-releases-details/2019/HEINZ-Relishes-150-Years/default.aspx",
+          "fact": "Se venden aproximadamente 650 millones de botellas de kétchup Heinz al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del año al segundo",
+        "steps": [
+          "Una marca presente en medio mundo vende cientos de millones de botellas al año; digamos 600 millones.",
+          "Un año tiene unos 30 millones de segundos: 600 ÷ 30 = 20 botellas por segundo.",
+          "Con 650 millones y 31.536.000 segundos salen 20,6 botellas cada segundo, mientras tú todavía golpeas el fondo de la tuya."
+        ]
+      },
+      "calc": {
+        "intro": "Las botellas de un año repartidas entre sus segundos.",
+        "rows": [
+          {
+            "label": "Botellas al año",
+            "value": "650.000.000"
+          },
+          {
+            "label": "Segundos en un año",
+            "value": "÷ 31.536.000"
+          }
+        ],
+        "result": "Botellas por segundo"
+      }
+    },
+    {
+      "id": "jornada-2026-11-24-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "tecnologia",
+      "ambito": "mundial",
+      "tag": "Pantalla grande",
+      "title": "Mientras dura un partido de fútbol, ¿cuántas horas de YouTube se ven en televisores de todo el mundo?",
+      "detail": "Solo los 90 minutos reglamentarios, sin descuento ni descanso. Cuentan las horas vistas en televisores, no en teléfonos ni portátiles.",
+      "unit": "horas",
+      "answer": 62500000,
+      "math": "Se ven más de 1.000 millones de horas de YouTube al día en televisores. Un día tiene 1.440 minutos. En 90 minutos: 1.000.000.000 × 90 ÷ 1.440 = 62,5 millones de horas.",
+      "referenceExpression": "1000000000 × 90 ÷ 1440",
+      "assumptions": "Es la media diaria que dio YouTube en febrero de 2024 («más de 1.000 millones»), repartida por igual en todos los minutos del día.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Google · Carta del CEO de YouTube: 4 grandes apuestas para 2024",
+          "url": "https://blog.google/intl/en-in/products/platforms/letter-from-the-youtube-ceo-4-big-bets-for-2024/",
+          "fact": "Los espectadores ven de media más de 1.000 millones de horas de YouTube al día en sus televisores (6 de febrero de 2024)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del día al partido",
+        "steps": [
+          "YouTube ya se ve más en la tele que en el teléfono en muchos países: del orden de mil millones de horas al día.",
+          "Un partido es una dieciseisava parte del día (90 de 1.440 minutos): 1.000 millones ÷ 16 ≈ 60 millones de horas.",
+          "Con la cifra oficial salen 62,5 millones de horas: más de 7.000 años de video mientras ruedan los 90 minutos."
+        ]
+      },
+      "calc": {
+        "intro": "Las horas de un día, recortadas a los 90 minutos de un partido.",
+        "rows": [
+          {
+            "label": "Horas al día en televisores",
+            "value": "1.000.000.000 h"
+          },
+          {
+            "label": "Minutos del partido",
+            "value": "× 90"
+          },
+          {
+            "label": "Minutos en un día",
+            "value": "÷ 1.440"
+          }
+        ],
+        "result": "Horas de YouTube"
+      }
+    }
+  ]
+}

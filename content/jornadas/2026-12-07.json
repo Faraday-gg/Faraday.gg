@@ -1,0 +1,170 @@
+{
+  "id": "2026-12-07",
+  "name": "Lunes",
+  "theme": "Asteroide, agave y Bombonera",
+  "questions": [
+    {
+      "id": "jornada-2026-12-07-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "mundial",
+      "tag": "Roca de dinosaurios",
+      "title": "¿Cuántas torres Eiffel apiladas harían falta para igualar el ancho del asteroide que acabó con los dinosaurios?",
+      "detail": "Hace 66 millones de años, una roca espacial chocó contra lo que hoy es la península de Yucatán. Pon torres Eiffel de 330 m una encima de otra hasta igualar su diámetro. Los dinosaurios no tuvieron tiempo de hacer la cuenta.",
+      "unit": "torres Eiffel",
+      "answer": 30.303030303030305,
+      "math": "El asteroide medía casi 10 km de diámetro: 10.000 m. La torre Eiffel mide 330 m con sus antenas. 10.000 ÷ 330 ≈ 30,3 torres.",
+      "referenceExpression": "10000 ÷ 330",
+      "assumptions": "Tomamos 10 km de diámetro, la cifra redonda que da la NSF; otras estimaciones van de 10 a 15 km. Torre Eiffel de 330 m, con antenas.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "NSF · A moment that changed Earth",
+          "url": "https://www.nsf.gov/science-matters/moment-changed-earth",
+          "fact": "Un asteroide de casi 10 km de ancho chocó contra la Tierra hace unos 66 millones de años y abrió una cavidad de 100 km de ancho."
+        },
+        {
+          "title": "Wikipedia · Eiffel Tower",
+          "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+          "fact": "La torre Eiffel mide 330 m con sus antenas (300 m sin ellas)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Una ciudad volando",
+        "steps": [
+          "El asteroide era del tamaño de una ciudad pequeña: más alto que el Everest si lo pusieras en el suelo. La torre Eiffel, en cambio, se recorre a pie en un rato.",
+          "Diez kilómetros son 10.000 m; entre unos 300 m por torre salen alrededor de 30.",
+          "Con 10.000 m y 330 m por torre: 30,3 torres Eiffel apiladas. Y la cavidad que abrió medía 100 km de ancho, diez veces más."
+        ]
+      },
+      "calc": {
+        "intro": "El diámetro del asteroide, en alturas de torre Eiffel.",
+        "rows": [
+          {
+            "label": "Diámetro del asteroide",
+            "value": "10.000 m"
+          },
+          {
+            "label": "Una torre Eiffel",
+            "value": "÷ 330 m"
+          }
+        ],
+        "result": "Torres Eiffel"
+      }
+    },
+    {
+      "id": "jornada-2026-12-07-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "latam",
+      "tag": "Piña de tequila",
+      "title": "¿Cuántas botellas de tequila de 750 ml salen de una sola piña de agave azul?",
+      "detail": "El corazón del agave, la piña, se cuece, se muele, se fermenta y se destila. Toma una piña de tamaño medio y llena botellas de 750 ml. La resaca no entra en la cuenta.",
+      "unit": "botellas",
+      "answer": 6.271894498765433,
+      "math": "Una piña media pesa unas 70 libras: 70 × 0,4536 = 31,75 kg. Para un litro de tequila hacen falta entre 6,5 y 7 kg de agave; tomamos 6,75 kg. Una botella de 0,75 L necesita 6,75 × 0,75 = 5,06 kg. 31,75 ÷ 5,06 ≈ 6,3 botellas.",
+      "referenceExpression": "70 × 0,45359237 ÷ (6,75 × 0,75)",
+      "assumptions": "Las piñas pesan entre 20 y 100 kg o más; usamos la media de unas 70 libras. Rendimiento de 6,75 kg de agave por litro, el punto medio de 6,5 a 7 kg. No ajustamos la graduación del tequila embotellado.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Tasting Table · How much tequila can actually be made from one agave plant",
+          "url": "https://www.tastingtable.com/2161622/how-much-tequila-one-agave-plant-makes/",
+          "fact": "El rendimiento medio de un agave es de unas 70 libras de piña, y un agave azul medio da entre seis y siete botellas de tequila."
+        },
+        {
+          "title": "Selecciones · El tequila de mi tierra",
+          "url": "https://selecciones.com.mx/el-tequila-de-mi-tierra",
+          "fact": "Para elaborar un litro de tequila se requieren entre 6,5 y 7 kilos de agave azul, en promedio."
+        },
+        {
+          "title": "El Tiempo · Proceso de elaboración del tequila",
+          "url": "https://www.eltiempo.com/don-juan/historias/proceso-de-elaboracion-del-tequila-olmeca+articulo+16772164",
+          "fact": "Cada piña de agave puede pesar entre 20 y 100 kilos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del campo de Jalisco a la botella",
+        "steps": [
+          "Una piña de agave parece una piña gigante y pesa como un niño de diez años. Pero gran parte es fibra y agua: el tequila sale solo de sus azúcares.",
+          "Si una piña pesa unos 30 kg y hacen falta unos 7 kg por litro, salen unos 4 litros: algo más de 5 botellas.",
+          "Con 31,75 kg de piña y 6,75 kg por litro salen 4,7 litros, que llenan 6,3 botellas de 750 ml."
+        ]
+      },
+      "calc": {
+        "intro": "Los kilos de la piña, entre los kilos que pide cada botella.",
+        "rows": [
+          {
+            "label": "Piña media",
+            "value": "70 lb"
+          },
+          {
+            "label": "Kilos por libra",
+            "value": "× 0,4536"
+          },
+          {
+            "label": "Agave por litro",
+            "value": "÷ 6,75 kg"
+          },
+          {
+            "label": "Litros por botella",
+            "value": "÷ 0,75"
+          }
+        ],
+        "result": "Botellas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-07-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "latam",
+      "tag": "Festejo en bomboneras",
+      "title": "¿Cuántas Bomboneras llenas harían falta para meter a toda la gente que salió a festejar el Mundial de 2022 en Buenos Aires?",
+      "detail": "El 20 de diciembre de 2022, la selección argentina campeona recorrió la ciudad y las calles se desbordaron. Mete a toda esa multitud en estadios como el de Boca, de 57.200 lugares, sin que sobre nadie fuera.",
+      "unit": "Bomboneras",
+      "answer": 87.41258741258741,
+      "math": "El ministro de Seguridad estimó cinco millones de personas en las calles. La Bombonera tiene capacidad para 57.200 espectadores. 5.000.000 ÷ 57.200 ≈ 87,4 Bomboneras.",
+      "referenceExpression": "5000000 ÷ 57200",
+      "assumptions": "Usamos la estimación oficial más citada, cinco millones; la Policía de la Ciudad habló de al menos cuatro millones, que darían unas 70 Bomboneras. Capacidad actual, sin la ampliación proyectada.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Unidiversidad (UNCuyo) · Lo que dejó la histórica movilización para saludar a los campeones del mundo",
+          "url": "https://www.unidiversidad.com.ar/lo-que-dejo-la-historica-movilizacion-para-saludar-a-los-campeones-del-mundo",
+          "fact": "Cinco millones de personas coparon las calles de Buenos Aires el 20 de diciembre de 2022, según el ministro de Seguridad, Aníbal Fernández; la Policía de la Ciudad habló de al menos cuatro millones."
+        },
+        {
+          "title": "Billiken · La Bombonera, el emblemático estadio de Buenos Aires",
+          "url": "https://billiken.lat/mi-pais/la-bombonera-el-emblematico-estadio-de-buenos-aires-que-se-convirtio-en-un-icono-de-hormigon/",
+          "fact": "La Bombonera tiene capacidad para 57.200 espectadores."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la multitud",
+        "steps": [
+          "Fue una de las mayores concentraciones de la historia de Argentina: millones de personas. Un estadio grande mete unas 50.000, así que harán falta decenas de estadios.",
+          "Si fueran 5 millones y cada estadio metiera 50.000, saldrían 100. La Bombonera es algo más grande, así que algo menos.",
+          "Con 5.000.000 de personas y 57.200 lugares: 87,4 Bomboneras llenas. Con los cuatro millones de la policía, unas 70."
+        ]
+      },
+      "calc": {
+        "intro": "Toda la gente en la calle, repartida en estadios de Boca.",
+        "rows": [
+          {
+            "label": "Personas festejando",
+            "value": "5.000.000"
+          },
+          {
+            "label": "Capacidad de la Bombonera",
+            "value": "÷ 57.200"
+          }
+        ],
+        "result": "Bomboneras"
+      }
+    }
+  ]
+}

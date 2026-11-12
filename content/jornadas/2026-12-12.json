@@ -1,0 +1,164 @@
+{
+  "id": "2026-12-12",
+  "name": "Sábado",
+  "theme": "Arena, Shakira y papel",
+  "questions": [
+    {
+      "id": "jornada-2026-12-12-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "mundial",
+      "tag": "Isla de arena",
+      "title": "¿Cuántas piscinas olímpicas llenarías con la arena de Palm Jumeirah, la isla con forma de palmera de Dubái?",
+      "detail": "Toda la arena que se sacó del fondo del mar para levantar la isla, sin contar las rocas del rompeolas, en piscinas olímpicas de 50 × 25 × 2 m. Los socorristas, en paro técnico.",
+      "unit": "piscinas olímpicas",
+      "answer": 38000,
+      "math": "Para construir Palm Jumeirah se usaron unos 95 millones de m³ de arena. Una piscina olímpica tiene 2.500 m³. 95.000.000 ÷ 2.500 = 38.000 piscinas.",
+      "referenceExpression": "95000000 ÷ 2500",
+      "assumptions": "Otras fuentes hablan de 94 millones de m³; la diferencia apenas cambia el resultado (37.600). No contamos los unos 7 millones de toneladas de roca del rompeolas. Piscina olímpica de 2 m de profundidad nominal.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Gulf News · 20 years since construction began on Palm Jumeirah",
+          "url": "https://gulfnews.com/uae/year-of-the-50th/photos-20-years-since-construction-began-on-dubais-iconic-palm-jumeirah-1.1622987123842",
+          "fact": "La isla está hecha con 95 millones de m³ de arena y unos 7 millones de toneladas de roca de las montañas Hajar."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica de 2 m de profundidad nominal contiene 2.500 m³ (2,5 millones de litros)."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-12-12-1.jpg",
+        "alt": "Vista aérea de Palm Jumeirah en construcción en 2007: el tronco de la palmera con edificios y las hojas de arena que se abren en el mar",
+        "credit": "Imre Solt",
+        "url": "https://commons.wikimedia.org/wiki/File:Palm_Jumeirah_on_1_May_2007_Pict_1.jpg",
+        "license": "CC BY-SA 3.0",
+        "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      "reasoning": {
+        "heading": "Del fondo del mar a la piscina",
+        "steps": [
+          "Palm Jumeirah es una isla entera, de 5 km de largo, hecha a base de echar arena al mar: decenas de millones de metros cúbicos.",
+          "Si fueran unos 100 millones de m³ y cada piscina olímpica guarda 2.500 m³, saldrían unas 40.000 piscinas.",
+          "Con los 95 millones de m³ que da la prensa de Dubái salen 38.000 piscinas olímpicas: una ciudad entera de piscinas, sin un solo bañista."
+        ]
+      },
+      "calc": {
+        "intro": "La isla es arena echada al mar; la piscina, una caja de 50 × 25 × 2 m.",
+        "rows": [
+          {
+            "label": "Arena de la isla",
+            "value": "95.000.000 m³"
+          },
+          {
+            "label": "Una piscina olímpica",
+            "value": "÷ 2.500 m³"
+          }
+        ],
+        "result": "Piscinas olímpicas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-12-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "latam",
+      "tag": "Waka Waka eterno",
+      "title": "Si cada reproducción del videoclip de «Waka Waka» de Shakira durara un segundo, ¿cuántos años sonaría sin parar?",
+      "detail": "Cuenta todas las visitas del videoclip oficial en YouTube y dale a cada una un solo segundo, una detrás de otra, de día y de noche. Esto es África… y también Barranquilla.",
+      "unit": "años",
+      "answer": 149.88465536035693,
+      "math": "El videoclip de «Waka Waka (This Time for Africa)» suma unos 4.730 millones de visitas. Un año tiene 365,25 × 24 × 3.600 = 31.557.600 segundos. 4.730.000.000 ÷ 31.557.600 ≈ 149,9 años.",
+      "referenceExpression": "4730000000 ÷ (365,25 × 24 × 3600)",
+      "assumptions": "Visitas redondeadas a la decena de millones, según la lista de vídeos más vistos de YouTube a 30 de agosto de 2026; la cifra sigue creciendo. Año medio de 365,25 días.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · List of most-viewed YouTube videos",
+          "url": "https://en.wikipedia.org/wiki/List_of_most-viewed_YouTube_videos",
+          "fact": "«Waka Waka (This Time for Africa)», de Shakira, publicado el 4 de junio de 2010, suma 4.730 millones de visitas (datos a 30 de agosto de 2026)."
+        }
+      ],
+      "reasoning": {
+        "heading": "De las visitas al calendario",
+        "steps": [
+          "El himno del Mundial de Sudáfrica 2010 lleva más de quince años sonando en fiestas de todo el mundo: sus visitas se cuentan por miles de millones.",
+          "Un año tiene unos 31,5 millones de segundos. Si fueran unos 5.000 millones de visitas, saldrían unos 160 años.",
+          "Con 4.730 millones de visitas salen 149,9 años: si hubiera empezado a sonar en 1876, seguiría hasta hoy."
+        ]
+      },
+      "calc": {
+        "intro": "Cada visita, un segundo; luego pasamos los segundos a años.",
+        "rows": [
+          {
+            "label": "Visitas en YouTube",
+            "value": "4.730.000.000 s"
+          },
+          {
+            "label": "Segundos en un año",
+            "value": "÷ 31.557.600 s"
+          }
+        ],
+        "result": "Años"
+      }
+    },
+    {
+      "id": "jornada-2026-12-12-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "hogar",
+      "ambito": "mundial",
+      "tag": "Rollo infinito",
+      "title": "¿Cuántos metros de papel higiénico desenrolla al año una persona en Estados Unidos?",
+      "detail": "Todos los rollos que gasta en un año una persona de EE. UU., el país que más papel higiénico usa, desenrollados uno detrás de otro. Rollos de 200 hojas de 9,4 cm de largo. El gato de la casa aplaude la iniciativa.",
+      "unit": "metros",
+      "answer": 2650.8,
+      "math": "En EE. UU. se usan unos 141 rollos por persona y año. Con 200 hojas de 9,4 cm por rollo, cada rollo mide 18,8 m. 141 × 200 × 0,094 ≈ 2.651 m.",
+      "referenceExpression": "141 × 200 × 0,094",
+      "assumptions": "Los 141 rollos son una estimación de Statista para 2018 a partir de las ventas. El número de hojas por rollo cambia mucho según la marca; tomamos 200 hojas como supuesto del modelo. El largo de la hoja, 9,4 cm, es el tamaño habitual en EE. UU.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Statista · Toilet paper consumption per capita",
+          "url": "https://www.statista.com/chart/15676/cmo-toilet-paper-consumption",
+          "fact": "En 2018 se estimaba que cada persona de EE. UU. usa unos 141 rollos de papel higiénico al año, unos 12,7 kg."
+        },
+        {
+          "title": "Wikipedia · Toilet paper",
+          "url": "https://en.wikipedia.org/wiki/Toilet_paper",
+          "fact": "La hoja habitual en EE. UU. mide 3,7 pulgadas (94 mm) de largo y 4,1 pulgadas (100 mm) de ancho."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del cuarto de baño a la calle",
+        "steps": [
+          "Un rollo dura unos pocos días en una casa, así que una persona gasta bastante más de cien al año.",
+          "Si un rollo desenrollado mide unos 20 m y se gastan unos 150 al año, salen unos 3.000 m: kilómetros de papel.",
+          "Con 141 rollos de 200 hojas de 9,4 cm salen 2.651 m: más de dos kilómetros y medio, más de tres veces la altura del Burj Khalifa."
+        ]
+      },
+      "calc": {
+        "intro": "Primero medimos un rollo y luego todos los del año.",
+        "rows": [
+          {
+            "label": "Rollos al año",
+            "value": "141"
+          },
+          {
+            "label": "Hojas por rollo",
+            "value": "× 200"
+          },
+          {
+            "label": "Largo de cada hoja",
+            "value": "× 0,094 m"
+          }
+        ],
+        "result": "Metros de papel"
+      }
+    }
+  ]
+}

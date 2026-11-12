@@ -1,0 +1,137 @@
+{
+  "id": "2026-12-03",
+  "name": "Jueves",
+  "theme": "Ascensores, discos y siestas",
+  "questions": [
+    {
+      "id": "jornada-2026-12-03-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "mundial",
+      "tag": "Toda la humanidad sube",
+      "title": "¿Cuántos días tardan los ascensores y escaleras mecánicas de Otis en llevar al equivalente de toda la humanidad?",
+      "detail": "Cuenta cada viaje como una persona transportada y compáralo con la población mundial de 2026. Sin música de ascensor, por favor.",
+      "unit": "días",
+      "answer": 3.3202713584,
+      "math": "Otis dice mover 2.500 millones de personas al día. La población mundial de 2026 es de unos 8.300.678.396: 8.300.678.396 ÷ 2.500.000.000 ≈ 3,3 días.",
+      "assumptions": "Cifra de la propia Otis (incluye ascensores, escaleras y pasillos mecánicos que mantiene); cuenta viajes, no personas distintas. Población estimada a 1 de julio de 2026.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Otis · página corporativa de Estados Unidos",
+          "url": "https://www.otis.com/en/us",
+          "fact": "«Movemos 2.500 millones de personas al día» y mantenemos unos 2,5 millones de equipos en el mundo."
+        },
+        {
+          "title": "Worldometer · población mundial (datos de la ONU, WPP 2024)",
+          "url": "https://www.worldometers.info/world-population/",
+          "fact": "Población mundial estimada a 1 de julio de 2026: 8.300.678.396 personas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Una sola marca, pero en medio mundo",
+        "steps": [
+          "Otis es el mayor fabricante de ascensores del mundo y cada edificio hace miles de viajes al día. Aun así, mover a 8.000 millones de personas lleva tiempo.",
+          "Si moviera unos 2.000 millones al día, harían falta 8.000 ÷ 2.000 = 4 días para igualar la población mundial.",
+          "Con su cifra de 2.500 millones diarios y 8.300.678.396 habitantes: 3,32 días. Desde el lunes por la mañana hasta el miércoles por la noche."
+        ]
+      },
+      "referenceExpression": "8300678396 ÷ 2500000000",
+      "calc": {
+        "intro": "La población mundial, dividida entre los viajes diarios de Otis.",
+        "rows": [
+          {"label": "Población mundial en 2026", "value": "8.300.678.396 personas"},
+          {"label": "Personas que mueve Otis al día", "value": "÷ 2.500.000.000"}
+        ],
+        "result": "Días"
+      }
+    },
+    {
+      "id": "jornada-2026-12-03-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "mundial",
+      "tag": "Torre de Thriller",
+      "title": "Si apilaras un CD por cada copia vendida de «Thriller» de Michael Jackson, ¿cuántos kilómetros de alto mediría la torre?",
+      "detail": "Discos sin caja, de 1,2 mm de grosor, uno encima de otro. Usa las copias que reconoce el Guinness. Nadie se atreve a sacar el de abajo.",
+      "unit": "kilómetros",
+      "answer": 80.4,
+      "math": "Guinness reconoce 67 millones de copias. 67.000.000 × 1,2 mm = 80.400.000 mm, es decir, 80,4 km.",
+      "assumptions": "Todas las copias como CD de 1,2 mm sin caja, aunque muchas se vendieron en vinilo o casete. Cifra del Guinness de agosto de 2021; otras estimaciones dan 70 millones o más.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Best-selling album",
+          "url": "https://www.guinnessworldrecords.com/world-records/70133-best-selling-album",
+          "fact": "«Thriller», de Michael Jackson, ha vendido más de 67 millones de copias en todo el mundo (dato a 20 de agosto de 2021)."
+        },
+        {
+          "title": "Wikipedia · Compact disc",
+          "url": "https://en.wikipedia.org/wiki/Compact_disc",
+          "fact": "Los discos miden 1,2 mm de grosor y 120 mm de diámetro."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un CD es finísimo, pero son decenas de millones",
+        "steps": [
+          "Un disco apenas mide un milímetro, así que mil discos hacen poco más de un metro. Con decenas de millones, la torre se va a decenas de kilómetros.",
+          "Con unos 70 millones de copias y 1 mm por disco: 70 millones de mm = 70 km.",
+          "Con 67 millones y 1,2 mm: 80,4 km. Unas nueve veces la altura del Everest y bastante por encima de donde vuelan los aviones."
+        ]
+      },
+      "referenceExpression": "67000000 × 1,2 ÷ 1000000",
+      "calc": {
+        "intro": "Cada copia vendida, un CD de 1,2 mm en la pila.",
+        "rows": [
+          {"label": "Copias vendidas", "value": "67.000.000"},
+          {"label": "Grosor de un CD", "value": "× 1,2 mm"},
+          {"label": "Milímetros en un kilómetro", "value": "÷ 1.000.000"}
+        ],
+        "result": "Kilómetros"
+      }
+    },
+    {
+      "id": "jornada-2026-12-03-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "mundial",
+      "tag": "Siestas marcianas",
+      "title": "Si tus días duraran lo que un día en Marte, ¿cuántas siestas de 20 minutos podrías echarte en un año con el tiempo de más?",
+      "detail": "Un día solar marciano frente a uno de 24 horas, durante 365 días. Todo el tiempo extra va al sofá en siestas de 20 minutos.",
+      "unit": "siestas",
+      "answer": 722.3715000000009,
+      "math": "La NASA da 24,6597 h al día marciano: 0,6597 h = 39,58 min de más cada día. En 365 días suman 14.447 minutos; entre 20, unas 722 siestas.",
+      "assumptions": "Día solar medio de Marte (24,6597 h) frente a 24 h. Año de 365 días terrestres. Siesta de 20 minutos fijada para el juego.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "NASA · Mars Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+          "fact": "Duración del día: 24,6597 horas en Marte frente a 24,0000 en la Tierra."
+        }
+      ],
+      "reasoning": {
+        "heading": "Cuarenta minutos al día dan para mucho",
+        "steps": [
+          "Un día marciano dura algo más de 24 horas y media: cada día regala casi cuarenta minutos, dos siestas cortas.",
+          "Con 40 minutos de más al día y 365 días: 14.600 minutos. Entre 20, unas 730 siestas.",
+          "Con el dato exacto, 0,6597 h × 60 = 39,58 minutos al día; × 365 = 14.447 minutos; ÷ 20 = 722 siestas. Más de diez días enteros de descanso extra."
+        ]
+      },
+      "referenceExpression": "(24,6597 − 24) × 60 × 365 ÷ 20",
+      "calc": {
+        "intro": "El tiempo de más de cada día marciano, convertido en siestas.",
+        "rows": [
+          {"label": "Horas de más al día", "value": "0,6597 h"},
+          {"label": "Minutos en una hora", "value": "× 60"},
+          {"label": "Días en un año", "value": "× 365"},
+          {"label": "Una siesta", "value": "÷ 20 min"}
+        ],
+        "result": "Siestas"
+      }
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "id": "2026-11-26",
+  "name": "Jueves",
+  "theme": "Gol, venas y mate",
+  "questions": [
+    {
+      "id": "jornada-2026-11-26-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "latam",
+      "tag": "Barrilete cósmico",
+      "title": "¿A cuántos kilómetros por hora de media corrió Maradona en el «gol del siglo»?",
+      "detail": "México 86, cuartos de final contra Inglaterra: Maradona arranca en su campo y no para hasta dejar atrás a cinco rivales y meterla. Calcula su velocidad media de principio a fin, con la pelota pegada al pie. Una bicicleta de paseo por la ciudad va a unos 15 km/h: ¿la habría alcanzado?",
+      "unit": "km/h",
+      "answer": 21.6,
+      "math": "Maradona recorrió unos 60 metros en unos 10 segundos: 6 metros por segundo. Por 3,6 para pasar a km/h: 21,6 km/h.",
+      "referenceExpression": "60 ÷ 10 × 3,6",
+      "assumptions": "Usamos la cifra más citada, 60 metros en 10 segundos. Otros análisis de la jugada dan entre 52 y 68 metros y entre 10 y 11 segundos, así que el resultado puede bailar entre unos 18 y 22 km/h. Es velocidad media: en los arranques fue más rápido y en los recortes, más lento.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "La Capital (Mar del Plata) · Sesenta metros, diez segundos, cinco rivales: las cifras del «gol del siglo»",
+          "url": "https://www.lacapitalmdp.com/sesenta-metros-diez-segundos-cinco-rivales-las-cifras-del-gol-del-siglo/",
+          "fact": "Maradona recorrió 60 metros en diez segundos y marcó tras sortear a cinco rivales (Beardsley, Reid, Butcher, Fenwick y el arquero Shilton), en el minuto 55, ante 114.580 espectadores en el estadio Azteca."
+        }
+      ],
+      "reasoning": {
+        "heading": "Metros por segundo, por 3,6",
+        "steps": [
+          "Una persona que corre a buen ritmo va a unos 15 km/h; un velocista de élite pasa de 35. Maradona iba con la pelota y esquivando ingleses: algo entre medias.",
+          "Más o menos 60 metros en 10 segundos son 6 metros por segundo. Para pasar de m/s a km/h se multiplica por 3,6: algo más de 20 km/h.",
+          "La cuenta exacta da 21,6 km/h: más rápido que una bici de paseo y sin soltar la pelota durante cinco regates."
+        ]
+      },
+      "calc": {
+        "intro": "Distancia entre tiempo, y luego a kilómetros por hora.",
+        "rows": [
+          {"label": "Carrera del gol", "value": "60 m"},
+          {"label": "Tiempo de la jugada", "value": "÷ 10 s"},
+          {"label": "Velocidad en m/s", "value": "= 6 m/s"},
+          {"label": "De m/s a km/h", "value": "× 3,6"}
+        ],
+        "result": "Velocidad media"
+      }
+    },
+    {
+      "id": "jornada-2026-11-26-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cuerpo",
+      "ambito": "mundial",
+      "tag": "Manguera interior",
+      "title": "Si pusieras en fila todos los vasos sanguíneos de un adulto, ¿cuántas vueltas darían a la Tierra por el ecuador?",
+      "detail": "Arterias, venas y capilares, desde la aorta hasta el más finito, unidos uno detrás de otro como una manguera de jardín infinita. Cuenta las vueltas completas al ecuador, decimales incluidos. Nadie te pide desenrollarlos.",
+      "unit": "vueltas",
+      "answer": 4.015819255395622,
+      "math": "Un adulto tiene unas 100.000 millas de vasos sanguíneos: 100.000 × 1,609344 = 160.934 km. El ecuador mide 2 × π × 6.378,137 km ≈ 40.075 km. 160.934 ÷ 40.075 ≈ 4,0 vueltas.",
+      "referenceExpression": "100000 × 1,609344 ÷ (2 × 3,1416 × 6378,137)",
+      "assumptions": "La longitud total de los vasos es una estimación redonda muy repetida y difícil de medir; la mayor parte son capilares microscópicos. Para un niño se calculan unas 60.000 millas. Tomamos el ecuador terrestre como círculo perfecto.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Frontiers for Young Minds · Blood vessels (2020)",
+          "url": "https://kids.frontiersin.org/article/10.3389/frym.2019.00151",
+          "fact": "Se calcula que un niño tiene más de 60.000 millas de vasos sanguíneos y un adulto, unas 100.000 millas: cuatro vueltas a la Tierra."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Muchísimos capilares diminutos",
+        "steps": [
+          "Las arterias y venas grandes suman pocos metros; lo que dispara la cuenta son los capilares, que llegan a casi cada célula. Debe de ser una cifra de decenas de miles de kilómetros como poco.",
+          "La vuelta a la Tierra mide unos 40.000 km. Si los vasos suman más de 100.000 km, salen entre dos y cinco vueltas.",
+          "Con 100.000 millas (160.934 km) y un ecuador de 40.075 km salen 4,0 vueltas justas: dentro de ti cabe un viaje alrededor del mundo cuatro veces."
+        ]
+      },
+      "calc": {
+        "intro": "Pasamos las millas a kilómetros y dividimos entre el ecuador.",
+        "rows": [
+          {"label": "Vasos de un adulto", "value": "100.000 millas"},
+          {"label": "Millas a kilómetros", "value": "× 1,609344"},
+          {"label": "Longitud total", "value": "= 160.934 km"},
+          {"label": "Ecuador terrestre", "value": "÷ 40.075 km"}
+        ],
+        "result": "Vueltas a la Tierra"
+      }
+    },
+    {
+      "id": "jornada-2026-11-26-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "hogar",
+      "ambito": "latam",
+      "tag": "Mate tras mate",
+      "title": "Con la yerba que consume un argentino en un año, ¿cuántos mates llenos podría preparar?",
+      "detail": "Cuenta cada mate cargado de yerba nueva: unos 55 gramos, lo justo para llenar el recipiente. Después se ceba muchas veces con la misma yerba, pero eso no suma mates. Y no vale lavarlo a mitad de la ronda.",
+      "unit": "mates",
+      "answer": 112.18181818181819,
+      "math": "Según el INYM, en 2021 cada argentino consumió 6,17 kg de yerba: 6.170 gramos. Un mate se llena con 50 a 60 gramos; con 55 g: 6.170 ÷ 55 ≈ 112 mates al año.",
+      "referenceExpression": "6170 ÷ 55",
+      "assumptions": "Consumo aparente medio por habitante de 2021 (bebés incluidos), así que un matero de verdad usa bastante más. Tomamos 55 gramos, el punto medio de los 50 a 60 que se suelen recomendar; con mates más pequeños salen más.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Unidiversidad (UNCuyo) · Día del Mate: Argentina consume en promedio seis kilos de yerba per cápita por año (2022)",
+          "url": "https://www.unidiversidad.com.ar/dia-del-mate-argentina-consume-en-promedio-seis-kilos-de-yerba-per-capita-y-por-ano",
+          "fact": "Según el Instituto Nacional de la Yerba Mate (INYM), los argentinos pasaron de consumir 5,90 a 6,17 kilos de yerba por persona en 2021."
+        },
+        {
+          "title": "El Ancasti · Cómo cebar un mate",
+          "url": "https://www.elancasti.com.ar/revista-express/receta-como-cebar-n515796",
+          "fact": "Para cargar el mate se usan aproximadamente 50 a 60 gramos de yerba, o se llena hasta unas tres cuartas partes."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilos de yerba entre gramos por mate",
+        "steps": [
+          "Un paquete de medio kilo dura en muchas casas una semana o dos. Por persona, contando a quien no toma, deben de ser unos pocos kilos al año.",
+          "Si son unos 6 kilos y cada mate lleva unos 50 gramos, salen alrededor de 120 mates: uno cada tres días.",
+          "Con el dato del INYM (6,17 kg) y 55 gramos por mate salen 112 mates al año por argentino. Cada uno se ceba decenas de veces, así que las rondas son muchísimas más."
+        ]
+      },
+      "calc": {
+        "intro": "La yerba anual de cada argentino, repartida en mates llenos.",
+        "rows": [
+          {"label": "Yerba por persona y año", "value": "6.170 g"},
+          {"label": "Yerba por mate", "value": "÷ 55 g"}
+        ],
+        "result": "Mates llenos"
+      }
+    }
+  ]
+}

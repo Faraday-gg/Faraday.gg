@@ -1,0 +1,165 @@
+{
+  "id": "2026-12-06",
+  "name": "Domingo",
+  "theme": "Piel, AVE y guacamole",
+  "questions": [
+    {
+      "id": "jornada-2026-12-06-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cuerpo",
+      "ambito": "mundial",
+      "tag": "Piel de chocolate",
+      "title": "¿Cuántas tabletas de chocolate de 100 g pesaría toda la piel muerta que sueltas en tu vida?",
+      "detail": "Tu piel se renueva sin parar y va dejando escamas diminutas por todas partes: en la ropa, en la cama, en el polvo del salón. Súmalo todo a lo largo de una vida y compáralo con tabletas de chocolate de 100 g. Mejor no pensarlo mientras comes chocolate.",
+      "unit": "tabletas",
+      "answer": 350,
+      "math": "Un estudio de 2011 calcula que soltamos entre 0,03 y 0,09 g de piel por hora, unos 35 kg en toda la vida. 35.000 g ÷ 100 g = 350 tabletas.",
+      "referenceExpression": "35000 ÷ 100",
+      "assumptions": "Usamos la cifra de unos 35 kg en toda la vida que da BBC Science Focus a partir de un estudio de 2011; las estimaciones varían bastante según la persona y la duración de la vida. La tableta de 100 g es un supuesto del modelo.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "BBC Science Focus · How much skin does a human shed in their life?",
+          "url": "https://www.sciencefocus.com/the-human-body/how-much-skin-does-a-human-shed-in-their-life",
+          "fact": "Según un estudio de 2011, soltamos entre 0,03 y 0,09 g de piel cada hora; a lo largo de una vida suman unos 35 kg."
+        }
+      ],
+      "reasoning": {
+        "heading": "De la escama al kilo",
+        "steps": [
+          "Una escama de piel no pesa casi nada, pero caen sin descanso, de día y de noche, durante ochenta años. A ojo podrían ser unos cuantos kilos o unas decenas.",
+          "Si soltaras unos 0,05 g por hora, en un año serían unos 440 g, y en 80 años, unos 35 kg: cientos de tabletas, no miles.",
+          "La estimación que recoge BBC Science Focus es de unos 35 kg en toda la vida: 35.000 g ÷ 100 g dan 350 tabletas de chocolate."
+        ]
+      },
+      "calc": {
+        "intro": "Unos gramos al día durante toda una vida acaban sumando decenas de kilos.",
+        "rows": [
+          {
+            "label": "Piel muerta en una vida",
+            "value": "35.000 g"
+          },
+          {
+            "label": "Una tableta de chocolate",
+            "value": "÷ 100 g"
+          }
+        ],
+        "result": "Tabletas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-06-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "espana",
+      "tag": "AVE contra zapatillas",
+      "title": "¿Cuántas veces más rápido que una persona caminando va el AVE de Madrid a Barcelona?",
+      "detail": "Compara la velocidad media del AVE directo, de estación a estación, con la de alguien que camina a paso normal, sin pararse a comer ni a dormir. Los 621 km de vía, los mismos para los dos.",
+      "unit": "veces",
+      "answer": 49.68,
+      "math": "La línea mide 621 km y el AVE directo tarda 2 h 30 min: 621 ÷ 2,5 = 248,4 km/h de media. Una persona camina a unos 5 km/h. 248,4 ÷ 5 ≈ 49,7 veces.",
+      "referenceExpression": "621 ÷ 2,5 ÷ 5",
+      "assumptions": "Velocidad media del tren más rápido sin paradas (2 h 30 min) sobre los 621 km de la línea, no su velocidad punta. Paso de 5 km/h, la media habitual de un adulto.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Madrid–Barcelona high-speed rail line",
+          "url": "https://en.wikipedia.org/wiki/Madrid%E2%80%93Barcelona_high-speed_rail_line",
+          "fact": "La línea mide 620,9 km hasta Barcelona Sants y los trenes más rápidos tardan 2 h 30 min."
+        },
+        {
+          "title": "Turespaña (spain.info) · Viajar en trenes de alta velocidad",
+          "url": "https://www.spain.info/es/ruta/explore-spain-on-high-speed-trains/",
+          "fact": "Desde Madrid se llega a Barcelona en dos horas y media sin paradas."
+        },
+        {
+          "title": "Wikipedia · Preferred walking speed",
+          "url": "https://en.wikipedia.org/wiki/Preferred_walking_speed",
+          "fact": "La velocidad media al caminar que se suele citar es de 1,4 m/s, unos 5 km/h."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la media del tren",
+        "steps": [
+          "El AVE va muy rápido, pero arranca, frena y toma curvas: su media es menor que su velocidad punta. Caminando vamos a unos 5 km/h, así que la respuesta debería estar entre 40 y 60.",
+          "Unos 600 km en dos horas y media son unos 240 km/h. Divididos entre 5 km/h, salen casi 50 veces.",
+          "Con los 621 km de vía y 2 h 30 min, la media es 248,4 km/h. Entre 5 km/h: unas 49,7 veces. Caminando tardarías unas 124 horas, más de cinco días sin parar."
+        ]
+      },
+      "calc": {
+        "intro": "La velocidad media del tren, entre la de un paseo a buen ritmo.",
+        "rows": [
+          {
+            "label": "Longitud de la línea",
+            "value": "621 km"
+          },
+          {
+            "label": "Viaje más rápido",
+            "value": "÷ 2,5 h"
+          },
+          {
+            "label": "Paso de una persona",
+            "value": "÷ 5 km/h"
+          }
+        ],
+        "result": "Veces más rápido"
+      }
+    },
+    {
+      "id": "jornada-2026-12-06-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "latam",
+      "tag": "Guacamole olímpico",
+      "title": "Si los aguacates que México mandó a EE. UU. antes del Super Bowl de 2026 fueran guacamole, ¿cuántas piscinas olímpicas llenarían?",
+      "detail": "En las cuatro semanas antes de la gran final del fútbol americano cruzaron la frontera más de 300 millones de libras de aguacates mexicanos. Conviértelos todos en guacamole y viértelo en piscinas olímpicas de 2.500 m³. Totopos aparte.",
+      "unit": "piscinas",
+      "answer": 54.4310844,
+      "math": "300 millones de libras × 0,4536 kg = unos 136 millones de kg. Si cada kilo da un litro de guacamole, son 136 millones de litros. Una piscina olímpica tiene 2,5 millones de litros: 136.077.711 ÷ 2.500.000 ≈ 54,4 piscinas.",
+      "referenceExpression": "300000000 × 0,45359237 ÷ 2500000",
+      "assumptions": "Es lo que importó EE. UU. en las cuatro semanas previas a la Super Bowl LX (8 de febrero de 2026), no lo que se comió exactamente ese día. Suponemos que un kilo de aguacate da un litro de guacamole: lo que se pierde en hueso y cáscara lo compensan la cebolla, el tomate y el limón.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Fruitnet · Guac scores biggest Big Game yet",
+          "url": "https://www.fruitnet.com/fruitnet/guac-scores-biggest-big-game-yet/270512.article",
+          "fact": "Según Avocados From Mexico, EE. UU. importó más de 300 millones de libras de aguacates mexicanos en las cuatro semanas anteriores a la 60.ª Super Bowl (febrero de 2026)."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica mide 50 × 25 m con 2 m de fondo mínimo: unos 2.500 m³ (2,5 millones de litros)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero pasa las libras a litros",
+        "steps": [
+          "Una piscina olímpica es enorme: 2.500 toneladas de agua. Hacen falta muchísimos aguacates para llenar una, pero estamos hablando de todo un país viendo el partido.",
+          "Una libra son unos 0,45 kg, así que 300 millones de libras son unos 135 millones de kilos. Entre 2,5 millones de litros por piscina salen más de 50.",
+          "Con la conversión exacta, 136.077.711 kg de aguacate, unos 136 millones de litros de guacamole: 54,4 piscinas olímpicas."
+        ]
+      },
+      "calc": {
+        "intro": "Pasamos las libras a kilos, y cada kilo, a un litro de guacamole.",
+        "rows": [
+          {
+            "label": "Aguacates importados",
+            "value": "300.000.000 lb"
+          },
+          {
+            "label": "Kilos por libra",
+            "value": "× 0,4536"
+          },
+          {
+            "label": "Una piscina olímpica",
+            "value": "÷ 2.500.000 L"
+          }
+        ],
+        "result": "Piscinas olímpicas"
+      }
+    }
+  ]
+}

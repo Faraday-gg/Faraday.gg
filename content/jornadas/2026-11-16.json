@@ -1,0 +1,173 @@
+{
+  "id": "2026-11-16",
+  "name": "Lunes",
+  "theme": "Autobuses, cataratas y almohada",
+  "questions": [
+    {
+      "id": "jornada-2026-11-16-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "latam",
+      "tag": "Uruguay en bus",
+      "title": "¿Cuántas veces podría TransMilenio llevar de paseo a todo Uruguay en una semana?",
+      "detail": "TransMilenio, el sistema de buses de Bogotá, hace de media unos 4 millones de viajes al día. Cuenta los viajes de 7 días seguidos y divídelos entre toda la población de Uruguay. Los uruguayos tendrían que llevar su propio mate.",
+      "unit": "veces",
+      "answer": 8.001255054007043,
+      "math": "TransMilenio hace de media 4.000.000 de viajes al día. En una semana: 4.000.000 × 7 = 28.000.000 de viajes. Uruguay tiene 3.499.451 habitantes. 28.000.000 ÷ 3.499.451 ≈ 8 veces.",
+      "referenceExpression": "4000000 × 7 ÷ 3499451",
+      "assumptions": "Usamos el promedio de 4 millones de viajes al día que da la Alcaldía de Bogotá (2024) para los 7 días de la semana, aunque entre semana hay más viajes que el domingo. Un viaje no es una persona distinta: mucha gente hace dos o más al día. Uruguay, según el Censo 2023.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Alcaldía de Bogotá · Las dimensiones astronómicas que no conocías de TransMilenio",
+          "url": "https://bogota.gov.co/mi-ciudad/movilidad/transmilenio-en-bogota-conoce-los-datos-e-informacion-del-sistema",
+          "fact": "El sistema TransMilenio realiza en promedio 4.000.000 de viajes al día (septiembre de 2024)."
+        },
+        {
+          "title": "Presidencia de Uruguay · Censo Nacional 2023 contabilizó 3.499.451 habitantes",
+          "url": "https://www.gub.uy/presidencia/comunicacion/noticias/censo-nacional-2023-contabilizo-3499451-habitantes-uruguay",
+          "fact": "El Censo Nacional 2023 contabilizó 3.499.451 habitantes en Uruguay."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero Bogotá, luego Uruguay",
+        "steps": [
+          "Bogotá es enorme y TransMilenio es su columna vertebral: buses articulados llenos a todas horas. Pensar en unos pocos millones de viajes al día parece razonable.",
+          "Si son unos 4 millones al día, en una semana salen unos 28 millones. Uruguay tiene unos 3,5 millones de habitantes: 28 ÷ 3,5 da unas 8 veces.",
+          "Con los 4.000.000 de viajes diarios de la Alcaldía y los 3.499.451 uruguayos del censo sale 8,0: cada semana, TransMilenio mueve a «todo Uruguay» ocho veces."
+        ]
+      },
+      "calc": {
+        "intro": "Un día de TransMilenio ya supera la población de Uruguay; una semana, mucho más.",
+        "rows": [
+          {
+            "label": "Viajes al día",
+            "value": "4.000.000"
+          },
+          {
+            "label": "Una semana",
+            "value": "× 7 días"
+          },
+          {
+            "label": "Habitantes de Uruguay",
+            "value": "÷ 3.499.451"
+          }
+        ],
+        "result": "Veces Uruguay"
+      }
+    },
+    {
+      "id": "jornada-2026-11-16-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "latam",
+      "tag": "Bañera del diablo",
+      "title": "¿Cuántas bañeras llenas caen por las cataratas del Iguazú cada segundo?",
+      "detail": "Toma el caudal medio anual de las cataratas, en la frontera entre Argentina y Brasil, y mídelo en bañeras de 170 × 70 cm llenas hasta el rebosadero (190 litros). Sin espuma ni patito de goma.",
+      "unit": "bañeras",
+      "answer": 9189.473684210527,
+      "math": "El caudal medio de las cataratas es de 1.746 m³/s, es decir, 1.746.000 litros por segundo. Una bañera de 170 × 70 cm admite 190 litros. 1.746.000 ÷ 190 ≈ 9.189 bañeras por segundo.",
+      "referenceExpression": "1746000 ÷ 190",
+      "assumptions": "Es el caudal medio anual: en crecidas el río puede llevar varias veces más agua y en sequías mucho menos. La bañera es un modelo concreto de 170 × 70 cm con 190 litros hasta el rebosadero.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Iguazu Falls",
+          "url": "https://en.wikipedia.org/wiki/Iguazu_Falls",
+          "fact": "El caudal medio anual de las cataratas del Iguazú es de unos 1.746 m³/s; el salto más alto mide 82 m."
+        },
+        {
+          "title": "Gala · Ficha técnica de bañera de acero esmaltado 170 × 70 cm",
+          "url": "https://www.gala.es/gala-services/productSheet30/ES/es/G6302501/",
+          "fact": "La bañera de 170 × 70 × 38,5 cm tiene una capacidad de agua hasta el rebosadero de 190 litros."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-16-2.jpg",
+        "alt": "La Garganta del Diablo de las cataratas del Iguazú: un gran semicírculo de saltos de agua envueltos en una nube de espuma, rodeados de selva",
+        "credit": "Luca Galuzzi (Lucag)",
+        "url": "https://commons.wikimedia.org/wiki/File:Garganta_del_Diablo_or_Devil_Throat_Iguazu_Falls_Argentina_Luca_Galuzzi_2005.JPG",
+        "license": "CC BY-SA 2.5",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+      },
+      "reasoning": {
+        "heading": "Primero el río, luego la bañera",
+        "steps": [
+          "Iguazú son cientos de saltos a lo largo de casi 3 km. Un río grande lleva fácilmente más de mil metros cúbicos por segundo.",
+          "Con unos 1.500 m³/s son 1,5 millones de litros cada segundo. Una bañera llena tiene unos 200 litros: 1.500.000 ÷ 200 son unas 7.500 bañeras.",
+          "El caudal medio es de 1.746 m³/s y la bañera de 170 × 70 cm admite 190 litros: salen 9.189 bañeras por segundo. En una crecida fuerte, el número se multiplica."
+        ]
+      },
+      "calc": {
+        "intro": "Cada segundo cae más de un millón y medio de litros.",
+        "rows": [
+          {
+            "label": "Caudal medio",
+            "value": "1.746 m³/s"
+          },
+          {
+            "label": "En litros",
+            "value": "= 1.746.000 L/s"
+          },
+          {
+            "label": "Una bañera de 170 × 70 cm",
+            "value": "÷ 190 L"
+          }
+        ],
+        "result": "Bañeras por segundo"
+      }
+    },
+    {
+      "id": "jornada-2026-11-16-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cuerpo",
+      "ambito": "mundial",
+      "tag": "Altura de almohada",
+      "title": "¿Cuántas hojas de papel apiladas mide lo que encoges entre que te levantas y te acuestas?",
+      "detail": "A lo largo del día, los discos de la columna se aplastan un poco y pierdes estatura; por la noche la recuperas. Mide esa diferencia media en hojas de papel de 80 g/m², de 0,106 mm de grosor. Una excusa científica para medirte siempre por la mañana.",
+      "unit": "hojas",
+      "answer": 182.07547169811323,
+      "math": "En un estudio clásico, la estatura variaba de media 19,3 mm entre la mañana y la noche. Una hoja de 80 g/m² tiene 0,106 mm de grosor. 19,3 ÷ 0,106 ≈ 182 hojas.",
+      "referenceExpression": "19,3 ÷ 0,106",
+      "assumptions": "Usamos la variación media de 19,3 mm (1,1 % de la estatura) medida en 8 adultos jóvenes en 1985; otros estudios dan cifras algo menores, en torno a 1 cm. El grosor es el de un papel de oficina concreto de 80 g/m².",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "PubMed · Tyrrell, Reilly y Troup: Circadian variation in stature and the effects of spinal loading (Spine, 1985)",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/4002039/",
+          "fact": "La variación circadiana media de la estatura fue de 19,3 mm (1,1 % de la estatura) en ocho adultos jóvenes."
+        },
+        {
+          "title": "Antalis · Ficha técnica Xerox Recycled Supreme 100 % 80 g/m²",
+          "url": "https://assets.ccntr.pbsnetwork.eu/assets/5790002196140/ts_xerox_recycled_supreme_100_00_11032025.pdf",
+          "fact": "El papel de 80 g/m² tiene un grosor (calibre) de 106 µm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero los centímetros, luego las hojas",
+        "steps": [
+          "Nadie nota que encoge, así que la diferencia debe de ser pequeña: uno o dos centímetros como mucho.",
+          "Un paquete de 500 hojas mide unos 5 cm, así que cada hoja tiene una décima de milímetro. 2 cm son 20 mm: unas 200 hojas.",
+          "Con la variación media medida, 19,3 mm, y hojas de 0,106 mm salen 182 hojas. Más de la mitad se pierde en la primera hora después de levantarse."
+        ]
+      },
+      "calc": {
+        "intro": "Encoges un par de centímetros; cada hoja es una décima de milímetro.",
+        "rows": [
+          {
+            "label": "Estatura perdida en el día",
+            "value": "19,3 mm"
+          },
+          {
+            "label": "Una hoja de 80 g/m²",
+            "value": "÷ 0,106 mm"
+          }
+        ],
+        "result": "Hojas"
+      }
+    }
+  ]
+}
