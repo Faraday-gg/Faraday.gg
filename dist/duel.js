@@ -88,7 +88,7 @@
   // Marcador: avatar, nombre, nivel y barra de vida de cada jugador. La vida perdida se queda un momento
   // marcada en la barra antes de desaparecer, y la cifra del golpe sube flotando.
   function renderHud(){
-    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span><span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${who}"></span></div>`;
+    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(player.rank):''}<span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${who}"></span></div>`;
     hud.innerHTML=side(me(),'you')+`<div class="duel-mid"><span id="duel-round"></span><b id="duel-mult"></b></div>`+side(rival(),'rival');
     hud.hidden=false;hud.dataset.duel=duel.id;setHp(false);
   }
@@ -133,14 +133,16 @@ ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</str
 </div>
 ${window.Bets?Bets.picker():''}
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
-<div class="duel-modes"><button class="game-primary" type="button" data-duel="quick">Partida rápida <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
+${window.Ranked?Ranked.lobby():''}
+<div class="duel-modes"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
 <p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival</p>`;
+    window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
   }
   function renderWaiting(){
     hud.hidden=true;setView('result');
     const friend=!duel.public,link=`${location.origin}${location.pathname}?duelo=${duel.code}`;
-    content.innerHTML=`<p class="duel-kicker">${friend?'Duelo con un amigo':'Partida rápida'}</p>
+    content.innerHTML=`<p class="duel-kicker">${friend?'Duelo con un amigo':duel.mode==='ranked'?'Clasificatoria':'Partida rápida'}</p>
 <div class="duel-search">${figure(me(),'mid')}<span class="duel-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="duel-avatar big ghost" aria-hidden="true">?</span></div>
 <h2 id="duel-title">${friend?'Comparte el código':'Buscando rival…'}</h2>
 ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p class="duel-note">El duelo empieza en cuanto tu amigo abra el enlace o escriba el código.</p><div class="duel-modes"><button class="game-primary" type="button" data-duel="share" data-link="${link}">Copiar enlace</button><button class="game-secondary" type="button" data-duel="bot">Practicar con el bot</button></div>`
@@ -149,7 +151,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}${badge(me())}</strong>${betChip(me())}<small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}${badge(rival())}</strong>${betChip(rival())}<small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
+    content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}${badge(me())}</strong>${betChip(me())}<small>Nv. ${me().level}</small>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(me().rank):''}</div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}${badge(rival())}</strong>${betChip(rival())}<small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(rival().rank):''}</div></div>
 <h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
     sfx.tension();
   }
@@ -232,6 +234,7 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
     content.innerHTML=`<p class="duel-kicker">Duelo terminado</p>
 <div class="duel-final">${figure(me(),'end',{emote:won?'cheer':draw?'':'sad'})}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':'Derrota'}</h2></div>
 <p class="duel-note">${why}</p>
+${window.Ranked?Ranked.result(duel):''}
 <div class="duel-reward"><div class="duel-xp"><span><b>Nivel ${progress.level}${result?.levelUp?' <em>¡Subes de nivel!</em>':''}</b><small>${result?`+${result.gained} XP · +${result.coins+result.levelCoins} ≈`:`${int(progress.done)} / ${int(progress.need)} XP`}</small></span><div class="duel-xpbar"><i style="--xp:${result&&!result.levelUp?result.fromRatio:0}" data-xp="${progress.ratio}"></i></div></div>
 ${result?`<ul class="duel-chips">${result.parts.map(([label,xp])=>`<li>${escapeHtml(label)} <b>+${xp}</b></li>`).join('')}${stats.streak>1?`<li class="hot">🔥 ${stats.streak} seguidas</li>`:''}${result.notes.map(note=>`<li>${escapeHtml(note)}</li>`).join('')}</ul>`:''}</div>
 ${window.Bets?Bets.result(duel):''}
@@ -242,7 +245,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
 <button class="duel-link" type="button" data-duel="share-result">Compartir resultado</button>`;
     requestAnimationFrame(()=>requestAnimationFrame(()=>{const bar=content.querySelector('[data-xp]');if(bar)bar.style.setProperty('--xp',bar.dataset.xp)}));
     (won?sfx.win:draw?sfx.even:sfx.lose)();if(result?.levelUp)sfx.level();
-    updateRematch();
+    window.Ranked?.animate();updateRematch();
   }
   function updateRematch(){
     const button=$('#duel-rematch');if(!button||!duel?.next||button.dataset.offer)return;
@@ -274,7 +277,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
       if(before&&!before.answered.some(Boolean)&&round.answered.some(Boolean))sfx.bell();
       if(before&&before.yourGuess==null&&round.yourGuess!=null)renderAnswerBox(false);
       setRoundInfo();updateRivalState();
-    }else if(view.phase==='finished')updateRematch();
+    }else if(view.phase==='finished'){updateRematch();window.Ranked?.update(view)}
     window.DuelChat?.update(view);
     startTimers();
   }
@@ -384,12 +387,12 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
     if(action==='calc'){toggleCalc();return}
-    if(action==='quick')begin('buscar');
+    if(action==='quick')begin('buscar',{mode:window.Ranked?.mode()||'normal'});
     if(action==='friend')begin('crear');
     if(action==='accept')begin('unirse',{code:inviteCode});
     if(action==='bot')begin('bot',{id:duel.id});
     if(action==='rematch')begin('revancha',{id:duel.id});
-    if(action==='again'){renderLobby();begin('buscar')}
+    if(action==='again'){renderLobby();begin('buscar',{mode:window.Ranked?.mode()||'normal'})}
     if(action==='cancel'){call('salir',{id:duel.id});renderLobby()}
     if(action==='share')share(`Te reto a un duelo en Faraday.gg. Código: ${duel.code}`,event.target.closest('[data-link]').dataset.link);
     if(action==='share-result')share(`${duel.winner==='you'?'He ganado':duel.winner==='draw'?'He empatado':'He perdido'} un duelo en Faraday.gg contra ${rival().name} (${int(me().hp)} – ${int(rival().hp)} de vida). ¿Te atreves?`,location.origin+location.pathname);
