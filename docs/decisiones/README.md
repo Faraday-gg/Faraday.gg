@@ -46,6 +46,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0041](0041-menu-rediseno.md) | Menú lateral rediseñado y logo que vuelve al inicio | Propuesta | 2026-11-12 |
 | [0042](0042-reconectar-a-la-partida.md) | Reconectar a la partida de duelo | Propuesta | 2026-11-12 |
 | [0043](0043-clasificatorias-y-rangos.md) | Clasificatorias y rangos en los duelos, de Bronce a Científico | Propuesta | 2026-11-12 |
+| [0044](0044-apuestas-en-duelos.md) | Apuestas de faradios en los duelos 1 vs 1, contra la banca, desde el nivel 10 | Propuesta | 2026-11-12 |
 | [0045](0045-camisetas-de-banderas.md) | Camisetas de selección con las banderas de los países hispanohablantes y de Europa | Propuesta | 2026-11-12 |
 | [0046](0046-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
 
