@@ -344,15 +344,18 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   function detachWorkspace(){
     panel.hidden=true;$('#game-layout').append(panel);workspaceId=null;
   }
-  async function open(code=''){
+  // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0039); también se puede ver uno ya terminado.
+  async function open(code='',resume=''){
     attachWorkspace();
     inviteCode=/^[A-Za-z2-9]{6}$/.test(code)?code.toUpperCase():'';
+    // renderLobby() borra «actual», así que se lee antes de pintarlo.
+    let current=resume||saved.get('actual',null);
     shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(Sound.on));
     if(typeof toggleMenu==='function')toggleMenu(false);
     renderLobby();
-    // Si se recarga la página en mitad de un duelo, se vuelve a él.
-    const current=saved.get('actual',null);
-    if(current&&!inviteCode){const response=await call('estado',{id:current});if(response.ok&&response.data.status!=='finished'&&!shell.hidden&&!duel)apply(response.data);else if(!response.ok||response.data.status==='finished')saved.remove('actual')}
+    // Si se recarga la página (o se vuelve más tarde) en mitad de un duelo, se vuelve a él. Si el navegador no lo recuerda, se le pregunta al servidor.
+    if(!current&&!inviteCode){const found=await call('activo');if(found.ok&&found.data.active&&found.data.active.status!=='finished')current=found.data.active.id}
+    if(current&&!inviteCode){const response=await call('estado',{id:current});if(response.ok&&(response.data.status!=='finished'||resume)&&!shell.hidden&&!duel)apply(response.data);else if(!response.ok||response.data.status==='finished')saved.remove('actual')}
     $('#duel-close').focus();
   }
   async function close(){
@@ -394,6 +397,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
+  window.DueloReconectar={open:id=>open('',id)};
   const invited=new URLSearchParams(location.search).get('duelo');
   if(invited){history.replaceState(history.state,'',location.pathname);open(invited)}
 })();

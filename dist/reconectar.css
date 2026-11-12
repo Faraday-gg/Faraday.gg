@@ -1,0 +1,19 @@
+/* Reconectar a la partida (decisión 0039): aviso fijo en la portada y entrada destacada en el menú. */
+.duel-reconnect{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;display:flex;align-items:center;gap:12px;max-width:min(94vw,440px);border:2px solid var(--yellow);border-radius:50px;background:var(--ink);color:#fff;padding:11px 20px 11px 16px;font:700 15px var(--font);text-align:left;box-shadow:0 8px 26px #20263040;cursor:pointer;animation:reconnect-in .4s cubic-bezier(.22,1,.36,1)}
+.duel-reconnect[hidden]{display:none}
+.duel-reconnect:hover{transform:translateX(-50%) translateY(-2px)}
+.duel-reconnect:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+.duel-reconnect-text{display:flex;flex-direction:column;min-width:0}
+.duel-reconnect-text b{font-size:15px;letter-spacing:-.01em}
+.duel-reconnect-text small{font-size:12px;font-weight:600;opacity:.85;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duel-reconnect-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--yellow);animation:reconnect-pulse 1.4s ease-in-out infinite}
+.duel-reconnect.is-finished{background:var(--yellow);color:var(--ink);border-color:var(--ink)}
+.duel-reconnect.is-finished .duel-reconnect-dot{animation:none;background:var(--ink)}
+.menu-link-reconnect{background:var(--coral);border-color:var(--coral)}
+.menu-link-reconnect[hidden]{display:none}
+.menu-link-reconnect small{color:var(--ink)}
+body.modal-open .duel-reconnect,body.menu-open .duel-reconnect{display:none}
+@keyframes reconnect-in{from{opacity:0;transform:translateX(-50%) translateY(16px)}}
+@keyframes reconnect-pulse{50%{opacity:.35;transform:scale(.7)}}
+@media (prefers-reduced-motion:reduce){.duel-reconnect,.duel-reconnect-dot{animation:none}}
+@media (max-width:520px){.duel-reconnect{width:calc(100vw - 32px);max-width:none}.duel-reconnect-text{flex:1}}
