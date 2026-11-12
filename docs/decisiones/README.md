@@ -41,12 +41,9 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0036](0036-seis-cofres.md) | Seis cofres, cada uno con su cualidad y su precio | Propuesta | 2026-11-12 |
 | [0037](0037-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
 | [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
-<<<<<<< HEAD
-| [0041](0041-menu-rediseno.md) | Menú lateral rediseñado y logo que vuelve al inicio | Propuesta | 2026-11-12 |
-=======
 | [0039](0039-pistas.md) | Pistas: una por pregunta, con faradios o con un anuncio | Propuesta | 2026-11-12 |
 | [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
->>>>>>> origin/preprod
+| [0041](0041-menu-rediseno.md) | Menú lateral rediseñado y logo que vuelve al inicio | Propuesta | 2026-11-12 |
 
 ## Plantilla
 
