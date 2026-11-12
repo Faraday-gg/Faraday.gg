@@ -662,29 +662,36 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
 .duel-link{display:block;margin:16px auto 0;border:0;background:none;color:var(--g-muted);font-size:13px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .duel-shell[data-screen=waiting] .duel-content,.duel-shell[data-screen=intro] .duel-content,.duel-shell[data-screen=end] .duel-content{text-align:center}
 /* Portal del duelo: perfil, progreso y modos */
-.duel-profile{display:grid;gap:14px;margin-bottom:16px}
+.duel-profile{display:flex;align-items:center;gap:18px;margin-bottom:4px}
+.duel-profile .duel-stage{position:relative;width:112px}
+.duel-edit{position:absolute;right:-6px;bottom:-6px;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:var(--g-accent);color:var(--g-on-accent);padding:0;box-shadow:0 0 0 3px var(--g-bg);transition:transform .15s}
+.duel-edit:hover{transform:scale(1.08)}
+.duel-edit svg{width:16px;height:16px}
+.duel-me-info{flex:1;min-width:0;display:grid;gap:10px}
+.duel-record{margin:0;font-size:13px;color:var(--g-muted)}
+.duel-join-box{margin-top:14px;text-align:center}
+.duel-join-box summary{display:inline-block;cursor:pointer;list-style:none;font-size:13px;font-weight:700;color:var(--g-muted);text-decoration:underline;text-underline-offset:3px}
+.duel-join-box summary::-webkit-details-marker{display:none}
+.duel-join-box[open] summary{margin-bottom:4px}
 .duel-avatars{display:grid;grid-template-columns:repeat(6,minmax(0,54px));justify-content:space-between;gap:10px}
 .duel-avatars button{aspect-ratio:1;border:0;border-radius:50%;background:var(--av);font-size:clamp(18px,4.6vw,26px);line-height:1;padding:0;opacity:.5;transition:transform .2s cubic-bezier(.34,1.56,.64,1),opacity .2s,box-shadow .2s}
 .duel-avatars button:hover{opacity:1;transform:scale(1.08)}
 .duel-avatars button[aria-checked=true]{opacity:1;transform:scale(1.06);box-shadow:0 0 0 3px var(--g-bg),0 0 0 6px var(--g-accent)}
 .duel-name-field{display:grid;gap:2px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted)}
-.duel-name-field input,.duel-join input{width:100%;min-width:0;border:0;border-bottom:2px solid var(--g-line);border-radius:0;background:transparent;color:var(--g-fg);font:700 22px var(--display);letter-spacing:-.02em;padding:6px 0;outline:0}
+.duel-name-field input,.duel-join input{width:100%;min-width:0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:var(--g-fg);font:700 22px var(--display);letter-spacing:-.02em;padding:6px 0;outline:0}
+.duel-name-field input:hover,.duel-join input{border-bottom-color:var(--g-line)}
 .duel-name-field input:focus,.duel-join input:focus{border-color:var(--g-accent)}
-.duel-stats,.duel-reward{padding:14px 16px;border-radius:18px;background:var(--g-hover)}
-.duel-stats{display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:center}
+.duel-reward{padding:14px 16px;border-radius:18px;background:var(--g-hover)}
 .duel-xp>span{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px}
 .duel-xp small{font-size:12px;color:var(--g-muted);font-variant-numeric:tabular-nums}
 .duel-xp em{font-style:normal;color:var(--g-accent);margin-left:6px}
 .duel-xpbar{height:8px;border-radius:8px;background:var(--g-line);margin-top:6px;overflow:hidden}
 .duel-xpbar i{display:block;height:100%;width:max(6px,calc(var(--xp,0)*100%));border-radius:inherit;background:var(--g-accent);transition:width 1.4s cubic-bezier(.22,1,.36,1) .4s}
-.duel-stat{display:grid;text-align:center}
-.duel-stat b{font:500 20px var(--num);font-variant-numeric:tabular-nums}
-.duel-stat small{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--g-muted)}
-.duel-join{display:flex;gap:10px;align-items:end;margin-top:14px}
+.duel-join{display:flex;gap:10px;align-items:end;max-width:340px;margin:0 auto;text-align:left}
 .duel-join input{font-size:18px;letter-spacing:.14em}
+.duel-join .game-secondary{padding:10px 22px}
 .duel-join input::placeholder{letter-spacing:0;font:500 15px var(--font);color:var(--g-muted)}
-.duel-rules{list-style:none;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:22px 0 0;padding:14px 0 0;border-top:1px solid var(--g-line);font-size:12px;color:var(--g-muted)}
-.duel-rules b{color:var(--g-fg);font:500 14px var(--num)}
+.duel-rules{margin:22px 0 0;font-size:12px;line-height:1.5;text-align:center;color:var(--g-muted)}
 .duel-invite{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:18px;background:var(--g-accent);color:var(--g-on-accent);margin-bottom:16px}
 .duel-invite p{margin:0;font-size:14px}
 .duel-invite .game-primary{background:var(--g-on-accent);border-color:var(--g-on-accent);color:var(--g-accent)}
@@ -770,8 +777,8 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
   .duel-player .duel-avatar{--size:34px}
   .duel-name{font-size:13px}.duel-level{display:none}
   .duel-mid{font-size:9px}
-  .duel-stats{grid-template-columns:1fr 1fr}
-  .duel-stats .duel-xp{grid-column:1/-1}
+  .duel-profile{gap:14px}
+  .duel-profile .duel-stage{width:92px}
   .duel-modes>*{flex-basis:100%}
   .duel-avatar.big{--size:68px}
   .duel-col{padding:10px}
@@ -783,7 +790,6 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
 /* Avatar, perfil, tienda y misiones (decisión 0024). El avatar es un SVG por capas (avatar.js); los faradios (≈) son la moneda del juego. */
 .avatar-svg{display:block;width:100%;height:100%}
 .duel-avatar{overflow:hidden}
-.duel-me{display:flex;align-items:center;gap:16px}
 .coin{display:inline-grid;place-items:center;width:1.25em;height:1.25em;border-radius:50%;background:var(--coral);color:var(--ink);font:700 .95em/1 var(--display);vertical-align:-.2em;box-shadow:inset 0 0 0 1.5px #20263033}
 .toast{width:max-content;max-width:calc(100vw - 24px);text-align:center;border-radius:22px;line-height:1.4}
 .profile-dot{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--coral);color:var(--ink);font:800 11px/1 var(--font);font-style:normal}
