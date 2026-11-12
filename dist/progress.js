@@ -1,7 +1,7 @@
 // Progreso del jugador (decisión 0024): nivel y experiencia, faradios (la moneda del juego), racha diaria,
 // misiones diarias y semanales, y el armario del avatar (3D, decisión 0025; hombre o mujer, decisión 0028) con su tienda. Todo se guarda en este navegador:
 // no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto y cofres.
-// Los cofres (decisión 0027) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
+// Los cofres (decisiones 0027 y 0036) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
 // en chest-open.js. Aquí se guardan, se conceden y se reparten sus premios.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 // También lleva el contador de «Casi casi» (respuestas a menos de 1,1×, decisión 0030; la regla está en casi.js), que
@@ -17,10 +17,10 @@
   const monday=day=>shift(day,-((new Date(day+'T12:00:00Z').getUTCDay()+6)%7));
 
   // Recompensas: un reto del día da para una pieza sencilla cada dos días; una pieza especial pide una o dos semanas.
-  // Subir de nivel da 30 ≈ y un cofre (Rayo en los niveles múltiplos de 5, Chispa en el resto). charge = lo que carga
+  // Subir de nivel da 30 ≈ y un cofre (Dinamo en los niveles múltiplos de 10, Rayo en los demás múltiplos de 5 y Chispa en el resto). charge = lo que carga
   // la batería de cofres cada reto; la de los duelos la calcula duel.js, con su tope diario.
   const REWARD={welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,missionXp:10,
-    duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:level=>level%5?'chispa':'rayo',charge:{today:40,archive:10,full:100}};
+    duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:Chests.levelChest,charge:{today:40,archive:10,full:100}};
   const MISSIONS={
     'reto-hoy':{text:'Completa el reto de hoy',goal:1,coins:20,on:'day',when:d=>d.today},
     'cerca-2':{text:'Queda a menos de 2× en una pregunta',goal:1,coins:15,on:'answer',when:d=>d.factor<2},
@@ -168,8 +168,9 @@
         state.streak.count=state.streak.last===shift(today,-1)?state.streak.count+1:1;state.streak.last=today;s.streak=Math.max(s.streak,state.streak.count);
         // Madrugador: el reto de hoy, entre las 5:00 y las 8:00 (hora de Madrid).
         const hour=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',hour:'2-digit',hourCycle:'h23'}).format(new Date()));if(hour>=5&&hour<8)s.early=1;
-        // Hitos de racha (7, 14, 30, 50, 100…): un cofre Tormenta.
-        if(Chests.streakMilestone(state.streak.count)){grant('tormenta');storm=` · ¡${state.streak.count} días: cofre Tormenta!`}
+        // Hitos de racha (3, 7, 14, 30, 50, 100…): un cofre Imán, Tormenta o Faraday según el hito.
+        const prize=Chests.streakChest(state.streak.count);
+        if(prize){grant(prize);storm=` · ¡${state.streak.count} días: cofre ${Chests.CHESTS[prize].name}!`}
       }
       const accuracy=detail.average<1.5?15:detail.average<2?10:detail.average<3?5:0,streak=Math.min(state.streak.count,REWARD.streakCap)*REWARD.streakCoins;
       gained=REWARD.todayCoins+accuracy+streak;xp=REWARD.todayXp;extra=state.streak.count>1?` · 🔥 ${state.streak.count} días seguidos`:'';
@@ -237,22 +238,26 @@
   }
   // Comprar un cofre con faradios: como mucho Chests.BUY_CAP al día. Se abre en el momento.
   function buyChest(type){
-    const chest=Chests.CHESTS[type];if(state.coins<chest.price||bought()>=Chests.BUY_CAP)return;
+    const chest=Chests.CHESTS[type];if(!chest||state.coins<chest.price||bought()>=Chests.BUY_CAP)return;
     state.coins-=chest.price;state.bought={day:madrid(),count:bought()+1};grant(type);save();refresh();openChest(type);
   }
-  // Pestaña Cofres: la batería, los tres cofres (abrir o comprar) y las probabilidades, siempre a la vista.
+  // Pestaña Cofres: la batería, los cofres (abrir o comprar) y las probabilidades, siempre a la vista.
   function chestTab(){
+    // Un cofre con premio seguro no se vende si ya se tienen todas las piezas de las rarezas que garantiza: daría faradios en su lugar.
+    const body=look().body,lacks=rarity=>Avatar.CATALOG.some(item=>item.price>0&&!item.level&&!owns(item)&&(!item.for||item.for===body)&&Avatar.rarity(item)===rarity);
     const left=Math.max(0,Chests.BUY_CAP-bought()),percent=chance=>(chance*100).toLocaleString('es-ES',{maximumFractionDigits:1})+' %',lower=kind=>Chests.LABEL[kind].toLowerCase();
     const card=type=>{
-      const chest=Chests.CHESTS[type],have=state.chests[type];
-      return `<li class="chest-item${have?' has':''}">${have?`<i class="profile-dot chest-count" aria-label="Tienes ${have}">${have}</i>`:''}${ChestOpen.art(type)}<h4>${chest.name}</h4><p>${Chests.count(type)} premios${chest.sure?`<br>1 ${lower(Object.keys(chest.sure)[0])} o mejor`:''}</p>${have?`<button type="button" class="game-primary" data-open-chest="${type}">Abrir</button>`:''}<button type="button" class="chest-buy" data-buy-chest="${type}"${state.coins<chest.price||!left?' disabled':''} aria-label="Comprar cofre ${chest.name} por ${chest.price} faradios">${int(chest.price)} ${COIN}</button></li>`;
+      const chest=Chests.CHESTS[type],have=state.chests[type],sureKinds=Object.keys(chest.sure||{}),complete=sureKinds.length>0&&!sureKinds.some(lacks);
+      return `<li class="chest-item${have?' has':''}">${have?`<i class="profile-dot chest-count" aria-label="Tienes ${have}">${have}</i>`:''}${ChestOpen.art(type)}<h4>${chest.name}</h4><p>${Chests.count(type)} premios${chest.sure?`<br>1 ${lower(sureKinds[0])}${sureKinds.length>1?' o mejor':' segura'}`:chest.perk?`<br>${chest.perk}`:''}</p>${have?`<button type="button" class="game-primary" data-open-chest="${type}">Abrir</button>`:''}<button type="button" class="chest-buy" data-buy-chest="${type}"${state.coins<chest.price||!left||complete?' disabled':''} aria-label="${complete?`Cofre ${chest.name}: ya tienes todas las piezas que garantiza`:`Comprar cofre ${chest.name} por ${chest.price} faradios`}">${complete?'Ya lo tienes todo':`${int(chest.price)} ${COIN}`}</button></li>`;
     };
+    // Las probabilidades van en dos tablas de tres cofres, como las filas de arriba: así caben también en el móvil.
+    const odds=types=>`<table><thead><tr><th scope="col">Cada premio</th>${types.map(type=>`<th scope="col">${Chests.CHESTS[type].name}</th>`).join('')}</tr></thead><tbody>${['faradios',...Chests.RARITIES].map(kind=>`<tr data-glow="${kind}"><td><i class="odds-dot" aria-hidden="true"></i>${Chests.LABEL[kind]}</td>${types.map(type=>`<td>${percent(Chests.CHESTS[type].odds[kind])}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
     const sure=Chests.TYPES.filter(type=>Chests.CHESTS[type].sure).map(type=>`${Chests.CHESTS[type].name} trae además un premio seguro: ${Object.entries(Chests.CHESTS[type].sure).map(([kind,chance])=>`${lower(kind)} ${percent(chance)}`).join(', ')}.`).join(' ');
     return `<div class="battery"><p><b>Batería</b><span>${Math.floor(state.charge)} / ${REWARD.charge.full}</span></p><div class="battery-bar" role="img" aria-label="Batería al ${Math.floor(state.charge)} por ciento"><i style="--m:${state.charge/REWARD.charge.full}"></i></div><small>Se carga jugando: reto de hoy +${REWARD.charge.today}, reto del archivo +${REWARD.charge.archive}, duelo +20. Llena, da un cofre Chispa.</small></div>
 <ul class="chest-shelf">${Chests.TYPES.map(card).join('')}</ul>
-<p class="chest-note">Los cofres se ganan jugando: Chispa con las tres misiones del día, la batería y al subir de nivel; Rayo con las tres de la semana y cada 5 niveles; Tormenta con las rachas de 7, 14, 30, 50 y 100 días. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
-<details class="chest-odds"><summary>Probabilidades</summary><table><thead><tr><th scope="col">Cada premio</th>${Chests.TYPES.map(type=>`<th scope="col">${Chests.CHESTS[type].name}</th>`).join('')}</tr></thead><tbody>${['faradios',...Chests.RARITIES].map(kind=>`<tr data-glow="${kind}"><td><i class="odds-dot" aria-hidden="true"></i>${Chests.LABEL[kind]}</td>${Chests.TYPES.map(type=>`<td>${percent(Chests.CHESTS[type].odds[kind])}</td>`).join('')}</tr>`).join('')}</tbody></table>
-<p>${sure} Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
+<p class="chest-note">Los cofres se ganan jugando: Chispa con las tres misiones del día, la batería y al subir de nivel; Imán a los 3 días de racha; Rayo con las tres misiones de la semana y cada 5 niveles; Dinamo cada 10 niveles; Tormenta con las rachas de 7, 14, 30 y 50 días; Faraday a los 100 días de racha y cada 100 después. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
+<details class="chest-odds"><summary>Probabilidades</summary>${[Chests.TYPES.slice(0,3),Chests.TYPES.slice(3)].map(odds).join('')}
+<p>${sure} Imán nunca trae lotes de faradios. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
   // Pestaña Medallas: resumen, la ficha de la elegida, las medallas con su nivel y avance, y las insignias.
   let picked='';

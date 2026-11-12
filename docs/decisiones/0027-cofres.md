@@ -5,6 +5,8 @@
 - **Quién:** Luis, con Claude Code
 - **Cambia a:** el punto de la [0024](0024-avatar-faradios-y-misiones.md) que decía «no hacemos cajas de premios al azar», y sus cifras de premio por nivel, cofre diario y racha. El resto de la 0024 sigue igual: no hay ofertas con cuenta atrás, avisos que castiguen por no entrar, ventajas de pago ni monedas que caduquen.
 
+- **Ampliada por:** la [0036](0036-seis-cofres.md), que deja seis cofres (añade Imán, Dinamo y Faraday) y cambia qué cofre dan algunos niveles y rachas. El apartado «Tres cofres» de abajo se conserva como estaba al decidirse.
+
 ## Contexto
 
 Luis pidió un sistema de cofres como el de Clash Royale, EA FC o Rocket League, con una apertura muy cuidada (animación, luz y sonido), y permiso para reordenar la economía de faradios para que encaje.
