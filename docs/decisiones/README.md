@@ -45,6 +45,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
 | [0043](0043-clasificatorias-y-rangos.md) | Clasificatorias y rangos en los duelos, de Bronce a Científico | Propuesta | 2026-11-12 |
 | [0044](0044-apuestas-en-duelos.md) | Apuestas de faradios en los duelos 1 vs 1, contra la banca, desde el nivel 10 | Propuesta | 2026-11-12 |
+| [0045](0045-camisetas-de-banderas.md) | Camisetas de selección con las banderas de los países hispanohablantes y de Europa | Propuesta | 2026-11-12 |
 
 ## Plantilla
 
