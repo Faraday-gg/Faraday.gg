@@ -34,6 +34,14 @@ function add(parent,geometry,material,[x=0,y=0,z=0]=[],[sx=1,sy=1,sz=1]=[],[rx=0
 }
 const sphere=(r=1,w=28,h=20)=>new THREE.SphereGeometry(r,w,h),capsule=(r,length)=>new THREE.CapsuleGeometry(r,length,8,20);
 const ring=(r,tube,arc=Math.PI*2)=>new THREE.TorusGeometry(r,tube,10,36,arc);
+// Miembro: cápsula que se estrecha de r1 (arriba, en y = 0) a r2 (abajo, en y = -length). El brazo y el antebrazo comparten
+// radio en el codo, así que estirados forman una sola pieza, sin anillos en la unión.
+function limb(r1,r2,length){
+  const points=[];
+  for(let i=0;i<=8;i++){const a=Math.PI/2*i/8;points.push(new THREE.Vector2(Math.sin(a)*r2,-length-Math.cos(a)*r2))}
+  for(let i=0;i<=8;i++){const a=Math.PI/2*i/8;points.push(new THREE.Vector2(Math.cos(a)*r1,Math.sin(a)*r1))}
+  return new THREE.LatheGeometry(points,22);
+}
 // Cubo redondeado: se lleva cada vértice de una esfera a la «esfera» de norma n. Las normales salen de la fórmula.
 function blob(geometry,n=4){
   const p=geometry.attributes.position,normal=geometry.attributes.normal,v=new THREE.Vector3();
@@ -49,6 +57,20 @@ const shell=(n,phi0,phi,theta0,theta)=>blob(new THREE.SphereGeometry(1,40,20,phi
 // Cabeza: cubo redondeado de radios A × B × C. onHead devuelve el punto de la superficie para ojos, cejas y boca.
 const HEAD={a:.64,b:.585,c:.6,n:2.7};
 const onHead=(x,y,out=1)=>[x*out,y*out,HEAD.c*Math.max(0,1-Math.abs(x/HEAD.a)**HEAD.n-Math.abs(y/HEAD.b)**HEAD.n)**(1/HEAD.n)*out];
+// Casquete de pelo: la misma forma de la cabeza, un poco más grande y sin girar (así no asoma el cráneo por ninguna
+// esquina), recortada por la línea del pelo. La línea baja de la frente (front) a la nuca (back) pasando por encima de las
+// orejas. Los ángulos se miden desde la coronilla, en fracciones de media vuelta; power mueve la línea de las sienes.
+function hairCap(front=.34,back=.8,burn=.1,power=1.4,W=64,H=22){
+  const position=[],normal=[],index=[],n=HEAD.n,v=new THREE.Vector3();
+  for(let j=0;j<=H;j++)for(let i=0;i<=W;i++){
+    const phi=i/W*Math.PI*2,facing=(Math.sin(phi)+1)/2,theta=j/H*Math.PI*(front+(back-front)*(1-facing)**power+burn*Math.exp(-(((facing-.66)/.07)**2)));
+    v.set(-Math.cos(phi)*Math.sin(theta),Math.cos(theta),Math.sin(phi)*Math.sin(theta));
+    const k=(Math.abs(v.x)**n+Math.abs(v.y)**n+Math.abs(v.z)**n)**(-1/n);position.push(v.x*k,v.y*k,v.z*k);
+    v.set(Math.sign(v.x)*Math.abs(v.x)**(n-1),Math.sign(v.y)*Math.abs(v.y)**(n-1),Math.sign(v.z)*Math.abs(v.z)**(n-1)).normalize();normal.push(v.x,v.y,v.z);
+  }
+  for(let j=0;j<H;j++)for(let i=0;i<W;i++){const a=j*(W+1)+i,b=a+W+1;index.push(a+1,a,b+1,a,b,b+1)}
+  const geometry=new THREE.BufferGeometry();geometry.setAttribute('position',new THREE.Float32BufferAttribute(position,3));geometry.setAttribute('normal',new THREE.Float32BufferAttribute(normal,3));geometry.setIndex(index);return geometry;
+}
 // Cuerpo de revolución a partir de un perfil [radio, altura]; la textura se reparte por altura (v) y por ángulo (u).
 function lathe(profile,segments=48){
   const curve=new THREE.SplineCurve(profile.map(([r,y])=>new THREE.Vector2(Math.max(0,r),y))),geometry=new THREE.LatheGeometry(curve.getPoints(44).map(point=>new THREE.Vector2(Math.max(0,point.x),point.y)),segments);
@@ -216,19 +238,27 @@ function buildModel(look){
   }
   const arms=[];
   for(const side of [-1,1]){
-    const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);arms.push({arm,fore,side});
+    const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(bare?(fem?.335:.385):fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);arms.push({arm,fore,side});
     const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'&&(!brandKey||brandKey==='adidas')?mat(main,sleeveTexture(main,brandKey?trim:PAPER,!!brandKey)):mat(sleeveC);
-    add(arm,capsule(.09*K,.17),skin,[0,-.15,0],[],[],O);add(fore,capsule(.086*K,.13),skin,[0,-.11,0],[],[],O);
+    const thick=bare?1.1:1;add(arm,limb(.1*K*thick,.09*K*thick,ELBOW),skin,[],[],[],O);add(fore,limb(.09*K*thick,.078*K*thick,.2),skin,[],[],[],O);
     if(sleeved){
       add(arm,capsule(.145*K,.12),sleeve,[0,-.13,0],[],[],O);add(fore,capsule(.138*K,.02),sleeve,[0,-.03,0],[],[],O);
       const cuff=type==='universitaria'?mat(null,stripes([trim,PAPER,trim,PAPER,trim])):mat(shade(sleeveC,.78));
       if(type!=='plumas')add(fore,new THREE.CylinderGeometry(.125*K,.118*K,.085,24),cuff,[0,-.12,0],[],[],O);
       else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
-    add(fore,sphere(),skin,[0,-.25,0],[.105*K,.125*K,.09*K],[],O);add(fore,sphere(.045*K),skin,[0,-.22,.085*K]);
+    const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);
+    add(hand,box(3),skin,[0,-.04,0],[.056,.07,.086],[],.045);
+    // Los dedos salen en abanico y un poco curvados hacia la palma; el contorno de cada uno dibuja la línea entre dedos.
+    for(const [z,length] of [[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]])add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3);
+    add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);
   }
   if(type==='sudadera'||type==='plumas'){
-    if(look.hat!=='capucha')add(up,ring(fem?.24:.27,fem?.11:.125),mat(shade(type==='plumas'&&brandKey?trim:main,.85)),[0,1.27,fem?-.15:-.17],[1.2,1,1],[Math.PI/2+.5,0,0],O);
+    // Capucha caída: un rollo alrededor del cuello, con el centro relleno para que por detrás no se vea el hueco.
+    if(look.hat!=='capucha'){
+      const r=fem?.24:.27,tube=fem?.11:.125,fold=mat(shade(type==='plumas'&&brandKey?trim:main,.85)),z=fem?-.15:-.17;
+      add(up,ring(r,tube),fold,[0,1.27,z],[1.2,1,1],[Math.PI/2+.5,0,0],O);add(up,sphere(),fold,[0,1.27,z],[r*1.2,r,tube*.85],[Math.PI/2+.5,0,0]);
+    }
     if(type==='sudadera')for(const x of [-.075,.075])add(up,new THREE.CylinderGeometry(.014,.014,fem?.16:.2),white,[x,fem?1.1:1.08,fem?.295:.33]);
   }
   // Collares: un aro inclinado que cae sobre el pecho. onChain da el punto del aro en el ángulo a (π/2 = delante y abajo).
@@ -293,21 +323,21 @@ function buildModel(look){
   // Pelo: una capa sobre el cráneo y, encima, los mechones de cada peinado. Con gorro solo asoma lo que cabe.
   // sway = lo que cuelga (melena, coletas, trenzas): al animar se balancea con retardo respecto a la cabeza.
   const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola','lazo','diadema','tiara'].includes(hat),F=fem?FEM_HAIR[hair]:null,sway=[];
-  const scalp=(arc=.5,tilt=-.5,grow=1.045)=>add(head,shell(HEAD.n,0,Math.PI*2,0,Math.PI*arc),hairM,[0,.012,-.01],[HEAD.a*grow,HEAD.b*grow,HEAD.c*grow],[tilt,0,0],.02);
+  const scalp=(front=.34,back=.8,grow=1.045)=>add(head,hairCap(front,back),hairM,[],[HEAD.a*grow,HEAD.b*grow,HEAD.c*grow],[],.02);
   const spike=(x,y,z,rx,rz,size=1)=>add(head,new THREE.ConeGeometry(.1*size,.3*size,8),hairM,[x,y,z],[1,1,.7],[rx,0,rz],.05);
   const dangle=(x,y,z)=>{const group=new THREE.Group();group.position.set(x,y,z);head.add(group);sway.push(group);return group};
   if(F){if(!F.bald){
-    const low=covered||hooded;scalp(F.afro?.55:.5);
+    const low=covered||hooded;scalp();
     if(F.fringe==='cortina')for(const side of [-1,1])add(head,box(3),hairM,[side*.33,low?.2:.31,.5],[.3,.13,.1],[.12,side*.25,side*-.55],O);
     if(F.fringe==='recto')add(head,box(3),hairM,[0,low?.2:.3,.5],[.5,.15,.11],[.16,0,0],O);
     if(F.fringe==='lado'){add(head,box(3),hairM,[.1,low?.2:.32,.5],[.46,.15,.11],[.14,.12,-.3],O);add(head,box(3),hairM,[-.42,low?.15:.24,.4],[.16,.12,.1],[.1,-.5,.5],O)}
     if(!hooded){
-      if(F.skirt)add(head,shell(2.8,Math.PI/2+.8,Math.PI*2-1.6,Math.PI*.27,Math.PI*.5),hairM,[0,.02,-.03],[HEAD.a*1.1,HEAD.b*1.1,HEAD.c*1.1],[],.02).material.side=THREE.DoubleSide;
+      if(F.skirt)add(head,shell(2.8,Math.PI/2+.8,Math.PI*2-1.6,Math.PI*.27,Math.PI*.5),hairM,[0,.02,-.03],[HEAD.a*1.13,HEAD.b*1.1,HEAD.c*1.1],[],.02).material.side=THREE.DoubleSide;
       if(F.back)add(dangle(0,-.1,-.42),box(3),hairM,[0,.05-F.back,0],[.52,F.back,.2],[.1,0,0],O);
       if(F.sides)for(const side of [-1,1])add(dangle(side*.62,-.2,-.1),capsule(.1,F.sides),hairM,[0,-.1-F.sides/2,0],[.8,1,1.2],[0,0,side*-.06],.06);
       if(F.curls)for(let i=0;i<9;i++){const a=Math.PI*i/8;add(head,sphere(.17),hairM,[Math.cos(a)*.66,-.62-(i%2)*.1,-Math.sin(a)*.5-.05],[],[],.06)}
       if(F.nape)add(head,box(3),hairM,[0,-.3,-.45],[.42,.2,.16],[.2,0,0],O);
-      if(F.pony){const tail=dangle(0,covered?.05:.42,-.6);add(tail,sphere(.14),hairM,[],[],[],.06);add(tail,capsule(.11,.5),hairM,[0,-.36,-.1],[1,1,.8],[.3,0,0],.06)}
+      if(F.pony){const tail=dangle(0,covered?.05:.42,-.6);add(tail,sphere(.14),hairM,[],[],[],.06);add(tail,capsule(.11,.5),hairM,[0,-.36,-.03],[1,1,.8],[.07,0,0],.06)}
       if(F.tails)for(const side of [-1,1]){const tail=dangle(side*.62,covered?0:.22,-.12);add(tail,sphere(.12),hairM,[],[],[],.06);add(tail,capsule(.105,.45),hairM,[side*.07,-.36,0],[1,1,.85],[0,0,side*.16],.06)}
       if(F.braids)for(const side of F.braids===2?[-1,1]:[1]){const braid=dangle(side*.5,-.28,F.braids===2?-.15:-.05),fwd=F.braids===2?.03:.05;for(let i=0;i<9;i++)add(braid,sphere(.095-i*.005),hairM,[side*i*.012,-i*.125,i*fwd],[],[],.06);add(braid,sphere(.05),mat(CLOTH.coral),[side*.1,-1.07,9*fwd])}
       if(F.box)for(let i=0;i<13;i++){const a=Math.PI*i/12,length=.75+((i*7)%3)*.1;add(head,capsule(.05,length),hairM,[Math.cos(a)*.63,-.08-length/2,-Math.sin(a)*.57-.03],[],[0,0,Math.cos(a)*.08],.07)}
@@ -319,14 +349,14 @@ function buildModel(look){
       if(F.afro)add(head,sphere(.82,32,24),hairM,[0,.34,-.2],[],[],.025);
     }
   }}else if(hair!=='calvo'){
-    if(['rapado','degradado','mono','cresta'].includes(hair))add(head,shell(HEAD.n,0,Math.PI*2,0,Math.PI*.56),mat(shade(hairC,light(hairC)?.8:1.7)),[0,.005,-.005],[HEAD.a*1.012,HEAD.b*1.012,HEAD.c*1.012],[-.5,0,0]);
-    else scalp(hair==='afro'?.55:.5);
+    if(['rapado','degradado','mono','cresta'].includes(hair))add(head,hairCap(.36,.8,.06),mat('#'+new THREE.Color(hairC).lerp(new THREE.Color(SKIN[look.skin]||SKIN.miel),.45).getHexString()),[],[HEAD.a*1.028,HEAD.b*1.028,HEAD.c*1.028],[],.016);
+    else scalp();
     if(!hooded){
       if(hair==='mullet')add(head,box(3),hairM,[0,-.36,-.42],[.46,.34,.2],[.25,0,0],O);
-      if(hair==='coleta'){add(head,sphere(.13),hairM,[0,.3,-.64],[],[],.06);add(head,capsule(.095,.36),hairM,[0,-.02,-.8],[1,1,.8],[.38,0,0],.06)}
+      if(hair==='coleta'){const tail=dangle(0,.28,-.62);add(tail,sphere(.13),hairM,[],[],[],.06);add(tail,capsule(.095,.34),hairM,[0,-.27,-.03],[1,1,.8],[.08,0,0],.06)}
       // Melena: una falda de pelo abierta por delante, de las sienes a la mandíbula (o hasta los hombros si es larga).
       if(hair==='melena'||hair==='largo'){
-        add(head,shell(2.8,Math.PI/2+.8,Math.PI*2-1.6,Math.PI*.27,Math.PI*.5),hairM,[0,.02,-.03],[HEAD.a*1.1,HEAD.b*1.1,HEAD.c*1.1],[],.02).material.side=THREE.DoubleSide;
+        add(head,shell(2.8,Math.PI/2+.8,Math.PI*2-1.6,Math.PI*.27,Math.PI*.5),hairM,[0,.02,-.03],[HEAD.a*1.13,HEAD.b*1.1,HEAD.c*1.1],[],.02).material.side=THREE.DoubleSide;
         if(hair==='largo'){add(head,box(3),hairM,[0,-.5,-.42],[.52,.5,.2],[.12,0,0],O);for(const side of [-1,1])add(head,capsule(.1,.42),hairM,[side*.62,-.5,-.12],[.8,1,1.2],[0,0,side*-.06],.06)}
       }
       if(hair==='trenzas')for(const side of [-1,1])for(let i=0;i<6;i++)add(head,sphere(.085-i*.006),hairM,[side*(.5+i*.012),-.3-i*.13,-.3+i*.012],[],[],.06);
@@ -343,7 +373,6 @@ function buildModel(look){
       if(hair==='rizos'||hair==='rastas')for(let i=0;i<14;i++){const a=i/14*Math.PI*2,r=i%2?.4:.2;add(head,sphere(.17),hairM,[Math.sin(a)*r,.56-r*.3,Math.cos(a)*r*.95],[],[],.06)}
       if(hair==='afro')add(head,sphere(.8,32,24),hairM,[0,.34,-.2],[],[],.025);
       if(hair==='mono'){add(head,box(3),hairM,[0,.5,-.02],[.3,.14,.4],[],O);add(head,sphere(.2),hairM,[0,.76,-.14],[],[],.05)}
-      if(hair==='trenzas')add(head,new THREE.BoxGeometry(.012,.02,.9),flat(shade(hairC,.6)),[0,.6,-.1],[],[-.5,0,0]);
     }
   }
   // Gorros
@@ -360,7 +389,7 @@ function buildModel(look){
     }
     if(hat==='gorro'){cap.rotation.x=-.3;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.12,0],[.685,.66,.655],[],.025);add(cap,ring(.63,.085),dark,[0,.16,0],[1.07,1.02,1],[Math.PI/2,0,0],.03);add(cap,sphere(),color,[0,.66,-.2],[.26,.18,.26],[.5,0,0],O);if(look.hatBrand)decal(cap,look.hatBrand,light(shade(hatC,.72))?INK:PAPER,[0,.16,.75],.2)}
     if(hat==='pescador'){cap.rotation.x=-.16;add(cap,shell(3.4,0,Math.PI*2,0,Math.PI*.5),color,[0,.2,0],[.67,.5,.64],[],.025);add(cap,new THREE.CylinderGeometry(.66,.95,.2,40,1,true),color,[0,.2,0]).material.side=THREE.DoubleSide;add(cap,ring(.675,.03),mat(hatTrim),[0,.3,0],[1,.97,1],[Math.PI/2,0,0]);if(look.hatBrand)decal(cap,look.hatBrand,light(hatC)?INK:PAPER,[0,.45,.66],.2,[-.12,0,0])}
-    if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.6,.05),dark,[0,.36,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
+    if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.66,.045),dark,[0,.37,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);
   if(hat==='corona'){
