@@ -344,7 +344,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   function detachWorkspace(){
     panel.hidden=true;$('#game-layout').append(panel);workspaceId=null;
   }
-  // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0039); también se puede ver uno ya terminado.
+  // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0042); también se puede ver uno ya terminado.
   async function open(code='',resume=''){
     attachWorkspace();
     inviteCode=/^[A-Za-z2-9]{6}$/.test(code)?code.toUpperCase():'';

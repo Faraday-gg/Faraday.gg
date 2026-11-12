@@ -118,7 +118,7 @@ try{
   assert.equal((await duel('responder',ana,{id,guess:-3})).status,400);
   assert.equal((await duel('estado',ana,{id},{headers:{'Content-Type':'application/json',origin:'https://otra.test'}})).status,403,'Origen ajeno');
 
-  // Reconectar a la partida (decisión 0039): el servidor dice si el jugador tiene un duelo en marcha.
+  // Reconectar a la partida (decisión 0042): el servidor dice si el jugador tiene un duelo en marcha.
   const [p1,p2,p3]=[randomUUID(),randomUUID(),randomUUID()];
   assert.equal((await duel('activo',p1)).data.active,null,'Sin duelos, no hay nada que reconectar');
   assert.equal((await duel('activo','no-es-un-jugador')).status,400);

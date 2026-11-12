@@ -1,4 +1,4 @@
-// Reconectar a la partida (decisión 0039). Si sales de un duelo sin rendirte (cierras la pestaña, recargas, vuelves a
+// Reconectar a la partida (decisión 0042). Si sales de un duelo sin rendirte (cierras la pestaña, recargas, vuelves a
 // la portada o se cae la conexión), el servidor sigue teniéndolo en marcha. Al volver, esto le pregunta si tienes uno
 // y enseña «Reconectar a la partida» en la portada y en el menú. El duelo en sí lo pinta duel.js (DueloReconectar.open).
 (()=>{

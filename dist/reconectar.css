@@ -1,4 +1,4 @@
-/* Reconectar a la partida (decisión 0039): aviso fijo en la portada y entrada destacada en el menú. */
+/* Reconectar a la partida (decisión 0042): aviso fijo en la portada y entrada destacada en el menú. */
 .duel-reconnect{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:90;display:flex;align-items:center;gap:12px;max-width:min(94vw,440px);border:2px solid var(--yellow);border-radius:50px;background:var(--ink);color:#fff;padding:11px 20px 11px 16px;font:700 15px var(--font);text-align:left;box-shadow:0 8px 26px #20263040;cursor:pointer;animation:reconnect-in .4s cubic-bezier(.22,1,.36,1)}
 .duel-reconnect[hidden]{display:none}
 .duel-reconnect:hover{transform:translateX(-50%) translateY(-2px)}

@@ -1,4 +1,4 @@
-# 0039. Reconectar a la partida
+# 0042. Reconectar a la partida
 
 - **Estado:** propuesta (código en la PR de `feat/reconectar-duelo`; no hay migración)
 - **Fecha:** 2026-11-12
