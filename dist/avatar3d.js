@@ -15,10 +15,12 @@ renderer.setPixelRatio(1);renderer.setSize(BUF_W,BUF_H,false);renderer.setClearC
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 const scene=new THREE.Scene(),camera=new THREE.PerspectiveCamera(27,1,.1,50);
 scene.add(new THREE.HemisphereLight('#ffffff','#cdbfa6',1.25));
-const key=new THREE.DirectionalLight('#fff3e0',2.4);key.position.set(2.8,5,4.4);key.castShadow=true;key.shadow.mapSize.set(1024,1024);key.shadow.radius=7;key.shadow.bias=-.0006;
-Object.assign(key.shadow.camera,{left:-2.6,right:2.6,top:3.6,bottom:-1,near:.5,far:14});scene.add(key);
+// La luz principal está alta para que la sombra sea corta y quepa en todos los encuadres. La cámara de sombras y el suelo
+// son mucho más grandes que el personaje: si no, la sombra se corta con una línea recta.
+const key=new THREE.DirectionalLight('#fff3e0',2.4);key.position.set(.8,6,3.4);key.castShadow=true;key.shadow.mapSize.set(2048,2048);key.shadow.radius=7;key.shadow.bias=-.0006;
+Object.assign(key.shadow.camera,{left:-4,right:4,top:4.5,bottom:-4,near:.5,far:16});scene.add(key);
 const rim=new THREE.DirectionalLight('#9fc4ff',1.1);rim.position.set(-3,2.6,-4);scene.add(rim);
-const floor=new THREE.Mesh(new THREE.CircleGeometry(2.4,48),new THREE.ShadowMaterial({opacity:.22}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+const floor=new THREE.Mesh(new THREE.CircleGeometry(8,64),new THREE.ShadowMaterial({opacity:.22}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
 
 // Sombreado por tonos (tres escalones) y contorno de tinta: le dan aire de cómic en vez de plástico blando.
 const ramp=new THREE.DataTexture(new Uint8Array([120,120,120,255,196,196,196,255,255,255,255,255]),3,1);ramp.minFilter=ramp.magFilter=THREE.NearestFilter;ramp.needsUpdate=true;
@@ -254,32 +256,39 @@ function buildModel(look){
     add(body,lathe([[0,-.215],[.4,-.215],[.42,-.2],[.36,-.05],[.3,.1],[.285,.15],[.25,.17],[0,.17]]),mat(pantsC,pleats(pantsC)),[0,.62,0],[1.02,1,.84],[],O);
     add(body,ring(.285,.03),pantsDark,[0,.765,0],[1.02,.84,1],[Math.PI/2,0,0]);
     if(look.bottomLogo==='levis')add(body,new THREE.BoxGeometry(.03,.05,.014),flat('#c8102e'),[.2,.69,.268]);
+  }else if(fem&&(look.top==='camiseta'||!['camiseta','baloncesto'].includes(look.top))){
+    // Con top corto o prenda corta, la cintura se ve: es una pieza que envuelve la tripa (antes era una esfera aplastada que
+    // sobresalía como un flotador y la atravesaba) y acaba en una cinturilla más oscura.
+    add(body,lathe([[0,.46],[.26,.46],[.3,.52],[.315,.6],[.31,.67],[.3,.72],[.28,.735],[0,.735]]),pants,[0,0,0],[1.04,1,.78],[],O);
+    add(body,ring(.3,.02),pantsDark,[0,.712,0],[1.04,.78,1],[Math.PI/2,0,0]);
   }else add(body,sphere(),pants,[0,.64,0],fem?[.325,.15,.26]:[.35,.17,.27],[],O);
   for(const side of [-1,1]){
     const leg=new THREE.Group();leg.position.set(side*gap,.64,0);body.add(leg);legs.push(leg);
     if(skirt){add(leg,capsule(.092,.3),skin,[0,-.3,0],[],[],O);add(leg,new THREE.CylinderGeometry(.1,.1,.13,20),white,[0,-.47,0],[],[],O)}
     else if(tights)add(leg,capsule(.125,.3),pants,[0,-.28,0],[1,1,.95],[],O);
     else if(short){add(leg,capsule(.1*K,.2),skin,[0,-.4,0],[],[],O);add(leg,capsule(.185*K,fem?.1:.16),pants,[0,fem?-.13:-.17,0],[1,1,.95],[],O);add(leg,new THREE.CylinderGeometry(.108*K,.108*K,.16,20),white,[0,-.46,0],[],[],O)}
-    else{add(leg,capsule(.178*K,.22),pants,[0,-.26,0],[1,1,.95],[],O);for(const [y,r] of [[-.4,.172],[-.475,.182]])add(leg,ring(r*K,.045),pants,[0,y,0],[1,1,1],[Math.PI/2,0,0],O)}
+    else{add(leg,capsule(.178*K,.22),pants,[0,-.26,0],[1,1,.95],[],O);for(const [y,r] of [[-.39,.176],[-.465,.188]])add(leg,ring(r*K,.05),pants,[0,y,0],[1,1,1],[Math.PI/2,0,0],O)}
     if(look.bottom==='cargo')add(leg,box(5),pantsDark,[side*.17*K,-.24,0],[.05,.1,.11],[],O);
     const bands=look.bottomLogo==='adidas'?[-.05,0,.05]:look.bottomLogo?[]:[-.035,.035];
     if(look.bottom==='chandal')for(const d of bands)add(leg,new THREE.BoxGeometry(.012,short?.3:.5,.03),flat(PAPER),[side*.181*K,short?-.17:-.26,d]);
     if(tights&&look.bottomLogo==='adidas')for(const d of bands)add(leg,new THREE.BoxGeometry(.012,.46,.024),flat(PAPER),[side*.127,-.28,d*.8]);
     if(look.bottomLogo==='levis'){if(!skirt)add(leg,new THREE.BoxGeometry(.014,.05,.028),flat('#c8102e'),[side*.192*K,-.1,-.05])}
     else if(look.bottomLogo&&side===1&&!(tights&&look.bottomLogo==='adidas'))decal(leg,look.bottomLogo,light(pantsC)?INK:PAPER,[0,short?(fem?-.13:-.17):-.2,tights?.128:(short?.184:.178)*K],tights?.1:.12);
+    // Con pantalón largo, lo que queda dentro del bajo (lengüeta, caña de las altas y de las botas) no se dibuja: asomaba por la tela.
+    const tucked=!skirt&&!tights&&!short;
     const shoe=new THREE.Group();shoe.position.set(side*gap,-lift,.07);shoe.rotation.y=side*.14;if(fem)shoe.scale.setScalar(.92);shoe.userData.home=[side*gap,-lift,.07];body.add(shoe);feet.push(shoe);
     const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upperM=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
     add(shoe,box(),upperM,[0,.15+lift,.02],[.17,.115,.265],[],O);
     add(shoe,box(),sole,[0,.055+lift/2,.02],[.185,.06+lift/2,.285],[],O);
     add(shoe,box(),sole,[0,.12+lift,.215],[.15,.07,.08]);
-    add(shoe,box(),accent||mat(shade(shoeC,light(shoeC)?.86:1.5)),[0,.27+lift,.06],[.095,.09,.05],[-.45,0,0],O);
-    if(look.shoes==='altas')add(shoe,capsule(.14,.05),look.shoesLogo==='converse'?upperM:accent||upperM,[0,.3,-.07],[1,1,1.05],[],O);
-    if(look.shoesLogo){const ankle=look.shoesLogo==='converse';decal(shoe,look.shoesLogo,CLOTH[look.shoesLogoColor]||trimC||INK,ankle?[side*.153,.31,-.07]:[side*.18,.17+lift,.02],ankle?.14:.26,[0,side*Math.PI/2,0],side)}
+    if(!tucked)add(shoe,box(),accent||mat(shade(shoeC,light(shoeC)?.86:1.5)),[0,.27+lift,.06],[.095,.09,.05],[-.45,0,0],O);
+    if(look.shoes==='altas'&&!tucked)add(shoe,capsule(.14,.05),look.shoesLogo==='converse'?upperM:accent||upperM,[0,.3,-.07],[1,1,1.05],[],O);
+    if(look.shoesLogo){const ankle=look.shoesLogo==='converse'&&!tucked;decal(shoe,look.shoesLogo,CLOTH[look.shoesLogoColor]||trimC||INK,ankle?[side*.153,.31,-.07]:[side*.18,.17+lift,.02],ankle?.14:.26,[0,side*Math.PI/2,0],side)}
     else add(shoe,new THREE.BoxGeometry(.012,trimC?.075:.05,trimC?.21:.16),flat(trimC||(light(shoeC)?INK:PAPER)),[side*.172,.17+lift,.03]);
     // Dos colores: lengüeta, franja y talón en el segundo color. Las botas lo llevan solo en el pespunte de la suela.
     if(accent&&!boots){add(shoe,box(),accent,[0,.175+lift,-.2],[.15,.1,.075],[],O);add(shoe,box(),accent,[0,.222+lift,.15],[.125,.045,.085],[-.25,0,0],O)}
     if(look.shoes==='runner'){add(shoe,box(),sole,[0,.1+lift,-.11],[.193,.09,.17],[],O);add(shoe,box(3),accent||mat(shade(shoeC,.8)),[0,.085+lift,-.13],[.199,.032,.1])}
-    if(boots){add(shoe,capsule(.15,.12),upperM,[0,.34,-.06],[1,1,1.05],[],O);add(shoe,ring(.135,.035),mat(shade(shoeC,light(shoeC)?.7:1.6)),[0,.47,-.06],[1,1.05,1],[Math.PI/2,0,0],O);add(shoe,box(),accent||sole,[0,.122+lift,.02],[.192,.014,.292])}
+    if(boots){if(!tucked){add(shoe,capsule(.15,.12),upperM,[0,.34,-.06],[1,1,1.05],[],O);add(shoe,ring(.135,.035),mat(shade(shoeC,light(shoeC)?.7:1.6)),[0,.47,-.06],[1,1.05,1],[Math.PI/2,0,0],O)}add(shoe,box(),accent||sole,[0,.122+lift,.02],[.192,.014,.292])}
   }
 
   // Torso: perfil cuadrado y corto, con la prenda pintada alrededor. En mujer, con cintura: la camiseta es un top corto (crop)
@@ -386,10 +395,13 @@ function buildModel(look){
   const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola','lazo','diadema','tiara'].includes(hat),F=fem?FEM_HAIR[hair]:null,sway=[];
   const scalp=(front=.34,back=.8,grow=1.045)=>add(head,hairCap(front,back),hairM,[],[HEAD.a*grow,HEAD.b*grow,HEAD.c*grow],[],.02);
   const spike=(x,y,z,rx,rz,size=1)=>add(head,new THREE.ConeGeometry(.1*size,.3*size,8),hairM,[x,y,z],[1,1,.7],[rx,0,rz],.05);
+  // Flequillo de cortina: dos mechones pegados a la frente, dentro de la silueta de la cabeza (antes sobresalían como dos
+  // cojines por encima y por los lados y dejaban ver el cráneo entre ellos).
+  const curtain=low=>{for(const side of [-1,1]){const y=low?.21:.31,[x,,z]=onHead(side*.25,y,1.04);add(head,box(3),hairM,[x,y,z],[.27,.11,.065],[.32,side*.32,side*-.5],O)}};
   const dangle=(x,y,z)=>{const group=new THREE.Group();group.position.set(x,y,z);head.add(group);sway.push(group);return group};
   if(F){if(!F.bald){
     const low=covered||hooded;scalp();
-    if(F.fringe==='cortina')for(const side of [-1,1])add(head,box(3),hairM,[side*.33,low?.2:.31,.5],[.3,.13,.1],[.12,side*.25,side*-.55],O);
+    if(F.fringe==='cortina')curtain(low);
     if(F.fringe==='recto')add(head,box(3),hairM,[0,low?.2:.3,.5],[.5,.15,.11],[.16,0,0],O);
     if(F.fringe==='lado'){add(head,box(3),hairM,[.1,low?.2:.32,.5],[.46,.15,.11],[.14,.12,-.3],O);add(head,box(3),hairM,[-.42,low?.15:.24,.4],[.16,.12,.1],[.1,-.5,.5],O)}
     if(!hooded){
@@ -424,7 +436,7 @@ function buildModel(look){
       if(hair==='rastas')for(let i=0;i<11;i++){const a=Math.PI*i/10,length=.5+((i*7)%3)*.09;add(head,capsule(.055,length),hairM,[Math.cos(a)*.63,-.08-length/2,-Math.sin(a)*.57-.03],[],[0,0,Math.cos(a)*.1],.07)}
     }
     if(hair==='puntas'||hair==='mullet')for(const [x,rz,size] of [[-.34,.5,1],[-.17,.22,1.15],[0,0,1.25],[.18,-.25,1.1],[.35,-.52,.95]])spike(x,covered?.2:.27,.57,Math.PI-.3,rz,size*(covered?.75:1));
-    if(['cortina','melena','largo'].includes(hair))for(const side of [-1,1])add(head,box(3),hairM,[side*.33,covered||hooded?.2:.31,.5],[.3,.13,.1],[.12,side*.25,side*-.55],O);
+    if(['cortina','melena','largo'].includes(hair))curtain(covered||hooded);
     if(!covered&&!hooded){
       if(hair==='puntas'||hair==='mullet')for(const [x,z,rz] of [[-.2,.1,.3],[.05,.2,-.1],[.25,0,-.4],[0,-.2,.1]])spike(x,.66,z,0,rz,1.1);
       if(hair==='degradado')add(head,box(4),hairM,[0,.5,.04],[.44,.19,.47],[-.1,0,0],O);
@@ -481,12 +493,14 @@ function buildModel(look){
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
 const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-// Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara. shoes se ve de lado, para que se vea el logotipo.
-const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},shoes:{ratio:1,frame:.8,target:.2},torso:{ratio:1,frame:1.6,target:1},stage:{ratio:1,frame:3.5,target:1.58},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
+// Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara, x = desplazamiento lateral.
+// shoes se ve de lado, para que se vea el logotipo (la puntera queda a la izquierda, por eso se desplaza). Todos dejan margen
+// para el pelo más alto (afro, moño, corona), los saltos y la sombra, que no deben cortarse con el borde del lienzo.
+const VIEWS={full:{ratio:2/3,frame:3.45,width:2.3,target:1.55},bust:{ratio:1,frame:2.2,target:2},legs:{ratio:1,frame:1.5,target:.46},shoes:{ratio:1,frame:1.05,target:.24,x:-.08},torso:{ratio:1,frame:1.75,target:1},stage:{ratio:1,frame:3.5,target:1.58},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
 function shoot(context,width,height,entry,mode,turn){
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
-  camera.aspect=aspect;camera.position.set(0,view.target+distance*.03,distance);camera.lookAt(0,view.target,0);camera.updateProjectionMatrix();
+  const x=view.x||0;camera.aspect=aspect;camera.position.set(x,view.target+distance*.03,distance);camera.lookAt(x,view.target,0);camera.updateProjectionMatrix();
   entry.group.rotation.y=turn;scene.add(entry.group);
   renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,camera);
   scene.remove(entry.group);
