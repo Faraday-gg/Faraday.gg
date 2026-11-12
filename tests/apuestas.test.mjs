@@ -97,6 +97,13 @@ try{
   // Abandona Ana: pierde. Luis gana sin haber apostado.
   a=await duel('salir',ana,{id:a.data.id});
   assert.equal(R.outcome(a.data),'lost');b=await duel('estado',luis,{id:a.data.id});assert.equal(R.outcome(b.data),'won');
+  // En las clasificatorias (decisión 0043) también se apuesta, y la apuesta convive con el rango.
+  const eva=randomUUID(),teo=randomUUID();
+  let e=await duel('buscar',eva,{name:'Eva',mode:'ranked',level:12,bet:'calambre'});
+  let o=await duel('buscar',teo,{name:'Teo',mode:'ranked',level:15,bet:'alto-voltaje'});
+  assert.equal(o.data.mode,'ranked');assert.equal(o.data.id,e.data.id);
+  assert.deepEqual(o.data.players.map(p=>p.bet),['calambre','alto-voltaje'],'En clasificatoria se ve la apuesta de los dos');
+  assert.ok(o.data.players.every(p=>p.rank),'Y también su rango');
   // Contra Faraday-bot no se apuesta.
   a=await duel('crear',ana,{name:'Ana',level:15,bet:'calambre'});assert.equal(a.data.players[0].bet,'calambre');
   a=await duel('bot',ana,{id:a.data.id});

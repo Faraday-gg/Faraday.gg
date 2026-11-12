@@ -34,6 +34,9 @@
 .duel-vs .bet-chip{font-size:12px;padding:3px 9px 3px 5px}
 /* En el marcador hay poco sitio: el rayo y la cifra bastan para no comerse el nombre. */
 .duel-player .bet-chip .coin{display:none}
+/* Con apuesta (y a veces medalla y rango) no caben en una línea: el apodo va arriba y las fichas debajo. */
+.duel-who:has(.bet-chip){flex-wrap:wrap;row-gap:3px}
+.duel-who:has(.bet-chip) .duel-name{flex:1 0 100%}
 
 /* Resultado de la apuesta en la pantalla final */
 .bet-result{display:grid;justify-items:center;gap:4px;margin:14px 0 0;padding:14px 16px;border-radius:18px;background:var(--g-hover);animation:duel-pop .5s cubic-bezier(.34,1.56,.64,1) .3s both}

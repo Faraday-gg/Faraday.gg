@@ -41,7 +41,7 @@ Se elige esta y no el bote común (los dos ponen lo mismo y el ganador se lo lle
 - **Cantidades:** Chispazo es menos que dos duelos ganados; Calambre, la mitad de un cofre Chispa; Alto voltaje, lo que da un día de juego. Ninguna rompe la tienda: lo más que se puede perder en un día (5 × 150 = 750 ≈) no llega a un cofre Tormenta (1.100 ≈).
 - **Tope diario: 5 duelos con apuesta al día** (hora de Madrid). Limita la pérdida y el farmeo con dos navegadores propios. `DAILY_CAP = 0` en `dist/bets-rules.js` desactiva las apuestas.
 - El premio normal del duelo (XP, faradios, batería) no cambia: la apuesta va aparte.
-- Por debajo del nivel 10 el selector se ve con candado y el texto «Se desbloquea en el nivel 10»; cada ficha dice su nivel. Las partidas clasificatorias que se preparan en otra rama usan el mismo umbral (nivel 10): conviene presentarlas juntas como «lo que se abre en el nivel 10».
+- Por debajo del nivel 10 el selector se ve con candado y el texto «Se desbloquea en el nivel 10»; cada ficha dice su nivel. Se puede apostar igual en los duelos normales y en las clasificatorias ([0043](0043-clasificatorias-y-rangos.md)), que también se abren en el nivel 10. La apuesta va aparte de los PR: la pantalla final enseña primero el cambio de PR, luego la XP y después lo ganado o perdido en la apuesta.
 
 ### Contra trampas evidentes
 
@@ -55,7 +55,7 @@ Se elige esta y no el bote común (los dos ponen lo mismo y el ganador se lo lle
 ### Interfaz
 
 - En el portal del duelo, debajo del perfil: cuatro fichas (Sin apuesta, Chispazo, Calambre, Alto voltaje) con sus rayos, la cantidad y lo que se gana; el saldo y las apuestas que quedan hoy. En el móvil se ponen en dos filas de dos.
-- Durante el duelo, una ficha con el rayo y la cifra junto al nombre de cada jugador (marcador y pantalla VS).
+- Durante el duelo, una ficha con el rayo y la cifra junto al nombre de cada jugador (marcador y pantalla VS). Si el jugador lleva apuesta, en el marcador el apodo pasa a su propia línea y las fichas (medalla, apuesta, nivel y rango) van debajo, para que el nombre no se corte.
 - En la pantalla final, «+60 ≈» o «−25 ≈» en grande, la explicación (doblas, la pierdes, la recuperas, abandonar cuenta como perder) y el saldo nuevo. Debajo se puede cambiar la apuesta para la revancha o el nuevo rival.
 
 ### Código
