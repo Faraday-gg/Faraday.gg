@@ -1,6 +1,6 @@
 # 0038. Referidos: el «Circuito» de amigos
 
-- **Estado:** propuesta (código en la PR de `feat/referidos-circuito`; la migración `20261112180000_referidos` está **sin aplicar**)
+- **Estado:** aceptada (código fusionado en `preprod` con la PR #59; la migración `20261112140721_referidos` se aplicó el 12 de noviembre de 2026)
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
 
@@ -73,7 +73,7 @@ Se abre desde «⚡ Invita amigos: ganáis los dos» en la portada, desde el men
 - `lib/referidos.mjs`: reglas (`RULES`) y la ruta `POST /api/referido`, con las acciones `codigo`, `abrir`, `estado` y `reclamar`.
 - Dónde se guarda:
   - en local, en `runtime/referidos.json`;
-  - en Vercel, en `referral_codes` y `referrals` (migración `20261112180000_referidos`).
+  - en Vercel, en `referral_codes` y `referrals` (migración `20261112140721_referidos`).
 
   Si las tablas no existen, la ruta responde 503 y el resto del juego sigue.
 - `dist/circuito.js` y `dist/circuito.css`, para la pantalla.
@@ -93,7 +93,7 @@ Se abre desde «⚡ Invita amigos: ganáis los dos» en la portada, desde el men
 
 ## Consecuencias
 
-- Hay que **aplicar la migración `20261112180000_referidos` en Supabase** (con confirmación de Luis). Hasta entonces, en Vercel, el Circuito responde «no disponible», aunque los enlaces se siguen compartiendo sin código.
+- La migración `20261112140721_referidos` se aplicó en Supabase el 12 de noviembre de 2026, a petición de Luis. Si las tablas fallaran, en Vercel el Circuito responde «no disponible», aunque los enlaces se siguen compartiendo sin código.
 - Quien edite su `localStorage` puede darse premios, como ya pasa con todo el progreso. Lo que no puede es fabricar conexiones sin jugar 3 días con otro navegador. Además, desde la 11.ª conexión los premios son pequeños y tienen tope.
 - Un invitado que vacíe su navegador antes de cobrar no pierde el premio: sigue pendiente en el servidor. Uno que lo vacíe después pierde lo cobrado, como el resto de su progreso.
 - Revisar las cifras (3 días en 14, el cofre Rayo por amigo) cuando haya datos: cuántos enlaces se comparten, cuántos invitados juegan el primer reto, cuántos se conectan y si se quedan más que los que llegan solos.
