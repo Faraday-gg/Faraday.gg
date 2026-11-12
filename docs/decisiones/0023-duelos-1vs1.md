@@ -1,6 +1,6 @@
 # 0023. Duelos 1 vs 1 con vida, al estilo GeoGuessr
 
-- **Estado:** propuesta (código en la PR de `feat/duelos-1vs1`; la migración `20261111120000_duelos` está **sin aplicar**)
+- **Estado:** propuesta (código en la PR de `feat/duelos-1vs1`; la migración, renombrada `20261112005952_duelos`, se aplicó el 2026-11-12)
 - **Fecha:** 2026-11-11
 - **Quién:** Luis, con Claude Code
 
@@ -32,7 +32,7 @@ No copiamos (por ahora): divisiones y clasificación por puntos, emoticonos dura
 
 - **El servidor manda.** `lib/duelos.mjs` guarda el estado de cada duelo (jugadores, vida, rondas, respuestas y horas límite) y lo pone al día con el reloj en cada petición: no hay ningún proceso en segundo plano. La cifra real y la respuesta del rival no salen del servidor hasta que la ronda termina.
 - **Sin conexiones abiertas.** El navegador pregunta el estado una vez por segundo (`POST /api/duelo`, acción `estado`). Funciona igual en local y en Vercel y no necesita claves en el navegador.
-- **Estado en una tabla nueva, `duels`** (migración `20261111120000_duelos`), una fila por duelo con el estado en `jsonb` y una columna `version` para que dos peticiones a la vez no se pisen. En local se guarda en memoria.
+- **Estado en una tabla nueva, `duels`** (migración `20261112005952_duelos`), una fila por duelo con el estado en `jsonb` y una columna `version` para que dos peticiones a la vez no se pisen. En local se guarda en memoria.
 - **Emparejamiento:** partida rápida (te une al primer duelo público en espera cuyo creador siga conectado), reto a un amigo con código de 6 caracteres o enlace `?duelo=CÓDIGO`, y un **bot de práctica** que solo entra si el jugador lo pide y siempre se llama «Faraday-bot»: nunca se hace pasar por una persona.
 - **Preguntas:** al azar entre las escritas a mano de días ya pasados (archivo y piloto), para no destripar el reto de hoy. Conservan la foto con su atribución y la fuente.
 - **Identidad:** el mismo identificador anónimo del juego (se guarda su SHA-256), más un apodo de hasta 16 caracteres y uno de 12 avatares. El perfil, el nivel, la XP y la racha se guardan en el navegador.

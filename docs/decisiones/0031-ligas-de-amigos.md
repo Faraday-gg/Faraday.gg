@@ -1,6 +1,6 @@
 # 0031. Ligas de amigos con clasificación semanal
 
-- **Estado:** propuesta (código en la PR de `feat/ligas-amigos`; la migración `20261112120000_ligas` está **sin aplicar**)
+- **Estado:** propuesta (código en la PR de `feat/ligas-amigos`; la migración `20261112010003_ligas` se aplicó el 2026-11-12, antes de fusionar la PR)
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
 
@@ -26,7 +26,7 @@ Los números de decisión reservados (0028 tarjeta, 0029 «Casi casi», 0030 lig
   - Quien entra en una liga después de que acabe una semana no aparece en la clasificación de esa semana.
 - **Resumen del lunes.** Al abrir la app en una semana nueva, si estabas en alguna liga la semana anterior, se enseña quién ganó (con su avatar y una corona) y en qué puesto quedaste. Se enseña una vez por semana y nunca encima de una partida.
 - **Entrada discreta.** Un enlace «🏆 Ligas con amigos» bajo el botón del duelo en la portada y otro en el menú. No añade ningún paso al reto diario.
-- **Servidor.** `lib/ligas.mjs` con la ruta `POST /api/liga` (acciones `mias`, `crear`, `unirse`, `ver`, `salir`, `perfil` y `resumen`). En local se guarda en `runtime/ligas.json`, junto a las respuestas; en Vercel, en las tablas `leagues`, `league_members` y `daily_results` (migración `20261112120000_ligas`). El jugador se identifica como en los duelos: SHA-256 de su identificador anónimo, que con sesión iniciada es el de su cuenta. Los apodos y nombres de liga se limpian de HTML. Nadie ve el identificador de otro.
+- **Servidor.** `lib/ligas.mjs` con la ruta `POST /api/liga` (acciones `mias`, `crear`, `unirse`, `ver`, `salir`, `perfil` y `resumen`). En local se guarda en `runtime/ligas.json`, junto a las respuestas; en Vercel, en las tablas `leagues`, `league_members` y `daily_results` (migración `20261112010003_ligas`). El jugador se identifica como en los duelos: SHA-256 de su identificador anónimo, que con sesión iniciada es el de su cuenta. Los apodos y nombres de liga se limpian de HTML. Nadie ve el identificador de otro.
 
 ## Alternativas descartadas
 
@@ -39,7 +39,7 @@ Los números de decisión reservados (0028 tarjeta, 0029 «Casi casi», 0030 lig
 
 ## Consecuencias
 
-- **Hasta que se aplique la migración, las ligas no funcionan en Vercel**: la API responde 503 y la web muestra «Las ligas no están disponibles ahora mismo». El reto diario sigue guardando respuestas aunque falle el apunte del resultado. En local funcionan sin base de datos.
+- Si Supabase falla o faltan las tablas, la API responde 503 y la web muestra «Las ligas no están disponibles ahora mismo». La migración se aplicó el 12 de noviembre, antes de fusionar la PR: las tablas existen aunque el código aún no esté en `preprod`. El reto diario sigue guardando respuestas aunque falle el apunte del resultado. En local funcionan sin base de datos.
 - Al completar el reto de hoy hay una lectura más (las respuestas de ese jugador) y una inserción en `daily_results`. Ver la clasificación lee la liga con sus miembros y sus resultados de la semana.
 - Las Preview de Vercel comparten las tablas con producción ([0001](0001-supabase-un-solo-entorno.md)).
 - El nombre de la liga y el apodo los escribe el jugador y los ven los demás miembros. Se limpian de HTML, pero no hay filtro de palabras.
