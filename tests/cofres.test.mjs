@@ -1,4 +1,4 @@
-// Prueba las reglas de los cofres (dist/chests.js, decisión 0027) con el catálogo real del avatar (dist/avatar.js):
+// Prueba las reglas de los cofres (dist/chests.js, decisiones 0027 y 0034) con el catálogo real del avatar (dist/avatar.js):
 // probabilidades, garantías, que no se repiten piezas, la garantía por mala suerte y el valor frente al precio.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -23,14 +23,24 @@ for(const type of TYPES){
   }
   assert.equal(chest.coins[0]%5,0);assert.equal((chest.coins[1]-chest.coins[0])%5,0);
 }
-assert.equal(Chests.count('chispa'),2);assert.equal(Chests.count('rayo'),3);assert.equal(Chests.count('tormenta'),4);
+// Seis cofres, ordenados de más barato a más caro, cada uno con su número de premios.
+assert.deepEqual([...TYPES],['chispa','iman','rayo','dinamo','tormenta','faraday']);
+// (Array.from: las listas que salen de dist/ son de otro contexto y deepEqual las vería distintas.)
+const PRICES=Array.from(TYPES,type=>CHESTS[type].price);
+assert.deepEqual(PRICES,[...PRICES].sort((a,b)=>a-b));
+assert.equal(new Set(PRICES).size,TYPES.length,'Cada cofre tiene su precio');
+assert.deepEqual(Array.from(TYPES,type=>Chests.count(type)),[2,3,3,6,4,5]);
+// Lo que distingue a cada uno: Imán solo trae piezas, Dinamo es el que más premios trae y Faraday asegura una legendaria.
+assert.equal(CHESTS.iman.odds.faradios,0);
+assert.equal(Math.max(...TYPES.map(type=>Chests.count(type))),Chests.count('dinamo'));
+assert.deepEqual({...CHESTS.faraday.sure},{legendaria:1});
 
 // El catálogo tiene piezas de todas las rarezas que pueden salir.
 const pieces=catalog();
 for(const rarity of RARITIES)assert.ok(pieces.some(item=>item.rarity===rarity),`Hay piezas de rareza ${rarity}`);
 
 // Muchas aperturas con el catálogo entero: número de premios, lotes dentro de su rango, garantías y sin repetir pieza.
-const random=seeded(20261112),seen={chispa:{},rayo:{},tormenta:{}},ROUNDS=40000;
+const random=seeded(20261112),seen=Object.fromEntries(TYPES.map(type=>[type,{}])),ROUNDS=40000;
 for(const type of TYPES){
   const chest=CHESTS[type];
   for(let i=0;i<ROUNDS;i++){
@@ -63,6 +73,9 @@ assert.equal(pity,PITY);
 const saved=Chests.roll('chispa',{items:pieces,pity,random:never});
 assert.ok(Chests.high(saved.rewards[0].rarity),'El cofre de la garantía trae épica o legendaria');assert.equal(saved.pity,0);
 assert.equal(Chests.roll('tormenta',{items:pieces,pity:3,random}).pity,0,'Tormenta siempre reinicia la cuenta');
+assert.equal(Chests.roll('faraday',{items:pieces,pity:3,random}).pity,0,'Faraday siempre reinicia la cuenta');
+// Imán: con el catálogo entero, todos sus premios son piezas.
+for(let i=0;i<2000;i++)assert.ok(Chests.roll('iman',{items:pieces,random}).rewards.every(reward=>reward.kind==='item'),'Imán solo trae piezas');
 
 // Sin duplicados: nunca sale una pieza que no esté en la lista de las que faltan.
 const few=pieces.filter(item=>item.rarity==='rara').slice(0,2);
@@ -82,7 +95,9 @@ for(const type of TYPES){
   assert.ok(ratio>1.15&&ratio<2,`${type}: valor medio ${Math.round(Chests.value(type,prices))} ≈ por ${CHESTS[type].price} ≈ (×${ratio.toFixed(2)})`);
 }
 
-// Hitos de racha.
-assert.deepEqual([6,7,8,14,30,50,99,100,125,150,200].filter(Chests.streakMilestone),[7,14,30,50,100,150,200]);
+// Hitos de racha y cofre de cada nivel.
+assert.deepEqual([2,3,4,6,7,8,14,30,50,99,100,125,150,200,250,300].map(days=>Chests.streakChest(days)),
+  [null,'iman',null,null,'tormenta',null,'tormenta','tormenta','tormenta',null,'faraday',null,'tormenta','faraday','tormenta','faraday']);
+assert.deepEqual([2,4,5,9,10,15,20,25,30].map(level=>Chests.levelChest(level)),['chispa','chispa','rayo','chispa','dinamo','rayo','dinamo','rayo','dinamo']);
 
 console.log('Cofres: reglas, garantías y valor comprobados.');

@@ -1,4 +1,4 @@
-// Apertura de un cofre (decisión 0027): la pantalla que se ve desde que cae el cofre hasta el resumen de premios.
+// Apertura de un cofre (decisiones 0027 y 0034): la pantalla que se ve desde que cae el cofre hasta el resumen de premios.
 // Los premios ya están sorteados y guardados cuando esto empieza (progress.js): aquí solo se enseñan. Cerrar, saltar o
 // recargar no cambia nada, y lo que se ve en cada carta es exactamente lo que ha tocado.
 //

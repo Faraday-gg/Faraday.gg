@@ -1,9 +1,12 @@
-/* Cofres (decisión 0027): la pestaña Cofres del perfil y la pantalla de apertura (chest-open.js). */
+/* Cofres (decisiones 0027 y 0034): la pestaña Cofres del perfil y la pantalla de apertura (chest-open.js). */
 
 /* Colores de cada cofre y de cada rareza. --glow es el color con el que brilla un premio. */
 .chest-art{display:block;width:100%;height:auto;overflow:visible;--c1:#ffc93c;--c2:#e8961c;--c3:#202630;--c4:#ffdb70}
+.chest-art[data-type=iman]{--c1:#f2605a;--c2:#b8302f;--c3:#f1f3f6;--c4:#b8302f}
 .chest-art[data-type=rayo]{--c1:#4fb4f7;--c2:#1f6fc2;--c3:#ffdb70;--c4:#202630}
+.chest-art[data-type=dinamo]{--c1:#45c9a0;--c2:#1c8a6b;--c3:#202630;--c4:#9af0d2}
 .chest-art[data-type=tormenta]{--c1:#6a4bc0;--c2:#3b2678;--c3:#ffc93c;--c4:#3b2678}
+.chest-art[data-type=faraday]{--c1:#fffdf7;--c2:#f0b429;--c3:#202630;--c4:#ffdb70}
 .ca-shadow{fill:#0b122033}
 .ca-glow{fill:var(--glow,#fff);opacity:0;filter:blur(10px)}
 .ca-lid{transform-box:view-box;transform-origin:100px 92px;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s .25s}
@@ -36,9 +39,12 @@
 .chest-note{margin:0 0 14px;font-size:12px;line-height:1.5;color:var(--muted)}
 .chest-odds{margin:0 0 6px;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;font-size:13px}
 .chest-odds summary{font-weight:700;cursor:pointer}
-.chest-odds table{width:100%;margin-top:10px;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.chest-odds table{width:100%;table-layout:fixed;margin-top:10px;border-collapse:collapse;font-variant-numeric:tabular-nums}
 .chest-odds th,.chest-odds td{padding:5px 4px;border-top:1px solid var(--line);text-align:right;font-weight:400}
 .chest-odds th:first-child,.chest-odds td:first-child{text-align:left}
+.chest-odds th:first-child{width:37%}
+.chest-odds td:first-child{white-space:nowrap}
+.chest-odds table+table{margin-top:16px}
 .chest-odds thead th{border-top:0;font-weight:700}
 .chest-odds p{margin:10px 0 0;font-size:12px;line-height:1.5;color:var(--muted)}
 .odds-dot{display:inline-block;width:9px;height:9px;margin-right:6px;border-radius:50%;background:var(--glow);box-shadow:inset 0 0 0 1px #20263040}
@@ -98,7 +104,8 @@ body.chest-on{overflow:hidden}
 .chest-cards,.chest-summary,.chest-walk{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:74px 16px 28px}
 .chest-cards[hidden],.chest-summary[hidden],.chest-walk[hidden]{display:none}
 .chest-hand{display:grid;grid-template-columns:repeat(var(--cols,2),minmax(0,170px));gap:14px;justify-content:center;width:100%;perspective:1100px}
-.chest-hand[data-count="3"]{--cols:3}.chest-hand[data-count="4"]{--cols:4}
+.chest-hand[data-count="3"],.chest-hand[data-count="6"]{--cols:3}.chest-hand[data-count="4"]{--cols:4}.chest-hand[data-count="5"]{--cols:5}
+.chest-hand[data-count="6"]{grid-template-columns:repeat(3,minmax(0,150px))}
 .chest-card{aspect-ratio:3/4;padding:0;border:0;background:none;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent;
   animation:card-deal .5s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i)*160ms)}
 .card-inner{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .52s cubic-bezier(.3,1.4,.5,1)}
@@ -142,7 +149,7 @@ body.chest-on{overflow:hidden}
 .chest-loot{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,160px));gap:12px;justify-content:center;width:100%;max-width:720px;margin:0;padding:0;list-style:none}
 .chest-loot li{display:flex;flex-direction:column;align-items:center;gap:5px;padding:12px 10px;border-radius:18px;border:3px solid #1b1f27;color:#202630;text-align:center;
   background:linear-gradient(#fffdf7,color-mix(in srgb,var(--glow) 34%,#fffdf7));box-shadow:0 0 26px -6px var(--glow);animation:card-deal .45s cubic-bezier(.34,1.56,.64,1) both}
-.chest-loot li:nth-child(2){animation-delay:.07s}.chest-loot li:nth-child(3){animation-delay:.14s}.chest-loot li:nth-child(4){animation-delay:.21s}
+.chest-loot li:nth-child(2){animation-delay:.07s}.chest-loot li:nth-child(3){animation-delay:.14s}.chest-loot li:nth-child(4){animation-delay:.21s}.chest-loot li:nth-child(5){animation-delay:.28s}.chest-loot li:nth-child(6){animation-delay:.35s}
 .chest-loot .card-art{width:84px}
 .chest-wear{margin-top:2px;padding:6px 12px;border:1.5px solid #202630;border-radius:30px;background:transparent;font:700 12px var(--font);color:#202630}
 .chest-wear:disabled{background:#202630;color:#fffdf7}
@@ -170,8 +177,26 @@ body.chest-on{overflow:hidden}
   .chest-item{padding:12px 6px 10px}
   .chest-hand[data-count="3"],.chest-hand[data-count="4"]{--cols:2;max-width:330px}
   .chest-hand[data-count="3"] .chest-card:last-child{grid-column:1/-1;justify-self:center;width:calc(50% - 7px)}
+  /* Cinco o seis cartas: tres por fila, más estrechas y sin el nombre de la parte del cuerpo. */
+  .chest-hand[data-count="5"],.chest-hand[data-count="6"]{--cols:3;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:360px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .chest-card{aspect-ratio:2/3}
+  .chest-hand:is([data-count="5"],[data-count="6"]) :is(.card-back,.card-front){border-radius:14px;border-width:2px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-front{padding:6px 4px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-art{width:62%}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-name{font-size:12px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-front em{display:none}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-coin{width:42px;height:42px;font-size:22px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-amount{font-size:24px}
+  .chest-hand:is([data-count="5"],[data-count="6"]) .card-back span{font-size:40px}
   .chest-cards,.chest-summary{gap:14px;padding-top:66px}
   .chest-loot{grid-template-columns:repeat(2,minmax(0,150px))}
+  /* Cinco o seis premios: tres por fila para que el resumen quepa sin desplazarse. */
+  .chest-loot:has(li:nth-child(5)){grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .chest-loot:has(li:nth-child(5)) li{padding:8px 4px;border-width:2px;border-radius:14px}
+  .chest-loot:has(li:nth-child(5)) .card-art{width:58px}
+  .chest-loot:has(li:nth-child(5)) .card-coin{width:42px;height:42px;font-size:22px}
+  .chest-loot:has(li:nth-child(5)) b{font-size:12px}
+  .chest-loot:has(li:nth-child(5)) .chest-wear{padding:5px 8px;font-size:11px}
 }
 @media(max-height:640px){.chest-box{width:min(46vw,210px)}.card-art{width:60%}}
 @media(prefers-reduced-motion:reduce){
