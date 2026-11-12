@@ -369,11 +369,21 @@
 .explain-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .explain-head h3{margin:0;font:700 17px var(--display)}
 .explain-question{margin:6px 0 14px;font-size:14px;line-height:1.5;opacity:.75}
+/* Cuenta por pasos (decisión 0029): concepto a la izquierda, cifra a la derecha, líneas casi invisibles y el resultado en el color de acento. */
+.calc-intro{font-size:15px;line-height:1.5;margin:0 0 10px}
+.calc-table{margin:0 0 12px}
+.calc-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:9px 0;border-bottom:1px dashed color-mix(in srgb,var(--g-fg) 14%,transparent)}
+.calc-row:last-child{border-bottom:0}
+.calc-row dt{flex:1 1 auto;font-size:14px;line-height:1.35;min-width:0}
+.calc-row dd{flex:0 1 auto;max-width:62%;margin:0;font-size:14px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.calc-result dt,.calc-result dd{font-weight:800}
+.calc-result dd{color:var(--g-accent)}
+.explain-more{margin:0 0 10px;font-size:13px}
+.explain-more summary{cursor:pointer;font-weight:700;color:var(--g-muted)}
+.explain-more[open] summary{margin-bottom:8px}
 .explain-steps{margin:0;padding-left:18px}
 .explain-steps li{font-size:14px;line-height:1.5;margin:0 0 6px}
 .explain-steps li::marker{color:var(--g-muted)}
-.explain-sum{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;margin:10px 0;padding:8px 2px;border-top:1px dashed var(--g-line);border-bottom:1px dashed var(--g-line);font-size:13px}
-.explain-sum code{font-size:12px;overflow-wrap:anywhere;color:var(--g-muted)}
 .explain-note{font-size:12px;line-height:1.5;color:var(--g-muted);margin:0 0 10px}
 /* Al pulsar la foto se abre ampliada encima de la tarjeta (lightbox, en community.js). */
 .explain-panel .question-photo{margin:6px 0 4px}
