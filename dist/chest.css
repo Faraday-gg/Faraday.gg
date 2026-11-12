@@ -68,6 +68,19 @@
 .chest-item button{width:100%;padding:9px 8px;font-size:13px;gap:5px}
 .chest-item .chest-buy{border:1.5px solid var(--ink);border-radius:50px;background:transparent;font-weight:700;color:var(--ink)}
 .chest-item .chest-buy:disabled{border-color:var(--line);color:var(--muted)}
+/* Hover: la tarjeta se eleva un poco, el cofre flota, la tapa se entreabre y asoma un brillo de su color. */
+.chest-item{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s cubic-bezier(.22,1,.36,1)}
+.chest-item .chest-art{--glow:var(--c1)}
+.chest-item .chest-art[data-type=faraday]{--glow:var(--c2)}
+.chest-item .ca-body,.chest-item .ca-shadow{transform-box:view-box;transform-origin:100px 177px;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.chest-item .ca-glow{transition:opacity .5s ease}
+@media(hover:hover){
+  .chest-item:hover,.chest-item:focus-within{transform:translateY(-3px);box-shadow:0 10px 24px -14px #20263059}
+  .chest-item:hover .ca-body,.chest-item:focus-within .ca-body{transform:translateY(-5px)}
+  .chest-item:hover .ca-lid,.chest-item:focus-within .ca-lid{transform:translateY(-13px) rotate(-3deg)}
+  .chest-item:hover .ca-shadow,.chest-item:focus-within .ca-shadow{transform:scale(.86)}
+  .chest-item:hover .ca-glow,.chest-item:focus-within .ca-glow{opacity:.55}
+}
 .chest-note{margin:0 0 14px;font-size:12px;line-height:1.5;color:var(--muted)}
 .chest-odds{margin:0 0 6px;border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;font-size:13px}
 .chest-odds summary{font-weight:700;cursor:pointer}
@@ -232,6 +245,7 @@ body.chest-on{overflow:hidden}
 }
 @media(max-height:640px){.chest-box{width:min(46vw,210px)}.card-art{width:60%}}
 @media(prefers-reduced-motion:reduce){
-  .chest-stage *,.chest-item .chest-art{animation:none!important;transition:none!important}
+  .chest-stage *,.chest-item,.chest-item .chest-art,.chest-item .chest-art *{animation:none!important;transition:none!important}
+  .chest-item:hover,.chest-item:focus-within{transform:none}
   .chest-walk>*{opacity:1}
 }
