@@ -61,6 +61,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   share-card.js          Tarjeta para stories: dibuja la imagen de 1080 × 1920 del resultado y la comparte o descarga (decisión 0032)
   share-card.css         Estilos de la vista previa de la tarjeta
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
+  ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025 y 0028)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
@@ -77,6 +78,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
+lib/ligas.mjs            Ligas de amigos: miembros, clasificación semanal y resumen (POST /api/liga)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -116,6 +118,15 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. **La migración `20261111120000_duelos` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
+
+## Ligas de amigos
+
+Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hora de Madrid) hecha con la distancia media del reto diario ([decisión 0031](docs/decisiones/0031-ligas-de-amigos.md)). Se crean con un nombre y se comparten con el enlace `?liga=CÓDIGO`.
+
+- `lib/ligas.mjs` tiene las reglas y la ruta `POST /api/liga`, con el campo `action`: `mias`, `crear`, `unirse`, `ver`, `salir`, `perfil` y `resumen`.
+- Las puntuaciones las pone el servidor: cuando alguien completa el reto **de hoy** (`POST /api/answers` en la última pregunta, o `POST /api/daily-scores`), `lib/api.mjs` calcula su distancia media con las respuestas guardadas y la apunta en «resultados diarios». El archivo no cuenta. Un día cerrado sin jugar cuenta como la peor distancia de la liga ese día, como poco 10×.
+- `dist/ligas.js` pinta la lista, la clasificación, la invitación y, al abrir la app en una semana nueva, el resumen de la anterior. El apodo es el de los duelos y el avatar, el del armario.
+- En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. **La migración `20261112120000_ligas` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel y la web dice «Las ligas no están disponibles ahora mismo».
 
 ## Avatar, faradios y misiones
 
