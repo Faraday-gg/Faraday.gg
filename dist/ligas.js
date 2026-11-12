@@ -14,7 +14,10 @@
   const times=n=>n==null?'—':format(n)+'×';
   const ordinal=n=>n+'º';
   const avatar=(look,size='small')=>`<span class="duel-avatar ${size}" aria-hidden="true">${window.Avatar?Avatar.render(look||{},{bust:true}):''}</span>`;
-  const identity=()=>({name:nickname||'Jugador',avatar:window.Progress?Progress.look():{}});
+  // badge = la medalla destacada (decisión 0034): viaja con el avatar y el grupo la ve junto al nombre.
+  const identity=()=>({name:nickname||'Jugador',avatar:window.Progress?{...Progress.look(),badge:Progress.badge()}:{}});
+  const badge=look=>window.Medals?Medals.chip(look?.badge):'';
+  const joined=()=>document.dispatchEvent(new CustomEvent('faraday:liga',{detail:{joined:true}}));
 
   async function call(action,extra={}){
     try{
@@ -96,7 +99,7 @@ ${today}
 <ol class="league-table" aria-label="Clasificación de la semana">
 <li class="league-head" aria-hidden="true"><span></span><span></span><span class="league-week">${WEEKDAYS.map(d=>`<i>${d}</i>`).join('')}</span><span>Media</span></li>
 ${league.rows.map(row=>`<li class="league-row-item${row.you?' is-you':''}"><span class="league-pos">${row.average==null?'–':ordinal(row.position)}</span>
-<span class="league-who">${avatar(row.avatar)}<span><b>${escapeHtml(row.name)}${row.you?' <small>(tú)</small>':''}</b><small>${row.played} ${row.played===1?'día':'días'}</small></span></span>
+<span class="league-who">${avatar(row.avatar)}<span><b>${escapeHtml(row.name)}${badge(row.avatar)}${row.you?' <small>(tú)</small>':''}</b><small>${row.played} ${row.played===1?'día':'días'}</small></span></span>
 <span class="league-week" aria-label="${row.played} de 7 días jugados">${row.days.map((day,i)=>dayCell(day,week.days[i],week.today,week.from||week.start)).join('')}</span>
 <strong class="league-avg">${times(row.average)}</strong></li>`).join('')}
 </ol>
@@ -129,6 +132,9 @@ ${data.leagues.map(league=>{const top=league.winners[0],won=league.winners.some(
     const last=shift(monday(todayKey),-7);if(saved.get('resumen','')===last)return;
     const response=await call('resumen');if(!response.ok)return;
     saved.set('resumen',response.data.week.start);
+    // Medalla «Campeón de liga»: semanas ganadas en ligas de al menos dos personas. El resumen se pide una vez por semana.
+    const won=response.data.leagues.filter(league=>league.total>1&&league.winners.some(winner=>winner.you)).length;
+    if(won)document.dispatchEvent(new CustomEvent('faraday:liga',{detail:{won}}));
     if(response.data.leagues.length&&shell.hidden&&$('#game-shell').hidden){open();renderSummary(response.data)}
   }
 
@@ -158,7 +164,7 @@ ${data.leagues.map(league=>{const top=league.winners[0],won=league.winners.some(
     const action=event.target.closest('[data-league]')?.dataset.league;if(!action)return;
     if(action==='retry')loadLobby();
     if(action==='back'||action==='close'){if(action==='close'&&shell.dataset.screen==='summary'){close();return}loadLobby()}
-    if(action==='accept'){const league=await act('unirse',{code:invite.code});if(league){invite=null;remember([...new Set([...known(),league.code])]);renderLeague(league);showToast(`Ya estás en «${league.name}».`)}}
+    if(action==='accept'){const league=await act('unirse',{code:invite.code});if(league){invite=null;remember([...new Set([...known(),league.code])]);joined();renderLeague(league);showToast(`Ya estás en «${league.name}».`)}}
     if(action==='share'&&current)share(current);
     if(action==='play'){close();if(currentDay)openDay(currentDay)}
     if(action==='leave'&&current&&window.confirm(`¿Salir de «${current.name}»? Podrás volver a entrar con el código si queda sitio.`)){
@@ -167,8 +173,8 @@ ${data.leagues.map(league=>{const top=league.winners[0],won=league.winners.some(
   });
   content.addEventListener('submit',async event=>{
     event.preventDefault();
-    if(event.target.id==='league-create'){const league=await act('crear',{leagueName:$('#league-new').value});if(league){remember([...new Set([...known(),league.code])]);renderLeague(league)}}
-    if(event.target.id==='league-join'){const league=await act('unirse',{code:$('#league-code').value});if(league){remember([...new Set([...known(),league.code])]);renderLeague(league)}}
+    if(event.target.id==='league-create'){const league=await act('crear',{leagueName:$('#league-new').value});if(league){remember([...new Set([...known(),league.code])]);joined();renderLeague(league)}}
+    if(event.target.id==='league-join'){const league=await act('unirse',{code:$('#league-code').value});if(league){remember([...new Set([...known(),league.code])]);joined();renderLeague(league)}}
   });
   content.addEventListener('input',event=>{if(event.target.id==='league-code')event.target.value=event.target.value.toUpperCase().replace(/[^A-Z0-9]/g,'')});
   content.addEventListener('change',event=>{if(event.target.id==='league-name')saveName()});
