@@ -5,6 +5,7 @@
 - **Quién:** Luis, con Claude Code
 - **Sustituye a:** la parte del avatar de la [0024](0024-avatar-faradios-y-misiones.md) (muñeco por capas en SVG). Los faradios, las misiones y los niveles de la 0024 siguen igual.
 - **Cambiada en parte por:** la [0026](0026-marcas-reales-en-la-tienda.md), que añade piezas de marcas reales con su logotipo. Lo que aquí se dice de no reproducir logotipos ya solo vale para las piezas propias (≈ y FRDY).
+- **Ampliada por:** la [0028](0028-avatar-de-mujer-y-animaciones.md), que añade el cuerpo de mujer con su colección y cambia la animación (esqueleto con codos y 20 gestos).
 
 ## Contexto
 

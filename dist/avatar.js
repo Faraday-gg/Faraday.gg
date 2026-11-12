@@ -3,13 +3,15 @@
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
+// Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
+// precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
 (()=>{
   const PAPER='#fffdf7';
   const PALETTE={
     SKIN:{clara:'#ffd9b8',miel:'#f2bd8c',tostada:'#d99c6c',canela:'#b5744a',cacao:'#8a5637',ebano:'#5e3a26',robot:'#c9ccd3'},
     HAIR:{castano:'#6b4a34',negro:'#24242b',rubio:'#f0c75e',pelirrojo:'#d9683c',gris:'#b9b6ae',platino:'#f2efe6',azul:'#3fa9f5',rosa:'#ff7aa8',verde:'#2fd67b',violeta:'#9a7df0',naranja:'#ff8a2a',turquesa:'#22c7c0'},
     CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c',marron:'#8a5a33',trigo:'#d9a441'},
-    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',rojo:'#e5383b'}
+    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',rojo:'#e5383b',rosa:'#ff9dbd',lila:'#cdbcff'}
   };
   const SLOTS=[['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
   // set = lo que la pieza cambia en el dibujo; extras = accesorios que se suman.
@@ -21,7 +23,8 @@
   const hat=(id,name,price,type,color='negro',trim='blanco',more={})=>item('hat',id,name,price,{set:{hat:type,hatColor:color,hatTrim:trim},...more});
   // Piezas de marca: el estampado '@marca' pone su logotipo en la prenda; en gorros, pantalones y zapatillas va aparte.
   const brandHat=(id,name,price,type,color,trim,brand)=>hat(id,name,price,type,color,trim,{set:{hat:type,hatColor:color,hatTrim:trim,hatBrand:brand}});
-  const CATALOG=[
+  const BODIES=[['hombre','Hombre'],['mujer','Mujer']];
+  const MEN=[
     top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
     top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
     top('cam-blanca-frdy','Oversize FRDY',100,'camiseta','blanco','rojo','frdy'),top('cam-negra-frdy','Oversize FRDY negra',120,'camiseta','negro','coral','frdy'),
@@ -75,7 +78,7 @@
     shoes('nike-airmax','Nike Air Max 90',700,'runner','blanco','rojo','nike'),shoes('martens','Dr. Martens 1460',800,'botas','negro','amarillo'),shoes('timberland','Timberland 6 Inch',900,'botas','trigo','marron'),
     shoes('jordan-1','Air Jordan 1 Chicago',1200,'altas','blanco','rojo','nike',{shoesLogoColor:'negro'}),shoes('gucci-ace','Gucci Ace',1700,'skate','blanco','','gucciweb'),
 
-    item('hat','','Nada'),hat('gorro-negro','Gorro negro',80,'gorro','negro'),hat('gorro-oliva','Gorro oliva',100,'gorro','oliva'),hat('gorro-burdeos','Gorro burdeos',100,'gorro','burdeos'),
+    hat('gorro-negro','Gorro negro',80,'gorro','negro'),hat('gorro-oliva','Gorro oliva',100,'gorro','oliva'),hat('gorro-burdeos','Gorro burdeos',100,'gorro','burdeos'),
     hat('gorro-crema','Gorro crema',100,'gorro','crema'),hat('gorro-coral','Gorro coral',120,'gorro','coral'),hat('capucha','Capucha puesta',150,'capucha'),
     hat('atras-negra','Gorra atrás negra',180,'atras','negro','negro'),hat('pesca-crema','Pescador crema',180,'pescador','crema','negro'),hat('atras-coral','Gorra atrás coral',200,'atras','coral','negro'),
     hat('atras-azul','Gorra atrás azul',200,'atras','azul','blanco'),hat('pesca-negro','Pescador negro',200,'pescador','negro','amarillo'),hat('pesca-verde','Pescador verde',200,'pescador','verde','crema'),
@@ -91,29 +94,126 @@
     item('hair','puntas','Flequillo de puntas'),item('hair','cortina','Cortina'),item('hair','rizos','Rizos'),item('hair','rapado','Rapado'),item('hair','calvo','Sin pelo'),
     item('hair','degradado','Degradado',120),item('hair','mono','Moño alto',150),item('hair','trenzas','Trenzas',220),item('hair','mullet','Mullet',250),item('hair','rastas','Rastas',350),item('hair','afro','Afro',400),
     item('hair','tupe','Tupé',180),item('hair','coleta','Coleta',200),item('hair','melena','Melena corta',260),item('hair','cresta','Cresta',280),item('hair','monos','Dos moños',300),item('hair','largo','Pelo largo',320),
-    ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80],['naranja','Naranja',80],['turquesa','Turquesa',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
 
-    item('glasses','','Nada'),item('glasses','gafas','Gafas',60,{extras:['gafas']}),item('glasses','sol','Gafas de sol',150,{extras:['sol']}),item('glasses','aviador','Ray-Ban Aviator',450,{extras:['aviador']}),item('glasses','visor','Oakley deportivas',500,{extras:['visor']}),
-    item('neck','','Nada'),item('neck','cadena','Cadenón',200,{extras:['cadena']}),item('neck','panuelo','Pañuelo',220,{extras:['panuelo']}),
-    item('extra','','Nada'),item('extra','aros','Aros',80,{extras:['aros']}),item('extra','cascos','Cascos',200,{extras:['cascos']}),item('extra','aros-cascos','Aros y cascos',320,{extras:['aros','cascos']}),
+    item('glasses','gafas','Gafas',60,{extras:['gafas']}),item('glasses','sol','Gafas de sol',150,{extras:['sol']}),item('glasses','aviador','Ray-Ban Aviator',450,{extras:['aviador']}),item('glasses','visor','Oakley deportivas',500,{extras:['visor']}),
+    item('neck','cadena','Cadenón',200,{extras:['cadena']}),item('neck','panuelo','Pañuelo',220,{extras:['panuelo']}),
+    item('extra','aros','Aros',80,{extras:['aros']}),item('extra','cascos','Cascos',200,{extras:['cascos']}),item('extra','aros-cascos','Aros y cascos',320,{extras:['aros','cascos']}),
     item('extra','oro','Diente de oro',0,{extras:['oro'],level:8}),
 
-    item('face','chulo','Chulo'),item('face','serio','Serio'),item('face','feliz','Feliz'),
+    item('face','chulo','Chulo'),item('face','serio','Serio'),item('face','feliz','Feliz')
+  ];
+  // Colección de mujer: pieza por pieza, la pareja de la de hombre (mismo hueco, mismo precio, misma rareza), con su corte:
+  // tops cortos, sudaderas y chaquetas a la cintura, faldas, mallas, boinas, lazos, diademas y peinados largos.
+  // En el dibujo, la prenda es del mismo tipo ('camiseta', 'sudadera'…): avatar3d.js la corta distinto según el cuerpo.
+  const hairF=(id,name,price=0)=>item('hair',id,name,price,{set:{hair:id}});
+  const WOMEN=[
+    top('top-blanco','Top blanco',0,'camiseta','blanco','negro'),top('top-negro','Top negro',0,'camiseta','negro','blanco'),
+    top('top-rosa-logo','Top ≈ rosa',60,'camiseta','rosa','blanco','logo'),top('top-negro-logo','Top ≈ negro',80,'camiseta','negro','rosa','logo'),
+    top('top-blanco-frdy','Top FRDY',100,'camiseta','blanco','coral','frdy'),top('top-lila-frdy','Top FRDY lila',120,'camiseta','lila','morado','frdy'),
+    top('top-menta-tag','Top 1,2× menta',140,'camiseta','menta','coral','tag'),top('top-blanco-tag','Top 1,2×',140,'camiseta','blanco','rosa','tag'),
+    top('top-crema-ajedrez','Top ajedrez',180,'camiseta','crema','negro','ajedrez'),top('top-lila-ajedrez','Top ajedrez lila',180,'camiseta','lila','negro','ajedrez'),
+    top('top-negro-llamas','Top en llamas',220,'camiseta','negro','coral','llamas'),top('top-rosa-llamas','Top llamas rosa',220,'camiseta','rosa','coral','llamas'),
+    top('sud-gris','Sudadera corta gris',150,'sudadera','gris','negro'),top('sud-negra','Sudadera corta negra',160,'sudadera','negro','blanco'),top('sud-rosa','Sudadera corta rosa',160,'sudadera','rosa','blanco'),
+    top('sud-lila-logo','Sudadera ≈ lila',220,'sudadera','lila','morado','logo'),top('sud-crema-logo','Sudadera ≈ crema',240,'sudadera','crema','coral','logo'),top('sud-menta-frdy','Sudadera FRDY menta',240,'sudadera','menta','verde','frdy'),
+    top('sud-coral-tag','Sudadera 1,2× coral',260,'sudadera','coral','crema','tag'),top('sud-negra-tag','Sudadera 1,2×',280,'sudadera','negro','rosa','tag'),
+    top('sud-burdeos-ajedrez','Sudadera ajedrez',320,'sudadera','burdeos','blanco','ajedrez'),top('sud-negra-llamas','Sudadera en llamas',400,'sudadera','negro','coral','llamas'),
+    top('bal-rosa','Baloncesto rosa',280,'baloncesto','rosa','blanco'),top('bal-lila','Baloncesto lila',280,'baloncesto','lila','morado'),top('bal-negra','Baloncesto negra',300,'baloncesto','negro','rosa'),
+    top('bal-coral','Baloncesto coral',300,'baloncesto','coral','blanco'),top('bal-menta','Baloncesto menta',320,'baloncesto','menta','marino'),
+    top('cha-rosa','Chándal rosa',380,'chandal','rosa','burdeos'),top('cha-negro','Chándal negro',380,'chandal','negro','rosa'),top('cha-lila','Chándal lila',420,'chandal','lila','morado'),
+    top('cha-menta','Chándal menta',420,'chandal','menta','verde'),top('cha-burdeos','Chándal burdeos',460,'chandal','burdeos','crema'),top('cha-coral','Chándal coral',520,'chandal','coral','amarillo'),
+    top('plu-rosa','Plumas corto rosa',550,'plumas','rosa','negro'),top('plu-negro','Plumas corto negro',600,'plumas','negro','negro'),top('plu-lila','Plumas corto lila',600,'plumas','lila','negro'),
+    top('plu-menta','Plumas corto menta',600,'plumas','menta','negro'),top('plu-crema','Plumas corto crema',650,'plumas','crema','negro'),top('plu-blanco','Plumas corto blanco',700,'plumas','blanco','negro'),
+    top('uni-rosa','Universitaria rosa',650,'universitaria','rosa','blanco'),top('uni-burdeos','Universitaria burdeos',650,'universitaria','burdeos','crema'),
+    top('uni-lila','Universitaria lila',700,'universitaria','lila','morado'),top('uni-menta','Universitaria menta',700,'universitaria','menta','verde'),
+    top('uni-negra','Universitaria negra',750,'universitaria','negro','rosa'),top('uni-roja','Universitaria roja',750,'universitaria','rojo','blanco'),
+    top('uni-crema','Universitaria crema',800,'universitaria','crema','coral'),top('uni-azul','Universitaria azul',900,'universitaria','azul','blanco'),
+    top('uni-fuego','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
+    top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
+    top('top-puma','Top Puma rosa',240,'camiseta','rosa','blanco','@puma'),top('top-nike-blanco','Top Nike blanco',260,'camiseta','blanco','negro','@nike'),
+    top('top-nike-negro','Top Nike negro',260,'camiseta','negro','blanco','@nike'),top('top-adidas','Top Adidas negro',260,'camiseta','negro','blanco','@adidas'),
+    top('top-fila','Top Fila blanco',300,'camiseta','blanco','marino','@fila'),top('top-supreme','Top Supreme',700,'camiseta','blanco','rojo','@supreme'),
+    top('top-gucci','Top Gucci crema',1500,'camiseta','crema','negro','@gucci'),top('top-balenciaga','Top Balenciaga negro',1600,'camiseta','negro','blanco','@balenciaga'),
+    top('sud-reebok','Sudadera Reebok crema',380,'sudadera','crema','marino','@reebok'),top('sud-nike','Sudadera Nike rosa',420,'sudadera','rosa','blanco','@nike'),
+    top('sud-adidas','Sudadera Adidas lila',420,'sudadera','lila','morado','@adidas'),top('sud-ua','Sudadera Under Armour negra',450,'sudadera','negro','blanco','@underarmour'),
+    top('sud-tnf','Sudadera The North Face burdeos',520,'sudadera','burdeos','blanco','@tnf'),top('sud-gucci','Sudadera Gucci crema',1800,'sudadera','crema','negro','@gucci'),
+    top('cha-adidas','Chándal Adidas rosa',620,'chandal','rosa','blanco','@adidas'),top('cha-nike','Chándal Nike negro',640,'chandal','negro','blanco','@nike'),
+    top('bal-jordan','Baloncesto Jordan negra',800,'baloncesto','negro','rojo','@jordan'),
+    top('plu-tnf-negro','Plumas The North Face negro',1100,'plumas','negro','negro','@tnf'),top('plu-tnf-rosa','Plumas The North Face rosa',1600,'plumas','rosa','negro','@tnf'),
+
+    bottom('ancho-lavado','Vaquero ancho lavado',0,'ancho','lavado'),bottom('falda-vaquera','Falda vaquera',0,'falda','vaquero'),bottom('mallas-negras','Mallas negras',0,'mallas','negro'),
+    bottom('corto-vaquero','Corto vaquero',50,'corto','vaquero'),bottom('falda-crema','Falda crema',50,'falda','crema'),bottom('ancho-negro','Vaquero ancho negro',80,'ancho','negro'),bottom('falda-negra','Falda negra',80,'falda','negro'),
+    bottom('ancho-indigo','Vaquero ancho índigo',100,'ancho','indigo'),bottom('falda-rosa','Falda rosa',100,'falda','rosa'),bottom('mallas-grises','Mallas grises',100,'mallas','gris'),bottom('cha-gris','Chándal gris',100,'chandal','gris'),
+    bottom('corto-rosa','Corto rosa',120,'corto','rosa'),bottom('falda-lila','Falda lila',120,'falda','lila'),bottom('mallas-burdeos','Mallas burdeos',160,'mallas','burdeos'),bottom('mallas-moradas','Mallas moradas',160,'mallas','morado'),
+    bottom('cargo-oliva','Cargo oliva',200,'cargo','oliva'),bottom('cargo-arena','Cargo arena',200,'cargo','arena'),bottom('cargo-negro','Cargo negro',220,'cargo','negro'),bottom('cargo-rosa','Cargo rosa',220,'cargo','rosa'),
+    bottom('falda-levis','Falda Levi\'s vaquera',300,'falda','lavado','levis'),bottom('mallas-nike','Mallas Nike negras',300,'mallas','negro','nike'),bottom('mallas-adidas','Mallas Adidas negras',320,'mallas','negro','adidas'),
+    bottom('corto-nike','Corto Nike gris',320,'corto','gris','nike'),bottom('corto-jordan','Corto Jordan rojo',400,'corto','rojo','jordan'),
+
+    shoes('skate-blanco','Skate blancas',0,'skate','blanco'),shoes('skate-negro','Skate negras',0,'skate','negro'),shoes('skate-rosa','Skate rosas',100,'skate','rosa'),
+    shoes('skate-lila','Skate lila',120,'skate','lila'),shoes('skate-menta','Skate menta',120,'skate','menta'),shoes('skate-coral','Skate coral',120,'skate','coral'),
+    shoes('altas-negro','Caña alta negras',180,'altas','negro'),shoes('altas-blanco','Caña alta blancas',180,'altas','blanco'),shoes('altas-rosa','Caña alta rosas',220,'altas','rosa'),
+    shoes('altas-lila','Caña alta lila',260,'altas','lila'),shoes('altas-menta','Caña alta menta',300,'altas','menta'),
+    shoes('plat-blanco','Plataforma blancas',350,'plataforma','blanco'),shoes('plat-negro','Plataforma negras',400,'plataforma','negro'),shoes('plat-rosa','Plataforma rosas',500,'plataforma','rosa'),
+    shoes('plat-lila','Plataforma lila',500,'plataforma','lila'),shoes('plat-coral','Plataforma coral',550,'plataforma','coral'),shoes('plat-menta','Plataforma menta',600,'plataforma','menta'),
+    shoes('vans-old','Vans Old Skool rosas',350,'skate','rosa','','vans',{shoesLogoColor:'blanco'}),shoes('converse-chuck','Converse Chuck Taylor blancas',400,'altas','blanco','blanco','converse',{shoesLogoColor:'marino'}),
+    shoes('adidas-gazelle','Adidas Gazelle rosas',500,'skate','rosa','','adidas3',{shoesLogoColor:'blanco',shoesSole:'goma'}),shoes('adidas-superstar','Adidas Superstar rosa',550,'plataforma','blanco','','adidas3',{shoesLogoColor:'rosa'}),
+    shoes('nb-530','New Balance 530',600,'runner','blanco','gris','newbalance'),shoes('nike-dunk','Nike Dunk rosa',650,'skate','blanco','rosa','nike'),
+    shoes('nike-airmax','Nike Air Max 90 lila',700,'runner','blanco','lila','nike'),shoes('martens','Dr. Martens 1460 burdeos',800,'botas','burdeos','amarillo'),shoes('timberland','Timberland 6 Inch rosa',900,'botas','rosa','marron'),
+    shoes('jordan-1','Air Jordan 1 azul',1200,'altas','blanco','azul','nike',{shoesLogoColor:'negro'}),shoes('gucci-ace','Gucci Ace crema',1700,'skate','crema','','gucciweb'),
+
+    hat('gorro-negro','Gorro negro',80,'gorro','negro'),hat('gorro-rosa','Gorro rosa',100,'gorro','rosa'),hat('gorro-lila','Gorro lila',100,'gorro','lila'),
+    hat('gorro-crema','Gorro crema',100,'gorro','crema'),hat('gorro-menta','Gorro menta',120,'gorro','menta'),hat('capucha','Capucha puesta',150,'capucha'),
+    hat('boina-negra','Boina negra',180,'boina','negro'),hat('pesca-crema','Pescador crema',180,'pescador','crema','negro'),hat('boina-burdeos','Boina burdeos',200,'boina','burdeos'),
+    hat('boina-crema','Boina crema',200,'boina','crema'),hat('pesca-rosa','Pescador rosa',200,'pescador','rosa','blanco'),hat('pesca-lila','Pescador lila',200,'pescador','lila','morado'),
+    hat('lazo-rojo','Lazo rojo',220,'lazo','rojo'),hat('lazo-negro','Lazo negro',220,'lazo','negro'),hat('plana-rosa','Gorra plana rosa',240,'plana','rosa','blanco'),
+    hat('plana-negra','Gorra plana negra',240,'plana','negro','rosa'),hat('diadema-negra','Diadema negra',260,'diadema','negro'),hat('diadema-rosa','Diadema rosa',260,'diadema','rosa'),
+    hat('lazo-rosa','Lazo rosa',260,'lazo','rosa'),hat('plana-lila','Gorra plana lila',280,'plana','lila','morado'),hat('diadema-blanca','Diadema blanca',280,'diadema','blanco'),
+    hat('plana-crema','Gorra plana crema',300,'plana','crema','coral'),
+    brandHat('gorro-tnf','Gorro The North Face negro',360,'gorro','negro','negro','tnf'),brandHat('plana-nike','Gorra Nike rosa',380,'plana','rosa','rosa','nike'),
+    brandHat('plana-jordan','Gorra Jordan blanca',420,'plana','blanco','blanco','jordan'),brandHat('plana-supreme','Gorra Supreme blanca',750,'plana','blanco','blanco','supreme'),
+    brandHat('pesca-gucci','Pescador Gucci negro',1500,'pescador','negro','verde','gucci'),
+    hat('diadema-oro','Diadema dorada',0,'diadema','oro','oro',{level:5}),hat('aureola','Aureola',0,'aureola','amarillo','amarillo',{level:10}),hat('tiara','Tiara',0,'tiara','amarillo','rosa',{level:15}),
+
+    hairF('liso','Melena lisa'),hairF('bob','Bob con flequillo'),hairF('ondas','Rizos largos'),hairF('pixie','Pixie'),hairF('calva','Sin pelo'),
+    hairF('media','Media melena',120),hairF('mono-alto','Moño alto',150),hairF('dos-trenzas','Dos trenzas',220),hairF('coletas','Dos coletas',250),hairF('box','Trenzas africanas',350),hairF('afro','Afro',400),
+    hairF('flequillo','Largo con flequillo',180),hairF('coleta-alta','Coleta alta',200),hairF('trenza','Trenza lateral',260),hairF('semi','Semirrecogido',280),hairF('monos','Dos moños y melena',300),hairF('extra','Pelo extralargo',320),
+
+    item('glasses','gato','Gafas ojo de gato',60,{extras:['gato']}),item('glasses','corazon','Gafas de sol de corazón',150,{extras:['corazon']}),item('glasses','redondas','Ray-Ban Round',450,{extras:['redondas']}),item('glasses','visor','Oakley deportivas rosas',500,{extras:['visor2']}),
+    item('neck','colgante','Colgante',200,{extras:['colgante']}),item('neck','perlas','Collar de perlas',220,{extras:['perlas']}),
+    item('extra','aros','Aros grandes',80,{extras:['arosg']}),item('extra','cascos','Cascos lila',200,{extras:['cascos2']}),item('extra','aros-cascos','Aros grandes y cascos',320,{extras:['arosg','cascos2']}),
+    item('extra','diamantes','Pendientes de diamante',0,{extras:['diamantes'],level:8}),
+
+    item('face','chula','Chula',0,{set:{face:'chulo'}}),item('face','seria','Seria',0,{set:{face:'serio'}}),item('face','feliz','Feliz',0,{set:{face:'feliz'}})
+  ];
+  const SHARED=[
+    item('hat','','Nada'),item('glasses','','Nada'),item('neck','','Nada'),item('extra','','Nada'),
+    ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80],['naranja','Naranja',80],['turquesa','Turquesa',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
     ...[['clara','Clara'],['miel','Miel'],['tostada','Tostada'],['canela','Canela'],['cacao','Cacao'],['ebano','Ébano']].map(([id,name])=>item('skin',id,name,0,{color:PALETTE.SKIN[id]}))
   ];
+  // Las piezas de mujer llevan el prefijo «mj-» en el identificador, para que no choquen con las de hombre.
+  const CATALOG=[...SHARED,...MEN.map(entry=>({...entry,for:'hombre'})),...WOMEN.map(entry=>({...entry,id:'mj-'+entry.id,for:'mujer'}))];
   const DEFAULT={top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
+  const DEFAULTS={hombre:DEFAULT,mujer:{top:'mj-top-blanco',bottom:'mj-ancho-lavado',shoes:'mj-skate-blanco',hat:'',hair:'mj-liso',hairColor:'castano',glasses:'',neck:'',extra:'',face:'mj-chula',skin:'miel'}};
+  const bodyOf=look=>look&&look.body==='mujer'?'mujer':'hombre',defaults=body=>DEFAULTS[body]||DEFAULT;
   const find=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
-  // Un look siempre completo: las piezas desconocidas (de una versión anterior o más nueva) pasan a las de por defecto.
-  function normalize(look){const result={};for(const [slot] of SLOTS){const id=look&&typeof look[slot]==='string'?look[slot]:null;result[slot]=id!==null&&find(slot,id)?id:DEFAULT[slot]}return result}
+  // Piezas de un hueco que puede llevar un cuerpo: las suyas y las compartidas.
+  const pieces=(slot,body)=>CATALOG.filter(entry=>entry.slot===slot&&(!entry.for||entry.for===body));
+  // Un look siempre completo: las piezas desconocidas (de una versión anterior o más nueva) o del otro cuerpo pasan a las de
+  // por defecto. Un look sin cuerpo (anterior a la decisión 0028) es de hombre.
+  function normalize(look){
+    const body=bodyOf(look),result={body};
+    for(const [slot] of SLOTS){const id=look&&typeof look[slot]==='string'?look[slot]:null,entry=id!==null&&find(slot,id);result[slot]=entry&&(!entry.for||entry.for===body)?id:DEFAULTS[body][slot]}
+    return result;
+  }
   // Look → lo que dibuja avatar3d.js. Un look con _raw ya viene traducido (el bot de los duelos).
   function resolve(look){
     if(look&&look._raw)return look._raw;
-    const L=normalize(look),raw={skin:L.skin,face:L.face,hair:L.hair,hairColor:L.hairColor,extras:[]};
+    const L=normalize(look),raw={body:L.body,skin:L.skin,face:L.face,hair:L.hair,hairColor:L.hairColor,extras:[]};
     for(const [slot] of SLOTS){const entry=find(slot,L[slot]);if(entry.set)Object.assign(raw,entry.set);if(entry.extras)raw.extras.push(...entry.extras)}
     return raw;
   }
   // Cómo se enseña una pieza en la tienda: el muñeco por defecto con esa pieza puesta (las zapatillas, con pantalón corto).
-  const preview=entry=>({...DEFAULT,...(entry.slot==='shoes'?{bottom:'corto-negro'}:{}),[entry.slot]:entry.id});
+  // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
+  function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
   const rarity=entry=>entry.level?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
@@ -123,12 +223,12 @@
     return `<svg class="avatar-fallback" viewBox="${view}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#1b1f27" stroke-width="3" stroke-linejoin="round"><rect x="44" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="62" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="39" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="61" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="34" y="90" width="52" height="46" rx="14" fill="${body}"/><rect x="24" y="16" width="72" height="68" rx="26" fill="${skin}"/>${raw.hair==='calvo'?'':`<path d="M24 46Q24 14 60 14Q96 14 96 46Q78 30 60 34Q42 30 24 46Z" fill="${hair}"/>`}</g><ellipse cx="46" cy="54" rx="4" ry="7" fill="#1b1f27"/><ellipse cx="74" cy="54" rx="4" ry="7" fill="#1b1f27"/></svg>`;
   }
   // bust: cabeza y hombros (marcador, avisos). zoom: 'legs', 'shoes' o 'torso' para la tienda. live: animado, para las pantallas
-  // grandes; drag: se puede girar arrastrando; emote: gesto ('cheer', 'sad' o 'hurt').
+  // grandes; drag: se puede girar arrastrando; emote: gesto ('wave', 'cheer', 'sad' o 'hurt').
   function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote=''}={}){
     const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote}));
     return `<span class="avatar-view" data-mode="${mode}" data-avatar="${data}" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'}>${fallback(raw,mode)}</span>`;
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
   const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
-  window.Avatar={SLOTS,CATALOG,DEFAULT,PALETTE,find,normalize,resolve,preview,render,background,rarity};
+  window.Avatar={SLOTS,BODIES,CATALOG,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
 })();
