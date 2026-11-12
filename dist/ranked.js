@@ -59,14 +59,14 @@
   // Barra de PR dentro de la división (o de las partidas de posicionamiento).
   const bar=(rank,ratio=null)=>{const value=ratio??(rank?.placing?(5-rank.placementLeft)/5:rank?.top?1:(rank?.pr||0)/100);return `<div class="ranked-bar"><i style="--pr:${Math.max(0,Math.min(1,value))}"></i></div>`};
   function card(){
-    if(!unlocked())return `<div class="ranked-card is-locked">${badge(null,{size:44,label:false})}<div><b>Clasificatoria</b><small><span aria-hidden="true">🔒</span> Se desbloquea en el nivel ${MIN_LEVEL}</small></div></div>`;
+    if(!unlocked())return `<div class="ranked-card is-locked">${badge(null,{size:44,label:false})}<div><b>Clasificatoria</b><small><span aria-hidden="true">🔒</span> Se desbloquea en el nivel ${MIN_LEVEL}${level()<MIN_LEVEL?` · llevas el ${level()}`:''}</small></div></div>`;
     const rank=mine;
-    return `<div class="ranked-card">${badge(rank,{size:44})}<div><b>${escapeHtml(rank&&!rank.placing?rank.label:'Sin clasificar')}${rank?.top&&position?` <em>n.º ${position}</em>`:''}</b><small>${rank&&!rank.placing?rank.top?`${int(rank.pr)} PR`:`${rank.pr} / 100 PR`:`Posicionamiento: ${rank?.placementLeft??5} de 5 partidas`}</small>${bar(rank)}</div>${top.length?`<details class="ranked-top"><summary>Cumbre</summary><ol>${top.map(row=>`<li class="${row.you?'you':''}"><span>${row.position}</span><b>${escapeHtml(row.name)}</b><i>${int(row.pr)} PR</i></li>`).join('')}</ol></details>`:''}</div>`;
+    return `<div class="ranked-card">${badge(rank,{size:44})}<div><b>${escapeHtml(rank&&!rank.placing?rank.label:'Sin clasificar')}${rank?.top&&position?` <em>n.º ${position}</em>`:''}</b><small>${rank&&!rank.placing?rank.top?`${int(rank.pr)} PR`:`${rank.pr} / 100 PR`:`Posicionamiento: ${5-(rank?.placementLeft??5)} de 5 partidas jugadas`}</small>${bar(rank)}</div>${top.length?`<details class="ranked-top"><summary>Cumbre</summary><ol>${top.map(row=>`<li class="${row.you?'you':''}"><span>${row.position}</span><b>${escapeHtml(row.name)}</b><i>${int(row.pr)} PR</i></li>`).join('')}</ol></details>`:''}</div>`;
   }
   // Selector del portal del duelo: «Normal» o «Clasificatoria» (con candado por debajo del nivel 10).
   function lobby(){
     const current=mode(),lock=!unlocked();
-    return `<div class="ranked-lobby" id="ranked-lobby"><div class="ranked-modes" role="radiogroup" aria-label="Modo de juego"><button type="button" role="radio" aria-checked="${current==='normal'}" data-ranked-mode="normal">Normal</button><button type="button" role="radio" aria-checked="${current==='ranked'}" data-ranked-mode="ranked"${lock?' aria-disabled="true" title="Se desbloquea en el nivel '+MIN_LEVEL+'"':''}>${lock?'<span aria-hidden="true">🔒</span> ':''}Clasificatoria</button></div>${lock?`<p class="ranked-lock-note">Se desbloquea en el nivel ${MIN_LEVEL}. Llevas el ${level()}.</p>`:''}<div id="ranked-card-slot">${card()}</div></div>`;
+    return `<div class="ranked-lobby" id="ranked-lobby"><div class="ranked-modes" role="radiogroup" aria-label="Modo de juego"><button type="button" role="radio" aria-checked="${current==='normal'}" data-ranked-mode="normal">Normal</button><button type="button" role="radio" aria-checked="${current==='ranked'}" data-ranked-mode="ranked"${lock?' aria-disabled="true" title="Se desbloquea en el nivel '+MIN_LEVEL+'"':''}>${lock?'<span aria-hidden="true">🔒</span> ':''}Clasificatoria</button></div><div id="ranked-card-slot">${card()}</div></div>`;
   }
   function paint(){
     const slot=document.getElementById('ranked-card-slot');if(slot)slot.innerHTML=card();
@@ -110,8 +110,9 @@ ${changed?`<p class="ranked-change">${changed}</p>`:''}
 
   // Perfil: el rango debajo del nivel. progress.js repinta el perfil entero, así que se vuelve a poner cada vez.
   function injectProfile(){
-    const level=document.querySelector('#profile-main .profile-level');if(!level||level.nextElementSibling?.classList.contains('ranked-profile'))return;
-    level.insertAdjacentHTML('afterend',`<div class="ranked-profile">${card()}</div>`);
+    const level=document.querySelector('#profile-main .profile-level');if(!level)return;
+    const html=card(),current=level.nextElementSibling?.classList.contains('ranked-profile')?level.nextElementSibling:null;
+    if(!current)level.insertAdjacentHTML('afterend',`<div class="ranked-profile">${html}</div>`);else if(current.innerHTML!==html)current.innerHTML=html;
   }
   const main=document.getElementById('profile-main');
   if(main)new MutationObserver(injectProfile).observe(main,{childList:true});
