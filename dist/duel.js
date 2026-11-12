@@ -324,6 +324,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
     else if($('#duel-help'))$('#duel-help').textContent=response.data.error||'No se ha podido enviar. Inténtalo otra vez.';
   }
   async function share(text,url){
+    if(window.Circuito)url=Circuito.link(url); // con tu código del Circuito de amigos (?de=)
     try{if(navigator.share){await navigator.share({title:'Duelo en Faraday.gg',text,url});return}await navigator.clipboard.writeText(`${text}\n${url}`);showToast('Copiado al portapapeles.')}
     catch(error){if(error?.name!=='AbortError')showToast('No se pudo compartir ahora mismo.')}
   }

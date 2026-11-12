@@ -1,7 +1,8 @@
 // Catálogo del avatar (decisiones 0024 y 0025). El avatar es un personaje 3D propio, de estética de calle, que dibuja
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
-// desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030). Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
+// desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0034):
+// 'bienvenida' para quien entra invitado o el número de amigos conectados. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
 // precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
@@ -49,6 +50,11 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
+    // Exclusivas del Circuito de amigos (decisión 0034): la gorra, para quien entra invitado; el resto, por conexiones.
+    hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
+    top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
+    top('sud-tesla','Sudadera Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
+    top('uni-faraday','Universitaria Jaula de Faraday',0,'universitaria','azul','amarillo','rayo',{circuito:10}),
     top('cam-puma-roja','Camiseta Puma roja',240,'camiseta','rojo','blanco','@puma'),top('cam-nike-blanca','Camiseta Nike blanca',260,'camiseta','blanco','negro','@nike'),
     top('cam-nike-negra','Camiseta Nike negra',260,'camiseta','negro','blanco','@nike'),top('cam-adidas-blanca','Camiseta Adidas blanca',260,'camiseta','blanco','negro','@adidas'),
     top('cam-fila-marina','Camiseta Fila marina',300,'camiseta','marino','blanco','@fila'),top('cam-supreme','Camiseta Supreme',700,'camiseta','blanco','rojo','@supreme'),
@@ -132,6 +138,10 @@
     top('uni-fuego','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
     top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
     top('sud-casi','Sudadera corta «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
+    hat('enchufe','Gorro Enchufe',0,'gorro','azul','amarillo',{circuito:'bienvenida'}),
+    top('cam-cable','Top Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
+    top('sud-tesla','Sudadera corta Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
+    top('uni-faraday','Universitaria Jaula de Faraday',0,'universitaria','azul','amarillo','rayo',{circuito:10}),
     top('top-puma','Top Puma rosa',240,'camiseta','rosa','blanco','@puma'),top('top-nike-blanco','Top Nike blanco',260,'camiseta','blanco','negro','@nike'),
     top('top-nike-negro','Top Nike negro',260,'camiseta','negro','blanco','@nike'),top('top-adidas','Top Adidas negro',260,'camiseta','negro','blanco','@adidas'),
     top('top-fila','Top Fila blanco',300,'camiseta','blanco','marino','@fila'),top('top-supreme','Top Supreme',700,'camiseta','blanco','rojo','@supreme'),
@@ -218,7 +228,7 @@
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  const rarity=entry=>entry.level||entry.casi||entry.circuito?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;

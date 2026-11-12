@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="chest.css">
   <link rel="stylesheet" href="casi.css">
   <link rel="stylesheet" href="ligas.css">
+  <link rel="stylesheet" href="circuito.css">
   <link rel="stylesheet" href="share-card.css">
   <link rel="stylesheet" href="medals.css">
   <script src="categories.js" defer></script>
@@ -28,6 +29,7 @@
   <script src="chest-open.js" defer></script>
   <script src="medals.js" defer></script>
   <script src="progress.js" defer></script>
+  <script src="circuito.js" defer></script>
   <script src="duel.js" defer></script>
   <script src="ligas.js" defer></script>
   <script src="reactions.js" defer></script>
@@ -48,6 +50,7 @@
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
       <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
+      <button class="home-league home-circuit" data-open-circuit type="button"><span aria-hidden="true">⚡</span> Invita amigos: ganáis los dos</button>
     </section>
 
     <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>
@@ -200,6 +203,16 @@
       <div class="league-main"><div class="league-content" id="league-content"></div></div>
     </div>
   </div>
+  <div class="league-shell circuit-shell" id="circuit-shell" data-screen="main" hidden>
+    <div class="league-layout" role="dialog" aria-modal="true" aria-labelledby="circuit-title">
+      <header class="game-bar">
+        <button class="game-back" id="circuit-close" type="button" aria-label="Cerrar el Circuito de amigos">×</button>
+        <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+        <span></span>
+      </header>
+      <div class="league-main"><div class="league-content" id="circuit-content"></div></div>
+    </div>
+  </div>
   <div class="profile-shell" id="profile-shell" hidden>
     <div class="profile-layout" role="dialog" aria-modal="true" aria-labelledby="profile-title">
       <header class="game-bar">
@@ -218,6 +231,7 @@
         <button type="button" class="menu-link menu-link-today" id="menu-today"><span>Reto de hoy</span><small id="menu-today-number"></small></button>
         <button type="button" class="menu-link" data-open-duel><span>Duelo 1 vs 1</span><small aria-hidden="true">⚔</small></button>
         <button type="button" class="menu-link" data-open-league><span>Ligas con amigos</span><small aria-hidden="true">🏆</small></button>
+        <button type="button" class="menu-link" data-open-circuit><span>Invita amigos</span><small aria-hidden="true">⚡</small></button>
         <button type="button" class="menu-link" data-open-profile><span>Avatar, misiones y medallas</span><small aria-hidden="true">≈</small></button>
         <button type="button" class="menu-link" id="menu-home"><span>Volver al inicio</span><small aria-hidden="true">↩</small></button>
       </div>

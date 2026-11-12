@@ -35,7 +35,7 @@
       sum.marks.map(m => EMOJI[m]).join(''),
       `Distancia media: ${times(sum.average)}`,
       sum.golden ? '¡Casi casi! Clavé una.' : '¿Te acercas más que yo?',
-      'Juega en faraday.gg'
+      window.Circuito ? `Juega conmigo: ${Circuito.link(location.origin + location.pathname)}` : 'Juega en faraday.gg'
     ].join('\n');
   }
 
