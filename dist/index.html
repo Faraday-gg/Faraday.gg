@@ -50,8 +50,11 @@
 </head>
 <body>
   <button class="menu-toggle home-menu-toggle" id="home-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
-  <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel, misiones y medallas"></button>
-  <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
+  <div class="home-actions">
+    <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel, misiones y medallas"></button>
+    <button class="home-invite" type="button" data-open-circuit aria-label="Invita amigos: ganáis faradios los dos" title="Invita amigos: ganáis los dos"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="8" width="17" height="4.5" rx="1"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5M12 8v13"/><path d="M12 8C10.5 5 7 4.5 7 6.5S10 8 12 8Zm0 0c1.5-3 5-3.5 5-1.5S14 8 12 8Z"/></svg><span class="home-invite-dot" aria-hidden="true"></span></button>
+    <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
+  </div>
   <main id="inicio" class="home">
     <section class="home-hero" aria-labelledby="hero-title">
       <div class="home-card-top"><a class="home-brand brand-link" href="/" data-go-home aria-label="Ir al inicio"><span class="brand-mark" aria-hidden="true">≈</span><span aria-hidden="true">Faraday<span class="brand-dot">.</span>gg</span></a><span class="section-kicker">RETO DE HOY</span></div>
@@ -62,7 +65,6 @@
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
       <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
-      <button class="home-league home-circuit" data-open-circuit type="button"><span aria-hidden="true">⚡</span> Invita amigos: ganáis los dos</button>
     </section>
 
     <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>

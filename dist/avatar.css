@@ -68,9 +68,7 @@
 @keyframes duel-rush{50%{box-shadow:0 0 0 4px #ff654866,0 0 40px 6px #ff65484d}}
 @media(prefers-reduced-motion:reduce){.duel-flash,.duel-bell,.duel-vs-mark,.duel-shell[data-rush="1"] .duel-card,.home-avatar{animation:none!important;transition:none}}
 
-/* La chapa del perfil se coloca a la izquierda del botón de cuenta (inicio de sesión), que ocupa la esquina. */
-.home-profile{right:118px}
-body:has(.home-account.is-signed) .home-profile{right:68px}
+/* La chapa del perfil, el regalo de invitar y el botón de cuenta van juntos en .home-actions (circuito.css). */
 
 /* Reto diario: el avatar acompaña a la tarjeta, y los aciertos se celebran (decisión 0033, reactions.js).
    En pantallas anchas va a la izquierda de la tarjeta, de pie a la altura de su borde inferior; si no hay sitio,
