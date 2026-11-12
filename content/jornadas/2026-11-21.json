@@ -1,0 +1,173 @@
+{
+  "id": "2026-11-21",
+  "name": "Sábado",
+  "theme": "Guepardo, pirámide y Monopoly",
+  "questions": [
+    {
+      "id": "jornada-2026-11-21-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "mundial",
+      "tag": "Carrera desigual",
+      "title": "Si un guepardo y Usain Bolt corren 100 metros, ¿cuántos metros le faltarán a Bolt cuando el guepardo cruce la meta?",
+      "detail": "El guepardo va todo el rato a su velocidad punta y Bolt a la media de su récord mundial. Nadie se distrae con una gacela.",
+      "unit": "metros",
+      "answer": 63.86703067287618,
+      "math": "A 104 km/h (28,9 m/s), el guepardo hace los 100 m en 3,46 s. Bolt corrió los 100 m en 9,58 s: 10,44 m/s de media. En 3,46 s recorre 36,1 m, así que le faltan 100 − 36,1 ≈ 63,9 m.",
+      "referenceExpression": "100 − 100 ÷ (104 ÷ 3,6) × (100 ÷ 9,58)",
+      "assumptions": "El guepardo sale lanzado a su velocidad punta, sin acelerar; Bolt corre a la velocidad media de su récord. En una salida real los dos acelerarían y la cifra cambiaría un poco.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Cheetah",
+          "url": "https://en.wikipedia.org/wiki/Cheetah",
+          "fact": "La mayor velocidad de carrera medida de forma fiable en un guepardo es de 104 km/h."
+        },
+        {
+          "title": "World Athletics · Usain Bolt",
+          "url": "https://www.worldathletics.org/athletes/jamaica/usain-bolt-14201847",
+          "fact": "Su mejor marca en 100 m es 9,58 s (récord mundial), del 16 de agosto de 2009."
+        }
+      ],
+      "reasoning": {
+        "heading": "Dos velocidades y un cronómetro",
+        "steps": [
+          "Un guepardo va a unos 100 km/h, casi tres veces más rápido que el humano más rápido, que roza los 40 km/h de media.",
+          "Si el guepardo es unas tres veces más rápido, cuando él llega Bolt va por un tercio: unos 35 m recorridos y unos 65 por delante.",
+          "Con 104 km/h el guepardo tarda 3,46 s; en ese tiempo Bolt, a 10,44 m/s, recorre 36,1 m. Le faltan 63,9 m: más de media pista."
+        ]
+      },
+      "calc": {
+        "intro": "El guepardo marca el tiempo; Bolt corre durante ese tiempo.",
+        "rows": [
+          {
+            "label": "Tiempo del guepardo (104 km/h)",
+            "value": "3,46 s"
+          },
+          {
+            "label": "Velocidad media de Bolt",
+            "value": "× 10,44 m/s"
+          },
+          {
+            "label": "Metros de Bolt",
+            "value": "= 36,1 m"
+          },
+          {
+            "label": "Pista de 100 m",
+            "value": "− de 100 m"
+          }
+        ],
+        "result": "Metros que le faltan a Bolt"
+      }
+    },
+    {
+      "id": "jornada-2026-11-21-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "historia",
+      "ambito": "latam",
+      "tag": "Pirámide para nadar",
+      "title": "¿Cuántas piscinas olímpicas podrías llenar con la tierra y la piedra de la Pirámide del Sol de Teotihuacan?",
+      "detail": "Desmonta la pirámide entera (en tu imaginación, el INAH no lo permitiría) y vuelca su volumen en piscinas olímpicas de 2 m de profundidad. Sin dejar ni un hueco para el flotador.",
+      "unit": "piscinas",
+      "answer": 470,
+      "math": "La pirámide tiene un volumen de algo más de 1.175.000 m³. Una piscina olímpica de 50 × 25 × 2 m tiene 2.500 m³. 1.175.000 ÷ 2.500 = 470 piscinas.",
+      "referenceExpression": "1175000 ÷ 2500",
+      "assumptions": "Usamos el volumen sólido que da el INAH, «poco mayor» de 1.175.000 m³, y la profundidad mínima reglamentaria de 2 m para la piscina.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "INAH · Revista Arqueología 61 (2020): Los «túneles arqueológicos» en la pirámide del Sol",
+          "url": "https://revistas.inah.gob.mx/index.php/arqueologia/article/download/18327/19713/39517",
+          "fact": "La pirámide mide hoy 66 m de alto por 224 m de base y tiene un volumen sólido poco mayor a 1.175.000 metros cúbicos."
+        },
+        {
+          "title": "Wikipedia · Olympic-size swimming pool",
+          "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+          "fact": "Una piscina olímpica mide 50 × 25 m y al menos 2 m de profundidad: unos 2.500 m³."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-21-2.jpg",
+        "alt": "La Pirámide del Sol de Teotihuacan vista de lejos, con una fila de personas diminutas subiendo por su escalinata hasta la cima",
+        "credit": "Wernervp at English Wikipedia",
+        "url": "https://commons.wikimedia.org/wiki/File:Pyramid_of_the_sun_teotihuacan_with_crowd.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Una pirámide es un tercio de caja",
+        "steps": [
+          "La base mide más de 200 m de lado y la altura ronda los 65 m. Una pirámide ocupa un tercio de la caja que la envuelve: 220 × 220 × 65 ÷ 3 ≈ 1 millón de m³.",
+          "Una piscina olímpica son 50 × 25 × 2 = 2.500 m³. Un millón entre 2.500 da unas 400 piscinas.",
+          "Con el volumen que da el INAH, 1.175.000 m³, salen 470 piscinas olímpicas llenas de tierra y piedra."
+        ]
+      },
+      "calc": {
+        "intro": "Todo el volumen de la pirámide, repartido en piscinas olímpicas.",
+        "rows": [
+          {
+            "label": "Volumen de la pirámide",
+            "value": "1.175.000 m³"
+          },
+          {
+            "label": "Piscina de 50 × 25 × 2 m",
+            "value": "÷ 2.500 m³"
+          }
+        ],
+        "result": "Piscinas olímpicas"
+      }
+    },
+    {
+      "id": "jornada-2026-11-21-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "dinero",
+      "ambito": "mundial",
+      "tag": "Banca de juguete",
+      "title": "¿Cuántas cajas de Monopoly harían falta para reunir en billetes de juego todos los dólares que la Reserva Federal encargó imprimir para 2026?",
+      "detail": "Cada caja trae la banca completa de la edición estadounidense actual. Cuenta el valor, no los billetes. Y no, no puedes pagar el alquiler de Park Place con dinero de verdad.",
+      "unit": "cajas",
+      "answer": 6781341.107871721,
+      "math": "El pedido de billetes de la Reserva Federal para 2026 llega hasta 139.560 millones de dólares. Una caja de Monopoly trae 20.580 $ de juego. 139.560.000.000 ÷ 20.580 ≈ 6,78 millones de cajas.",
+      "referenceExpression": "139560000000 ÷ 20580",
+      "assumptions": "Tomamos el máximo del pedido de 2026 (va de 108.947 a 139.560 millones de dólares). La caja es la edición estadounidense estándar desde 2008, con 30 billetes de cada valor.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Federal Reserve · 2026 Federal Reserve Note Print Order",
+          "url": "https://www.federalreserve.gov/paymentsystems/2026_currency_print_order.htm",
+          "fact": "El pedido de 2026 es de 3.776 a 5.120 millones de billetes, por un valor de 108.947 a 139.560 millones de dólares."
+        },
+        {
+          "title": "Wikipedia · Monopoly (game)",
+          "url": "https://en.wikipedia.org/wiki/Monopoly_(game)",
+          "fact": "Las ediciones estadounidenses desde septiembre de 2008 traen 30 billetes de cada valor: 20.580 $ en total."
+        }
+      ],
+      "reasoning": {
+        "heading": "Dinero de mentira contra dinero de verdad",
+        "steps": [
+          "Una caja de Monopoly trae unos 20.000 $ de juego. La Reserva Federal encarga cada año más de cien mil millones de dólares en billetes nuevos.",
+          "100.000 millones ÷ 20.000 = 5 millones de cajas. El orden de magnitud son millones.",
+          "Con el máximo del pedido de 2026, 139.560 millones, y 20.580 $ por caja salen unos 6,78 millones de cajas de Monopoly."
+        ]
+      },
+      "calc": {
+        "intro": "Los dólares de verdad que se imprimen en un año, en cajas de dinero de juego.",
+        "rows": [
+          {
+            "label": "Pedido de billetes de 2026",
+            "value": "139.560.000.000 $"
+          },
+          {
+            "label": "Dinero en una caja",
+            "value": "÷ 20.580 $"
+          }
+        ],
+        "result": "Cajas de Monopoly"
+      }
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "id": "2026-11-27",
+  "name": "Viernes",
+  "theme": "Faraona, infanta y monedas",
+  "questions": [
+    {
+      "id": "jornada-2026-11-27-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "historia",
+      "ambito": "mundial",
+      "tag": "Cleopatra y el iPhone",
+      "title": "¿Cuántos años más cerca vivió Cleopatra del primer iPhone que de la construcción de la Gran Pirámide?",
+      "detail": "Mide desde la muerte de Cleopatra hacia atrás, hasta la Gran Pirámide de Guiza, y hacia delante, hasta el día en que salió a la venta el primer iPhone. Resta las dos distancias. Recuerda que no existe el año cero, y que Cleopatra no tenía cobertura.",
+      "unit": "años",
+      "answer": 534,
+      "math": "La Gran Pirámide se construyó hacia el 2600 a. C. y Cleopatra murió en el 30 a. C.: 2.600 − 30 = 2.570 años. Del 30 a. C. al 2007 d. C. hay 30 + 2.007 − 1 = 2.036 años (no hubo año cero). 2.570 − 2.036 = 534 años más cerca del iPhone.",
+      "referenceExpression": "(2600 − 30) − (30 + 2007 − 1)",
+      "assumptions": "La fecha de la Gran Pirámide es aproximada (hacia el 2600 a. C., con unos 26 años de obra); si se toma el final de la construcción, la diferencia cambia unas décadas. Medimos desde el año de la muerte de Cleopatra y hasta el lanzamiento del iPhone en 2007.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Great Pyramid of Giza",
+          "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+          "fact": "Se construyó hacia el 2600 a. C. a lo largo de unos 26 años."
+        },
+        {
+          "title": "Wikipedia · Cleopatra",
+          "url": "https://en.wikipedia.org/wiki/Cleopatra",
+          "fact": "Reinó del 51 al 30 a. C. y murió el 10 o el 12 de agosto del 30 a. C. en Alejandría."
+        },
+        {
+          "title": "Apple Newsroom · iPhone Premieres This Friday Night at Apple Retail Stores (28 de junio de 2007)",
+          "url": "https://www.apple.com/newsroom/2007/06/28iPhone-Premieres-This-Friday-Night-at-Apple-Retail-Stores/",
+          "fact": "El iPhone salió a la venta en Estados Unidos el 29 de junio de 2007 a las 18:00."
+        }
+      ],
+      "reasoning": {
+        "heading": "Dos distancias y una resta",
+        "steps": [
+          "Las pirámides parecen de la época de Cleopatra, pero ella ya las visitaba como monumentos antiquísimos. Hacia atrás hay más de dos milenios y medio.",
+          "Hacia delante, del siglo I a. C. al 2007 van unos 2.000 años. Hacia atrás, unos 2.500. La diferencia ronda los 500 años.",
+          "La cuenta exacta da 2.570 años hacia la pirámide y 2.036 hacia el iPhone: Cleopatra queda 534 años más cerca del teléfono que de la pirámide."
+        ]
+      },
+      "calc": {
+        "intro": "Restamos la distancia al iPhone de la distancia a la pirámide.",
+        "rows": [
+          {"label": "Pirámide a Cleopatra", "value": "2.570 años"},
+          {"label": "Cleopatra al iPhone", "value": "− 2.036 años"}
+        ],
+        "result": "Años de diferencia"
+      }
+    },
+    {
+      "id": "jornada-2026-11-27-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "espana",
+      "tag": "Infantas apiladas",
+      "title": "¿Cuántas niñas de cinco años, una sobre la cabeza de otra, harían falta para llegar a lo alto de Las Meninas?",
+      "detail": "La infanta Margarita tenía cinco años cuando Velázquez la pintó en el centro del cuadro. Imagina una torre de niñas de su edad, de estatura media, apiladas de los pies a la cabeza junto al lienzo del Prado. Decimales permitidos; las meninas no ayudan a sujetar.",
+      "unit": "niñas",
+      "answer": 2.906764168190128,
+      "math": "Las Meninas mide 318 cm de alto. La estatura mediana de una niña de cinco años, según la OMS, es de 109,4 cm. 318 ÷ 109,4 ≈ 2,9 niñas.",
+      "referenceExpression": "318 ÷ 109,4",
+      "assumptions": "Usamos la estatura mediana actual de la OMS, no la de una niña del siglo XVII, que probablemente era algo menor. Algunas fichas dan 320,5 cm de alto para el lienzo; con esa medida saldrían también 2,9 niñas.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Las Meninas",
+          "url": "https://en.wikipedia.org/wiki/Las_Meninas",
+          "fact": "El cuadro mide 318 × 276 cm; la infanta Margarita Teresa, nacida en 1651, aparece con cinco años."
+        },
+        {
+          "title": "OMS · Patrones de crecimiento infantil: estatura para la edad, niñas de 2 a 5 años (percentiles)",
+          "url": "https://cdn.who.int/media/docs/default-source/child-growth/child-growth-standards/indicators/length-height-for-age/hfa-girls-2-5-percentiles.pdf",
+          "fact": "A los 5 años y 0 meses, la estatura mediana (percentil 50) de una niña es de 109,4 cm."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un cuadro más alto que un techo",
+        "steps": [
+          "Las Meninas es enorme: más alta que el techo de una casa, unos 3 metros. Una niña de cinco años mide algo más de un metro.",
+          "Tres metros entre un metro son unas tres niñas: la torre no sería muy alta, pero sí poco estable.",
+          "Con 318 cm de cuadro y 109,4 cm por niña salen 2,9 niñas: a la tercera infanta le sobraría la cabeza por encima del marco."
+        ]
+      },
+      "calc": {
+        "intro": "La altura del lienzo entre la estatura de una niña de cinco años.",
+        "rows": [
+          {"label": "Alto de Las Meninas", "value": "318 cm"},
+          {"label": "Niña de cinco años", "value": "÷ 109,4 cm"}
+        ],
+        "result": "Niñas apiladas"
+      },
+      "image": {
+        "src": "assets/jornada-2026-11-27-2.jpg",
+        "alt": "Las Meninas de Velázquez: la infanta Margarita en el centro, rodeada de sus damas, con el pintor ante un gran lienzo a la izquierda",
+        "credit": "Wikimedia Commons",
+        "url": "https://commons.wikimedia.org/wiki/File:La_familia_de_Felipe_IV_o_Las_Meninas_(Vel%C3%A1zquez,_Museo_del_Prado_de_Madrid,_1656).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:La_familia_de_Felipe_IV_o_Las_Meninas_(Vel%C3%A1zquez,_Museo_del_Prado_de_Madrid,_1656).jpg"
+      }
+    },
+    {
+      "id": "jornada-2026-11-27-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "espana",
+      "tag": "Torre de puntos",
+      "title": "Si apilaras una moneda de un dólar por cada punto que anotó Pau Gasol en la NBA, ¿cuántos metros de alto tendría la torre?",
+      "detail": "Cuenta todos los puntos de Pau en temporada regular de la NBA y pon una moneda dorada de un dólar encima de otra por cada uno. Sin playoffs y sin que la torre se caiga.",
+      "unit": "metros",
+      "answer": 41.788,
+      "math": "Pau Gasol anotó 20.894 puntos en temporada regular de la NBA. Cada moneda de un dólar mide 2,00 mm de grosor: 20.894 × 2 mm = 41.788 mm ≈ 41,8 metros.",
+      "referenceExpression": "20894 × 2 ÷ 1000",
+      "assumptions": "Solo temporada regular (1.226 partidos en 18 temporadas); con los 2.098 puntos de playoffs la torre crecería unos 4 metros más. Usamos el grosor nominal de la moneda de un dólar estadounidense actual.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Land of Basketball · Pau Gasol",
+          "url": "https://www.landofbasketball.com/nba_players/g/pau_gasol.htm",
+          "fact": "En temporada regular de la NBA, Pau Gasol sumó 20.894 puntos en 1.226 partidos y 18 temporadas (17,0 por partido)."
+        },
+        {
+          "title": "Wikipedia · Sacagawea dollar",
+          "url": "https://en.wikipedia.org/wiki/Sacagawea_dollar",
+          "fact": "La moneda dorada de un dólar mide 2,00 mm de grosor."
+        }
+      ],
+      "reasoning": {
+        "heading": "Veinte mil monedas de dos milímetros",
+        "steps": [
+          "Pau jugó casi dos décadas en la NBA metiendo unos 17 puntos por partido: algo más de 20.000 puntos parece razonable.",
+          "20.000 monedas de 2 milímetros son 40.000 mm: unos 40 metros, la altura de un edificio de unos trece pisos.",
+          "Con los 20.894 puntos reales sale una torre de 41,8 metros de monedas: más alta que muchos edificios de diez pisos."
+        ]
+      },
+      "calc": {
+        "intro": "Una moneda por punto, una encima de otra.",
+        "rows": [
+          {"label": "Puntos en la NBA", "value": "20.894 monedas"},
+          {"label": "Grosor de cada moneda", "value": "× 2 mm"},
+          {"label": "Milímetros a metros", "value": "÷ 1.000"}
+        ],
+        "result": "Altura de la torre"
+      }
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "id": "2026-12-11",
+  "name": "Viernes",
+  "theme": "Bananas, anuncios y telescopios",
+  "questions": [
+    {
+      "id": "jornada-2026-12-11-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "mundial",
+      "tag": "Cinturón amarillo",
+      "title": "Si pusieras en fila todas las bananas que se producen en un año, ¿cuántas vueltas darían a la Tierra por el ecuador?",
+      "detail": "Toda la cosecha mundial de bananas (o plátanos) de un año, una detrás de otra, punta con punta, y bananas medianas de unos 18 cm. Los monos del mundo siguen la fila con mucho interés.",
+      "unit": "vueltas",
+      "answer": 5142.476500629116,
+      "math": "En 2022 se produjeron 135,1 millones de toneladas de bananas. Con 118 g por banana mediana salen unos 1,14 billones de bananas. A 18 cm cada una suman unos 206 millones de km, que divididos entre los 40.075 km del ecuador dan unas 5.142 vueltas.",
+      "referenceExpression": "135100000 × 1000 ÷ 0,118 × 0,18 ÷ 1000 ÷ 40075",
+      "assumptions": "Contamos solo las bananas de postre (sin los plátanos para cocinar, otros 44,2 millones de toneladas en 2022). Peso y largo de una banana mediana según la tabla del USDA (de 7 a 7 7/8 pulgadas, unos 18 a 20 cm); tomamos 18 cm de punta a punta. El ecuador mide unos 40.075 km.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Banana (datos de FAOSTAT)",
+          "url": "https://en.wikipedia.org/wiki/Banana",
+          "fact": "En 2022 la producción mundial fue de 135,1 millones de toneladas de bananas y 44,2 millones de toneladas de plátanos para cocinar."
+        },
+        {
+          "title": "NutritionValue.org · Bananas, raw (datos del USDA)",
+          "url": "https://www.nutritionvalue.org/Bananas%2C_raw_nutritional_value.html",
+          "fact": "Una banana mediana, de 7 a 7 7/8 pulgadas de largo, pesa 118 g."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Radio ecuatorial de la Tierra: 6.378,137 km (circunferencia ≈ 40.075 km)."
+        }
+      ],
+      "reasoning": {
+        "heading": "De la frutería a la vuelta al mundo",
+        "steps": [
+          "En el mundo se comen bananas a todas horas y en todas partes: la cosecha anual se mide en cientos de millones de toneladas, y cada banana pesa poco más de 100 g.",
+          "Si son unos 100 millones de toneladas y 100 g por banana, salen un billón de bananas. A unos 20 cm cada una, 200 millones de km: miles de vueltas de 40.000 km.",
+          "Con 135,1 millones de toneladas, 118 g por banana y 18 cm de largo, la fila mide unos 206 millones de km: 5.142 vueltas al ecuador. Más que suficiente para llegar a la Luna y volver más de 260 veces."
+        ]
+      },
+      "calc": {
+        "intro": "Primero contamos las bananas y luego las ponemos en fila.",
+        "rows": [
+          {
+            "label": "Cosecha mundial (2022)",
+            "value": "135.100.000 t"
+          },
+          {
+            "label": "Bananas por tonelada",
+            "value": "× 1.000 kg ÷ 0,118 kg"
+          },
+          {
+            "label": "Largo de cada banana",
+            "value": "× 0,18 m"
+          },
+          {
+            "label": "Vuelta al ecuador",
+            "value": "÷ 40.075 km"
+          }
+        ],
+        "result": "Vueltas a la Tierra"
+      }
+    },
+    {
+      "id": "jornada-2026-12-11-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "dinero",
+      "ambito": "mundial",
+      "tag": "Segundos de oro",
+      "title": "¿Cuántos dólares costó cada segundo de un anuncio en el Super Bowl de 2026?",
+      "detail": "Precio medio de un anuncio de 30 segundos en la retransmisión de la NBC del Super Bowl LX (febrero de 2026), sin contar lo que cuesta grabarlo. Si el actor estornuda, el estornudo también se paga.",
+      "unit": "dólares",
+      "answer": 266666.6666666667,
+      "math": "La NBC vendió los anuncios de 30 segundos a una media de 8 millones de dólares. 8.000.000 ÷ 30 ≈ 266.667 dólares por segundo.",
+      "referenceExpression": "8000000 ÷ 30",
+      "assumptions": "Usamos el precio medio publicado por la prensa para el Super Bowl LX de 2026; algunos espacios superaron los 10 millones. Solo cuenta el tiempo en pantalla, no la producción del anuncio.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "TVLine · How much does a Super Bowl commercial cost in 2026?",
+          "url": "https://tvline.com/2092715/super-bowl-commercial-2026-cost-explained/",
+          "fact": "Según el Financial Times, NBCUniversal vendió los espacios del Super Bowl LX a una media de 8 millones de dólares por 30 segundos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del anuncio entero al segundo",
+        "steps": [
+          "Un anuncio en el Super Bowl es lo más caro de la televisión de EE. UU.: se habla de varios millones de dólares por medio minuto.",
+          "Si fueran unos 6 millones por 30 segundos, cada segundo costaría unos 200.000 dólares: el precio de una casa por cada «uno, dos, tres».",
+          "Con la media de 8 millones de dólares de 2026, cada segundo cuesta 266.667 dólares. Un parpadeo de un tercio de segundo sale por casi 90.000."
+        ]
+      },
+      "calc": {
+        "intro": "Repartimos el precio del anuncio entre sus segundos.",
+        "rows": [
+          {
+            "label": "Anuncio de 30 segundos",
+            "value": "8.000.000 $"
+          },
+          {
+            "label": "Segundos que dura",
+            "value": "÷ 30"
+          }
+        ],
+        "result": "Dólares por segundo"
+      }
+    },
+    {
+      "id": "jornada-2026-12-11-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "espana",
+      "tag": "Pizza estelar",
+      "title": "¿Cuántas pizzas medianas harían falta para tapar el espejo del Gran Telescopio Canarias?",
+      "detail": "Cubre toda la superficie que recoge luz del espejo principal del telescopio de La Palma con pizzas redondas de 30 cm, sin solaparlas y sin contar los huecos entre ellas. Los astrónomos prefieren que no lo intentes: queso y estrellas no se llevan bien.",
+      "unit": "pizzas",
+      "answer": 1070.9334238746003,
+      "math": "El espejo del GTC tiene 75,7 m² de superficie colectora. Una pizza de 30 cm ocupa π × 0,15² ≈ 0,0707 m². 75,7 ÷ 0,0707 ≈ 1.071 pizzas.",
+      "referenceExpression": "75,7 ÷ (3,1416 × 0,15 × 0,15)",
+      "assumptions": "Comparamos superficies: no contamos los huecos que quedan entre círculos. La pizza mediana de 30 cm de diámetro es un supuesto del modelo. El espejo equivale a uno circular de 10,4 m, formado por 36 segmentos hexagonales.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Gran Telescopio Canarias · El telescopio",
+          "url": "https://www.gtc.iac.es/gtc/gtc.php",
+          "fact": "El espejo primario mide unos 10,4 m de diámetro, está formado por 36 segmentos hexagonales y tiene 75,7 m² de superficie colectora total (73 m² efectivos)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del espejo gigante a la caja de pizza",
+        "steps": [
+          "Un espejo de unos 10 m de ancho es como el suelo de un salón grande: entre 70 y 80 m².",
+          "Una pizza mediana ocupa algo menos de una décima de metro cuadrado, así que harían falta más de 700 y seguramente unas mil.",
+          "Con los 75,7 m² del GTC y pizzas de 30 cm salen 1.071 pizzas. Con los 73 m² efectivos serían unas 1.033: pedido para todo un congreso de astronomía."
+        ]
+      },
+      "calc": {
+        "intro": "El espejo es como un salón grande; la pizza, un círculo de 30 cm.",
+        "rows": [
+          {
+            "label": "Superficie del espejo",
+            "value": "75,7 m²"
+          },
+          {
+            "label": "Una pizza de 30 cm",
+            "value": "÷ 0,0707 m²"
+          }
+        ],
+        "result": "Pizzas"
+      }
+    }
+  ]
+}

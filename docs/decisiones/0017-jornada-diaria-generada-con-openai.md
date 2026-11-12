@@ -28,3 +28,4 @@ Luis quiere que cada día a las 00:01 se cree automáticamente la jornada siguie
 - Migración `20261110120000_jornadas_generadas` (admite `source = 'ia'`, activa `pg_cron` y `pg_net` y programa la tarea). Hay que aplicarla en producción con confirmación de Luis.
 - **Nadie revisa las preguntas antes de que se publiquen.** La validación comprueba la forma y la cuenta, no que el dato sea cierto. Las jornadas generadas no llevan foto.
 - A partir del 16 de noviembre (si está configurado), las jornadas del banco se van sustituyendo por jornadas generadas la noche anterior a cada fecha.
+- **Actualización (2026-11-12):** con la [decisión 0039](0039-preguntas-de-latinoamerica.md), el prompt pide español neutro y un ámbito sorteado para cada pregunta (mundial, España o Latinoamérica), y la validación lo comprueba. Del 16 de noviembre al 14 de diciembre hay jornadas escritas a mano, así que la generación empieza a sustituir jornadas el 15 de diciembre.

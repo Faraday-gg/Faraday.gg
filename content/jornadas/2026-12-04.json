@@ -1,0 +1,134 @@
+{
+  "id": "2026-12-04",
+  "name": "Viernes",
+  "theme": "Báscula, uvas y satélites",
+  "questions": [
+    {
+      "id": "jornada-2026-12-04-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "mundial",
+      "tag": "Báscula planetaria",
+      "title": "Si pusieras planetas en una báscula de cocina gigante, ¿cuántas Tierras harían falta para equilibrar a Júpiter?",
+      "detail": "Compara masas, no tamaños: Júpiter en un platillo y Tierras en el otro hasta que la aguja marque cero. Báscula no incluida.",
+      "unit": "Tierras",
+      "answer": 317.82760121898133,
+      "math": "La NASA da 1.898,13 × 10²⁴ kg para Júpiter y 5,9722 × 10²⁴ kg para la Tierra: 1.898,13 ÷ 5,9722 ≈ 318 Tierras.",
+      "assumptions": "Masa, no volumen: por volumen cabrían unas 1.321 Tierras, pero Júpiter es mucho menos denso.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "NASA · Jupiter Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/jupiterfact.html",
+          "fact": "Masa de Júpiter: 1.898,13 × 10²⁴ kg; 317,83 veces la de la Tierra (por volumen, 1.321,33)."
+        },
+        {
+          "title": "NASA · Earth Fact Sheet",
+          "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+          "fact": "Masa de la Tierra: 5,9722 × 10²⁴ kg."
+        }
+      ],
+      "reasoning": {
+        "heading": "Grande no es lo mismo que pesado",
+        "steps": [
+          "Por tamaño, en Júpiter caben más de mil Tierras. Pero es una bola de gas: pesa bastante menos de lo que su tamaño hace pensar.",
+          "Si Júpiter pesa unos 1.900 cuatrillones de kilos (× 10²⁴) y la Tierra unos 6, salen 1.900 ÷ 6 ≈ 317 Tierras.",
+          "Con los datos de la NASA, 1.898,13 ÷ 5,9722 = 317,83 Tierras. Hacen falta cuatro veces menos Tierras para pesarlo que para llenarlo."
+        ]
+      },
+      "referenceExpression": "1898,13 ÷ 5,9722",
+      "calc": {
+        "intro": "Masa de Júpiter entre masa de la Tierra (en cuatrillones de kilos).",
+        "rows": [
+          {"label": "Masa de Júpiter", "value": "1.898,13 × 10²⁴ kg"},
+          {"label": "Masa de la Tierra", "value": "÷ 5,9722 × 10²⁴ kg"}
+        ],
+        "result": "Tierras"
+      }
+    },
+    {
+      "id": "jornada-2026-12-04-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "mundial",
+      "tag": "Doce cristales",
+      "title": "Si cada cristal de la bola de Nochevieja de Times Square fuera una uva de la suerte, ¿cuántas personas podrían tomarse sus doce uvas?",
+      "detail": "La bola nueva que se estrenó para recibir 2026. Doce uvas por persona, una por campanada. Sin pepitas y sin atragantarse.",
+      "unit": "personas",
+      "answer": 440,
+      "math": "La nueva bola, la Constellation, lleva 5.280 cristales. A doce por persona: 5.280 ÷ 12 = 440 personas.",
+      "assumptions": "Cristales de la bola Constellation presentada en diciembre de 2025 (el doble que la anterior). Doce uvas por persona, como manda la tradición hispana.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "West Side Spirit · One Times Square rolls out new «Constellation» New Year's Eve ball, 5 de diciembre de 2025",
+          "url": "https://www.westsidespirit.com/news/one-times-square-rolls-out-new-constellation-new-year-s-eve-ball-ID5324479",
+          "fact": "La nueva bola mide 12,5 pies de diámetro y tiene el doble de cristales que la anterior: 5.280."
+        }
+      ],
+      "reasoning": {
+        "heading": "Miles de cristales, doce por cabeza",
+        "steps": [
+          "La bola mide casi cuatro metros de diámetro y está forrada de cristales: serán miles, no cientos.",
+          "Si tuviera unos 5.000 cristales, a doce por persona: 5.000 ÷ 12 ≈ 400 personas.",
+          "Con los 5.280 cristales de la bola nueva: 5.280 ÷ 12 = 440 personas. Una fiesta grande, pero solo una gota entre el millón que suele llenar la plaza."
+        ]
+      },
+      "referenceExpression": "5280 ÷ 12",
+      "calc": {
+        "intro": "Cada cristal, una uva; doce uvas por persona.",
+        "rows": [
+          {"label": "Cristales de la bola", "value": "5.280"},
+          {"label": "Uvas por persona", "value": "÷ 12"}
+        ],
+        "result": "Personas"
+      }
+    },
+    {
+      "id": "jornada-2026-12-04-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "tecnologia",
+      "ambito": "mundial",
+      "tag": "Reparto orbital",
+      "title": "Si se repartieran los satélites Starlink en órbita entre todos los países de la ONU, ¿cuántos le tocarían a cada uno?",
+      "detail": "Todos los Starlink que siguen en órbita a 9 de noviembre de 2026, a partes iguales entre los 193 Estados miembros. Como repartir caramelos, pero a 500 km de altura.",
+      "unit": "satélites",
+      "answer": 58.05181347150259,
+      "math": "El catálogo de Jonathan McDowell cuenta 11.204 Starlink en órbita. Entre 193 países: unos 58 satélites por país.",
+      "assumptions": "Satélites en órbita a 9 de noviembre de 2026, funcionen o no (11.190 funcionan). La cifra cambia casi cada semana con nuevos lanzamientos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Jonathan McDowell · Starlink Statistics",
+          "url": "https://planet4589.org/space/con/star/stats.html",
+          "fact": "A 9 de noviembre de 2026: 13.096 Starlink lanzados, 11.204 en órbita y 11.190 en funcionamiento."
+        },
+        {
+          "title": "Naciones Unidas · Member States",
+          "url": "https://www.un.org/en/about-us/member-states",
+          "fact": "La lista de Estados miembros de la ONU incluye 193 países."
+        }
+      ],
+      "reasoning": {
+        "heading": "Miles de satélites, menos de doscientos países",
+        "steps": [
+          "SpaceX lanza decenas de satélites cada pocas semanas y ya tiene más que todo el resto del mundo junto: hablamos de miles.",
+          "Con unos 10.000 satélites entre unos 200 países: 10.000 ÷ 200 = 50 por país.",
+          "Con el dato real, 11.204 ÷ 193 = 58,05 satélites por país. A este ritmo, el reparto subirá antes de que acabe el año."
+        ]
+      },
+      "referenceExpression": "11204 ÷ 193",
+      "calc": {
+        "intro": "Los Starlink en órbita, repartidos a partes iguales.",
+        "rows": [
+          {"label": "Starlink en órbita", "value": "11.204"},
+          {"label": "Estados de la ONU", "value": "÷ 193"}
+        ],
+        "result": "Satélites por país"
+      }
+    }
+  ]
+}

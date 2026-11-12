@@ -1,0 +1,156 @@
+{
+  "id": "2026-12-08",
+  "name": "Martes",
+  "theme": "Fuji, Dalí y Seiscientos",
+  "questions": [
+    {
+      "id": "jornada-2026-12-08-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "mundial",
+      "tag": "Escalera al Fuji",
+      "title": "¿Cuántos escalones tendría una escalera desde el nivel del mar hasta la cima del monte Fuji?",
+      "detail": "Imagina una escalera recta que sale de la playa y sube hasta el cráter del volcán más famoso de Japón. Cada escalón mide 17,5 cm de alto, lo máximo que permite la norma española para escaleras públicas. Llévate agua.",
+      "unit": "escalones",
+      "answer": 21578.514285714286,
+      "math": "La cima del Fuji está a 3.776,24 m: 377.624 cm. Con escalones de 17,5 cm: 377.624 ÷ 17,5 ≈ 21.579 escalones.",
+      "referenceExpression": "377624 ÷ 17,5",
+      "assumptions": "Contamos solo la altura; da igual lo larga que sea la escalera. Escalón de 17,5 cm, el tope del Código Técnico de la Edificación para escaleras de uso público.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mount Fuji",
+          "url": "https://en.wikipedia.org/wiki/Mount_Fuji",
+          "fact": "La cima del monte Fuji está a 3.776,24 m sobre el nivel del mar."
+        },
+        {
+          "title": "Normatia · Medidas reglamentarias de huella y contrahuella según el CTE",
+          "url": "https://normatia.com/es/blog/medidas-reglamentarias-huella-contrahuella-escaleras-cte/",
+          "fact": "La contrahuella de las escaleras de uso general va de 13 a 18,5 cm, con un máximo de 17,5 cm en zonas de uso público."
+        }
+      ],
+      "reasoning": {
+        "heading": "Piso a piso hasta el cráter",
+        "steps": [
+          "Un piso de un edificio son unos 3 m y unos 17 escalones. El Fuji mide casi 3.800 m: más de mil pisos.",
+          "Unos 1.250 pisos por 17 escalones cada uno dan algo más de 20.000 escalones.",
+          "Con 377.624 cm y escalones de 17,5 cm salen 21.579 escalones. A uno por segundo, seis horas sin parar."
+        ]
+      },
+      "calc": {
+        "intro": "La altura del volcán, contada en escalones.",
+        "rows": [
+          {
+            "label": "Altura del Fuji",
+            "value": "377.624 cm"
+          },
+          {
+            "label": "Un escalón",
+            "value": "÷ 17,5 cm"
+          }
+        ],
+        "result": "Escalones"
+      }
+    },
+    {
+      "id": "jornada-2026-12-08-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "espana",
+      "tag": "Dulce surrealista",
+      "title": "¿Cuántos Chupa Chups se venden en el mundo cada segundo?",
+      "detail": "El caramelo con palo que nació en España en 1958 y cuyo logotipo de margarita dibujó Salvador Dalí en 1969 se vende hoy en todo el mundo. Cuenta las ventas de un día y repártelas en sus 86.400 segundos.",
+      "unit": "Chupa Chups",
+      "answer": 138.88888888888889,
+      "math": "Se venden unos doce millones de Chupa Chups al día. Un día tiene 86.400 segundos. 12.000.000 ÷ 86.400 ≈ 139 por segundo.",
+      "referenceExpression": "12000000 ÷ 86400",
+      "assumptions": "Usamos la cifra de unos doce millones al día que publica Acción Cultural Española; es aproximada y no lleva fecha. Repartimos las ventas por igual en las 24 horas.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Google Arts & Culture (Acción Cultural Española) · Chupa Chups",
+          "url": "https://artsandculture.google.com/asset/chupa-chups/KAEMGp3W6U-kgQ?hl=en",
+          "fact": "Se venden unos doce millones de Chupa Chups al día en todo el mundo."
+        },
+        {
+          "title": "Wikipedia · Chupa Chups",
+          "url": "https://en.wikipedia.org/wiki/Chupa_Chups",
+          "fact": "El logotipo de Chupa Chups lo diseñó Salvador Dalí en 1969."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del día al segundo",
+        "steps": [
+          "Es una marca presente en más de cien países, así que se venden millones al día. Repartidos en todo el día, deberían ser decenas o cientos por segundo.",
+          "Un día tiene unos 86.000 segundos. Con unos 10 millones al día saldrían más de 100 por segundo.",
+          "Con 12 millones al día: 12.000.000 ÷ 86.400 = 138,9 Chupa Chups por segundo. Mientras lees esta frase se han vendido unos 400."
+        ]
+      },
+      "calc": {
+        "intro": "Las ventas de un día, repartidas segundo a segundo.",
+        "rows": [
+          {
+            "label": "Ventas al día",
+            "value": "12.000.000"
+          },
+          {
+            "label": "Segundos de un día",
+            "value": "÷ 86.400"
+          }
+        ],
+        "result": "Chupa Chups por segundo"
+      }
+    },
+    {
+      "id": "jornada-2026-12-08-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "espana",
+      "tag": "Caravana de Seiscientos",
+      "title": "¿Cuántos kilómetros mediría una fila con todos los SEAT 600 que se fabricaron?",
+      "detail": "El auto que motorizó España se fabricó de 1957 a 1973. Pon todas las unidades en fila, parachoques con parachoques, sin dejar hueco. El atasco del siglo, pero con mucha nostalgia.",
+      "unit": "km",
+      "answer": 2613.59574,
+      "math": "Se fabricaron 794.406 SEAT 600 y cada uno mide 3,29 m de largo. 794.406 × 3,29 = 2.613.596 m, unos 2.614 km.",
+      "referenceExpression": "794406 × 3,29 ÷ 1000",
+      "assumptions": "Usamos la longitud de 3,29 m de la ficha del 600 E para todas las versiones, que medían casi lo mismo. Otras fuentes dan entre 794.406 y 799.419 unidades: la diferencia apenas mueve la fila 16 km.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Autofácil · SEAT 600: el coche que motorizó España",
+          "url": "https://www.autofacil.es/seat-600-coche-motorizo-espana/",
+          "fact": "Se fabricaron 794.406 vehículos entre 1957 y agosto de 1973; el 600 E mide 3,29 m de largo, 1,38 m de ancho y 1,40 m de alto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un auto pequeño, muchas veces",
+        "steps": [
+          "El 600 es diminuto, poco más de 3 m. Pero se fabricaron cientos de miles, casi 800.000.",
+          "800.000 autos por 3 m dan 2,4 millones de metros: unos 2.400 km.",
+          "Con 794.406 unidades de 3,29 m: 2.613.596 m, unos 2.614 km de Seiscientos en fila."
+        ]
+      },
+      "calc": {
+        "intro": "Cientos de miles de autos pequeños, uno detrás de otro.",
+        "rows": [
+          {
+            "label": "Unidades fabricadas",
+            "value": "794.406"
+          },
+          {
+            "label": "Largo de cada auto",
+            "value": "× 3,29 m"
+          },
+          {
+            "label": "Metros por kilómetro",
+            "value": "÷ 1.000"
+          }
+        ],
+        "result": "Kilómetros"
+      }
+    }
+  ]
+}

@@ -46,7 +46,7 @@ node tests/medallas.test.mjs
 
 ## Contenido en Supabase
 
-Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `content/archivo/` (una jornada por archivo, del 9 de agosto al 8 de noviembre de 2026), `dist/questions.json` (piloto), `content-engine.mjs` y `dist/assets/`. Para añadir o revisar jornadas del archivo: `node research/foto-commons.mjs` busca y descarga fotos de Commons solo con licencia libre y `node research/validar-archivo.mjs DESDE HASTA` comprueba cada jornada. **No hay que publicarlas a mano**: al fusionar en `main`, el despliegue de producción de Vercel sube a Supabase solo lo que ha cambiado (`buildCommand` de `vercel.json`). Para revisar qué cambiaría o publicar sin esperar a Vercel:
+Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `content/archivo/` (una jornada por archivo, del 9 de agosto al 8 de noviembre de 2026), `dist/questions.json` (piloto), `content/jornadas/` (una jornada por archivo, del 16 de noviembre al 14 de diciembre; se validan con `node research/validar-jornadas.mjs DESDE HASTA`), `content-engine.mjs` y `dist/assets/`. Para añadir o revisar jornadas del archivo: `node research/foto-commons.mjs` busca y descarga fotos de Commons solo con licencia libre y `node research/validar-archivo.mjs DESDE HASTA` comprueba cada jornada. **No hay que publicarlas a mano**: al fusionar en `main`, el despliegue de producción de Vercel sube a Supabase solo lo que ha cambiado (`buildCommand` de `vercel.json`). Para revisar qué cambiaría o publicar sin esperar a Vercel:
 
 ```sh
 node --env-file=.env scripts/publicar-contenido.mjs --prueba

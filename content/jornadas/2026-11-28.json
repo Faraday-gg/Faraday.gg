@@ -1,0 +1,136 @@
+{
+  "id": "2026-11-28",
+  "name": "Sábado",
+  "theme": "Buscador, parque y telescopio",
+  "questions": [
+    {
+      "id": "jornada-2026-11-28-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "tecnologia",
+      "ambito": "mundial",
+      "tag": "Búsquedas al segundo",
+      "title": "En el segundo que tardas en decir «hola», ¿cuántas búsquedas se hacen en Google en todo el mundo?",
+      "detail": "Recetas, resultados del fútbol, «cómo quitar una mancha de café» y todo lo demás, en todos los países a la vez. Reparte las búsquedas de un año por igual entre todos sus segundos, sin horas punta ni madrugadas tranquilas.",
+      "unit": "búsquedas",
+      "answer": 158548.95991882292,
+      "math": "Google dijo en marzo de 2025 que ya recibe más de 5 billones (5 × 10¹²) de búsquedas al año. Un año tiene 365 × 24 × 3.600 = 31.536.000 segundos. 5.000.000.000.000 ÷ 31.536.000 ≈ 158.549 búsquedas por segundo.",
+      "referenceExpression": "5000000000000 ÷ (365 × 24 × 3600)",
+      "assumptions": "Google dio la cifra como mínimo («más de 5 billones») con datos de enero de 2025, así que el número real es algo mayor. Repartimos las búsquedas por igual a lo largo del año.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Google · AI, personalization and the future of shopping (3 de marzo de 2025)",
+          "url": "https://blog.google/products/ads-commerce/ai-personalization-and-the-future-of-shopping/",
+          "fact": "Google afirma que ya ve más de 5 billones (5 trillion) de búsquedas al año."
+        }
+      ],
+      "reasoning": {
+        "heading": "Billones al año entre segundos del año",
+        "steps": [
+          "Miles de millones de personas usan Google varias veces al día. Por segundo deben de ser decenas o cientos de miles de búsquedas.",
+          "Un año tiene unos 30 millones de segundos. 5 billones entre 30 millones dan algo más de 150.000.",
+          "La cuenta exacta da unas 158.549 búsquedas por segundo: mientras dices «hola», el mundo entero ha preguntado cosas como para llenar un estadio enorme dos veces."
+        ]
+      },
+      "calc": {
+        "intro": "Las búsquedas de un año repartidas entre sus segundos.",
+        "rows": [
+          {"label": "Búsquedas al año", "value": "5.000.000.000.000"},
+          {"label": "Segundos de un año", "value": "÷ 31.536.000 s"}
+        ],
+        "result": "Búsquedas por segundo"
+      }
+    },
+    {
+      "id": "jornada-2026-11-28-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "mundial",
+      "tag": "Huevo en Central Park",
+      "title": "Mientras se cuece un huevo duro, ¿cuántas visitas recibe de media Central Park?",
+      "detail": "Pon el huevo diez minutos en agua hirviendo y cuenta cuánta gente entra en el gran parque de Nueva York, repartiendo las visitas del año por igual entre todos sus minutos, de día y de noche. Las ardillas no cuentan.",
+      "unit": "visitas",
+      "answer": 799.0867579908675,
+      "math": "Central Park recibe unos 42 millones de visitas al año. Un año tiene 365 × 24 × 60 = 525.600 minutos: unas 79,9 visitas por minuto. En 10 minutos: 42.000.000 ÷ 525.600 × 10 ≈ 799 visitas.",
+      "referenceExpression": "42000000 ÷ (365 × 24 × 60) × 10",
+      "assumptions": "Son visitas, no personas distintas: quien va a correr cada día cuenta muchas veces. En la realidad casi todas se concentran de día y en los meses de buen tiempo. Los 10 minutos del huevo duro son el supuesto del juego.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Central Park Conservancy · About",
+          "url": "https://www.centralparknyc.org/about",
+          "fact": "Central Park recibe unos 42 millones de visitas al año en sus 843 acres."
+        }
+      ],
+      "reasoning": {
+        "heading": "Visitas del año entre minutos del año",
+        "steps": [
+          "Central Park es de los parques urbanos más visitados del mundo: decenas de millones de visitas al año, más que habitantes tienen muchos países.",
+          "Un año tiene algo más de medio millón de minutos. 40 millones entre medio millón son unas 80 visitas por minuto; en 10 minutos, unas 800.",
+          "Con los 42 millones de visitas salen 799 en lo que se cuece el huevo: casi 80 personas entrando cada minuto, a cualquier hora."
+        ]
+      },
+      "calc": {
+        "intro": "Las visitas de un año repartidas por minutos, y diez minutos de huevo.",
+        "rows": [
+          {"label": "Visitas al año", "value": "42.000.000"},
+          {"label": "Minutos de un año", "value": "÷ 525.600 min"},
+          {"label": "Visitas por minuto", "value": "= 79,9"},
+          {"label": "Huevo duro", "value": "× 10 min"}
+        ],
+        "result": "Visitas por huevo"
+      }
+    },
+    {
+      "id": "jornada-2026-11-28-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "mundial",
+      "tag": "Viaje al Webb",
+      "title": "En auto a 100 km/h y sin parar, ¿cuántos días tardarías en llegar adonde está el telescopio James Webb?",
+      "detail": "Imagina una autopista recta desde la Tierra hasta el punto donde orbita el James Webb, con su enorme parasol plateado. Conduces a 100 km/h día y noche, sin dormir ni repostar. Lleva música para rato.",
+      "unit": "días",
+      "answer": 625,
+      "math": "El James Webb orbita cerca del punto L2, a unos 1,5 millones de km de la Tierra. 1.500.000 km ÷ 100 km/h = 15.000 horas; entre 24, 625 días.",
+      "referenceExpression": "1500000 ÷ 100 ÷ 24",
+      "assumptions": "Usamos la distancia media que da la NASA; el Webb describe una órbita amplia alrededor de L2, así que la distancia real varía. Los 100 km/h constantes son el supuesto del juego.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "NASA Science · Webb's Orbit at Sun-Earth Lagrange Point 2 (L2)",
+          "url": "https://science.nasa.gov/asset/webb/webbs-orbit-at-sun-earth-lagrange-point-2-l2/",
+          "fact": "El James Webb orbita el Sol cerca del punto de Lagrange L2, a unos 1,5 millones de kilómetros (1 millón de millas) de la Tierra."
+        }
+      ],
+      "reasoning": {
+        "heading": "Kilómetros entre velocidad, horas entre 24",
+        "steps": [
+          "El Webb está mucho más lejos que la Luna, aunque muchísimo más cerca que el Sol. Hablamos de más de un millón de kilómetros.",
+          "Un millón y medio de kilómetros a 100 km/h son unas 15.000 horas. Un día tiene 24 horas: entre 600 y 700 días.",
+          "La cuenta exacta da 625 días: casi un año y nueve meses conduciendo sin parar para llegar al telescopio."
+        ]
+      },
+      "calc": {
+        "intro": "Distancia al Webb entre la velocidad del auto, y de horas a días.",
+        "rows": [
+          {"label": "Distancia al Webb", "value": "1.500.000 km"},
+          {"label": "Velocidad del auto", "value": "÷ 100 km/h"},
+          {"label": "Horas de viaje", "value": "= 15.000 h"},
+          {"label": "Horas por día", "value": "÷ 24"}
+        ],
+        "result": "Días de viaje"
+      },
+      "image": {
+        "src": "assets/jornada-2026-11-28-3.jpg",
+        "alt": "El parasol plateado del telescopio James Webb desplegado en una sala limpia, con técnicos alrededor para dar escala",
+        "credit": "NASA Goddard Space Flight Center from Greenbelt, MD, USA",
+        "url": "https://commons.wikimedia.org/wiki/File:NASA%27s_Webb_Sunshield_Gives_an_%22Open_Wide%22_for_Inspection_(20527433921).jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:NASA%27s_Webb_Sunshield_Gives_an_%22Open_Wide%22_for_Inspection_(20527433921).jpg"
+      }
+    }
+  ]
+}

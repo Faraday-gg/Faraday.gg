@@ -1,0 +1,173 @@
+{
+  "id": "2026-11-17",
+  "name": "Martes",
+  "theme": "Colibrí, trompa y muralla",
+  "questions": [
+    {
+      "id": "jornada-2026-11-17-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "historia",
+      "ambito": "latam",
+      "tag": "Colibrí XXL",
+      "title": "¿Cuántos colibríes de verdad, pico con cola, harían falta en fila para medir lo que el colibrí de Nazca?",
+      "detail": "El colibrí es la figura más famosa de las líneas de Nazca, en el desierto de Perú, y se ve entero solo desde el aire. Pon en fila colibríes de 10 cm, uno detrás de otro, a lo largo de la figura. Que se queden quietos ya es otro problema.",
+      "unit": "colibríes",
+      "answer": 930,
+      "math": "El colibrí de Nazca mide 93 m de largo. Un colibrí real mide entre 7,5 y 13 cm; tomamos 10 cm = 0,10 m. 93 ÷ 0,10 = 930 colibríes.",
+      "referenceExpression": "93 ÷ 0,10",
+      "assumptions": "Tomamos 10 cm como tamaño típico de un colibrí, dentro del rango de 7,5 a 13 cm de la mayoría de las especies. Si fueran colibríes gigantes de 23 cm, bastarían unos 400.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Nazca lines",
+          "url": "https://en.wikipedia.org/wiki/Nazca_lines",
+          "fact": "El colibrí mide 93 m de largo; el cóndor, 134 m; el mono, 93 × 58 m, y la araña, 47 m."
+        },
+        {
+          "title": "Wikipedia · Hummingbird",
+          "url": "https://en.wikipedia.org/wiki/Hummingbird",
+          "fact": "Los colibríes miden entre 7,5 y 13 cm de largo; el más pequeño, 5 cm, y el colibrí gigante, 23 cm."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-17-1.jpg",
+        "alt": "El colibrí de las líneas de Nazca visto desde el aire: el contorno del ave, con su largo pico y las alas abiertas, trazado sobre el desierto",
+        "credit": "Unukorno",
+        "url": "https://commons.wikimedia.org/wiki/File:Nazca_Lines_Hummingbird.jpg",
+        "license": "CC BY 3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
+      },
+      "reasoning": {
+        "heading": "Primero la figura, luego el pájaro",
+        "steps": [
+          "Para verlo entero hay que subir a una avioneta, así que el dibujo debe de medir como un campo de fútbol: unos 100 m.",
+          "Un colibrí cabe en la mano: unos 10 cm. En 100 m caben 1.000 colibríes.",
+          "La figura mide 93 m: con colibríes de 10 cm salen 930. Un colibrí cien veces más pequeño que su retrato, multiplicado por casi mil."
+        ]
+      },
+      "calc": {
+        "intro": "El dibujo mide casi un campo de fútbol; el pájaro de verdad, un palmo.",
+        "rows": [
+          {
+            "label": "Largo del colibrí de Nazca",
+            "value": "93 m"
+          },
+          {
+            "label": "Un colibrí real",
+            "value": "÷ 0,10 m"
+          }
+        ],
+        "result": "Colibríes"
+      }
+    },
+    {
+      "id": "jornada-2026-11-17-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "mundial",
+      "tag": "Merienda de elefante",
+      "title": "¿Cuántas manzanas pesa lo que come un elefante africano en un día de mucha hambre?",
+      "detail": "Un elefante pasa hasta 16 horas al día comiendo hierba, hojas, cortezas y frutas. Toma lo máximo que puede comer en un día y cuéntalo en manzanas medianas de 182 g. El frutero tendría que ser del tamaño de un camión.",
+      "unit": "manzanas",
+      "answer": 824.1758241758242,
+      "math": "Un elefante come entre 75 y 150 kg de comida al día. Tomamos el máximo: 150 kg = 150.000 g. Una manzana mediana pesa 182 g. 150.000 ÷ 182 ≈ 824 manzanas.",
+      "referenceExpression": "150000 ÷ 182",
+      "assumptions": "Usamos el máximo de 150 kg al día; con el mínimo de 75 kg saldrían unas 412 manzanas. Comparamos peso: en la vida real casi todo es hierba y ramas, no fruta.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "San Diego Zoo Wildlife Alliance · Elephant",
+          "url": "https://animals.sandiegozoo.org/animals/elephant",
+          "fact": "Los elefantes comen de 75 a 150 kg de comida al día, entre el 4 y el 6 % de su peso, y pasan una media de 16 horas al día comiendo."
+        },
+        {
+          "title": "USDA FoodData Central · Apples, raw, with skin",
+          "url": "https://fdc.nal.usda.gov/food-details/171688/portions",
+          "fact": "Una manzana mediana, de 3 pulgadas de diámetro, pesa 182 g."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el elefante, luego el frutero",
+        "steps": [
+          "Un elefante pesa unas cuantas toneladas y se pasa el día comiendo. Algo así como un 3 % de su peso al día: de 100 a 200 kg.",
+          "Una manzana pesa unos 200 g, cinco por kilo. Con 150 kg salen unas 750 manzanas.",
+          "Con los 150 kg del máximo y manzanas de 182 g salen 824 manzanas. En un día tranquilo, de 75 kg, la mitad."
+        ]
+      },
+      "calc": {
+        "intro": "Un elefante puede comer 150 kilos al día; una manzana pesa menos de 200 gramos.",
+        "rows": [
+          {
+            "label": "Comida máxima en un día",
+            "value": "150.000 g"
+          },
+          {
+            "label": "Una manzana mediana",
+            "value": "÷ 182 g"
+          }
+        ],
+        "result": "Manzanas"
+      }
+    },
+    {
+      "id": "jornada-2026-11-17-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "latam",
+      "tag": "Abrazo amurallado",
+      "title": "¿Cuántas personas de la mano harían falta para abrazar las murallas de Cartagena de Indias?",
+      "detail": "El centro histórico de Cartagena (Colombia) está rodeado por 11 km de murallas de piedra. Pon gente en fila, de la mano y con los brazos estirados, a lo largo de todo el muro. Cada persona abarca 1,70 m. Bajo el sol del Caribe, con sombrero.",
+      "unit": "personas",
+      "answer": 6470.588235294118,
+      "math": "Las murallas miden 11 km = 11.000 m. Con los brazos extendidos, un adulto abarca más o menos lo que mide: tomamos 1,70 m por persona. 11.000 ÷ 1,70 ≈ 6.471 personas.",
+      "referenceExpression": "11000 ÷ 1,70",
+      "assumptions": "La envergadura de un adulto se parece a su estatura (algo más en los hombres); tomamos 1,70 m como modelo. Usamos la longitud de 11 km que da el organismo oficial de turismo; otras fuentes hablan de hasta 12 km.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Colombia Travel (ProColombia) · Las murallas de Cartagena",
+          "url": "https://colombia.travel/es/cartagena/las-murallas-de-cartagena",
+          "fact": "El centro histórico está rodeado por 11 km de muros de piedra."
+        },
+        {
+          "title": "FPnotebook · Arm Span",
+          "url": "https://fpnotebook.com/Endo/Exam/ArmSpn.htm",
+          "fact": "En un adulto, la envergadura de los brazos supera a la estatura en unos 5 cm."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-17-3.jpg",
+        "alt": "Un tramo de la muralla de piedra de Cartagena de Indias junto al mar Caribe, con una garita en la esquina y una persona caminando al lado",
+        "credit": "Bernard Gagnon",
+        "url": "https://commons.wikimedia.org/wiki/File:City_walls_of_Cartagena_01.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "Primero la muralla, luego los brazos",
+        "steps": [
+          "Rodear todo un centro histórico a pie lleva un par de horas, así que la muralla debe de medir unos 10 km.",
+          "Una persona con los brazos abiertos abarca casi lo que mide: unos 1,7 m. 10.000 ÷ 1,7 da unas 6.000 personas.",
+          "Con 11 km de muralla y 1,70 m por persona salen 6.471 personas: casi un estadio pequeño, de la mano."
+        ]
+      },
+      "calc": {
+        "intro": "La muralla mide 11 km; cada persona, con los brazos abiertos, unos 1,70 m.",
+        "rows": [
+          {
+            "label": "Longitud de la muralla",
+            "value": "11.000 m"
+          },
+          {
+            "label": "Una persona de la mano",
+            "value": "÷ 1,70 m"
+          }
+        ],
+        "result": "Personas"
+      }
+    }
+  ]
+}

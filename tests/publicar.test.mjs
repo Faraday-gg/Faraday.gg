@@ -33,10 +33,10 @@ const content=buildContent(URL_BASE);
 // 1. Primera publicación: todo.
 let result=await run();
 // Archivo (92 jornadas) + piloto (7) + banco editorial (29). Fotos distintas: las del archivo y el piloto (solo el 15–20 % lleva) y las del banco.
-assert.deepEqual(result,{images:60,days:128,questions:384,replaced:[],generated:0});
-assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,60);
+assert.deepEqual(result,{images:66,days:128,questions:384,replaced:[],generated:0});
+assert.equal(sb.questions.size,384);assert.equal(sb.objects.size,66);
 assert([...sb.questions.values()].every(q=>!q.content.image||q.content.image.src.startsWith(`${URL_BASE}/storage/v1/object/public/${BUCKET}/`)),'Las imágenes (cuando la pregunta lleva) apuntan a Storage');
-assert.equal(sb.days.get('2026-11-09').source,'piloto');assert.equal(sb.days.get('2026-12-14').source,'banco-editorial');
+assert.equal(sb.days.get('2026-11-09').source,'piloto');assert.equal(sb.days.get('2026-12-14').source,'piloto');
 
 // 2. Sin cambios: no escribe nada (aunque Postgres haya reordenado las claves de jsonb).
 sb.calls.length=0;result=await run();
@@ -48,7 +48,7 @@ sb.questions.get('piloto-v2-2').title='editado a mano';sb.calls.length=0;
 assert.equal((await run({dryRun:true})).questions,1);assert.equal(sb.questions.get('piloto-v2-2').title,'editado a mano');
 
 // 4. Lo que cambia se vuelve a publicar: una pregunta y una imagen.
-sb.objects.set('las-canteras.jpg',Buffer.from('otra imagen'));
+sb.objects.set([...sb.objects.keys()][0],Buffer.from('otra imagen'));
 result=await run();assert.equal(result.questions,1);assert.equal(result.images,1);
 assert.notEqual(sb.questions.get('piloto-v2-2').title,'editado a mano');
 

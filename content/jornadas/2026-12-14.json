@@ -1,0 +1,171 @@
+{
+  "id": "2026-12-14",
+  "name": "Lunes",
+  "theme": "Cabinas, goles y secuoyas",
+  "questions": [
+    {
+      "id": "jornada-2026-12-14-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "latam",
+      "tag": "Cabina ocupada",
+      "title": "¿Cuántos pasajeros lleva al día, de media, cada cabina de Mi Teleférico de La Paz y El Alto?",
+      "detail": "Reparte todos los viajeros de un día de la red de teleféricos urbanos de Bolivia entre todas sus cabinas. Con vistas a los Andes incluidas en el billete.",
+      "unit": "pasajeros",
+      "answer": 142.55167498218103,
+      "math": "Mi Teleférico transporta unas 200.000 personas al día con 1.403 cabinas. 200.000 ÷ 1.403 ≈ 143 pasajeros por cabina y día.",
+      "referenceExpression": "200000 ÷ 1403",
+      "assumptions": "Datos de EFE de abril de 2024, cuando la red sumaba 30,5 km de cable; en 2025 se hablaba de 10 líneas y 33 km. La cifra diaria es una media redondeada y cambia con el día de la semana.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Gestión (EFE) · Una década del teleférico que une dos ciudades",
+          "url": "https://gestion.pe/mundo/una-decada-del-teleferico-que-une-dos-ciudades-y-transporta-a-200-mil-personas-al-dia-mundo-bolivia-teleferico-la-paz-transporte-noticia/",
+          "fact": "En abril de 2024, Mi Teleférico transportaba unas 200.000 personas al día, con 1.403 cabinas y 30,5 km de cable."
+        },
+        {
+          "title": "Cadena 3 · El teleférico de La Paz y El Alto supera los 640 millones de usuarios",
+          "url": "https://www.cadena3.com/noticia/mundo/bolivia-el-teleferico-la-paz-y-el-alto-supera-los-640-millones-de-usuarios_460470",
+          "fact": "En septiembre de 2025 la red tenía 10 líneas y 33 km, y había llevado más de 640 millones de pasajeros en poco más de 11 años."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-12-14-1.jpg",
+        "alt": "Cabinas rojas de Mi Teleférico colgadas del cable sobre las casas de La Paz, en Bolivia",
+        "credit": "EEJCC",
+        "url": "https://commons.wikimedia.org/wiki/File:L%C3%ADnea_Roja_de_Mi_Telef%C3%A9rico_en_La_Paz,_Bolivia.jpg",
+        "license": "CC BY-SA 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "reasoning": {
+        "heading": "De la red entera a una sola cabina",
+        "steps": [
+          "Mi Teleférico es el transporte diario de cientos de miles de personas en La Paz y El Alto, con más de 30 km de cable y más de mil cabinas.",
+          "Si fueran unas 200.000 personas y unas 1.500 cabinas, cada cabina llevaría unas 130 personas al día.",
+          "Con 200.000 viajeros y 1.403 cabinas salen 143 pasajeros por cabina y día: como si cada cabina hiciera decenas de viajes llenos, de la mañana a la noche."
+        ]
+      },
+      "calc": {
+        "intro": "Repartimos los viajeros del día entre todas las cabinas.",
+        "rows": [
+          {
+            "label": "Pasajeros al día",
+            "value": "200.000"
+          },
+          {
+            "label": "Cabinas de la red",
+            "value": "÷ 1.403"
+          }
+        ],
+        "result": "Pasajeros por cabina"
+      }
+    },
+    {
+      "id": "jornada-2026-12-14-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "mundial",
+      "tag": "Fiesta de goles",
+      "title": "Si Pelé hubiera celebrado cada gol durante 30 segundos, ¿cuántos minutos de celebración sumaría?",
+      "detail": "Todos los goles del récord Guinness de Pelé, con medio minuto de saltos, abrazos y puño al aire por cada uno. El árbitro, paciente.",
+      "unit": "minutos",
+      "answer": 639.5,
+      "math": "Pelé marcó 1.279 goles según Guinness. 1.279 × 30 s = 38.370 s, que entre 60 dan 639,5 minutos: unas 10 horas y 40 minutos.",
+      "referenceExpression": "1279 × 30 ÷ 60",
+      "assumptions": "Usamos el récord Guinness de 1.279 goles en 1.363 partidos (1956–1977), que incluye amistosos. Los 30 segundos por celebración son un supuesto del modelo.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Most career goals (football)",
+          "url": "https://www.guinnessworldrecords.com/world-records/most-career-goals-(football)",
+          "fact": "Pelé marcó 1.279 goles en 1.363 partidos entre el 7 de septiembre de 1956 y el 1 de octubre de 1977."
+        }
+      ],
+      "reasoning": {
+        "heading": "Del gol a la fiesta larga",
+        "steps": [
+          "Pelé es famoso por haber marcado más de mil goles; cada uno, con su salto con el puño en alto.",
+          "Si fueran unos 1.200 goles a medio minuto cada uno, saldrían 600 minutos: unas 10 horas.",
+          "Con los 1.279 goles del récord Guinness salen 639,5 minutos: más de siete partidos enteros de 90 minutos celebrando sin parar."
+        ]
+      },
+      "calc": {
+        "intro": "Medio minuto por gol, y luego pasamos los segundos a minutos.",
+        "rows": [
+          {
+            "label": "Goles de Pelé",
+            "value": "1.279"
+          },
+          {
+            "label": "Celebración por gol",
+            "value": "× 30 s"
+          },
+          {
+            "label": "Segundos a minutos",
+            "value": "÷ 60"
+          }
+        ],
+        "result": "Minutos de celebración"
+      }
+    },
+    {
+      "id": "jornada-2026-12-14-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "mundial",
+      "tag": "Lápiz gigante",
+      "title": "¿Cuántos lápices saldrían de la madera de Hyperion, el árbol más alto del mundo?",
+      "detail": "Usa todo el tronco de Hyperion, la secuoya roja de California que mide más de 116 m, y lápices de 6 cm³ de madera. Su ubicación exacta es secreta, así que nadie va a ir a por él con una sierra.",
+      "unit": "lápices",
+      "answer": 88333333.33333333,
+      "math": "El tronco de Hyperion tiene unos 530 m³ de madera, es decir, 530.000.000 cm³. Entre 6 cm³ por lápiz: unos 88,3 millones de lápices.",
+      "referenceExpression": "530 × 1000000 ÷ 6",
+      "assumptions": "Suponemos que toda la madera del tronco se aprovecha y que cada lápiz necesita unos 6 cm³ (un palito de unos 18 cm por 0,7 cm de grosor). En la práctica se pierde mucha madera, y el árbol está protegido en el Parque Nacional Redwood.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Hyperion (tree)",
+          "url": "https://en.wikipedia.org/wiki/Hyperion_(tree)",
+          "fact": "Hyperion mide 116,22 m de altura y su tronco tiene un volumen de unos 530 m³."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-12-14-3.jpg",
+        "alt": "Troncos de secuoyas rojas vistos desde el suelo en el bosque Tall Trees Grove del Parque Nacional Redwood, de la misma especie que Hyperion",
+        "credit": "Redwood National and State Parks",
+        "url": "https://commons.wikimedia.org/wiki/File:Redwoods_at_Tall_Trees_Grove.jpg",
+        "license": "Public domain",
+        "licenseUrl": "https://commons.wikimedia.org/wiki/File:Redwoods_at_Tall_Trees_Grove.jpg"
+      },
+      "reasoning": {
+        "heading": "Del árbol más alto al estuche",
+        "steps": [
+          "Hyperion es más alto que un edificio de 35 pisos, pero su tronco es más delgado que el de las secuoyas gigantes: tiene cientos de metros cúbicos de madera.",
+          "Un lápiz necesita unos 6 cm³ de madera, así que un metro cúbico da para unos 170.000 lápices. Con unos 500 m³ saldrían unos 85 millones.",
+          "Con los 530 m³ del tronco salen 88,3 millones de lápices: uno para cada habitante de Alemania, y aún sobrarían unos cuantos millones."
+        ]
+      },
+      "calc": {
+        "intro": "Pasamos el tronco a centímetros cúbicos y lo cortamos en lápices.",
+        "rows": [
+          {
+            "label": "Madera del tronco",
+            "value": "530 m³"
+          },
+          {
+            "label": "En centímetros cúbicos",
+            "value": "× 1.000.000"
+          },
+          {
+            "label": "Madera de un lápiz",
+            "value": "÷ 6 cm³"
+          }
+        ],
+        "result": "Lápices"
+      }
+    }
+  ]
+}

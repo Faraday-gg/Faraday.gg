@@ -1,21 +1,38 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import {getDay,madridDate} from '../content-engine.mjs';
+import {getDay,madridDate,written} from '../content-engine.mjs';
+import {ambitos} from '../lib/generar.mjs';
 const baseline=JSON.parse(fs.readFileSync('content/banco-base.json','utf8'));
 assert.equal(baseline.length,21);assert(baseline.every(q=>q.image&&fs.existsSync('dist/'+q.image.src)&&q.reasoning?.steps.length===3&&q.referenceExpression));
 // Cuenta por pasos (decisión 0029): las preguntas del piloto la traen escrita a mano.
 for(const day of JSON.parse(fs.readFileSync('dist/questions.json','utf8')))for(const q of day.questions)assert(q.calc?.intro&&q.calc.result&&q.calc.rows.length>=2,`${q.id}: falta calc`);
-const ids=new Set(),titles=new Set();
+const ids=new Set(),titles=new Set(),writtenIds=new Set(written.map(d=>d.id));
+// Del 16 de noviembre al 14 de diciembre: jornadas escritas a mano (content/jornadas/, decisión 0039) o, si falta alguna, el banco.
 for(let i=0;i<29;i++){
  const date=new Date(Date.UTC(2026,10,16+i,12)).toISOString().slice(0,10),day=getDay(date,{persist:false});
- assert.equal(day.questions.length,3);assert.equal(new Set(day.questions.map(q=>q.family)).size,3);
+ assert.equal(day.questions.length,3);
+ if(writtenIds.has(date))assert.deepEqual(day.questions.map(q=>q.ambito),ambitos(date),`${date}: el ámbito de cada pregunta es el del sorteo`);
+ else assert.equal(new Set(day.questions.map(q=>q.family)).size,3);
  assert.deepEqual(day,getDay(date,{persist:false}),'La edición de una fecha es estable');
  for(const q of day.questions){assert(!ids.has(q.id));assert(!titles.has(q.title));assert(q.sources.length&&q.reasoning.steps.length&&Number.isFinite(q.answer)&&q.answer>0);assert(q.calc?.intro&&q.calc.result&&q.calc.rows.length>=2&&q.calc.rows.every(r=>r.label&&r.value),'Cuenta por pasos del banco');ids.add(q.id);titles.add(q.title)}
 }
 assert.equal(getDay('2026-12-15',{persist:false}),null,'No repetir contenido al agotarse el banco');
 assert.equal(getDay('2026-99-99',{persist:false}),null);
 assert.equal(madridDate(new Date('2026-11-09T23:00:00Z')),'2026-11-10');
-console.log('OK: 21 fotos y razonamientos; 29 ediciones nuevas, 87 preguntas distintas; estabilidad y medianoche de Madrid.');
+console.log(`OK: 21 fotos y razonamientos; 29 ediciones nuevas (${writtenIds.size} escritas a mano), 87 preguntas distintas; estabilidad y medianoche de Madrid.`);
+
+// Jornadas escritas a mano para España y Latinoamérica (decisión 0039): mayoría mundial y español neutro.
+{
+  const questions=written.flatMap(d=>d.questions),count={mundial:0,espana:0,latam:0};
+  for(const q of questions)count[q.ambito]++;
+  if(questions.length){
+    assert(count.mundial>count.espana+count.latam,'Más preguntas mundiales que de España y Latinoamérica juntas');
+    assert(count.latam>0&&count.espana>0,'Hay preguntas de España y de Latinoamérica');
+  }
+  const local=/(folios?|m[oó]vil(es)?|coches?|ordenador(es)?|ca[ñn]as?|celular(es)?|computadoras?|vosotros)/i;
+  for(const q of questions)assert(!local.test(`${q.title} ${q.detail} ${q.unit}`),`${q.id}: palabra de un solo país en el título, el detalle o la unidad`);
+  console.log(`OK: ${written.length} jornadas escritas a mano tras el piloto (${count.mundial} mundiales, ${count.espana} de España, ${count.latam} de Latinoamérica), en español neutro.`);
+}
 
 // Categorías y archivo editorial (content/archivo/AAAA-MM-DD.json).
 {

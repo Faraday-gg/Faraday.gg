@@ -1,0 +1,131 @@
+{
+  "id": "2026-12-05",
+  "name": "Sábado",
+  "theme": "Barcos, zapatillas y sonetos",
+  "questions": [
+    {
+      "id": "jornada-2026-12-05-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "mundial",
+      "tag": "Caja del supermercado",
+      "title": "Si el canal de Suez fuera la caja de un supermercado, ¿cuántos barcos «clientes» atendió de media cada día de 2025?",
+      "detail": "Todos los buques que cruzaron el canal en 2025, repartidos entre 365 días. Un año todavía flojo: muchas navieras seguían esquivando el mar Rojo.",
+      "unit": "barcos",
+      "answer": 34.95342465753425,
+      "math": "Según la Autoridad del Canal, en 2025 lo cruzaron 12.758 buques. Entre 365 días: unos 35 barcos al día.",
+      "assumptions": "Total anual de 2025 de la Autoridad del Canal de Suez; en 2023, antes de los desvíos por el mar Rojo, fueron 26.434 (unos 72 al día).",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Hansa · Suez Canal crisis costs Egypt billions, 19 de mayo de 2026",
+          "url": "https://hansa.news/suez-canal-crisis-costs-egypt-billions/",
+          "fact": "Según el informe anual de la Autoridad del Canal de Suez, los buques que lo cruzaron pasaron de 26.434 en 2023 a 12.758 en 2025."
+        }
+      ],
+      "reasoning": {
+        "heading": "Un año de pocos clientes",
+        "steps": [
+          "Por Suez pasa una parte enorme del comercio mundial, pero cada barco tarda horas en cruzar: no serán miles al día, sino decenas.",
+          "En un año normal pasaban unos 25.000 buques; si 2025 fue la mitad, unos 12.500 ÷ 365 ≈ 34 al día.",
+          "Con el dato oficial, 12.758 ÷ 365 = 34,95 barcos al día. En 2023 eran unos 72: la caja atendió a la mitad de clientes."
+        ]
+      },
+      "referenceExpression": "12758 ÷ 365",
+      "calc": {
+        "intro": "Los barcos de todo 2025, repartidos por días.",
+        "rows": [
+          {"label": "Buques que cruzaron en 2025", "value": "12.758"},
+          {"label": "Días del año", "value": "÷ 365"}
+        ],
+        "result": "Barcos al día"
+      }
+    },
+    {
+      "id": "jornada-2026-12-05-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "mundial",
+      "tag": "Fila de zapatillas",
+      "title": "Si todos los que terminaron el Maratón de Nueva York de 2025 se pusieran en fila india, ¿cuántos maratones de largo mediría la fila?",
+      "detail": "Un metro por corredor, de nariz a nuca, y con la medalla puesta. Compara la fila con los 42,195 km de la carrera.",
+      "unit": "maratones",
+      "answer": 1.4036260220405261,
+      "math": "Terminaron 59.226 corredores. A un metro cada uno, la fila mide 59.226 m; entre 42.195 m del maratón: 1,4 maratones.",
+      "assumptions": "Un metro por persona en fila india, fijado para el juego. Solo quienes terminaron la edición del 2 de noviembre de 2025, récord mundial de participación.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "ABC7 New York · TCS NYC Marathon breaks record for largest marathon ever, 4 de noviembre de 2025",
+          "url": "https://abc7ny.com/post/2025-tcs-nyc-marathon-new-york-road-runners-breaks-record-59226-finishers/18110044/",
+          "fact": "59.226 corredores terminaron el Maratón de Nueva York de 2025, el mayor maratón de la historia."
+        },
+        {
+          "title": "Wikipedia · Marathon",
+          "url": "https://en.wikipedia.org/wiki/Marathon",
+          "fact": "La distancia oficial del maratón, 42,195 km, la fijó la IAAF en 1921."
+        }
+      ],
+      "reasoning": {
+        "heading": "Decenas de miles de metros contra 42 kilómetros",
+        "steps": [
+          "Es el maratón más grande del mundo: decenas de miles de corredores. A un metro cada uno, la fila tendrá decenas de kilómetros.",
+          "Con unos 60.000 corredores salen 60 km de fila; entre 42 km, unos 1,4 maratones.",
+          "Con el dato exacto: 59.226 ÷ 42.195 = 1,40 maratones. La fila saldría de Staten Island, cruzaría la meta en Central Park y aún le sobrarían 17 km."
+        ]
+      },
+      "referenceExpression": "59226 ÷ 42195",
+      "calc": {
+        "intro": "Un metro por corredor, comparado con la distancia del maratón.",
+        "rows": [
+          {"label": "Corredores que terminaron", "value": "59.226 m"},
+          {"label": "Distancia del maratón", "value": "÷ 42.195 m"}
+        ],
+        "result": "Maratones"
+      }
+    },
+    {
+      "id": "jornada-2026-12-05-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "mundial",
+      "tag": "Ser o no ser… en voz alta",
+      "title": "¿Cuántas jornadas de oficina de 8 horas necesitarías para leer en voz alta las obras completas de Shakespeare?",
+      "detail": "Todas sus obras, poemas y sonetos, a ritmo de audiolibro: 150 palabras por minuto, sin pausas para el café. El jefe no tiene por qué enterarse.",
+      "unit": "jornadas",
+      "answer": 12.286763888888888,
+      "math": "La Folger cuenta 884.647 palabras. A 150 palabras por minuto son 5.897,6 minutos, unas 98,3 horas; entre 8 horas por jornada: unas 12,3 jornadas.",
+      "assumptions": "Recuento de Marvin Spevack citado por la Folger Shakespeare Library; otros recuentos varían un poco. Ritmo de lectura de 150 palabras por minuto, habitual en audiolibros, fijado para el juego.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Folger Shakespeare Library · Shakespeare FAQ",
+          "url": "https://www.folger.edu/shakespeare-faq/",
+          "fact": "Según las concordancias de Marvin Spevack, las obras completas de Shakespeare suman 884.647 palabras y 118.406 versos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Casi un millón de palabras, a 150 por minuto",
+        "steps": [
+          "Son casi cuarenta obras de teatro más los sonetos: una montaña de texto que no se lee en un fin de semana.",
+          "Con unas 900.000 palabras a 150 por minuto: 6.000 minutos, 100 horas. Entre 8 horas por jornada, unas 12 jornadas.",
+          "Con las 884.647 palabras exactas: 98,3 horas, es decir, 12,29 jornadas. Dos semanas y media de trabajo hablando como Hamlet."
+        ]
+      },
+      "referenceExpression": "884647 ÷ 150 ÷ 60 ÷ 8",
+      "calc": {
+        "intro": "Palabras entre ritmo de lectura, y horas entre jornadas.",
+        "rows": [
+          {"label": "Palabras de las obras completas", "value": "884.647"},
+          {"label": "Ritmo de audiolibro", "value": "÷ 150 por minuto"},
+          {"label": "Minutos en una hora", "value": "÷ 60"},
+          {"label": "Una jornada", "value": "÷ 8 h"}
+        ],
+        "result": "Jornadas"
+      }
+    }
+  ]
+}
