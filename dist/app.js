@@ -56,7 +56,7 @@ async function openDate(id){
 // El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
 // Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
 function openDay(day){workspaceId=null;activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
-function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');renderWeek()}
+function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');announceView({view:'closed'});renderWeek()}
 function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
 window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
 function renderGame(){
@@ -64,9 +64,16 @@ function renderGame(){
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
   $('.game-card')?.classList.remove('explaining');
-  if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
-  renderBar(guesses);$('.game-panel').scrollTop=0;
+  const detail={view,index:activeIndex};
+  if(view==='summary'){renderSummary();detail.average=activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}
+  else if(view==='result')Object.assign(detail,renderResult(guesses));else renderQuestion();
+  renderBar(guesses);$('.game-panel').scrollTop=0;justAnswered=false;announceView(detail);
 }
+// Avisa a reactions.js (avatar junto a la tarjeta, sonido y celebración) de lo que se acaba de pintar (decisión 0029).
+// En un resultado: factor, fresh (se acaba de responder; si no, se está repasando), settle (milisegundos hasta que el
+// multiplicador termina de contar) y streak (aciertos seguidos justo antes de esta pregunta, en este mismo día).
+let justAnswered=false;
+function announceView(detail){document.dispatchEvent(new CustomEvent('faraday:view',{detail}))}
 function renderBar(guesses){
   $('#game-edition').textContent='Nº '+editionNumber(activeDay.id);
   const steps=activeDay.questions.map((q,i)=>`<button type="button" class="game-step${i<guesses.length?' done':''}" data-step="${i}"${i>guesses.length?' disabled':''}${i===activeIndex?' aria-current="step"':''} aria-label="Pregunta ${i+1}${i<guesses.length?', respondida':''}">${window.categoryIcon?.(q.category,'cat-icon')||''}<span>${i+1}</span></button>`);
@@ -88,13 +95,17 @@ function renderResult(guesses){
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
-  animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
+  const settle=animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus();
+  let streak=0;for(let i=activeIndex-1;i>=0&&score(guesses[i],activeDay.questions[i].answer)<HIT;i--)streak++;
+  return {factor,fresh:justAnswered,settle,streak};
 }
+// Por debajo de este multiplicador la respuesta cuenta como acierto y se celebra (reactions.js).
+const HIT=1.9;
 function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
 // El multiplicador sube desde 1× hasta su valor en escala logarítmica, para que 2× y 961.538× tarden lo mismo (decisión 0020):
 // siempre con los decimales de la cifra final y su ancho reservado, para que no baile, y frenando despacio al llegar.
 function animateTimes(element,factor){
-  if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(!element||factor<=1.01||matchMedia('(prefers-reduced-motion: reduce)').matches)return 0;
   const final=times(factor),digits=(final.split(',')[1]||'').replace(/D/g,'').length,
     fmt=new Intl.NumberFormat('es-ES',{minimumFractionDigits:digits,maximumFractionDigits:digits,useGrouping:'always'}),
     start=performance.now()+420,duration=Math.min(2200,1300+Math.log10(factor)*180),end=Math.log10(factor);
@@ -105,6 +116,7 @@ function animateTimes(element,factor){
   element.textContent=fmt.format(1)+'×';requestAnimationFrame(step);
   // Si la pestaña está en segundo plano, requestAnimationFrame se pausa: se asegura la cifra final.
   setTimeout(()=>{if(element.isConnected&&element.classList.contains('counting'))finish()},duration+700);
+  return 420+duration;
 }
 // «Cómo se calcula» (decisión 0021): una hoja translúcida que sube dentro de la tarjeta, entre el multiplicador (bajo «Tú» y «Real») y los botones.
 // El resultado queda detrás, atenuado, y «Siguiente» sigue a la vista: no hace falta desplazarse. Si el texto no cabe, solo se desplaza la hoja.
@@ -145,7 +157,7 @@ function formatEstimateInput(input){
   let position=0,count=0;while(position<input.value.length&&count<meaningful){if(/[\d,]/.test(input.value[position]))count++;position++}
   input.setSelectionRange(position,position)
 }
-function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);renderGame()}
+function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);justAnswered=true;renderGame()}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
 function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
 function loadWorkspace(day){

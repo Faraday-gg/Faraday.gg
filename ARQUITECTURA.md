@@ -60,14 +60,15 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   community.js           Cliente de la API, gráficos y contenido de resultados
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
-  avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025 y 0028)
+  avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0029)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
   progress.js            Nivel, faradios, racha, misiones, cofres y perfil con armario y tienda (decisiones 0024 y 0027)
   chests.js              Cofres: qué lleva cada uno, probabilidades y sorteo (decisión 0027)
   chest-open.js          Apertura de un cofre: animación, partículas, cartas y sonido
   chest.css              Estilos de los cofres y de su apertura
-  sound.js               Sonido compartido (Web Audio, sin archivos): duelos y cofres
+  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres y reto diario
+  reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0029)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador

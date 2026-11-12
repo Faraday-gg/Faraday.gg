@@ -288,7 +288,8 @@ function buildModel(look){
   }
   const mouth=onHead(face==='chulo'?.06:0,-.27,1.012);
   if(face==='serio')add(head,capsule(.016,.13),ink,mouth,[1,1,.6],[0,0,Math.PI/2+.04]).castShadow=false;
-  else add(head,ring(.09,.017,Math.PI*(face==='chulo'?.62:1)),ink,mouth,[1,1,1],[.38,0,Math.PI+(face==='chulo'?.5:0)]).castShadow=false;
+  let lips=null;
+  if(face!=='serio'){lips=add(head,ring(.09,.017,Math.PI*(face==='chulo'?.62:1)),ink,mouth,[1,1,1],[.38,0,Math.PI+(face==='chulo'?.5:0)]);lips.castShadow=false;lips.userData={y:lips.position.y,rz:lips.rotation.z,frown:face==='chulo'?.6:0}}
   if(has('oro')&&face!=='serio')add(head,new THREE.BoxGeometry(.035,.04,.02),gold,[mouth[0]+.03,mouth[1]-.045,mouth[2]+.004],[],[.38,0,0]);
   if(has('visor')||has('visor2')){
     const frame=flat(INK),[lens,band]=has('visor')?['#ff6548','#ffc93c']:['#ff9dbd','#cdbcff'];add(head,new THREE.BoxGeometry(.6,.03,.035),frame,[0,.035,.6]);add(head,new THREE.BoxGeometry(.58,.14,.02),flat(lens),[0,-.045,.6]);add(head,new THREE.BoxGeometry(.5,.035,.012),flat(band),[0,-.005,.612]);
@@ -415,13 +416,13 @@ function buildModel(look){
     const alt=has('cascos2');add(head,ring(.7,.04,Math.PI),mat(alt?PAPER:INK),[0,0,-.02],[1,1.03,1],[],.06);
     for(const side of [-1,1])add(head,box(3),mat(alt?CLOTH.lila:CLOTH.coral),[side*.7,-.06,-.02],[.08,.2,.17],[],O);
   }
-  return {group:model,parts:{body,upper,torso,neck,head,arms,legs,feet,eyes,lids,sway},base:lift,fem};
+  return {group:model,parts:{body,upper,torso,neck,head,arms,legs,feet,eyes,lids,lips,sway},base:lift,fem};
 }
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
 const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 // Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara. shoes se ve de lado, para que se vea el logotipo.
-const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},shoes:{ratio:1,frame:.8,target:.2},torso:{ratio:1,frame:1.6,target:1}};
+const VIEWS={full:{ratio:2/3,frame:3.1,width:2.05,target:1.38},bust:{ratio:1,frame:1.9,target:1.87},legs:{ratio:1,frame:1.3,target:.42},shoes:{ratio:1,frame:.8,target:.2},torso:{ratio:1,frame:1.6,target:1},stage:{ratio:1,frame:3.5,target:1.58}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
 function shoot(context,width,height,entry,mode,turn){
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
@@ -451,16 +452,38 @@ const live=new Set(),queue=new Set(),asleep=new Set();
 // la cabeza y los antebrazos llegan un poco después que el cuerpo, que es lo que evita el aire de robot.
 // Canales: px, py, air = cadera (lado, altura, salto); ry, rz = giro y balanceo del cuerpo; s* = cintura; h* = cuello;
 // en cada brazo (a = el de la izquierda de la pantalla, b = el de la derecha): S = adelante/atrás, O = abrir, E = doblar el
-// codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye = mirada; lid = párpados (no se suaviza).
-const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye'];
-const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22};
+// codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye = mirada; fall, gx, gy = el personaje entero se
+// tumba en el plano de la pantalla y se desplaza (desmayo). Sin suavizar: lid = párpados, wide = ojos como platos,
+// frown = boca hacia abajo.
+const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye','fall','gx','gy'];
+const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22,fall:16,gx:16,gy:16};
 const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x),hold=(u,a=.2,b=.8)=>ease(u/a)*ease((1-u)/(1-b));
 // Deriva irregular: tres ondas de periodos que no casan, para que el vaivén no se note en bucle.
 const drift=(t,seed)=>Math.sin(t*1.13+seed)*.5+Math.sin(t*.71+seed*2.3)*.3+Math.sin(t*1.93+seed*.7)*.2;
 const both=values=>{const result={};for(const key in values){result['a'+key]=values[key];result['b'+key]=values[key]}return result};
+const scaled=(values,k)=>{const result={};for(const key in values)result[key]=values[key]*k;return result};
+// Tumbado tras el desmayo: lo que se suma a la postura normal. El giro (ry) depende de hacia dónde mira el avatar.
+const KO={fall:Math.PI/2,gx:1.35,gy:.74,sx:-.06,hx:-.2,aS:-.25,aO:1.25,aE:.2,bS:.15,bO:.55,bE:-.75,bI:-.5};
+const koTurn=item=>1.2-item.turn;
 function basePose(item,t){
-  const s=item.seed,m=reduced?0:1,sad=item.mood==='sad'?1:0,lean=item.lean,br=Math.sin(t*(sad?1.2:1.7)+s)*m,d=(speed,offset,size)=>drift(t*speed,s+offset)*size*m;
-  return {br,px:lean*.035+d(.5,0,.008),py:0,air:0,ry:d(.3,2,.03),rz:-lean*.02,sx:.02+sad*.1+d(.33,9,.014),sy:d(.27,4,.03),sz:lean*.045+d(.4,5,.012),
+  const P=neutralPose(item,t),mood=item.mood,m=reduced?0:1;
+  // Nervioso (mientras se responde): se mece de un pie a otro y se muerde las uñas. 'wait' es lo mismo con el resultado
+  // a punto de salir: las dos manos en la boca, los ojos como platos y pendiente de la tarjeta.
+  if(mood==='nervous'||mood==='wait'){
+    const wait=mood==='wait'?1:0,w=t*(wait?3.6:2.2)+item.seed,side=Math.sin(w)*m,jit=Math.sin(t*23)*m,tap=Math.sin(t*.5+item.seed)>.2?Math.max(0,Math.sin(t*10))*m:0;
+    P.px+=side*.08;P.rz-=side*.035;P.sz+=side*.05;P.py-=Math.abs(Math.cos(w))*.014*m;
+    P.hx+=.1;P.hy=wait?item.turn>0?-.3:.3:Math.sin(t*.8+item.seed)*.3*m;P.hz+=side*.05;P.sx+=.05;
+    P.bS-=1.32;P.bE-=1.72-jit*.05;P.bI-=.6;P.bO-=.2;
+    if(wait){P.aS-=1.32;P.aE-=1.72+jit*.05;P.aI-=.6;P.aO-=.2}else{P.aS-=.3;P.aE-=1.2;P.aI-=1.1;P.fb=tap*.4}
+    P.wide=wait?1:.3;P.eye=wait?0:Math.sin(t*1.7+item.seed)*.9*m;P.frown=1;
+  }
+  if(mood==='meh')P.frown=1;
+  if(mood==='ko'){for(const key in KO)P[key]+=KO[key];P.ry+=koTurn(item);P.lid=1;P.frown=1}
+  return P;
+}
+function neutralPose(item,t){
+  const s=item.seed,m=reduced?0:1,sad=item.mood==='sad'?1:0,lean=['nervous','wait','ko'].includes(item.mood)?0:item.lean,br=Math.sin(t*(sad?1.2:1.7)+s)*m,d=(speed,offset,size)=>drift(t*speed,s+offset)*size*m;
+  return {fall:0,gx:0,gy:0,wide:0,frown:sad,br,px:lean*.035+d(.5,0,.008),py:0,air:0,ry:d(.3,2,.03),rz:-lean*.02,sx:.02+sad*.1+d(.33,9,.014),sy:d(.27,4,.03),sz:lean*.045+d(.4,5,.012),
     hx:sad*.3+d(.45,3,.04),hy:d(.36,1,sad?.05:.15),hz:-lean*.05-.02+d(.3,7,.03),
     aS:.02+d(.6,11,.05),aO:.34-sad*.1+br*.012,aE:-.28+sad*.1+br*.02,aI:-.08,aY:br*.006-sad*.02,
     bS:.02+d(.55,12,.05),bO:.34-sad*.1+br*.012,bE:-.28+sad*.1-br*.015,bI:-.08,bY:br*.006-sad*.02,
@@ -492,18 +515,44 @@ const CLIPS={
   negar:{d:2.2,f:u=>{const k=hold(u,.15,.85);return {hy:Math.sin(u*Math.PI*5)*.3*k,hx:.05*k,lid:.4*k}}},
   // Encajar un golpe
   golpe:{d:.9,f:u=>{const k=(1-u)*ease(u/.08);return {px:Math.sin(u*30)*.07*k,sx:-.22*k,hx:-.25*k,...both({O:.5*k,E:-.5*k}),lid:u<.5?1:0}}},
-  tambaleo:{d:1.5,f:u=>{const k=(1-u)*ease(u/.08),w=u*9.5;return {px:Math.sin(w)*.1*k,rz:-Math.sin(w)*.1*k,sz:Math.sin(w+1)*.1*k,hz:Math.sin(w+2)*.15*k,...both({O:.5*k}),lid:u<.4?1:0}}}
+  tambaleo:{d:1.5,f:u=>{const k=(1-u)*ease(u/.08),w=u*9.5;return {px:Math.sin(w)*.1*k,rz:-Math.sin(w)*.1*k,sz:Math.sin(w+1)*.1*k,hz:Math.sin(w+2)*.15*k,...both({O:.5*k}),lid:u<.4?1:0}}},
+  // ---- Reacciones al resultado de una pregunta del reto (decisión 0029), de mejor a peor
+  // Clavada: giro en el aire y tres botes con los brazos arriba.
+  clavada:{d:2.8,end:item=>{item.pose.ry-=Math.PI*2},f:(u,t)=>{const a=Math.min(1,u/.42),hop=u>.42?Math.abs(Math.sin((u-.42)/.58*Math.PI*3)):0,k=hold(u,.08,.9);return {ry:ease(a)*Math.PI*2,air:Math.sin(a*Math.PI)*.22+hop*.15*k,py:-.03*(1-hop)*k*(u>.42?1:0),...both({O:2.35*k,E:.15*k}),aI:Math.sin(t*14)*.25*k,bI:-Math.sin(t*14)*.25*k,hx:-.18*k,wide:.4*k}}},
+  // Por poco (1,9× a 5×): «¡uy!», echa el puño hacia abajo y da un pisotón.
+  casi:{d:1.9,f:u=>{const k=hold(u,.1,.75),swing=ease((u-.12)/.16);return {bS:(-1.5+1.7*swing)*k,bE:(-1.5+.9*swing)*k,bO:.25*k,bI:-.3*k,fb:u>.22&&u<.34?.9:0,py:-.05*swing*k,sx:.12*swing*k,hx:.12*k,hz:.16*k,lid:.6*k,frown:k}}},
+  // Lejos (5× a 10×): se encoge de hombros con las palmas hacia fuera.
+  encoger:{d:2.8,f:u=>{const k=hold(u,.16,.78);return {...both({Y:.09*k,O:.5*k,E:-1.05*k,I:.55*k,S:-.1*k}),hz:.22*k,hx:.04*k,sx:-.04*k,frown:k}}},
+  // Fallo (10× a 20×): se tapa la cara con la mano y niega despacio.
+  facepalm:{d:3.4,f:u=>{const k=hold(u,.13,.86);return {bS:-1.45*k,bE:-1.95*k,bI:-.7*k,bO:-.25*k,hx:.2*k,sx:.07*k,hy:Math.sin(u*Math.PI*6)*.13*k,py:-.03*k,lid:k,frown:k}}},
+  // Desastre (20× a 100×): manos a la cabeza, se tambalea y acaba hundido.
+  horror:{d:3.4,f:(u,t)=>{const k=hold(u,.07,.86),drop=ease((u-.55)/.2),w=Math.sin(t*9)*(1-drop);return {...both({O:1.8*k,I:1.5*k,E:.2*k}),sx:(-.2+.34*drop)*k,hx:(-.25+.5*drop)*k,px:w*.06*k,rz:-w*.04*k,sz:w*.05*k,py:-.1*drop*k,wide:k*(1-drop),lid:drop*k,frown:k}}},
+  // Desmayo (100× o más): se marea, da una vuelta sobre sí mismo y cae redondo. Al acabar se queda tumbado (mood 'ko').
+  desmayo:{d:3.4,end:item=>{item.pose.ry-=Math.PI*2},f:(u,t,item)=>{
+    const lie=u<.62?0:Math.min(1,((u-.62)/.16)**2),bounce=u>.78?Math.sin((u-.78)/.22*Math.PI*2)*(1-(u-.78)/.22)*.06:0,dizzy=ease(u/.1)*(1-lie),a=t*7,hand=hold(Math.min(1,u/.5),.2,.7);
+    return {...scaled(KO,lie),fall:(lie-Math.abs(bounce))*KO.fall,ry:ease((u-.16)/.46)*(Math.PI*2+koTurn(item)),hz:Math.sin(a)*.24*dizzy,hx:(-.12+Math.cos(a)*.12)*dizzy+KO.hx*lie,px:Math.sin(a*.8)*.07*dizzy,rz:-Math.sin(a*.8)*.05*dizzy,
+      aO:1.75*hand+KO.aO*lie,aI:1.45*hand,bO:.9*ease((u-.2)/.2)*(1-lie)+KO.bO*lie,air:Math.sin(Math.min(1,Math.max(0,(u-.2)/.4))*Math.PI)*.05,lid:u>.1?1:.5,frown:1}}},
+  // Tumbado: de vez en cuando le da un tic en el pie.
+  espasmo:{d:1.1,f:u=>{const k=Math.sin(u*Math.PI);return {fb:Math.max(0,Math.sin(u*Math.PI*6))*.6*k,bE:Math.sin(u*Math.PI*6)*.12*k}}},
+  // Nervioso: un escalofrío.
+  temblor:{d:1.2,f:(u,t)=>{const k=Math.sin(u*Math.PI);return {px:Math.sin(t*38)*.014*k,...both({Y:.05*k}),hx:-.08*k,wide:.5*k}}}
 };
 const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso'];
-const POOL={cheer:['salto','puno','giro','bailar'],sad:['suspiro','negar','pie']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
+const POOL={cheer:['salto','puno','giro','bailar'],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
 function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
-function nextClip(item,t){const pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);let name;do name=any(pool);while(name===item.lastClip);play(item,name,t)}
+function nextClip(item,t){const pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
+// Cambia el estado de un avatar animado desde fuera (reactions.js): mood = cómo se queda; clip = gesto que hace ahora;
+// then = estado al que pasa cuando el gesto termina.
+function apply(item,{mood='',clip='',then=null}={}){
+  const t=(performance.now()-item.born)/1000;item.clip=null;item.mood=mood;item.after=null;
+  if(clip&&!reduced){item.after=then;play(item,clip,t)}else{if(then!==null)item.mood=then;item.wait=t+1.2+Math.random()*2}
+}
 function animate(item,now){
   const R=item.entry.parts,t=(now-item.born)/1000,dt=Math.min(.1,Math.max(0,(now-item.last)/1000));item.last=now;
   if(!item.dragging){item.turn+=item.spin;item.spin*=.92}
   if(!reduced){
-    if(item.clip&&t-item.clipAt>=item.clip.d){if(item.clip.end)item.clip.end(item);item.clip=null;item.wait=t+(item.mood==='cheer'?.5+Math.random()*.9:2.2+Math.random()*4)}
+    if(item.clip&&t-item.clipAt>=item.clip.d){if(item.clip.end)item.clip.end(item);item.clip=null;if(item.after!=null){item.mood=item.after;item.after=null}item.wait=t+(item.mood==='cheer'?.5+Math.random()*.9:2.2+Math.random()*4)}
     if(!item.clip&&t>=item.wait)nextClip(item,t);
     // Parpadeo a intervalos irregulares; de vez en cuando, doble.
     if(t>=item.blinkAt){item.blinkFrom=t;item.blinkAt=t+(Math.random()<.18?.3:1.8+Math.random()*4.2)}
@@ -513,6 +562,8 @@ function animate(item,now){
   const cur=item.pose||(item.pose={...P});
   for(const key of KEYS)cur[key]+=(P[key]-cur[key])*(1-Math.exp(-dt*(RATE[key]||18)));
   R.body.position.set(cur.px,item.entry.base+cur.py+cur.air,0);R.body.rotation.set(0,cur.ry,cur.rz);
+  // Caída: gira el personaje entero alrededor de los pies, en el plano de la pantalla (después del giro sobre sí mismo).
+  const whole=item.entry.group;whole.rotation.order='ZYX';whole.rotation.z=cur.fall;whole.position.set(cur.gx,cur.gy,0);
   R.upper.rotation.set(cur.sx,cur.sy,cur.sz);R.torso.scale.y=1+P.br*.012;
   R.neck.position.y=NECK+P.br*.007;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
   R.arms.forEach(({arm,fore,side},i)=>{const p=i?'b':'a';arm.position.y=SHOULDER+P.br*.008+cur[p+'Y'];arm.rotation.set(cur[p+'S'],0,side*cur[p+'O']);fore.rotation.set(cur[p+'E'],0,side*cur[p+'I'])});
@@ -521,7 +572,9 @@ function animate(item,now){
   R.legs.forEach(leg=>{leg.rotation.z=tilt;leg.scale.y=stretch});
   R.feet.forEach((shoe,i)=>{const [x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];shoe.position.set(x-cur.px,y-cur.py+tap*.05,z);shoe.rotation.x=toes-tap});
   const since=t-item.blinkFrom,lid=Math.min(1,Math.max(P.lid,since<.15?Math.sin(since/.15*Math.PI):0));
-  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid);eye.position.x=eye.userData.x+cur.eye*.014});R.lids.forEach(part=>{part.visible=lid<.5});
+  const wide=Math.min(1,P.wide)*(1-lid);
+  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*.014});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
+  if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y}
   // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
   const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
   if(item.lagRoll===undefined){item.lagRoll=roll;item.lagNod=nod}item.lagRoll+=(roll-item.lagRoll)*lag;item.lagNod+=(nod-item.lagNod)*lag;
@@ -553,11 +606,12 @@ function hydrate(el){
   const [width,height]=sizeOf(el,data.mode),canvas=document.createElement('canvas');canvas.width=width;canvas.height=height;el.dataset.ready='1';
   if(data.live){
     const born=performance.now(),emote=reduced?'':data.emote;
-    const item={el,canvas,context:canvas.getContext('2d'),entry:buildModel(data.look),data,turn:TURN,spin:0,dragging:false,born,last:born,home:!!el.closest('.home'),
+    const item={el,canvas,context:canvas.getContext('2d'),entry:buildModel(data.look),data,turn:data.turn??TURN,spin:0,dragging:false,born,last:born,home:!!el.closest('.home'),after:null,
       seed:Math.random()*100,lean:Math.random()<.5?-1:1,mood:emote==='cheer'||emote==='sad'?emote:'',clip:null,wait:1.2+Math.random()*2.6,blinkAt:.8+Math.random()*3,blinkFrom:-9};
     if(FIRST[emote])play(item,any(FIRST[emote]),0);
     // En la portada, al pasar el ratón por encima vuelve a saludar.
     if(emote==='wave')el.addEventListener('pointerenter',()=>{if(!item.clip)play(item,any(FIRST.wave),(performance.now()-item.born)/1000)});
+    if(el._react)apply(item,el._react);
     animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);
     el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);
     if(!running){running=true;requestAnimationFrame(loop)}
@@ -580,4 +634,5 @@ new MutationObserver(records=>{for(const record of records)for(const node of rec
 setInterval(()=>{for(const el of asleep){if(!el.isConnected)asleep.delete(el);else if(el.clientWidth){asleep.delete(el);queue.add(el)}}if(queue.size)schedule()},350);
 enqueue(document.body);
 // play(nombre) lanza un gesto en todos los avatares animados (o solo en el de la posición index): sirve para probarlos desde la consola.
-window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+// react(el) aplica a ese avatar el estado que reactions.js ha dejado en el._react (si aún no está dibujado, lo recoge al nacer).
+window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};

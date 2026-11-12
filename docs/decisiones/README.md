@@ -31,6 +31,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0026](0026-marcas-reales-en-la-tienda.md) | Piezas de marcas reales en la tienda, con su logotipo | Propuesta | 2026-11-11 |
 | [0027](0027-cofres.md) | Cofres con premio al azar, ganados jugando o comprados con faradios | Propuesta | 2026-11-12 |
 | [0028](0028-avatar-de-mujer-y-animaciones.md) | Avatar de hombre o de mujer, con su colección, y animaciones más naturales | Propuesta | 2026-11-12 |
+| [0029](0029-avatar-en-el-reto-y-recompensa.md) | El avatar reacciona en el reto diario y los aciertos se celebran | Propuesta | 2026-11-12 |
 
 ## Plantilla
 
