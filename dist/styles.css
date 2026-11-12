@@ -207,6 +207,10 @@
 .calc-keys .operator{color:var(--coral)}
 .calc-keys .equals-key{background:var(--ink);color:var(--paper)}
 .calc-keys .clear-key{color:#a7341c}
+.calc-keys button{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.calc-sci{grid-template-columns:repeat(6,minmax(0,1fr));margin-bottom:6px}
+.calc-sci button{min-height:36px;font-size:15px;color:var(--coral)}
+.calc-sci sup{font-size:.65em;line-height:0}
 .note-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
 .note-toolbar button,.history-section button{border:1px solid var(--line);border-radius:6px;background:transparent;padding:5px 8px;font-size:11px;font-weight:700;color:var(--ink)}
 .note-toolbar button:hover,.history-section button:hover{border-color:var(--ink)}

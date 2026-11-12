@@ -1,7 +1,7 @@
 // Progreso del jugador (decisión 0024): nivel y experiencia, faradios (la moneda del juego), racha diaria,
 // misiones diarias y semanales, y el armario del avatar (3D, decisión 0025; hombre o mujer, decisión 0028) con su tienda. Todo se guarda en este navegador:
 // no hay cuentas ni pagos. Los faradios solo se ganan jugando y solo compran piezas de aspecto y cofres.
-// Los cofres (decisiones 0027 y 0034) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
+// Los cofres (decisiones 0027 y 0035) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
 // en chest-open.js. Aquí se guardan, se conceden y se reparten sus premios.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 // También lleva el contador de «Casi casi» (respuestas a menos de 1,1×, decisión 0030; la regla está en casi.js), que

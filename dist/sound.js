@@ -1,5 +1,5 @@
 // Sonido compartido: tonos y ruido generados en el navegador con Web Audio (sin archivos). Lo usan los duelos (duel.js),
-// la apertura de cofres (chest-open.js, que añade campanillas con reverberación y una cama de fondo, decisión 0035) y el momento «¡Casi casi!» (casi.js). El ajuste de silencio es el mismo para todo el juego y se guarda en este navegador.
+// la apertura de cofres (chest-open.js, que añade campanillas con reverberación y una cama de fondo, decisión 0036) y el momento «¡Casi casi!» (casi.js). El ajuste de silencio es el mismo para todo el juego y se guarda en este navegador.
 (()=>{
   const KEY='casi-casi:duelo:sonido';
   let audio=null,on=true,hiss=null,hall=null;

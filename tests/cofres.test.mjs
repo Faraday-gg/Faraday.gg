@@ -1,4 +1,4 @@
-// Prueba las reglas de los cofres (dist/chests.js, decisiones 0027 y 0034) con el catálogo real del avatar (dist/avatar.js):
+// Prueba las reglas de los cofres (dist/chests.js, decisiones 0027 y 0035) con el catálogo real del avatar (dist/avatar.js):
 // probabilidades, garantías, que no se repiten piezas, la garantía por mala suerte y el valor frente al precio.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
