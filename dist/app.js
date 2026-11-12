@@ -173,17 +173,25 @@ function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
 function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open&&!matchMedia('(max-width:760px)').matches)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
+// Calculadora del bloc: + − × ÷, paréntesis, π, x², x³, potencias (^), raíz (√), % y multiplicación implícita (2π, 3(4+1)).
 function evaluateCalculation(source){
-  const expression=source.trim().replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/\s+/g,'');
-  if(!expression||expression.length>100||!/^[\d.+*/()-]+$/.test(expression))throw Error('Operación no válida');
+  let expression=source.trim().replace(/\*\*/g,'^').replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-').replace(/pi/gi,'π').replace(/\s+/g,'');
+  if(!expression||expression.length>100||!/^[\d.+*/()^%π²³√-]+$/.test(expression))throw Error('Operación no válida');
+  const open=(expression.match(/\(/g)||[]).length-(expression.match(/\)/g)||[]).length;if(open>0)expression+=')'.repeat(open);
   let index=0;
-  function factor(){if(expression[index]==='+'){index++;return factor()}if(expression[index]==='-'){index++;return -factor()}if(expression[index]==='('){index++;const value=addition();if(expression[index++]!==')')throw Error('Paréntesis incompletos');return value}const match=/^(?:\d+(?:\.\d*)?|\.\d+)/.exec(expression.slice(index));if(!match)throw Error('Falta un número');index+=match[0].length;return Number(match[0])}
-  function multiplication(){let value=factor();while(expression[index]==='*'||expression[index]==='/'){const operator=expression[index++],right=factor();value=operator==='*'?value*right:value/right}return value}
+  const startsFactor=c=>c!==undefined&&/[\d.π(√]/.test(c);
+  function primary(){const c=expression[index];if(c==='('){index++;const value=addition();if(expression[index++]!==')')throw Error('Paréntesis incompletos');return value}if(c==='π'){index++;return Math.PI}if(c==='√'){index++;return Math.sqrt(unary())}const match=/^(?:\d+(?:\.\d*)?|\.\d+)/.exec(expression.slice(index));if(!match)throw Error('Falta un número');index+=match[0].length;return Number(match[0])}
+  function postfix(){let value=primary();for(;;){const c=expression[index];if(c==='²')value**=2;else if(c==='³')value**=3;else if(c==='%')value/=100;else break;index++}return value}
+  function power(){const base=postfix();if(expression[index]==='^'){index++;return base**unary()}return base}
+  function unary(){if(expression[index]==='+'){index++;return unary()}if(expression[index]==='-'){index++;return -unary()}return power()}
+  function multiplication(){let value=unary();for(;;){const c=expression[index];if(c==='*'||c==='/'){index++;const right=unary();value=c==='*'?value*right:value/right}else if(startsFactor(c))value*=power();else return value}}
   function addition(){let value=multiplication();while(expression[index]==='+'||expression[index]==='-'){const operator=expression[index++],right=multiplication();value=operator==='+'?value+right:value-right}return value}
   const result=addition();if(index!==expression.length||!Number.isFinite(result))throw Error('Operación no válida');return result
 }
 function calculate(){const source=$('#scratch-expression').value.trim();try{const result=evaluateCalculation(source);$('#scratch-result').textContent=`= ${format(result,6)}`;workspaceData.history.unshift({expression:source,result});workspaceData.history=workspaceData.history.slice(0,40);saveWorkspace();renderHistory()}catch{$('#scratch-result').textContent='Revisa la operación'}}
-function pressCalcKey(key){const input=$('#scratch-expression');if(key==='='){calculate();return}const start=input.selectionStart??input.value.length,end=input.selectionEnd??start;if(key==='C'){input.value='';input.focus();input.setSelectionRange(0,0)}else if(key==='⌫'){const from=start===end?Math.max(0,start-1):start;input.setRangeText('',from,end,'end');input.focus()}else{input.setRangeText(key,start,end,'end');input.focus()}$('#scratch-result').textContent='='}
+// En pantallas táctiles la calculadora solo se usa con sus teclas: el campo es de solo lectura y no recibe el foco, así no se abre el teclado del móvil.
+const touchCalculator=matchMedia('(pointer:coarse)').matches;
+function pressCalcKey(key){const input=$('#scratch-expression');if(key==='='){calculate();return}const start=input.selectionStart??input.value.length,end=input.selectionEnd??start;if(key==='C'){input.value='';input.setSelectionRange(0,0)}else if(key==='⌫'){const from=start===end?Math.max(0,start-1):start;input.setRangeText('',from,end,'end')}else input.setRangeText(key,start,end,'end');if(touchCalculator)input.scrollLeft=input.scrollWidth;else input.focus();$('#scratch-result').textContent='='}
 function insertInNote(text){const input=$('#scratch-note'),start=input.selectionStart??input.value.length,end=input.selectionEnd??start;input.setRangeText(text,start,end,'end');input.focus();workspaceData.note=input.value;saveWorkspace()}
 function showToast(message){const toast=$('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
 // Compartir abre la tarjeta para stories (share-card.js, decisión 0032); si no ha cargado, se comparte solo el texto.
@@ -215,7 +223,8 @@ $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)o
 $('#menu-home').addEventListener('click',closeGame);
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
 $('#workspace-panel').addEventListener('click',event=>{if(event.target===event.currentTarget)toggleWorkspace(false)});
-$('#calc-keys').addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)});
+document.querySelectorAll('.calc-keys').forEach(keys=>keys.addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)}));
+if(touchCalculator){$('#scratch-expression').readOnly=true;$('#scratch-expression').inputMode='none'}
 $('#scratch-expression').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();calculate()}});
 $('#scratch-expression').addEventListener('input',()=>{$('#scratch-result').textContent='='});
 $('#scratch-note').addEventListener('input',event=>{workspaceData.note=event.target.value;saveWorkspace()});
@@ -223,7 +232,7 @@ $('#insert-bullet').addEventListener('click',()=>{const input=$('#scratch-note')
 $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
 $('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
 $('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
-$('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
+$('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';if(!touchCalculator)$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&&$('#game-shell').hidden){toggleMenu(false);return}if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
