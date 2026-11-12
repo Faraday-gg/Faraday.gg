@@ -42,6 +42,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0037](0037-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
 | [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
 | [0039](0039-pistas.md) | Pistas: una por pregunta, con faradios o con un anuncio | Propuesta | 2026-11-12 |
+| [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

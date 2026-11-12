@@ -14,7 +14,7 @@
   let stats={xp:0,wins:0,losses:0,draws:0,streak:0,best:0,lastWin:'',...saved.get('progreso',{})};
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
 
-  let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,busy=false;
+  let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,chatWake=0,busy=false;
   const serverNow=()=>Date.now()+offset;
   const me=()=>duel.players[duel.you],rival=()=>duel.players[1-duel.you];
 
@@ -116,7 +116,7 @@
 
   // Pantallas
   function renderLobby(message=''){
-    duel=null;shown='lobby';hud.hidden=true;setView('result');stopTimers();saved.remove('actual');
+    duel=null;shown='lobby';hud.hidden=true;setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
     const progress=Progress.info();
     content.innerHTML=`<p class="duel-kicker">Duelo 1 vs 1</p>
 <h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
@@ -270,6 +270,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
       if(before&&before.yourGuess==null&&round.yourGuess!=null)renderAnswerBox(false);
       setRoundInfo();updateRivalState();
     }else if(view.phase==='finished')updateRematch();
+    window.DuelChat?.update(view);
     startTimers();
   }
   function tick(){
@@ -301,7 +302,8 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   function schedule(){
     clearTimeout(pollTimer);if(!duel||shell.hidden)return;
     // Terminado: se sigue mirando un rato por si el rival pide la revancha.
-    if(duel.phase==='finished'){if(duel.next||rival()?.bot||++finishedPolls>60)return;pollTimer=setTimeout(poll,3000);return}
+    // Tras escribir en el chat con el duelo terminado se mira un par de veces más, por si el rival (o el bot) contesta.
+    if(duel.phase==='finished'){if(chatWake>0)chatWake--;else if(duel.next||rival()?.bot||++finishedPolls>60)return;pollTimer=setTimeout(poll,chatWake?1500:3000);return}
     finishedPolls=0;pollTimer=setTimeout(poll,duel.phase==='waiting'?1500:1000);
   }
   function startTimers(){if(!ticker)ticker=setInterval(tick,200);tick();schedule()}
@@ -323,6 +325,14 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
     if(response.ok){sfx.send();const first=!response.data.round?.answered[1-response.data.you]&&response.data.phase==='question';apply(response.data);if(first)alertBar(`<span class="duel-bell" aria-hidden="true">🔔</span><span>Has respondido primero · a <b>${escapeHtml(rival().name)}</b> le quedan <b>30 s</b></span>`,3500)}
     else if($('#duel-help'))$('#duel-help').textContent=response.data.error||'No se ha podido enviar. Inténtalo otra vez.';
   }
+  // Chat de la partida (duel-chat.js, decisión 0040): el envío pasa por aquí para pintar al momento el estado que devuelve.
+  async function chatSend(kind,value){
+    if(!duel)return {ok:false,data:{}};
+    const id=duel.id,response=await call('chat',{id,kind,value});
+    if(response.ok&&duel?.id===id){if(duel.phase==='finished')chatWake=3;apply(response.data)}
+    return response;
+  }
+  window.DuelChat?.connect({send:chatSend,rival:()=>duel?.players?.[1]?rival():null,refresh:()=>{if(duel)DuelChat.render(duel)}});
   async function share(text,url){
     if(window.Circuito)url=Circuito.link(url); // con tu código del Circuito de amigos (?de=)
     try{if(navigator.share){await navigator.share({title:'Duelo en Faraday.gg',text,url});return}await navigator.clipboard.writeText(`${text}\n${url}`);showToast('Copiado al portapapeles.')}
@@ -360,7 +370,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
       if(!window.confirm('¿Abandonar el duelo? Tu rival ganará la partida.'))return;
       const response=await call('salir',{id:duel.id});if(response.ok){duel=response.data;finishStats()}
     }else if(duel?.phase==='waiting')call('salir',{id:duel.id});
-    stopTimers();duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();
+    stopTimers();duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();window.DuelChat?.reset();
     if($('#game-shell').hidden)document.body.classList.remove('modal-open');
   }
 
@@ -391,7 +401,7 @@ ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><sp
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   $('#duel-sound').addEventListener('click',()=>{const on=Sound.toggle();$('#duel-sound').setAttribute('aria-pressed',String(on));if(on)sfx.send();else stopMusic()});
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(!panel.hidden)toggleCalc(false);else close()}},true);
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
   const invited=new URLSearchParams(location.search).get('duelo');
