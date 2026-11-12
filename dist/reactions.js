@@ -1,10 +1,13 @@
-// Reacciones del reto diario (decisión 0029): el avatar acompaña a la tarjeta, y cada respuesta tiene su gesto, su sonido
+// Reacciones del reto diario (decisión 0033): el avatar acompaña a la tarjeta, y cada respuesta tiene su gesto, su sonido
 // y, si es un acierto, su celebración. app.js avisa con el evento faraday:view de lo que acaba de pintar; aquí se decide
 // qué hace el avatar (avatar3d.js lo anima), qué suena (sound.js, sin archivos) y qué se ve encima de la tarjeta.
 //
 // Mientras se responde, el avatar está nervioso. Al confirmar, espera con las manos en la boca mientras el multiplicador
 // cuenta, y reacciona cuando la cifra se para: así no la destripa. Al repasar una respuesta ya dada solo se queda con el
 // ánimo que le tocó, sin sonido ni confeti.
+//
+// Por debajo de 1,1× manda el momento «¡Casi casi!» (casi.js, decisión 0030), que ya pone su sello, su destello y su
+// sonido: aquí solo se suman el gesto del avatar y el confeti, para no celebrar dos veces lo mismo.
 (()=>{
   const stage=document.getElementById('game-avatar'),shell=document.getElementById('game-shell'),mute=document.getElementById('game-sound');
   if(!stage||!shell||!window.Avatar||!window.Sound)return;
@@ -13,10 +16,11 @@
   const buzz=pattern=>{try{if(navigator.userActivation?.hasBeenActive!==false)navigator.vibrate?.(pattern)}catch{}};
 
   // Tramos del multiplicador, de mejor a peor. max = primer valor que ya no entra; clip = gesto al conocer el resultado;
-  // rest = ánimo con el que se queda después; label = lo que dice la etiqueta en los aciertos.
+  // rest = ánimo con el que se queda después; label = lo que dice la etiqueta en el acierto. La clavada no tiene etiqueta
+  // propia: es el «¡Casi casi!» de casi.js, y empieza donde él dice.
   const TIERS=[
-    {id:'clavada',max:1.2,clip:'clavada',rest:'cheer',label:'¡Clavada!'},
-    {id:'acierto',max:1.9,clip:'salto',rest:'cheer',label:'¡Casi casi!'},
+    {id:'clavada',max:window.CasiCasi?.LIMIT||1.1,clip:'clavada',rest:'cheer'},
+    {id:'acierto',max:1.9,clip:'salto',rest:'cheer',label:'¡Muy cerca!'},
     {id:'cerca',max:5,clip:'casi',rest:''},
     {id:'lejos',max:10,clip:'encoger',rest:'meh'},
     {id:'fallo',max:20,clip:'facepalm',rest:'sad'},
@@ -24,7 +28,7 @@
     {id:'ko',max:Infinity,clip:'desmayo',rest:'ko'}
   ];
   const tierOf=factor=>TIERS.find(tier=>factor<tier.max)||TIERS[TIERS.length-1];
-  const isHit=tier=>!!tier.label;
+  const isHit=tier=>tier.rest==='cheer';
 
   // ---------- Avatar: un solo hueco animado junto a la tarjeta, que se conserva de una pregunta a otra.
   let lookKey='';
@@ -46,16 +50,11 @@
     },
     // Acierto. Tres capas: un golpe grave (peso), un arpegio mayor rápido (subida) y una campana que se queda sonando
     // (premio). Cada acierto seguido en el mismo día sube el tono un escalón: el tercero suena más alto que el primero.
-    // La clavada alarga el arpegio, cierra con acorde y deja caer un reguero de brillos.
-    hit(perfect,streak){
-      const root=523.25*2**(Math.min(streak,3)*2/12),ratios=perfect?[1,1.26,1.5,2,2.52,3]:[1,1.26,1.5,2],step=.062,end=ratios.length*step;
+    hit(streak){
+      const root=523.25*2**(Math.min(streak,3)*2/12),ratios=[1,1.26,1.5,2],step=.062,end=ratios.length*step;
       tone(root/4,0,.2,{to:root/8,gain:.15});noise(0,.14,{from:3500,to:9000,gain:.035,filter:'highpass'});
       ratios.forEach((ratio,i)=>tone(root*ratio,i*step,.2,{type:'triangle',gain:.05+i*.004}));
       [[1,.075,1.3],[2,.03,.9],[3.01,.014,.6],[4.2,.008,.4]].forEach(([k,gain,length])=>tone(root*2*k,end,length,{gain}));
-      if(!perfect)return;
-      [1,1.26,1.5].forEach(ratio=>tone(root*ratio,end,1.4,{type:'triangle',gain:.034}));tone(root/4,end,1.1,{gain:.12});
-      noise(end,1.1,{from:7000,to:10000,gain:.022,filter:'highpass'});
-      for(let i=0;i<12;i++)tone(root*4*[1,1.125,1.26,1.5,1.68,2][Math.random()*6|0],end+.12+i*.075+Math.random()*.03,.09,{gain:.02});
     },
     // Por poco: dos notas blandas que bajan un tono. No castiga.
     near(){tone(494,0,.13,{type:'triangle',gain:.045});tone(440,.11,.24,{type:'triangle',gain:.045})},
@@ -99,18 +98,20 @@
 
   // ---------- Lo que se ve en la tarjeta
   const card=()=>shell.querySelector('.game-card');
-  const FLAGS=['is-hit','is-perfect','is-thud'];
-  // La etiqueta «Te pasaste» / «Corto» pasa a decir «¡Casi casi!» o «¡Clavada!» y se pone del color del multiplicador.
+  const FLAGS=['is-hit','is-thud'];
+  // En el acierto, la etiqueta «Te pasaste» / «Corto» pasa a decir «¡Muy cerca!» y se pone del color del multiplicador.
   function crown(tier,pop){
+    if(!tier.label)return;
     const chip=shell.querySelector('#game-content .verdict-chip'),number=shell.querySelector('#game-content .verdict-x');if(!chip)return;
     chip.classList.add('is-hit');chip.classList.toggle('pop',pop);if(chip.lastChild?.nodeType===3)chip.lastChild.textContent=' '+tier.label;
     if(pop)number?.classList.add('is-hit');
   }
   function celebrate(tier,streak){
     const perfect=tier.id==='clavada';
-    sfx.hit(perfect,streak);buzz(perfect?[14,50,14,50,30]:[14,50,22]);crown(tier,!reduced());
+    if(!perfect)sfx.hit(streak);
+    buzz(perfect?[14,50,14,50,30]:[14,50,22]);crown(tier,!reduced());
     if(reduced())return;
-    card()?.classList.add(perfect?'is-perfect':'is-hit');
+    if(!perfect)card()?.classList.add('is-hit');
     const number=shell.querySelector('#game-content .verdict-x')?.getBoundingClientRect();if(!number)return;
     fit();const origin=shell.getBoundingClientRect(),x=number.left+number.width/2-origin.left,y=number.top+number.height/2-origin.top;
     burst(x,y,perfect?110:60,perfect?15:12);
@@ -138,10 +139,10 @@
     if(detail.view==='question'){act({mood:'nervous'});return}
     if(detail.view==='summary'){act({mood:tierOf(detail.average).rest});return}
     const tier=tierOf(detail.factor);
-    if(!detail.fresh){act({mood:tier.rest});if(isHit(tier))crown(tier,false);return}
+    if(!detail.fresh){act({mood:tier.rest});crown(tier,false);return}
     Sound.context();Sound.resume();
     act({mood:'wait'});
-    if(detail.settle)sfx.count(detail.settle);
+    if(detail.settle&&tier.id!=='clavada')sfx.count(detail.settle);
     later(detail.settle||260,()=>reveal(tier,detail.streak||0));
   });
 

@@ -1,5 +1,5 @@
-// Sonido compartido: tonos y ruido generados en el navegador con Web Audio (sin archivos). Lo usan los duelos (duel.js)
-// y la apertura de cofres (chest-open.js). El ajuste de silencio es el mismo para todo el juego y se guarda en este navegador.
+// Sonido compartido: tonos y ruido generados en el navegador con Web Audio (sin archivos). Lo usan los duelos (duel.js),
+// la apertura de cofres (chest-open.js) y el momento «¡Casi casi!» (casi.js). El ajuste de silencio es el mismo para todo el juego y se guarda en este navegador.
 (()=>{
   const KEY='casi-casi:duelo:sonido';
   let audio=null,on=true,hiss=null;
@@ -28,6 +28,12 @@
       source.connect(band).connect(volume).connect(audio.destination);source.start(start,Math.random());source.stop(start+duration+.03);
     }catch{}
   }
+  // «¡Casi casi!» (decisión 0030): dos notas cortas que suben («ca-si»), un acorde brillante y un destello de ruido agudo.
+  function casi(at=0){
+    tone(784,at,.11,{type:'triangle',gain:.07});tone(1047,at+.1,.11,{type:'triangle',gain:.07});
+    for(const [f,d] of [[1319,.55],[1568,.6],[2093,.7]])tone(f,at+.22,d,{type:'triangle',gain:.045});
+    noise(at+.22,.5,{gain:.025,from:6000,to:11000,q:.8,filter:'highpass',attack:.02});
+  }
   function set(value){on=!!value;try{localStorage.setItem(KEY,JSON.stringify(on))}catch{}document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on}}))}
-  window.Sound={tone,noise,context,set,toggle:()=>{set(!on);return on},resume:()=>audio?.resume?.(),get on(){return on}};
+  window.Sound={tone,noise,casi,context,set,toggle:()=>{set(!on);return on},resume:()=>audio?.resume?.(),get on(){return on}};
 })();

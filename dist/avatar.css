@@ -72,7 +72,7 @@
 .home-profile{right:118px}
 body:has(.home-account.is-signed) .home-profile{right:68px}
 
-/* Reto diario: el avatar acompaña a la tarjeta, y los aciertos se celebran (decisión 0029, reactions.js).
+/* Reto diario: el avatar acompaña a la tarjeta, y los aciertos se celebran (decisión 0033, reactions.js).
    En pantallas anchas va a la izquierda de la tarjeta, de pie a la altura de su borde inferior; si no hay sitio,
    se sube encima de la tarjeta, en pequeño. El lienzo es cuadrado para que quepa tumbado cuando se desmaya. */
 #game-shell .game-stage{container:game-stage/inline-size}
@@ -89,11 +89,9 @@ body:has(.home-account.is-signed) .home-profile{right:68px}
 .verdict-x.is-hit{position:relative;animation:hit-pop .7s cubic-bezier(.34,1.56,.64,1) both;text-shadow:0 0 30px color-mix(in srgb,var(--g-accent) 55%,transparent)}
 .verdict-x.is-hit::after{content:'';position:absolute;left:50%;top:50%;width:1.1em;height:1.1em;margin:-.55em;border-radius:50%;border:3px solid var(--g-accent);opacity:0;pointer-events:none;animation:hit-ring .85s ease-out both}
 .game-card.is-hit{animation:hit-card .55s ease-out}
-.game-card.is-perfect{animation:hit-card .55s ease-out,hit-glow 1.6s ease-out}
 .game-card.is-thud{animation:duel-shake .4s}
 @keyframes hit-stamp{from{opacity:0;transform:scale(2.3) rotate(-12deg)}}
 @keyframes hit-pop{0%{transform:scale(1)}35%{transform:scale(1.2) rotate(-2deg)}100%{transform:none}}
 @keyframes hit-ring{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3.4)}}
 @keyframes hit-card{30%{transform:scale(1.018)}}
-@keyframes hit-glow{0%{box-shadow:0 0 0 0 #ffdb70,0 0 0 0 #ffdb7000}25%{box-shadow:0 0 0 5px #ffdb70,0 0 70px 10px #ffdb70b3}100%{box-shadow:0 0 0 0 #ffdb7000,0 0 90px 30px #ffdb7000}}
-@media(prefers-reduced-motion:reduce){.verdict-chip.pop,.verdict-x.is-hit,.verdict-x.is-hit::after,.game-card.is-hit,.game-card.is-perfect,.game-card.is-thud{animation:none}}
+@media(prefers-reduced-motion:reduce){.verdict-chip.pop,.verdict-x.is-hit,.verdict-x.is-hit::after,.game-card.is-hit,.game-card.is-thud{animation:none}}

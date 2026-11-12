@@ -119,14 +119,17 @@
 <h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
 ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo <span aria-hidden="true">→</span></button></div>`:''}
 <div class="duel-profile">
-  <div class="duel-me"><span class="duel-stage">${figure({avatar:Progress.look()},'',{drag:true})}</span><button type="button" class="game-secondary" data-open-profile-inline="armario">Personalizar avatar</button></div>
-  <label class="duel-name-field"><span>Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
+  <div class="duel-stage">${figure({avatar:Progress.look()},'',{drag:true})}<button type="button" class="duel-edit" data-open-profile-inline="armario" aria-label="Personalizar avatar" title="Personalizar avatar"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg></button></div>
+  <div class="duel-me-info">
+    <label class="duel-name-field"><span class="sr-only">Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
+    <div class="duel-xp"><span><b>Nivel ${progress.level}</b><small>${int(progress.done)} / ${int(progress.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${progress.ratio}"></i></div></div>
+    <p class="duel-record">${stats.wins+stats.losses?`${stats.wins} ${stats.wins===1?'victoria':'victorias'} · ${stats.losses} ${stats.losses===1?'derrota':'derrotas'}${stats.streak?` · 🔥 racha de ${stats.streak}`:''}`:'Aún no has jugado ningún duelo'}</p>
+  </div>
 </div>
-<div class="duel-stats"><div class="duel-xp"><span><b>Nivel ${progress.level}</b><small>${int(progress.done)} / ${int(progress.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${progress.ratio}"></i></div></div><span class="duel-stat"><b>${stats.streak?'🔥 ':''}${stats.streak}</b><small>racha</small></span><span class="duel-stat"><b>${stats.wins}–${stats.losses}</b><small>victorias–derrotas</small></span></div>
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
 <div class="duel-modes"><button class="game-primary" type="button" data-duel="quick">Partida rápida <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
-<form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="¿Tienes un código?"><button class="game-secondary" type="submit">Unirme</button></form>
-<ul class="duel-rules"><li><b>${int(6000)}</b> de vida</li><li><b>3 min</b> por pregunta</li><li><b>30 s</b> cuando tu rival responde</li></ul>`;
+<details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
+<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival</p>`;
   }
   function renderWaiting(){
     hud.hidden=true;setView('result');
@@ -174,7 +177,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question,mine=round.guesses[duel.you],theirs=round.guesses[1-duel.you],myPoints=round.points[duel.you],theirPoints=round.points[1-duel.you];
     setView('result');setRoundInfo();revealed=duel.id+':'+round.number;
-    const column=(player,guess,pointsWon,who)=>`<div class="duel-col${round.loser&&round.loser!==who?' is-best':''}">${figure(player,'col',{emote:round.loser===who?'hurt':round.loser?'cheer':''})}<span class="duel-col-name">${who==='you'?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${guess==null?'—':times(Math.max(guess/round.answer,round.answer/guess))}</span><b class="duel-col-points" data-points="${pointsWon}">0</b><small>puntos</small></div>`;
+    const column=(player,guess,pointsWon,who)=>`<div class="duel-col${round.loser&&round.loser!==who?' is-best':''}">${figure(player,'col',{emote:round.loser===who?'hurt':round.loser?'cheer':''})}<span class="duel-col-name">${who==='you'?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${guess==null?'—':times(Math.max(guess/round.answer,round.answer/guess))}</span>${guess!=null&&window.CasiCasi?.is(Math.max(guess/round.answer,round.answer/guess))?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${pointsWon}">0</b><small>puntos</small></div>`;
     const outcome=round.loser===null?'Empate en esta ronda: nadie pierde vida.':round.loser==='rival'?`Le quitas <b>${int(round.damage)}</b> de vida a ${escapeHtml(rival().name)}.`:`Pierdes <b>${int(round.damage)}</b> de vida.`;
     content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Resultado · ronda ${round.number}</span><span class="duel-kicker" id="duel-countdown"></span></div>
 <h2 id="duel-title" class="duel-q-small">${q.title}</h2>

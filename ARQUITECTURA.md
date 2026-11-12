@@ -58,17 +58,22 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   styles.css             Diseño adaptable
   app.js                 Estado del juego, puntuación, bloc y eventos de la interfaz
   community.js           Cliente de la API, gráficos y contenido de resultados
+  share-card.js          Tarjeta para stories: dibuja la imagen de 1080 × 1920 del resultado y la comparte o descarga (decisión 0032)
+  share-card.css         Estilos de la vista previa de la tarjeta
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
+  ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
-  avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0029)
+  avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
-  progress.js            Nivel, faradios, racha, misiones, cofres y perfil con armario y tienda (decisiones 0024 y 0027)
+  progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi» y perfil con armario y tienda (decisiones 0024, 0027 y 0030)
   chests.js              Cofres: qué lleva cada uno, probabilidades y sorteo (decisión 0027)
   chest-open.js          Apertura de un cofre: animación, partículas, cartas y sonido
   chest.css              Estilos de los cofres y de su apertura
-  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres y reto diario
-  reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0029)
+  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres, «¡Casi casi!» y reto diario
+  casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
+  casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
+  reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
@@ -76,6 +81,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
+lib/ligas.mjs            Ligas de amigos: miembros, clasificación semanal y resumen (POST /api/liga)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -116,12 +122,22 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. **La migración `20261111120000_duelos` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
 
+## Ligas de amigos
+
+Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hora de Madrid) hecha con la distancia media del reto diario ([decisión 0031](docs/decisiones/0031-ligas-de-amigos.md)). Se crean con un nombre y se comparten con el enlace `?liga=CÓDIGO`.
+
+- `lib/ligas.mjs` tiene las reglas y la ruta `POST /api/liga`, con el campo `action`: `mias`, `crear`, `unirse`, `ver`, `salir`, `perfil` y `resumen`.
+- Las puntuaciones las pone el servidor: cuando alguien completa el reto **de hoy** (`POST /api/answers` en la última pregunta, o `POST /api/daily-scores`), `lib/api.mjs` calcula su distancia media con las respuestas guardadas y la apunta en «resultados diarios». El archivo no cuenta. Un día cerrado sin jugar cuenta como la peor distancia de la liga ese día, como poco 10×.
+- `dist/ligas.js` pinta la lista, la clasificación, la invitación y, al abrir la app en una semana nueva, el resumen de la anterior. El apodo es el de los duelos y el avatar, el del armario.
+- En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. **La migración `20261112120000_ligas` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel y la web dice «Las ligas no están disponibles ahora mismo».
+
 ## Avatar, faradios y misiones
 
 Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)). El avatar puede ser de hombre o de mujer, cada uno con su colección de 185 piezas, y se anima con una postura base y 20 gestos ([decisión 0028](docs/decisiones/0028-avatar-de-mujer-y-animaciones.md)). Parte de la ropa y las zapatillas son de marcas reales, con su logotipo (`dist/avatar-logos.js`), sin licencia de las marcas ([decisión 0026](docs/decisiones/0026-marcas-reales-en-la-tienda.md)). Cada jugador tiene también un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios solo se ganan jugando y solo compran piezas del avatar.
 
 - `app.js` y `duel.js` avisan con eventos del documento (`faraday:answer`, `faraday:day`, `faraday:duel`) y `progress.js` reparte la experiencia, los faradios y el avance de las misiones.
 - Los cofres ([decisión 0027](docs/decisiones/0027-cofres.md)) se ganan jugando o se compran con faradios. `chests.js` tiene las reglas y el sorteo, `progress.js` los guarda y reparte los premios, y `chest-open.js` enseña la apertura. Nada de esto pasa por el servidor.
+- Momento «¡Casi casi!» ([decisión 0030](docs/decisiones/0030-momento-casi-casi.md)): una respuesta a menos de 1,1× celebra en la tarjeta (`casi.js`, `casi.css`, `Sound.casi`) y dice qué porcentaje de los demás la clavó, con el campo `near` que devuelve `/api/answers` (nunca con la muestra simulada). `progress.js` lleva el contador, una vez por pregunta, y a los 10 desbloquea gratis la Sudadera «Casi casi» (pieza con `casi: 10`, como las de nivel). En los duelos solo hay un indicador, que no cuenta. `community.js` avisa de cada distribución cargada con el evento `faraday:distribucion`.
 - Todo se guarda en `localStorage` (clave `casi-casi:progreso`). No hay pagos ni datos en el servidor.
 - En los duelos, el navegador envía los identificadores de las piezas del avatar; el servidor los limpia y se los pasa al rival, sin comprobar que se hayan comprado.
 

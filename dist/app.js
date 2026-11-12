@@ -63,13 +63,13 @@ function renderGame(){
   const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
-  $('.game-card')?.classList.remove('explaining');
+  $('.game-card')?.classList.remove('explaining','is-casi','casi-fresh');
   const detail={view,index:activeIndex};
   if(view==='summary'){renderSummary();detail.average=activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}
   else if(view==='result')Object.assign(detail,renderResult(guesses));else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;justAnswered=false;announceView(detail);
 }
-// Avisa a reactions.js (avatar junto a la tarjeta, sonido y celebración) de lo que se acaba de pintar (decisión 0029).
+// Avisa a reactions.js (avatar junto a la tarjeta, sonido y celebración) de lo que se acaba de pintar (decisión 0033).
 // En un resultado: factor, fresh (se acaba de responder; si no, se está repasando), settle (milisegundos hasta que el
 // multiplicador termina de contar) y streak (aciertos seguidos justo antes de esta pregunta, en este mismo día).
 let justAnswered=false;
@@ -95,6 +95,7 @@ function renderResult(guesses){
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
+  window.CasiCasi?.card(q,factor,{today:activeDay.id===todayKey}); // Momento «¡Casi casi!» (casi.js, decisión 0030).
   const settle=animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus();
   let streak=0;for(let i=activeIndex-1;i>=0&&score(guesses[i],activeDay.questions[i].answer)<HIT;i--)streak++;
   return {factor,fresh:justAnswered,settle,streak};
@@ -159,7 +160,7 @@ function formatEstimateInput(input){
 }
 function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);justAnswered=true;renderGame()}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
-function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
+function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
 function loadWorkspace(day){
   if(sessionWorkspaces.has(day.id))return sessionWorkspaces.get(day.id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
@@ -185,7 +186,8 @@ function calculate(){const source=$('#scratch-expression').value.trim();try{cons
 function pressCalcKey(key){const input=$('#scratch-expression');if(key==='='){calculate();return}const start=input.selectionStart??input.value.length,end=input.selectionEnd??start;if(key==='C'){input.value='';input.focus();input.setSelectionRange(0,0)}else if(key==='⌫'){const from=start===end?Math.max(0,start-1):start;input.setRangeText('',from,end,'end');input.focus()}else{input.setRangeText(key,start,end,'end');input.focus()}$('#scratch-result').textContent='='}
 function insertInNote(text){const input=$('#scratch-note'),start=input.selectionStart??input.value.length,end=input.selectionEnd??start;input.setRangeText(text,start,end,'end');input.focus();workspaceData.note=input.value;saveWorkspace()}
 function showToast(message){const toast=$('#toast');toast.textContent=message;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3000)}
-async function shareResult(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
+// Compartir abre la tarjeta para stories (share-card.js, decisión 0032); si no ha cargado, se comparte solo el texto.
+async function shareResult(){if(window.ShareCard)return window.ShareCard.open(activeDay,getGuesses(activeDay),editionNumber(activeDay.id));const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:location.href});return}await navigator.clipboard.writeText(`${text}\n${location.href}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
 // Menú hamburguesa (decisión 0016): en el juego y en la portada. Reto de hoy, volver al inicio y el archivo para saltar a otro día.
 const menuArchive=createArchive($('#menu-archive'),{compact:true});
