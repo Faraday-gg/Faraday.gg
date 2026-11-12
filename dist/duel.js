@@ -72,7 +72,7 @@
     }catch{return {ok:false,status:0,data:{error:'Sin conexión con el servidor'}}}
   }
   // badge = la medalla destacada (decisión 0035): viaja con el avatar y el rival la ve junto al nombre.
-  // bet = la apuesta elegida (decisión 0041, bets.js), o null.
+  // bet = la apuesta elegida (decisión 0044, bets.js), o null.
   const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level(),bet:window.Bets?.choice()||null});
   const betChip=player=>window.Bets?Bets.chip(player):'';
   const badge=player=>player.bot?'':Medals.chip(player.avatar?.badge);

@@ -1,4 +1,4 @@
-// Prueba las apuestas de los duelos (decisión 0041): las reglas del navegador (dist/bets-rules.js) y lo que guarda el
+// Prueba las apuestas de los duelos (decisión 0044): las reglas del navegador (dist/bets-rules.js) y lo que guarda el
 // servidor (lib/apuestas.mjs a través de la API de duelos): desbloqueo por nivel, saldo, tope diario, cobro una sola vez,
 // liquidación de victoria, derrota, empate y abandono, y que no se paga dos veces.
 import assert from 'node:assert/strict';

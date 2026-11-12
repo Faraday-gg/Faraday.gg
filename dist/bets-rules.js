@@ -1,4 +1,4 @@
-// Apuestas en los duelos (decisión 0041): reglas y cuentas, sin pantalla ni almacenamiento, para poder probarlas con Node
+// Apuestas en los duelos (decisión 0044): reglas y cuentas, sin pantalla ni almacenamiento, para poder probarlas con Node
 // (tests/apuestas.test.mjs). bets.js pone el selector, guarda el registro en el navegador y mueve los faradios con progress.js.
 //
 // Cada jugador apuesta lo suyo contra la «banca», no contra su rival: los faradios solo viven en el navegador de cada uno

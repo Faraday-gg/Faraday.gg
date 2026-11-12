@@ -1,4 +1,4 @@
-// Apuestas en los duelos (decisión 0041): el selector de apuesta, la ficha junto al nombre, el resultado de la pantalla
+// Apuestas en los duelos (decisión 0044): el selector de apuesta, la ficha junto al nombre, el resultado de la pantalla
 // final y el registro de lo apostado. Las reglas y las cuentas están en bets-rules.js; los faradios, en progress.js.
 // duel.js solo llama a Bets.picker(), Bets.choice(), Bets.chip(), Bets.track() y Bets.result().
 //

@@ -1,4 +1,4 @@
-/* Apuestas en los duelos (decisión 0041): selector de fichas, ficha junto al nombre y resultado en la pantalla final.
+/* Apuestas en los duelos (decisión 0044): selector de fichas, ficha junto al nombre y resultado en la pantalla final.
    Usa los colores del juego (--g-*) para encajar en la vista oscura del portal y en la amarilla de la victoria. */
 .bet-picker{margin:16px 0 4px;padding:14px;border-radius:20px;background:var(--g-hover);text-align:left}
 .bet-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:10px}
@@ -32,12 +32,15 @@
 .bet-chip svg{width:12px;height:12px;fill:currentColor}
 .bet-chip .coin{width:1.15em;height:1.15em;background:var(--paper)}
 .duel-vs .bet-chip{font-size:12px;padding:3px 9px 3px 5px}
+/* En el marcador hay poco sitio: el rayo y la cifra bastan para no comerse el nombre. */
+.duel-player .bet-chip .coin{display:none}
 
 /* Resultado de la apuesta en la pantalla final */
 .bet-result{display:grid;justify-items:center;gap:4px;margin:14px 0 0;padding:14px 16px;border-radius:18px;background:var(--g-hover);animation:duel-pop .5s cubic-bezier(.34,1.56,.64,1) .3s both}
 .bet-result-tag{display:inline-flex;align-items:center;gap:2px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted)}
 .bet-result-tag svg{width:13px;height:13px;fill:currentColor}
 .bet-delta{display:inline-flex;align-items:center;gap:6px;font:700 40px/1 var(--display);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.bet-delta .coin{font-size:.55em}
 .bet-result.is-up .bet-delta{color:#14834a}
 .duel-shell[data-view=result] .bet-result.is-up .bet-delta{color:#2fd67b}
 .bet-result.is-down .bet-delta{color:#c8321a}
@@ -51,5 +54,4 @@
   .bet-card{grid-template-columns:auto 1fr;grid-template-areas:"bolt name" "bolt amount" "note note";justify-items:start;align-items:center;column-gap:8px;padding:10px}
   .bet-bolts{grid-area:bolt}.bet-name{grid-area:name;text-align:left}.bet-amount{grid-area:amount}.bet-note{grid-area:note;text-align:left}
   .duel-player .bet-chip{padding:1px 5px 1px 3px;font-size:10px}
-  .duel-player .bet-chip .coin{display:none}
 }
