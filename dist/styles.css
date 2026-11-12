@@ -554,26 +554,78 @@
 /* Portada: la misma hamburguesa, fija arriba a la izquierda para llegar al archivo desde cualquier punto (decisión 0016). */
 .home-menu-toggle{position:fixed;top:14px;left:14px;z-index:60;background:var(--paper);box-shadow:0 1px 2px #20263014,0 8px 20px -10px #20263066}
 .home-menu-toggle:hover{background:var(--paper);box-shadow:0 1px 2px #20263014,0 12px 24px -10px #20263080}
+/* Menú lateral (decisión 0038): el reto de hoy destacado arriba y el resto como lista compacta por secciones,
+   con un icono SVG del mismo trazo a la izquierda, título y subtítulo. En escritorio es un panel flotante sobre la página oscurecida. */
 .menu-drawer{position:fixed;inset:0;z-index:115;visibility:hidden;transition:visibility 0s .45s}
 body.menu-open .menu-drawer{visibility:visible;transition:none}
-.menu-scrim{position:absolute;inset:0;background:#20263059;opacity:0;transition:opacity .35s;backdrop-filter:blur(2px)}
+.menu-scrim{position:absolute;inset:0;background:#20263066;opacity:0;transition:opacity .35s;backdrop-filter:blur(3px)}
 body.menu-open .menu-scrim{opacity:1}
-.menu-panel{position:absolute;top:0;left:0;bottom:0;width:min(430px,100%);overflow:auto;background:var(--cream);padding:12px 22px 32px;transform:translateX(-104%);transition:transform .45s cubic-bezier(.22,1,.36,1);box-shadow:20px 0 50px -20px #20263066;border-radius:0 28px 28px 0}
+.menu-panel{position:absolute;top:0;left:0;bottom:0;width:min(380px,calc(100% - 40px));display:flex;flex-direction:column;overflow:auto;overscroll-behavior:contain;background:var(--cream);padding:10px 16px 28px;transform:translateX(-104%);transition:transform .45s cubic-bezier(.22,1,.36,1);box-shadow:20px 0 50px -20px #20263066;border-radius:0 24px 24px 0}
+@media(min-width:720px){.menu-panel{top:12px;left:12px;bottom:12px;width:372px;border-radius:26px;padding:12px 18px 28px;transform:translateX(calc(-100% - 28px));box-shadow:0 1px 2px #20263014,0 30px 70px -20px #20263099}}
 body.menu-open .menu-panel{transform:none}
-.menu-head{display:flex;align-items:center;justify-content:space-between;margin:0 -8px 14px 0}
-.menu-links{display:grid;gap:8px}
-.menu-link{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1.5px solid var(--line);border-radius:18px;background:var(--paper);padding:15px 18px;font:700 19px var(--display);letter-spacing:-.03em;color:var(--ink);text-align:left;opacity:0;transform:translateX(-16px);transition:opacity .3s,transform .4s cubic-bezier(.22,1,.36,1),background .15s,border-color .15s}
-.menu-link small{font:800 13px var(--num);letter-spacing:0;color:var(--muted)}
-.menu-link:hover:not(:disabled){border-color:var(--ink)}
-.menu-link-today{background:var(--coral);border-color:var(--coral)}.menu-link-today small{color:var(--ink)}
-.menu-link-today:hover:not(:disabled){border-color:var(--ink)}
-.menu-link:disabled{cursor:default}
+.menu-panel>*{flex-shrink:0}
+.menu-head{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin:0 -6px 14px 2px}
+/* El logo lleva al inicio desde la portada, el menú y las cabeceras de juego. */
+.brand-link{border-radius:40px;transition:opacity .15s,transform .15s}
+.brand-link:hover{opacity:.75}
+.brand-link:active{transform:scale(.96)}
+.brand-link:focus-visible{outline-offset:5px}
+/* Reto de hoy: la tarjeta coral de la portada, en pequeño. */
+.menu-today{position:relative;display:flex;align-items:center;gap:14px;width:100%;border:0;border-radius:22px;background:var(--coral);color:var(--ink);padding:18px 16px 18px 20px;text-align:left;overflow:hidden;box-shadow:0 1px 2px #20263014,0 14px 28px -18px #202630aa;transition:box-shadow .2s,filter .2s}
+.menu-today::before{content:'≈';position:absolute;right:58px;top:50%;transform:translateY(-54%);font:500 128px/1 var(--display);color:var(--ink);opacity:.08;pointer-events:none}
+.menu-today-copy{position:relative;flex:1;min-width:0;display:grid;gap:4px}
+.menu-today-kicker{font:800 11px var(--font);letter-spacing:.14em;text-transform:uppercase}
+.menu-today-kicker span{margin-left:4px;padding:2px 7px;border-radius:20px;background:var(--ink);color:var(--coral);font:600 11px var(--num);letter-spacing:.02em}
+.menu-today-kicker span:empty{display:none}
+.menu-today-title{font:700 22px/1.05 var(--display);letter-spacing:-.05em}
+.menu-today-sub{font:600 13px/1.3 var(--font);opacity:.78}
+.menu-today-go{position:relative;flex:none;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--coral);display:grid;place-items:center;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.menu-today-go svg{width:20px;height:20px}
+.menu-today:hover:not(:disabled){box-shadow:0 1px 2px #20263014,0 18px 32px -16px #202630bb;filter:saturate(1.08)}
+.menu-today:hover:not(:disabled) .menu-today-go{transform:translateX(3px)}
+.menu-today:active:not(:disabled) .menu-today-go{transform:scale(.92)}
+.menu-today:disabled{cursor:default;opacity:.55}
+.menu-today.is-done{background:var(--paper);box-shadow:0 1px 2px #20263014,0 0 0 1.5px var(--line)}
+.menu-today.is-done .menu-today-go{background:var(--coral);color:var(--ink)}
+.menu-today.is-done .menu-today-kicker span{color:var(--paper)}
+/* Secciones: títulos pequeños en versalitas y listas agrupadas en una tarjeta. */
+.menu-title{display:flex;align-items:center;gap:10px;font:800 11px var(--font);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:24px 6px 8px}
+.menu-title::after{content:'';flex:1;height:1px;background:var(--line)}
+.menu-list{list-style:none;margin:0;padding:4px;background:var(--paper);border-radius:20px;box-shadow:0 1px 2px #20263014,0 0 0 1px #2026300f}
+.menu-list li{position:relative}
+.menu-list li+li::before{content:'';position:absolute;top:0;left:62px;right:12px;height:1px;background:var(--line);opacity:.7}
+.menu-link{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:16px;background:transparent;padding:9px 10px;color:var(--ink);text-align:left;transition:background .15s}
+.menu-link:hover:not(:disabled){background:var(--cream)}
+.menu-link:active:not(:disabled){background:#ebe5d7}
+.menu-link:focus-visible{outline-offset:-3px}
+.menu-link:disabled{cursor:default;opacity:.5}
 .menu-link[hidden]{display:none}
-body.menu-open .menu-link{opacity:1;transform:none}
-body.menu-open .menu-link:disabled{opacity:.5}
-body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .menu-link:nth-child(2){transition-delay:.14s}
-.menu-title{font:700 15px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:30px 0 14px}
-@media(max-width:560px){.menu-panel{border-radius:0}}
+.menu-ico{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--tone,var(--cream));color:var(--ink)}
+.menu-ico svg{width:20px;height:20px}
+.menu-link[data-tone=coral]{--tone:color-mix(in srgb,var(--coral) 24%,var(--paper))}
+.menu-link[data-tone=yellow]{--tone:color-mix(in srgb,var(--yellow) 55%,var(--paper))}
+.menu-link[data-tone=blue]{--tone:color-mix(in srgb,var(--blue) 75%,var(--paper))}
+.menu-link[data-tone=ink] .menu-ico{background:var(--ink);color:var(--paper)}
+.menu-text{flex:1;min-width:0;display:grid;gap:1px}
+.menu-text b{font:700 16px/1.2 var(--display);letter-spacing:-.03em;overflow-wrap:anywhere}
+.menu-text small{font:500 12.5px/1.3 var(--font);color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.menu-chev{flex:none;width:18px;height:18px;color:var(--muted);opacity:.55;transition:transform .15s,opacity .15s}
+.menu-link:hover:not(:disabled) .menu-chev{transform:translateX(2px);opacity:1}
+/* Volver al inicio (solo dentro del juego): una píldora discreta encima del reto. */
+.menu-back{align-self:flex-start;width:auto;margin:0 0 12px;padding:5px 14px 5px 5px;border-radius:40px;background:var(--paper);box-shadow:0 1px 2px #20263014,0 0 0 1px #2026300f}
+.menu-back .menu-ico{width:30px;height:30px;border-radius:50%;background:var(--cream)}
+.menu-back .menu-ico svg{width:17px;height:17px}
+.menu-back .menu-text b{font:700 14px var(--font);letter-spacing:0}
+.menu-back:hover:not(:disabled){background:var(--paper);box-shadow:0 1px 2px #20263014,0 0 0 1.5px var(--ink)}
+.menu-panel #menu-archive{margin-top:2px}
+/* Entrada escalonada de los bloques al abrir. */
+@keyframes menu-in{from{opacity:0;transform:translateX(-14px)}}
+body.menu-open .menu-panel>:not(.menu-head){animation:menu-in .45s cubic-bezier(.22,1,.36,1) backwards}
+body.menu-open .menu-panel>:nth-child(3){animation-delay:.05s}
+body.menu-open .menu-panel>:nth-child(4),body.menu-open .menu-panel>:nth-child(5){animation-delay:.1s}
+body.menu-open .menu-panel>:nth-child(6),body.menu-open .menu-panel>:nth-child(7){animation-delay:.15s}
+body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
+@media(prefers-reduced-motion:reduce){.menu-panel,.menu-scrim{transition:none}body.menu-open .menu-panel>*{animation:none}}
 @media(prefers-reduced-motion:reduce){.arc-tile,.arc-today,.arc-picked,.arc-peek-card,.arc.is-rolling .arc-dice svg{animation:none!important}.arc:not(.is-visible) .arc-tile{opacity:1}}
 
 /* Preguntas frecuentes: al final de la portada, desplegables con el estilo de la portada sencilla. */
@@ -911,8 +963,6 @@ body.menu-open .menu-link:nth-child(1){transition-delay:.08s}body.menu-open .men
 .home-account:hover{box-shadow:0 1px 2px #20263014,0 12px 24px -10px #20263080;transform:translateY(-1px)}
 .home-account.is-signed{padding:0;width:44px;background:var(--ink);color:var(--paper);font:700 18px var(--display)}
 body:has(#game-shell:not([hidden])) .home-account{display:none}
-.menu-account{width:100%;opacity:1;transform:none}
-.menu-account span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .auth-dialog{width:min(440px,calc(100% - 32px));max-height:calc(100% - 32px);border:0;border-radius:28px;background:var(--cream);color:var(--ink);padding:26px 26px 20px;box-shadow:0 30px 70px -20px #20263099;overflow:auto}
 .auth-dialog::backdrop{background:#20263059;backdrop-filter:blur(2px)}
 .auth-dialog[open]{animation:auth-in .35s cubic-bezier(.22,1,.36,1)}
