@@ -11,11 +11,14 @@
   <link rel="stylesheet" href="avatar.css">
   <link rel="stylesheet" href="chest.css">
   <link rel="stylesheet" href="casi.css">
+  <link rel="stylesheet" href="ligas.css">
+  <link rel="stylesheet" href="share-card.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
   <script src="archive.js" defer></script>
   <script src="app.js" defer></script>
+  <script src="share-card.js" defer></script>
   <script src="community.js" defer></script>
   <script src="avatar.js" defer></script>
   <script src="sound.js" defer></script>
@@ -24,6 +27,7 @@
   <script src="chest-open.js" defer></script>
   <script src="progress.js" defer></script>
   <script src="duel.js" defer></script>
+  <script src="ligas.js" defer></script>
   <script src="auth.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
 </head>
@@ -40,6 +44,7 @@
       <button class="home-avatar" id="home-avatar" type="button" data-open-profile aria-label="Tu avatar: abrir el armario y la tienda"></button>
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
+      <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
     </section>
 
     <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>
@@ -101,6 +106,7 @@
         <details class="faq-item"><summary>¿Puedo buscar la respuesta en internet?</summary><p>Poder, puedes, pero pierde la gracia. La idea es usar la intuición y hacer cuentas: para eso tienes el bloc de ideas con calculadora y notas dentro del juego.</p></details>
         <details class="faq-item"><summary>¿Cómo se mide si me he acercado?</summary><p>Con tu distancia: cuántas veces te has pasado o te has quedado corto respecto a la referencia. 1× es exacto y 2× significa el doble o la mitad. Cuanto más cerca de 1×, mejor.</p></details>
         <details class="faq-item"><summary>¿Cómo funcionan los duelos 1 vs 1?</summary><p>Tú y tu rival respondéis la misma pregunta a la vez. Cada uno empieza con 6.000 de vida y, en cada ronda, quien se aleja más de la cifra real pierde la diferencia de puntos. Hay 3 minutos por pregunta, pero en cuanto uno responde al otro le quedan 30 segundos. Puedes buscar rival o retar a un amigo con un código.</p></details>
+        <details class="faq-item"><summary>¿Cómo funcionan las ligas con amigos?</summary><p>Crea una liga, ponle nombre y comparte el enlace con tu grupo (hasta 15 personas). Cada semana, de lunes a domingo, gana quien tenga la distancia media más baja en el reto diario. Solo cuenta el reto jugado el mismo día, no el archivo. Un día sin jugar cuenta como la peor distancia de la liga ese día, y nunca menos de 10×. El lunes verás quién ganó la semana anterior.</p></details>
         <details class="faq-item"><summary>¿Qué son los faradios y las misiones?</summary><p>Los faradios (≈) son la moneda del juego. Se ganan jugando: al completar el reto del día, en los duelos, al subir de nivel y con las misiones diarias y semanales. Sirven para vestir a tu avatar con ropa, gorras, zapatillas y accesorios, y para comprar cofres. No se compran con dinero y no dan ninguna ventaja al jugar.</p></details>
         <details class="faq-item"><summary>¿Qué son los cofres?</summary><p>Cajas con premios al azar: faradios o piezas para tu avatar que todavía no tienes. Se ganan jugando (misiones, niveles, rachas y la batería) y también se pueden comprar con faradios, como mucho tres al día. Nunca con dinero. Las probabilidades de cada premio están a la vista en la pestaña Cofres de tu perfil, nunca sale una pieza repetida y los cofres no caducan.</p></details>
         <details class="faq-item"><summary>¿Necesito una cuenta para jugar?</summary><p>No. Se juega sin registrarse. Tu progreso y tus notas se guardan en este navegador; si cambias de dispositivo o borras los datos del navegador, empiezas de cero.</p></details>
@@ -176,6 +182,16 @@
      </section>
     </div>
   </div>
+  <div class="league-shell" id="league-shell" data-screen="lobby" hidden>
+    <div class="league-layout" role="dialog" aria-modal="true" aria-labelledby="league-title">
+      <header class="game-bar">
+        <button class="game-back" id="league-close" type="button" aria-label="Cerrar las ligas">×</button>
+        <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
+        <span></span>
+      </header>
+      <div class="league-main"><div class="league-content" id="league-content"></div></div>
+    </div>
+  </div>
   <div class="profile-shell" id="profile-shell" hidden>
     <div class="profile-layout" role="dialog" aria-modal="true" aria-labelledby="profile-title">
       <header class="game-bar">
@@ -193,6 +209,7 @@
       <div class="menu-links">
         <button type="button" class="menu-link menu-link-today" id="menu-today"><span>Reto de hoy</span><small id="menu-today-number"></small></button>
         <button type="button" class="menu-link" data-open-duel><span>Duelo 1 vs 1</span><small aria-hidden="true">⚔</small></button>
+        <button type="button" class="menu-link" data-open-league><span>Ligas con amigos</span><small aria-hidden="true">🏆</small></button>
         <button type="button" class="menu-link" data-open-profile><span>Avatar y misiones</span><small aria-hidden="true">≈</small></button>
         <button type="button" class="menu-link" id="menu-home"><span>Volver al inicio</span><small aria-hidden="true">↩</small></button>
       </div>

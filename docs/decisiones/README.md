@@ -33,6 +33,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0028](0028-avatar-de-mujer-y-animaciones.md) | Avatar de hombre o de mujer, con su colección, y animaciones más naturales | Propuesta | 2026-11-12 |
 | [0029](0029-calculo-por-pasos.md) | «Cómo se calcula» como una cuenta por pasos, con el resultado resaltado | Propuesta | 2026-11-12 |
 | [0030](0030-momento-casi-casi.md) | Momento «¡Casi casi!»: celebrar las respuestas a menos de 1,1× | Propuesta | 2026-11-12 |
+| [0031](0031-ligas-de-amigos.md) | Ligas de amigos con clasificación semanal | Propuesta (migración sin aplicar) | 2026-11-12 |
+| [0032](0032-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

@@ -76,6 +76,7 @@ Reglas para agentes:
   node tests/cofres.test.mjs
   node tests/casi.test.mjs
   node tests/auth.test.mjs
+  node tests/ligas.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.
@@ -83,7 +84,7 @@ Reglas para agentes:
 
 ## La pull request la abre el agente
 
-Sube la rama y abre tú la PR, con la base en `preprod`. Usa la cuenta de GitHub del colaborador con el que trabajas (`gh auth status` para comprobarlo).
+Sube la rama y abre tú la PR, con la base en `preprod`. Usa la cuenta de GitHub del colaborador con el que trabajas (`gh auth status` para comprobarlo): `borgesinmas` (Luis) o `sistemavivacegroup` (Álvaro). **Nunca abras una PR con una cuenta de Yellow Glasses** (`*-yellowglasses`) ni con otra que no sea la del colaborador: en ese caso sube la rama y entrega el enlace de comparación (`https://github.com/Faraday-gg/Faraday.gg/compare/preprod...<rama>?expand=1`) con la descripción lista.
 
 ```bash
 git push -u origin feat/descripcion-breve

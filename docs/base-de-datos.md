@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`): migración `20261111120000_duelos` escrita y **sin aplicar**. Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
+- **Última actualización:** 2026-11-12, ligas de amigos (rama `feat/ligas-amigos`): migración `20261112120000_ligas` escrita y **sin aplicar**. Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`): migración `20261111120000_duelos` escrita y **sin aplicar**. Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)); última migración aplicada `20261109222550_almacen_imagenes`
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -20,6 +20,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
 | `public.duels` (**pendiente de aplicar**) | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
+| `public.leagues`, `public.league_members`, `public.daily_results` (**pendientes de aplicar**) | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
 
 ### Qué está en Supabase y qué no
 
@@ -88,6 +89,48 @@ Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No
 
 Índice parcial `duels_waiting_idx` sobre `created_at` para los duelos públicos en espera. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Las filas no se borran (ver [mejoras](mejoras/README.md)). Contiene apodos escritos por los jugadores, pero ningún dato que los identifique.
 
+### Ligas de amigos (migración `20261112120000_ligas`, **sin aplicar**)
+
+[Decisión 0031](decisiones/0031-ligas-de-amigos.md), `lib/ligas.mjs`.
+
+```text
+leagues (1) ──< league_members (máx. 15)        daily_results (1 por jugador y día)
+```
+
+**`public.leagues`**
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `uuid` | clave primaria | Lo genera el servidor. |
+| `code` | `text` | único, 6 caracteres `A-Z2-9` | Código para invitar (`?liga=CÓDIGO`). |
+| `name` | `text` | 1 a 24 caracteres | Lo escribe quien crea la liga; el servidor lo limpia de HTML. |
+| `created_at` | `timestamptz` | por defecto `now()` | Una liga creada esta semana no tiene resumen de la anterior. |
+
+**`public.league_members`**
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `league_id` | `uuid` | → `leagues.id`, se borra en cascada | |
+| `player_hash` | `text` | 64 caracteres hexadecimales | SHA-256 del UUID anónimo (o del jugador enlazado a la cuenta). |
+| `name` | `text` | 1 a 16 caracteres | Apodo, limpio de HTML. |
+| `avatar` | `jsonb` | por defecto `{}` | Solo los identificadores de las piezas del avatar, como en los duelos. |
+| `joined_at` | `timestamptz` | por defecto `now()` | Quien entra después de una semana no cuenta en ella. |
+
+Clave primaria `(league_id, player_hash)` e índice `league_members_player_idx` por `player_hash` («Tus ligas»). El disparador `league_members_limit` impide pasar de 15 miembros: bloquea la fila de la liga y, si ya hay 15, falla con `liga_llena`. El servidor lo comprueba antes, así que el disparador solo actúa si dos personas entran a la vez. Cuando sale el último miembro, el servidor borra la liga.
+
+**`public.daily_results`**
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | 64 caracteres hexadecimales | |
+| `day` | `date` | | Fecha de la jornada en `Europe/Madrid`. |
+| `score` | `double precision` | ≥ 1 | Distancia media del día (1 = exacto), calculada por el servidor a partir de `answers`. |
+| `created_at` | `timestamptz` | por defecto `now()` | |
+
+Clave primaria `(player_hash, day)`: vale la primera. El servidor solo inserta cuando el jugador completa las tres preguntas **el mismo día de la jornada** en hora de Madrid; lo jugado desde el archivo no se apunta. Se guarda para todos los jugadores, estén o no en una liga, para que quien se une a mitad de semana no pierda los días que ya jugó.
+
+Las tres tablas tienen RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Contienen apodos escritos por los jugadores, pero ningún dato que los identifique.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -118,6 +161,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
 - **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
+- **`POST /api/liga`** (`lib/ligas.mjs`): crea ligas e inserta miembros, y para la clasificación lee `daily_results` de los miembros entre el lunes y el domingo. `POST /api/answers` (al responder la última pregunta del reto de hoy) y `POST /api/daily-scores` insertan en `daily_results`, ignorando duplicados; si falla, la respuesta se guarda igual. Si las tablas no existen o Supabase falla, `/api/liga` responde 503 sin afectar al resto de la API.
 - **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
 - **Tarea programada** (migración `20261110120000_jornadas_generadas`, **sin aplicar**): `pg_cron` ejecuta la tarea `generar-jornada` a las 22:01 y 23:01 UTC (las 00:01 de Madrid en verano y en invierno; la otra llamada no hace nada) y llama con `pg_net` a `https://faraday-gg.vercel.app/api/generar-dia` con el secreto `cron_secret` de Vault. El secreto se crea a mano en el editor SQL del panel, con el mismo valor que `CRON_SECRET` de Vercel, y nunca va al repositorio: `select vault.create_secret('<valor>', 'cron_secret');`. Para ver las ejecuciones: `select * from cron.job_run_details order by start_time desc limit 10;` y `select * from net._http_response order by created desc limit 10;`.
 
@@ -125,7 +169,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 
 - **Imágenes**: el almacén `imagenes` es público solo para lectura por URL, porque las fotos ya se muestran en la web. Para subir o cambiar archivos hace falta la clave secreta.
 - **Solo el servidor accede a la base de datos**, con la clave secreta del proyecto (variable de entorno, nunca en Git ni en el navegador). Ver [decisión 0002](decisiones/0002-acceso-a-supabase-solo-desde-el-servidor.md).
-- RLS está activado en las tres tablas **sin políticas**, y se han quitado todos los permisos a los roles `anon` y `authenticated`, también para ejecutar `daily_scores`. Con la clave pública no se puede leer ni escribir nada.
+- RLS está activado en todas las tablas **sin políticas**, y se han quitado todos los permisos a los roles `anon` y `authenticated`, también para ejecutar `daily_scores`. Con la clave pública no se puede leer ni escribir nada.
 - El aviso de Supabase «RLS Enabled No Policy» (nivel INFO) es **intencionado** por lo anterior.
 - El aviso «Public Can Execute SECURITY DEFINER Function» se refiere a `public.rls_auto_enable()`, una función que crea Supabase para activar RLS automáticamente en tablas nuevas (disparador de eventos `ensure_rls`). No la hemos creado nosotros y, al ser de tipo `event_trigger`, no se puede ejecutar como RPC. La dejamos como está.
 
@@ -155,6 +199,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261109222550` | [almacen_imagenes](../supabase/migrations/20261109222550_almacen_imagenes.sql) | Crea el almacén público `imagenes` de Storage (máx. 5 MB por archivo; JPEG, PNG, WebP y SVG). | 2026-11-09, por Luis con Claude Code |
 | `20261110120000` | [jornadas_generadas](../supabase/migrations/20261110120000_jornadas_generadas.sql) | `days.source` admite `ia`; activa `pg_cron` y `pg_net` y programa la tarea `generar-jornada` (00:01 de Madrid). | **Pendiente**: aplicar tras crear el secreto `cron_secret` en Vault |
 | `20261111120000` | [duelos](../supabase/migrations/20261111120000_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | **Pendiente**: sin ella los duelos responden 503 en Vercel |
+| `20261112120000` | [ligas](../supabase/migrations/20261112120000_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | **Pendiente**: sin ella las ligas responden 503 en Vercel |
 
 ## Pendiente
 

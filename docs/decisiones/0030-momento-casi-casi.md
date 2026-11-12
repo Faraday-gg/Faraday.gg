@@ -4,7 +4,7 @@
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
 
-> **Número:** iba a ser la 0029, pero la 0028 ya estaba ocupada en `preprod` (avatar de mujer) y las mejoras para hacer correr el juego se corrieron un número. Al fusionar `preprod`, la 0029 resultó ocupada por «Cómo se calcula» por pasos; esta sigue siendo la 0030.
+> **Número:** iba a ser la 0029, pero la 0028 (avatar de mujer) y la 0029 («Cómo se calcula» por pasos) ya estaban ocupadas en `preprod`. Las tres mejoras para hacer correr el juego quedaron así: esta 0030, ligas de amigos [0031](0031-ligas-de-amigos.md) y tarjeta para stories [0032](0032-tarjeta-para-stories.md).
 
 ## Contexto
 

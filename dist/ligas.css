@@ -1,0 +1,101 @@
+/* Ligas de amigos (decisión 0031): entrada discreta en la portada, lista de ligas, clasificación semanal y resumen del lunes.
+   Reutiliza las piezas de los duelos (apodo, código, botones) con la paleta clara del juego. */
+.home-league{display:flex;width:fit-content;margin:10px auto 0;align-items:center;gap:8px;border:0;background:transparent;color:var(--ink);padding:8px 14px;font-size:14px;font-weight:700;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;border-radius:30px;transition:background .15s}
+.home-league:hover{background:#20263014}
+
+.league-shell[hidden]{display:none}
+.league-shell{position:fixed;inset:0;z-index:104;
+  --g-bg:var(--paper);--g-fg:var(--ink);--g-accent:var(--ink);--g-on-accent:var(--paper);
+  --g-muted:color-mix(in srgb,var(--g-fg) 68%,transparent);--g-line:color-mix(in srgb,var(--g-fg) 22%,transparent);
+  background:var(--cream);color:var(--ink)}
+.league-shell.is-busy{cursor:progress}
+.league-shell.is-busy button{pointer-events:none}
+.league-layout{height:100dvh;overflow:auto;display:flex;flex-direction:column}
+.league-main{flex:1;display:flex;justify-content:center;padding:clamp(8px,3vh,32px) 16px 48px}
+.league-content{width:min(640px,100%);background:var(--paper);border-radius:28px;padding:22px clamp(18px,5vw,40px) clamp(26px,5vw,36px);box-shadow:0 1px 2px #20263014,0 18px 40px -18px #20263059;align-self:flex-start}
+.league-content h2{margin:10px 0 20px;font:700 clamp(26px,5vw,34px)/1.08 var(--display);letter-spacing:-.04em}
+.league-content h2 em{font-family:Georgia,serif;font-weight:400;font-style:italic;color:#c8321a}
+.league-subtitle{margin:22px 0 8px;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--g-muted)}
+.league-invite{background:var(--coral);color:var(--ink)}
+.league-invite .game-primary{background:var(--ink);color:var(--paper)}
+.league-name-field{margin-top:4px}
+
+/* Lista «Tus ligas» */
+.league-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.league-item{width:100%;display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:18px;background:var(--cream);padding:12px 14px;color:var(--ink);text-align:left;transition:border-color .15s}
+.league-item:hover{border-color:var(--ink)}
+.league-item-main{flex:1;min-width:0;display:grid;gap:2px}
+.league-item-main b{font:700 18px var(--display);letter-spacing:-.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.league-item-main small,.league-item-leader small{font-size:12px;color:var(--muted);font-weight:600}
+.league-item-leader{display:grid;justify-items:center;gap:2px;max-width:76px}
+.league-item-leader small{max-width:76px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Crear y unirse */
+.league-create{display:grid;gap:6px;margin-top:22px}
+.league-create label{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--g-muted)}
+.league-row{display:flex;gap:10px;align-items:end}
+.league-row input{flex:1;min-width:0;border:0;border-bottom:2px solid var(--g-line);background:transparent;color:var(--ink);font:700 19px var(--display);letter-spacing:-.02em;padding:8px 0;outline:0}
+.league-row input:focus{border-color:var(--ink)}
+.league-row input::placeholder{font:500 15px var(--font);color:var(--g-muted);letter-spacing:0}
+.league-row .game-primary{padding:12px 22px}
+.league-join .game-secondary{padding:12px 22px}
+.league-rules{margin-top:22px;font-size:14px;line-height:1.5;color:var(--muted)}
+.league-rules summary{cursor:pointer;font-weight:700;color:var(--ink)}
+.league-rules ul{margin:8px 0 0;padding-left:20px;display:grid;gap:4px}
+
+/* Una liga */
+.league-back{margin:0 0 6px;padding:0}
+.league-share{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:-6px 0 16px}
+.league-code{font:500 22px var(--num);letter-spacing:.18em;background:var(--cream);border-radius:12px;padding:6px 12px}
+.league-count{font-size:13px;font-weight:700;color:var(--muted)}
+.league-share .game-secondary{margin-left:auto;padding:10px 20px}
+.league-play{width:100%;margin-bottom:14px}
+.league-table{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.league-table li{display:grid;grid-template-columns:30px minmax(0,1fr) auto 64px;align-items:center;gap:10px;padding:8px 10px;border-radius:14px}
+.league-head{padding-block:0!important;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--g-muted)}
+.league-head>span:last-child{text-align:right}
+.league-head .league-week i{background:none;font-style:normal;text-align:center;width:12px}
+.league-row-item:nth-child(even){background:#2026300a}
+.league-row-item.is-you{background:var(--yellow)}
+.league-row-item.is-you .league-day.is-played{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.league-pos{font:500 17px var(--num);font-variant-numeric:tabular-nums;text-align:center}
+.league-who{display:flex;align-items:center;gap:10px;min-width:0}
+.league-who>span:last-child{display:grid;min-width:0}
+.league-who b{font:700 15px var(--display);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.league-who b small{font:600 12px var(--font);color:var(--muted)}
+.league-who>span:last-child>small{font-size:12px;color:var(--muted)}
+.league-week{display:flex;gap:4px}
+.league-day{display:inline-block;width:12px;height:12px;border-radius:4px;background:#2026301a;flex:none}
+.league-day.is-before{opacity:.35}
+.league-day.is-today{box-shadow:inset 0 0 0 1.5px var(--ink);background:transparent}
+.league-day.is-played{background:#ffb627}.league-day.is-good{background:#2fd67b}.league-day.is-bad{background:var(--coral)}
+.league-day.is-missed{background:transparent;box-shadow:inset 0 0 0 1.5px #20263066;position:relative}
+.league-day.is-missed::after{content:"";position:absolute;inset:5px 2px;background:#20263066;transform:rotate(-45deg);border-radius:2px}
+.league-avg{font:500 17px var(--num);font-variant-numeric:tabular-nums;text-align:right}
+.league-legend{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:12px 0 0;font-size:12px;color:var(--muted)}
+.league-legend .league-day{vertical-align:middle}
+.league-leave{margin-top:22px}
+
+/* Resumen del lunes */
+.league-summary{display:grid;justify-items:center;text-align:center;gap:6px;padding:20px 16px;border-radius:22px;background:var(--cream);margin-bottom:12px}
+.league-summary.is-winner{background:var(--yellow)}
+.league-summary-name{margin:0;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.league-summary-winner{position:relative;margin:22px 0 2px}
+.league-summary-winner .duel-avatar.big{--size:104px}
+.league-crown{position:absolute;top:-30px;left:50%;transform:translateX(-50%) rotate(-8deg);font-size:30px;animation:league-crown .7s cubic-bezier(.34,1.56,.64,1) both}
+.league-summary-text{margin:0;font:600 18px var(--display);letter-spacing:-.02em}
+.league-summary-you{margin:0 0 6px;font-size:14px;color:var(--muted)}
+.league-summary .game-secondary{padding:10px 18px;font-size:14px}
+.league-summary-close{width:100%;margin-top:4px}
+@keyframes league-crown{from{transform:translate(-50%,10px) scale(.4) rotate(-30deg);opacity:0}}
+
+@media(max-width:520px){
+  .league-main{padding:4px 10px 28px}
+  .league-content{border-radius:22px;padding:16px 16px 22px}
+  .league-table li{grid-template-columns:24px minmax(0,1fr) 56px;gap:8px;padding:8px}
+  .league-table .league-week{grid-column:2/4;grid-row:2;margin-left:44px}
+  .league-head{display:none!important}
+  .league-who .duel-avatar{--size:34px}
+  .league-share .game-secondary{margin-left:0}
+}
+@media(prefers-reduced-motion:reduce){.league-crown{animation:none}}
