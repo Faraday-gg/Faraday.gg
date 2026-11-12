@@ -1,0 +1,25 @@
+/* Vista previa de la tarjeta para stories (decisión 0029). */
+.share-dialog{width:min(420px,calc(100% - 32px));max-height:calc(100% - 32px);border:0;border-radius:28px;background:var(--cream);color:var(--ink);padding:22px 22px 18px;box-shadow:0 30px 70px -20px #20263099;overflow:auto}
+.share-dialog::backdrop{background:#20263073;backdrop-filter:blur(2px)}
+.share-dialog[open]{animation:share-in .35s cubic-bezier(.22,1,.36,1)}
+@keyframes share-in{from{opacity:0;transform:translateY(14px) scale(.98)}}
+.share-dialog h2{margin:0 40px 4px 0;font:700 24px/1.15 var(--display);letter-spacing:-.04em}
+.share-hint{margin:0 0 14px;font-size:14px;line-height:1.45;color:#4d5359}
+.share-close{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:1.5px solid #20263040;background:transparent;color:var(--ink);font-size:24px;line-height:1}
+.share-close:hover{background:#2026300f}
+.share-preview{display:grid;place-items:center;aspect-ratio:9/16;max-height:min(54vh,560px);margin:0 auto;border-radius:18px;background:#2026300f;overflow:hidden}
+.share-preview img{display:block;width:100%;height:100%;object-fit:contain}
+.share-loading{margin:0;padding:20px;text-align:center;font-size:14px;color:#4d5359}
+.share-text{margin:12px 0 0;padding:10px 12px;border-radius:14px;background:#2026300a;font:500 13px/1.5 var(--font);white-space:pre-wrap;color:#4d5359}
+.share-actions{display:flex;gap:10px;margin-top:14px}
+.share-actions>*{flex:1;border-radius:50px;padding:14px 18px;font-size:15px;font-weight:700;border:1.5px solid var(--ink)}
+.share-primary{background:var(--ink);color:var(--paper)}
+.share-primary:hover{background:#3a4250}
+.share-secondary{background:transparent;color:var(--ink)}
+.share-secondary:hover{background:#2026300f}
+.share-secondary:disabled{opacity:.45;cursor:default}
+.share-status{margin:10px 0 0;min-height:1.4em;text-align:center;font-size:13px;font-weight:700;color:#4d5359}
+.share-status:empty{margin:0;min-height:0}
+.share-dialog.is-golden{background:linear-gradient(160deg,#fff4c4,#ffe58a)}
+@media(max-width:560px){.share-dialog{padding:18px 16px 14px;border-radius:24px}.share-preview{max-height:52vh}}
+@media(prefers-reduced-motion:reduce){.share-dialog[open]{animation:none}}
