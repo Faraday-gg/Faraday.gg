@@ -36,7 +36,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0031](0031-ligas-de-amigos.md) | Ligas de amigos con clasificación semanal | Propuesta (migración aplicada) | 2026-11-12 |
 | [0032](0032-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
 | [0033](0033-avatar-en-el-reto-y-recompensa.md) | El avatar reacciona en el reto diario y los aciertos se celebran | Propuesta | 2026-11-12 |
-| [0034](0034-medallas-e-insignias.md) | Medallas e insignias en el perfil, con una destacada que ven los rivales y la liga | Propuesta | 2026-11-12 |
+| [0034](0034-dano-progresivo-en-duelos.md) | Daño progresivo en los duelos | Propuesta | 2026-11-12 |
+| [0035](0035-medallas-e-insignias.md) | Medallas e insignias en el perfil, con una destacada que ven los rivales y la liga | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

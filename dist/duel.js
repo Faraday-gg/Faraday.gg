@@ -5,6 +5,7 @@
   const KEY='casi-casi:duelo:',shell=$('#duel-shell'),content=$('#duel-content'),hud=$('#duel-hud');
   const saved={get(key,fallback){try{return JSON.parse(localStorage.getItem(KEY+key))??fallback}catch{return fallback}},set(key,value){try{localStorage.setItem(KEY+key,JSON.stringify(value))}catch{}},remove(key){try{localStorage.removeItem(KEY+key)}catch{}}};
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
+  const times=n=>'×'+new Intl.NumberFormat('es-ES',{maximumFractionDigits:2}).format(n);
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let profile=saved.get('perfil',null);
@@ -70,7 +71,7 @@
       return {ok:response.ok,status:response.status,data:await response.json()};
     }catch{return {ok:false,status:0,data:{error:'Sin conexión con el servidor'}}}
   }
-  // badge = la medalla destacada (decisión 0034): viaja con el avatar y el rival la ve junto al nombre.
+  // badge = la medalla destacada (decisión 0035): viaja con el avatar y el rival la ve junto al nombre.
   const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level()});
   const badge=player=>player.bot?'':Medals.chip(player.avatar?.badge);
   // El bot tiene su propio aspecto de robot (piel de metal, cascos y gafas oscuras) y siempre se llama Faraday-bot.
@@ -109,7 +110,7 @@
   }
   function setRoundInfo(){
     const round=duel.round;if(!round||!$('#duel-round'))return;
-    $('#duel-round').textContent=`Ronda ${round.number}`;$('#duel-mult').textContent=round.multiplier>1?`Daño ×${format(round.multiplier,1)}`:'';
+    $('#duel-round').textContent=`Ronda ${round.number}`;$('#duel-mult').textContent=`Daño ${times(round.multiplier)}`;
     for(const [who,index] of [['you',duel.you],['rival',1-duel.you]]){const check=hud.querySelector(`[data-check="${who}"]`);if(check)check.hidden=!(duel.phase==='question'&&round.answered[index])}
   }
 
@@ -146,13 +147,13 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
     content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}${badge(me())}</strong><small>Nv. ${me().level}</small></div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}${badge(rival())}</strong><small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small></div></div>
-<h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. Suerte.</p>`;
+<h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
     sfx.tension();
   }
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question;setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
-    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multiplier>1?` · daño ×${format(round.multiplier,1)}`:''}</span><div class="duel-tools"><button class="workspace-launch" type="button" data-duel="calc" aria-label="${panel.hidden?'Abrir':'Cerrar'} calculadora y notas" aria-expanded="${!panel.hidden}" title="Calculadora y notas">${calcIcon}</button><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><button class="workspace-launch" type="button" data-duel="calc" aria-label="${panel.hidden?'Abrir':'Cerrar'} calculadora y notas" aria-expanded="${!panel.hidden}" title="Calculadora y notas">${calcIcon}</button><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
 <h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q):''}
 <div id="duel-answer"></div>`;
@@ -185,8 +186,8 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
 <h2 id="duel-title" class="duel-q-small">${q.title}</h2>
 <div class="duel-real"><small>Real</small><strong>≈ ${rounded(round.answer)}</strong><span>${q.unit}</span>${round.source?`<a href="${round.source.url}" target="_blank" rel="noopener">Fuente: ${escapeHtml(round.source.title.length>60?round.source.title.slice(0,58)+'…':round.source.title)}</a>`:''}</div>
 <div class="duel-cols">${column(me(),mine,myPoints,'you')}${column(rival(),theirs,theirPoints,'rival')}</div>
-<p class="duel-outcome is-${round.loser||'even'}">${outcome}${round.multiplier>1&&round.loser?` <small>Daño ×${format(round.multiplier,1)}</small>`:''}</p>
-${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atención: en la siguiente ronda el daño vale ×${format(round.nextMultiplier,1)}.`:'Prepárate para la siguiente pregunta.'}</p>`}`;
+<p class="duel-outcome is-${round.loser||'even'}">${outcome}${round.loser?` <small>Daño ${times(round.multiplier)}</small>`:''}</p>
+${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atención: en la siguiente ronda el daño sube a ${times(round.nextMultiplier)}.`:'Prepárate para la siguiente pregunta.'}</p>`}`;
     content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
     // La barra de vida baja un instante después de ver los puntos, con su golpe.
     setTimeout(()=>{if(!duel||revealed!==duel.id+':'+round.number)return;setHp(true);(round.loser==='you'?sfx.hit:round.loser==='rival'?sfx.good:sfx.even)()},reduced()?0:1100);

@@ -1,4 +1,4 @@
-// Medallas e insignias (decisión 0034): los logros del jugador, que se enseñan en su perfil y, la destacada, junto a su
+// Medallas e insignias (decisión 0035): los logros del jugador, que se enseñan en su perfil y, la destacada, junto a su
 // nombre en los duelos y en las ligas. Aquí viven el catálogo, la regla (qué se ha conseguido con unas cifras dadas) y el
 // dibujo, sin almacenamiento, para poder probarlo con Node (tests/medallas.test.mjs). progress.js lleva las cifras,
 // guarda lo conseguido y pinta la pestaña «Medallas».

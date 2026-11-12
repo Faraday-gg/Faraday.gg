@@ -1,4 +1,4 @@
-/* Medallas e insignias (decisión 0034). El dibujo es CSS: un disco de metal con cinta (medalla) o una chapa hexagonal
+/* Medallas e insignias (decisión 0035). El dibujo es CSS: un disco de metal con cinta (medalla) o una chapa hexagonal
    esmaltada (insignia). --s = diámetro. m1, m2, m3 = luz, tono y sombra del metal; mi = color del grabado. */
 .medal{--s:72px;--m1:#f3c9a0;--m2:#c9793f;--m3:#8a4a1c;--mi:#4a2408;--r1:var(--coral,#ff6548);--r2:#fffdf7;position:relative;display:inline-block;width:var(--s);height:calc(var(--s)*1.2);flex:none;vertical-align:middle}
 .medal[data-tier=plata]{--m1:#f7f9fb;--m2:#c3c9d2;--m3:#7d8693;--mi:#2c3440}

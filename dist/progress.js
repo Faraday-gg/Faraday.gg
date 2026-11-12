@@ -6,7 +6,7 @@
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
 // También lleva el contador de «Casi casi» (respuestas a menos de 1,1×, decisión 0030; la regla está en casi.js), que
 // desbloquea gratis una pieza exclusiva del avatar como los niveles desbloquean las suyas.
-// Y las medallas e insignias (decisión 0034): aquí se llevan las cifras que las miden, se guarda lo conseguido y se pinta
+// Y las medallas e insignias (decisión 0035): aquí se llevan las cifras que las miden, se guarda lo conseguido y se pinta
 // la pestaña «Medallas» y la vitrina del perfil. El catálogo, la regla y el dibujo están en medals.js.
 (()=>{
   const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile'),stage=$('#home-avatar');
@@ -111,7 +111,7 @@
   const levelNote=result=>result.levelUp?` · ¡Nivel ${result.level}! +${result.levelCoins} ≈ y cofre ${result.chests.join(' y ')}${result.unlocked.length?` · Nuevo: ${result.unlocked.map(item=>item.name).join(', ')}`:''}`:'';
   const missionNote=count=>count?` · ${count===1?'Misión lista':count+' misiones listas'} para recoger`:'';
 
-  // Medallas (decisión 0034). Las cifras salen del progreso (racha, retos, nivel, piezas…) y de los contadores de state.stats.
+  // Medallas (decisión 0035). Las cifras salen del progreso (racha, retos, nivel, piezas…) y de los contadores de state.stats.
   const DRESSED=['hat','glasses','neck','extra'];
   function medalStats(){
     const s=state.stats,current=look();

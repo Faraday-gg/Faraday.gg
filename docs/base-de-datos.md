@@ -113,7 +113,7 @@ leagues (1) ──< league_members (máx. 15)        daily_results (1 por jugado
 | `league_id` | `uuid` | → `leagues.id`, se borra en cascada | |
 | `player_hash` | `text` | 64 caracteres hexadecimales | SHA-256 del UUID anónimo (o del jugador enlazado a la cuenta). |
 | `name` | `text` | 1 a 16 caracteres | Apodo, limpio de HTML. |
-| `avatar` | `jsonb` | por defecto `{}` | Solo los identificadores de las piezas del avatar, como en los duelos, y el de la medalla destacada (`badge`, decisión 0034). |
+| `avatar` | `jsonb` | por defecto `{}` | Solo los identificadores de las piezas del avatar, como en los duelos, y el de la medalla destacada (`badge`, decisión 0035). |
 | `joined_at` | `timestamptz` | por defecto `now()` | Quien entra después de una semana no cuenta en ella. |
 
 Clave primaria `(league_id, player_hash)` e índice `league_members_player_idx` por `player_hash` («Tus ligas»). El disparador `league_members_limit` impide pasar de 15 miembros: bloquea la fila de la liga y, si ya hay 15, falla con `liga_llena`. El servidor lo comprueba antes, así que el disparador solo actúa si dos personas entran a la vez. Cuando sale el último miembro, el servidor borra la liga.

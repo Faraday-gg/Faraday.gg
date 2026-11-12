@@ -1,4 +1,4 @@
-// Prueba las medallas e insignias (dist/medals.js, decisión 0034): el catálogo (identificadores únicos y válidos para el
+// Prueba las medallas e insignias (dist/medals.js, decisión 0035): el catálogo (identificadores únicos y válidos para el
 // servidor, niveles crecientes, dibujo y texto de cada una), la regla (qué se consigue con unas cifras), el avance hacia
 // el siguiente nivel y que un identificador desconocido no pinta nada.
 import assert from 'node:assert/strict';

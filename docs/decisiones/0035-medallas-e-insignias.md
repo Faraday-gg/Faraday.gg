@@ -1,4 +1,4 @@
-# 0034. Medallas e insignias en el perfil
+# 0035. Medallas e insignias en el perfil
 
 - **Estado:** propuesta (código en la rama `feat/medallas-perfil`)
 - **Fecha:** 2026-11-12

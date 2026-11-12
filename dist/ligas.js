@@ -14,7 +14,7 @@
   const times=n=>n==null?'—':format(n)+'×';
   const ordinal=n=>n+'º';
   const avatar=(look,size='small')=>`<span class="duel-avatar ${size}" aria-hidden="true">${window.Avatar?Avatar.render(look||{},{bust:true}):''}</span>`;
-  // badge = la medalla destacada (decisión 0034): viaja con el avatar y el grupo la ve junto al nombre.
+  // badge = la medalla destacada (decisión 0035): viaja con el avatar y el grupo la ve junto al nombre.
   const identity=()=>({name:nickname||'Jugador',avatar:window.Progress?{...Progress.look(),badge:Progress.badge()}:{}});
   const badge=look=>window.Medals?Medals.chip(look?.badge):'';
   const joined=()=>document.dispatchEvent(new CustomEvent('faraday:liga',{detail:{joined:true}}));
