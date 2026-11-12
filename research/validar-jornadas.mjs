@@ -1,4 +1,4 @@
-// Valida las jornadas escritas a mano de content/jornadas/ contra su plan (research/jornadas-plan.json, decisión 0039).
+// Valida las jornadas escritas a mano de content/jornadas/ contra su plan (research/jornadas-plan.json, decisión 0046).
 //   node research/validar-jornadas.mjs 2026-11-16 2026-11-20   (rango de fechas, ambos incluidos)
 // Usa las mismas comprobaciones que el generador diario (lib/generar.mjs: campos, cuenta, cálculo por pasos, ámbito)
 // y además las de las jornadas a mano: ids, nombre del día, orden y categoría del plan, y foto solo donde el plan la pide.

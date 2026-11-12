@@ -24,4 +24,4 @@ Las 297 preguntas escritas a mano (archivo del 9 de agosto al 8 de noviembre y p
 - Al publicar en producción se retiran de Supabase las preguntas antiguas del piloto que cambian de id. El 10 de noviembre no tenían respuestas; si las tienen al publicar, la publicación se detiene con un mensaje claro ([lib/publicar.mjs](../../lib/publicar.mjs)).
 - Las fotos del repositorio bajan de unos 75 MB a 21 MB.
 - Las reglas y el formato para escribir preguntas nuevas están en `research/revision-instrucciones.md`.
-- **Actualización (2026-11-12):** la [decisión 0039](0039-preguntas-de-latinoamerica.md) cambia el reparto (ámbito sorteado: mundial, España o Latinoamérica, sin fórmula fija), pide español neutro y sustituye el banco congelado del 16 de noviembre al 14 de diciembre por jornadas escritas a mano.
+- **Actualización (2026-11-12):** la [decisión 0046](0046-preguntas-de-latinoamerica.md) cambia el reparto (ámbito sorteado: mundial, España o Latinoamérica, sin fórmula fija), pide español neutro y sustituye el banco congelado del 16 de noviembre al 14 de diciembre por jornadas escritas a mano.

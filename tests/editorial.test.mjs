@@ -7,7 +7,7 @@ assert.equal(baseline.length,21);assert(baseline.every(q=>q.image&&fs.existsSync
 // Cuenta por pasos (decisión 0029): las preguntas del piloto la traen escrita a mano.
 for(const day of JSON.parse(fs.readFileSync('dist/questions.json','utf8')))for(const q of day.questions)assert(q.calc?.intro&&q.calc.result&&q.calc.rows.length>=2,`${q.id}: falta calc`);
 const ids=new Set(),titles=new Set(),writtenIds=new Set(written.map(d=>d.id));
-// Del 16 de noviembre al 14 de diciembre: jornadas escritas a mano (content/jornadas/, decisión 0039) o, si falta alguna, el banco.
+// Del 16 de noviembre al 14 de diciembre: jornadas escritas a mano (content/jornadas/, decisión 0046) o, si falta alguna, el banco.
 for(let i=0;i<29;i++){
  const date=new Date(Date.UTC(2026,10,16+i,12)).toISOString().slice(0,10),day=getDay(date,{persist:false});
  assert.equal(day.questions.length,3);
@@ -21,7 +21,7 @@ assert.equal(getDay('2026-99-99',{persist:false}),null);
 assert.equal(madridDate(new Date('2026-11-09T23:00:00Z')),'2026-11-10');
 console.log(`OK: 21 fotos y razonamientos; 29 ediciones nuevas (${writtenIds.size} escritas a mano), 87 preguntas distintas; estabilidad y medianoche de Madrid.`);
 
-// Jornadas escritas a mano para España y Latinoamérica (decisión 0039): mayoría mundial y español neutro.
+// Jornadas escritas a mano para España y Latinoamérica (decisión 0046): mayoría mundial y español neutro.
 {
   const questions=written.flatMap(d=>d.questions),count={mundial:0,espana:0,latam:0};
   for(const q of questions)count[q.ambito]++;

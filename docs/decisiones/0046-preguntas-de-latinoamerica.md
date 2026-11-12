@@ -1,4 +1,4 @@
-# 0039 — Preguntas para jugadores de España y de Latinoamérica
+# 0046 — Preguntas para jugadores de España y de Latinoamérica
 
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code

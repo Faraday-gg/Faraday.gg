@@ -9,7 +9,7 @@ const base=JSON.parse(fs.readFileSync(new URL('./content/banco-base.json',import
 // Archivo editorial: una jornada verificada por archivo en content/archivo/AAAA-MM-DD.json, anteriores al piloto.
 const archiveDirectory=new URL('./content/archivo/',import.meta.url);
 export const archive=fs.existsSync(archiveDirectory)?fs.readdirSync(archiveDirectory).filter(f=>/^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().map(f=>JSON.parse(fs.readFileSync(new URL(f,archiveDirectory),'utf8'))):[];
-// Jornadas escritas a mano después del piloto (decisión 0039): una por archivo en content/jornadas/AAAA-MM-DD.json.
+// Jornadas escritas a mano después del piloto (decisión 0046): una por archivo en content/jornadas/AAAA-MM-DD.json.
 // Sustituyen al banco de plantillas en sus fechas, con referentes mundiales, de España y de Latinoamérica.
 const daysDirectory=new URL('./content/jornadas/',import.meta.url);
 export const written=fs.existsSync(daysDirectory)?fs.readdirSync(daysDirectory).filter(f=>/^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort().map(f=>JSON.parse(fs.readFileSync(new URL(f,daysDirectory),'utf8'))):[];

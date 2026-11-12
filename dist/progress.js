@@ -385,7 +385,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     save();refresh();
     return names.length?`⚡ Corriente con ${[...new Set(names)].join(' y ')}: +${amount*names.length} de batería${chargeNote(full)}`:'';
   }
-  window.Progress={look,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
+  function spend(amount){if(!(amount>0)||state.coins<amount)return false;state.coins-=amount;save();refresh();return true}
+  window.Progress={look,spend,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

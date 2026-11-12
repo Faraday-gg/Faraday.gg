@@ -6,7 +6,7 @@ import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore,supabaseStore} from '../lib/stores.mjs';
-import {RULES,points,multiplier} from '../lib/duelos.mjs';
+import {RULES,CHAT,chatText,points,multiplier} from '../lib/duelos.mjs';
 import {editorialDays} from '../content-engine.mjs';
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-duelos-'));
@@ -112,6 +112,44 @@ try{
   clock+=3600000;a=await duel('estado',ana,{id:a.data.id});assert.equal(a.data.status,'finished');
   const cancel=await duel('crear',ana,{});assert.equal((await duel('salir',ana,{id:cancel.data.id})).data.reason,'cancelado');
 
+  // Chat de la partida (decisión 0040): reacciones y frases de una lista cerrada y texto libre corto.
+  {
+    let c=await duel('crear',ana,{name:'Ana'});const chatId=c.data.id;
+    assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'ok'})).status,409,'Sin rival no hay chat');
+    await duel('unirse',luis,{code:c.data.code,name:'Luis'});
+    c=await duel('chat',ana,{id:chatId,kind:'reaction',value:'fuego'});assert.equal(c.status,200);
+    assert.deepEqual(c.data.chat.map(({from,kind,value})=>({from,kind,value})),[{from:'you',kind:'reaction',value:'fuego'}]);
+    clock+=1000;let l=await duel('chat',luis,{id:chatId,kind:'phrase',value:'suerte'});
+    assert.deepEqual(l.data.chat.map(m=>[m.from,m.value]),[['rival','fuego'],['you','suerte']],'Cada uno ve quién escribe desde su lado');
+    clock+=1000;l=await duel('chat',luis,{id:chatId,kind:'text',value:'  hola‮  <b>qué tal</b>\n'+'x'.repeat(300)});
+    const text=l.data.chat.at(-1).value;assert(text.startsWith('hola <b>qué tal</b> x'),'El texto se limpia de controles y espacios; el HTML lo escapa el navegador');assert.equal(text.length,CHAT.maxText);
+    assert.equal(chatText('\u0000\n  '),'');
+    for(const [kind,value] of [['reaction','pistola'],['phrase','insulto'],['text','   '],['text',42],['otro','ok']])
+      assert.equal((await duel('chat',luis,{id:chatId,kind,value})).status,400,`${kind}:${value} no es válido`);
+    assert.equal((await duel('chat',otra,{id:chatId,kind:'reaction',value:'ok'})).status,403,'Un tercero no puede escribir');
+    // Límite: nada de dos mensajes en menos de 0,4 s ni más de 6 cada 10 s.
+    clock+=1000;assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'ok'})).status,200);
+    assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'ok'})).status,429);
+    for(let i=0;i<4;i++){clock+=500;assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'risa'})).status,200)}
+    clock+=500;assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'risa'})).status,429,'Seis en diez segundos como mucho');
+    clock+=10000;assert.equal((await duel('chat',ana,{id:chatId,kind:'reaction',value:'risa'})).status,200);
+    // Solo se guardan los últimos mensajes, y el chat sigue abierto al terminar (para el «GG»).
+    for(let i=0;i<CHAT.keep;i++){clock+=2000;await duel('chat',i%2?ana:luis,{id:chatId,kind:'phrase',value:'gg'})}
+    a=await duel('estado',ana,{id:chatId});assert.equal(a.data.chat.length,CHAT.keep);
+    await duel('salir',luis,{id:chatId});clock+=1000;
+    assert.equal((await duel('chat',ana,{id:chatId,kind:'phrase',value:'gg'})).status,200,'Se puede escribir con el duelo terminado');
+    // Faraday-bot contesta con un par de segundos de retraso, nunca al instante.
+    let bot=await duel('crear',ana,{name:'Ana'});bot=await duel('bot',ana,{id:bot.data.id});
+    let replies=0;
+    for(let i=0;i<8;i++){
+      clock+=6000;const sent=await duel('chat',ana,{id:bot.data.id,kind:'phrase',value:'suerte'});
+      assert(sent.data.chat.at(-1).from==='you','La respuesta del bot no llega en el mismo instante');
+      clock+=3100;const later=await duel('estado',ana,{id:bot.data.id});const last=later.data.chat.at(-1);
+      if(last.from==='rival'){replies++;assert.deepEqual([last.kind,last.value],['phrase','igualmente'])}
+    }
+    assert(replies>=3&&replies<8,`El bot contesta a veces (${replies} de 8)`);
+  }
+
   // Validación.
   assert.equal((await duel('estado','nadie',{id})).status,400);assert.equal((await duel('estado',ana,{id:'x'})).status,400);
   assert.equal((await duel('estado',ana,{id:randomUUID()})).status,404);assert.equal((await duel('bailar',ana)).status,400);
@@ -137,5 +175,5 @@ try{
   const broken=build(supabaseStore({url:'https://x.supabase.co',key:'clave',fetch:async()=>new Response('{"message":"relation does not exist"}',{status:404})}));
   assert.equal((await broken('buscar',ana,{})).status,503,'Sin la tabla duels, la API responde 503 y no rompe el resto');
 
-  console.log('OK: duelos (emparejamiento, reloj de 3 min y 30 s, vida, K.O., revancha, abandono, código, bot, validación y Supabase).');
+  console.log('OK: duelos (emparejamiento, reloj de 3 min y 30 s, vida, K.O., revancha, abandono, código, bot, chat, validación y Supabase).');
 }finally{if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}

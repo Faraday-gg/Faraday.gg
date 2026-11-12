@@ -1,5 +1,5 @@
 // Genera research/jornadas-plan.json: el plan de las jornadas escritas a mano del 16 de noviembre al 14 de diciembre de 2026
-// (decisión 0039). El ámbito de cada posición sale del mismo sorteo que usa el generador diario (ambitos() de lib/generar.mjs);
+// (decisión 0046). El ámbito de cada posición sale del mismo sorteo que usa el generador diario (ambitos() de lib/generar.mjs);
 // aquí se reparte cada referente en un hueco de su ámbito, con tres categorías distintas por día.
 //   node research/jornadas-plan.mjs
 import fs from 'node:fs';

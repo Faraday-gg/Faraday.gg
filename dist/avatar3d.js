@@ -84,12 +84,67 @@ function paint(draw,size=512){
   const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;texture.wrapS=THREE.RepeatWrapping;texture.anisotropy=4;return texture;
 }
 const wave=(c,x,y,w,color,width)=>{c.strokeStyle=color;c.lineWidth=width;c.lineCap='round';for(const dy of [-w*.2,w*.2]){c.beginPath();c.moveTo(x-w/2,y+dy);c.bezierCurveTo(x-w/4,y+dy-w*.28,x-w/8,y+dy+w*.28,x,y+dy);c.bezierCurveTo(x+w/8,y+dy-w*.28,x+w/4,y+dy+w*.28,x+w/2,y+dy);c.stroke()}};
+// Banderas de las camisetas de selección (decisión 0045): versiones simplificadas, sin escudos detallados. Cada una se
+// dibuja centrada en el origen con ancho w y alto h. Código de dos letras → [siglas de la espalda, dibujo].
+const W='#ffffff';
+function drawFlag(c,code,w,h){
+  const def=FLAGS[code];if(!def)return;
+  const x0=-w/2,y0=-h/2,rect=(x,y,ww,hh,color)=>{c.fillStyle=color;c.fillRect(x,y,ww+.5,hh+.5)};
+  const H=colors=>colors.forEach((color,i)=>rect(x0,y0+h*i/colors.length,w,h/colors.length,color));
+  const V=colors=>colors.forEach((color,i)=>rect(x0+w*i/colors.length,y0,w/colors.length,h,color));
+  const disc=(x,y,r,color,ring='')=>{c.fillStyle=color;c.beginPath();c.arc(x,y,r,0,7);c.fill();if(ring){c.lineWidth=r*.28;c.strokeStyle=ring;c.stroke()}};
+  const star=(x,y,r,color)=>{c.fillStyle=color;c.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,k=i%2?r*.42:r;c.lineTo(x+Math.cos(a)*k,y+Math.sin(a)*k)}c.closePath();c.fill()};
+  const tri=(depth,color)=>{c.fillStyle=color;c.beginPath();c.moveTo(x0,y0);c.lineTo(x0+depth,0);c.lineTo(x0,y0+h);c.closePath();c.fill()};
+  const sun=(x,y,r,color)=>{c.strokeStyle=color;c.lineWidth=r*.3;for(let i=0;i<12;i++){const a=i*Math.PI/6;c.beginPath();c.moveTo(x+Math.cos(a)*r,y+Math.sin(a)*r);c.lineTo(x+Math.cos(a)*r*1.7,y+Math.sin(a)*r*1.7);c.stroke()}disc(x,y,r,color)};
+  c.save();c.beginPath();c.rect(x0,y0,w,h);c.clip();
+  def[1]({w,h,x0,y0,rect,H,V,disc,star,tri,sun,c});
+  c.restore();c.lineWidth=Math.max(2,h*.06);c.lineJoin='round';c.strokeStyle=INK;c.strokeRect(x0,y0,w,h);
+}
+const FLAGS={
+  // Países hispanohablantes.
+  es:['ESP',({H,rect,x0,w,h})=>{H(['#c60b1e','#ffc400','#ffc400','#c60b1e']);rect(x0+w*.2,-h*.13,w*.1,h*.26,'#ad1519')}],
+  mx:['MEX',({V,disc,h})=>{V(['#006847',W,'#ce1126']);disc(0,0,h*.13,'#8c5a2b','#5f8f3e')}],
+  co:['COL',({H})=>H(['#fcd116','#fcd116','#003893','#ce1126'])],
+  ar:['ARG',({H,sun,h})=>{H(['#75aadb',W,'#75aadb']);sun(0,0,h*.08,'#f6b40e')}],
+  pe:['PER',({V})=>V(['#d91023',W,'#d91023'])],
+  ve:['VEN',({H,star,h})=>{H(['#ffcc00','#00247d','#cf142b']);for(let i=0;i<8;i++){const a=Math.PI*(1.15+i*.7/7);star(Math.cos(a)*h*.27,h*.17+Math.sin(a)*h*.27,h*.045,W)}}],
+  cl:['CHI',({rect,star,x0,y0,w,h})=>{rect(x0,y0,w,h/2,W);rect(x0,0,w,h/2,'#d52b1e');rect(x0,y0,h/2,h/2,'#0039a6');star(x0+h/4,y0+h/4,h*.13,W)}],
+  ec:['ECU',({H,disc,h})=>{H(['#ffdd00','#ffdd00','#034ea2','#ed1c24']);disc(0,0,h*.13,'#7a5230','#ffdd00')}],
+  gt:['GUA',({V,disc,h})=>{V(['#4997d0',W,'#4997d0']);disc(0,0,h*.12,W,'#4f9a3a')}],
+  cu:['CUB',({H,tri,star,x0,w,h})=>{H(['#002a8f',W,'#002a8f',W,'#002a8f']);tri(w*.43,'#cf142b');star(x0+w*.15,0,h*.14,W)}],
+  bo:['BOL',({H})=>H(['#d52b1e','#f9e300','#007934'])],
+  do:['DOM',({rect,disc,x0,y0,w,h})=>{const b=h*.14;rect(x0,y0,w,h,W);rect(x0,y0,w/2-b/2,h/2-b/2,'#002d62');rect(b/2,y0,w/2-b/2,h/2-b/2,'#ce1126');rect(x0,b/2,w/2-b/2,h/2-b/2,'#ce1126');rect(b/2,b/2,w/2-b/2,h/2-b/2,'#002d62');disc(0,0,b*.6,'#0a7a3d')}],
+  hn:['HON',({H,star,w,h})=>{H(['#0073cf',W,'#0073cf']);for(const [x,y] of [[0,0],[-1,-1],[1,-1],[-1,1],[1,1]])star(x*w*.11,y*h*.07,h*.05,'#0073cf')}],
+  py:['PAR',({H,disc,star,h})=>{H(['#d52b1e',W,'#0038a8']);disc(0,0,h*.1,W,'#2e8b3a');star(0,0,h*.05,'#f7d116')}],
+  sv:['SLV',({H,disc,h})=>{H(['#0047ab',W,'#0047ab']);disc(0,0,h*.1,'#f5c400','#2e8b3a')}],
+  ni:['NCA',({H,c,h})=>{H(['#0067c6',W,'#0067c6']);c.fillStyle='#3a9bd9';c.strokeStyle='#c8a000';c.lineWidth=h*.025;c.beginPath();c.moveTo(0,-h*.12);c.lineTo(h*.12,h*.09);c.lineTo(-h*.12,h*.09);c.closePath();c.fill();c.stroke()}],
+  cr:['CRC',({H})=>H(['#002b7f',W,'#ce1126','#ce1126',W,'#002b7f'])],
+  pa:['PAN',({rect,star,x0,y0,w,h})=>{rect(x0,y0,w,h,W);rect(0,y0,w/2,h/2,'#da121a');rect(x0,0,w/2,h/2,'#072357');star(x0+w/4,y0+h/4,h*.12,'#072357');star(w/4,h/4,h*.12,'#da121a')}],
+  uy:['URU',({H,rect,sun,x0,y0,h})=>{H([W,'#0038a8',W,'#0038a8',W,'#0038a8',W,'#0038a8',W]);const s=h*5/9;rect(x0,y0,s,s,W);sun(x0+s/2,y0+s/2,h*.09,'#fcd116')}],
+  pr:['PUR',({H,tri,star,x0,w,h})=>{H(['#ed0000',W,'#ed0000',W,'#ed0000']);tri(w*.43,'#0050f0');star(x0+w*.15,0,h*.14,W)}],
+  gq:['GEQ',({H,tri,disc,h,w})=>{H(['#3e9a00',W,'#e32118']);tri(w*.22,'#0073ce');disc(0,0,h*.08,'#b8b8b8','#3e9a00')}],
+  // Europa.
+  fr:['FRA',({V})=>V(['#002395',W,'#ed2939'])],
+  it:['ITA',({V})=>V(['#009246',W,'#ce2b37'])],
+  pt:['POR',({rect,disc,x0,y0,w,h})=>{rect(x0,y0,w*.4,h,'#046a38');rect(x0+w*.4,y0,w*.6,h,'#da291c');disc(x0+w*.4,0,h*.18,'#ffe900','#da291c');rect(x0+w*.4-h*.07,-h*.08,h*.14,h*.16,W)}],
+  de:['GER',({H})=>H(['#000000','#dd0000','#ffce00'])],
+  gb:['GBR',({rect,c,x0,y0,w,h})=>{rect(x0,y0,w,h,'#012169');c.lineCap='butt';for(const [color,width] of [[W,h*.2],['#c8102e',h*.07]]){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x0,y0);c.lineTo(-x0,-y0);c.moveTo(x0,-y0);c.lineTo(-x0,y0);c.stroke()}rect(x0,-h*.17,w,h*.34,W);rect(-h*.17,y0,h*.34,h,W);rect(x0,-h*.1,w,h*.2,'#c8102e');rect(-h*.1,y0,h*.2,h,'#c8102e')}],
+  ie:['IRL',({V})=>V(['#169b62',W,'#ff883e'])],
+  nl:['NED',({H})=>H(['#ae1c28',W,'#21468b'])],
+  be:['BEL',({V})=>V(['#000000','#fae042','#ed2939'])],
+  gr:['GRE',({H,rect,x0,y0,h})=>{H(['#0d5eaf',W,'#0d5eaf',W,'#0d5eaf',W,'#0d5eaf',W,'#0d5eaf']);const s=h*5/9,b=h/9;rect(x0,y0,s,s,'#0d5eaf');rect(x0,y0+s/2-b/2,s,b,W);rect(x0+s/2-b/2,y0,b,s,W)}],
+  ch:['SUI',({rect,x0,y0,w,h})=>{rect(x0,y0,w,h,'#da291c');rect(-h*.1,-h*.32,h*.2,h*.64,W);rect(-h*.32,-h*.1,h*.64,h*.2,W)}],
+  se:['SWE',({rect,x0,y0,w,h})=>{rect(x0,y0,w,h,'#006aa7');rect(x0+w*5/16,y0,w/8,h,'#fecc00');rect(x0,-h*.1,w,h*.2,'#fecc00')}],
+  pl:['POL',({H})=>H([W,'#dc143c'])]
+};
 // stretch = cuánto más estirado está lo vertical que lo horizontal en el lienzo (depende del largo de la prenda); k = tamaño del estampado.
 function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
   const texture=paint((c,S)=>{
     const F=s=>(.75+s*.25)*S,B=s=>(.25+s*.25)*S,Y=v=>(1-v)*S,dark=shade(main,.78),on=light(main)?INK:PAPER,onTrim=light(trim)?INK:PAPER;
     // brand = logotipo de una marca real ('@nike'): sustituye a FRDY y al sello ≈ de la prenda.
     const brand=print[0]==='@'?print.slice(1):'',tag=brand||'FRDY';
+    // flag = bandera de una camiseta de selección ('#es'): delante, la bandera; a la espalda, las siglas del país.
+    const flag=print[0]==='#'&&FLAGS[print.slice(1)]?print.slice(1):'';
     // Dibuja con proporción real: en el lienzo, lo vertical está más estirado que lo horizontal (2,6 veces en el torso de hombre).
     const at=(x,y,fn)=>{c.save();c.translate(x,y);c.scale(1,stretch);fn();c.restore()};
     const badge=(x,y,r,bg,fg)=>brand||at(x,y,()=>{c.fillStyle=bg;c.beginPath();c.arc(0,0,r,0,7);c.fill();c.lineWidth=r*.14;c.strokeStyle=fg;c.stroke();wave(c,0,0,r*1.15,fg,r*.2)});
@@ -99,6 +154,7 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
     const graphic=(x,v,scale)=>{
       if(brand)mark(x,Y(v),88*scale,40*scale);
       if(brand==='gucci')at(x,Y(v-.07*scale),()=>['#1f6b45','#c8102e','#1f6b45'].forEach((color,i)=>{c.fillStyle=color;c.fillRect(-44*scale,(i-1.5)*4*scale,88*scale,4*scale+.5)}));
+      if(flag)at(x,Y(v),()=>drawFlag(c,flag,68*scale,46*scale));
       if(print==='logo')badge(x,Y(v),30*scale,trim,onTrim);
       if(print==='frdy')word('FRDY',x,Y(v),40*scale,trim,onTrim);
       if(print==='tag')at(x,Y(v),()=>{c.rotate(-.14);c.font=`italic 900 ${46*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=9*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,2×',0,0);c.fillStyle=trim;c.fillText('1,2×',0,0);c.fillStyle=PAPER;c.fillRect(-52*scale,24*scale,104*scale,5*scale)});
@@ -121,9 +177,9 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
     }
     if(type==='sudadera'){
       bands(0,.09,[dark]);c.fillStyle=dark;c.beginPath();c.roundRect(F(-.5),Y(.36),F(.5)-F(-.5),Y(.12)-Y(.36),18);c.fill();c.strokeStyle=shade(main,.6);c.lineWidth=3;c.stroke();
-      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else if(print==='rayo')word('CIRCUITO',B(0),Y(.7),30,trim,null);else word('FRDY',B(0),Y(.7),30,on,null);
+      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else if(print==='rayo')word('CIRCUITO',B(0),Y(.7),30,trim,null);else if(flag)word(FLAGS[flag][0],B(0),Y(.7),34,trim,INK,false);else word('FRDY',B(0),Y(.7),30,on,null);
     }
-    if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5*k);badge(B(0),Y(.8),14,on,main)}
+    if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5*k);if(flag){at(B(0),Y(.8),()=>drawFlag(c,flag,30,20));word(FLAGS[flag][0],B(0),Y(.56),64,trim,INK,false)}else badge(B(0),Y(.8),14,on,main)}
     if(type==='chandal'){
       if(!brand){c.fillStyle=trim;c.fillRect(0,0,S,Y(.62));c.fillStyle=PAPER;c.fillRect(0,Y(.62)-5,S,10)}bands(0,.08,[dark]);bands(.92,1,[shade(trim,.8)]);
       c.fillStyle=PAPER;c.fillRect(F(0)-3,Y(.92),6,Y(.08)-Y(.92));c.fillStyle=INK;c.fillRect(F(0)-5,Y(.86),10,26);

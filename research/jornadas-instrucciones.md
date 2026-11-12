@@ -1,6 +1,6 @@
 # Instrucciones para escribir las jornadas del 16 de noviembre al 14 de diciembre de 2026
 
-Estas jornadas sustituyen al banco de plantillas («¿Cuántos folios A4…?») por preguntas escritas a mano, pensadas para jugadores de España y de toda Latinoamérica ([decisión 0039](../docs/decisiones/0039-preguntas-de-latinoamerica.md)). El plan de cada día está en `research/jornadas-plan.json` (lo genera `research/jornadas-plan.mjs`).
+Estas jornadas sustituyen al banco de plantillas («¿Cuántos folios A4…?») por preguntas escritas a mano, pensadas para jugadores de España y de toda Latinoamérica ([decisión 0046](../docs/decisiones/0046-preguntas-de-latinoamerica.md)). El plan de cada día está en `research/jornadas-plan.json` (lo genera `research/jornadas-plan.mjs`).
 
 No uses git, no toques otras carpetas ni archivos que no sean los de tus días, no publiques nada ni toques Supabase.
 

@@ -76,7 +76,7 @@ ai=fakeOpenAI([broken,broken]);
 await assert.rejects(generateDay({date:calmDate,store,apiKey:'sk-prueba',fetch:ai.fetch,now,log:quiet}),/fuente que no existe: https:\/\/fuente\.test\/rota → 404/);
 assert(validate(jornada(false,{questions:[question('comida'),question('comida'),question('deportes')]})).includes('categorías repetidas'));
 
-// 7. Ámbito de cada pregunta (decisión 0039): sorteo estable por fecha, mayoría mundial, sin fórmula fija.
+// 7. Ámbito de cada pregunta (decisión 0046): sorteo estable por fecha, mayoría mundial, sin fórmula fija.
 assert.deepEqual(ambitos('2026-12-20'),ambitos('2026-12-20'));
 {
   const count={mundial:0,espana:0,latam:0},patterns=new Set();

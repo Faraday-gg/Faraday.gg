@@ -41,7 +41,11 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0036](0036-seis-cofres.md) | Seis cofres, cada uno con su cualidad y su precio | Propuesta | 2026-11-12 |
 | [0037](0037-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
 | [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
-| [0039](0039-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
+| [0039](0039-pistas.md) | Pistas: una por pregunta, con faradios o con un anuncio | Propuesta | 2026-11-12 |
+| [0040](0040-chat-en-los-duelos.md) | Chat en los duelos: reacciones, frases rápidas y mensajes escritos | Propuesta | 2026-11-12 |
+| [0043](0043-clasificatorias-y-rangos.md) | Clasificatorias y rangos en los duelos, de Bronce a Científico | Propuesta | 2026-11-12 |
+| [0045](0045-camisetas-de-banderas.md) | Camisetas de selección con las banderas de los países hispanohablantes y de Europa | Propuesta | 2026-11-12 |
+| [0046](0046-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
 
 ## Plantilla
 
