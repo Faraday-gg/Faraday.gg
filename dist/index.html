@@ -28,6 +28,7 @@
   <script src="progress.js" defer></script>
   <script src="duel.js" defer></script>
   <script src="ligas.js" defer></script>
+  <script src="reactions.js" defer></script>
   <script src="auth.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
 </head>
@@ -124,10 +125,11 @@
         <header class="game-bar">
           <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
           <span class="game-brand" aria-hidden="true"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span>
-          <span></span>
+          <button class="game-back duel-sound" id="game-sound" type="button" aria-pressed="true" aria-label="Sonido" title="Sonido"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="duel-sound-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="duel-sound-off" d="m16 9.5 5 5m0-5-5 5"/></svg></button>
         </header>
         <div class="game-stage">
           <article class="game-card">
+            <div class="game-avatar" id="game-avatar" aria-hidden="true"></div>
             <div class="card-head">
               <nav class="game-steps" id="game-steps" aria-label="Preguntas del reto"></nav>
               <span class="game-edition" id="game-edition"></span>

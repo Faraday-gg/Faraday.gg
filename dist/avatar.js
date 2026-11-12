@@ -225,10 +225,10 @@
     const view={bust:'10 0 100 100',legs:'20 118 80 80',shoes:'30 128 60 60',torso:'15 78 90 90'}[mode]||'0 0 120 180';
     return `<svg class="avatar-fallback" viewBox="${view}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#1b1f27" stroke-width="3" stroke-linejoin="round"><rect x="44" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="62" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="39" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="61" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="34" y="90" width="52" height="46" rx="14" fill="${body}"/><rect x="24" y="16" width="72" height="68" rx="26" fill="${skin}"/>${raw.hair==='calvo'?'':`<path d="M24 46Q24 14 60 14Q96 14 96 46Q78 30 60 34Q42 30 24 46Z" fill="${hair}"/>`}</g><ellipse cx="46" cy="54" rx="4" ry="7" fill="#1b1f27"/><ellipse cx="74" cy="54" rx="4" ry="7" fill="#1b1f27"/></svg>`;
   }
-  // bust: cabeza y hombros (marcador, avisos). zoom: 'legs', 'shoes' o 'torso' para la tienda. live: animado, para las pantallas
-  // grandes; drag: se puede girar arrastrando; emote: gesto ('wave', 'cheer', 'sad' o 'hurt').
-  function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote=''}={}){
-    const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote}));
+  // bust: cabeza y hombros (marcador, avisos). zoom: 'legs', 'shoes' o 'torso' para la tienda, 'stage' = cuerpo entero con sitio a los lados (reto diario). live: animado, para las pantallas
+  // grandes; drag: se puede girar arrastrando; emote: gesto ('wave', 'cheer', 'sad' o 'hurt'); turn: hacia dónde mira (radianes).
+  function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote='',turn}={}){
+    const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote,turn}));
     return `<span class="avatar-view" data-mode="${mode}" data-avatar="${data}" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'}>${fallback(raw,mode)}</span>`;
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
