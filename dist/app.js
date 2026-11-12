@@ -212,9 +212,13 @@ function toggleMenu(open=!menuOpen()){
   document.querySelectorAll('.menu-toggle').forEach(button=>{button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});
   $('#menu-home').hidden=!inGame;
   if(open){
+    const played=currentDay?getGuesses(currentDay).length:0;
     $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
+    $('#menu-today').classList.toggle('is-done',played===3);
+    $('#menu-today-title').textContent=!currentDay?'En preparación':played===3?'Reto completado':played===2?'Te queda 1 pregunta':played?'Te quedan 2 preguntas':'Tres preguntas nuevas';
+    $('#menu-today-sub').textContent=played===3?'Mira tu resultado':prettyDate(todayKey);
     if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
-    setTimeout(()=>drawer.querySelector('.menu-link:not(:disabled)')?.focus(),60);
+    setTimeout(()=>($('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])'))?.focus(),60);
   }else toggle.focus();
 }
 createArchive($('#home-archive'));
@@ -224,7 +228,20 @@ $('#menu-toggle').addEventListener('click',()=>toggleMenu());
 $('#home-menu-toggle').addEventListener('click',()=>toggleMenu());
 document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
-$('#menu-home').addEventListener('click',closeGame);
+$('#menu-home').addEventListener('click',goHome);
+// El logo lleva al inicio (decisión 0041): cierra el menú y las pantallas abiertas, de arriba abajo, con el cierre propio
+// de cada una. Si el duelo pide confirmación para abandonarlo y se cancela, se queda donde estaba.
+const whenHidden=(el,ms=8000)=>new Promise(resolve=>{if(el.hidden)return resolve(true);const watch=new MutationObserver(()=>{if(el.hidden){watch.disconnect();clearTimeout(timer);resolve(true)}}),timer=setTimeout(()=>{watch.disconnect();resolve(el.hidden)},ms);watch.observe(el,{attributes:true,attributeFilter:['hidden']})});
+async function goHome(){
+  if(menuOpen())toggleMenu(false);
+  for(const [shell,close] of [['#profile-shell','#profile-close'],['#circuit-shell','#circuit-close'],['#league-shell','#league-close']])if(!$(shell).hidden)$(close).click();
+  const duel=$('#duel-shell');
+  if(!duel.hidden){$('#duel-close').click();if(!await whenHidden(duel))return}
+  if(!$('#game-shell').hidden){closeGame();await whenHidden($('#game-shell'),1000)}
+  window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  $('#hero-play')?.closest('.home-hero')?.querySelector('[data-go-home]')?.focus({preventScroll:true});
+}
+document.addEventListener('click',event=>{const link=event.target.closest('[data-go-home]');if(!link||event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();goHome()});
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));
 $('#workspace-panel').addEventListener('click',event=>{if(event.target===event.currentTarget)toggleWorkspace(false)});
 document.querySelectorAll('.calc-keys').forEach(keys=>keys.addEventListener('click',event=>{const key=event.target.closest('[data-calc-key]')?.dataset.calcKey;if(key)pressCalcKey(key)}));
