@@ -1036,3 +1036,14 @@ body.lightbox-open{overflow:hidden}
   .demo-bars{height:44px}
   .demo-score{font-size:52px;margin:2px 0 12px}
 }
+
+/* Portada del duelo en el móvil: «Partida rápida» y «Retar a un amigo» siempre a la vista, en una barra fija abajo,
+   sin tener que bajar; y la apuesta bloqueada se queda en una sola línea. */
+@media(max-width:760px){
+  .duel-cta{position:sticky;bottom:0;z-index:6;flex-wrap:nowrap;gap:8px;margin:14px -18px -22px;padding:14px 18px calc(14px + env(safe-area-inset-bottom));border-radius:0 0 22px 22px;background:linear-gradient(to bottom,transparent,var(--g-bg) 22px);box-shadow:0 -14px 18px -16px #0b162a}
+  .duel-cta>*{flex-basis:auto}
+  .duel-cta .game-primary{flex:1.35;padding-inline:12px}
+  .duel-cta .game-secondary{flex:1;padding-inline:10px}
+  .bet-picker.is-locked .bet-cards{display:none}
+  .bet-picker.is-locked .bet-lock{justify-content:flex-start;margin-top:4px}
+}
