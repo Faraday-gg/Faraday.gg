@@ -4,6 +4,8 @@
 // Los cofres (decisión 0027) se ganan jugando o se compran con faradios; sus reglas están en chests.js y su apertura
 // en chest-open.js. Aquí se guardan, se conceden y se reparten sus premios.
 // El juego avisa con eventos (faraday:answer, faraday:day, faraday:duel) y este archivo reparte las recompensas.
+// También lleva el contador de «Casi casi» (respuestas a menos de 1,1×, decisión 0030; la regla está en casi.js), que
+// desbloquea gratis una pieza exclusiva del avatar como los niveles desbloquean las suyas.
 (()=>{
   const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile'),stage=$('#home-avatar');
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
@@ -36,7 +38,7 @@
 
   // chests = cofres sin abrir; charge = batería (0–99); pity = cofres seguidos sin épica ni legendaria; bought = compras de hoy.
   // look = lo que lleva puesto (incluye el cuerpo, hombre o mujer); closet = el último look de cada cuerpo, para recuperarlo al cambiar.
-  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},closet:{},days:[],streak:{count:0,last:''},missions:{},chests:{},charge:0,pity:0,bought:{day:'',count:0}};
+  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},closet:{},days:[],streak:{count:0,last:''},missions:{},chests:{},charge:0,pity:0,bought:{day:'',count:0},casi:{n:0,ids:[]}};
   try{
     const saved=JSON.parse(localStorage.getItem(KEY));
     if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
@@ -49,12 +51,14 @@
   for(const type of Chests.TYPES)if(!Number.isInteger(state.chests[type])||state.chests[type]<0)state.chests[type]=0;
   if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
   if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
+  state.casi=CasiCasi.normalize(state.casi);
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
   const levelOf=xp=>Math.floor((1+Math.sqrt(1+xp/12.5))/2),levelStart=level=>50*level*(level-1);
   const info=(xp=state.xp)=>{const level=levelOf(xp),from=levelStart(level),to=levelStart(level+1);return {level,done:xp-from,need:to-from,ratio:(xp-from)/(to-from)}};
-  const owns=item=>(!item.price&&!item.level)||(item.level&&levelOf(state.xp)>=item.level)||state.owned.includes(item.slot+':'+item.id);
+  // casi = pieza exclusiva que se desbloquea con ese número de «Casi casi»: ni se compra ni sale en cofres (decisión 0030).
+  const owns=item=>(!item.price&&!item.level&&!item.casi)||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
 
@@ -93,9 +97,15 @@
   const levelNote=result=>result.levelUp?` · ¡Nivel ${result.level}! +${result.levelCoins} ≈ y cofre ${result.chests.join(' y ')}${result.unlocked.length?` · Nuevo: ${result.unlocked.map(item=>item.name).join(', ')}`:''}`:'';
   const missionNote=count=>count?` · ${count===1?'Misión lista':count+' misiones listas'} para recoger`:'';
 
+  // «Casi casi»: una vez por pregunta. Al llegar a la cifra de una pieza exclusiva, se avisa de que ya es tuya.
+  function countCasi(detail){
+    const result=CasiCasi.record(state.casi,detail);if(!result.counted)return '';
+    state.casi=result.record;const n=state.casi.n,body=look().body,unlocked=Avatar.CATALOG.filter(item=>item.casi===n&&(!item.for||item.for===body));
+    return unlocked.length?` · ¡${n} «Casi casi»! Nuevo: ${unlocked.map(item=>item.name).join(', ')}`:'';
+  }
   document.addEventListener('faraday:answer',({detail})=>{
-    const done=bump('answer',detail),result=reward({xp:REWARD.answerXp});
-    if(done||result.levelUp)showToast((`+${REWARD.answerXp} XP`+levelNote(result)+missionNote(done)));
+    const prize=countCasi(detail),done=bump('answer',detail),result=reward({xp:REWARD.answerXp});
+    if(done||result.levelUp||prize)showToast((`+${REWARD.answerXp} XP`+prize+levelNote(result)+missionNote(done)));
   });
   document.addEventListener('faraday:day',({detail})=>{
     const done=bump('day',detail);
@@ -135,7 +145,7 @@
   const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
-    const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
+    const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuyo</span>':item.level?`<span class="tile-state lock">Nivel ${item.level}</span>`:item.casi?`<span class="tile-state lock">${item.casi} «Casi casi»</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
     return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span><span class="tile-name">${item.name}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${status}</button>`;
   }
   function missionRow(period,id){
@@ -180,6 +190,7 @@
 <p>${sure} Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
   function draw(){
+    if(trying&&owns(trying))trying=null; // Recién desbloqueada (nivel o «Casi casi»): ya no se está probando.
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(state.coins);
     const missing=trying?trying.price-state.coins:0,pieces=Avatar.pieces(slot,current.body);
@@ -187,8 +198,8 @@
       ?`<div class="profile-body" role="group" aria-label="Cuerpo del avatar">${Avatar.BODIES.map(([id,label])=>`<button type="button" aria-pressed="${id===current.body}" data-body="${id}">${label}</button>`).join('')}</div><div class="profile-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${label}</button>`).join('')}</div><p class="profile-count">Tienes ${pieces.filter(owns).length} de ${pieces.length}</p><div class="profile-items">${pieces.map(item=>tile(item,current)).join('')}</div>`
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre Chispa del día conseguido ✓':'Recoge las tres de hoy y llévate un cofre Chispa'}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
-${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
-<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}</div></section>
+${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
+<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div></section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button></div>${side}</section>`;
   }
   function open(which){
@@ -238,7 +249,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 
-  window.Progress={look,level:()=>levelOf(state.xp),info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest};
+  window.Progress={look,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
   if(!state.welcome){state.welcome=true;state.coins+=REWARD.welcome}
   // Un cofre Chispa de regalo para estrenar los cofres, también para quien ya jugaba antes de que existieran.

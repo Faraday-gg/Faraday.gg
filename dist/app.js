@@ -63,7 +63,7 @@ function renderGame(){
   const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
-  $('.game-card')?.classList.remove('explaining');
+  $('.game-card')?.classList.remove('explaining','is-casi','casi-fresh');
   if(view==='summary')renderSummary();else if(view==='result')renderResult(guesses);else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;
 }
@@ -88,6 +88,7 @@ function renderResult(guesses){
 ${populationMarkup(q)}
 <div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
+  window.CasiCasi?.card(q,factor,{today:activeDay.id===todayKey}); // Momento «¡Casi casi!» (casi.js, decisión 0030).
   animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus()
 }
 function sourceLine(q){const source=q.sources?.[0];if(!source)return '';const title=source.title.length>70?source.title.slice(0,68).trimEnd()+'…':source.title;return `Fuente: <a href="${source.url}" target="_blank" rel="noopener">${escapeHtml(title)}</a>`}
@@ -147,7 +148,7 @@ function formatEstimateInput(input){
 }
 function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);renderGame()}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
-function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
+function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
 function loadWorkspace(day){
   if(sessionWorkspaces.has(day.id))return sessionWorkspaces.get(day.id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}

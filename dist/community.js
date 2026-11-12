@@ -108,6 +108,7 @@ async function loadDistribution(q,guess){
   if(data&&data.count>=SIM_MIN){
     target.innerHTML=distributionSvg(q,guess,{...data,simulated:false});
     if(rank)rank.textContent=`Más cerca que el ${data.closerPercent}% de ${format(data.count)} jugadores`;
+    document.dispatchEvent(new CustomEvent('faraday:distribucion',{detail:{question:q.id,guess,data}}));
     return;
   }
   const logs=simulatedLogs(q),low=-1,high=1,bins=Array(26).fill(0);
@@ -115,6 +116,8 @@ async function loadDistribution(q,guess){
   const farther=logs.filter(value=>Math.abs(value)>Math.log10(factor)).length;
   target.innerHTML=distributionSvg(q,guess,{bins,low,high,count:logs.length,simulated:true});
   if(rank)rank.textContent=`Más cerca que el ${Math.round(farther/logs.length*100)}% · simulación`;
+  // data null = muestra simulada: casi.js no saca porcentajes de ella (decisión 0014).
+  document.dispatchEvent(new CustomEvent('faraday:distribucion',{detail:{question:q.id,guess,data:null}}));
 }
 // Muestra simulada (decisión 0014): mientras haya menos de SIM_MIN respuestas reales, el gráfico usa
 // estimaciones simuladas, siempre las mismas para cada pregunta, y lo dice en el propio gráfico. Nunca se guardan.

@@ -33,5 +33,8 @@ try{
   const jugador=await fetch('http://127.0.0.1:4174/api/jugador',{method:'POST',headers:{'Content-Type':'application/json',cookie:'faraday_jugador='+first},body:'{}'});
   assert.equal(jugador.headers.get('set-cookie'),`faraday_jugador=${first}; Path=/; Max-Age=31536000; HttpOnly; SameSite=Lax`,'En local (http) la cookie no lleva Secure');
   assert.deepEqual((await jugador.json()).progress,{'2026-11-09':[100000,60000,4700]},'La cookie recupera el progreso del archivo local');
-  console.log('OK: muestra real, exclusión propia, idempotencia, validación, archivo privado, imagen, persistencia y cookie de jugador.');
+  // «¡Casi casi!» (decisión 0030): near cuenta a los demás que quedaron a menos de 1,1× de la real (33.333).
+  const close1=randomUUID(),close2=randomUUID();assert.equal((await post(close1,34000)).data.near,0,'Nadie más lo había clavado');
+  r=await post(close2,31000);assert.equal(r.data.near,1,'Cuenta al que lo clavó antes');assert.equal(r.data.count,4);
+  console.log('OK: muestra real, exclusión propia, idempotencia, validación, archivo privado, imagen, persistencia, cookie de jugador y aciertos «Casi casi».');
 }finally{if(server){server.kill();await once(server,'exit').catch(()=>{})}if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}

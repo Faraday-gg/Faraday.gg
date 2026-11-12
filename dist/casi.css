@@ -1,0 +1,33 @@
+/* Momento «¡Casi casi!» (decisión 0030): respuesta a menos de 1,1× de la real. La lógica está en casi.js. */
+:root{--casi-gold:#ffc93c;--casi-glow:#fff3c4}
+
+/* Tarjeta de respuesta: borde dorado, sello grande y el dato social debajo. */
+.game-card.is-casi{box-shadow:0 0 0 3px var(--casi-gold),0 1px 2px #20263014,0 18px 44px -14px #ffc93c80}
+.game-card.is-casi .verdict-x{text-shadow:0 0 28px #ffc93c66}
+.casi-moment{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:16px 0 2px}
+.casi-stamp{display:inline-block;background:var(--casi-gold);color:#202630;border:2.5px solid #202630;border-radius:12px;padding:8px 16px 9px;font:900 clamp(24px,5.4vw,32px)/1 var(--display);letter-spacing:.02em;white-space:nowrap;transform:rotate(-3deg);box-shadow:3px 3px 0 #202630}
+.casi-count{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--casi-gold)}
+.casi-social{flex-basis:100%;margin:2px 0 0;min-height:1.35em;font-size:15px;font-weight:700;line-height:1.35;color:var(--g-fg)}
+.casi-social.is-estimate{font-weight:600}
+
+/* Al responder: destello dorado, un brillo que cruza la tarjeta y el sello que cae encima. Solo una vez. */
+.game-card.casi-fresh::before,.game-card.casi-fresh::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.game-card.casi-fresh::after{background:radial-gradient(circle at 26% 16%,var(--casi-glow) 0,#ffc93c99 26%,transparent 62%);opacity:0;animation:casi-flash 1.2s ease-out .7s both}
+.game-card.casi-fresh::before{background:linear-gradient(115deg,transparent 38%,#ffffff70 50%,transparent 62%) no-repeat;background-size:260% 100%;background-position:160% 0;animation:casi-shine 1.1s ease-in-out .85s both}
+.game-card.casi-fresh .casi-stamp{animation:casi-pop .65s cubic-bezier(.3,1.5,.5,1) .75s both}
+.game-card.casi-fresh .casi-count,.game-card.casi-fresh .casi-social{animation:calm-rise .7s var(--ease-calm,ease-out) 1.2s both}
+@keyframes casi-flash{0%{opacity:0}16%{opacity:1}100%{opacity:0}}
+@keyframes casi-shine{from{background-position:160% 0}to{background-position:-60% 0}}
+@keyframes casi-pop{0%{opacity:0;transform:rotate(-12deg) scale(2.4)}60%{opacity:1}100%{opacity:1;transform:rotate(-3deg) scale(1)}}
+
+/* Duelo: solo un indicador junto al multiplicador; no cuenta para el contador. */
+.duel-casi{grid-column:1/-1;justify-self:start;font-style:normal;font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;background:var(--casi-gold);color:#202630;border-radius:20px;padding:2px 9px}
+
+/* Perfil: el contador, junto al nivel y la racha. */
+.profile-casi small{font-weight:600}
+
+/* Con «reducir movimiento», todo queda quieto: el sello, el borde y el texto se ven sin animación. */
+@media(prefers-reduced-motion:reduce){
+  .game-card.casi-fresh::before,.game-card.casi-fresh::after{display:none}
+  .game-card.casi-fresh .casi-stamp,.game-card.casi-fresh .casi-count,.game-card.casi-fresh .casi-social{animation:none!important}
+}
