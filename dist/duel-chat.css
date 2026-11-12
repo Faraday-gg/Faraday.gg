@@ -1,0 +1,66 @@
+/* Chat de la partida en los duelos (decisión 0040, duel-chat.js). Un botón fijo abajo a la derecha del duelo abre el
+   panel: mensajes, reacciones, frases rápidas y una caja para escribir. Lo que llega se ve también como bocadillo junto
+   al jugador en el marcador. Los colores siguen la paleta del duelo (--g-*), que cambia con cada pantalla. */
+.chat-dock{position:sticky;bottom:0;z-index:20;display:flex;flex-direction:column;align-items:flex-end;gap:10px;margin-top:auto;padding:0 18px 18px;pointer-events:none}
+.chat-dock[hidden]{display:none}
+.chat-dock>*{pointer-events:auto}
+.chat-fab{position:relative;display:grid;place-items:center;width:54px;height:54px;border:0;border-radius:50%;background:var(--g-accent);color:var(--g-on-accent);box-shadow:0 10px 24px -10px #000a;transition:transform .2s cubic-bezier(.34,1.56,.64,1)}
+.chat-fab:hover{transform:scale(1.06)}
+.chat-fab svg{width:25px;height:25px}
+.chat-dock.is-open .chat-fab{transform:scale(.9)}
+.chat-badge{position:absolute;top:-3px;right:-3px;min-width:21px;height:21px;padding:0 6px;border-radius:11px;background:var(--coral);color:var(--ink);font:800 12px/21px var(--font);box-shadow:0 0 0 2px var(--g-bg);animation:duel-pop .35s cubic-bezier(.34,1.56,.64,1)}
+.chat-badge[hidden]{display:none}
+.chat-peek{position:absolute;right:18px;bottom:82px;max-width:min(280px,calc(100vw - 36px));margin:0;padding:9px 14px;border-radius:18px 18px 4px 18px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;line-height:1.35;box-shadow:0 12px 24px -12px #000a;opacity:0;transform:translateY(8px);transition:opacity .25s,transform .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;overflow-wrap:anywhere}
+.chat-peek.show{opacity:1;transform:none}
+/* Panel */
+.duel-chat{display:flex;flex-direction:column;width:min(360px,calc(100vw - 36px));max-height:min(520px,calc(100dvh - 190px));border-radius:24px;background:var(--paper);color:var(--ink);box-shadow:0 2px 4px #20263014,0 24px 48px -18px #000c;overflow:hidden;animation:chat-in .3s cubic-bezier(.34,1.4,.64,1)}
+.duel-chat[hidden]{display:none}
+@keyframes chat-in{from{opacity:0;transform:translateY(14px) scale(.97)}}
+.chat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 10px 8px 18px}
+.chat-head b{font:700 16px var(--display);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-x{width:34px;height:34px;flex:none;border:0;border-radius:50%;background:#2026300f;color:var(--ink);font-size:22px;line-height:1}
+.chat-x:hover{background:#2026301f}
+.chat-log{flex:1;min-height:90px;margin:0;padding:6px 14px 10px;list-style:none;overflow-y:auto;display:flex;flex-direction:column;gap:6px;overscroll-behavior:contain}
+.chat-msg{display:flex;flex-direction:column;align-items:flex-start;max-width:85%}
+.chat-msg[data-from=you]{align-self:flex-end;align-items:flex-end}
+.chat-msg small{margin:0 0 2px 10px;font-size:11px;font-weight:700;color:var(--muted)}
+.chat-text,.chat-hidden{padding:8px 13px;border-radius:18px 18px 18px 5px;background:#2026300f;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.chat-msg[data-from=you] .chat-text{border-radius:18px 18px 5px 18px;background:var(--ink);color:var(--paper)}
+.chat-text.is-phrase{font-weight:700}
+.chat-hidden{font-style:italic;color:var(--muted)}
+.chat-emoji{font-size:34px;line-height:1.1;animation:duel-pop .35s cubic-bezier(.34,1.56,.64,1)}
+.chat-empty{margin:auto 0;padding:14px 8px;text-align:center;font-size:13px;color:var(--muted)}
+.chat-reactions{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;padding:8px 10px;border-top:1px solid var(--line)}
+.chat-reactions button{aspect-ratio:1;border:0;border-radius:12px;background:none;padding:0;font-size:22px;line-height:1;transition:transform .15s cubic-bezier(.34,1.56,.64,1),background .15s}
+.chat-reactions button:hover{background:#2026300f;transform:scale(1.18)}
+.chat-reactions button:active{transform:scale(.9)}
+.chat-phrases{display:flex;gap:6px;padding:0 12px 8px;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+.chat-phrases::-webkit-scrollbar{display:none}
+.chat-phrases button{flex:none;scroll-snap-align:start;border:1.5px solid var(--line);border-radius:30px;background:none;color:var(--ink);padding:7px 12px;font-size:13px;font-weight:700;white-space:nowrap;transition:background .15s,border-color .15s}
+.chat-phrases button:hover{background:#2026300f;border-color:var(--ink)}
+.chat-form{display:flex;gap:6px;padding:4px 10px 6px 12px}
+.chat-form input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:30px;background:#fff;color:var(--ink);padding:9px 14px;font:500 16px var(--font);outline:0}
+.chat-form input:focus{border-color:var(--ink)}
+.chat-form button{width:42px;height:42px;flex:none;display:grid;place-items:center;border:0;border-radius:50%;background:var(--ink);color:var(--paper)}
+.chat-form button svg{width:19px;height:19px}
+.chat-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px;padding:2px 16px 12px}
+.chat-mute{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer}
+.chat-mute input{accent-color:var(--ink);margin:0}
+.chat-error{font-size:12px;font-weight:700;color:#c8321a}
+.chat-error:empty{display:none}
+/* Bocadillos junto a cada jugador del marcador */
+.chat-bubble{position:absolute;top:calc(100% + 8px);left:14px;z-index:8;max-width:min(220px,44vw);padding:7px 12px;border-radius:4px 16px 16px 16px;background:var(--ink);color:var(--paper);font-size:13px;font-weight:700;line-height:1.3;text-align:left;overflow-wrap:anywhere;box-shadow:0 10px 20px -10px #000a;pointer-events:none;animation:chat-bubble 4.2s cubic-bezier(.22,1,.36,1) forwards}
+.duel-player[data-side=rival] .chat-bubble{left:auto;right:14px;border-radius:16px 4px 16px 16px}
+.chat-bubble.is-emoji{padding:2px 8px;background:var(--paper);font-size:30px;line-height:1.2;animation-duration:2.6s}
+@keyframes chat-bubble{0%{opacity:0;transform:translateY(-6px) scale(.7)}10%{opacity:1;transform:none}85%{opacity:1}100%{opacity:0;transform:translateY(-4px)}}
+@media(max-width:560px){
+  .chat-dock{padding:0 12px 12px}
+  .chat-fab{width:50px;height:50px}
+  /* En móvil el panel es una hoja que sube desde abajo, a todo lo ancho. */
+  .duel-chat{position:fixed;left:0;right:0;bottom:0;width:100%;max-height:72dvh;border-radius:24px 24px 0 0;padding-bottom:env(safe-area-inset-bottom)}
+  .chat-dock.is-open .chat-fab{visibility:hidden}
+  .chat-reactions{grid-template-columns:repeat(5,1fr);gap:4px}
+  .chat-reactions button{aspect-ratio:auto;height:42px;font-size:24px}
+  .chat-peek{right:12px;bottom:72px}
+}
+@media(prefers-reduced-motion:reduce){.duel-chat,.chat-bubble,.chat-peek,.chat-badge,.chat-emoji{animation:none!important;transition:none!important}}
