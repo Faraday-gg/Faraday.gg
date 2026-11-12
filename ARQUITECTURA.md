@@ -119,7 +119,7 @@ Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pier
 
 - `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `responder`, `bot`, `salir` y `revancha`.
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
-- El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. **La migración `20261111120000_duelos` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel.
+- El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. La migración `20261112005952_duelos` se aplicó el 12 de noviembre de 2026; si la tabla fallara, la ruta responde 503 sin afectar al resto.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
 
 ## Ligas de amigos
@@ -129,7 +129,7 @@ Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hor
 - `lib/ligas.mjs` tiene las reglas y la ruta `POST /api/liga`, con el campo `action`: `mias`, `crear`, `unirse`, `ver`, `salir`, `perfil` y `resumen`.
 - Las puntuaciones las pone el servidor: cuando alguien completa el reto **de hoy** (`POST /api/answers` en la última pregunta, o `POST /api/daily-scores`), `lib/api.mjs` calcula su distancia media con las respuestas guardadas y la apunta en «resultados diarios». El archivo no cuenta. Un día cerrado sin jugar cuenta como la peor distancia de la liga ese día, como poco 10×.
 - `dist/ligas.js` pinta la lista, la clasificación, la invitación y, al abrir la app en una semana nueva, el resumen de la anterior. El apodo es el de los duelos y el avatar, el del armario.
-- En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. **La migración `20261112120000_ligas` está sin aplicar**: hasta entonces la ruta responde 503 en Vercel y la web dice «Las ligas no están disponibles ahora mismo».
+- En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. La migración `20261112010003_ligas` se aplicó el 12 de noviembre de 2026; si Supabase fallara, la ruta responde 503 y la web dice «Las ligas no están disponibles ahora mismo».
 
 ## Avatar, faradios y misiones
 
