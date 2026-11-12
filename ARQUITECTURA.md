@@ -146,7 +146,7 @@ Quien invita y quien es invitado ganan los dos ([decisión 0038](docs/decisiones
   - el invitado recibe un cofre Rayo y la gorra Enchufe, y 150 ≈ al conectarse;
   - quien invita recibe un cofre Rayo por conexión (50 ≈ desde la 11.ª) y piezas exclusivas o un cofre Tormenta en 1, 3, 5 y 10 conexiones.
 - **Corriente compartida.** Durante 30 días, +15 de batería a los dos cada día que juegan ambos.
-- **Dónde se guarda.** En local, en `runtime/referidos.json`. En Vercel, en las tablas `referral_codes` y `referrals`; su migración `20261112180000_referidos` está **sin aplicar**, y hasta entonces la ruta responde 503 y la pantalla dice que el Circuito no está disponible.
+- **Dónde se guarda.** En local, en `runtime/referidos.json`. En Vercel, en las tablas `referral_codes` y `referrals`; la migración `20261112140721_referidos` se aplicó el 12 de noviembre de 2026; si Supabase fallara, la ruta responde 503 y la pantalla dice que el Circuito no está disponible.
 
 ## Avatar, faradios y misiones
 

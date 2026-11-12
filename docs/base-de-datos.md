@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-12, Circuito de amigos (rama `feat/referidos-circuito`): migración `20261112180000_referidos` escrita y **sin aplicar**. Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
+- **Última actualización:** 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -21,7 +21,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
 | `public.duels` | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
 | `public.leagues`, `public.league_members`, `public.daily_results` | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
-| `public.referral_codes`, `public.referrals` | `runtime/referidos.json` del servidor local | Circuito de amigos (referidos): el código de cada jugador y quién invitó a quién, con los premios ya cobrados. **Migración sin aplicar.** |
+| `public.referral_codes`, `public.referrals` | `runtime/referidos.json` del servidor local | Circuito de amigos (referidos): el código de cada jugador y quién invitó a quién, con los premios ya cobrados. |
 
 ### Qué está en Supabase y qué no
 
@@ -132,7 +132,7 @@ Clave primaria `(player_hash, day)`: vale la primera. El servidor solo inserta c
 
 Las tres tablas tienen RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Contienen apodos escritos por los jugadores, pero ningún dato que los identifique.
 
-### Circuito de amigos (migración `20261112180000_referidos`, **sin aplicar**)
+### Circuito de amigos (migración `20261112140721_referidos`)
 
 [Decisión 0038](decisiones/0038-circuito-de-amigos.md), `lib/referidos.mjs`.
 
@@ -141,141 +141,7 @@ Las tres tablas tienen RLS activado sin políticas y sin permisos para `anon` ni
 | Columna | Tipo | Reglas | Notas |
 | --- | --- | --- | --- |
 | `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | SHA-256 del UUID anónimo. |
-| `code` | `text` | único, `^[A-Z2-9]{6}# Base de datos (Supabase)
-
-- **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
-- **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
-
-Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
-
-## Resumen
-
-```text
-days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugador anónimo)
-```
-
-| Tabla | Sustituye a | Para qué |
-| --- | --- | --- |
-| `public.days` | `runtime/days/*.json`, las jornadas de `content/archivo/` y las de `dist/questions.json` | Jornadas publicadas, una por fecha. |
-| `public.questions` | Las preguntas de `content/archivo/`, `dist/questions.json` y `content-engine.mjs` | Preguntas de cada jornada con su cifra de referencia. |
-| `public.answers` | `runtime/answers.json` | Estimaciones anónimas de los jugadores. |
-| `public.daily_scores(fecha)` | El cálculo de `POST /api/daily-scores` | Puntuación de cada jugador que completó la jornada. |
-| Storage, almacén `imagenes` | `dist/assets/` | Fotografías de las preguntas, públicas por URL. |
-| `public.duels` | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
-| `public.leagues`, `public.league_members`, `public.daily_results` | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
-| `public.referral_codes`, `public.referrals` | `runtime/referidos.json` del servidor local | Circuito de amigos (referidos): el código de cada jugador y quién invitó a quién, con los premios ya cobrados. **Migración sin aplicar.** |
-
-### Qué está en Supabase y qué no
-
-| Dato | Dónde vive | Por qué |
-| --- | --- | --- |
-| Jornadas y preguntas (texto, cifra, fuentes, supuestos, razonamiento, créditos) | **Supabase** (`days`, `questions.content`) | La API las lee de ahí. |
-| Fotografías | **Supabase Storage** (`imagenes`) | `content.image.src` apunta a su URL pública. |
-| Respuestas anónimas | **Supabase** (`answers`) | |
-| Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y Vercel lo publica al desplegar producción. |
-| Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
-| Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
-| Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
-| HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
-
-## Tablas
-
-### `public.days`
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `id` | `date` | clave primaria | Fecha de la jornada en `Europe/Madrid`. Equivale a `day.id` de la app. |
-| `name` | `text` | obligatorio | Día de la semana mostrado («Lunes»). |
-| `theme` | `text` | por defecto `''` | Lema del día. |
-| `source` | `text` | `piloto`, `banco-editorial` o `ia` (`ia`, desde la migración `20261110120000`, aún sin aplicar) | Origen: `piloto` para las jornadas escritas a mano (`content/archivo/` y `dist/questions.json`), `banco-editorial` para las de `content-engine.mjs` e `ia` para las generadas cada noche con OpenAI (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)). El archivo usa `piloto` para no cambiar la restricción de la tabla. |
-| `created_at` | `timestamptz` | por defecto `now()` | |
-
-### `public.questions`
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `id` | `text` | clave primaria | Mismo id que en la app (`piloto-v2-1`, `daily-v1-0-0-xxxxxxxx`). Una pregunta revisada lleva id nuevo, para no mezclar respuestas de versiones distintas. |
-| `day_id` | `date` | → `days.id`, no se puede borrar un día con preguntas | |
-| `position` | `smallint` | 1 a 3; única por día | Orden dentro de la jornada. |
-| `revision` | `integer` | por defecto 1 | |
-| `title` | `text` | obligatorio | |
-| `unit` | `text` | obligatorio | |
-| `answer` | `double precision` | > 0 | Cifra de referencia para puntuar. |
-| `content` | `jsonb` | obligatorio | Objeto completo que usa la interfaz: fuentes, imagen y licencia, supuestos, razonamiento. |
-| `created_at` | `timestamptz` | por defecto `now()` | |
-
-### `public.answers`
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `id` | `bigint` | identidad | |
-| `question_id` | `text` | → `questions.id` | |
-| `player_hash` | `text` | 64 caracteres hexadecimales | SHA-256 del UUID anónimo del navegador, igual que hoy en el servidor. **Nunca se guarda el UUID.** |
-| `guess` | `double precision` | > 0 y ≤ 1e30 | Misma validación que `POST /api/answers`. |
-| `created_at` | `timestamptz` | por defecto `now()` | |
-
-Única por `(question_id, player_hash)`: un jugador anónimo responde una sola vez a cada pregunta. Si vuelve a enviar la misma cifra, el servidor debe tratarlo como éxito; si envía otra distinta, como el actual `409 Ya has respondido esta pregunta`.
-
-### `public.duels` (migración `20261112005952_duelos`, aplicada el 2026-11-12)
-
-Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No tiene relación con las demás tablas: las preguntas se guardan por su id dentro de `state`.
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `id` | `uuid` | clave primaria | Lo genera el servidor. |
-| `code` | `text` | único, 6 caracteres `A-Z2-9` | Código para invitar a un amigo. |
-| `status` | `text` | `waiting`, `playing` o `finished` | Copia de `state.status`, para buscar. |
-| `public` | `boolean` | por defecto `false` | `true` = partida rápida: cualquiera puede emparejarse mientras espera. |
-| `state` | `jsonb` | obligatorio | El duelo completo tal y como lo usa `lib/duelos.mjs`: jugadores (SHA-256 del UUID anónimo, apodo, avatar, nivel y vida), ids de las preguntas y rondas con las respuestas, puntos y horas límite. |
-| `version` | `integer` | por defecto 1 | Control de concurrencia: el servidor solo actualiza la fila si la versión es la que leyó (`PATCH ...?id=eq.X&version=eq.N`). |
-| `created_at`, `updated_at` | `timestamptz` | por defecto `now()` | `updated_at` lo pone el servidor en cada escritura; en un duelo en espera indica que su creador sigue conectado. |
-
-Índice parcial `duels_waiting_idx` sobre `created_at` para los duelos públicos en espera. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Las filas no se borran (ver [mejoras](mejoras/README.md)). Contiene apodos escritos por los jugadores, pero ningún dato que los identifique.
-
-### Ligas de amigos (migración `20261112010003_ligas`, aplicada el 2026-11-12)
-
-[Decisión 0031](decisiones/0031-ligas-de-amigos.md), `lib/ligas.mjs`.
-
-```text
-leagues (1) ──< league_members (máx. 15)        daily_results (1 por jugador y día)
-```
-
-**`public.leagues`**
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `id` | `uuid` | clave primaria | Lo genera el servidor. |
-| `code` | `text` | único, 6 caracteres `A-Z2-9` | Código para invitar (`?liga=CÓDIGO`). |
-| `name` | `text` | 1 a 24 caracteres | Lo escribe quien crea la liga; el servidor lo limpia de HTML. |
-| `created_at` | `timestamptz` | por defecto `now()` | Una liga creada esta semana no tiene resumen de la anterior. |
-
-**`public.league_members`**
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `league_id` | `uuid` | → `leagues.id`, se borra en cascada | |
-| `player_hash` | `text` | 64 caracteres hexadecimales | SHA-256 del UUID anónimo (o del jugador enlazado a la cuenta). |
-| `name` | `text` | 1 a 16 caracteres | Apodo, limpio de HTML. |
-| `avatar` | `jsonb` | por defecto `{}` | Solo los identificadores de las piezas del avatar, como en los duelos, y el de la medalla destacada (`badge`, decisión 0035). |
-| `joined_at` | `timestamptz` | por defecto `now()` | Quien entra después de una semana no cuenta en ella. |
-
-Clave primaria `(league_id, player_hash)` e índice `league_members_player_idx` por `player_hash` («Tus ligas»). El disparador `league_members_limit` impide pasar de 15 miembros: bloquea la fila de la liga y, si ya hay 15, falla con `liga_llena`. El servidor lo comprueba antes, así que el disparador solo actúa si dos personas entran a la vez. Cuando sale el último miembro, el servidor borra la liga.
-
-**`public.daily_results`**
-
-| Columna | Tipo | Reglas | Notas |
-| --- | --- | --- | --- |
-| `player_hash` | `text` | 64 caracteres hexadecimales | |
-| `day` | `date` | | Fecha de la jornada en `Europe/Madrid`. |
-| `score` | `double precision` | ≥ 1 | Distancia media del día (1 = exacto), calculada por el servidor a partir de `answers`. |
-| `created_at` | `timestamptz` | por defecto `now()` | |
-
-Clave primaria `(player_hash, day)`: vale la primera. El servidor solo inserta cuando el jugador completa las tres preguntas **el mismo día de la jornada** en hora de Madrid; lo jugado desde el archivo no se apunta. Se guarda para todos los jugadores, estén o no en una liga, para que quien se une a mitad de semana no pierda los días que ya jugó.
-
-Las tres tablas tienen RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Contienen apodos escritos por los jugadores, pero ningún dato que los identifique.
-
- | Va en los enlaces como `?de=CÓDIGO`. |
+| `code` | `text` | único, `^[A-Z2-9]{6}$` | Va en los enlaces como `?de=CÓDIGO`. |
 | `name` | `text` | 1 a 16 caracteres | Apodo que ven sus amigos. |
 | `avatar` | `jsonb` | por defecto `{}` | Piezas del avatar. |
 | `created_at` | `timestamptz` | por defecto `now()` | |
@@ -365,7 +231,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261111125432` | nombres_de_usuario (archivo en otra rama) | Crea `usernames`. | Aplicada en Supabase; el archivo no está en esta rama |
 | `20261112005952` | [duelos](../supabase/migrations/20261112005952_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
-| `20261112180000` | [referidos](../supabase/migrations/20261112180000_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | **Pendiente**: aplicar con confirmación de Luis |
+| `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 
 ## Pendiente
 

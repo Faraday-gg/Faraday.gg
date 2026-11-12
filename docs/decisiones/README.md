@@ -40,7 +40,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0035](0035-medallas-e-insignias.md) | Medallas e insignias en el perfil, con una destacada que ven los rivales y la liga | Propuesta | 2026-11-12 |
 | [0036](0036-seis-cofres.md) | Seis cofres, cada uno con su cualidad y su precio | Propuesta | 2026-11-12 |
 | [0037](0037-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
-| [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Propuesta | 2026-11-12 |
+| [0038](0038-circuito-de-amigos.md) | Referidos: el «Circuito» de amigos | Aceptada | 2026-11-12 |
 
 ## Plantilla
 
