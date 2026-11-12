@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="casi.css">
   <link rel="stylesheet" href="ligas.css">
   <link rel="stylesheet" href="share-card.css">
+  <link rel="stylesheet" href="medals.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -25,6 +26,7 @@
   <script src="casi.js" defer></script>
   <script src="chests.js" defer></script>
   <script src="chest-open.js" defer></script>
+  <script src="medals.js" defer></script>
   <script src="progress.js" defer></script>
   <script src="duel.js" defer></script>
   <script src="ligas.js" defer></script>
@@ -34,7 +36,7 @@
 </head>
 <body>
   <button class="menu-toggle home-menu-toggle" id="home-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
-  <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel y misiones"></button>
+  <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel, misiones y medallas"></button>
   <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
   <main id="inicio" class="home">
     <section class="home-hero" aria-labelledby="hero-title">
@@ -110,6 +112,7 @@
         <details class="faq-item"><summary>¿Cómo funcionan las ligas con amigos?</summary><p>Crea una liga, ponle nombre y comparte el enlace con tu grupo (hasta 15 personas). Cada semana, de lunes a domingo, gana quien tenga la distancia media más baja en el reto diario. Solo cuenta el reto jugado el mismo día, no el archivo. Un día sin jugar cuenta como la peor distancia de la liga ese día, y nunca menos de 10×. El lunes verás quién ganó la semana anterior.</p></details>
         <details class="faq-item"><summary>¿Qué son los faradios y las misiones?</summary><p>Los faradios (≈) son la moneda del juego. Se ganan jugando: al completar el reto del día, en los duelos, al subir de nivel y con las misiones diarias y semanales. Sirven para vestir a tu avatar con ropa, gorras, zapatillas y accesorios, y para comprar cofres. No se compran con dinero y no dan ninguna ventaja al jugar.</p></details>
         <details class="faq-item"><summary>¿Qué son los cofres?</summary><p>Cajas con premios al azar: faradios o piezas para tu avatar que todavía no tienes. Se ganan jugando (misiones, niveles, rachas y la batería) y también se pueden comprar con faradios, como mucho tres al día. Nunca con dinero. Las probabilidades de cada premio están a la vista en la pestaña Cofres de tu perfil, nunca sale una pieza repetida y los cofres no caducan.</p></details>
+        <details class="faq-item"><summary>¿Qué son las medallas y las insignias?</summary><p>Logros que se consiguen jugando y que se quedan en tu perfil para siempre. Las medallas tienen cuatro niveles (bronce, plata, oro y diamante) y premian la constancia, la puntería, los duelos, las ligas y tu colección. Las insignias se consiguen una sola vez, por una hazaña concreta. Puedes destacar una: tus rivales en los duelos y tu grupo en las ligas la verán junto a tu nombre.</p></details>
         <details class="faq-item"><summary>¿Necesito una cuenta para jugar?</summary><p>No. Se juega sin registrarse. Tu progreso y tus notas se guardan en este navegador; si cambias de dispositivo o borras los datos del navegador, empiezas de cero.</p></details>
         <details class="faq-item"><summary>¿Qué pasa si me pierdo un día?</summary><p>Nada: en el archivo están todos los retos anteriores y puedes jugarlos cuando quieras. Al responder verás también cómo calcularlo y de dónde salen los datos.</p></details>
       </div>
@@ -215,7 +218,7 @@
         <button type="button" class="menu-link menu-link-today" id="menu-today"><span>Reto de hoy</span><small id="menu-today-number"></small></button>
         <button type="button" class="menu-link" data-open-duel><span>Duelo 1 vs 1</span><small aria-hidden="true">⚔</small></button>
         <button type="button" class="menu-link" data-open-league><span>Ligas con amigos</span><small aria-hidden="true">🏆</small></button>
-        <button type="button" class="menu-link" data-open-profile><span>Avatar y misiones</span><small aria-hidden="true">≈</small></button>
+        <button type="button" class="menu-link" data-open-profile><span>Avatar, misiones y medallas</span><small aria-hidden="true">≈</small></button>
         <button type="button" class="menu-link" id="menu-home"><span>Volver al inicio</span><small aria-hidden="true">↩</small></button>
       </div>
       <h2 class="menu-title">Tu cuenta</h2>

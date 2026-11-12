@@ -33,8 +33,8 @@ try{
   const ana=randomUUID(),luis=randomUUID(),otra=randomUUID();
 
   // Partida rápida: la primera persona espera y la segunda se empareja con ella.
-  let a=await duel('buscar',ana,{name:'Ana <b>',avatar:{body:'mujer',hat:'gorra',top:'<script>',otra:'x'},level:4});
-  assert.deepEqual(a.data.players[0].avatar,{body:'mujer',hat:'gorra'},'Del avatar solo se guardan piezas con identificador válido');
+  let a=await duel('buscar',ana,{name:'Ana <b>',avatar:{body:'mujer',hat:'gorra',top:'<script>',otra:'x',badge:'racha-3'},level:4});
+  assert.deepEqual(a.data.players[0].avatar,{body:'mujer',hat:'gorra',badge:'racha-3'},'Del avatar solo se guardan piezas con identificador válido');
   assert.equal(a.status,200);assert.equal(a.data.status,'waiting');assert.equal(a.data.players[0].name,'Ana b','El nombre se limpia');
   const id=a.data.id;
   let b=await duel('buscar',luis,{name:'Luis',avatar:99});

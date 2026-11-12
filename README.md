@@ -33,6 +33,7 @@ node tests/cofres.test.mjs
 node tests/casi.test.mjs
 node tests/auth.test.mjs
 node tests/ligas.test.mjs
+node tests/medallas.test.mjs
 ```
 
 ## Despliegue: Vercel y Supabase
