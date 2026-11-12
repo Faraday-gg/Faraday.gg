@@ -1,10 +1,8 @@
-# 0038. Menú lateral rediseñado y logo que vuelve al inicio
+# 0041. Menú lateral rediseñado y logo que vuelve al inicio
 
 - **Estado:** propuesta
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
-
-> Nota: el número 0038 ya lo usa [0038-circuito-de-amigos.md](0038-circuito-de-amigos.md). Se mantiene porque fue el número asignado a esta tarea; conviene renumerarla al fusionar si se quiere evitar la duplicidad.
 
 ## Contexto
 

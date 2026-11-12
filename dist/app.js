@@ -227,7 +227,7 @@ $('#home-menu-toggle').addEventListener('click',()=>toggleMenu());
 document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
 $('#menu-home').addEventListener('click',goHome);
-// El logo lleva al inicio (decisión 0038): cierra el menú y las pantallas abiertas, de arriba abajo, con el cierre propio
+// El logo lleva al inicio (decisión 0041): cierra el menú y las pantallas abiertas, de arriba abajo, con el cierre propio
 // de cada una. Si el duelo pide confirmación para abandonarlo y se cancela, se queda donde estaba.
 const whenHidden=(el,ms=8000)=>new Promise(resolve=>{if(el.hidden)return resolve(true);const watch=new MutationObserver(()=>{if(el.hidden){watch.disconnect();clearTimeout(timer);resolve(true)}}),timer=setTimeout(()=>{watch.disconnect();resolve(el.hidden)},ms);watch.observe(el,{attributes:true,attributeFilter:['hidden']})});
 async function goHome(){
