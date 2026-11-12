@@ -1,0 +1,161 @@
+{
+  "id": "2026-12-09",
+  "name": "Miércoles",
+  "theme": "Fideos, olivos y Kipchoge",
+  "questions": [
+    {
+      "id": "jornada-2026-12-09-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "comida",
+      "ambito": "mundial",
+      "tag": "Fideos para todos",
+      "title": "Si los fideos instantáneos que se comen en el mundo en un año se repartieran a partes iguales, ¿cuántos paquetes le tocarían a cada persona?",
+      "detail": "Ramen de vaso, de sobre, picantes o de pollo: cuenta todas las raciones de fideos instantáneos que se comieron en el mundo en 2025 y repártelas entre todos los habitantes del planeta, bebés incluidos.",
+      "unit": "raciones",
+      "answer": 15.088678328474247,
+      "math": "En 2025 se consumieron 124.210 millones de raciones de fideos instantáneos. En el mundo viven unos 8.232 millones de personas. 124.210 ÷ 8.232 ≈ 15,1 raciones por persona.",
+      "referenceExpression": "124210 ÷ 8232",
+      "assumptions": "Datos de demanda mundial de 2025 de la Asociación Mundial de Fideos Instantáneos (WINA). Población mundial estimada para 2025. Es un reparto teórico: en Corea del Sur o Vietnam se comen muchos más.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "The Standard · Global instant noodle demand tops 124 billion servings",
+          "url": "https://www.thestandard.com.hk/news/article/340748/Global-instant-noodle-demand-tops-124-billion-servings-China-and-Hong-Kong-lead",
+          "fact": "Según la WINA, el consumo mundial de fideos instantáneos llegó a 124.210 millones de raciones en 2025."
+        },
+        {
+          "title": "Wikipedia · World population",
+          "url": "https://en.wikipedia.org/wiki/World_population",
+          "fact": "La población mundial en 2025 era de unos 8.232 millones de personas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el montón de fideos",
+        "steps": [
+          "Los fideos instantáneos se comen en todas partes, pero sobre todo en Asia. Si cada persona comiera uno al mes, serían unos 100.000 millones al año.",
+          "Con más de 120.000 millones de raciones y 8.000 millones de personas, salen unas 15 por cabeza.",
+          "Con los datos de 2025: 124.210 millones ÷ 8.232 millones = 15,1 raciones por persona y año. Algo más de una al mes."
+        ]
+      },
+      "calc": {
+        "intro": "Todas las raciones del año, repartidas entre toda la humanidad.",
+        "rows": [
+          {
+            "label": "Raciones en 2025",
+            "value": "124.210 millones"
+          },
+          {
+            "label": "Población mundial",
+            "value": "÷ 8.232 millones"
+          }
+        ],
+        "result": "Raciones por persona"
+      }
+    },
+    {
+      "id": "jornada-2026-12-09-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "naturaleza",
+      "ambito": "espana",
+      "tag": "Olivo por cabeza",
+      "title": "Si repartiéramos todos los olivos de España entre sus habitantes, ¿cuántos le tocarían a cada uno?",
+      "detail": "España tiene el mayor olivar del mundo, con la provincia de Jaén como un mar de olivos. Reparte todos los árboles a partes iguales entre todos los que viven en el país. La cosecha corre de tu cuenta.",
+      "unit": "olivos",
+      "answer": 6.876627080756115,
+      "math": "España tiene unos 340 millones de olivos y 49.442.844 habitantes. 340.000.000 ÷ 49.442.844 ≈ 6,9 olivos por persona.",
+      "referenceExpression": "340000000 ÷ 49442844",
+      "assumptions": "El número de olivos es una estimación de 2024 (no hay un censo oficial de árboles). Población residente a 1 de octubre de 2025, dato provisional del INE.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "El Orden Mundial · El mapa de los olivos en España",
+          "url": "https://elordenmundial.com/mapas-y-graficos/mapa-olivos-espana/",
+          "fact": "El olivar español tiene 340 millones de olivos y 2,8 millones de hectáreas (septiembre de 2024)."
+        },
+        {
+          "title": "INE · Estadística Continua de Población",
+          "url": "https://www.ine.es/dyngs/Prensa/ECP3T25.htm",
+          "fact": "España tenía 49.442.844 habitantes a 1 de octubre de 2025, dato provisional."
+        }
+      ],
+      "reasoning": {
+        "heading": "Hectáreas y árboles",
+        "steps": [
+          "El olivar español ocupa casi 3 millones de hectáreas, más que muchas provincias juntas. Con unos cien árboles por hectárea, serían cientos de millones de olivos.",
+          "Unos 300 millones de olivos entre unos 50 millones de personas dan unos 6 por cabeza.",
+          "Con 340 millones de olivos y 49,4 millones de habitantes: 6,9 olivos por persona. Una familia de cuatro tendría su pequeño olivar."
+        ]
+      },
+      "calc": {
+        "intro": "Todos los olivos del país, repartidos entre su gente.",
+        "rows": [
+          {
+            "label": "Olivos en España",
+            "value": "340.000.000"
+          },
+          {
+            "label": "Habitantes",
+            "value": "÷ 49.442.844"
+          }
+        ],
+        "result": "Olivos por persona"
+      }
+    },
+    {
+      "id": "jornada-2026-12-09-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "deportes",
+      "ambito": "mundial",
+      "tag": "Despacito, pero rápido",
+      "title": "Al ritmo de Kipchoge en su maratón por debajo de dos horas, ¿cuántos metros recorrerías mientras suena «Despacito»?",
+      "detail": "En 2019, en Viena, Eliud Kipchoge corrió una maratón en menos de dos horas. Ponte la versión original de «Despacito» y corre a su ritmo de principio a fin de la canción. Lo de despacito, ni en broma.",
+      "unit": "metros",
+      "answer": 1333.983036684215,
+      "math": "Kipchoge corrió 42.195 m en 1 h 59 min 40,2 s = 7.180,2 s: 5,88 m/s. «Despacito» dura 3 min 47 s = 227 s. 42.195 ÷ 7.180,2 × 227 ≈ 1.334 m.",
+      "referenceExpression": "42195 ÷ 7180,2 × 227",
+      "assumptions": "Ritmo medio de toda la carrera. Duración de la versión original de la canción (3:47). La marca no es récord oficial porque se corrió con liebres rotativas.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "INEOS · History made",
+          "url": "https://www.ineos.com/news/history-made",
+          "fact": "Eliud Kipchoge corrió los 42,195 km en 1:59:40,2 el 12 de octubre de 2019 en Viena."
+        },
+        {
+          "title": "Wikipedia · Despacito",
+          "url": "https://en.wikipedia.org/wiki/Despacito",
+          "fact": "La versión original de «Despacito» dura tres minutos y cuarenta y siete segundos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero su velocidad",
+        "steps": [
+          "Una maratón en dos horas es correr a más de 20 km/h durante dos horas seguidas, más rápido que mucha gente en bicicleta. Una canción dura menos de 4 minutos.",
+          "42 km en 120 minutos son unos 350 m por minuto. En casi 4 minutos de canción, unos 1.300 m.",
+          "A 5,88 m/s durante 227 s: 1.334 m. Más de tres vueltas a una pista de atletismo antes de que acabe el estribillo final."
+        ]
+      },
+      "calc": {
+        "intro": "Su velocidad media, multiplicada por lo que dura la canción.",
+        "rows": [
+          {
+            "label": "Distancia de la maratón",
+            "value": "42.195 m"
+          },
+          {
+            "label": "Su tiempo",
+            "value": "÷ 7.180,2 s"
+          },
+          {
+            "label": "Duración de «Despacito»",
+            "value": "× 227 s"
+          }
+        ],
+        "result": "Metros"
+      }
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "id": "2026-11-20",
+  "name": "Viernes",
+  "theme": "Suelo, obelisco y percha",
+  "questions": [
+    {
+      "id": "jornada-2026-11-20-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "lugares",
+      "ambito": "latam",
+      "tag": "Ciudad que baja",
+      "title": "Al ritmo de sus zonas que más se hundían, ¿cuántos años tardaría el suelo de Ciudad de México en bajar lo que mide una persona?",
+      "detail": "Ciudad de México se construyó sobre un antiguo lago y, al sacar agua del subsuelo, el terreno se compacta y baja. Toma el ritmo de hundimiento de las zonas más afectadas en los años noventa y dos mil y mide cuánto tardaría en bajar 1,70 m. El Ángel de la Independencia ya ha necesitado 14 escalones nuevos.",
+      "unit": "años",
+      "answer": 4.857142857142857,
+      "math": "En los años noventa y dos mil, partes del área metropolitana se hundían unos 35 cm al año. Una persona mide 1,70 m = 170 cm. 170 ÷ 35 ≈ 4,9 años.",
+      "referenceExpression": "170 ÷ 35",
+      "assumptions": "Es el ritmo de las zonas que más se hundían, no el de toda la ciudad: hay barrios que apenas se mueven. Las mediciones preliminares del satélite NISAR (octubre de 2025 a enero de 2026) muestran zonas que bajan más de 1,3 cm al mes.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "NASA JPL · US-Indian Space Mission Maps Extreme Subsidence in Mexico City",
+          "url": "https://www.jpl.nasa.gov/news/us-indian-space-mission-maps-extreme-subsidence-in-mexico-city/",
+          "fact": "En los años noventa y dos mil, partes del área metropolitana se hundían unos 35 cm al año; el Ángel de la Independencia ha necesitado 14 escalones más en su base."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el ritmo, luego la estatura",
+        "steps": [
+          "Un hundimiento que obliga a añadir escalones a un monumento no puede ser de milímetros: hablamos de decenas de centímetros al año en las peores zonas.",
+          "Si fueran unos 30 cm al año, 170 cm tardarían algo menos de 6 años.",
+          "Con los 35 cm al año que da la NASA salen 4,9 años: en menos de cinco años, el suelo bajaría lo que mide una persona."
+        ]
+      },
+      "calc": {
+        "intro": "Una persona de 1,70 m frente a un suelo que baja decenas de centímetros al año.",
+        "rows": [
+          {
+            "label": "Estatura de una persona",
+            "value": "170 cm"
+          },
+          {
+            "label": "Hundimiento al año",
+            "value": "÷ 35 cm"
+          }
+        ],
+        "result": "Años"
+      }
+    },
+    {
+      "id": "jornada-2026-11-20-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "latam",
+      "tag": "Obra exprés",
+      "title": "¿Cuántos centímetros creció cada día el Obelisco de Buenos Aires mientras lo construían?",
+      "detail": "El Obelisco, símbolo de Buenos Aires, se levantó en 1936 en tiempo récord: la obra empezó el 20 de marzo y terminó en 31 días. Reparte sus 67,5 m de altura entre esos 31 días por igual. Más rápido que cualquier planta del balcón.",
+      "unit": "centímetros",
+      "answer": 217.74193548387098,
+      "math": "El Obelisco mide 67,5 m = 6.750 cm. Se construyó en 31 días. 6.750 ÷ 31 ≈ 218 cm al día.",
+      "referenceExpression": "6750 ÷ 31",
+      "assumptions": "Repartimos la altura por igual entre los 31 días; en la obra real, los cimientos y la base llevaron más tiempo que la punta.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Obelisco de Buenos Aires",
+          "url": "https://es.wikipedia.org/wiki/Obelisco_de_Buenos_Aires",
+          "fact": "Mide 67,5 m de altura; las obras empezaron el 20 de marzo de 1936, se inauguró el 23 de mayo de 1936 y la empresa lo construyó en 31 días."
+        }
+      ],
+      "image": {
+        "src": "assets/jornada-2026-11-20-2.jpg",
+        "alt": "El Obelisco de Buenos Aires, blanco y alto, en el centro de la avenida 9 de Julio, con edificios alrededor",
+        "credit": "Green Mostaza",
+        "url": "https://commons.wikimedia.org/wiki/File:Obelisco_de_Buenos_Aires_(1),_AA_2014.jpg",
+        "license": "CC BY 4.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/4.0"
+      },
+      "reasoning": {
+        "heading": "Primero la altura, luego el calendario",
+        "steps": [
+          "El Obelisco es alto como un edificio de unos 20 pisos: unos 70 m. Y se hizo en un mes.",
+          "70 m en 30 días son algo más de 2 m al día: más de lo que mide una persona, cada día.",
+          "Con 67,5 m en 31 días salen 218 cm al día: un jugador de baloncesto de los altos, cada jornada de obra."
+        ]
+      },
+      "calc": {
+        "intro": "Casi 70 metros en un mes, repartidos día a día.",
+        "rows": [
+          {
+            "label": "Altura del Obelisco",
+            "value": "6.750 cm"
+          },
+          {
+            "label": "Días de obra",
+            "value": "÷ 31"
+          }
+        ],
+        "result": "Centímetros al día"
+      }
+    },
+    {
+      "id": "jornada-2026-11-20-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "dinero",
+      "ambito": "espana",
+      "tag": "Ropa a chorro",
+      "title": "¿Cuántos kilos de ropa pone en el mercado cada segundo el grupo dueño de Zara?",
+      "detail": "Inditex, el grupo gallego de Zara, Pull&Bear o Massimo Dutti, vende ropa en todo el mundo. Toma el peso total de las prendas que puso en el mercado en un año y repártelo entre los segundos de ese año. Sin contar las perchas.",
+      "unit": "kilos",
+      "answer": 19.699518011161846,
+      "math": "Inditex puso en el mercado 621.244 toneladas de prendas en 2022: 621.244.000 kg. Un año tiene 365 × 24 × 3.600 = 31.536.000 segundos. 621.244.000 ÷ 31.536.000 ≈ 19,7 kg por segundo.",
+      "referenceExpression": "621244000 ÷ (365 × 24 × 3600)",
+      "assumptions": "Inditex publica el peso de las prendas, no el número de unidades, así que medimos en kilos. Es el dato de 2022 del grupo entero (Zara es su marca principal) y repartido por igual entre todos los segundos del año.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Malay Mail (Reuters) · Zara owner boosts sustainability goals as fast fashion feels the heat",
+          "url": "https://www.malaymail.com/news/money/2023/07/11/zara-owner-boosts-sustainability-goals-as-fast-fashion-feels-the-heat/79163",
+          "fact": "Inditex puso en el mercado 621.244 toneladas de prendas en 2022, un 10 % más que en 2021, según su informe anual."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero las toneladas, luego el reloj",
+        "steps": [
+          "Inditex tiene miles de tiendas y vende cientos de millones de prendas al año; si una prenda pesa unos cientos de gramos, el total son cientos de miles de toneladas.",
+          "Con unas 600.000 toneladas al año y unos 31,5 millones de segundos en un año: 600.000.000 ÷ 31.500.000 son unos 19 kg por segundo.",
+          "Con las 621.244 toneladas de 2022 salen 19,7 kg por segundo: el peso de un niño pequeño en ropa nueva, cada segundo."
+        ]
+      },
+      "calc": {
+        "intro": "Cientos de miles de toneladas al año, repartidas segundo a segundo.",
+        "rows": [
+          {
+            "label": "Prendas puestas en el mercado",
+            "value": "621.244.000 kg"
+          },
+          {
+            "label": "Segundos de un año",
+            "value": "÷ 31.536.000"
+          }
+        ],
+        "result": "Kilos por segundo"
+      }
+    }
+  ]
+}

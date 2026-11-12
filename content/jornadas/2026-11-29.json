@@ -1,0 +1,147 @@
+{
+  "id": "2026-11-29",
+  "name": "Domingo",
+  "theme": "Versiones, cepillos y arcos",
+  "questions": [
+    {
+      "id": "jornada-2026-11-29-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "mundial",
+      "tag": "Ayer y siempre",
+      "title": "Si escucharas seguidas todas las versiones grabadas de «Yesterday» de los Beatles, ¿cuántas horas tardarías?",
+      "detail": "«Yesterday» es la canción más versionada de los Beatles: la han grabado desde Frank Sinatra hasta Marvin Gaye. Pon los auriculares y escucha una versión tras otra, cada una tan larga como la original, sin pausas ni anuncios.",
+      "unit": "horas",
+      "answer": 75.16666666666667,
+      "math": "Se calculan unas 2.200 versiones grabadas de «Yesterday». La original dura 2:03, es decir, 123 segundos. 2.200 × 123 = 270.600 segundos; entre 3.600, unas 75,2 horas.",
+      "referenceExpression": "2200 × 123 ÷ 3600",
+      "assumptions": "El número de versiones no está cerrado: Guinness hablaba de 1.600 en 1986 y otras fuentes dan más de 2.200. Suponemos que todas duran lo mismo que la original; muchas son más largas.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Yesterday (Beatles song)",
+          "url": "https://en.wikipedia.org/wiki/Yesterday_(Beatles_song)",
+          "fact": "La canción dura 2:03 y se le atribuyen unas 2.200 versiones; Guinness contaba 1.600 en enero de 1986."
+        },
+        {
+          "title": "Guinness World Records · Most covered act",
+          "url": "https://www.guinnessworldrecords.com/world-records/509167-most-covered-act",
+          "fact": "Los Beatles son el grupo más versionado y «Yesterday» (1965) es su composición con más versiones."
+        }
+      ],
+      "reasoning": {
+        "heading": "Versiones por duración",
+        "steps": [
+          "«Yesterday» dura unos dos minutos y es de las canciones más versionadas de la historia: miles de grabaciones.",
+          "2.000 versiones de 2 minutos son 4.000 minutos: unas 67 horas, casi tres días seguidos.",
+          "Con 2.200 versiones de 2:03 salen 75,2 horas: algo más de tres días enteros escuchando «Yesterday» sin dormir."
+        ]
+      },
+      "calc": {
+        "intro": "Todas las versiones con la duración de la original, pasadas a horas.",
+        "rows": [
+          {"label": "Versiones grabadas", "value": "2.200"},
+          {"label": "Duración de la canción", "value": "× 123 s"},
+          {"label": "Segundos por hora", "value": "÷ 3.600"}
+        ],
+        "result": "Horas de «Yesterday»"
+      }
+    },
+    {
+      "id": "jornada-2026-11-29-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "hogar",
+      "ambito": "mundial",
+      "tag": "Cepillos de por vida",
+      "title": "Si cambias el cepillo de dientes cuando dicen los dentistas, ¿cuántos cepillos usas en 80 años de vida?",
+      "detail": "La Asociación Dental Estadounidense recomienda cambiarlo cada tres o cuatro meses. Toma el punto medio, tres meses y medio, y cuenta cepillos desde el primer día hasta cumplir 80 años. El que se usa para limpiar las juntas del baño no cuenta.",
+      "unit": "cepillos",
+      "answer": 274.2857142857143,
+      "math": "La ADA recomienda cambiar el cepillo cada 3 o 4 meses: tomamos 3,5. En 80 años hay 80 × 12 = 960 meses. 960 ÷ 3,5 ≈ 274 cepillos.",
+      "referenceExpression": "80 × 12 ÷ 3,5",
+      "assumptions": "Vida de 80 años y cepillo desde el nacimiento son supuestos del juego; en realidad el primero llega con los primeros dientes. Cada 3 meses saldrían 320 cepillos y cada 4, 240.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "American Dental Association · Toothbrushes",
+          "url": "https://www.ada.org/resources/ada-library/oral-health-topics/toothbrushes",
+          "fact": "Recomienda cambiar el cepillo de dientes cada tres o cuatro meses, o antes si las cerdas están aplastadas o abiertas."
+        }
+      ],
+      "reasoning": {
+        "heading": "Meses de vida entre meses por cepillo",
+        "steps": [
+          "Si cambias el cepillo unas tres o cuatro veces al año, en una vida larga se acumulan cientos.",
+          "80 años por unos 3,5 cepillos al año dan unos 280: un buen montón de plástico en el baño.",
+          "Con 960 meses y un cepillo cada 3,5 meses salen 274 cepillos. Unos 34 por cada década: un cajón entero de cepillos jubilados."
+        ]
+      },
+      "calc": {
+        "intro": "Los meses de una vida entre los meses que dura cada cepillo.",
+        "rows": [
+          {"label": "Años de vida", "value": "80 años"},
+          {"label": "Meses por año", "value": "× 12"},
+          {"label": "Meses de vida", "value": "= 960 meses"},
+          {"label": "Vida de un cepillo", "value": "÷ 3,5 meses"}
+        ],
+        "result": "Cepillos de dientes"
+      }
+    },
+    {
+      "id": "jornada-2026-11-29-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "espana",
+      "tag": "Tenis entre columnas",
+      "title": "¿Cuántas canchas de tenis cabrían en la superficie de la Mezquita-Catedral de Córdoba?",
+      "detail": "Toma todo el recinto, con su bosque de unas 850 columnas y el patio, y cúbrelo de canchas de dobles reglamentarias pegadas unas a otras. Sin pasillos ni gradas, y nada de devolver la pelota contra una columna.",
+      "unit": "canchas",
+      "answer": 89.73875667336127,
+      "math": "El recinto mide unos 180 × 130 m: 23.400 m². Una cancha de tenis de dobles mide 23,77 × 10,97 m: 260,76 m². 23.400 ÷ 260,76 ≈ 89,7 canchas.",
+      "referenceExpression": "180 × 130 ÷ (23,77 × 10,97)",
+      "assumptions": "Contamos el rectángulo exterior del monumento, incluido el patio de los Naranjos, y solo la superficie de juego de cada cancha, sin las zonas de fuera que se dejan alrededor. En la práctica cabrían bastantes menos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Mosque–Cathedral of Córdoba",
+          "url": "https://en.wikipedia.org/wiki/Mosque%E2%80%93Cathedral_of_C%C3%B3rdoba",
+          "fact": "El conjunto ocupa unos 180 × 130 m (590 × 425 pies) y conserva unas 850 columnas de jaspe, ónice, mármol, granito y pórfido."
+        },
+        {
+          "title": "Wikipedia · Tennis court",
+          "url": "https://en.wikipedia.org/wiki/Tennis_court",
+          "fact": "La pista reglamentaria mide 23,77 m de largo y 10,97 m de ancho para dobles."
+        }
+      ],
+      "reasoning": {
+        "heading": "Superficie entre superficie",
+        "steps": [
+          "La Mezquita es enorme: un bosque de columnas en el que es fácil perderse, más el patio de los Naranjos. Debe de rondar las dos hectáreas.",
+          "Una cancha de dobles tiene unos 24 × 11 m, unos 260 m². 23.000 m² entre 260 dan algo menos de 90.",
+          "La cuenta exacta da 89,7 canchas: casi noventa partidos de dobles a la vez, eso sí, con una columna en mitad de cada pista."
+        ]
+      },
+      "calc": {
+        "intro": "La superficie del recinto entre la de una cancha de dobles.",
+        "rows": [
+          {"label": "Largo del recinto", "value": "180 m"},
+          {"label": "Ancho del recinto", "value": "× 130 m"},
+          {"label": "Superficie total", "value": "= 23.400 m²"},
+          {"label": "Cancha de dobles", "value": "÷ 260,76 m²"}
+        ],
+        "result": "Canchas de tenis"
+      },
+      "image": {
+        "src": "assets/jornada-2026-11-29-3.jpg",
+        "alt": "Panorámica del interior de la Mezquita-Catedral de Córdoba, con filas de columnas y arcos de dovelas rojas y blancas",
+        "credit": "Richard Ashley",
+        "url": "https://commons.wikimedia.org/wiki/File:Mezquita_de_C%C3%B3rdoba_-_Panor%C3%A1mica_interior.jpg",
+        "license": "CC BY 2.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+      }
+    }
+  ]
+}

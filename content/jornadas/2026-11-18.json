@@ -1,0 +1,147 @@
+{
+  "id": "2026-11-18",
+  "name": "Miércoles",
+  "theme": "Cohete, canal y hamburguesa",
+  "questions": [
+    {
+      "id": "jornada-2026-11-18-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "espacio",
+      "ambito": "mundial",
+      "tag": "Torre humana espacial",
+      "title": "¿Cuántas personas, una de pie sobre la cabeza de otra, harían falta para llegar a la punta del Starship?",
+      "detail": "Starship, el cohete de SpaceX, es el más alto jamás construido. Apila personas de 1,70 m, de los pies a la cabeza, desde la plataforma hasta la punta de la nave, con el cohete completo (propulsor más nave). Prohibido estornudar.",
+      "unit": "personas",
+      "answer": 73.1764705882353,
+      "math": "El Starship completo (versión 3) mide 124,4 m. Cada persona mide 1,70 m. 124,4 ÷ 1,70 ≈ 73 personas.",
+      "referenceExpression": "124,4 ÷ 1,70",
+      "assumptions": "Usamos la altura del bloque 3 (V3), de 124,4 m; la versión anterior medía 123,1 m. La persona de 1,70 m es un modelo y no contamos el aplastamiento de la torre humana.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · SpaceX Starship",
+          "url": "https://en.wikipedia.org/wiki/SpaceX_Starship",
+          "fact": "El cohete completo mide 121,3 m en el bloque 1, 123,1 m en el bloque 2 y 124,4 m en el bloque 3."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el cohete, luego la torre humana",
+        "steps": [
+          "Es más alto que la estatua de la Libertad con su pedestal: un edificio de unos 40 pisos, más de 100 m.",
+          "Con unos 120 m y personas de 1,7 m: 120 ÷ 1,7 son unas 70 personas.",
+          "Con los 124,4 m del Starship V3 salen 73 personas. Bastaría con los pasajeros de un autobús lleno... y un poco de equilibrio."
+        ]
+      },
+      "calc": {
+        "intro": "El cohete mide más de 120 metros; cada persona, 1,70.",
+        "rows": [
+          {
+            "label": "Altura del Starship V3",
+            "value": "124,4 m"
+          },
+          {
+            "label": "Una persona",
+            "value": "÷ 1,70 m"
+          }
+        ],
+        "result": "Personas"
+      }
+    },
+    {
+      "id": "jornada-2026-11-18-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "transporte",
+      "ambito": "mundial",
+      "tag": "Pesca de bicis",
+      "title": "¿Cuántas bicicletas sacan cada día de los canales de Ámsterdam?",
+      "detail": "En Ámsterdam hay tantas bicis que muchas acaban en el agua: robadas, tiradas o empujadas. Una grúa con garra montada en una barcaza las pesca todo el año. Reparte el total anual entre los 365 días. Nadie pesca nada con caña.",
+      "unit": "bicicletas",
+      "answer": 41.0958904109589,
+      "math": "Waternet, la autoridad del agua de Ámsterdam, saca de los canales entre 12.000 y 15.000 bicicletas al año. Con 15.000: 15.000 ÷ 365 ≈ 41 bicicletas al día.",
+      "referenceExpression": "15000 ÷ 365",
+      "assumptions": "Usamos la cifra alta del récord Guinness (15.000 al año), que es la más citada; con 12.000 serían unas 33 al día. Repartimos por igual entre todos los días del año.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Guinness World Records · Most bicycles recovered from waterways (city)",
+          "url": "https://www.guinnessworldrecords.com/world-records/637317-most-bicycles-recovered-from-waterways-city",
+          "fact": "Cada año se recuperan de los canales de Ámsterdam entre 12.000 y 15.000 bicicletas; las saca Waternet con una garra en una grúa sobre una barcaza."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero el año, luego el día",
+        "steps": [
+          "En una ciudad con cientos de miles de bicis y canales por todas partes, que caigan unas cuantas al día parece creíble, pero no cientos.",
+          "Si fueran unas 10.000 al año, entre 365 días salen unas 30 al día.",
+          "Con las 15.000 bicicletas al año del récord Guinness salen 41 al día: casi dos por hora, día y noche."
+        ]
+      },
+      "calc": {
+        "intro": "Miles de bicis al año, repartidas entre todos los días.",
+        "rows": [
+          {
+            "label": "Bicis sacadas al año",
+            "value": "15.000"
+          },
+          {
+            "label": "Días del año",
+            "value": "÷ 365"
+          }
+        ],
+        "result": "Bicicletas al día"
+      }
+    },
+    {
+      "id": "jornada-2026-11-18-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "mundial",
+      "tag": "Torre de queso",
+      "title": "¿Cuántas hamburguesas apiladas harían falta para llegar a la punta del Burj Khalifa?",
+      "detail": "El Burj Khalifa, en Dubái, es el edificio más alto del mundo. Apila hamburguesas dobles de 7 cm de alto, una sobre otra, desde el suelo hasta la punta de la aguja. Con pepinillos, para que no resbalen.",
+      "unit": "hamburguesas",
+      "answer": 11854.285714285712,
+      "math": "El Burj Khalifa mide 829,8 m hasta la punta. Una hamburguesa tipo Big Mac mide de 6,4 a 7,6 cm de alto; tomamos 7 cm = 0,07 m. 829,8 ÷ 0,07 ≈ 11.854 hamburguesas.",
+      "referenceExpression": "829,8 ÷ 0,07",
+      "assumptions": "Tomamos 7 cm, el centro del rango de 6,4 a 7,6 cm de una Big Mac, y suponemos que no se aplastan. Si usaras la altura arquitectónica de 828 m, la diferencia sería de unas 26 hamburguesas.",
+      "confidence": "Dato documentado + modelo",
+      "sources": [
+        {
+          "title": "Wikipedia · Burj Khalifa",
+          "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+          "fact": "Altura arquitectónica de 828 m y altura hasta la punta de 829,8 m."
+        },
+        {
+          "title": "KitchPrep · How big is a Big Mac?",
+          "url": "https://kitchprep.com/?p=60612",
+          "fact": "Una Big Mac mide unos 10 cm de diámetro y de 6,4 a 7,6 cm de alto."
+        }
+      ],
+      "reasoning": {
+        "heading": "Primero la torre, luego el pan",
+        "steps": [
+          "El Burj Khalifa pasa de los 800 m: casi un kilómetro de edificio.",
+          "Una hamburguesa doble mide algo menos que un palmo de alto, unos 7 cm: en un metro caben unas 14. 800 × 14 son unas 11.000.",
+          "Con los 829,8 m hasta la punta y hamburguesas de 7 cm salen 11.854. Haría falta un cocinero muy rápido."
+        ]
+      },
+      "calc": {
+        "intro": "Casi un kilómetro de torre, medido en hamburguesas de 7 cm.",
+        "rows": [
+          {
+            "label": "Altura hasta la punta",
+            "value": "829,8 m"
+          },
+          {
+            "label": "Una hamburguesa",
+            "value": "÷ 0,07 m"
+          }
+        ],
+        "result": "Hamburguesas"
+      }
+    }
+  ]
+}

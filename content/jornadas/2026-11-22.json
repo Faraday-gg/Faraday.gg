@@ -1,0 +1,178 @@
+{
+  "id": "2026-11-22",
+  "name": "Domingo",
+  "theme": "Big Ben, Gordo y Pokédex",
+  "questions": [
+    {
+      "id": "jornada-2026-11-22-1",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "arquitectura",
+      "ambito": "mundial",
+      "tag": "Minutero maratoniano",
+      "title": "¿Cuántos maratones corre en un año la punta del minutero del Big Ben?",
+      "detail": "La punta da una vuelta completa cada hora, todos los días del año, sin descansos ni avituallamiento. Cuenta un año de 365 días.",
+      "unit": "maratones",
+      "answer": 5.609090593672236,
+      "math": "El minutero mide 4,3 m: su punta recorre 2 × π × 4,3 ≈ 27 m por vuelta. Con 24 vueltas al día y 365 días salen 236,7 km al año. 236,7 ÷ 42,195 ≈ 5,6 maratones.",
+      "referenceExpression": "2 × 3,1416 × 4,3 × 24 × 365 ÷ 1000 ÷ 42,195",
+      "assumptions": "Tomamos el largo del minutero como el radio que recorre la punta. Año de 365 días, sin paradas por mantenimiento (la torre sí las ha tenido).",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · Big Ben",
+          "url": "https://en.wikipedia.org/wiki/Big_Ben",
+          "fact": "El minutero, de cobre, mide 14 pies (4,3 m); las esferas tienen 6,9 m de diámetro."
+        },
+        {
+          "title": "Wikipedia · Marathon",
+          "url": "https://en.wikipedia.org/wiki/Marathon",
+          "fact": "La distancia oficial del maratón es de 42,195 km."
+        }
+      ],
+      "reasoning": {
+        "heading": "Una vuelta por hora",
+        "steps": [
+          "Un minutero de unos 4 m hace con su punta un círculo de unos 25 m cada hora.",
+          "25 m × 24 horas = 600 m al día; por 365 días, unos 220 km al año: cinco maratones largos.",
+          "Con 4,3 m salen 27 m por vuelta y 236,7 km al año: 5,6 maratones sin moverse de Westminster."
+        ]
+      },
+      "calc": {
+        "intro": "La punta del minutero da una vuelta cada hora.",
+        "rows": [
+          {
+            "label": "Una vuelta (2 × π × 4,3 m)",
+            "value": "27,02 m"
+          },
+          {
+            "label": "Vueltas al año",
+            "value": "× 8.760"
+          },
+          {
+            "label": "Recorrido al año",
+            "value": "= 236,7 km"
+          },
+          {
+            "label": "Un maratón",
+            "value": "÷ 42,195 km"
+          }
+        ],
+        "result": "Maratones"
+      }
+    },
+    {
+      "id": "jornada-2026-11-22-2",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "dinero",
+      "ambito": "espana",
+      "tag": "Décimos para todos",
+      "title": "¿Cuántos décimos de la Lotería de Navidad de 2026 hay a la venta por cada habitante de España?",
+      "detail": "Reparte todos los décimos emitidos entre toda la población, bebés incluidos. El Gordo sigue tocando a quien toque.",
+      "unit": "décimos por habitante",
+      "answer": 4.11633700061478,
+      "math": "Se emiten 205 series de 100.000 números: 205 millones de décimos. España tiene 49.801.559 habitantes. 205.000.000 ÷ 49.801.559 ≈ 4,1 décimos por persona.",
+      "referenceExpression": "205000000 ÷ 49801559",
+      "assumptions": "Población residente provisional del INE a 1 de julio de 2026. Contamos todos los décimos emitidos, se vendan o no, y también los que compran visitantes y residentes en el extranjero.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Onda Vasca · Los décimos de la Lotería de Navidad 2026 ya están a la venta",
+          "url": "https://www.ondavasca.com/los-decimos-de-la-loteria-de-navidad-2026-ya-estan-a-la-venta/",
+          "fact": "La emisión es de 205 series de 100.000 números: 205 millones de décimos por 4.100 millones de euros."
+        },
+        {
+          "title": "INE · Estadística Continua de Población, 1 de julio de 2026",
+          "url": "https://www.ine.es/dyngs/Prensa/ECP2T26.htm",
+          "fact": "La población residente en España era de 49.801.559 personas a 1 de julio de 2026 (dato provisional)."
+        }
+      ],
+      "reasoning": {
+        "heading": "Series por números",
+        "steps": [
+          "Hay 100.000 números distintos y cada uno se imprime en unas 200 series: unos 200 millones de décimos.",
+          "España tiene unos 50 millones de habitantes: 200 ÷ 50 = 4 décimos por persona.",
+          "Con las 205 series de 2026 y 49,8 millones de habitantes salen 4,1 décimos por cabeza: más de 80 euros por persona si se vendiera todo."
+        ]
+      },
+      "calc": {
+        "intro": "Todos los décimos del sorteo repartidos entre toda la población.",
+        "rows": [
+          {
+            "label": "Décimos emitidos",
+            "value": "205.000.000"
+          },
+          {
+            "label": "Habitantes de España",
+            "value": "÷ 49.801.559"
+          }
+        ],
+        "result": "Décimos por habitante"
+      }
+    },
+    {
+      "id": "jornada-2026-11-22-3",
+      "revision": 1,
+      "verifiedAt": "2026-11-12",
+      "category": "cultura",
+      "ambito": "mundial",
+      "tag": "Pokédex a episodios",
+      "title": "Si atrapar cada especie de Pokémon te llevara lo que dura un episodio de la serie, ¿cuántas horas tardarías en completar la Pokédex?",
+      "detail": "Una especie por episodio de 22 minutos, sin repetir y sin perder ninguna. Las formas regionales y las megaevoluciones no cuentan.",
+      "unit": "horas",
+      "answer": 375.8333333333333,
+      "math": "La Pokédex Nacional tiene 1.025 especies. A 22 minutos cada una: 1.025 × 22 = 22.550 minutos. 22.550 ÷ 60 ≈ 375,8 horas.",
+      "referenceExpression": "1025 × 22 ÷ 60",
+      "assumptions": "Contamos las 1.025 especies numeradas en los juegos ya publicados; la décima generación, anunciada para 2027, añadirá más. Un episodio dura 22 minutos.",
+      "confidence": "Dato documentado + cálculo",
+      "sources": [
+        {
+          "title": "Wikipedia · List of Pokémon",
+          "url": "https://en.wikipedia.org/wiki/List_of_Pok%C3%A9mon",
+          "fact": "La franquicia tiene 1.025 especies; la décima generación (Winds y Waves, 2027) solo tiene de momento 3 conocidas."
+        },
+        {
+          "title": "Pokémon · Pokédex",
+          "url": "https://www.pokemon.com/us/pokedex",
+          "fact": "La numeración de la Pokédex va del 1 al 1025."
+        },
+        {
+          "title": "Wikipedia · Pokémon (TV series)",
+          "url": "https://en.wikipedia.org/wiki/Pok%C3%A9mon_(TV_series)",
+          "fact": "Cada episodio de la serie dura 22 minutos."
+        }
+      ],
+      "reasoning": {
+        "heading": "Mil especies, un episodio cada una",
+        "steps": [
+          "Hay unas mil especies de Pokémon y un episodio dura algo más de 20 minutos.",
+          "1.000 × 20 minutos = 20.000 minutos: unas 330 horas.",
+          "Con 1.025 especies y 22 minutos salen 375,8 horas: más de 15 días seguidos sin soltar la Poké Ball."
+        ]
+      },
+      "calc": {
+        "intro": "Una especie por cada episodio de la serie.",
+        "rows": [
+          {
+            "label": "Especies en la Pokédex",
+            "value": "1.025"
+          },
+          {
+            "label": "Un episodio",
+            "value": "× 22 min"
+          },
+          {
+            "label": "Minutos en total",
+            "value": "= 22.550 min"
+          },
+          {
+            "label": "Minutos en una hora",
+            "value": "÷ 60"
+          }
+        ],
+        "result": "Horas"
+      }
+    }
+  ]
+}
