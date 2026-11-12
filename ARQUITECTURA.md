@@ -71,6 +71,8 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi», cifras de las medallas y perfil con armario, tienda y vitrina (decisiones 0024, 0027, 0030 y 0035)
   medals.js              Medallas e insignias: catálogo, regla, dibujo, aviso y ceremonia (decisión 0035)
   medals.css             Estilos de las medallas (dibujo en CSS), la vitrina, la pestaña «Medallas», el aviso y la ceremonia
+  pistas.js, pistas.css  Pistas: una por pregunta del reto, pagando faradios o viendo un anuncio; entre qué potencias de 10 está la respuesta y por dónde empezar (decisión 0039)
+  ads.js                 Anuncios con recompensa: de momento un anuncio simulado con cuenta atrás; aquí se integrarán los reales (decisión 0039)
   chests.js              Cofres: los seis que hay, probabilidades y sorteo (decisiones 0027 y 0036)
   chest-open.js          Apertura de un cofre: animación, partículas, cartas y sonido
   chest.css              Estilos de los cofres y de su apertura

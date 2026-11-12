@@ -84,7 +84,7 @@ Una fila por duelo 1 vs 1 ([decisión 0023](decisiones/0023-duelos-1vs1.md)). No
 | `code` | `text` | único, 6 caracteres `A-Z2-9` | Código para invitar a un amigo. |
 | `status` | `text` | `waiting`, `playing` o `finished` | Copia de `state.status`, para buscar. |
 | `public` | `boolean` | por defecto `false` | `true` = partida rápida: cualquiera puede emparejarse mientras espera. |
-| `state` | `jsonb` | obligatorio | El duelo completo tal y como lo usa `lib/duelos.mjs`: jugadores (SHA-256 del UUID anónimo, apodo, avatar, nivel y vida), ids de las preguntas y rondas con las respuestas, puntos y horas límite. |
+| `state` | `jsonb` | obligatorio | El duelo completo tal y como lo usa `lib/duelos.mjs`: jugadores (SHA-256 del UUID anónimo, apodo, avatar, nivel y vida), ids de las preguntas y rondas con las respuestas, puntos y horas límite. Desde la [decisión 0040](decisiones/0040-chat-en-los-duelos.md), también `chat` (los 40 últimos mensajes: quién, tipo, clave o texto y hora) y `chatSeq`. |
 | `version` | `integer` | por defecto 1 | Control de concurrencia: el servidor solo actualiza la fila si la versión es la que leyó (`PATCH ...?id=eq.X&version=eq.N`). |
 | `created_at`, `updated_at` | `timestamptz` | por defecto `now()` | `updated_at` lo pone el servidor en cada escritura; en un duelo en espera indica que su creador sigue conectado. |
 
