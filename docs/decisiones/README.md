@@ -37,6 +37,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0032](0032-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
 | [0033](0033-avatar-en-el-reto-y-recompensa.md) | El avatar reacciona en el reto diario y los aciertos se celebran | Propuesta | 2026-11-12 |
 | [0034](0034-seis-cofres.md) | Seis cofres, cada uno con su cualidad y su precio | Propuesta | 2026-11-12 |
+| [0035](0035-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

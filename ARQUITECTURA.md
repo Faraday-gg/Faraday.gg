@@ -70,7 +70,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   chests.js              Cofres: los seis que hay, probabilidades y sorteo (decisiones 0027 y 0034)
   chest-open.js          Apertura de un cofre: animación, partículas, cartas y sonido
   chest.css              Estilos de los cofres y de su apertura
-  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres, «¡Casi casi!» y reto diario
+  sound.js               Sonido compartido (Web Audio, sin archivos): duelos, cofres (campanillas, reverberación y cama de fondo, decisión 0035), «¡Casi casi!» y reto diario
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)

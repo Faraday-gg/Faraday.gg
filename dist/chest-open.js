@@ -5,6 +5,10 @@
 // Fases: entra el cofre → tres toques lo cargan → sube la tensión → la luz toma el color de la mejor rareza →
 // un instante de silencio → estalla → salen las cartas boca abajo → se giran de una en una → resumen.
 // Con «reducir movimiento» activado se va directamente al resumen.
+//
+// Sonido (decisión 0035): cada rareza tiene su propio sonido, más largo, con más voces y más registro cuanto mejor
+// es (sfx.reveal), y por debajo suena una cama de fondo (Sound.bed) que crece con los toques, se calla antes del
+// estallido y se queda en un acorde más lleno según lo que va saliendo. Un lote de faradios nunca suena a premio gordo.
 (()=>{
   const COLOR={comun:'#efe7d4',especial:'#3fa9f5',rara:'#9a7df0',epica:'#ff6548',legendaria:'#ffc93c'};
   // Duraciones en milisegundos. Hasta el estallido pasan unos dos segundos desde el último toque.
@@ -31,20 +35,38 @@
     // Tensión: un barrido que sube mientras el ruido se abre.
     riser:()=>{const s=T.riser/1000;tone(200,0,s,{type:'sawtooth',gain:.026,to:800});tone(100,0,s,{gain:.05,to:400});noise(0,s,{from:400,to:6000,gain:.05,q:2,attack:s*.7})},
     // Pista de rareza: un destello agudo, más alto cuanto mejor es lo que viene.
-    hint:level=>[0,1,2].forEach(i=>tone(1175*2**(level*2/12)*(1+i*.5),i*.05,.36,{gain:.022})),
+    hint:level=>[0,1,2].forEach(i=>tone(1175*2**(level*2/12)*(1+i*.5),i*.05,.36,{gain:.022,wet:.3})),
     burst:()=>{tone(120,0,.5,{to:45,gain:.22});noise(0,.45,{from:5000,to:300,gain:.12,filter:'lowpass'});noise(.02,.7,{from:6000,to:9000,gain:.03,filter:'highpass'})},
     deal:at=>noise(at,.14,{from:1800,to:500,gain:.04}),
     flip:()=>{noise(0,.1,{from:2600,to:900,gain:.04});tone(420,0,.08,{gain:.03})},
     coin:i=>tone(1568+(i%3)*196,0,.07,{type:'triangle',gain:.028}),
     drum:()=>{tone(90,0,.3,{to:50,gain:.16});tone(90,.34,.3,{to:50,gain:.12})},
-    // Fanfarria: arpegio mayor (1 – 1,26 – 1,5 – 2…) con una nota más por nivel de rareza, para que la celebración
-    // sea proporcional al premio. Las épicas y legendarias terminan en un acorde sostenido.
-    fanfare(level){
-      const ratios=[1,1.26,1.5,2,2.52,3],notes=2+level,gain=.045+level*.008;
-      for(let i=0;i<notes;i++)tone(523.25*ratios[i],i*.085,.34,{type:'triangle',gain});
-      if(level>=3){const at=notes*.085;[1,1.26,1.5,2].forEach(ratio=>tone(523.25*ratio*(level>3?2:1),at,1.1,{type:'triangle',gain:.04}));tone(65.4,at,1,{gain:.14});noise(at,1,{from:7000,to:9500,gain:.025,filter:'highpass'})}
+    // El sonido de cada rareza (nivel 0 común … 4 legendaria). Todos comparten el arpegio mayor ascendente de
+    // campanillas (1 – 1,26 – 1,5 – 2…), y cada nivel añade algo que el anterior no tiene, para que la celebración sea
+    // proporcional al premio:
+    //   común       2 notas, casi secas
+    //   especial    3 notas y un brillo de aire
+    //   rara        4 notas que desembocan en un acorde que se queda sonando
+    //   épica       5 notas más rápidas; con el acorde entran el grave y las campanillas una octava arriba
+    //   legendaria  golpe grave al empezar, 7 notas, un soplido que sube hasta el acorde y una lluvia de campanillas
+    reveal(level){
+      const C=523.25,scale=[1,1.26,1.5,2,2.52,3,4],notes=[2,3,4,5,7][level],step=[.11,.1,.09,.08,.07][level],wet=.18+level*.07,at=notes*step;
+      for(let i=0;i<notes;i++)Sound.bell(C*scale[i],i*step,.5+level*.12,{gain:.05+level*.007,wet});
+      if(level>=1)noise(0,.3+level*.1,{from:5000,to:9000,gain:.012+level*.004,filter:'highpass',wet});
+      if(level<2)return;
+      const hold=[0,0,.9,1.5,2.8][level];
+      for(const ratio of [1,1.26,1.5])tone(C/2*ratio,at,hold,{type:'triangle',gain:.028+level*.004,wet});
+      if(level<3)return;
+      tone(65.4,at,hold,{gain:.15});tone(130.8,at,hold*.8,{gain:.06});
+      for(const ratio of [1,1.26,1.5,2])Sound.bell(C*2*ratio,at,hold,{gain:.035,wet});
+      noise(at,hold,{from:7000,to:10000,gain:.03,filter:'highpass',wet});
+      if(level<4)return;
+      tone(98,0,.5,{to:49,gain:.18});
+      noise(at-.26,.28,{from:800,to:8000,gain:.05,attack:.24,wet});
+      for(let i=0;i<14;i++)Sound.bell(C*2*scale[(i*3)%5],at+.15+i*.13,.55,{gain:.022,wet});
     },
-    coins:()=>{tone(784,0,.12,{type:'triangle',gain:.04});tone(1047,.08,.2,{type:'triangle',gain:.04})}
+    // Lote de faradios: dos campanillas y nada más.
+    coins:()=>{Sound.bell(784,0,.25,{gain:.04,wet:.1});Sound.bell(1047,.08,.35,{gain:.04,wet:.1})}
   };
 
   // Partículas sobre un lienzo propio: chispas, puntos y confeti que caen con gravedad y se apagan.
@@ -78,7 +100,9 @@
     if(stage)return;
     const chest=Chests.CHESTS[type],opener=document.activeElement,timers=[],calm=reduced();
     const best=rewards.reduce((top,reward)=>rank(glowOf(reward))>rank(top)?glowOf(reward):top,'comun');
-    let phase='enter',charge=0,flipped=0;
+    // Nivel de la mejor pieza del cofre y de la mejor ya enseñada: los lotes de faradios no cuentan para el sonido.
+    const top=rewards.reduce((level,reward)=>reward.kind==='item'?Math.max(level,rank(reward.rarity)):level,-1);
+    let phase='enter',charge=0,flipped=0,shown=0,bed=Sound.bed();
     const later=(fn,ms)=>timers.push(setTimeout(fn,ms));
     stage=document.createElement('div');stage.className='chest-stage';stage.dataset.type=type;stage.dataset.phase=phase;stage.dataset.charge='0';
     stage.setAttribute('role','dialog');stage.setAttribute('aria-modal','true');stage.setAttribute('aria-label',`Abrir cofre ${chest.name}`);
@@ -100,14 +124,14 @@
     function tap(){
       if(phase!=='ready')return;
       charge++;stage.dataset.charge=charge;box.classList.remove('hit');void box.offsetWidth;box.classList.add('hit');
-      sfx.charge(charge);buzz(15);fx.burst(...center(box),8*charge,['#ffffff','#ffdb70'],{power:5+charge*2,life:40});
+      sfx.charge(charge);bed.lift(charge);buzz(15);fx.burst(...center(box),8*charge,['#ffffff','#ffdb70'],{power:5+charge*2,life:40});
       if(charge>=TAPS)rumble();
     }
     // 3. Tensión, 4. pista de rareza y silencio, 5. estallido.
-    function rumble(){set('rumble');sfx.riser();later(hint,T.riser)}
-    function hint(){stage.dataset.rarity=best;set('hint');sfx.hint(rank(best));later(()=>{set('hush');later(burst,T.hush)},T.hint)}
+    function rumble(){set('rumble');sfx.riser();bed.swell(T.riser/1000);later(hint,T.riser)}
+    function hint(){stage.dataset.rarity=best;set('hint');sfx.hint(rank(best));later(()=>{set('hush');bed.hush();later(burst,T.hush)},T.hint)}
     function burst(){
-      set('burst');sfx.burst();buzz([30,30,80]);
+      set('burst');sfx.burst();buzz([30,30,80]);later(()=>bed.resolve(shown),350);
       const [x,y]=center(box);fx.burst(x,y-20,PARTICLES[rank(best)],palette(best),{power:9+rank(best)*2.5,lift:5});
       later(deal,T.burst);
     }
@@ -133,7 +157,7 @@
       sfx.flip();turned(card,reward);
       later(()=>{
         fx.burst(...center(card),14+level*14,palette(glowOf(reward)),{power:5+level*1.5,life:50});
-        if(reward.kind==='coins'){sfx.coins();count(card.querySelector('.card-amount'),reward.amount)}else sfx.fanfare(level);
+        if(reward.kind==='coins'){sfx.coins();count(card.querySelector('.card-amount'),reward.amount)}else{sfx.reveal(level);shown=Math.max(shown,level);bed.resolve(shown)}
       },T.flip*.55);
     }
     function count(element,to){
@@ -149,7 +173,7 @@
       sfx.drum();buzz(20);
       later(()=>{walk.dataset.step='2';sfx.hint(level);buzz(30)},T.walkSlot);
       later(()=>{
-        walk.dataset.step='3';sfx.fanfare(level);buzz([40,40,120]);
+        walk.dataset.step='3';sfx.reveal(level);shown=Math.max(shown,level);bed.resolve(shown);buzz([40,40,120]);
         fx.burst(innerWidth/2,innerHeight*.45,PARTICLES[level],palette(reward.rarity),{power:13,lift:6,life:90});fx.rain(level>3?140:70,palette(reward.rarity));
         live.textContent=describe(reward);
         later(()=>{const go=find('.walk-go');go.hidden=false;go.focus()},900);
@@ -162,14 +186,14 @@
     }
     // 8. Resumen: todo lo que ha tocado, con la opción de ponerse cada pieza.
     function finish(){
-      timers.forEach(clearTimeout);timers.length=0;set('summary');stage.dataset.rarity=best;cards.hidden=true;walk.hidden=true;summary.hidden=false;
+      timers.forEach(clearTimeout);timers.length=0;shown=Math.max(shown,top);bed.resolve(shown);set('summary');stage.dataset.rarity=best;cards.hidden=true;walk.hidden=true;summary.hidden=false;
       summary.innerHTML=`<p class="chest-kicker">Cofre ${chest.name}</p><h2>¡Tus premios!</h2><ul class="chest-loot">${rewards.map((reward,i)=>`<li data-glow="${glowOf(reward)}">${reward.kind==='coins'?`<span class="card-coin" aria-hidden="true">≈</span><b>+${int(reward.amount)} faradios</b>${reward.instead?`<small>Ya tienes todas las ${PLURAL[reward.instead]}</small>`:''}`:`<span class="card-art">${reward.art}</span><b>${reward.name}</b><small class="card-rarity">${Chests.LABEL[reward.rarity]}</small><small>${reward.slot}</small><button type="button" class="chest-wear" data-wear="${i}">Ponérmelo</button>`}</li>`).join('')}</ul>
 <div class="chest-actions">${more?`<button type="button" class="game-primary" data-more>Abrir otro (${more}) <span aria-hidden="true">→</span></button>`:''}<button type="button" class="${more?'game-secondary':'game-primary'}" data-done>Listo</button></div>`;
       live.textContent='Premios: '+rewards.map(describe).join('; ');
       find(more?'[data-more]':'[data-done]').focus();
     }
     function close(next){
-      timers.forEach(clearTimeout);fx.stop();removeEventListener('resize',fx.size);removeEventListener('keydown',keys,true);
+      timers.forEach(clearTimeout);fx.stop();bed.stop();removeEventListener('resize',fx.size);removeEventListener('keydown',keys,true);
       const node=stage;stage=null;node.classList.add('closing');document.body.classList.remove('chest-on');
       setTimeout(()=>node.remove(),calm?0:220);
       if(opener?.isConnected)opener.focus();
@@ -182,14 +206,15 @@
       if(target===box){tap();return}
       if(target.classList.contains('chest-card')){flip(target);return}
       if(target.classList.contains('chest-skip')||target.classList.contains('chest-next')){finish();return}
-      if(target.classList.contains('chest-mute')){target.setAttribute('aria-pressed',String(Sound.toggle()));return}
+      // Al silenciar se apaga la cama de fondo; al volver a activar el sonido, se retoma donde iba.
+      if(target.classList.contains('chest-mute')){const on=Sound.toggle();target.setAttribute('aria-pressed',String(on));bed.stop();if(on){bed=Sound.bed();if(phase!=='ready'&&phase!=='enter')bed.resolve(shown)}return}
       if(target.dataset.wear!==undefined){onEquip?.(rewards[Number(target.dataset.wear)].key);summary.querySelectorAll('.chest-wear').forEach(button=>{if(rewards[Number(button.dataset.wear)].slot===rewards[Number(target.dataset.wear)].slot){button.disabled=false;button.textContent='Ponérmelo'}});target.disabled=true;target.textContent='Puesto ✓';return}
       if(target.hasAttribute('data-more')){close(true);return}
       if(target.hasAttribute('data-done'))close();
     });
     // En window y en captura: Escape cierra el cofre antes de que lo vean el perfil o el duelo que hay debajo.
     addEventListener('keydown',keys,true);addEventListener('resize',fx.size);
-    if(calm){finish();sfx.fanfare(rank(best))}else enter();
+    if(calm){finish();if(top<0)sfx.coins();else sfx.reveal(top)}else enter();
   }
-  window.ChestOpen={play,art,get open(){return !!stage}};
+  window.ChestOpen={play,art,sound:sfx,get open(){return !!stage}};
 })();
