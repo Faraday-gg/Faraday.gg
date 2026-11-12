@@ -21,3 +21,9 @@ Después de cada pregunta, la tarjeta de respuesta repetía la pregunta y tenía
 ## Consecuencias
 - La tarjeta de respuesta cabe en una pantalla sin hacer scroll en escritorio y en la mayoría de los móviles.
 - Se pierde el botón «Actualizar» de la distribución: se recalcula al volver a abrir la respuesta.
+
+## Cambio del 12 de noviembre de 2026: «Tú / Real» arriba y multiplicador más pequeño
+- A petición de Luis, el libro «Tú / Real» pasa arriba del todo y el veredicto (multiplicador, etiqueta y posición) queda debajo, justo encima de la distribución: primero se ve qué dijiste y qué era, y después cuánto te alejaste.
+- El multiplicador baja de tamaño (de hasta 92 px a 40-56 px; en móvil, 40-48 px) para que no domine la tarjeta.
+- La entrada animada sigue el nuevo orden: primero las casillas, después el multiplicador.
+- La hoja «Cómo se calcula» sigue colocándose bajo el multiplicador; ahora atenúa solo la distribución, porque las casillas quedan por encima de la hoja.

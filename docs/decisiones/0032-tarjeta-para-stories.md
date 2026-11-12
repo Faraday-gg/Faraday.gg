@@ -1,9 +1,9 @@
-# 0029. Tarjeta para stories al compartir el resultado del día
+# 0032. Tarjeta para stories al compartir el resultado del día
 
 - **Estado:** propuesta (código en la rama `feat/tarjeta-stories`)
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
-- **Número:** se reservó la 0028, pero ya la usaba el avatar de mujer. Las tres mejoras de esta tanda corren un número: esta es la 0029, el momento «¡Casi casi!» la 0030 y las ligas de amigos la 0031.
+- **Número:** se reservó la 0028, pero ya la usaba el avatar de mujer; se pasó a la 0029, pero entró antes en `preprod` la de «Cómo se calcula» por pasos. Como el momento «¡Casi casi!» usa la 0030 y las ligas de amigos la 0031, esta es la 0032.
 
 ## Contexto
 

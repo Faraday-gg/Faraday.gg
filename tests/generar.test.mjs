@@ -11,7 +11,7 @@ assert.equal(evaluate('7000 × 0,75 × 365 × 80 ÷ 1000 ÷ 7000'),21.9);
 assert.equal(evaluate('(1 + 2) × 3 − 2^3'),1);
 assert(Number.isNaN(evaluate('process.exit()')));assert(Number.isNaN(evaluate('2 ×')));
 
-const question=(category,actualidad=false,expression='100 ÷ 4',answer=25)=>({category,tag:'Etiqueta',title:`¿Cuántas cosas de ${category}?`,detail:'Condiciones y una broma.',unit:'cosas',answer,math:'100 ÷ 4 = 25.',referenceExpression:expression,assumptions:'Supuestos.',confidence:'Dato documentado + cálculo',sources:[{title:'Fuente · Página',url:`https://fuente.test/${category}`,fact:'Dato.'}],reasoning:{heading:'Paso a paso',steps:['a','b','c']},actualidad});
+const question=(category,actualidad=false,expression='100 ÷ 4',answer=25)=>({category,tag:'Etiqueta',title:`¿Cuántas cosas de ${category}?`,detail:'Condiciones y una broma.',unit:'cosas',answer,math:'100 ÷ 4 = 25.',referenceExpression:expression,assumptions:'Supuestos.',confidence:'Dato documentado + cálculo',sources:[{title:'Fuente · Página',url:`https://fuente.test/${category}`,fact:'Dato.'}],reasoning:{heading:'Paso a paso',steps:['a','b','c']},calc:{intro:'La idea.',rows:[{label:'Dato',value:'100'},{label:'Entre',value:'÷ 4'}],result:'Cosas'},actualidad});
 const jornada=(current,overrides={})=>({theme:'Tema del día',questions:[question('comida',current),question('espacio'),question('deportes')],...overrides});
 
 // OpenAI simulado: devuelve las respuestas de la cola en orden y guarda las peticiones. Las URL de las fuentes responden 200 salvo las /rota.

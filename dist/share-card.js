@@ -1,4 +1,4 @@
-// Tarjeta para stories (decisión 0029): una imagen vertical de 1080 × 1920 con el resultado del día, sin destripar ninguna cifra real.
+// Tarjeta para stories (decisión 0032): una imagen vertical de 1080 × 1920 con el resultado del día, sin destripar ninguna cifra real.
 // app.js solo llama a window.ShareCard.open(día, respuestas, número de edición); todo lo demás vive aquí.
 (() => {
   const W = 1080, H = 1920;

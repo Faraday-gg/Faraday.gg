@@ -31,7 +31,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0026](0026-marcas-reales-en-la-tienda.md) | Piezas de marcas reales en la tienda, con su logotipo | Propuesta | 2026-11-11 |
 | [0027](0027-cofres.md) | Cofres con premio al azar, ganados jugando o comprados con faradios | Propuesta | 2026-11-12 |
 | [0028](0028-avatar-de-mujer-y-animaciones.md) | Avatar de hombre o de mujer, con su colección, y animaciones más naturales | Propuesta | 2026-11-12 |
-| [0029](0029-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
+| [0029](0029-calculo-por-pasos.md) | «Cómo se calcula» como una cuenta por pasos, con el resultado resaltado | Propuesta | 2026-11-12 |
+| [0032](0032-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
 
 ## Plantilla
 

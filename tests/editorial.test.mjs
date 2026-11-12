@@ -3,12 +3,14 @@ import fs from 'node:fs';
 import {getDay,madridDate} from '../content-engine.mjs';
 const baseline=JSON.parse(fs.readFileSync('content/banco-base.json','utf8'));
 assert.equal(baseline.length,21);assert(baseline.every(q=>q.image&&fs.existsSync('dist/'+q.image.src)&&q.reasoning?.steps.length===3&&q.referenceExpression));
+// Cuenta por pasos (decisión 0029): las preguntas del piloto la traen escrita a mano.
+for(const day of JSON.parse(fs.readFileSync('dist/questions.json','utf8')))for(const q of day.questions)assert(q.calc?.intro&&q.calc.result&&q.calc.rows.length>=2,`${q.id}: falta calc`);
 const ids=new Set(),titles=new Set();
 for(let i=0;i<29;i++){
  const date=new Date(Date.UTC(2026,10,16+i,12)).toISOString().slice(0,10),day=getDay(date,{persist:false});
  assert.equal(day.questions.length,3);assert.equal(new Set(day.questions.map(q=>q.family)).size,3);
  assert.deepEqual(day,getDay(date,{persist:false}),'La edición de una fecha es estable');
- for(const q of day.questions){assert(!ids.has(q.id));assert(!titles.has(q.title));assert(q.sources.length&&q.reasoning.steps.length&&Number.isFinite(q.answer)&&q.answer>0);ids.add(q.id);titles.add(q.title)}
+ for(const q of day.questions){assert(!ids.has(q.id));assert(!titles.has(q.title));assert(q.sources.length&&q.reasoning.steps.length&&Number.isFinite(q.answer)&&q.answer>0);assert(q.calc?.intro&&q.calc.result&&q.calc.rows.length>=2&&q.calc.rows.every(r=>r.label&&r.value),'Cuenta por pasos del banco');ids.add(q.id);titles.add(q.title)}
 }
 assert.equal(getDay('2026-12-15',{persist:false}),null,'No repetir contenido al agotarse el banco');
 assert.equal(getDay('2026-99-99',{persist:false}),null);

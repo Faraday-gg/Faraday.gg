@@ -45,6 +45,20 @@ window.PILOT_DAYS = [
             "Una toalla grande ocupa metro y medio cuadrado: 50.000 ÷ 1,5 son más de 30.000 toallas.",
             "Con los 50.000 m² de la plaza salen 33.333 toallas. Si solo cubrieras los 31.000 m² al aire libre, bastarían unas 20.667."
           ]
+        },
+        "calc": {
+          "intro": "La plaza ocupa como siete campos de fútbol, y una toalla grande, metro y medio cuadrado.",
+          "rows": [
+            {
+              "label": "Superficie de la plaza",
+              "value": "50.000 m²"
+            },
+            {
+              "label": "Una toalla de 1 × 1,5 m",
+              "value": "÷ 1,5 m²"
+            }
+          ],
+          "result": "Toallas"
         }
       },
       {
@@ -75,7 +89,21 @@ window.PILOT_DAYS = [
             "NASA publica una masa de referencia de 419.725 kg. Con nuestro jamón de 7 kg salen 59.960,71 jamones equivalentes: en lenguaje útil, unos 60.000. No es una masa inmutable de la ISS: los vehículos y la carga acoplados la hacen variar."
           ]
         },
-        "referenceExpression": "419725 ÷ 7"
+        "referenceExpression": "419725 ÷ 7",
+        "calc": {
+          "intro": "La estación pesa cientos de toneladas; un jamón entero, unos 7 kilos.",
+          "rows": [
+            {
+              "label": "Masa de la ISS",
+              "value": "419.725 kg"
+            },
+            {
+              "label": "Un jamón entero",
+              "value": "÷ 7 kg"
+            }
+          ],
+          "result": "Jamones"
+        }
       },
       {
         "id": "piloto-v3-2026-11-09-3",
@@ -118,6 +146,28 @@ window.PILOT_DAYS = [
             "Una nota adhesiva tiene unos 7,5 cm de lado, algo menos de 60 cm². En un metro cuadrado caben unas 170: 40 × 170 ≈ 6.800 notas.",
             "Con los 460 × 880 cm medidos y notas de 7,62 cm salen 6.972 notas: unos 70 blocs de 100."
           ]
+        },
+        "calc": {
+          "intro": "El mural es enorme; una nota adhesiva, un cuadradito de 7,6 cm.",
+          "rows": [
+            {
+              "label": "Alto del mural",
+              "value": "460 cm"
+            },
+            {
+              "label": "Ancho del mural",
+              "value": "× 880 cm"
+            },
+            {
+              "label": "Superficie",
+              "value": "= 404.800 cm²"
+            },
+            {
+              "label": "Una nota de 7,62 × 7,62 cm",
+              "value": "÷ 58,06 cm²"
+            }
+          ],
+          "result": "Notas"
         }
       }
     ]
@@ -155,6 +205,20 @@ window.PILOT_DAYS = [
             "Un año tiene unos 500.000 minutos (365 × 1.440). 5.000 millones ÷ 500.000 = 10.000 pasajeros por minuto.",
             "Con la previsión de la IATA, 5.200 millones, y 525.600 minutos salen 9.893 pasajeros por minuto: unos 165 cada segundo mientras rebuscas en el bolso."
           ]
+        },
+        "calc": {
+          "intro": "Miles de millones de pasajeros al año, repartidos en los minutos que tiene un año.",
+          "rows": [
+            {
+              "label": "Pasajeros al año",
+              "value": "5.200.000.000"
+            },
+            {
+              "label": "Minutos en un año",
+              "value": "÷ 525.600"
+            }
+          ],
+          "result": "Pasajeros cada minuto"
         }
       },
       {
@@ -185,7 +249,21 @@ window.PILOT_DAYS = [
             "El IGN sitúa la cumbre a 3.715 m. Dividir entre 0,04 da 92.875. Este es un apilamiento ideal desde el nivel del mar: desde la base visible de la montaña sería otra pregunta."
           ]
         },
-        "referenceExpression": "3715 ÷ 0,04"
+        "referenceExpression": "3715 ÷ 0,04",
+        "calc": {
+          "intro": "Una tortilla gorda mide 4 cm; el Teide, casi cuatro kilómetros.",
+          "rows": [
+            {
+              "label": "Altitud del Teide",
+              "value": "3.715 m"
+            },
+            {
+              "label": "Grosor de una tortilla",
+              "value": "÷ 0,04 m"
+            }
+          ],
+          "result": "Tortillas"
+        }
       },
       {
         "id": "piloto-v2-6",
@@ -215,7 +293,29 @@ window.PILOT_DAYS = [
             "El campo documentado mide 105 × 68 m. Con pizzas de 32 cm de diámetro: 7.140 ÷ (π × 0,16²) = 88.778,62. Son unas 89.000 pizzas de área equivalente. No estamos haciendo un empaquetado de círculos sin huecos."
           ]
         },
-        "referenceExpression": "105 × 68 ÷ (π × 0,16²)"
+        "referenceExpression": "105 × 68 ÷ (π × 0,16²)",
+        "calc": {
+          "intro": "Un campo de fútbol frente a una pizza de 32 cm de diámetro.",
+          "rows": [
+            {
+              "label": "Largo del césped",
+              "value": "105 m"
+            },
+            {
+              "label": "Ancho del césped",
+              "value": "× 68 m"
+            },
+            {
+              "label": "Superficie",
+              "value": "= 7.140 m²"
+            },
+            {
+              "label": "Una pizza (π × 0,16²)",
+              "value": "÷ 0,0804 m²"
+            }
+          ],
+          "result": "Pizzas"
+        }
       }
     ]
   },
@@ -252,6 +352,20 @@ window.PILOT_DAYS = [
             "2.000 ÷ 365 ≈ 5,5 años.",
             "Con las 2.300 estancias que se le atribuyen salen 6,3 años. Si solo durmieras en las unas 1.000 del museo, acabarías en menos de tres años."
           ]
+        },
+        "calc": {
+          "intro": "Una habitación por noche, 365 noches al año.",
+          "rows": [
+            {
+              "label": "Estancias del palacio",
+              "value": "2.300"
+            },
+            {
+              "label": "Noches en un año",
+              "value": "÷ 365"
+            }
+          ],
+          "result": "Años"
         }
       },
       {
@@ -282,7 +396,25 @@ window.PILOT_DAYS = [
             "La fuente oficial da 7.300 toneladas para la estructura metálica. Eso equivale a 7.300.000.000 clips de 1 g. Ascensores, tiendas y otras instalaciones pertenecen al peso total de la torre, que aquí no contamos."
           ]
         },
-        "referenceExpression": "7300 × 1000000"
+        "referenceExpression": "7300 × 1000000",
+        "calc": {
+          "intro": "Un clip pesa un gramo; la torre, miles de toneladas.",
+          "rows": [
+            {
+              "label": "Hierro de la torre",
+              "value": "7.300 t"
+            },
+            {
+              "label": "Gramos en una tonelada",
+              "value": "× 1.000.000"
+            },
+            {
+              "label": "Un clip",
+              "value": "÷ 1 g"
+            }
+          ],
+          "result": "Clips"
+        }
       },
       {
         "id": "piloto-v2-9",
@@ -320,7 +452,21 @@ window.PILOT_DAYS = [
             "La altura de proyecto, incluida la cruz, es 172,5 m. A 0,10 m por rollo, el modelo da 1.725. Los rollos reales varían de ancho y además se aplastarían: ambas cosas quedan fuera del apilamiento ideal."
           ]
         },
-        "referenceExpression": "172,5 ÷ 0,1"
+        "referenceExpression": "172,5 ÷ 0,1",
+        "calc": {
+          "intro": "Un rollo mide unos 10 cm de alto; la torre más alta, 172,5 m.",
+          "rows": [
+            {
+              "label": "Torre de Jesucristo",
+              "value": "172,5 m"
+            },
+            {
+              "label": "Alto de un rollo",
+              "value": "÷ 0,1 m"
+            }
+          ],
+          "result": "Rollos"
+        }
       }
     ]
   },
@@ -357,7 +503,25 @@ window.PILOT_DAYS = [
             "Afinando a 384.400 km entre centros y 12 cm por croqueta, obtenemos 3.203.333.333,33 croquetas equivalentes. Que la distancia sea entre centros importa: una fila solo entre las superficies sería algo más corta."
           ]
         },
-        "referenceExpression": "384400 × 1000 ÷ 0,12"
+        "referenceExpression": "384400 × 1000 ÷ 0,12",
+        "calc": {
+          "intro": "Una croqueta mide 12 cm; la Luna está a 384.400 km.",
+          "rows": [
+            {
+              "label": "Distancia a la Luna",
+              "value": "384.400 km"
+            },
+            {
+              "label": "Metros en un kilómetro",
+              "value": "× 1.000"
+            },
+            {
+              "label": "Una croqueta",
+              "value": "÷ 0,12 m"
+            }
+          ],
+          "result": "Croquetas"
+        }
       },
       {
         "id": "piloto-v2-11",
@@ -387,7 +551,21 @@ window.PILOT_DAYS = [
             "Airbus documenta una capacidad máxima de 320.000 L. Dividir entre 150 L da 2.133,33 bañeras equivalentes. Capacidad máxima y combustible consumido en un vuelo no son lo mismo."
           ]
         },
-        "referenceExpression": "320000 ÷ 150"
+        "referenceExpression": "320000 ÷ 150",
+        "calc": {
+          "intro": "El depósito del A380 es enorme; una bañera llena, unos 150 litros.",
+          "rows": [
+            {
+              "label": "Combustible del A380",
+              "value": "320.000 L"
+            },
+            {
+              "label": "Una bañera",
+              "value": "÷ 150 L"
+            }
+          ],
+          "result": "Bañeras"
+        }
       },
       {
         "id": "piloto-v2-12",
@@ -417,7 +595,21 @@ window.PILOT_DAYS = [
             "LEGO House cita 915.103.765 construcciones estándar con seis ladrillos iguales. A una por segundo y años de 365 días, son 29,018 años. No estamos contando piezas inclinadas en ángulos arbitrarios ni el tiempo de desmontarlas."
           ]
         },
-        "referenceExpression": "915103765 ÷ (365 × 24 × 3600)"
+        "referenceExpression": "915103765 ÷ (365 × 24 × 3600)",
+        "calc": {
+          "intro": "Una construcción por segundo, y un año tiene unos 31,5 millones de segundos.",
+          "rows": [
+            {
+              "label": "Construcciones posibles",
+              "value": "915.103.765"
+            },
+            {
+              "label": "Segundos en un año",
+              "value": "÷ 31.536.000"
+            }
+          ],
+          "result": "Años"
+        }
       }
     ]
   },
@@ -454,7 +646,25 @@ window.PILOT_DAYS = [
             "El recuento exacto de estados es 43.252.003.274.489.856.000. El modelo da 1.371,512 años. Esa es una búsqueda exhaustiva imaginaria; resolver un cubo concreto no requiere visitar todas las posiciones."
           ]
         },
-        "referenceExpression": "43252003274489856000 ÷ 1000000000 ÷ (365 × 24 × 3600)"
+        "referenceExpression": "43252003274489856000 ÷ 1000000000 ÷ (365 × 24 × 3600)",
+        "calc": {
+          "intro": "El cubo tiene trillones de posiciones; el ordenador revisa mil millones por segundo.",
+          "rows": [
+            {
+              "label": "Posiciones del cubo",
+              "value": "4,3 × 10¹⁹"
+            },
+            {
+              "label": "Posiciones por segundo",
+              "value": "÷ 1.000.000.000"
+            },
+            {
+              "label": "Segundos en un año",
+              "value": "÷ 31.536.000"
+            }
+          ],
+          "result": "Años"
+        }
       },
       {
         "id": "piloto-v2-15",
@@ -484,7 +694,21 @@ window.PILOT_DAYS = [
             "La información de la edición de 2024 cifra los tomates en 120.000 kg. Bajo nuestra receta ideal de 0,5 kg por litro, salen 240.000 L. Es una comparación: los tomates usados en la fiesta no se reutilizan para cocinar."
           ]
         },
-        "referenceExpression": "120000 ÷ 0,5"
+        "referenceExpression": "120000 ÷ 0,5",
+        "calc": {
+          "intro": "Con medio kilo de tomate sale un litro de gazpacho.",
+          "rows": [
+            {
+              "label": "Tomates lanzados",
+              "value": "120.000 kg"
+            },
+            {
+              "label": "Tomate por litro",
+              "value": "÷ 0,5 kg"
+            }
+          ],
+          "result": "Litros de gazpacho"
+        }
       },
       {
         "id": "piloto-v3-2026-11-13-3",
@@ -519,6 +743,28 @@ window.PILOT_DAYS = [
             "Entre 365 días son unos 550 millones de litros diarios. Una piscina olímpica tiene 2,5 millones de litros: unas 220 piscinas.",
             "Con los 194,12 millones de kilolitros de Kirin para 2024 salen 212 piscinas olímpicas cada día: una nueva cada siete minutos."
           ]
+        },
+        "calc": {
+          "intro": "Primero la cerveza de un día; luego, cuántas piscinas llena.",
+          "rows": [
+            {
+              "label": "Cerveza al año",
+              "value": "194.120.000.000 L"
+            },
+            {
+              "label": "Días de 2024",
+              "value": "÷ 366"
+            },
+            {
+              "label": "Cerveza al día",
+              "value": "= 530.000.000 L"
+            },
+            {
+              "label": "Una piscina olímpica",
+              "value": "÷ 2.500.000 L"
+            }
+          ],
+          "result": "Piscinas"
         }
       }
     ]
@@ -556,6 +802,20 @@ window.PILOT_DAYS = [
             "Al año lees unos 50: 500.000 ÷ 50 = 10.000 años.",
             "Con 500.000 rollos y 52 semanas exactas salen 9.615 años. Si hubieras empezado cuando se fundó la biblioteca, hace unos 2.300 años, aún no habrías leído ni la cuarta parte."
           ]
+        },
+        "calc": {
+          "intro": "Un rollo por semana son 52 al año.",
+          "rows": [
+            {
+              "label": "Rollos de la biblioteca",
+              "value": "500.000"
+            },
+            {
+              "label": "Rollos al año",
+              "value": "÷ 52"
+            }
+          ],
+          "result": "Años"
         }
       },
       {
@@ -586,7 +846,29 @@ window.PILOT_DAYS = [
             "La longitud oficial es 193,30 km. Son 193.300 ÷ 4 = 48.325 horas; dividido entre 8.760 horas al año da 5,5166 años. La velocidad del caracol es una condición ideal del modelo, no una constante biológica."
           ]
         },
-        "referenceExpression": "193300 ÷ 4 ÷ (365 × 24)"
+        "referenceExpression": "193300 ÷ 4 ÷ (365 × 24)",
+        "calc": {
+          "intro": "Un caracol avanza unos 4 metros por hora, sin parar.",
+          "rows": [
+            {
+              "label": "Largo del canal",
+              "value": "193.300 m"
+            },
+            {
+              "label": "Velocidad del caracol",
+              "value": "÷ 4 m/h"
+            },
+            {
+              "label": "Horas en marcha",
+              "value": "= 48.325 h"
+            },
+            {
+              "label": "Horas en un año",
+              "value": "÷ 8.760"
+            }
+          ],
+          "result": "Años"
+        }
       },
       {
         "id": "piloto-v2-18",
@@ -616,7 +898,21 @@ window.PILOT_DAYS = [
             "Nintendo informa de 154,02 millones de consolas de la familia DS vendidas. A una persona por consola, son 154.020.000 jugadores hipotéticos. No contamos 3DS ni afirmamos que todas esas consolas sigan funcionando."
           ]
         },
-        "referenceExpression": "154020000 × 1"
+        "referenceExpression": "154020000 × 1",
+        "calc": {
+          "intro": "Una consola por persona.",
+          "rows": [
+            {
+              "label": "Consolas DS vendidas",
+              "value": "154.020.000"
+            },
+            {
+              "label": "Jugadores por consola",
+              "value": "× 1"
+            }
+          ],
+          "result": "Personas"
+        }
       }
     ]
   },
@@ -653,7 +949,29 @@ window.PILOT_DAYS = [
             "NOAA estima 1.335 millones de km³ de agua oceánica. Pasados a litros y divididos entre el caudal anual, resultan unos 253,995 billones de años. Esto solo compara volúmenes; no explica el origen de los océanos."
           ]
         },
-        "referenceExpression": "1335000000 × 10¹² ÷ (10 × 60 × 24 × 365)"
+        "referenceExpression": "1335000000 × 10¹² ÷ (10 × 60 × 24 × 365)",
+        "calc": {
+          "intro": "Los océanos tienen más de mil millones de km³; un grifo echa 10 litros por minuto.",
+          "rows": [
+            {
+              "label": "Agua de los océanos",
+              "value": "1.335.000.000 km³"
+            },
+            {
+              "label": "Litros en un km³",
+              "value": "× 10¹²"
+            },
+            {
+              "label": "Litros por minuto del grifo",
+              "value": "÷ 10"
+            },
+            {
+              "label": "Minutos en un año",
+              "value": "÷ 525.600"
+            }
+          ],
+          "result": "Años"
+        }
       },
       {
         "id": "piloto-v3-2026-11-15-2",
@@ -688,6 +1006,28 @@ window.PILOT_DAYS = [
             "Un concierto de estadio dura unas dos horas y media, 150 minutos: 7,5 millones ÷ 150 = 50.000 dólares por minuto.",
             "Con los 314 millones de Billboard y 43 conciertos salen 48.682 dólares por minuto: unos 800 dólares por segundo de canción."
           ]
+        },
+        "calc": {
+          "intro": "La recaudación de la gira, repartida por concierto y por minuto.",
+          "rows": [
+            {
+              "label": "Recaudación de la gira",
+              "value": "314.000.000 $"
+            },
+            {
+              "label": "Conciertos",
+              "value": "÷ 43"
+            },
+            {
+              "label": "Por concierto",
+              "value": "= 7.300.000 $"
+            },
+            {
+              "label": "Minutos por concierto",
+              "value": "÷ 150"
+            }
+          ],
+          "result": "Dólares por minuto"
         }
       },
       {
@@ -723,6 +1063,24 @@ window.PILOT_DAYS = [
             "Un espresso es un sorbo de unos 25 ml: caben 40 en un litro. 2,5 millones × 40 = 100 millones.",
             "Con las medidas del Istituto Nazionale Espresso Italiano salen 100 millones de espressos: tomando uno al día tardarías unos 274.000 años en vaciarla."
           ]
+        },
+        "calc": {
+          "intro": "Una piscina olímpica tiene 2,5 millones de litros; un espresso, 25 ml.",
+          "rows": [
+            {
+              "label": "Piscina de 50 × 25 × 2 m",
+              "value": "2.500 m³"
+            },
+            {
+              "label": "Litros en un m³",
+              "value": "× 1.000"
+            },
+            {
+              "label": "Un espresso",
+              "value": "÷ 0,025 L"
+            }
+          ],
+          "result": "Espressos"
         }
       }
     ]
