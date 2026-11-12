@@ -8,7 +8,7 @@ Propuestas que aún no hemos decidido hacer: funcionalidades, cambios en el jueg
 | [Ingresos con cosméticos del avatar](monetizacion-cosmeticos.md) | Luis | abierta | 2026-11-11 |
 | [Ajustes a la economía de faradios, misiones y niveles](ajustes-economia-faradios.md) | Luis | abierta | 2026-11-11 |
 | [Que una pieza comprada valga para los dos cuerpos](piezas-para-los-dos-cuerpos.md) | Claude Code (sesión de Luis) | abierta | 2026-11-12 |
-| [Referidos: el «Circuito» de amigos](referidos-circuito-de-amigos.md) | Luis, con Claude Code | abierta | 2026-11-12 |
+| [Referidos: el «Circuito» de amigos](referidos-circuito-de-amigos.md) | Luis, con Claude Code | aprobada: [decisión 0038](../decisiones/0038-circuito-de-amigos.md) | 2026-11-12 |
 
 Estados: **abierta** (por discutir), **aprobada** (enlazar a la decisión o PR), **descartada** (dejar el motivo).
 

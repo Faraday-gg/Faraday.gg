@@ -62,6 +62,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   share-card.css         Estilos de la vista previa de la tarjeta
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
   ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
+  circuito.js, circuito.css  Circuito de amigos (referidos): enlace ?de=, invitación, premios, tablero de enchufes y corriente compartida (decisión 0038)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
   avatar-logos.js        Trazados de los logotipos de las marcas reales de la tienda, copiados de Simple Icons (decisión 0026)
@@ -84,6 +85,7 @@ lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
 lib/ligas.mjs            Ligas de amigos: miembros, clasificación semanal y resumen (POST /api/liga)
+lib/referidos.mjs        Circuito de amigos: códigos, vínculos, conexiones y premios cobrados una vez (POST /api/referido)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -132,6 +134,19 @@ Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hor
 - Las puntuaciones las pone el servidor: cuando alguien completa el reto **de hoy** (`POST /api/answers` en la última pregunta, o `POST /api/daily-scores`), `lib/api.mjs` calcula su distancia media con las respuestas guardadas y la apunta en «resultados diarios». El archivo no cuenta. Un día cerrado sin jugar cuenta como la peor distancia de la liga ese día, como poco 10×.
 - `dist/ligas.js` pinta la lista, la clasificación, la invitación y, al abrir la app en una semana nueva, el resumen de la anterior. El apodo es el de los duelos y el avatar, el del armario.
 - En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. La migración `20261112010003_ligas` se aplicó el 12 de noviembre de 2026; si Supabase fallara, la ruta responde 503 y la web dice «Las ligas no están disponibles ahora mismo».
+
+## Circuito de amigos (referidos)
+
+Quien invita y quien es invitado ganan los dos ([decisión 0038](docs/decisiones/0038-circuito-de-amigos.md)).
+
+- **Enlaces.** Cada jugador tiene un código y todos los enlaces que se comparten llevan `?de=CÓDIGO`: resultado, tarjeta para stories, duelos y ligas. Los añade `Circuito.link(url)`.
+- **Vínculo.** `lib/referidos.mjs` atiende `POST /api/referido` (acciones `codigo`, `abrir`, `estado` y `reclamar`). Solo vincula a jugadores nuevos, sin respuestas guardadas.
+- **Conexión.** Un invitado es «conexión» cuando juega el reto del día en 3 días distintos de sus primeros 14. Se calcula con las mismas `daily_results` de las ligas.
+- **Premios.** Los marca el servidor (una vez cada uno) y los entrega `progress.js`:
+  - el invitado recibe un cofre Rayo y la gorra Enchufe, y 150 ≈ al conectarse;
+  - quien invita recibe un cofre Rayo por conexión (50 ≈ desde la 11.ª) y piezas exclusivas o un cofre Tormenta en 1, 3, 5 y 10 conexiones.
+- **Corriente compartida.** Durante 30 días, +15 de batería a los dos cada día que juegan ambos.
+- **Dónde se guarda.** En local, en `runtime/referidos.json`. En Vercel, en las tablas `referral_codes` y `referrals`; su migración `20261112180000_referidos` está **sin aplicar**, y hasta entonces la ruta responde 503 y la pantalla dice que el Circuito no está disponible.
 
 ## Avatar, faradios y misiones
 

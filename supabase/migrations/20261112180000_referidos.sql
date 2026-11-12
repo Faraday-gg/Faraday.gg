@@ -1,4 +1,4 @@
--- Referidos: el «Circuito» de amigos (decisión 0034, lib/referidos.mjs).
+-- Referidos: el «Circuito» de amigos (decisión 0038, lib/referidos.mjs).
 -- referral_codes: el código de cada jugador para invitar (enlaces ?de=CÓDIGO), con el apodo y el avatar que verán sus amigos.
 -- referrals: quién invitó a quién. Un invitado tiene un único padrino. connected_at se rellena cuando el invitado juega el
 -- reto del día en 3 días distintos dentro de sus primeros 14 (lo calcula el servidor con daily_results).

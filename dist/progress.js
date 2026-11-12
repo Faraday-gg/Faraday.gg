@@ -66,7 +66,7 @@
   state.medals.fresh=Array.isArray(state.medals.fresh)?state.medals.fresh.filter(id=>Medals.parse(id)):[];
   if(typeof state.medals.pin!=='string')state.medals.pin='';
   if(!state.trio||typeof state.trio!=='object')state.trio={day:'',n:0,ok:0};
-  // Circuito de amigos (decisión 0034, circuito.js): welcome = entró invitado y cobró la bienvenida; n = amigos conectados
+  // Circuito de amigos (decisión 0038, circuito.js): welcome = entró invitado y cobró la bienvenida; n = amigos conectados
   // (lo dice el servidor); storm = ya recibió el cofre Tormenta de las 3 conexiones; current = días de corriente ya cargados.
   {const c=state.circuito&&typeof state.circuito==='object'?state.circuito:{};state.circuito={welcome:c.welcome===true,n:Number.isInteger(c.n)&&c.n>0?c.n:0,storm:c.storm===true,current:c.current&&typeof c.current==='object'?c.current:{}}}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};

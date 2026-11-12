@@ -1,4 +1,4 @@
-// Circuito de amigos (decisión 0034): referidos con premio para los dos. El servidor manda (lib/referidos.mjs): apunta
+// Circuito de amigos (decisión 0038): referidos con premio para los dos. El servidor manda (lib/referidos.mjs): apunta
 // quién invitó a quién, decide cuándo un amigo «se conecta» (3 retos del día en sus primeros 14 días) y marca cada
 // premio como cobrado; aquí se pide, se entrega con progress.js y se pinta.
 // - Todos los enlaces que se comparten (resultado, tarjeta, duelos y ligas) llevan ?de=TU-CÓDIGO: Circuito.link(url).

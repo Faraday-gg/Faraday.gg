@@ -1,6 +1,6 @@
 # Referidos: el «Circuito» de amigos
 
-- **Estado:** abierta
+- **Estado:** aprobada: [decisión 0038](../decisiones/0038-circuito-de-amigos.md), con estas reglas. Los avisos para invitar tras un «¡Casi casi!» o un duelo ganado y la racha en pareja quedan para más adelante.
 - **Fecha:** 2026-11-12
 - **Propuesta por:** Luis, con Claude Code
 

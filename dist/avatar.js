@@ -1,7 +1,7 @@
 // Catálogo del avatar (decisiones 0024 y 0025). El avatar es un personaje 3D propio, de estética de calle, que dibuja
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
-// desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0034):
+// desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
 // 'bienvenida' para quien entra invitado o el número de amigos conectados. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
@@ -50,7 +50,7 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    // Exclusivas del Circuito de amigos (decisión 0034): la gorra, para quien entra invitado; el resto, por conexiones.
+    // Exclusivas del Circuito de amigos (decisión 0038): la gorra, para quien entra invitado; el resto, por conexiones.
     hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
     top('sud-tesla','Sudadera Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
