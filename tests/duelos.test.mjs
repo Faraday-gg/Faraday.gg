@@ -165,14 +165,16 @@ try{
     assert.equal((await duel('chat',ana,{id:chatId,kind:'phrase',value:'gg'})).status,200,'Se puede escribir con el duelo terminado');
     // Faraday-bot contesta con un par de segundos de retraso, nunca al instante.
     let bot=await duel('crear',ana,{name:'Ana'});bot=await duel('bot',ana,{id:bot.data.id});
-    let replies=0;
-    for(let i=0;i<8;i++){
+    // Contesta con probabilidad 0,75: con 40 mensajes, «todas» o «casi ninguna» es prácticamente imposible
+    // (0,75^40 ≈ 1e-5), así que la prueba no depende de cómo caiga la semilla compartida del archivo.
+    const messages=40;let replies=0;
+    for(let i=0;i<messages;i++){
       clock+=6000;const sent=await duel('chat',ana,{id:bot.data.id,kind:'phrase',value:'suerte'});
       assert(sent.data.chat.at(-1).from==='you','La respuesta del bot no llega en el mismo instante');
       clock+=3100;const later=await duel('estado',ana,{id:bot.data.id});const last=later.data.chat.at(-1);
       if(last.from==='rival'){replies++;assert.deepEqual([last.kind,last.value],['phrase','igualmente'])}
     }
-    assert(replies>=3&&replies<8,`El bot contesta a veces (${replies} de 8)`);
+    assert(replies>=messages/2&&replies<messages,`El bot contesta a veces (${replies} de ${messages})`);
   }
 
   // Validación.
