@@ -1,6 +1,6 @@
-# Activar el inicio de sesión (correo y Google)
+# Activar el inicio de sesión (correo, Google, Apple, Discord y Twitch)
 
-- **Estado:** a medias. Google activado y probado en la Preview de `preprod` el 2026-11-14 (pasos 1, 4 y 5, ver [bitácora](../bitacora/2026-11.md)). Faltan la plantilla del correo (paso 2), el SMTP (paso 3), «Publicar app» en Google y pasar a producción.
+- **Estado:** a medias. Google activado y probado en la Preview de `preprod` el 2026-11-14 (pasos 1, 4 y 5, ver [bitácora](../bitacora/2026-11.md)). Faltan la plantilla del correo (paso 2), el SMTP (paso 3), «Publicar app» en Google, Apple, Discord y Twitch (paso 7) y pasar a producción.
 - **Código:** en `preprod` desde la PR #34, [decisión 0022](../decisiones/0022-inicio-de-sesion-desde-el-servidor.md)
 
 El código usa las variables que ya existen (`SUPABASE_URL` y `SUPABASE_SECRET_KEY`): no hay que añadir nada en Vercel. Lo que falta se configura en los paneles de Supabase y de Google. Todo esto toca producción (solo hay un entorno de Supabase): apúntalo en la [bitácora](../bitacora/2026-11.md) al hacerlo.
@@ -53,9 +53,35 @@ En [Google Cloud Console](https://console.cloud.google.com/):
 ## 6. Comprobar
 1. Abre la app de producción, pulsa **Entrar**, escribe tu correo y comprueba que llega un código (no un enlace) y que al escribirlo aparece tu inicial arriba a la derecha.
 2. En otro navegador o en el móvil, entra con el mismo correo: deben aparecer los retos que jugaste en el primero.
-3. Prueba **Continuar con Google** y **Cerrar sesión**.
+3. Prueba **Continuar con Google** (y Apple, Discord o Twitch si están activados) y **Cerrar sesión**.
 4. En Supabase, **Authentication → Users**: los usuarios llevan `jugador` en `app_metadata`.
+
+## 7. Apple, Discord y Twitch
+El código está en la rama `feat/inicio-sesion-apple-discord-twitch` ([decisión 0054](../decisiones/0054-inicio-de-sesion-con-apple-discord-y-twitch.md)). Los tres usan la misma URL de vuelta, la de Supabase: `https://umiqvlccxxafvafroxii.supabase.co/auth/v1/callback`. No hay que tocar las Redirect URLs del paso 1. Como con Google, el ID y el secreto de cada uno van directos del panel del proveedor al de Supabase: ni al chat de un agente ni al repositorio. Cada botón aparece solo en la app un minuto después de activarlo en Supabase.
+
+### Discord (gratis, 5 minutos)
+1. [Discord Developer Portal](https://discord.com/developers/applications) → **New Application** → nombre «Faraday.gg».
+2. **OAuth2** → **Redirects** → **Add Redirect** → la URL de Supabase de arriba → **Save Changes**.
+3. En la misma página, copia el **Client ID** y pulsa **Reset Secret** para ver el **Client Secret**.
+4. Supabase → **Authentication → Sign In / Providers → Discord**: actívalo, pega el ID y el secreto → **Save**.
+
+### Twitch (gratis, 5 minutos)
+1. La cuenta de Twitch tiene que tener la verificación en dos pasos activada.
+2. [Twitch Developer Console](https://dev.twitch.tv/console/apps) → **Register Your Application**:
+   - **Name:** «Faraday.gg» (si está cogido, otro parecido: tiene que ser único en Twitch).
+   - **OAuth Redirect URLs:** la URL de Supabase de arriba.
+   - **Category:** Website Integration. **Client Type:** Confidential.
+3. **Create** → **Manage** → copia el **Client ID** y pulsa **New Secret** para el **Client Secret**.
+4. Supabase → **Authentication → Sign In / Providers → Twitch**: actívalo, pega el ID y el secreto → **Save**.
+
+### Apple (de pago, unos 20 minutos más la espera del alta)
+1. Hace falta el [Apple Developer Program](https://developer.apple.com/programs/) (99 USD al año). El alta puede tardar uno o dos días.
+2. [Certificates, Identifiers & Profiles](https://developer.apple.com/account/resources/identifiers/list) → **Identifiers**:
+   - **+** → **App IDs** → App → descripción «Faraday.gg», Bundle ID `gg.faraday.app` y marca **Sign in with Apple** → **Register**.
+   - **+** → **Services IDs** → descripción «Faraday.gg web», identificador `gg.faraday.web` → **Register**. Ábrelo, marca **Sign in with Apple** → **Configure**: App ID principal el de antes, **Domains** `umiqvlccxxafvafroxii.supabase.co` y **Return URLs** la URL de Supabase de arriba → **Save**.
+3. **Keys** → **+** → nombre «Faraday.gg Sign in with Apple», marca **Sign in with Apple** → **Configure** → el App ID → **Register** → **Download** el archivo `.p8` (solo se puede descargar una vez; guárdalo fuera del repositorio). Apunta el **Key ID** y tu **Team ID** (arriba a la derecha de la cuenta).
+4. Supabase → **Authentication → Sign In / Providers → Apple**: actívalo. En **Client IDs** pon `gg.faraday.web`. En **Secret Key (for OAuth)** va un JWT generado con el `.p8`, el Key ID, el Team ID y el Services ID: Supabase enlaza desde ese mismo panel a su herramienta para generarlo → **Save**.
+5. **El JWT caduca a los 6 meses como mucho.** Apunta la fecha en la bitácora y regenéralo antes, o el botón de Apple dejará de funcionar.
 
 ## Pendiente después de activarlo
 - Política de privacidad y una forma de borrar la cuenta (guardamos correos y, con Google, el nombre).
-- Apple, si se quiere (necesita una cuenta de Apple Developer de pago).

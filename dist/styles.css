@@ -1012,10 +1012,11 @@ body:has(#game-shell:not([hidden])) .home-account{display:none}
 .auth-step h2{font:700 30px/1.05 var(--display);letter-spacing:-.04em;margin:8px 40px 10px 0}
 .auth-lead{color:var(--muted);font-size:15px;line-height:1.5;margin:0 0 20px}
 .auth-lead strong{color:var(--ink);word-break:break-all}
-.auth-google{display:flex;align-items:center;justify-content:center;gap:12px;border:1.5px solid var(--line);border-radius:50px;background:var(--paper);color:var(--ink);padding:14px 18px;font-weight:800;font-size:15px;text-decoration:none;transition:border-color .15s}
-.auth-google:hover{border-color:var(--ink)}
-.auth-google svg{width:20px;height:20px}
-.auth-google[hidden],.auth-or[hidden]{display:none}
+.auth-providers{display:grid;gap:10px}
+.auth-provider{display:flex;align-items:center;justify-content:center;gap:12px;border:1.5px solid var(--line);border-radius:50px;background:var(--paper);color:var(--ink);padding:14px 18px;font-weight:800;font-size:15px;text-decoration:none;transition:border-color .15s}
+.auth-provider:hover{border-color:var(--ink)}
+.auth-provider svg{width:20px;height:20px}
+.auth-providers[hidden],.auth-provider[hidden],.auth-or[hidden]{display:none}
 .auth-or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:13px;font-weight:700;margin:18px 0}
 .auth-or:before,.auth-or:after{content:'';flex:1;height:1.5px;background:var(--line)}
 .auth-form{display:grid;gap:8px}
