@@ -55,12 +55,12 @@ async function openDate(id){
 }
 // El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
 // Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
-function openDay(day){workspaceId=null;activeDay=day;activeIndex=getGuesses(day).length;workspaceData=loadWorkspace(day);renderWorkspace();toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
+function openDay(day){activeDay=day;activeIndex=getGuesses(day).length;toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
 function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');announceView({view:'closed'});renderWeek()}
 function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
 window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
 function renderGame(){
-  const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));
+  const guesses=getGuesses(activeDay);activeIndex=Math.max(0,Math.min(activeIndex,guesses.length===3?3:guesses.length));switchWorkspace();
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
   $('.game-card')?.classList.remove('explaining','is-casi','casi-fresh');
@@ -163,14 +163,19 @@ function submitGuess(event){event.preventDefault();const raw=$('#guess-input').v
 function askHint(){const q=activeDay.questions[activeIndex];window.Pistas?.open(q,(html,via)=>{if(activeDay.questions[activeIndex]?.id!==q.id||!$('#guess-form'))return;$('#game-title').insertAdjacentHTML('afterend',html);$('#hint-toggle')?.remove();$('#guess-input').focus();showToast(via==='coins'?`Pista desbloqueada: −${window.Pistas.COST} ≈`:'Pista desbloqueada')})}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
 function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today,hint:!!window.Pistas?.used(activeDay.questions[activeIndex].id)};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
-function loadWorkspace(day){
-  if(sessionWorkspaces.has(day.id))return sessionWorkspaces.get(day.id);
-  try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${day.id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
+function loadWorkspace(id){
+  if(sessionWorkspaces.has(id))return sessionWorkspaces.get(id);
+  try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
   catch{return {note:'',history:[]}}
 }
-// workspaceId: el duelo comparte el bloc con el reto diario, con sus propias notas (duel.js lo fija mientras está abierto).
+// El bloc (historial, operación y notas) va por pregunta: «día:índice» en el reto diario y «duelo:id:ronda» en el duelo
+// (duel.js lo cambia en cada ronda). Cada pregunta empieza limpia y, si se recarga la página, recupera lo suyo.
+// Al cambiar de bloc se borran de localStorage los de otros días (salvo hoy) u otros duelos y los antiguos por día.
 let workspaceId=null;
-function saveWorkspace(){const id=workspaceId||activeDay.id;sessionWorkspaces.set(id,workspaceData);try{localStorage.setItem(`casi-casi:workspace:${id}`,JSON.stringify(workspaceData))}catch{showToast('El bloc durará solo hasta cerrar esta pestaña.')}}
+const dailyWorkspaceId=()=>activeDay?`${activeDay.id}:${activeIndex}`:'';
+function switchWorkspace(id=dailyWorkspaceId()){if(id===workspaceId)return;workspaceId=id;workspaceData=loadWorkspace(id);renderWorkspace();pruneWorkspaces(id)}
+function pruneWorkspaces(id){if(!id||id.endsWith(':'))return;const prefix='casi-casi:workspace:',group=key=>key.slice(0,Math.max(0,key.lastIndexOf(':'))),isDuel=g=>g.startsWith('duelo'),current=group(id);try{for(let i=localStorage.length-1;i>=0;i--){const key=localStorage.key(i);if(!key?.startsWith(prefix))continue;const g=group(key.slice(prefix.length));if(!g||(isDuel(g)===isDuel(current)&&g!==current&&g!==todayKey))localStorage.removeItem(key)}}catch{}}
+function saveWorkspace(){const id=workspaceId||dailyWorkspaceId();sessionWorkspaces.set(id,workspaceData);try{localStorage.setItem(`casi-casi:workspace:${id}`,JSON.stringify(workspaceData))}catch{showToast('El bloc durará solo hasta cerrar esta pestaña.')}}
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
 function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
@@ -271,8 +276,8 @@ $('#scratch-expression').addEventListener('input',event=>{const input=event.targ
 $('#scratch-note').addEventListener('input',event=>{workspaceData.note=event.target.value;saveWorkspace()});
 $('#insert-bullet').addEventListener('click',()=>{const input=$('#scratch-note'),before=input.value.slice(0,input.selectionStart??input.value.length);insertInNote(before&&!before.endsWith('\n')?'\n• ':'• ')});
 $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
-$('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
-$('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
+$('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de esta pregunta?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
+$('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de esta pregunta?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
 $('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use)setCalc(calcFromNumber(workspaceData.history[Number(use.dataset.useResult)].result));if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&&$('#game-shell').hidden){toggleMenu(false);return}if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
