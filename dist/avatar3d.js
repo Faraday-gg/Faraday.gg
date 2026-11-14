@@ -609,10 +609,28 @@ const CLIPS={
   // Tumbado: de vez en cuando le da un tic en el pie.
   espasmo:{d:1.1,f:u=>{const k=Math.sin(u*Math.PI);return {fb:Math.max(0,Math.sin(u*Math.PI*6))*.6*k,bE:Math.sin(u*Math.PI*6)*.12*k}}},
   // Nervioso: un escalofrío.
-  temblor:{d:1.2,f:(u,t)=>{const k=Math.sin(u*Math.PI);return {px:Math.sin(t*38)*.014*k,...both({Y:.05*k}),hx:-.08*k,wide:.5*k}}}
+  temblor:{d:1.2,f:(u,t)=>{const k=Math.sin(u*Math.PI);return {px:Math.sin(t*38)*.014*k,...both({Y:.05*k}),hx:-.08*k,wide:.5*k}}},
+  // ---- Bailes (decisión 0053). Pasos de baile social de dominio común (robot, aspersor, disco, twist, balanceo de
+  // brazos, dab, correr en el sitio), programados desde cero sobre este esqueleto: no copian la animación, el ritmo ni el
+  // nombre de ningún juego. Los pasos sueltos de baile social no tienen copyright; una coreografía concreta, sí.
+  // Robot: posturas fijas que cambian a golpes, con los codos en ángulo recto y la cabeza a tirones.
+  robot:{d:4,f:u=>{const k=hold(u,.08,.92),beat=Math.floor(u*16),side=beat%4<2?1:-1,tick=beat%2?1:-1;return {ry:side*.22*k,hy:-side*.3*k,hx:tick*.04*k,aS:(side>0?-.9:.3)*k,bS:(side>0?.3:-.9)*k,...both({E:-1.55*k,O:.3*k}),aI:(side>0?.2:-.2)*k,bI:(side>0?-.2:.2)*k,py:-.02*k,eye:-side*.6*k}}},
+  // Aspersor: una mano en la nuca y el otro brazo estirado, que barre a saltitos y vuelve de golpe.
+  aspersor:{d:3.6,f:(u,t)=>{const k=hold(u,.1,.9),cycle=(u*3)%1,step=Math.floor(cycle*5)/4,sweep=cycle<.8?step:1-(cycle-.8)/.2;return {aO:1.75*k,aI:1.45*k,aE:.2*k,bS:-.35*k,bO:1.5*k,bE:.05*k,ry:(-.4+sweep*.8)*k,hy:(-.2+sweep*.4)*k,py:-Math.abs(Math.sin(t*12))*.012*k,sx:.04*k}}},
+  // Disco: el dedo al cielo en diagonal y luego cruzando hacia la cadera contraria, con la cadera al compás.
+  disco:{d:4,f:(u,t)=>{const k=hold(u,.1,.9),s=Math.sin(t*5.4),up=s>0?1:0;return {bO:(.3+2.2*up)*k,bE:.08*k,bI:(up?.1:-.9)*k,bS:(up?-.15:-.55)*k,aO:.4*k,aE:-1.2*k,aI:-.9*k,px:s*.05*k,rz:-s*.035*k,sz:s*.06*k,hz:-s*.08*k,hy:(up?.25:-.15)*k,py:-Math.abs(s)*.025*k}}},
+  // Twist: la cadera gira a un lado y los hombros al otro, con las rodillas flexionadas y los brazos doblados.
+  twist:{d:3.8,f:(u,t)=>{const k=hold(u,.12,.88),s=Math.sin(t*7.2);return {ry:s*.3*k,sy:-s*.42*k,hy:s*.2*k,py:(-.05-Math.abs(s)*.015)*k,sx:.06*k,...both({E:-1.3*k,O:.35*k}),aS:s*.35*k,bS:-s*.35*k,fa:Math.max(0,s)*.25*k,fb:Math.max(0,-s)*.25*k}}},
+  // Balanceo: los dos brazos estirados van juntos a un lado mientras la cadera va al contrario, a buen ritmo.
+  balanceo:{d:3.6,f:(u,t)=>{const k=hold(u,.1,.9),w=t*9,s=Math.sin(w),front=Math.cos(w)>0?1:-1;return {aO:(.45+s*.85)*k,bO:(.45-s*.85)*k,aS:front*.45*k,bS:-front*.45*k,...both({E:.05*k,I:.15*k}),px:-s*.07*k,rz:s*.05*k,sz:-s*.06*k,hz:s*.05*k}}},
+  // Dab: la cara se esconde en el codo de un brazo mientras el otro se estira hacia arriba y afuera. Es corto y seco.
+  dab:{d:1.8,f:u=>{const k=hold(u,.12,.75);return {bS:-1.25*k,bE:-1.85*k,bI:-.75*k,bO:.35*k,aO:2.15*k,aE:.05*k,aS:-.2*k,hx:.32*k,hz:-.25*k,hy:-.3*k,sz:-.08*k,sx:.08*k,lid:.6*k}}},
+  // Correr en el sitio: bota sobre los pies alternos con los brazos bombeando.
+  correr:{d:3.4,f:(u,t)=>{const k=hold(u,.1,.9),w=t*9.5,s=Math.sin(w);return {py:-Math.abs(s)*.035*k,air:Math.max(0,Math.cos(w*2))*.025*k,fa:Math.max(0,s)*.6*k,fb:Math.max(0,-s)*.6*k,aS:s*.6*k,bS:-s*.6*k,...both({E:-1.35*k,O:.2*k}),sx:.05*k,hx:-.03*k,px:s*.015*k}}}
 };
-const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso'];
-const POOL={cheer:['salto','puno','giro','bailar'],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
+const DANCES=['robot','aspersor','disco','twist','balanceo','dab','correr'];
+const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso','robot','twist','balanceo'];
+const POOL={cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
 function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
 function nextClip(item,t){const pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
@@ -709,4 +727,4 @@ setInterval(()=>{for(const el of asleep){if(!el.isConnected)asleep.delete(el);el
 enqueue(document.body);
 // play(nombre) lanza un gesto en todos los avatares animados (o solo en el de la posición index): sirve para probarlos desde la consola.
 // react(el) aplica a ese avatar el estado que reactions.js ha dejado en el._react (si aún no está dibujado, lo recoge al nacer).
-window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
