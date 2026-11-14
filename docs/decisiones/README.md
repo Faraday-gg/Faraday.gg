@@ -51,6 +51,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0046](0046-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
 | [0047](0047-probador-y-cartas-de-la-tienda.md) | Probador del avatar (fijo arriba en el móvil) y cartas de la tienda por rareza | Aceptada | 2026-11-12 |
 | [0048](0048-calculo-y-sin-repetir-en-duelos.md) | «Cómo se calcula» y preguntas sin repetir en los duelos | Propuesta | 2026-11-14 |
+| [0049](0049-calculadora-sencilla.md) | Calculadora sencilla del bloc: sin funciones científicas salvo π y con puntos de miles | Propuesta | 2026-11-14 |
 | [0051](0051-historial-de-la-calculadora.md) | Historial de la calculadora como cinta de recibo encima de la pantalla | Propuesta | 2026-11-14 |
 
 ## Plantilla
