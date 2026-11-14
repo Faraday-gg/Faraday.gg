@@ -11,6 +11,7 @@ Propuestas que aún no hemos decidido hacer: funcionalidades, cambios en el jueg
 | [Referidos: el «Circuito» de amigos](referidos-circuito-de-amigos.md) | Luis, con Claude Code | aprobada: [decisión 0038](../decisiones/0038-circuito-de-amigos.md) | 2026-11-12 |
 | [Bailes como cosméticos, y lo que enseñan Fortnite y Roblox](bailes-como-cosmeticos.md) | Luis, con Claude Code | abierta | 2026-11-14 |
 | [Reels animados para Instagram: qué funciona hoy y cómo se produce](reels-animados-instagram.md) | Álvaro, con Claude Code | abierta | 2026-11-14 |
+| [Reels de Casi Casi: qué nos falta para producir los mejores vídeos](reels-que-nos-falta.md) | Álvaro, con Claude Code | abierta | 2026-11-14 |
 
 Estados: **abierta** (por discutir), **aprobada** (enlazar a la decisión o PR), **descartada** (dejar el motivo).
 
