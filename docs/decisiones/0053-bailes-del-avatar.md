@@ -1,4 +1,4 @@
-# 0049. Siete bailes del avatar, de pasos de baile social y programados desde cero
+# 0053. Siete bailes del avatar, de pasos de baile social y programados desde cero
 
 - **Estado:** propuesta (código en la rama `feat/bailes-avatar`)
 - **Fecha:** 2026-11-14

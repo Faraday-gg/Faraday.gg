@@ -40,36 +40,42 @@
 
   // chests = cofres sin abrir; charge = batería (0–99); pity = cofres seguidos sin épica ni legendaria; bought = compras de hoy.
   // look = lo que lleva puesto (incluye el cuerpo, hombre o mujer); closet = el último look de cada cuerpo, para recuperarlo al cambiar.
-  let state={v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},closet:{},days:[],streak:{count:0,last:''},missions:{},chests:{},charge:0,pity:0,bought:{day:'',count:0},casi:{n:0,ids:[]},
+  const fresh=()=>({v:1,xp:0,coins:0,owned:[],look:{...Avatar.DEFAULT},closet:{},days:[],streak:{count:0,last:''},missions:{},chests:{},charge:0,pity:0,bought:{day:'',count:0},casi:{n:0,ids:[]},
     // stats = cifras de las medallas que no salen del resto del progreso; medals = got {id: fecha}, fresh = sin ver, pin = la destacada.
-    stats:null,medals:{got:{},fresh:[],pin:''}};
-  try{
-    const saved=JSON.parse(localStorage.getItem(KEY));
-    if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
-    // Quien ya jugó duelos antes de existir el perfil conserva su experiencia.
-    else{const old=JSON.parse(localStorage.getItem('casi-casi:duelo:progreso'));if(old?.xp>0)state.xp=old.xp}
-  }catch{}
-  if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
-  if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];if(!state.closet||typeof state.closet!=='object')state.closet={};
-  if(!state.chests||typeof state.chests!=='object')state.chests={};
-  for(const type of Chests.TYPES)if(!Number.isInteger(state.chests[type])||state.chests[type]<0)state.chests[type]=0;
-  if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
-  if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
-  state.casi=CasiCasi.normalize(state.casi);
-  // Cifras de las medallas. Quien ya jugaba conserva lo que se puede saber: su racha y sus duelos ganados.
+    stats:null,medals:{got:{},fresh:[],pin:''}});
   const STATS=['streak','near','round','exact','trio','early','archive','wins','run','duelStreak','flawless','chests','missions','weekSet','leagueWins','league','pioneer'];
   const stored=key=>{try{return JSON.parse(localStorage.getItem(key))}catch{return null}};
-  if(!state.stats||typeof state.stats!=='object'){const duels=stored('casi-casi:duelo:progreso')||{};state.stats={streak:state.streak.count,wins:duels.wins,run:duels.streak,duelStreak:duels.best,pioneer:state.days.length&&madrid()<'2027-01-01'?1:0}}
-  for(const key of STATS)if(!Number.isInteger(state.stats[key])||state.stats[key]<0)state.stats[key]=0;
-  if(!state.medals||typeof state.medals!=='object')state.medals={};
-  if(!state.medals.got||typeof state.medals.got!=='object')state.medals.got={};
-  state.medals.fresh=Array.isArray(state.medals.fresh)?state.medals.fresh.filter(id=>Medals.parse(id)):[];
-  if(typeof state.medals.pin!=='string')state.medals.pin='';
-  if(!state.trio||typeof state.trio!=='object')state.trio={day:'',n:0,ok:0};
-  // Circuito de amigos (decisión 0038, circuito.js): welcome = entró invitado y cobró la bienvenida; n = amigos conectados
-  // (lo dice el servidor); storm = ya recibió el cofre Tormenta de las 3 conexiones; current = días de corriente ya cargados.
-  {const c=state.circuito&&typeof state.circuito==='object'?state.circuito:{};state.circuito={welcome:c.welcome===true,n:Number.isInteger(c.n)&&c.n>0?c.n:0,storm:c.storm===true,current:c.current&&typeof c.current==='object'?c.current:{}}}
-  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}};
+  // Prepara el progreso: el de este navegador al cargar o el de la cuenta (decisión 0052) al entrar en otro dispositivo.
+  let state;
+  function hydrate(saved){
+    state=fresh();
+    try{
+      if(saved&&typeof saved==='object')state={...state,...saved,look:Avatar.normalize(saved.look),streak:{...state.streak,...saved.streak}};
+      // Quien ya jugó duelos antes de existir el perfil conserva su experiencia.
+      else{const old=JSON.parse(localStorage.getItem('casi-casi:duelo:progreso'));if(old?.xp>0)state.xp=old.xp}
+    }catch{}
+    if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
+    if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];if(!state.closet||typeof state.closet!=='object')state.closet={};
+    if(!state.chests||typeof state.chests!=='object')state.chests={};
+    for(const type of Chests.TYPES)if(!Number.isInteger(state.chests[type])||state.chests[type]<0)state.chests[type]=0;
+    if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
+    if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
+    state.casi=CasiCasi.normalize(state.casi);
+    // Cifras de las medallas. Quien ya jugaba conserva lo que se puede saber: su racha y sus duelos ganados.
+    if(!state.stats||typeof state.stats!=='object'){const duels=stored('casi-casi:duelo:progreso')||{};state.stats={streak:state.streak.count,wins:duels.wins,run:duels.streak,duelStreak:duels.best,pioneer:state.days.length&&madrid()<'2027-01-01'?1:0}}
+    for(const key of STATS)if(!Number.isInteger(state.stats[key])||state.stats[key]<0)state.stats[key]=0;
+    if(!state.medals||typeof state.medals!=='object')state.medals={};
+    if(!state.medals.got||typeof state.medals.got!=='object')state.medals.got={};
+    state.medals.fresh=Array.isArray(state.medals.fresh)?state.medals.fresh.filter(id=>Medals.parse(id)):[];
+    if(typeof state.medals.pin!=='string')state.medals.pin='';
+    if(!state.trio||typeof state.trio!=='object')state.trio={day:'',n:0,ok:0};
+    // Circuito de amigos (decisión 0038, circuito.js): welcome = entró invitado y cobró la bienvenida; n = amigos conectados
+    // (lo dice el servidor); storm = ya recibió el cofre Tormenta de las 3 conexiones; current = días de corriente ya cargados.
+    {const c=state.circuito&&typeof state.circuito==='object'?state.circuito:{};state.circuito={welcome:c.welcome===true,n:Number.isInteger(c.n)&&c.n>0?c.n:0,storm:c.storm===true,current:c.current&&typeof c.current==='object'?c.current:{}}}
+  }
+  hydrate(stored(KEY));
+  function store(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}}
+  function save(){state.savedAt=Date.now();store();schedule()}
 
   // Nivel: cada uno pide 100 XP más que el anterior (nivel 2 a los 100 XP, nivel 3 a los 300, nivel 4 a los 600…).
   const levelOf=xp=>Math.floor((1+Math.sqrt(1+xp/12.5))/2),levelStart=level=>50*level*(level-1);
@@ -421,9 +427,57 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     save();refresh();
     return names.length?`⚡ Corriente con ${[...new Set(names)].join(' y ')}: +${amount*names.length} de batería${chargeNote(full)}`:'';
   }
+  // Progreso en la cuenta (decisión 0052). Con sesión iniciada, el progreso también se guarda en el servidor
+  // (/api/progreso) y se recupera en otro dispositivo. El saldo de faradios lo lleva el servidor: aquí solo se manda
+  // cuánto ha cambiado desde la última vez (link.acked = último saldo que confirmó). Así puede cobrar los votos de
+  // las preguntas de la comunidad y poner un tope diario a lo que se gana.
+  const LINK='casi-casi:progreso:cuenta';
+  let link=stored(LINK)||{},linked=false,timer=0,sending=false,again=false;
+  const keepLink=()=>{try{localStorage.setItem(LINK,JSON.stringify(link))}catch{}};
+  async function cloud(action,extra={}){
+    const response=await fetch('/api/progreso',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({action,...extra}),signal:AbortSignal.timeout(10000)});
+    if(!response.ok)throw Error('progreso '+response.status);
+    return await response.json();
+  }
+  function schedule(){if(!linked)return;clearTimeout(timer);timer=setTimeout(push,1500)}
+  async function push(){
+    if(!linked)return;if(sending){again=true;return}
+    sending=true;again=false;
+    const sent=state.coins,{coins:_,...rest}=state;
+    try{
+      const {coins}=await cloud('guardar',{state:rest,delta:sent-(link.acked??0)});
+      // Lo ganado o gastado mientras viajaba la petición se conserva.
+      state.coins=Math.max(0,coins+(state.coins-sent));link.acked=coins;keepLink();store();refresh();
+    }catch{}finally{sending=false;if(again)schedule()}
+  }
+  // Saldo que devuelve el servidor tras cobrar algo (votos y propuestas de la comunidad).
+  function serverCoins(coins){
+    if(!Number.isInteger(coins))return;
+    state.coins=Math.max(0,coins+(state.coins-(link.acked??state.coins)));link.acked=coins;keepLink();store();refresh();
+  }
+  async function attach(){
+    await playerReady;const owner=playerId();let remote;
+    try{remote=await cloud('leer')}catch{return}
+    const has=remote.state&&typeof remote.state==='object'&&remote.state.v;
+    if(has&&(link.owner!==owner||(remote.state.savedAt||0)>(state.savedAt||0))){
+      // La cuenta manda: su progreso sustituye al de este navegador.
+      const other=link.owner!==owner;hydrate({...remote.state,coins:remote.coins});
+      if(other&&booted)showToast('Hemos recuperado el avatar y los faradios de tu cuenta.');
+    }else if(has)state.coins=Math.max(0,remote.coins+(state.coins-(link.acked??remote.coins)));
+    link={owner,acked:has?remote.coins:remote.coins??0};keepLink();linked=true;store();refresh();
+    if(!has||state.savedAt>(remote.state.savedAt||0))push();
+    document.dispatchEvent(new CustomEvent('faraday:progreso'));
+  }
+  // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
+  function detach(){
+    const was=linked||link.owner;linked=false;clearTimeout(timer);
+    if(!was)return;
+    link={};keepLink();hydrate(null);state.welcome=true;state.cofres=true;store();refresh();
+  }
+  document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount){if(!(amount>0)||state.coins<amount)return false;state.coins-=amount;save();refresh();return true}
-  window.Progress={look,spend,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={look,spend,serverCoins,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

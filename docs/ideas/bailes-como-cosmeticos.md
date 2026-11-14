@@ -6,7 +6,7 @@
 
 ## Qué
 
-Hacer de los bailes del avatar ([decisión 0049](../decisiones/0049-bailes-del-avatar.md)) un hueco más del armario, **«Baile de victoria»**. Cada jugador elige el baile con el que celebra cuando gana un duelo y lo ve su rival. Algunos bailes son gratis; otros se ganan con faradios, con misiones o por nivel, como el resto de las piezas. Hoy los 7 bailes salen al azar para todos.
+Hacer de los bailes del avatar ([decisión 0053](../decisiones/0053-bailes-del-avatar.md)) un hueco más del armario, **«Baile de victoria»**. Cada jugador elige el baile con el que celebra cuando gana un duelo y lo ve su rival. Algunos bailes son gratis; otros se ganan con faradios, con misiones o por nivel, como el resto de las piezas. Hoy los 7 bailes salen al azar para todos.
 
 ## Lo que se ha visto en Fortnite y Roblox
 
@@ -29,7 +29,7 @@ Investigación con fuentes públicas (artículos jurídicos, estudios y prensa),
 
 - **Libre:** los pasos de baile social y las rutinas sencillas. La Oficina de Copyright de EE. UU. no registró el «Floss» ni el «Carlton», y en 2022 un juez desestimó la demanda de un coreógrafo contra Epic.
 - **No libre:** una coreografía larga y concreta (al creador del Floss le registraron una variante de 30 segundos), la animación de cada juego, la música y los nombres comerciales de los emotes. Además, algunos pleitos se retiraron solo porque al demandante aún le faltaba el registro, no porque el baile fuera libre.
-- Las demandas también se basaron en el **derecho de imagen** (que el baile identifique a una persona). Por eso los bailes de la 0049 tienen nombres genéricos y no imitan a nadie concreto.
+- Las demandas también se basaron en el **derecho de imagen** (que el baile identifique a una persona). Por eso los bailes de la 0053 tienen nombres genéricos y no imitan a nadie concreto.
 
 ## Por qué
 

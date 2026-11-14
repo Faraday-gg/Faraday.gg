@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="chest.css">
   <link rel="stylesheet" href="casi.css">
   <link rel="stylesheet" href="ligas.css">
+  <link rel="stylesheet" href="comunidad.css">
   <link rel="stylesheet" href="circuito.css">
   <link rel="stylesheet" href="share-card.css">
   <link rel="stylesheet" href="medals.css">
@@ -45,6 +46,7 @@
   <script src="duel.js" defer></script>
   <script src="reconectar.js" defer></script>
   <script src="ligas.js" defer></script>
+  <script src="comunidad.js" defer></script>
   <script src="reactions.js" defer></script>
   <script src="auth.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
@@ -163,28 +165,27 @@
         <div class="workspace-sheet"><div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
         <div class="workspace-body">
           <section class="workspace-section" aria-labelledby="calculator-title">
-            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3></div>
+            <div class="workspace-section-head calc-head"><h3 id="calculator-title">Calculadora</h3><button type="button" id="clear-history" aria-label="Vaciar todo el historial de cálculos" hidden>Vaciar historial</button></div>
+            <div class="calc-tape" role="region" aria-label="Historial de cálculos">
+              <ol id="history-list" tabindex="-1"></ol>
+            </div>
             <label class="sr-only" for="scratch-expression">Operación matemática</label>
             <div class="scratch-display"><input id="scratch-expression" type="text" inputmode="decimal" autocomplete="off" placeholder="24 × 2 × 220"><output id="scratch-result" aria-live="polite">=</output></div>
-            <div class="calc-keys calc-sci" aria-label="Funciones de calculadora">
-              <button type="button" data-calc-key="π" aria-label="Número pi">π</button><button type="button" data-calc-key="²" aria-label="Elevar al cuadrado">x²</button><button type="button" data-calc-key="³" aria-label="Elevar al cubo">x³</button><button type="button" data-calc-key="^" aria-label="Elevar a una potencia">x<sup>y</sup></button><button type="button" data-calc-key="√(" aria-label="Raíz cuadrada">√</button><button type="button" data-calc-key="%" aria-label="Porcentaje">%</button>
-            </div>
             <div class="calc-keys" id="calc-keys" aria-label="Teclas de calculadora">
-              <button type="button" data-calc-key="7">7</button><button type="button" data-calc-key="8">8</button><button type="button" data-calc-key="9">9</button><button type="button" data-calc-key="÷" class="operator">÷</button>
-              <button type="button" data-calc-key="4">4</button><button type="button" data-calc-key="5">5</button><button type="button" data-calc-key="6">6</button><button type="button" data-calc-key="×" class="operator">×</button>
-              <button type="button" data-calc-key="1">1</button><button type="button" data-calc-key="2">2</button><button type="button" data-calc-key="3">3</button><button type="button" data-calc-key="−" class="operator">−</button>
-              <button type="button" data-calc-key="0">0</button><button type="button" data-calc-key=",">,</button><button type="button" data-calc-key="(" aria-label="Abrir paréntesis">(</button><button type="button" data-calc-key=")" aria-label="Cerrar paréntesis">)</button>
-              <button type="button" data-calc-key="C" class="clear-key" aria-label="Borrar operación">C</button><button type="button" data-calc-key="⌫" aria-label="Borrar último carácter">⌫</button><button type="button" data-calc-key="+" class="operator">+</button><button type="button" data-calc-key="=" class="equals-key" aria-label="Calcular resultado">=</button>
+              <button type="button" data-calc-key="C" class="clear-key" aria-label="Borrar operación">C</button><button type="button" data-calc-key="⌫" class="back-key" aria-label="Borrar último carácter"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1Z"/><path d="m17.5 9.5-5 5m0-5 5 5"/></svg></button><button type="button" data-calc-key="π" class="operator" aria-label="Número pi">π</button><button type="button" data-calc-key="÷" class="operator" aria-label="Dividir">÷</button>
+              <button type="button" data-calc-key="7">7</button><button type="button" data-calc-key="8">8</button><button type="button" data-calc-key="9">9</button><button type="button" data-calc-key="×" class="operator" aria-label="Multiplicar">×</button>
+              <button type="button" data-calc-key="4">4</button><button type="button" data-calc-key="5">5</button><button type="button" data-calc-key="6">6</button><button type="button" data-calc-key="−" class="operator" aria-label="Restar">−</button>
+              <button type="button" data-calc-key="1">1</button><button type="button" data-calc-key="2">2</button><button type="button" data-calc-key="3">3</button><button type="button" data-calc-key="+" class="operator" aria-label="Sumar">+</button>
+              <button type="button" data-calc-key="0" class="zero-key">0</button><button type="button" data-calc-key="," aria-label="Coma decimal">,</button><button type="button" data-calc-key="=" class="equals-key" aria-label="Calcular resultado">=</button>
             </div>
           </section>
           <section class="workspace-section" aria-labelledby="notes-title">
             <div class="workspace-section-head"><h3 id="notes-title">Notas</h3></div>
             <div class="note-toolbar"><button type="button" id="insert-bullet">+ Viñeta</button><button type="button" id="insert-paragraph">¶ Párrafo</button><button type="button" id="clear-note" class="clear-note">Borrar nota</button></div>
-            <label class="sr-only" for="scratch-note">Nota de este día</label>
+            <label class="sr-only" for="scratch-note">Nota de esta pregunta</label>
             <textarea id="scratch-note" rows="7" placeholder="Por ejemplo:&#10;24 personas × 2 cafés...&#10;¿Y si son más?"></textarea>
             <p class="save-note">Se guarda en este navegador.</p>
           </section>
-          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial</h3><button type="button" id="clear-history">Borrar</button></div><ol id="history-list" aria-live="polite"></ol></section>
         </div>
         </div>
       </aside>
@@ -218,6 +219,16 @@
       <div class="league-main"><div class="league-content" id="league-content"></div></div>
     </div>
   </div>
+  <div class="league-shell community-shell" id="community-shell" hidden>
+    <div class="league-layout" role="dialog" aria-modal="true" aria-labelledby="community-title-h">
+      <header class="game-bar">
+        <button class="game-back" id="community-close" type="button" aria-label="Cerrar las preguntas de la comunidad">×</button>
+        <a class="game-brand brand-link" href="/" data-go-home aria-label="Ir al inicio"><span class="brand-mark" aria-hidden="true">≈</span><span aria-hidden="true">Faraday<span class="brand-dot">.</span>gg</span></a>
+        <span></span>
+      </header>
+      <div class="league-main"><div class="league-content" id="community-content"></div></div>
+    </div>
+  </div>
   <div class="league-shell circuit-shell" id="circuit-shell" data-screen="main" hidden>
     <div class="league-layout" role="dialog" aria-modal="true" aria-labelledby="circuit-title">
       <header class="game-bar">
@@ -248,6 +259,7 @@
       <ul class="menu-list">
         <li><button type="button" class="menu-link" data-tone="coral" data-open-duel><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5M5 14l4 4M7 17l-3 3M3 19l2 2"/></svg></span><span class="menu-text"><b>Duelo 1 vs 1</b><small>Un rival, diez preguntas, a la vez</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link" data-tone="yellow" data-open-league><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5A2.5 2.5 0 0 0 7 11M17 6h2.5A2.5 2.5 0 0 1 17 11M12 14v4M8 21h8M9.5 18h5"/></svg></span><span class="menu-text"><b>Ligas con amigos</b><small>Gana la semana a tu grupo</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
+        <li><button type="button" class="menu-link" data-tone="coral" data-open-community><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4A2.5 2.5 0 0 1 4 13.5z"/><path d="M10 7.5a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.5M12 13h.01"/></svg></span><span class="menu-text"><b>Preguntas de la comunidad</b><small>Propón y vota las del lunes</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link" data-tone="blue" data-open-circuit><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6"/></svg></span><span class="menu-text"><b>Invita amigos</b><small>Ganáis faradios los dos</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
       </ul>
       <h2 class="menu-title">Tú</h2>

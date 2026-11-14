@@ -610,7 +610,7 @@ const CLIPS={
   espasmo:{d:1.1,f:u=>{const k=Math.sin(u*Math.PI);return {fb:Math.max(0,Math.sin(u*Math.PI*6))*.6*k,bE:Math.sin(u*Math.PI*6)*.12*k}}},
   // Nervioso: un escalofrío.
   temblor:{d:1.2,f:(u,t)=>{const k=Math.sin(u*Math.PI);return {px:Math.sin(t*38)*.014*k,...both({Y:.05*k}),hx:-.08*k,wide:.5*k}}},
-  // ---- Bailes (decisión 0049). Pasos de baile social de dominio común (robot, aspersor, disco, twist, balanceo de
+  // ---- Bailes (decisión 0053). Pasos de baile social de dominio común (robot, aspersor, disco, twist, balanceo de
   // brazos, dab, correr en el sitio), programados desde cero sobre este esqueleto: no copian la animación, el ritmo ni el
   // nombre de ningún juego. Los pasos sueltos de baile social no tienen copyright; una coreografía concreta, sí.
   // Robot: posturas fijas que cambian a golpes, con los codos en ángulo recto y la cabeza a tirones.
