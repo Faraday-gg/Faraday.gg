@@ -212,20 +212,41 @@
 .calc-sci button{min-height:36px;font-size:15px;color:var(--coral)}
 .calc-sci sup{font-size:.65em;line-height:0}
 .note-toolbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
-.note-toolbar button,.history-section button{border:1px solid var(--line);border-radius:6px;background:transparent;padding:5px 8px;font-size:11px;font-weight:700;color:var(--ink)}
-.note-toolbar button:hover,.history-section button:hover{border-color:var(--ink)}
+.note-toolbar button,.calc-head button{border:1px solid var(--line);border-radius:6px;background:transparent;padding:5px 8px;font-size:11px;font-weight:700;color:var(--ink)}
+.note-toolbar button:hover,.calc-head button:hover{border-color:var(--ink)}
 .note-toolbar .clear-note{margin-left:auto;color:#a7341c}
 #scratch-note{display:block;width:100%;min-height:140px;resize:vertical;border:1px solid var(--line);border-radius:8px;background:#fffef9;padding:12px;font-size:14px;line-height:1.55;color:var(--ink)}
 .save-note{font-size:11px;color:var(--muted);margin:8px 0 0}
-.history-section .workspace-section-head button{color:#a7341c}
-#history-list{padding:0;margin:0;list-style:none;max-height:230px;overflow:auto}
-.history-item{display:flex;align-items:center;gap:6px;padding:8px 0;border-top:1px solid var(--line)}
-.history-item div{min-width:0;flex:1;overflow-wrap:anywhere}
-.history-item span{display:block;font-size:11px;color:var(--muted)}
-.history-item strong{display:block;font:700 16px var(--display)}
-.history-item button{flex:none}
-.history-item button:last-child{font-size:17px;line-height:1;padding:4px 7px}
-.history-empty{font-size:12px;color:var(--muted);line-height:1.5;padding:9px 0}
+/* Historial (decisión 0051): cinta de recibo encima de la pantalla. La lista va en column-reverse, así el último
+   cálculo queda abajo, pegado a la pantalla, y la cinta arranca ya desplazada hasta él. */
+.calc-head button{color:#a7341c}
+.calc-head button[hidden]{display:none}
+.calc-tape{background:#fffef9;border:1px solid var(--line);border-bottom-style:dashed;border-radius:10px 10px 4px 4px;padding:4px;margin-bottom:8px}
+#history-list{display:flex;flex-direction:column-reverse;padding:0;margin:0;list-style:none;max-height:178px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;outline:none}
+.history-item{display:flex;align-items:center;gap:2px;flex:none;border-bottom:1px dashed var(--line)}
+.history-item:first-child{border-bottom-color:transparent}
+.history-use{flex:1;min-width:0;display:grid;justify-items:end;gap:1px;border:0;border-radius:7px;background:transparent;padding:6px 8px;color:var(--ink);text-align:right;cursor:pointer;touch-action:manipulation;transition:background .15s}
+@media(hover:hover){.history-use:hover{background:var(--cream)}.history-item:hover .history-remove{opacity:1}}
+.history-use:focus-visible,.history-remove:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.history-expression{max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:11px;color:var(--muted)}
+.history-result{max-width:100%;overflow-wrap:anywhere;font:700 18px/1.15 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.history-result span{color:var(--coral);margin-right:2px}
+.history-remove{flex:none;width:30px;height:30px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:var(--muted);font-size:17px;line-height:1;opacity:.45;transition:opacity .15s,background .15s,color .15s}
+.history-remove:focus-visible{opacity:1}
+.history-remove:hover{background:#f6ddd5;color:#a7341c;opacity:1}
+@media(pointer:coarse){.history-remove{opacity:.7;width:36px;height:36px}}
+.history-item.is-used .history-use{animation:tape-used .7s ease-out}
+.scratch-display.is-used{animation:display-used .5s ease-out}
+@keyframes tape-used{from{background:var(--yellow)}}
+@keyframes display-used{from{box-shadow:0 0 0 3px var(--yellow)}}
+.history-empty{font-size:12px;color:var(--muted);line-height:1.45;padding:8px 10px;text-align:center}
+/* En móvil la hoja mide como mucho min(86dvh, 640px): la cinta se encoge para que el teclado siga entero a la vista. */
+@media(max-width:760px){
+  #history-list{max-height:clamp(42px,calc(min(86dvh,640px) - 540px),100px)}
+  .history-use{padding:4px 8px}
+  .history-result{font-size:17px}
+}
+@media(prefers-reduced-motion:reduce){.history-item.is-used .history-use,.scratch-display.is-used{animation:none}}
 @media(max-width:760px){
   .workspace-panel{position:fixed;inset:0;width:100%;height:auto;z-index:110;border-left:0;overflow:hidden;display:grid;place-items:center;padding:16px;background:rgba(14,20,32,.45);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);animation:ws-scrim .2s ease-out both}
   .workspace-sheet{width:min(420px,100%);max-height:min(86dvh,640px);overflow:auto;overscroll-behavior:contain;background:var(--paper);border-radius:22px;box-shadow:0 24px 60px -12px rgba(0,0,0,.5);animation:ws-sheet .28s cubic-bezier(.2,.8,.2,1) both}

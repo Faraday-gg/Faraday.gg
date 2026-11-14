@@ -173,7 +173,22 @@ let workspaceId=null;
 function saveWorkspace(){const id=workspaceId||activeDay.id;sessionWorkspaces.set(id,workspaceData);try{localStorage.setItem(`casi-casi:workspace:${id}`,JSON.stringify(workspaceData))}catch{showToast('El bloc durará solo hasta cerrar esta pestaña.')}}
 function escapeHtml(value){return String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
 function renderWorkspace(){$('#scratch-note').value=workspaceData.note;$('#scratch-expression').value='';$('#scratch-result').textContent='=';renderHistory()}
-function renderHistory(){$('#history-list').innerHTML=workspaceData.history.length?workspaceData.history.map((item,index)=>`<li class="history-item"><div><span>${escapeHtml(item.expression)}</span><strong>= ${format(item.result,6)}</strong></div><button type="button" data-use-result="${index}" aria-label="Usar resultado del cálculo ${index+1}">Usar</button><button type="button" data-remove-history="${index}" aria-label="Borrar cálculo ${index+1}">×</button></li>`).join(''):'<li class="history-empty">Tus operaciones aparecerán aquí.</li>'}
+// Historial (decisión 0051): una cinta de recibo encima de la pantalla. Se guarda del más nuevo al más viejo y la
+// lista va en column-reverse: el último cálculo queda abajo, pegado a la pantalla, como el papel de una sumadora.
+const formatTape=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:6,useGrouping:'always'}).format(n);
+function renderHistory(){
+  const list=$('#history-list'),items=workspaceData.history,count=items.length;
+  $('#clear-history').hidden=!count;
+  list.innerHTML=count?items.map((item,index)=>{const value=formatTape(item.result),expression=escapeHtml(item.expression);return `<li class="history-item"><button type="button" class="history-use" data-use-result="${index}" title="${expression} = ${value}" aria-label="Usar ${value}, resultado de ${expression}"><span class="history-expression">${expression}</span><strong class="history-result"><span aria-hidden="true">=</span> ${value}</strong></button><button type="button" class="history-remove" data-remove-history="${index}" aria-label="Borrar el cálculo ${expression}">×</button></li>`}).join(''):'<li class="history-empty">Tus cálculos aparecerán aquí. Toca uno para volver a usarlo.</li>'
+}
+// Al tocar un cálculo su resultado vuelve a la calculadora: se añade a la operación si esta termina en un operador
+// (para encadenar, «× 3») y la sustituye en los demás casos.
+function useHistoryResult(index,row){
+  const input=$('#scratch-expression'),value=String(parseFloat(workspaceData.history[index].result.toPrecision(12))).replace('.',','),current=input.value.trim();
+  input.value=/[+−×÷^(√-]$/.test(current)?`${current} ${value}`:value;$('#scratch-result').textContent='=';
+  if(touchCalculator)input.scrollLeft=input.scrollWidth;else{input.focus();input.setSelectionRange(input.value.length,input.value.length)}
+  for(const element of [row,$('.scratch-display')]){element.classList.remove('is-used');void element.offsetWidth;element.classList.add('is-used')}
+}
 function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#workspace-toggle');panel.hidden=!open;$('#game-layout').classList.toggle('workspace-open',open);if(toggle){toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}if(open&&!matchMedia('(max-width:760px)').matches)$('#scratch-expression').focus();else if(!$('#game-shell').hidden)(toggle||$('#next-question')||$('#menu-toggle')).focus()}
 // Calculadora del bloc: + − × ÷, paréntesis, π, x², x³, potencias (^), raíz (√), % y multiplicación implícita (2π, 3(4+1)).
 function evaluateCalculation(source){
@@ -253,7 +268,8 @@ $('#insert-bullet').addEventListener('click',()=>{const input=$('#scratch-note')
 $('#insert-paragraph').addEventListener('click',()=>insertInNote('\n\n'));
 $('#clear-note').addEventListener('click',()=>{if(workspaceData.note&&window.confirm('¿Borrar la nota de este día?')){workspaceData.note='';$('#scratch-note').value='';saveWorkspace();$('#scratch-note').focus()}});
 $('#clear-history').addEventListener('click',()=>{if(workspaceData.history.length&&window.confirm('¿Borrar todo el historial de este día?')){workspaceData.history=[];saveWorkspace();renderHistory()}});
-$('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use){$('#scratch-expression').value=String(workspaceData.history[Number(use.dataset.useResult)].result);$('#scratch-result').textContent='=';if(!touchCalculator)$('#scratch-expression').focus()}if(remove){workspaceData.history.splice(Number(remove.dataset.removeHistory),1);saveWorkspace();renderHistory()}});
+$('#clear-history').addEventListener('click',()=>{if(!workspaceData.history.length)$('#history-list').focus({preventScroll:true})});
+$('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use)useHistoryResult(Number(use.dataset.useResult),use.closest('.history-item'));if(remove){const index=Number(remove.dataset.removeHistory),scroll=$('#history-list').scrollTop;workspaceData.history.splice(index,1);saveWorkspace();renderHistory();$('#history-list').scrollTop=scroll;const next=$(`#history-list [data-remove-history="${Math.min(index,workspaceData.history.length-1)}"]`);(next||(touchCalculator?$('#history-list'):$('#scratch-expression'))).focus({preventScroll:true})}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&&$('#game-shell').hidden){toggleMenu(false);return}if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
 $('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});

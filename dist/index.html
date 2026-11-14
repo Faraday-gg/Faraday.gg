@@ -163,7 +163,10 @@
         <div class="workspace-sheet"><div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
         <div class="workspace-body">
           <section class="workspace-section" aria-labelledby="calculator-title">
-            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3></div>
+            <div class="workspace-section-head calc-head"><h3 id="calculator-title">Calculadora</h3><button type="button" id="clear-history" aria-label="Vaciar todo el historial de cálculos" hidden>Vaciar historial</button></div>
+            <div class="calc-tape" role="region" aria-label="Historial de cálculos">
+              <ol id="history-list" tabindex="-1"></ol>
+            </div>
             <label class="sr-only" for="scratch-expression">Operación matemática</label>
             <div class="scratch-display"><input id="scratch-expression" type="text" inputmode="decimal" autocomplete="off" placeholder="24 × 2 × 220"><output id="scratch-result" aria-live="polite">=</output></div>
             <div class="calc-keys calc-sci" aria-label="Funciones de calculadora">
@@ -184,7 +187,6 @@
             <textarea id="scratch-note" rows="7" placeholder="Por ejemplo:&#10;24 personas × 2 cafés...&#10;¿Y si son más?"></textarea>
             <p class="save-note">Se guarda en este navegador.</p>
           </section>
-          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial</h3><button type="button" id="clear-history">Borrar</button></div><ol id="history-list" aria-live="polite"></ol></section>
         </div>
         </div>
       </aside>
