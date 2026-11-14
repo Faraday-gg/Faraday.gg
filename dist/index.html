@@ -163,18 +163,18 @@
         <div class="workspace-sheet"><div class="workspace-head"><h2>Bloc</h2><button class="game-back workspace-close" id="workspace-close" type="button" aria-label="Cerrar calculadora y notas">×</button></div>
         <div class="workspace-body">
           <section class="workspace-section" aria-labelledby="calculator-title">
-            <div class="workspace-section-head"><h3 id="calculator-title">Calculadora</h3></div>
+            <div class="workspace-section-head calc-head"><h3 id="calculator-title">Calculadora</h3><button type="button" id="clear-history" aria-label="Vaciar todo el historial de cálculos" hidden>Vaciar historial</button></div>
+            <div class="calc-tape" role="region" aria-label="Historial de cálculos">
+              <ol id="history-list" tabindex="-1"></ol>
+            </div>
             <label class="sr-only" for="scratch-expression">Operación matemática</label>
             <div class="scratch-display"><input id="scratch-expression" type="text" inputmode="decimal" autocomplete="off" placeholder="24 × 2 × 220"><output id="scratch-result" aria-live="polite">=</output></div>
-            <div class="calc-keys calc-sci" aria-label="Funciones de calculadora">
-              <button type="button" data-calc-key="π" aria-label="Número pi">π</button><button type="button" data-calc-key="²" aria-label="Elevar al cuadrado">x²</button><button type="button" data-calc-key="³" aria-label="Elevar al cubo">x³</button><button type="button" data-calc-key="^" aria-label="Elevar a una potencia">x<sup>y</sup></button><button type="button" data-calc-key="√(" aria-label="Raíz cuadrada">√</button><button type="button" data-calc-key="%" aria-label="Porcentaje">%</button>
-            </div>
             <div class="calc-keys" id="calc-keys" aria-label="Teclas de calculadora">
-              <button type="button" data-calc-key="7">7</button><button type="button" data-calc-key="8">8</button><button type="button" data-calc-key="9">9</button><button type="button" data-calc-key="÷" class="operator">÷</button>
-              <button type="button" data-calc-key="4">4</button><button type="button" data-calc-key="5">5</button><button type="button" data-calc-key="6">6</button><button type="button" data-calc-key="×" class="operator">×</button>
-              <button type="button" data-calc-key="1">1</button><button type="button" data-calc-key="2">2</button><button type="button" data-calc-key="3">3</button><button type="button" data-calc-key="−" class="operator">−</button>
-              <button type="button" data-calc-key="0">0</button><button type="button" data-calc-key=",">,</button><button type="button" data-calc-key="(" aria-label="Abrir paréntesis">(</button><button type="button" data-calc-key=")" aria-label="Cerrar paréntesis">)</button>
-              <button type="button" data-calc-key="C" class="clear-key" aria-label="Borrar operación">C</button><button type="button" data-calc-key="⌫" aria-label="Borrar último carácter">⌫</button><button type="button" data-calc-key="+" class="operator">+</button><button type="button" data-calc-key="=" class="equals-key" aria-label="Calcular resultado">=</button>
+              <button type="button" data-calc-key="C" class="clear-key" aria-label="Borrar operación">C</button><button type="button" data-calc-key="⌫" class="back-key" aria-label="Borrar último carácter"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H9l-6 7 6 7h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1Z"/><path d="m17.5 9.5-5 5m0-5 5 5"/></svg></button><button type="button" data-calc-key="π" class="operator" aria-label="Número pi">π</button><button type="button" data-calc-key="÷" class="operator" aria-label="Dividir">÷</button>
+              <button type="button" data-calc-key="7">7</button><button type="button" data-calc-key="8">8</button><button type="button" data-calc-key="9">9</button><button type="button" data-calc-key="×" class="operator" aria-label="Multiplicar">×</button>
+              <button type="button" data-calc-key="4">4</button><button type="button" data-calc-key="5">5</button><button type="button" data-calc-key="6">6</button><button type="button" data-calc-key="−" class="operator" aria-label="Restar">−</button>
+              <button type="button" data-calc-key="1">1</button><button type="button" data-calc-key="2">2</button><button type="button" data-calc-key="3">3</button><button type="button" data-calc-key="+" class="operator" aria-label="Sumar">+</button>
+              <button type="button" data-calc-key="0" class="zero-key">0</button><button type="button" data-calc-key="," aria-label="Coma decimal">,</button><button type="button" data-calc-key="=" class="equals-key" aria-label="Calcular resultado">=</button>
             </div>
           </section>
           <section class="workspace-section" aria-labelledby="notes-title">
@@ -184,7 +184,6 @@
             <textarea id="scratch-note" rows="7" placeholder="Por ejemplo:&#10;24 personas × 2 cafés...&#10;¿Y si son más?"></textarea>
             <p class="save-note">Se guarda en este navegador.</p>
           </section>
-          <section class="workspace-section history-section" aria-labelledby="history-title"><div class="workspace-section-head"><h3 id="history-title">Historial</h3><button type="button" id="clear-history">Borrar</button></div><ol id="history-list" aria-live="polite"></ol></section>
         </div>
         </div>
       </aside>
