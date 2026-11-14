@@ -6,6 +6,27 @@
   try{on=JSON.parse(localStorage.getItem(KEY))??true}catch{}
   // El contexto se crea la primera vez que hace falta: los navegadores solo lo dejan sonar tras un gesto del usuario.
   function context(){try{audio??=new (window.AudioContext||window.webkitAudioContext)()}catch{}return audio}
+  // Desbloqueo para el móvil. iOS Safari y Chrome en Android crean el contexto «suspendido» y solo lo dejan arrancar si
+  // resume() se llama dentro de un gesto (los sonidos se disparan a menudo tras una respuesta del servidor, fuera del
+  // gesto, y se quedaban mudos). Por eso, en cada toque o tecla mientras el contexto no esté sonando, se crea si falta,
+  // se reanuda y se reproduce un instante de silencio, que es lo que iOS necesita para abrir la salida. Así también se
+  // recupera cuando la pestaña vuelve de segundo plano o una llamada lo deja «interrupted». Las notas programadas con
+  // el contexto parado no se pierden: su reloj está quieto y suenan al reanudarse.
+  function resume(){
+    if(!context())return Promise.resolve();
+    try{if(audio.state!=='running')return Promise.resolve(audio.resume?.()).catch(()=>{})}catch{}
+    return Promise.resolve();
+  }
+  function unlock(){
+    if(!on||!context()||audio.state==='running')return;
+    // En iOS 16.4+ el interruptor de silencio corta Web Audio salvo que la sesión sea de reproducción.
+    try{if(navigator.audioSession&&navigator.audioSession.type!=='playback')navigator.audioSession.type='playback'}catch{}
+    resume();
+    try{const source=audio.createBufferSource();source.buffer=audio.createBuffer(1,1,audio.sampleRate);source.connect(audio.destination);source.start(0)}catch{}
+  }
+  // pointerup/touchend/click/keydown son los que cuentan como gesto en Chrome y Safari (un pointerdown táctil no).
+  for(const type of ['pointerdown','pointerup','touchend','click','keydown'])window.addEventListener(type,unlock,{capture:true,passive:true});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&audio&&audio.state!=='running')resume()});
   // Reverberación hecha con ruido que se apaga: da espacio a los sonidos para que no suenen a pitido seco.
   function room(){
     if(hall||!context())return hall;
@@ -102,6 +123,7 @@
     for(const [f,d] of [[1319,.55],[1568,.6],[2093,.7]])tone(f,at+.22,d,{type:'triangle',gain:.045});
     noise(at+.22,.5,{gain:.025,from:6000,to:11000,q:.8,filter:'highpass',attack:.02});
   }
-  function set(value){on=!!value;try{localStorage.setItem(KEY,JSON.stringify(on))}catch{}document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on}}))}
-  window.Sound={tone,noise,bell,bed,casi,context,set,toggle:()=>{set(!on);return on},resume:()=>audio?.resume?.(),get on(){return on}};
+  // Al activar el sonido (siempre desde un botón, dentro del gesto) se desbloquea en ese mismo momento.
+  function set(value){on=!!value;if(on)unlock();try{localStorage.setItem(KEY,JSON.stringify(on))}catch{}document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on}}))}
+  window.Sound={tone,noise,bell,bed,casi,context,set,toggle:()=>{set(!on);return on},resume,get on(){return on}};
 })();
