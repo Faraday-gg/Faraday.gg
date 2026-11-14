@@ -157,7 +157,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
-    const round=duel.round,q=round.question;setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
+    const round=duel.round,q=round.question;switchWorkspace(`duelo:${duel.id}:${round.number}`);setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
     content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
 <h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q,{eager:true,links:false}):''}
@@ -367,6 +367,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     catch(error){if(error?.name!=='AbortError')showToast('No se pudo compartir ahora mismo.')}
   }
   // Calculadora y notas: el mismo bloc del reto diario, que se coloca al lado del duelo mientras está abierto.
+  // Cada ronda tiene su propio bloc (duelo:id:ronda), así una pregunta no hereda el historial de la anterior.
   const panel=$('#workspace-panel'),duelLayout=$('#duel-layout');
   const calcIcon='<svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg>';
   function toggleCalc(open=panel.hidden){
@@ -376,11 +377,10 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(open)$('#scratch-expression').focus();else $('#guess-input')?.focus();
   }
   function attachWorkspace(){
-    duelLayout.append(panel);panel.hidden=true;workspaceId='duelo';
-    workspaceData=loadWorkspace({id:'duelo'});renderWorkspace();
+    duelLayout.append(panel);panel.hidden=true;switchWorkspace('duelo:');
   }
   function detachWorkspace(){
-    panel.hidden=true;$('#game-layout').append(panel);workspaceId=null;
+    panel.hidden=true;$('#game-layout').append(panel);switchWorkspace();
   }
   // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0042); también se puede ver uno ya terminado.
   async function open(code='',resume=''){
