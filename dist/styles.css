@@ -837,6 +837,26 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .duel-rounds i{font-style:normal;opacity:.5}
 .duel-rounds em{font-style:normal;font-weight:700;text-align:right}
 .duel-rounds em.you{opacity:.6}
+/* «Cómo se calcula» en los duelos (decisión 0048): plegado tras cada ronda y en el repaso final. */
+.duel-explain{margin:12px 0 0;border-radius:16px;background:var(--g-hover);text-align:left}
+.duel-explain>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 16px;font-size:15px;font-weight:700}
+.duel-explain>summary::-webkit-details-marker{display:none}
+.duel-explain>summary::after{content:'▾';transition:transform .2s}
+.duel-explain[open]>summary::after{transform:rotate(180deg)}
+.duel-explain>summary small{flex:1;font-weight:500;font-size:12px;color:var(--g-muted)}
+.duel-explain .explain-inner{padding:0 16px 14px}
+.duel-review{margin:18px 0 0;text-align:left}
+.duel-review h3{margin:0 0 8px;font:700 15px var(--display)}
+.duel-review-item{border-bottom:1px solid var(--g-line)}
+.duel-review-item>summary{cursor:pointer;list-style:none;display:flex;gap:10px;align-items:baseline;padding:10px 4px;font-size:14px;line-height:1.35}
+.duel-review-item>summary::-webkit-details-marker{display:none}
+.duel-review-item>summary span{flex:0 0 26px;font:800 11px var(--font);color:var(--g-muted)}
+.duel-review-item>summary::after{content:'▾';margin-left:auto;color:var(--g-muted);transition:transform .2s}
+.duel-review-item[open]>summary::after{transform:rotate(180deg)}
+.duel-review-item .explain-inner{padding:0 4px 12px}
+.duel-review-guesses{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 4px 4px}
+.duel-review-guesses dt{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--g-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duel-review-guesses dd{margin:2px 0 0;font:500 14px var(--num);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .game-primary.is-offer{animation:duel-urge 1.3s ease-in-out infinite}
 @media(max-width:560px){
   .home-duel{width:100%;justify-content:center}

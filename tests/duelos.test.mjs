@@ -6,7 +6,7 @@ import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore,supabaseStore} from '../lib/stores.mjs';
-import {RULES,CHAT,chatText,points,multiplier} from '../lib/duelos.mjs';
+import {RULES,CHAT,chatText,points,multiplier,createDuels,memoryDuels} from '../lib/duelos.mjs';
 import {editorialDays} from '../content-engine.mjs';
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-duelos-'));
@@ -29,6 +29,28 @@ try{
   // Nadie cae en las tres primeras rondas aunque las pierda todas por 5000 a 0.
   assert([1,2,3].reduce((sum,r)=>sum+RULES.maxPoints*multiplier(r),0)<RULES.maxHp);
 
+  // Sin repetir (decisión 0048): en duelos seguidos no vuelve a salir ninguna pregunta mientras queden sin ver,
+  // ni del jugador ni de su rival; y cuando se acaban, vuelven primero las vistas hace más tiempo.
+  // Reloj y azar propios para no cambiar la secuencia del resto de la prueba.
+  {
+    let t=clock,s=11;const rnd=()=>{s=(s*16807)%2147483647;return s/2147483647};
+    const store=memoryDuels(),bank=new Map([...answers.keys()].slice(0,35).map(id=>[id,{id,answer:answers.get(id),title:id,unit:'u',sources:[]}]));
+    const duels=createDuels({duels:store,questions:bank,pool:()=>[...bank.keys()],now:()=>t,random:rnd});
+    const play=async(owner,rival)=>{const made=await duels.handle({action:'crear',player:owner,name:'A'});
+      if(rival)assert.equal((await duels.handle({action:'unirse',player:rival,code:made.body.code,name:'B'})).status,200);
+      else await duels.handle({action:'bot',player:owner,id:made.body.id});
+      t+=1000;return (await store.get(made.body.id)).state};
+    const pepa=randomUUID(),juan=randomUUID(),seen=[];
+    for(let i=0;i<3;i++)seen.push(...(await play(pepa)).questions);
+    assert.equal(new Set(seen).size,30,'Tres duelos seguidos contra el bot: 30 preguntas distintas');
+    const versus=await play(juan,pepa);
+    assert(!('seen' in versus),'La lista de vistas no se queda guardada en el duelo');
+    assert.deepEqual(versus.questions.slice(0,5).filter(id=>seen.includes(id)),[],'Con un rival nuevo salen primero las 5 que Pepa no ha visto');
+    assert(versus.questions.slice(5).every(id=>seen.slice(0,10).includes(id)),'Después, las que Pepa vio hace más tiempo');
+    const remote=supabaseStore({url:'https://x.supabase.co',key:'clave',fetch:async url=>{assert.match(decodeURIComponent(String(url)),/select=questions:state->questions/);return new Response('[{"questions":["a","b"]},{"questions":null}]')}});
+    assert.deepEqual(await remote.duels.seen('h',25),[['a','b'],[]],'Supabase solo trae la lista de preguntas');
+  }
+
   const duel=build(fileStore(path.join(directory,'answers.json')));
   const ana=randomUUID(),luis=randomUUID(),otra=randomUUID();
 
@@ -47,7 +69,7 @@ try{
   clock+=RULES.introMs;
   a=await duel('estado',ana,{id});
   assert.equal(a.data.phase,'question');assert.equal(a.data.round.deadline-a.data.round.startsAt,RULES.roundMs);assert.equal(a.data.round.rushed,false);
-  assert(!('answer' in a.data.round)&&!('answer' in a.data.round.question)&&!('guesses' in a.data.round),'La cifra real no viaja durante la pregunta');
+  assert(!('explain' in a.data.round)&&!('answer' in a.data.round)&&!('answer' in a.data.round.question)&&!('guesses' in a.data.round),'La cifra real no viaja durante la pregunta');
   const real=answers.get(a.data.round.question.id);assert(real>0);
 
   // Ana responde a los 20 s: a Luis le quedan 30 s y sabe que Ana ha respondido, pero no qué.
@@ -63,6 +85,9 @@ try{
   b=await duel('estado',luis,{id});
   assert.equal(b.data.phase,'reveal');assert.deepEqual(b.data.round.points,[3997,0]);assert.equal(b.data.round.damage,799);assert.equal(b.data.round.loser,'you');
   assert.equal(b.data.round.answer,real);assert.deepEqual(b.data.players.map(p=>p.hp),[6000,5201]);
+  // «Cómo se calcula» llega con el resultado (decisión 0048), igual que en el reto diario.
+  assert(b.data.round.explain&&Array.isArray(b.data.round.explain.sources)&&b.data.round.explain.sources.length,'El resultado trae el cálculo y sus fuentes');
+  assert(b.data.round.explain.calc||b.data.round.explain.referenceExpression||b.data.round.explain.math,'Hay algo con lo que pintar el cálculo');
   assert.equal((await duel('responder',luis,{id,guess:real})).status,409,'Fuera de tiempo');
 
   // Rondas 2 a 4: responden los dos y el resultado sale al momento. Ana clava todas y Luis falla por 100×:
@@ -77,7 +102,7 @@ try{
     assert.equal(a.data.players[1].hp,hp);
     if(hp)assert.equal(a.data.phase,'reveal'),assert.equal(a.data.round.nextMultiplier,multiplier(number+1));
   }
-  assert.equal(a.data.phase,'finished');assert.equal(a.data.winner,'you');assert.equal(a.data.reason,'ko');assert.equal(a.data.rounds.length,4);
+  assert.equal(a.data.phase,'finished');assert.equal(a.data.winner,'you');assert.equal(a.data.reason,'ko');assert.equal(a.data.rounds.length,4);assert(a.data.rounds.every(r=>r.question.title&&r.question.answer>0&&r.explain&&r.guesses.length===2),'El repaso final trae cada pregunta con su cálculo');
   b=await duel('estado',luis,{id});assert.equal(b.data.winner,'rival');assert.equal(b.data.round.loser,'you');
 
   // Revancha: Ana la pide, Luis la ve en el duelo terminado y la acepta.
