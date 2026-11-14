@@ -183,7 +183,7 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 ### Preguntas de la comunidad y progreso en la cuenta (migración `20261114120000_preguntas_comunidad`, **sin aplicar**)
 
-[Decisión 0049](decisiones/0049-preguntas-de-la-comunidad.md), `lib/comunidad.mjs`. Hasta que se aplique, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
+[Decisión 0052](decisiones/0052-preguntas-de-la-comunidad.md), `lib/comunidad.mjs`. Hasta que se aplique, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
 
 **`public.player_progress`**: el progreso de los jugadores con cuenta.
 

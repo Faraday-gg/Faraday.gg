@@ -1,4 +1,4 @@
-/* Preguntas de la comunidad (decisión 0049). La pantalla reutiliza la base de las ligas (.league-shell, ligas.css). */
+/* Preguntas de la comunidad (decisión 0052). La pantalla reutiliza la base de las ligas (.league-shell, ligas.css). */
 .community-lead{margin:-6px 0 14px;font-size:16px;line-height:1.45;color:var(--g-muted)}
 .community-lead b{color:var(--g-fg)}
 .community-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin:0 0 16px;font-size:14px;color:var(--g-muted)}

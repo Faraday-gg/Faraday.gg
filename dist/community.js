@@ -43,7 +43,7 @@ function leaveAccount(player){
   currentAccount=null;anonymousPlayer=validPlayer(player)?player:crypto.randomUUID();
   try{localStorage.setItem(PLAYER_KEY,anonymousPlayer);for(const key of Object.keys(localStorage))if(key.startsWith('casi-casi:v2:'))localStorage.removeItem(key)}catch{}
   sessionGuesses.clear();if(typeof renderWeek==='function')renderWeek();
-  // progress.js vacía también el avatar y los faradios de este navegador (decisión 0049).
+  // progress.js vacía también el avatar y los faradios de este navegador (decisión 0052).
   document.dispatchEvent(new CustomEvent('faraday:cuenta',{detail:{account:null}}));
 }
 const playerReady=syncPlayer();

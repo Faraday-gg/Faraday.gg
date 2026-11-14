@@ -1,4 +1,4 @@
--- Preguntas de la comunidad (decisión 0049, lib/comunidad.mjs).
+-- Preguntas de la comunidad (decisión 0052, lib/comunidad.mjs).
 -- player_progress: el progreso del jugador con cuenta (faradios, avatar, misiones…) guardado en el servidor. Los
 --   faradios van en la columna coins y manda el servidor: el navegador solo manda cuánto han cambiado (con tope diario).
 -- community_proposals: preguntas propuestas por los jugadores para la ronda que se publica el lunes `round`.
@@ -16,7 +16,7 @@ create table public.player_progress (
   updated_at timestamptz not null default now()
 );
 
-comment on table public.player_progress is 'Progreso de los jugadores con cuenta (decisión 0049): state es el progreso del navegador sin los faradios; coins, el saldo, que manda el servidor.';
+comment on table public.player_progress is 'Progreso de los jugadores con cuenta (decisión 0052): state es el progreso del navegador sin los faradios; coins, el saldo, que manda el servidor.';
 comment on column public.player_progress.gained is 'Faradios ganados en el navegador y aceptados el día gain_day (tope diario contra trampas).';
 
 create table public.community_proposals (

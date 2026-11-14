@@ -16,7 +16,7 @@ import {communityDay,openaiModerator} from '../lib/comunidad.mjs';
 const store=supabaseStore({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY});
 // Solo genera en producción: las Preview comparten base de datos con producción.
 const generator=process.env.VERCEL_ENV==='production'&&process.env.CRON_SECRET&&process.env.OPENAI_API_KEY
-  // Los lunes salen las 3 preguntas más votadas por la comunidad (lib/comunidad.mjs, decisión 0049).
+  // Los lunes salen las 3 preguntas más votadas por la comunidad (lib/comunidad.mjs, decisión 0052).
   ?{secret:process.env.CRON_SECRET,run:date=>{
     const apiKey=process.env.OPENAI_API_KEY,model=process.env.OPENAI_MODEL||undefined;
     return generateDay({date,store,apiKey,model,community:monday=>communityDay({date:monday,community:store.community,apiKey,model})});

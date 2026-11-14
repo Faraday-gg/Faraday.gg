@@ -1,4 +1,4 @@
-// Prueba las preguntas de la comunidad y el progreso con cuenta (lib/comunidad.mjs, decisión 0049) a través de la API,
+// Prueba las preguntas de la comunidad y el progreso con cuenta (lib/comunidad.mjs, decisión 0052) a través de la API,
 // con un reloj controlado y una cuenta falsa: no usa red ni OpenAI.
 import assert from 'node:assert/strict';
 import fs from 'node:fs';

@@ -1,4 +1,4 @@
-// Preguntas de la comunidad (decisión 0049). Los jugadores con cuenta proponen preguntas y votan las de los demás
+// Preguntas de la comunidad (decisión 0052). Los jugadores con cuenta proponen preguntas y votan las de los demás
 // con faradios; las 3 más votadas de la semana salen el lunes en el reto, resueltas por la IA con sus fuentes y el
 // cálculo paso a paso. El servidor manda (lib/comunidad.mjs): cobra del saldo de la cuenta y decide la ronda abierta.
 // El apodo es el mismo de los duelos y las ligas, y el avatar, el del armario.

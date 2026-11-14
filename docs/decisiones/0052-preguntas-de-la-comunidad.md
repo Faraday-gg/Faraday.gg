@@ -1,4 +1,4 @@
-# 0049 — Preguntas de la comunidad y progreso en la cuenta
+# 0052 — Preguntas de la comunidad y progreso en la cuenta
 
 - **Fecha:** 2026-11-14
 - **Quién:** Luis, con Claude Code

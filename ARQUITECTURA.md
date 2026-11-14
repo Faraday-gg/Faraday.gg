@@ -63,7 +63,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
   reconectar.js, reconectar.css  «Reconectar a la partida»: aviso en la portada y el menú si tienes un duelo en marcha (decisión 0042)
   ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
-  comunidad.js, comunidad.css  Preguntas de la comunidad: proponer y votar con faradios (decisión 0049)
+  comunidad.js, comunidad.css  Preguntas de la comunidad: proponer y votar con faradios (decisión 0052)
   circuito.js, circuito.css  Circuito de amigos (referidos): enlace ?de=, invitación, premios, tablero de enchufes y corriente compartida (decisión 0038)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
@@ -144,7 +144,7 @@ Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hor
 
 ## Preguntas de la comunidad
 
-Los jugadores con cuenta proponen preguntas (50 ≈) y votan las de los demás (10 ≈ por voto). Las 3 más votadas de la semana salen el lunes en el reto, con el nombre y el avatar de su autor ([decisión 0049](docs/decisiones/0049-preguntas-de-la-comunidad.md)).
+Los jugadores con cuenta proponen preguntas (50 ≈) y votan las de los demás (10 ≈ por voto). Las 3 más votadas de la semana salen el lunes en el reto, con el nombre y el avatar de su autor ([decisión 0052](docs/decisiones/0052-preguntas-de-la-comunidad.md)).
 
 - `lib/comunidad.mjs` tiene las reglas (`RULES`), las rondas y las rutas `POST /api/comunidad` (`action`: `ronda`, `proponer`, `votar`) y `POST /api/progreso` (`leer`, `guardar`). Las dos necesitan sesión iniciada, salvo `ronda`.
 - La ronda R es el lunes en que se publica y se vota del domingo R−8 al sábado R−2. El domingo a las 00:01, `generateDay` (`lib/generar.mjs`) llama a `communityDay`. Esta función resuelve las 6 más votadas con OpenAI y búsqueda web, toma las 3 primeras válidas (completa con el banco editorial si faltan) y premia al autor. Si no hay ninguna, se genera la jornada de siempre.

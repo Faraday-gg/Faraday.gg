@@ -45,7 +45,7 @@
     stats:null,medals:{got:{},fresh:[],pin:''}});
   const STATS=['streak','near','round','exact','trio','early','archive','wins','run','duelStreak','flawless','chests','missions','weekSet','leagueWins','league','pioneer'];
   const stored=key=>{try{return JSON.parse(localStorage.getItem(key))}catch{return null}};
-  // Prepara el progreso: el de este navegador al cargar o el de la cuenta (decisión 0049) al entrar en otro dispositivo.
+  // Prepara el progreso: el de este navegador al cargar o el de la cuenta (decisión 0052) al entrar en otro dispositivo.
   let state;
   function hydrate(saved){
     state=fresh();
@@ -427,7 +427,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     save();refresh();
     return names.length?`⚡ Corriente con ${[...new Set(names)].join(' y ')}: +${amount*names.length} de batería${chargeNote(full)}`:'';
   }
-  // Progreso en la cuenta (decisión 0049). Con sesión iniciada, el progreso también se guarda en el servidor
+  // Progreso en la cuenta (decisión 0052). Con sesión iniciada, el progreso también se guarda en el servidor
   // (/api/progreso) y se recupera en otro dispositivo. El saldo de faradios lo lleva el servidor: aquí solo se manda
   // cuánto ha cambiado desde la última vez (link.acked = último saldo que confirmó). Así puede cobrar los votos de
   // las preguntas de la comunidad y poner un tope diario a lo que se gana.

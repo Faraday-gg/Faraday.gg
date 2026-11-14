@@ -19,7 +19,7 @@ const server=http.createServer(async(req,res)=>{
     if(url.pathname==='/daily-content.js'||url.pathname==='/api'||url.pathname.startsWith('/api/')){
       let body;
       if(req.method!=='GET'&&req.method!=='HEAD'){
-        // /api/progreso guarda el progreso entero del jugador con cuenta (decisión 0049): admite más tamaño.
+        // /api/progreso guarda el progreso entero del jugador con cuenta (decisión 0052): admite más tamaño.
         const chunks=[],max=url.pathname==='/api/progreso'?65536:2048;let size=0;
         for await(const chunk of req){size+=chunk.length;if(size>max){res.writeHead(413,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify({error:'Solicitud demasiado grande'}));return}chunks.push(chunk)}
         body=Buffer.concat(chunks);
