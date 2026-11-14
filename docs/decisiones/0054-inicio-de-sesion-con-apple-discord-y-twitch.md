@@ -2,7 +2,7 @@
 
 - **Fecha:** 2026-11-14
 - **Quién:** Luis, con Claude Code
-- **Estado:** aceptada (pendiente de configurar cada proveedor: ver [pasos](../mejoras/activar-inicio-de-sesion.md#7-apple-discord-y-twitch))
+- **Estado:** aceptada. Discord y Twitch activados en Supabase el 2026-11-14; Apple pendiente por el coste del Apple Developer Program (ver [pasos](../mejoras/activar-inicio-de-sesion.md#7-apple-discord-y-twitch)).
 
 ## Contexto
 El inicio de sesión de la [decisión 0022](0022-inicio-de-sesion-desde-el-servidor.md) funciona con código por correo y con Google, que se activó el 2026-11-14. Luis pidió añadir Apple, Discord y Twitch: Discord y Twitch encajan con el público de juegos y Apple es lo habitual en iPhone.

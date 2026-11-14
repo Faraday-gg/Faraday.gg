@@ -1,6 +1,6 @@
 # Activar el inicio de sesión (correo, Google, Apple, Discord y Twitch)
 
-- **Estado:** a medias. Google activado y probado en la Preview de `preprod` el 2026-11-14 (pasos 1, 4 y 5, ver [bitácora](../bitacora/2026-11.md)). Faltan la plantilla del correo (paso 2), el SMTP (paso 3), «Publicar app» en Google, Apple, Discord y Twitch (paso 7) y pasar a producción.
+- **Estado:** a medias. Google activado y probado en la Preview de `preprod` el 2026-11-14 (pasos 1, 4 y 5, ver [bitácora](../bitacora/2026-11.md)). Faltan la plantilla del correo (paso 2), el SMTP (paso 3), «Publicar app» en Google, Apple (paso 7, pendiente por el coste del Apple Developer Program) y pasar a producción. Discord y Twitch están activados en Supabase desde el 2026-11-14.
 - **Código:** en `preprod` desde la PR #34, [decisión 0022](../decisiones/0022-inicio-de-sesion-desde-el-servidor.md)
 
 El código usa las variables que ya existen (`SUPABASE_URL` y `SUPABASE_SECRET_KEY`): no hay que añadir nada en Vercel. Lo que falta se configura en los paneles de Supabase y de Google. Todo esto toca producción (solo hay un entorno de Supabase): apúntalo en la [bitácora](../bitacora/2026-11.md) al hacerlo.
