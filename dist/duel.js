@@ -181,6 +181,24 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     element.innerHTML=`${avatar(rival(),'tiny')}<span>${answered?`<b>${name}</b> ya ha respondido`:duel.round.yourGuess!=null?`Esperando a <b>${name}</b>…`:`<b>${name}</b> está pensando…`}</span>`;
     element.classList.toggle('done',answered);
   }
+  // «Cómo se calcula», el mismo panel del reto diario (explainMarkup, community.js), plegado: se abre solo si se quiere.
+  // Sin la foto: ya se vio en la pregunta.
+  function explainInner(question,answer,explain){
+    if(!explain||typeof explainMarkup!=='function')return '';
+    const {image,...q}=question;
+    return `<div class="explain-inner">${explainMarkup({...q,answer,...explain})}</div>`;
+  }
+  function explainBlock(question,answer,explain,extra=''){
+    const inner=explainInner(question,answer,explain);
+    return inner?`<details class="duel-explain"><summary>Cómo se calcula${extra}</summary>${inner}</details>`:'';
+  }
+  // Repaso al final del duelo: cada pregunta con las dos respuestas y su cálculo.
+  function reviewMarkup(){
+    const rounds=(duel.rounds||[]).filter(r=>r.question);if(!rounds.length)return '';
+    const guess=(value,unit)=>value==null?'Sin respuesta':`${whole(value)} ${unit}`;
+    return `<section class="duel-review" aria-labelledby="duel-review-title"><h3 id="duel-review-title">Repasa las preguntas</h3>${rounds.map((r,i)=>{const q=r.question;
+      return `<details class="duel-review-item"><summary><span>R${i+1}</span>${escapeHtml(q.title)}</summary><dl class="duel-review-guesses"><div><dt>Real</dt><dd>≈ ${rounded(q.answer)} ${q.unit}</dd></div><div><dt>Tú</dt><dd>${guess(r.guesses?.[duel.you],q.unit)}</dd></div><div><dt>${escapeHtml(rival().name)}</dt><dd>${guess(r.guesses?.[1-duel.you],q.unit)}</dd></div></dl>${explainInner(q,q.answer,r.explain)}</details>`}).join('')}</section>`;
+  }
   function renderReveal(final){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question,mine=round.guesses[duel.you],theirs=round.guesses[1-duel.you],myPoints=round.points[duel.you],theirPoints=round.points[1-duel.you];
@@ -192,6 +210,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
 <div class="duel-real"><small>Real</small><strong>≈ ${rounded(round.answer)}</strong><span>${q.unit}</span>${round.source?`<a href="${round.source.url}" target="_blank" rel="noopener">Fuente: ${escapeHtml(round.source.title.length>60?round.source.title.slice(0,58)+'…':round.source.title)}</a>`:''}</div>
 <div class="duel-cols">${column(me(),mine,myPoints,'you')}${column(rival(),theirs,theirPoints,'rival')}</div>
 <p class="duel-outcome is-${round.loser||'even'}">${outcome}${round.loser?` <small>Daño ${times(round.multiplier)}</small>`:''}</p>
+${explainBlock(q,round.answer,round.explain,final?'':' <small>· también al final del duelo</small>')}
 ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atención: en la siguiente ronda el daño sube a ${times(round.nextMultiplier)}.`:'Prepárate para la siguiente pregunta.'}</p>`}`;
     content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
     // La barra de vida baja un instante después de ver los puntos, con su golpe.
@@ -239,6 +258,7 @@ ${window.Ranked?Ranked.result(duel):''}
 ${result?`<ul class="duel-chips">${result.parts.map(([label,xp])=>`<li>${escapeHtml(label)} <b>+${xp}</b></li>`).join('')}${stats.streak>1?`<li class="hot">🔥 ${stats.streak} seguidas</li>`:''}${result.notes.map(note=>`<li>${escapeHtml(note)}</li>`).join('')}</ul>`:''}</div>
 ${window.Bets?Bets.result(duel):''}
 ${duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><span>R${i+1}</span><b class="${r.loser==='rival'?'up':''}">${int(r.points[duel.you])}</b><i>–</i><b class="${r.loser==='you'?'up':''}">${int(r.points[1-duel.you])}</b><em class="${r.loser||'even'}">${r.loser===null?'=':r.loser==='rival'?'+'+int(r.damage):'−'+int(r.damage)}</em></li>`).join('')}</ol>`:''}
+${reviewMarkup()}
 ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
 <p class="form-error" id="duel-error" role="alert"></p>
 <div class="duel-modes"><button class="game-primary" type="button" data-duel="rematch" id="duel-rematch">Revancha <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="again">Nuevo rival</button></div>

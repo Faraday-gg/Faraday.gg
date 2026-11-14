@@ -50,6 +50,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0045](0045-camisetas-de-banderas.md) | Camisetas de selección con las banderas de los países hispanohablantes y de Europa | Propuesta | 2026-11-12 |
 | [0046](0046-preguntas-de-latinoamerica.md) | Preguntas para España y Latinoamérica: ámbito sorteado y español neutro | Aceptada | 2026-11-12 |
 | [0047](0047-probador-y-cartas-de-la-tienda.md) | Probador del avatar (fijo arriba en el móvil) y cartas de la tienda por rareza | Aceptada | 2026-11-12 |
+| [0048](0048-calculo-y-sin-repetir-en-duelos.md) | «Cómo se calcula» y preguntas sin repetir en los duelos | Propuesta | 2026-11-14 |
 
 ## Plantilla
 
