@@ -13,7 +13,7 @@ const SUPABASE='https://proyecto.supabase.test',KEY='sb_secret_prueba',SITE='htt
 const base64url=b=>b.toString('base64').replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 
 // GoTrue mínimo: /settings, /otp, /verify, /user, /token (pkce y refresh_token), /admin/users/:id, /logout.
-function fakeAuth({google=true}={}){
+function fakeAuth({google=true,extra={}}={}){
   const users=new Map(),codes=new Map(),tokens=new Map(),refresh=new Map(),pkce=new Map(),calls=[];
   const session=user=>{const access='acc-'+randomUUID(),ref='ref-'+randomUUID();tokens.set(access,user.id);refresh.set(ref,user.id);return {access_token:access,refresh_token:ref,expires_in:3600,user}};
   const reply=(status,data)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
@@ -22,7 +22,7 @@ function fakeAuth({google=true}={}){
     calls.push(route+target.search);
     assert.equal(init.headers.apikey,KEY,'Todas las llamadas llevan la clave');
     const bearer=(init.headers.Authorization||'').replace('Bearer ','');
-    if(route==='/settings')return reply(200,{external:{email:true,google}});
+    if(route==='/settings')return reply(200,{external:{email:true,google,...extra}});
     if(route==='/otp'){
       if(body.email==='limite@correo.test')return reply(429,{msg:'rate limit'});
       let user=[...users.values()].find(u=>u.email===body.email);
@@ -83,7 +83,7 @@ try{
 
   // Estado y validaciones.
   const a=browser();
-  let r=await a.call('/api/auth/estado',{method:'POST',body:{}});assert.deepEqual(r.data,{providers:{email:true,google:true}});
+  let r=await a.call('/api/auth/estado',{method:'POST',body:{}});assert.deepEqual(r.data,{providers:{email:true,google:true,apple:false,discord:false,twitch:false}});
   assert.equal((await a.call('/api/auth/codigo',{method:'POST',body:{email:'no-es-correo'}})).status,400);
   assert.equal((await a.call('/api/auth/codigo',{method:'POST',body:{email:'limite@correo.test'}})).status,429);
   assert.equal((await a.call('/api/auth/codigo',{method:'POST',body:{email:'ana@correo.test'},origin:'https://otro.test'})).status,403);
@@ -141,9 +141,19 @@ try{
   // Sin Google activo en Supabase, el botón no lleva a ninguna parte.
   const noGoogle=createApi({store:fileStore(path.join(directory,'b.json')),auth:createAuth({url:SUPABASE,key:KEY,fetch:fakeAuth({google:false}).fetch})});
   const res=await noGoogle.handle(new Request(SITE+'/api/auth/google',{headers:{host:'casi.test'}}));assert.equal(res.headers.get('location'),'/?sesion=error');
+  // Apple, Discord y Twitch usan el mismo flujo, solo si están activados en Supabase.
+  const more=createApi({store:fileStore(path.join(directory,'c.json')),auth:createAuth({url:SUPABASE,key:KEY,fetch:fakeAuth({google:false,extra:{discord:true,apple:true}}).fetch})});
+  const go=route=>more.handle(new Request(SITE+'/api/auth/'+route,{headers:{host:'casi.test'}}));
+  for(const provider of ['discord','apple']){
+    const res2=await go(provider);assert.equal(res2.status,302);
+    const target=new URL(res2.headers.get('location'));assert.equal(target.pathname,'/auth/v1/authorize');assert.equal(target.searchParams.get('provider'),provider);assert.equal(target.searchParams.get('code_challenge_method'),'s256');
+    assert.match(res2.headers.get('set-cookie')||'',/faraday_pkce=/);
+  }
+  for(const provider of ['twitch','google'])assert.equal((await go(provider)).headers.get('location'),'/?sesion=error');
+  assert.notEqual((await go('github')).status,302,'Un proveedor que la app no conoce no redirige');
   // Sin configurar, las rutas responden 503 y /api/jugador no incluye cuenta.
   const plain=createApi({store:fileStore(path.join(directory,'c.json'))});
   assert.equal((await plain.handle(new Request(SITE+'/api/auth/estado',{method:'POST',body:'{}'}))).status,503);
   assert.equal('account' in await(await plain.handle(new Request(SITE+'/api/jugador',{method:'POST',body:'{}'}))).json(),false);
-  console.log('OK: inicio de sesión con código por correo y con Google (PKCE), enlace con el jugador, recuperación en otro dispositivo, renovación, salida y validaciones.');
+  console.log('OK: inicio de sesión con código por correo y con Google, Apple, Discord y Twitch (PKCE), enlace con el jugador, recuperación en otro dispositivo, renovación, salida y validaciones.');
 }finally{if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}

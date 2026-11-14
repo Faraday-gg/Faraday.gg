@@ -1,4 +1,4 @@
-// Inicio de sesión opcional (decisión 0018): código por correo o Google, siempre a través de /api/auth/.
+// Inicio de sesión opcional (decisión 0018): código por correo o Google, Apple, Discord y Twitch, siempre a través de /api/auth/.
 // El navegador no habla con Supabase ni ve los tokens: la sesión vive en cookies HttpOnly del servidor.
 // Usa syncPlayer, leaveAccount, currentAccount y playerId de community.js, y showToast de app.js.
 (()=>{
@@ -17,7 +17,7 @@
   }
   async function loadProviders(){
     if(providers)return providers;
-    try{const r=await post('estado');if(r.status===503){providers={off:true};return providers}if(!r.ok)throw Error();providers=(await r.json()).providers}catch{providers=null;return {email:true,google:false}}
+    try{const r=await post('estado');if(r.status===503){providers={off:true};return providers}if(!r.ok)throw Error();providers=(await r.json()).providers}catch{providers=null;return {email:true}}
     return providers;
   }
   async function open(){
@@ -26,7 +26,9 @@
     if(account){$id('auth-account-email').textContent=account.email||'tu cuenta';$id('auth-account-title').textContent=account.name?`Hola, ${account.name.split(' ')[0]}`:'Sesión iniciada';step('account');$id('auth-logout').focus();return}
     step('start');
     const p=await loadProviders();
-    $id('auth-google').hidden=!p.google;$id('auth-or').hidden=!p.google;
+    let any=false;
+    document.querySelectorAll('.auth-provider').forEach(link=>{link.hidden=!p[link.dataset.provider];any||=!link.hidden});
+    $id('auth-providers').hidden=!any;$id('auth-or').hidden=!any;
     if(p.off){say('El inicio de sesión aún no está disponible en este servidor.');$id('auth-email-form').querySelector('button').disabled=true}
     else $id('auth-email').focus();
   }
@@ -68,11 +70,11 @@
   $id('auth-resend').addEventListener('click',()=>{$id('auth-email').value=email;sendCode()});
   $id('auth-logout').addEventListener('click',logout);
   document.addEventListener('faraday:cuenta',event=>{account=event.detail.account;render()});
-  // Vuelta desde Google: /api/auth/callback redirige a /?sesion=ok o /?sesion=error.
+  // Vuelta desde Google, Apple, Discord o Twitch: /api/auth/callback redirige a /?sesion=ok o /?sesion=error.
   const params=new URLSearchParams(location.search),result=params.get('sesion');
   if(result){
     params.delete('sesion');history.replaceState(null,'',location.pathname+(params.size?'?'+params:'')+location.hash);
-    playerReady.then(()=>showToast(result==='ok'&&currentAccount?'Sesión iniciada. Tu progreso ya se guarda en tu cuenta.':'No se pudo iniciar sesión con Google. Inténtalo de nuevo.'));
+    playerReady.then(()=>showToast(result==='ok'&&currentAccount?'Sesión iniciada. Tu progreso ya se guarda en tu cuenta.':'No se pudo iniciar sesión. Inténtalo de nuevo.'));
   }
   render();
 })();
