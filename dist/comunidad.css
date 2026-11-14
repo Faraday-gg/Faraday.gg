@@ -1,0 +1,35 @@
+/* Preguntas de la comunidad (decisión 0049). La pantalla reutiliza la base de las ligas (.league-shell, ligas.css). */
+.community-lead{margin:-6px 0 14px;font-size:16px;line-height:1.45;color:var(--g-muted)}
+.community-lead b{color:var(--g-fg)}
+.community-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px;margin:0 0 16px;font-size:14px;color:var(--g-muted)}
+.community-meta b{color:var(--g-fg)}
+.community-note,.community-login{margin:0 0 16px;border-radius:18px;padding:14px 16px;background:color-mix(in srgb,var(--yellow,#ffdb70) 45%,var(--paper));font-size:15px;line-height:1.45}
+.community-login{display:grid;gap:12px;justify-items:start;background:var(--coral,#ff8a65)}
+.community-login p{margin:0}
+.community-login .game-primary{background:var(--ink);color:var(--paper)}
+.community-form{display:grid;gap:12px;margin:0 0 6px;padding:16px;border-radius:20px;box-shadow:inset 0 0 0 1.5px var(--g-line)}
+.community-form textarea{width:100%;min-width:0;resize:vertical;border:0;border-bottom:2px solid var(--g-line);border-radius:0;background:transparent;color:var(--g-fg);font:700 20px/1.25 var(--display);letter-spacing:-.02em;padding:6px 0;outline:0;text-transform:none}
+.community-form textarea:focus,.community-form input:focus{border-bottom-color:var(--g-fg)}
+.community-form .duel-name-field input{font-size:18px;text-transform:none}
+.community-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.community-form .game-primary{justify-self:start}
+.community-small{margin:0;font-size:13px;line-height:1.4;color:var(--g-muted)}
+.community-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.community-card{display:grid;gap:6px;border-radius:20px;padding:14px 16px;background:var(--cream);box-shadow:inset 0 0 0 1.5px var(--g-line)}
+.community-card.is-mine{box-shadow:inset 0 0 0 2px var(--g-fg)}
+.community-author{display:flex;align-items:center;gap:10px;min-width:0}
+.community-author>span{display:grid;min-width:0;line-height:1.2}
+.community-author b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.community-author small{font-size:12px;color:var(--g-muted)}
+.community-votes{margin-left:auto;font:600 15px var(--num);font-variant-numeric:tabular-nums;white-space:nowrap}
+.community-question{margin:2px 0 0;font:700 19px/1.25 var(--display);letter-spacing:-.02em;overflow-wrap:anywhere}
+.community-unit{margin:0;font-size:13px;color:var(--g-muted);overflow-wrap:anywhere}
+.community-vote{justify-self:start;margin-top:4px}
+.community-tag{justify-self:start;margin-top:4px;border-radius:20px;padding:5px 12px;font-size:13px;font-weight:700;background:var(--paper);box-shadow:inset 0 0 0 1.5px var(--g-line)}
+.community-tag.is-voted{background:var(--ink);color:var(--paper);box-shadow:none}
+@media (max-width:520px){.community-row{grid-template-columns:1fr}.community-question{font-size:17px}}
+
+/* Autor de la pregunta en el reto (app.js): nombre, avatar y votos. */
+.question-author{display:flex;align-items:center;gap:10px;margin:0 0 10px;font-size:14px;line-height:1.25}
+.question-author>span{display:grid}
+.question-author small{font-size:12px;opacity:.75}

@@ -181,6 +181,44 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Índice parcial `ranks_rating_idx` (`rating desc`, solo `rating >= 2100`) para la cumbre. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Los duelos clasificatorios no necesitan columnas nuevas en `duels`: el modo, la valoración de cada jugador al empezar y el resultado van en `state` (`mode`, `players[].rank`, `rankResult`, `rankSettled`).
 
+### Preguntas de la comunidad y progreso en la cuenta (migración `20261114120000_preguntas_comunidad`, **sin aplicar**)
+
+[Decisión 0049](decisiones/0049-preguntas-de-la-comunidad.md), `lib/comunidad.mjs`. Hasta que se aplique, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
+
+**`public.player_progress`**: el progreso de los jugadores con cuenta.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | SHA-256 del jugador de la cuenta. |
+| `state` | `jsonb` | por defecto `{}` | El progreso de `dist/progress.js` (nivel, avatar, misiones, cofres, medallas…) sin los faradios. |
+| `coins` | `integer` | ≥ 0 | Saldo de faradios. Manda el servidor. |
+| `gain_day`, `gained` | `date`, `integer` | | Faradios ganados en el navegador y aceptados ese día (tope diario). |
+| `updated_at` | `timestamptz` | por defecto `now()` | |
+
+**`public.community_proposals`**: preguntas propuestas.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `uuid` | clave primaria | |
+| `round` | `date` | | Lunes en que se publican las ganadoras de la ronda. |
+| `player_hash` | `text` | 64 caracteres hexadecimales | Autor. No se enseña nunca. |
+| `name`, `avatar` | `text`, `jsonb` | apodo de 1 a 16 | Con lo que sale la pregunta. |
+| `title`, `unit`, `note` | `text` | 10–160, 1–24 y ≤ 280 caracteres | La pregunta, su unidad y una aclaración opcional. |
+| `votes` | `integer` | ≥ 0 | |
+| `status` | `text` | `abierta`, `publicada` o `descartada` | Para retirar una a mano antes del domingo: `descartada`. |
+| `question_id` | `text` | | Id de la pregunta publicada (`comunidad-AAAA-MM-DD-n`). |
+| `created_at` | `timestamptz` | por defecto `now()` | |
+
+**`public.community_votes`**: un voto por jugador y propuesta (clave primaria `proposal_id, player_hash`; se borra en cascada con la propuesta).
+
+Funciones (sin permisos para `anon` ni `authenticated`; se llaman por `/rest/v1/rpc/` con la clave secreta):
+
+- `progress_save(p_player, p_state, p_delta, p_day, p_daily_cap, p_first_cap)`: guarda el progreso y suma `p_delta` al saldo, con tope diario para lo que se gana. Devuelve el saldo.
+- `progress_credit(p_player, p_amount)`: suma faradios (premio al autor). Devuelve el saldo.
+- `community_propose(...)` y `community_vote(...)`: comprueban las reglas, cobran del saldo e insertan, todo en la misma transacción. Devuelven `{coins}` o `{error}`.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -254,6 +292,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261112005952` | [duelos](../supabase/migrations/20261112005952_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
+| `20261114120000` | [preguntas_comunidad](../supabase/migrations/20261114120000_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | **Pendiente**: rama `feat/preguntas-comunidad`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

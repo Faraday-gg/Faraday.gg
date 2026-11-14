@@ -63,6 +63,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   duel.js                Duelos 1 vs 1: marcador, vida, temporizador, avisos y sonidos (decisión 0023)
   reconectar.js, reconectar.css  «Reconectar a la partida»: aviso en la portada y el menú si tienes un duelo en marcha (decisión 0042)
   ligas.js, ligas.css    Ligas de amigos: tus ligas, clasificación semanal, invitación y resumen del lunes (decisión 0031)
+  comunidad.js, comunidad.css  Preguntas de la comunidad: proponer y votar con faradios (decisión 0049)
   circuito.js, circuito.css  Circuito de amigos (referidos): enlace ?de=, invitación, premios, tablero de enchufes y corriente compartida (decisión 0038)
   avatar.js              Catálogo de piezas del avatar (hombre y mujer) y traducción de un look a lo que se dibuja (decisiones 0024, 0025 y 0028)
   avatar3d.js            Avatar en 3D: construye el personaje con Three.js, lo anima y lo pinta en todos los huecos de la página (decisiones 0025, 0028 y 0033)
@@ -89,6 +90,7 @@ lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
 lib/ligas.mjs            Ligas de amigos: miembros, clasificación semanal y resumen (POST /api/liga)
+lib/comunidad.mjs        Preguntas de la comunidad y progreso en la cuenta (POST /api/comunidad y /api/progreso)
 lib/referidos.mjs        Circuito de amigos: códigos, vínculos, conexiones y premios cobrados una vez (POST /api/referido)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
@@ -140,6 +142,17 @@ Grupos de hasta 15 personas con una clasificación semanal (lunes a domingo, hor
 - `dist/ligas.js` pinta la lista, la clasificación, la invitación y, al abrir la app en una semana nueva, el resumen de la anterior. El apodo es el de los duelos y el avatar, el del armario.
 - En local se guarda en `runtime/ligas.json`, junto a `answers.json`; en Vercel, en las tablas `leagues`, `league_members` y `daily_results`. La migración `20261112010003_ligas` se aplicó el 12 de noviembre de 2026; si Supabase fallara, la ruta responde 503 y la web dice «Las ligas no están disponibles ahora mismo».
 
+## Preguntas de la comunidad
+
+Los jugadores con cuenta proponen preguntas (50 ≈) y votan las de los demás (10 ≈ por voto). Las 3 más votadas de la semana salen el lunes en el reto, con el nombre y el avatar de su autor ([decisión 0049](docs/decisiones/0049-preguntas-de-la-comunidad.md)).
+
+- `lib/comunidad.mjs` tiene las reglas (`RULES`), las rondas y las rutas `POST /api/comunidad` (`action`: `ronda`, `proponer`, `votar`) y `POST /api/progreso` (`leer`, `guardar`). Las dos necesitan sesión iniciada, salvo `ronda`.
+- La ronda R es el lunes en que se publica y se vota del domingo R−8 al sábado R−2. El domingo a las 00:01, `generateDay` (`lib/generar.mjs`) llama a `communityDay`. Esta función resuelve las 6 más votadas con OpenAI y búsqueda web, toma las 3 primeras válidas (completa con el banco editorial si faltan) y premia al autor. Si no hay ninguna, se genera la jornada de siempre.
+- Al proponer, `openaiModerator` (`gpt-5-mini`, sin búsqueda web) filtra la pregunta. Sin `OPENAI_API_KEY` solo hay comprobaciones básicas.
+- **Progreso en la cuenta:** con sesión iniciada, `dist/progress.js` guarda el progreso también en el servidor (`player_progress`). El saldo de faradios lo lleva el servidor: el navegador manda cuánto cambió, con tope diario para lo que se gana.
+- En local se guarda en `runtime/comunidad.json`; en Vercel, en las tablas `player_progress`, `community_proposals` y `community_votes` (migración `20261114120000_preguntas_comunidad`, **sin aplicar**).
+- El reto enseña el autor con `authorLine` (`dist/app.js`), encima de la pregunta y en el resultado.
+
 ## Circuito de amigos (referidos)
 
 Quien invita y quien es invitado ganan los dos ([decisión 0038](docs/decisiones/0038-circuito-de-amigos.md)).
@@ -188,7 +201,7 @@ Cada pregunta incluye una categoría (`category`, ver `dist/categories.js` y [de
 - Una respuesta repetida se ignora en la base de datos (única por `question_id` y `player_hash`). Si la cifra cambia, la API responde 409, como en local.
 - Preprod y producción comparten base de datos ([decisión 0001](docs/decisiones/0001-supabase-un-solo-entorno.md)). Las respuestas enviadas desde un despliegue Preview de Vercel se mezclan con las reales.
 
-Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Solo en Production, para la generación diaria: `OPENAI_API_KEY`, `CRON_SECRET` y, opcional, `OPENAI_MODEL`.
+Variables de entorno de la función, iguales en Production y Preview (solo por nombre; los valores, en el panel de Vercel): `SUPABASE_URL` y `SUPABASE_SECRET_KEY`. Solo en Production, para la generación diaria: `OPENAI_API_KEY`, `CRON_SECRET` y, opcional, `OPENAI_MODEL`. La misma `OPENAI_API_KEY` filtra las preguntas de la comunidad; opcional, `OPENAI_MODERATION_MODEL` (por defecto `gpt-5-mini`).
 
 **Generación diaria** ([decisión 0017](docs/decisiones/0017-jornada-diaria-generada-con-openai.md)): a las 00:01 de Madrid, `pg_cron` de Supabase (migración `20261110120000_jornadas_generadas`) llama con `pg_net` a `/api/generar-dia`, y el cron de Vercel (`vercel.json`, 23:30 UTC) hace de respaldo. La ruta exige `Authorization: Bearer CRON_SECRET` y crea la jornada de mañana con `lib/generar.mjs`: 3 preguntas escritas por OpenAI con búsqueda web (un día de cada dos, una de actualidad), validadas y guardadas en Supabase con `source = 'ia'`. Si la jornada ya existe, no hace nada. Solo sustituye jornadas del banco sin respuestas y `lib/publicar.mjs` no toca las generadas. `maxDuration` de la función: 300 s.
 
