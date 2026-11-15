@@ -70,5 +70,5 @@ La 0057 metía las misiones y el premio por nivel en esta entrega. No caben:
 - **El saldo tarda uno o dos segundos en subir** tras completar el reto, lo que tarda la llamada.
 - **Días jugados antes de tener cuenta.** Al entrar, las respuestas de los últimos 30 días pasan a la cuenta. Sus faradios ya van en el saldo inicial, pero un navegador manipulado podría pedir además el premio del servidor por esos días. Está acotado (una vez por día realmente jugado) y desaparece en la entrega 5, cuando el saldo inicial deje de aceptarse tal cual.
 - **Depende de las ligas.** La racha sale de `daily_results`. Si apuntar el resultado falla al responder, el servidor lo calcula y lo apunta al pedir el premio, solo si es el mismo día.
-- **Sin migración nueva**, pero necesita las dos pendientes de la 0057 (`20261114120000_preguntas_comunidad` y `20261115120000_libro_contable`). Sin ellas no hay progreso en la cuenta y todo sigue en el navegador.
+- **Sin migración nueva**, pero necesita las dos pendientes de la 0057 (`20261115162316_preguntas_comunidad` y `20261115162701_libro_contable`). Sin ellas no hay progreso en la cuenta y todo sigue en el navegador.
 - El resto del saldo se sigue pudiendo falsear hasta la entrega 5.

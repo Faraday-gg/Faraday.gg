@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
+- **Última actualización:** 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -181,9 +181,9 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Índice parcial `ranks_rating_idx` (`rating desc`, solo `rating >= 2100`) para la cumbre. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto. Los duelos clasificatorios no necesitan columnas nuevas en `duels`: el modo, la valoración de cada jugador al empezar y el resultado van en `state` (`mode`, `players[].rank`, `rankResult`, `rankSettled`).
 
-### Preguntas de la comunidad y progreso en la cuenta (migración `20261114120000_preguntas_comunidad`, **sin aplicar**)
+### Preguntas de la comunidad y progreso en la cuenta (migración `20261115162316_preguntas_comunidad`, aplicada el 2026-11-15)
 
-[Decisión 0052](decisiones/0052-preguntas-de-la-comunidad.md), `lib/comunidad.mjs`. Hasta que se aplique, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
+[Decisión 0052](decisiones/0052-preguntas-de-la-comunidad.md), `lib/comunidad.mjs`. 
 
 **`public.player_progress`**: el progreso de los jugadores con cuenta.
 
@@ -213,15 +213,15 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Funciones (sin permisos para `anon` ni `authenticated`; se llaman por `/rest/v1/rpc/` con la clave secreta):
 
-- `progress_save(p_player, p_state, p_delta, p_day, p_daily_cap, p_first_cap)`: guarda el progreso y suma `p_delta` al saldo, con tope diario para lo que se gana. Devuelve el saldo. La migración del libro contable la sustituye por otra con un parámetro más (`p_moves`).
-- `progress_credit(p_player, p_amount)`: suma faradios (premio al autor). Devuelve el saldo. La migración del libro contable la borra: la sustituye `wallet_move`.
+- `progress_save(p_player, p_state, p_delta, p_day, p_daily_cap, p_first_cap)`: guarda el progreso y suma `p_delta` al saldo, con tope diario para lo que se gana. Devuelve el saldo. Sigue en la base de datos sin uso: el servidor llama a la de siete parámetros (`p_moves`) de la migración del libro contable.
+- `progress_credit(p_player, p_amount)`: suma faradios (premio al autor). Devuelve el saldo. Sigue en la base de datos sin uso: la sustituye `wallet_move`.
 - `community_propose(...)` y `community_vote(...)`: comprueban las reglas, cobran del saldo e insertan, todo en la misma transacción. Devuelven `{coins}` o `{error}`.
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Libro contable de faradios (migración `20261115120000_libro_contable`, **sin aplicar**)
+### Libro contable de faradios (migración `20261115162701_libro_contable`, aplicada el 2026-11-15)
 
-[Decisión 0057](decisiones/0057-libro-contable-de-faradios.md), `lib/comunidad.mjs`. Va **después** de `20261114120000_preguntas_comunidad`, porque usa `player_progress`. Si solo se aplica la primera, guardar el progreso y el premio al autor fallan.
+[Decisión 0057](decisiones/0057-libro-contable-de-faradios.md), `lib/comunidad.mjs`. Va después de `20261115162316_preguntas_comunidad`, porque usa `player_progress`. **Se aplicó sin borrar nada**: las funciones antiguas `progress_credit(text, integer)` y `progress_save` de seis parámetros siguen en la base de datos, sin uso y sin permisos; la `progress_save` nueva tiene siete parámetros, con `p_moves` obligatorio.
 
 **`public.ledger`**: un apunte por cada cambio de saldo. No se modifica ni se borra; el saldo (`player_progress.coins`) es la suma de los apuntes del jugador.
 
@@ -244,15 +244,15 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 Funciones (sin permisos para `anon` ni `authenticated`):
 
 - Desde la [decisión 0058](decisiones/0058-premios-del-reto-en-el-servidor.md), el servidor apunta también los motivos `reto` y `archivo` (con la fecha de la jornada en `ref`), que el navegador ya no puede declarar. No cambia el esquema. Desde la [decisión 0059](decisiones/0059-premios-de-los-duelos-en-el-servidor.md), también `duelos` y `duelos-bot` (con el id del duelo en `ref`); el tope diario de duelos se cuenta con esos apuntes. Desde la [decisión 0060](decisiones/0060-apuestas-en-bote.md), también `apuesta` (negativo, al empezar el duelo), `apuesta-premio` y `apuesta-devuelta`, con el id del duelo en `ref`.
-- `wallet_move(p_player, p_amount, p_reason, p_ref)`: mueve faradios desde el servidor y lo apunta. Devuelve `{coins}`; `{coins, repeated}` si ese motivo y referencia ya estaban apuntados, sin volver a mover nada; o `{error: 'saldo', coins}` si no llega para cobrar. Sustituye a `progress_credit`.
+- `wallet_move(p_player, p_amount, p_reason, p_ref)`: mueve faradios desde el servidor y lo apunta. Devuelve `{coins}`; `{coins, repeated}` si ese motivo y referencia ya estaban apuntados, sin volver a mover nada; o `{error: 'saldo', coins}` si no llega para cobrar. Sustituye a `progress_credit`, que no se ha borrado.
 - `progress_save(..., p_moves)`: como antes, y además apunta el desglose `{"motivo": cantidad}`. La primera subida se apunta como `saldo-inicial`; lo que el tope o el saldo mínimo recortan, como `tope`.
 - `community_propose(...)` y `community_vote(...)`: como antes, y apuntan lo cobrado con la propuesta como referencia.
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Experiencia y misiones (migración `20261115130000_experiencia_y_misiones`, **sin aplicar**)
+### Experiencia y misiones (migración `20261115162719_experiencia_y_misiones`, aplicada el 2026-11-15)
 
-[Decisión 0061](decisiones/0061-experiencia-y-misiones-en-el-servidor.md), `lib/misiones.mjs`. Va después de `20261115120000_libro_contable`. Añade tres columnas a `public.player_progress`:
+[Decisión 0061](decisiones/0061-experiencia-y-misiones-en-el-servidor.md), `lib/misiones.mjs`. Va después de `20261115162701_libro_contable`. Añade tres columnas a `public.player_progress`:
 
 | Columna | Tipo | Reglas | Notas |
 | --- | --- | --- | --- |
@@ -262,7 +262,7 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Desde esta decisión el servidor apunta también en `ledger` los motivos `misiones` (referencia `<día o lunes>:<misión>`) y `nivel`, que el navegador ya no puede declarar. `POST /api/answers` lee esta fila en cada respuesta para saber si el jugador tiene cuenta.
 
-### Inventario (migración `20261115140000_inventario`, **sin aplicar**)
+### Inventario (migración `20261115162737_inventario`, aplicada el 2026-11-15)
 
 [Decisión 0062](decisiones/0062-tienda-y-pistas-en-el-servidor.md), `lib/catalogo.mjs`.
 
@@ -350,10 +350,10 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261112005952` | [duelos](../supabase/migrations/20261112005952_duelos.sql) | Crea la tabla `duels` (duelos 1 vs 1) con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
-| `20261114120000` | [preguntas_comunidad](../supabase/migrations/20261114120000_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | **Pendiente**: rama `feat/preguntas-comunidad`, sin aplicar |
-| `20261115120000` | [libro_contable](../supabase/migrations/20261115120000_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily` y `wallet_move`; sustituye `progress_credit` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten cada movimiento. | **Pendiente**: rama `feat/libro-contable-faradios`, sin aplicar. Va después de `20261114120000` |
-| `20261115130000` | [experiencia_y_misiones](../supabase/migrations/20261115130000_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | **Pendiente**: rama `feat/misiones-y-nivel-servidor`, sin aplicar. Va después de `20261115120000` |
-| `20261115140000` | [inventario](../supabase/migrations/20261115140000_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/tienda-y-pistas-servidor`, sin aplicar |
+| `20261115162316` | [preguntas_comunidad](../supabase/migrations/20261115162316_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
+| `20261115162701` | [libro_contable](../supabase/migrations/20261115162701_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily`, `wallet_move` y una `progress_save` de siete parámetros, y vuelve a crear `community_propose` y `community_vote` para que apunten cada movimiento. No borra las funciones antiguas. | 2026-11-15, por Luis con Claude Code |
+| `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
+| `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

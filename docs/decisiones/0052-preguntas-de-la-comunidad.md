@@ -2,7 +2,7 @@
 
 - **Fecha:** 2026-11-14
 - **Quién:** Luis, con Claude Code
-- **Estado:** propuesta (rama `feat/preguntas-comunidad`; la migración `20261114120000_preguntas_comunidad` está **sin aplicar**)
+- **Estado:** propuesta (rama `feat/preguntas-comunidad`; la migración `20261115162316_preguntas_comunidad` está **aplicada el 15 de noviembre de 2026**)
 - **Modifica:** la generación diaria de la [decisión 0017](0017-jornada-diaria-generada-con-openai.md) (los lunes), los faradios de la [0024](0024-avatar-faradios-y-misiones.md) (con cuenta, también en el servidor) y la cuenta de la [0022](0022-inicio-de-sesion-desde-el-servidor.md)
 
 ## Contexto
@@ -62,7 +62,7 @@ Hasta ahora los faradios solo vivían en el `localStorage` del navegador: el ser
 - **Una pregunta de la comunidad al día de lunes a miércoles.** Luis eligió el lunes entero.
 
 ## Consecuencias
-- Hay que **aplicar la migración** `20261114120000_preguntas_comunidad` en Supabase (producción, único entorno) antes de fusionar en `main`. Sin ella, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
+- Hay que **aplicar la migración** `20261115162316_preguntas_comunidad` en Supabase (producción, único entorno) antes de fusionar en `main`. Sin ella, `/api/comunidad` y `/api/progreso` responden 503 y el resto del juego sigue funcionando.
 - La moderación usa la misma `OPENAI_API_KEY`. Cada propuesta es una llamada pequeña a `gpt-5-mini`, y cada domingo hay una llamada grande con búsqueda web.
 - El tope de 1.500 ≈ al día puede quedarse corto en un día excepcional (subir varios niveles y abrir cofres legendarios). Lo que pase del tope no se pierde en el navegador, pero el servidor no lo acepta. Revisar con datos reales.
 - Quien entra en una cuenta nueva en un navegador donde ya se cerró otra sesión empieza con 0 ≈ (no hay segundo regalo de bienvenida).

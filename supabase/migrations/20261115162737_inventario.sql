@@ -2,7 +2,7 @@
 -- items: una fila por cada pieza del catálogo que tiene un jugador con cuenta. De momento solo entran las que se
 --   compran en la tienda con cuenta; las que salen de los cofres y las que ya se tenían llegarán con las entregas
 --   siguientes. La compra cobra con wallet_move (referencia = la pieza: no se cobra dos veces) y después inserta aquí.
--- Necesita las migraciones 20261114120000_preguntas_comunidad y 20261115120000_libro_contable.
+-- Necesita las migraciones de preguntas_comunidad y libro_contable.
 -- Acceso: como el resto del esquema, solo desde el servidor con la clave secreta (RLS sin políticas).
 -- Documentación: docs/base-de-datos.md
 

@@ -5,7 +5,9 @@
 -- progress_save: además del cambio de saldo recibe su desglose por motivo (p_moves) y lo apunta.
 -- community_propose y community_vote: apuntan lo que cobran.
 -- ledger_daily: faradios emitidos y gastados por día y motivo, para medir la economía.
--- Necesita la migración 20261114120000_preguntas_comunidad (tabla player_progress), que debe aplicarse antes.
+-- Necesita la migración de preguntas_comunidad (tabla player_progress), que debe aplicarse antes.
+-- No borra nada: las funciones antiguas progress_credit(text, integer) y progress_save de seis parámetros se quedan,
+--   sin uso. El servidor llama a wallet_move y a progress_save con p_moves (siete parámetros).
 -- Acceso: como el resto del esquema, solo desde el servidor con la clave secreta (RLS sin políticas).
 -- Documentación: docs/base-de-datos.md
 
@@ -48,14 +50,11 @@ begin
   return jsonb_build_object('coins', v_coins + p_amount);
 end $$;
 
--- wallet_move sustituye a progress_credit (premio al autor de una pregunta).
-drop function public.progress_credit(text, integer);
-
--- Guarda el progreso y suma al saldo lo que cambió en el navegador, como antes, y además apunta el desglose por motivo
--- (p_moves = {"motivo": cantidad}). La primera vez se apunta como «saldo-inicial»; lo que el tope diario o el saldo
--- mínimo recortan, como «tope», para que los apuntes sumen siempre el cambio real del saldo.
-drop function public.progress_save(text, jsonb, integer, date, integer, integer);
-create function public.progress_save(p_player text, p_state jsonb, p_delta integer, p_day date, p_daily_cap integer, p_first_cap integer, p_moves jsonb default '{}'::jsonb)
+-- Guarda el progreso y suma al saldo lo que cambió en el navegador, como la de seis parámetros, y además apunta el
+-- desglose por motivo (p_moves = {"motivo": cantidad}). p_moves es obligatorio para que no se confunda con la antigua.
+-- La primera vez se apunta como «saldo-inicial»; lo que el tope diario o el saldo mínimo recortan, como «tope», para que
+-- los apuntes sumen siempre el cambio real del saldo.
+create function public.progress_save(p_player text, p_state jsonb, p_delta integer, p_day date, p_daily_cap integer, p_first_cap integer, p_moves jsonb)
 returns integer language plpgsql as $$
 declare
   current_row public.player_progress;
