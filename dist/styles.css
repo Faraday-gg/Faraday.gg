@@ -1109,3 +1109,7 @@ body.lightbox-open{overflow:hidden}
 }
 @keyframes hint-in-sm{from{opacity:0;transform:translateY(-10px) rotate(6deg) scale(.92)}}
 @media(prefers-reduced-motion:reduce){.hint-photo{animation:none}}
+/* Faradios que vuelan hasta el saldo al recoger un premio (coin-fly.js, decisión 0068). */
+.coin-fly-layer{position:fixed;inset:0;pointer-events:none;z-index:200;overflow:hidden}
+.coin-fly{position:fixed;left:0;top:0;font-size:22px;will-change:transform,opacity;box-shadow:inset 0 0 0 1.5px #20263033,inset -3px -4px 0 #20263022,0 2px 6px #20263033}
+.coin-fly-plus{position:fixed;font:700 15px var(--num);color:var(--coral);text-shadow:0 1px 0 var(--paper);white-space:nowrap}
