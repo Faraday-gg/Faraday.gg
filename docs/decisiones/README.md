@@ -66,6 +66,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0062](0062-tienda-y-pistas-en-el-servidor.md) | El servidor cobra la tienda y las pistas al precio de su catálogo, y empieza el inventario de piezas | Propuesta | 2026-11-15 |
 | [0063](0063-cofres-en-el-servidor.md) | El servidor lleva los cofres: cuándo se ganan, la compra y el sorteo; las piezas van al inventario | Propuesta | 2026-11-15 |
 | [0064](0064-premios-del-circuito-en-el-servidor.md) | El servidor reparte los premios del Circuito de amigos: faradios, cofres y batería | Propuesta | 2026-11-15 |
+| [0065](0065-cierre-de-la-economia-en-el-servidor.md) | Cierre de la fase 1: el navegador ya no declara ganancias y lo que se trae la primera vez se limita por los días jugados | Propuesta | 2026-11-15 |
 
 ## Plantilla
 

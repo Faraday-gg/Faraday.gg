@@ -18,7 +18,7 @@ const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-circuito-'));
 const at=date=>Date.parse(date+'T09:00:00Z');
 let clock=at('2026-11-16');
 const auth={async current(request,read){const player=read(request,'faraday_sesion');return player?{account:{id:'u-'+player,email:'x@y.z',player},cookies:[]}:null}};
-const api=createApi({store:fileStore(path.join(directory,'answers.json')),persistDays:false,now:()=>clock,auth,log:()=>{}});
+const api=createApi({playedDays:async()=>200,store:fileStore(path.join(directory,'answers.json')),persistDays:false,now:()=>clock,auth,log:()=>{}});
 async function post(route,body,session){
   const headers={'Content-Type':'application/json'};if(session)headers.cookie='faraday_sesion='+session;
   const response=await api.handle(new Request('http://casi.test/api/'+route,{method:'POST',headers,body:JSON.stringify(body)}));

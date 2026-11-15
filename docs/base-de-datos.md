@@ -192,7 +192,7 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 | `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | SHA-256 del jugador de la cuenta. |
 | `state` | `jsonb` | por defecto `{}` | El progreso de `dist/progress.js` (nivel, avatar, misiones, cofres, medallas…) sin los faradios. |
 | `coins` | `integer` | ≥ 0 | Saldo de faradios. Manda el servidor. |
-| `gain_day`, `gained` | `date`, `integer` | | Faradios ganados en el navegador y aceptados ese día (tope diario). |
+| `gain_day`, `gained` | `date`, `integer` | | Faradios ganados en el navegador y aceptados ese día (tope diario). Desde la [decisión 0065](decisiones/0065-cierre-de-la-economia-en-el-servidor.md) el tope es 0: el navegador ya no suma ganancias. |
 | `updated_at` | `timestamptz` | por defecto `now()` | |
 
 **`public.community_proposals`**: preguntas propuestas.
