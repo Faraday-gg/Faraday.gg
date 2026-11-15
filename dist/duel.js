@@ -238,7 +238,9 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
     const key=duel.winner==='you'?'win':duel.winner==='draw'?'draw':'loss';
     const coins=abandoned||(bot&&daily.bot)?0:Math.round(Progress.REWARD.duel[key]*(capped?CAPPED_FACTOR:1));
     if(!abandoned)stats.day={date:today,count:daily.count+1,bot:daily.bot+(bot?1:0)};
-    saved.set('progreso',stats);const outcome=Progress.reward({xp:gained,coins,reason:'duelos'});
+    saved.set('progreso',stats);
+    // Con cuenta, los faradios del duelo los calcula y los paga el servidor (decisión 0059): aquí solo se piden.
+    const online=Progress.linked(),outcome=Progress.reward({xp:gained,coins:online?0:coins,reason:'duelos'});if(online&&coins)Progress.claim('duelo:'+duel.id);
     // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
     document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};

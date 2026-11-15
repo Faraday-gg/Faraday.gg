@@ -452,12 +452,15 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   // se han cobrado: se piden al momento y, si falla la red o el servidor todavía no tiene la última respuesta, otra vez
   // en el siguiente guardado o al volver a entrar. El servidor paga cada jornada una sola vez.
   let collecting=false;
-  function claim(day){link.claims??={};link.claims[day]??=0;keepLink();setTimeout(collect,1500)}
+  // La clave es la fecha de la jornada o «duelo:<id>» (decisión 0059).
+  function claim(key){if(!linked)return;link.claims??={};link.claims[key]??=0;keepLink();setTimeout(collect,1500)}
   async function collect(){
-    if(!linked||collecting||!link.claims)return;collecting=true;
+    // Nunca a la vez que un guardado: si el servidor paga mientras viaja un guardado, el navegador contaría el premio dos
+    // veces. El guardado, al acabar, vuelve a llamar aquí.
+    if(!linked||collecting||sending||!link.claims||!Object.keys(link.claims).length)return;collecting=true;
     try{
       for(const day of Object.keys(link.claims)){
-        try{const {coins}=await cloud('premio',{day});if(link.claims)delete link.claims[day];serverCoins(coins)}
+        try{const {coins}=await cloud('premio',day.startsWith('duelo:')?{duel:day.slice(6)}:{day});if(link.claims)delete link.claims[day];serverCoins(coins)}
         catch(error){
           if(!link.claims)break;
           // 409: el servidor aún no ve el reto completo; se reintenta unas cuantas veces. Otros 4xx: no hay nada que cobrar.
@@ -465,10 +468,10 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
         }
       }
       keepLink();
-    }finally{collecting=false}
+    }finally{collecting=false;if(again)schedule()}
   }
   async function push(){
-    if(!linked)return;if(sending){again=true;return}
+    if(!linked)return;if(sending||collecting){again=true;return}
     sending=true;again=false;
     const sent=state.coins,moves={...link.moves},{coins:_,...rest}=state;
     try{
@@ -508,7 +511,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={look,spend,serverCoins,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={look,spend,serverCoins,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

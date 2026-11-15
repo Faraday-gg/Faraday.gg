@@ -47,6 +47,8 @@ La 0057 metía las misiones y el premio por nivel en esta entrega. No caben:
 | 4. Cofres, tienda y pistas | El sorteo, las compras y el inventario pieza a pieza | `cofres`, `cofres-compra`, `tienda`, `pistas`, `referidos` |
 | 5. Cierre | Migra saldos y piezas; deja de aceptar ganancias declaradas | Todos |
 
+> **Nota (2026-11-15):** la [0059](0059-premios-de-los-duelos-en-el-servidor.md) parte la entrega 3 en tres (duelos, apuestas en bote, misiones y nivel) y corrige un fallo de esta entrega: el cobro de un premio podía cruzarse con un guardado y contarse dos veces en el navegador.
+
 ### Código
 
 - `lib/premios.mjs` (nuevo): las cifras, `todayPrize`, `streakAt` y `createPrizes`.
