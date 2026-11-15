@@ -250,6 +250,18 @@ Funciones (sin permisos para `anon` ni `authenticated`):
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Experiencia y misiones (migración `20261115130000_experiencia_y_misiones`, **sin aplicar**)
+
+[Decisión 0061](decisiones/0061-experiencia-y-misiones-en-el-servidor.md), `lib/misiones.mjs`. Va después de `20261115120000_libro_contable`. Añade tres columnas a `public.player_progress`:
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `xp` | `integer` | ≥ 0, por defecto 0 | Experiencia que lleva el servidor. De ella salen el nivel y su premio (apunte `nivel`, referencia `nivel-N`). La de `state` es la que pinta el navegador. |
+| `stats` | `jsonb` | por defecto `{}` | Contadores de las misiones del día y de la semana (`day`, `week`: clave, contadores y misiones recogidas), racha y duelos del día (`duel`) y las últimas preguntas y duelos ya contados (`seen`). Vacío hasta la primera vez; entonces `xp` parte de la experiencia declarada en `state`, con tope. |
+| `stats_version` | `integer` | por defecto 0 | Concurrencia optimista, como en `duels`: el servidor guarda con `PATCH …?stats_version=eq.<leída>`. |
+
+Desde esta decisión el servidor apunta también en `ledger` los motivos `misiones` (referencia `<día o lunes>:<misión>`) y `nivel`, que el navegador ya no puede declarar. `POST /api/answers` lee esta fila en cada respuesta para saber si el jugador tiene cuenta.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -325,6 +337,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261114120000` | [preguntas_comunidad](../supabase/migrations/20261114120000_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | **Pendiente**: rama `feat/preguntas-comunidad`, sin aplicar |
 | `20261115120000` | [libro_contable](../supabase/migrations/20261115120000_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily` y `wallet_move`; sustituye `progress_credit` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten cada movimiento. | **Pendiente**: rama `feat/libro-contable-faradios`, sin aplicar. Va después de `20261114120000` |
+| `20261115130000` | [experiencia_y_misiones](../supabase/migrations/20261115130000_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | **Pendiente**: rama `feat/misiones-y-nivel-servidor`, sin aplicar. Va después de `20261115120000` |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
