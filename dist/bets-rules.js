@@ -19,6 +19,13 @@
   // Como mucho, cinco duelos con apuesta al día (hora de Madrid). Limita lo que se puede perder y el farmeo entre
   // dos navegadores propios. Poner DAILY_CAP = 0 desactiva las apuestas.
   const DAILY_CAP=5;
+  // Con cuenta, la apuesta es un bote entre los dos jugadores que lleva el servidor (decisión 0060, lib/apuestas.mjs): se
+  // juega la más baja de las dos apuestas y quien gana se lleva el bote menos esta parte, que se destruye.
+  const RAKE=.1;
+  // Lo que pone cada uno en el bote según la apuesta de los dos (0 si alguno no apuesta).
+  const shared=(mine,theirs)=>{const a=TIERS[mine]?.amount||0,b=TIERS[theirs]?.amount||0;return a&&b?Math.min(a,b):0};
+  // Con `stake` cada uno: lo que gana de más quien gana (win) y lo que se destruye (fee).
+  const pot=stake=>{const fee=Math.round(2*stake*RAKE);return {win:stake-fee,fee}};
   // Lo que se guarda de cada duelo: tier, amount, status (open, won, lost, draw, void) y delta (lo ganado o perdido al final).
   const KEEP=40;
 
@@ -33,7 +40,9 @@
     if(Number.isInteger(raw.count)&&raw.count>=0)ledger.count=raw.count;
     if(raw.duels&&typeof raw.duels==='object')for(const [id,entry] of Object.entries(raw.duels)){
       if(!entry||!tier(entry.tier)||!['open','won','lost','draw','void'].includes(entry.status))continue;
-      ledger.duels[id]={tier:entry.tier,amount:TIERS[entry.tier].amount,status:entry.status,delta:Number.isFinite(entry.delta)?entry.delta:0,at:Number.isFinite(entry.at)?entry.at:0};
+      // server = apuesta en bote, cobrada por el servidor: lo puesto (amount) puede ser menos que la apuesta elegida.
+      const full=TIERS[entry.tier].amount,server=entry.server===true;
+      ledger.duels[id]={tier:entry.tier,amount:server&&Number.isFinite(entry.amount)&&entry.amount>0&&entry.amount<=full?entry.amount:full,status:entry.status,delta:Number.isFinite(entry.delta)?entry.delta:0,at:Number.isFinite(entry.at)?entry.at:0,...(server?{server:true}:{})};
     }
     return ledger;
   }
@@ -77,5 +86,5 @@
     const drop=new Set(closed.slice(0,ids.length-KEEP));
     return {...ledger,duels:Object.fromEntries(ids.filter(id=>!drop.has(id)).map(id=>[id,ledger.duels[id]]))};
   }
-  root.BetRules={TIERS,IDS,UNLOCK,DAILY_CAP,tier,unlocked,normalize,empty,usedToday,check,stake,outcome,settle};
+  root.BetRules={TIERS,IDS,UNLOCK,DAILY_CAP,RAKE,shared,pot,tier,unlocked,normalize,empty,usedToday,check,stake,outcome,settle};
 })(typeof window!=='undefined'?window:globalThis);
