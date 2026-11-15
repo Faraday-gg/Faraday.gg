@@ -41,7 +41,7 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Limpiar los duelos terminados | Las filas de `duels` no se borran nunca. Conviene una tarea que elimine las de más de unos días. | Pendiente |
 | Consultas de los duelos | Cada jugador pregunta el estado una vez por segundo. Si los duelos crecen, revisar los límites de Vercel Hobby y de Supabase o pasar a avisos en tiempo real. | Pendiente |
 | Permiso para usar las marcas de la tienda | Las piezas de marca llevan logotipos y nombres registrados sin licencia ([decisión 0026](../decisiones/0026-marcas-reales-en-la-tienda.md)). Hay que retirarlas o conseguir permiso antes de cobrar dinero real, anunciarlas o pasar a producción con mucho público. | Pendiente (decidir Luis y Álvaro) |
-| Logotipos dibujados a mano | Supreme, Gucci, Balenciaga, Vans y Converse no están en Simple Icons y se dibujan en `dist/avatar3d.js` (`DRAWN`): se reconocen, pero no son calcos exactos. | Pendiente |
+| Logotipos dibujados a mano | Suprimo, Gucci, Balenciaga, Vans y Converse no están en Simple Icons y se dibujan en `dist/avatar3d.js` (`DRAWN`): se reconocen, pero no son calcos exactos. | Pendiente |
 | Peinados largos y capucha | La melena, el pelo largo y «Cortina» atraviesan un poco la capucha puesta. | Pendiente |
 | Ver las animaciones del avatar en movimiento | Los 20 gestos y el cuerpo de mujer ([decisión 0028](../decisiones/0028-avatar-de-mujer-y-animaciones.md)) se revisaron fotograma a fotograma con un reloj simulado, no a velocidad real, ni en un móvil. Falta mirarlos y ajustar el ritmo. | Pendiente (Luis) |
 | Gestos tapados por la cabeza | Los brazos son cortos y la cabeza grande: al estirarse o rascarse, las manos quedan en parte detrás de la cabeza o del pelo. | Pendiente |

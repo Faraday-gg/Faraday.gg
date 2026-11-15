@@ -201,7 +201,7 @@ const capLogo=(bg,fg)=>paint((c,S)=>{c.clearRect(0,0,S,S);c.fillStyle=bg;c.begin
 // Logotipos de marcas reales (decisión 0026). Los de avatar-logos.js son trazados exactos; los de DRAWN se dibujan aquí,
 // en el mismo cuadro de 24 × 24, porque no están en esa colección.
 const DRAWN={
-  supreme(c){c.fillStyle='#e4002b';c.fillRect(1,8,22,7.4);c.fillStyle='#fff';c.font='italic 900 4.6px "Arial Black",Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('Supreme',11.8,11.9)},
+  supreme(c){c.fillStyle='#e4002b';c.fillRect(1,8,22,7.4);c.fillStyle='#fff';c.font='italic 900 4.6px "Arial Black",Arial,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('Suprimo',11.8,11.9)},
   gucci(c,color){c.strokeStyle=color;c.lineWidth=1.5;for(const s of [1,-1]){c.save();c.translate(12,12);c.scale(s,1);c.beginPath();c.arc(-2.6,0,4.6,0,Math.PI*2-.85);c.stroke();c.beginPath();c.moveTo(2.75,0);c.lineTo(-2.2,0);c.stroke();c.restore()}},
   gucciweb(c){['#1f6b45','#c8102e','#1f6b45'].forEach((color,i)=>{c.fillStyle=color;c.fillRect(8+i*2.7,3,2.75,18)})},
   balenciaga(c,color){c.fillStyle=color;c.font='700 3.6px Arial,Helvetica,sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText('BALENCIAGA',12,12)},
