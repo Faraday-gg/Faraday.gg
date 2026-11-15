@@ -387,10 +387,18 @@ ${chosen?medalDetail(chosen,stats):''}
     const slot=id=>{if(!id)return '<span class="profile-medal is-empty" aria-hidden="true"><i class="medal-slot"></i></span>';const {def,tier}=Medals.parse(id);return `<button type="button" class="profile-medal" data-tab="medallas" data-show-medal="${def.id}" aria-label="${Medals.label(id)}">${Medals.art(id)}<b>${def.name}</b><small>${def.kind==='medalla'?Medals.tierName(tier):'Insignia'}</small></button>`};
     return `<div class="profile-medals"><p class="profile-medals-head" style="margin:0"><span>Vitrina</span><small>${count} / ${Medals.TOTAL}</small></p><div class="profile-medals-row">${[0,1,2].map(i=>slot(best[i])).join('')}</div>${count?'':'<p class="profile-medals-note">Completa tu primer reto y estrena la vitrina.</p>'}</div>`;
   }
+  // Mientras los faradios vuelan hasta el contador (coin-fly.js, decisión 0068), el contador enseña lo que van sumando
+  // las monedas que llegan, no el saldo final, aunque el perfil se redibuje entre medias.
+  let coinShow=null;
+  function flyCoins(origin,before){
+    const pill=$('#profile-coins'),paint=n=>{coinShow=n;pill.innerHTML=coins(n)};
+    if(!window.CoinFly||shell.hidden||!(state.coins>before))return;
+    CoinFly.fly({from:origin,pill,start:before,end:state.coins,paint,done:()=>{coinShow=null}});
+  }
   function draw(){
     if(trying&&owns(trying))trying=null; // Recién desbloqueada (nivel o «Casi casi»): ya no se está probando.
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
-    $('#profile-coins').innerHTML=coins(state.coins);
+    $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
     const side=tab==='medallas'?medalTab():tab==='cofres'?chestTab():tab==='armario'?wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
@@ -454,6 +462,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
     if(target.dataset.claim){
       const id=target.dataset.claim;
+      // De dónde salen las monedas: el botón, tal como está ahora (al recoger se redibuja y desaparece).
+      const origin=target.getBoundingClientRect(),before=state.coins;
       const take=()=>{
       const period=periods().find(p=>p.ids.includes(id));
       if(!period||period.claimed.includes(id)||(period.progress[id]||0)<MISSIONS[id].goal)return;
@@ -461,13 +471,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       // Las tres del día dan faradios (decisión 0066); las tres de la semana, un cofre Rayo, que se abre en el momento.
       if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;if(period===state.missions.day)gained+=REWARD.daySet;else{won='rayo';state.stats.weekSet=1;grant(won)}}
       const result=reward({xp:REWARD.missionXp,coins:linked?0:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
+      if(!linked)flyCoins(origin,before);
       if(won&&!linked){tab='cofres';draw();openChest(won)}
       };
       // Con cuenta, la misión la comprueba y la paga el servidor (decisión 0061); aquí se marca y se da el cofre.
       if(!linked)take();
       else if(!target.disabled){target.disabled=true;serverAsk('mision',{id},'No se pudo recoger la misión. Inténtalo otra vez.','El servidor todavía no da esa misión por completada. Prueba en unos segundos.').then(data=>{
         target.disabled=false;if(!data)return;
-        take();serverCoins(data.coins);
+        take();serverCoins(data.coins);flyCoins(origin,before);
         // Si con esta se completan las tres, el servidor da el cofre: se trae y se abre.
         syncServer().then(()=>{if(data.chest){tab='cofres';draw();openChest(data.chest)}});
       })}
