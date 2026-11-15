@@ -49,6 +49,12 @@ function fakeSupabase(){
       const embed=/questions\(/.test(url.searchParams.get('select')||'');
       return Response.json(rows.map(d=>embed?{id:d.id,name:d.name,theme:d.theme,questions:[...tables.questions.values()].filter(q=>q.day_id===d.id).map(({id,position,content})=>({id,position,content}))}:{id:d.id}));
     }
+    if(init.method==='PATCH'&&name==='questions'){
+      const id=(url.searchParams.get('id')||'').replace(/^eq\./,''),row=table.get(id);if(!row)return new Response(null,{status:204});
+      const next={...row,...JSON.parse(init.body)},error=violation(name,next);if(error)return error;
+      table.set(id,next);return new Response(null,{status:204});
+    }
+    if(name==='questions'&&url.searchParams.has('day_id')){const day=url.searchParams.get('day_id').replace(/^eq\./,'');return Response.json([...table.values()].filter(q=>q.day_id===day).map(({id,position})=>({id,position})))}
     if(name==='questions'){const q=tables.questions.get((url.searchParams.get('id')||'').replace(/^eq\./,''));return Response.json(q?[{day_id:q.day_id}]:[])}
     if(url.searchParams.has('player_hash')){const player=url.searchParams.get('player_hash').replace(/^eq./,'');return Response.json([...table.values()].filter(r=>r.player_hash===player).map(({question_id,guess})=>({question_id,guess:Number(guess.toPrecision(15))})))}
     const ids=JSON.parse('['+url.searchParams.get('question_id').replace(/^in\.\(|\)$/g,'')+']');
@@ -165,8 +171,27 @@ try{
   for(let i=0;i<2500;i++){const row={question_id:'q',player_hash:String(i).padStart(64,'0'),guess:i+1};big.tables.answers.set('q|'+row.player_hash,row)}
   assert.equal(Object.keys((await store.read(['q'])).q).length,2500);
 
-  // Sin variables de entorno: el calendario funciona y las respuestas fallan de forma controlada.
   const {createApi}=await import('../lib/api.mjs');
+  // Jornada a medias en Supabase: tiene dos de las tres preguntas y una está en otra posición (el contenido cambió
+  // después de publicarse). La API sirve la jornada entera del repositorio y la primera respuesta la completa.
+  {
+    const {getDay}=await import('../content-engine.mjs'),real=getDay('2026-11-13',{persist:false}),half=fakeSupabase();
+    const row=(q,position)=>({id:q.id,day_id:real.id,position,revision:q.revision??1,title:q.title,unit:q.unit,answer:q.answer,content:q});
+    half.tables.days.set(real.id,{id:real.id,name:real.name,theme:'',source:'piloto'});
+    half.tables.questions.set(real.questions[0].id,row(real.questions[0],1));half.tables.questions.set(real.questions[1].id,row(real.questions[1],3));
+    const partial=createApi({persistDays:false,store:supabaseStore({url:'https://proyecto.supabase.co',key:KEY,fetch:half.fetch}),log:()=>{}});
+    const ask=async(route,init)=>{const response=await partial.handle(new Request(SITE+'/api?route='+route,{headers:{host:'casi.test'},...init}));return {status:response.status,data:await response.json()}};
+    const ids=real.questions.map(q=>q.id);
+    assert.deepEqual((await ask('day&date='+real.id)).data.questions.map(q=>q.id),ids,'Una jornada a medias no se sirve: se usa la del repositorio');
+    assert.deepEqual((await ask('calendar')).data.days.find(day=>day.id===real.id).questions.map(q=>q.id),ids);
+    const answer=question=>ask('answers',{method:'POST',body:JSON.stringify({player:randomUUID(),guess:5,question})});
+    assert.equal((await answer(ids[2])).status,200,'Se puede responder la pregunta que faltaba');
+    assert.deepEqual(ids.map(id=>half.tables.questions.get(id)?.position),[1,2,3],'La jornada queda completa y en orden');
+    assert.equal((await answer(ids[1])).status,200);assert.equal((await answer(ids[0])).status,200);
+    assert.deepEqual((await ask('day&date='+real.id)).data.questions.map(q=>q.id),ids);
+  }
+
+  // Sin variables de entorno: el calendario funciona y las respuestas fallan de forma controlada.
   const bare=createApi({persistDays:false,store:supabaseStore({}),log:()=>{}});
   assert.equal((await bare.handle(new Request(SITE+'/api?route=calendar'))).status,200);
   const missing=await bare.handle(new Request(SITE+'/api?route=answers',{method:'POST',headers:{host:'casi.test'},body:JSON.stringify({player:first,guess:5,question:'piloto-v3-2026-11-09-1'})}));
