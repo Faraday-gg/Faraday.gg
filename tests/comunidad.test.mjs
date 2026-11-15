@@ -157,8 +157,8 @@ try{
   assert.equal(r.data.coins,start+45);
   moves=(await ledger(eva)).slice(0,5);
   // «reto» ya no es un motivo que pueda declarar el navegador (decisión 0058): va a «sin-desglose».
-  moves=(await ledger(eva)).slice(0,4);
-  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{referidos:20,otros:-100,bienvenida:60,'sin-desglose':65});
+  moves=(await ledger(eva)).slice(0,3);
+  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{otros:-100,bienvenida:60,'sin-desglose':85});
   assert.ok(moves.every(move=>move.source==='navegador'&&move.day==='2026-11-23'));
   assert.equal(moves[0].balance,start+45);
   assert.equal(total(await ledger(eva)),start+45);

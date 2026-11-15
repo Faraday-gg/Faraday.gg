@@ -106,8 +106,8 @@
   const chestTotal=()=>Chests.TYPES.reduce((sum,type)=>sum+state.chests[type],0);
   // Con cuenta, los cofres los lleva el servidor (decisión 0063): aquí no se apuntan, llegan al sincronizar (syncServer).
   const grant=(type,count=1)=>{if(linked)return;state.chests[type]+=count};
-  // Cofre de regalo del Circuito de amigos. Con cuenta se le pide al servidor que lo apunte.
-  const gift=type=>{if(!linked){grant(type);return}serverAsk('regalo-cofre',{type},'No se pudo apuntar el cofre de regalo.').then(data=>{if(data)applyServer(data)})};
+  // Cofre de regalo del Circuito de amigos. Con cuenta lo apunta el servidor al cobrar el premio (decisión 0064).
+  const gift=type=>grant(type);
   // La batería se carga jugando y, al llenarse, da un cofre Chispa. Lo que sobra se conserva.
   function charge(amount){if(linked)return 0;state.charge+=amount;let full=0;while(state.charge>=REWARD.charge.full){state.charge-=REWARD.charge.full;full++}if(full)grant('chispa',full);return full}
   const chargeNote=full=>full?' · ¡Batería llena: cofre Chispa!':'';
@@ -444,19 +444,22 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
 
   // Premios del Circuito (circuito.js): el servidor ya los ha marcado como cobrados; aquí solo se entregan.
   // Devuelve el texto del aviso y el cofre que conviene abrir. connections = amigos conectados según el servidor.
-  function circuitPrizes(prizes,connections){
+  // server = lo que ya ha repartido el servidor a quien tiene cuenta (saldo, cofres y batería): aquí solo se avisa.
+  function circuitPrizes(prizes,connections,server=null){
     const notes=[];let open=null;
     for(const prize of prizes){
       if(prize.kind==='bienvenida'){state.circuito.welcome=true;gift(prize.chest);open=prize.chest;notes.push(`¡Bienvenida al Circuito! Cofre Rayo y ${look().body==='mujer'?'gorro':'gorra'} Enchufe`)}
-      if(prize.kind==='conexion-invitado'){move(prize.coins,'referidos');notes.push(`Ya estás conectado: +${prize.coins} ≈`)}
-      if(prize.kind==='conexion'){if(prize.chest){gift(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){move(prize.coins,'referidos');notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
+      if(prize.kind==='conexion-invitado'){if(!server)move(prize.coins,'referidos');notes.push(`Ya estás conectado: +${prize.coins} ≈`)}
+      if(prize.kind==='conexion'){if(prize.chest){gift(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){if(!server)move(prize.coins,'referidos');notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
     }
     const before=state.circuito.n;if(Number.isInteger(connections)&&connections>before)state.circuito.n=connections;
     const body=look().body,unlocked=Avatar.CATALOG.filter(item=>Number.isInteger(item.circuito)&&item.circuito>before&&item.circuito<=state.circuito.n&&(!item.for||item.for===body));
     if(unlocked.length)notes.push(`Nuevo: ${unlocked.map(item=>item.name).join(', ')}`);
     // Escalón de 3 amigos: un cofre Tormenta, una sola vez.
     if(state.circuito.n>=3&&!state.circuito.storm){state.circuito.storm=true;gift('tormenta');notes.push('¡3 amigos conectados: cofre Tormenta!')}
-    save();refresh();return {text:notes.join(' · '),open};
+    save();refresh();
+    if(server){applyServer(server,true);serverCoins(server.coins)}
+    return {text:notes.join(' · '),open};
   }
   // Corriente compartida: batería extra por cada día que jugasteis los dos (una vez por amigo y día).
   function circuitCurrent(list,amount){
