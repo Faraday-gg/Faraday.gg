@@ -274,10 +274,10 @@ Desde esta decisión el servidor apunta también en `ledger` los motivos `mision
 | --- | --- | --- | --- |
 | `player_hash` | `text` | 64 caracteres hexadecimales | |
 | `item` | `text` | `hueco:id` | La clave de la pieza en `dist/avatar.js` (`top:cam-crema-logo`). |
-| `source` | `text` | | De dónde salió: `tienda`, `cofre` o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
+| `source` | `text` | | De dónde salió: `tienda`, `cofre`, `fundicion` (la que da fundir cinco piezas, [decisión 0071](decisiones/0071-fundicion.md)), `devuelta` (una fundición que no se completó) o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
-Clave primaria `(player_hash, item)`. La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-fundicion.md) el servidor también **borra** filas: reciclar o fundir una pieza la quita de aquí; el reciclaje se paga con `wallet_move` (motivo `reciclaje`, con una referencia al azar). La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 ### Ediciones de colección (migración `20261115171046_ediciones`, aplicada el 2026-11-15)
 

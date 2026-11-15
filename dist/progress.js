@@ -25,6 +25,8 @@
     // Chispa); dayCap = faradios que se pueden ganar jugando en un día (cuentan los motivos de CAPPED).
     // Sumideros (decisión 0069): swap = cambiar una misión por otra; shield = proteger la racha (desde `from` días).
     swap:30,shield:{price:150,from:3},
+    // Fundición (decisión 0071): reciclar devuelve `back` del precio; fundir `need` piezas de una rareza da una de la siguiente.
+    foundry:{need:5,back:.2,max:30},
     daySet:40,dayCap:400};
   const CAPPED=['reto','archivo','duelos','misiones'];
   // Lo que cabe hoy bajo el tope diario. Con cuenta lo lleva el servidor.
@@ -394,6 +396,38 @@
 <details class="chest-odds"><summary>Probabilidades</summary>${[Chests.TYPES.slice(0,3),Chests.TYPES.slice(3)].map(odds).join('')}
 <p>${sure} Imán nunca trae lotes de faradios. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
+  // Fundición (decisión 0071), dentro de la pestaña Cofres. foundry = está abierta; melt = las piezas elegidas;
+  // melting = lo que se está a punto de hacer con ellas ('reciclar' o 'fundir'), que pide confirmar.
+  let foundry=false,melt=[],melting='';
+  const keyOf=item=>item.slot+':'+item.id,sold=item=>item.price>0&&!item.level&&!item.casi&&!item.circuito&&!item.edition;
+  const recycleValue=item=>Math.round(item.price*REWARD.foundry.back);
+  // Lo que se puede fundir: piezas compradas o de cofre que se tienen y no se llevan puestas (ni en el otro cuerpo).
+  function meltable(){
+    const worn=new Set();
+    for(const one of [look(),...Object.values(state.closet||{})])for(const [part,id] of Object.entries(one||{}))if(id)worn.add(part+':'+id);
+    return byGrade(Avatar.CATALOG.filter(item=>sold(item)&&state.owned.includes(keyOf(item))&&!worn.has(keyOf(item))));
+  }
+  // La rareza que saldría de fundir las elegidas, si son las justas, de la misma rareza y queda alguna pieza por conseguir.
+  function smeltInto(chosen){
+    const grades=[...new Set(chosen.map(item=>Avatar.rarity(item)))],next=grades.length===1?Chests.RARITIES[Chests.rank(grades[0])+1]:null,body=look().body;
+    if(chosen.length!==REWARD.foundry.need||!next)return null;
+    const pool=Avatar.CATALOG.filter(item=>sold(item)&&!owns(item)&&(!item.for||item.for===body)&&Avatar.rarity(item)===next);
+    return {next,pool};
+  }
+  const foundryDoor=()=>`<div class="foundry-door"><p><b>Fundición</b><small>Recicla las piezas que no uses por faradios, o funde ${REWARD.foundry.need} de la misma rareza para conseguir una de la siguiente.</small></p><button type="button" class="game-secondary" data-foundry>Abrir</button></div>`;
+  function foundryTab(){
+    const list=meltable(),body=look().body;melt=melt.filter(key=>list.some(item=>keyOf(item)===key));
+    const chosen=list.filter(item=>melt.includes(keyOf(item))),back=chosen.reduce((sum,item)=>sum+recycleValue(item),0),into=smeltInto(chosen);
+    const card=item=>{const on=melt.includes(keyOf(item)),zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
+      return `<button type="button" class="profile-tile${on?' is-trying':''}" data-melt="${keyOf(item)}" data-rarity="${rarity}" aria-pressed="${on}"><span class="tile-art">${Avatar.render(Avatar.preview(item,item.for||body),{bust:!zoom,zoom})}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${on?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span><span class="tile-state price">+${coins(recycleValue(item))}</span></button>`};
+    const smeltLabel=melting==='fundir'?`Confirmar: fundir ${REWARD.foundry.need}`:into?(into.pool.length?`Fundir ${REWARD.foundry.need} → 1 ${GRADE_NAME[into.next].toLowerCase()}`:`Ya tienes todas las de rareza ${GRADE_NAME[into.next].toLowerCase()}`):`Fundir: elige ${REWARD.foundry.need} de la misma rareza`;
+    return `<div class="foundry-head"><button type="button" class="duel-link" data-foundry>← Volver a los cofres</button><h3 class="mission-title">Fundición <small>${chosen.length} ${chosen.length===1?'elegida':'elegidas'}</small></h3>
+<p class="foundry-note">Elige piezas que no lleves puestas. <b>Reciclar</b> devuelve el ${Math.round(REWARD.foundry.back*100)} % de su precio. <b>Fundir</b> ${REWARD.foundry.need} de la misma rareza da una pieza al azar de la rareza siguiente que no tengas. Las piezas elegidas se pierden; pueden volver a salir en cofres.</p></div>
+<div class="profile-items">${list.length?list.map(card).join(''):'<p class="wardrobe-empty">No tienes piezas para fundir: valen las compradas o de cofre que no lleves puestas.</p>'}</div>
+<div class="foundry-bar"><button type="button" class="game-secondary" data-recycle${chosen.length?'':' disabled'}>${melting==='reciclar'?`Confirmar: reciclar ${chosen.length}`:chosen.length?`Reciclar · +${int(back)} ${COIN}`:'Reciclar'}</button><button type="button" class="game-primary" data-smelt${into&&into.pool.length?'':' disabled'}>${smeltLabel}</button></div>`;
+  }
+  // Quita del armario las piezas fundidas.
+  function lose(keys){state.owned=state.owned.filter(key=>!keys.includes(key));melt=[]}
   // Pestaña Medallas: resumen, la ficha de la elegida, las medallas con su nivel y avance, y las insignias.
   let picked='';
   const dateText=day=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Madrid'}).format(new Date(day+'T12:00:00Z'));
@@ -436,7 +470,7 @@ ${chosen?medalDetail(chosen,stats):''}
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='medallas'?medalTab():tab==='cofres'?chestTab():tab==='armario'?wardrobe(current)
+    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
@@ -464,7 +498,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
-    if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
+    if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;foundry=false;melt=[];melting='';picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
     if(target.dataset.medal){picked=picked===target.dataset.medal?'':target.dataset.medal;draw();if(picked)main.querySelector('.medal-detail')?.scrollIntoView({block:'nearest',behavior:'smooth'});return}
     if(target.dataset.pin){state.medals.pin=target.dataset.pin;save();draw();document.dispatchEvent(new CustomEvent('faraday:look'));showToast('Destacada: la verán tus rivales en los duelos y tu grupo en las ligas.');return}
     if(target.dataset.slot){slot=target.dataset.slot;trying=null;draw();main.querySelector('.wardrobe-slots [aria-selected=true]')?.scrollIntoView({block:'nearest',inline:'nearest'});return}
@@ -499,6 +533,36 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
+    // Fundición (decisión 0071): abrir y cerrar, elegir piezas, y reciclar o fundir (el primer toque pide confirmar).
+    if('foundry' in target.dataset){foundry=!foundry;melt=[];melting='';draw();return}
+    if(target.dataset.melt){
+      const key=target.dataset.melt;melting='';
+      if(melt.includes(key))melt=melt.filter(one=>one!==key);else if(melt.length<REWARD.foundry.max)melt.push(key);
+      draw();return;
+    }
+    if('recycle' in target.dataset||'smelt' in target.dataset){
+      const mode='recycle' in target.dataset?'reciclar':'fundir';
+      if(melting!==mode){melting=mode;draw();return}
+      melting='';if(target.disabled)return;
+      const keys=[...melt],chosen=meltable().filter(item=>keys.includes(keyOf(item)));if(!chosen.length||chosen.length!==keys.length){draw();return}
+      const recycled=(amount,count)=>showToast(`${count===1?'Pieza reciclada':count+' piezas recicladas'}: +${int(amount)} ≈`);
+      const smelted=key=>{const [part,id]=key.split(':'),item=Avatar.find(part,id);if(!state.owned.includes(key))state.owned.push(key);save();draw();showToast(`¡Fundición! ${item?`${item.name} (${GRADE_NAME[Avatar.rarity(item)].toLowerCase()})`:'Tienes una pieza nueva'}`)};
+      if(mode==='reciclar'){
+        if(!linked){const amount=chosen.reduce((sum,item)=>sum+recycleValue(item),0);lose(keys);move(amount,'reciclaje');save();refresh();recycled(amount,keys.length)}
+        else{target.disabled=true;serverAsk('reciclar',{items:keys},'No se pudo reciclar. Inténtalo otra vez.','Alguna de esas piezas ya no es tuya.').then(data=>{
+          if(!data){syncItems();return draw()}
+          lose(data.items);serverCoins(data.coins);save();draw();recycled(data.amount,data.items.length);
+        })}
+        return;
+      }
+      const into=smeltInto(chosen);if(!into||!into.pool.length){draw();return}
+      if(!linked){lose(keys);smelted(keyOf(into.pool[Math.floor(dice()*into.pool.length)]))}
+      else{target.disabled=true;serverAsk('fundir',{items:keys},'No se pudo fundir. Inténtalo otra vez.','No se pueden fundir esas piezas.').then(data=>{
+        if(!data){syncItems();return draw()}
+        lose(data.items);smelted(data.item);
+      })}
+      return;
+    }
     // Cambiar una misión por otra (decisión 0069): el primer toque pide confirmar; el segundo cobra y la cambia.
     if(target.dataset.swap){
       const id=target.dataset.swap;
