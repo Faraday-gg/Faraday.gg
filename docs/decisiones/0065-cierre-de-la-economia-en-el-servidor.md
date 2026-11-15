@@ -2,7 +2,7 @@
 
 - **Estado:** propuesta (código en la rama `feat/cierre-economia-servidor`; sin migración nueva)
 - **Fecha:** 2026-11-15
-- **Quién:** Luis, con Claude Code. La regla de lo que se acepta la primera vez la propuso Claude Code y **Luis no la ha confirmado**: conviene revisarla al aceptar la PR.
+- **Quién:** Luis, con Claude Code. La regla de lo que se acepta la primera vez la propuso Claude Code y **Luis la confirmó el 15 de noviembre de 2026**, después de fusionar la PR.
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la entrega 5, la última de la fase 1 («economía en el servidor»).
 - **Cambia a:** la [0052](0052-preguntas-de-la-comunidad.md) (tope de 1.500 ≈ al día y de 5.000 ≈ la primera vez), la [0061](0061-experiencia-y-misiones-en-el-servidor.md) (experiencia inicial declarada) y la [0063](0063-cofres-en-el-servidor.md) (cofres y piezas iniciales declarados).
 
