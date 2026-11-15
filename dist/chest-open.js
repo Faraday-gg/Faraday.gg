@@ -141,13 +141,14 @@
       :`<span class="card-art">${reward.art}</span><b class="card-name">${reward.name}</b><small class="card-rarity">${Chests.LABEL[reward.rarity]}</small><em>${reward.slot}</em>`;
     function deal(){
       set('cards');cards.hidden=false;
-      cards.innerHTML=`<p class="chest-kicker">Toca cada carta</p><div class="chest-hand" data-count="${rewards.length}">${rewards.map((reward,i)=>`<button type="button" class="chest-card" data-index="${i}" data-glow="${glowOf(reward)}" data-state="down" style="--i:${i}" aria-label="Carta ${i+1} de ${rewards.length}: tocar para girar"><span class="card-inner"><span class="card-back"><span aria-hidden="true">≈</span></span><span class="card-front">${front(reward)}</span></span></button>`).join('')}</div><button type="button" class="game-primary chest-next" hidden>Ver premios <span aria-hidden="true">→</span></button>`;
+      cards.innerHTML=`<p class="chest-kicker">Toca cada carta</p><div class="chest-hand" data-count="${rewards.length}">${rewards.map((reward,i)=>`<button type="button" class="chest-card" data-index="${i}" data-glow="${glowOf(reward)}" data-state="down" style="--i:${i}" aria-label="Carta ${i+1} de ${rewards.length}: tocar para girar"><span class="card-inner"><span class="card-back"><span aria-hidden="true">≈</span></span><span class="card-front">${front(reward)}</span></span></button>`).join('')}</div>`;
       rewards.forEach((_,i)=>sfx.deal(i*T.deal/1000));
       later(()=>cards.querySelector('.chest-card')?.focus(),rewards.length*T.deal);
     }
     function turned(card,reward){
       card.dataset.state='up';card.setAttribute('aria-label',describe(reward));live.textContent=describe(reward);
-      if(++flipped>=rewards.length)later(()=>{const next=find('.chest-next');next.hidden=false;next.focus()},600);
+      // Con la última carta girada se pasa solo al resumen: así hay un único botón para terminar, sin «Ver premios» antes de «Listo».
+      if(++flipped>=rewards.length)later(finish,1400);
     }
     // 7. Girar una carta. Las piezas épicas y legendarias se presentan antes por pasos.
     function flip(card){
@@ -205,7 +206,7 @@
       const target=event.target.closest('button');if(!target)return;
       if(target===box){tap();return}
       if(target.classList.contains('chest-card')){flip(target);return}
-      if(target.classList.contains('chest-skip')||target.classList.contains('chest-next')){finish();return}
+      if(target.classList.contains('chest-skip')){finish();return}
       // Al silenciar se apaga la cama de fondo; al volver a activar el sonido, se retoma donde iba.
       if(target.classList.contains('chest-mute')){const on=Sound.toggle();target.setAttribute('aria-pressed',String(on));bed.stop();if(on){bed=Sound.bed();if(phase!=='ready'&&phase!=='enter')bed.resolve(shown)}return}
       if(target.dataset.wear!==undefined){onEquip?.(rewards[Number(target.dataset.wear)].key);summary.querySelectorAll('.chest-wear').forEach(button=>{if(rewards[Number(button.dataset.wear)].slot===rewards[Number(target.dataset.wear)].slot){button.disabled=false;button.textContent='Ponérmelo'}});target.disabled=true;target.textContent='Puesto ✓';return}
