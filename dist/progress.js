@@ -20,7 +20,17 @@
   // Subir de nivel da 30 ≈ y un cofre (Dinamo en los niveles múltiplos de 10, Rayo en los demás múltiplos de 5 y Chispa en el resto). charge = lo que carga
   // la batería de cofres cada reto; la de los duelos la calcula duel.js, con su tope diario.
   const REWARD={welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,missionXp:10,
-    duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:Chests.levelChest,charge:{today:40,archive:10,full:100}};
+    duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:Chests.levelChest,charge:{today:40,archive:10,full:100},
+    // Economía nueva (decisiones 0056 y 0066): daySet = faradios por recoger las tres misiones del día (antes, un cofre
+    // Chispa); dayCap = faradios que se pueden ganar jugando en un día (cuentan los motivos de CAPPED).
+    daySet:40,dayCap:400};
+  const CAPPED=['reto','archivo','duelos','misiones'];
+  // Lo que cabe hoy bajo el tope diario. Con cuenta lo lleva el servidor.
+  function underCap(amount,reason){
+    if(!(amount>0)||!CAPPED.includes(reason))return amount;
+    const today=madrid();if(state.earned?.day!==today)state.earned={day:today,n:0};
+    const allowed=Math.max(0,Math.min(amount,REWARD.dayCap-state.earned.n));state.earned.n+=allowed;return allowed;
+  }
   const MISSIONS={
     'reto-hoy':{text:'Completa el reto de hoy',goal:1,coins:20,on:'day',when:d=>d.today},
     'cerca-2':{text:'Queda a menos de 2× en una pregunta',goal:1,coins:15,on:'answer',when:d=>d.factor<2},
@@ -119,7 +129,7 @@
     for(let level=before+1;level<=after;level++){const type=REWARD.levelChest(level);grant(type);chests.push(Chests.CHESTS[type].name)}
     const levelCoins=(after-before)*REWARD.levelCoins;
     // Con cuenta, el premio por nivel lo paga el servidor (decisión 0061).
-    move(gained,reason);move(linked?0:levelCoins,'nivel');save();refresh();
+    move(underCap(gained,reason),reason);move(linked?0:levelCoins,'nivel');save();refresh();
     const body=look().body,unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after&&(!item.for||item.for===body)):[];
     return {levelUp:after>before,level:after,levelCoins,unlocked,chests};
   }
@@ -327,7 +337,7 @@
     const sure=Chests.TYPES.filter(type=>Chests.CHESTS[type].sure).map(type=>`${Chests.CHESTS[type].name} trae además un premio seguro: ${Object.entries(Chests.CHESTS[type].sure).map(([kind,chance])=>`${lower(kind)} ${percent(chance)}`).join(', ')}.`).join(' ');
     return `<div class="battery"><p><b>Batería</b><span>${Math.floor(state.charge)} / ${REWARD.charge.full}</span></p><div class="battery-bar" role="img" aria-label="Batería al ${Math.floor(state.charge)} por ciento"><i style="--m:${state.charge/REWARD.charge.full}"></i></div><small>Se carga jugando: reto de hoy +${REWARD.charge.today}, reto del archivo +${REWARD.charge.archive}, duelo +20. Llena, da un cofre Chispa.</small></div>
 <ul class="chest-shelf">${Chests.TYPES.map(card).join('')}</ul>
-<p class="chest-note">Los cofres se ganan jugando: Chispa con las tres misiones del día, la batería y al subir de nivel; Imán a los 3 días de racha; Rayo con las tres misiones de la semana y cada 5 niveles; Dinamo cada 10 niveles; Tormenta con las rachas de 7, 14, 30 y 50 días; Faraday a los 100 días de racha y cada 100 después. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
+<p class="chest-note">Los cofres se ganan jugando: Chispa al llenar la batería y al subir de nivel; Imán a los 3 días de racha; Rayo con las tres misiones de la semana y cada 5 niveles; Dinamo cada 10 niveles; Tormenta con las rachas de 7, 14, 30 y 50 días; Faraday a los 100 días de racha y cada 100 después. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
 <details class="chest-odds"><summary>Probabilidades</summary>${[Chests.TYPES.slice(0,3),Chests.TYPES.slice(3)].map(odds).join('')}
 <p>${sure} Imán nunca trae lotes de faradios. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
@@ -366,7 +376,7 @@ ${chosen?medalDetail(chosen,stats):''}
     $('#profile-coins').innerHTML=coins(state.coins);
     const missing=trying?trying.price-state.coins:0;
     const side=tab==='medallas'?medalTab():tab==='cofres'?chestTab():tab==='armario'?wardrobe(current)
-      :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?'Cofre Chispa del día conseguido ✓':'Recoge las tres de hoy y llévate un cofre Chispa'}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
+      :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
     main.classList.toggle('is-wardrobe',tab==='armario');
@@ -420,9 +430,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       const take=()=>{
       const period=periods().find(p=>p.ids.includes(id));
       if(!period||period.claimed.includes(id)||(period.progress[id]||0)<MISSIONS[id].goal)return;
-      period.claimed.push(id);state.stats.missions++;const gained=MISSIONS[id].coins;let won='';
-      // Las tres del día dan un cofre Chispa; las tres de la semana, un cofre Rayo. Se abre en el momento.
-      if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;won=period===state.missions.day?'chispa':'rayo';if(won==='rayo')state.stats.weekSet=1;grant(won)}
+      period.claimed.push(id);state.stats.missions++;let gained=MISSIONS[id].coins,won='';
+      // Las tres del día dan faradios (decisión 0066); las tres de la semana, un cofre Rayo, que se abre en el momento.
+      if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;if(period===state.missions.day)gained+=REWARD.daySet;else{won='rayo';state.stats.weekSet=1;grant(won)}}
       const result=reward({xp:REWARD.missionXp,coins:linked?0:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
       if(won&&!linked){tab='cofres';draw();openChest(won)}
       };

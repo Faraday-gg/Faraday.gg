@@ -5,6 +5,8 @@
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md) (fase 0, «medir y simular»). Sustituye los valores de partida de su tabla «Cambios en la economía» por los de aquí.
 
+> **Nota (2026-11-15):** la [0066](0066-cifras-de-la-economia-nueva.md) aplica en el juego tres de estas cifras (misiones del día, lote por pieza repetida y tope diario). En el simulador, `HOY` son ahora las reglas de antes.
+
 ## Contexto
 
 La 0055 dejó las cifras de la economía nueva como valores de partida, a validar antes de programar nada. Su diagnóstico de la economía de hoy salía de sumar a mano las tablas de otras decisiones. Hacía falta comprobarlo y tener una forma de probar cifras nuevas sin tocar el juego.

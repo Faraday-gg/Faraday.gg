@@ -9,6 +9,8 @@
 
 > **Nota (2026-11-15):** la [0063](0063-cofres-en-el-servidor.md) cambia el punto «sortear en el servidor»: con cuenta, los cofres se ganan, se compran y se sortean en el servidor. Las reglas de los cofres no cambian.
 
+> **Nota (2026-11-15):** la [0066](0066-cifras-de-la-economia-nueva.md) deja en la cuarta parte el lote por pieza repetida (10, 25, 45, 95 y 200 ≈) y cambia el cofre Chispa de las tres misiones del día por 40 ≈.
+
 ## Contexto
 
 Luis pidió un sistema de cofres como el de Clash Royale, EA FC o Rocket League, con una apertura muy cuidada (animación, luz y sonido), y permiso para reordenar la economía de faradios para que encaje.
