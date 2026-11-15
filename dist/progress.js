@@ -241,7 +241,7 @@
   }
 
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
-  let tab='armario',slot='top',trying=null,show='todo';
+  let tab='armario',slot='top',trying=null,show='todo',query='',grade='';
   // swapping = la misión que se está a punto de cambiar (pide confirmar); shield = la oferta de proteger la racha que
   // da el servidor a quien tiene cuenta ({days}); shieldTold = ya se avisó en esta visita.
   let swapping=null,shield=null,shieldTold=false;
@@ -270,6 +270,14 @@
     face:'M3.5 12a8.5 8.5 0 1 0 17 0 8.5 8.5 0 1 0-17 0zM8.5 14.5c2 2 5 2 7 0M9 9.5v.5M15 9.5v.5',
     skin:'M12 20.5a8.5 8.5 0 1 1 8.5-8.5c0 1.9-1.4 3-3 3h-2.2a1.8 1.8 0 0 0-1.2 3.1c.8.8.3 2.4-2.1 2.4zM7.5 11.5h.01M10 7.5h.01M14.5 7.5h.01'
   };
+  // Orden de las cartas: de menos a más rara; las exclusivas (nivel, «Casi casi», circuito, ediciones), al final.
+  const GRADES=['comun','especial','rara','epica','legendaria','nivel'],GRADE_NAME={comun:'Común',...RARITY};
+  const gradeOf=item=>GRADES.indexOf(Avatar.rarity(item));
+  const byGrade=list=>list.map((item,i)=>[item,i]).sort(([a,i],[b,j])=>gradeOf(a)-gradeOf(b)||(a.edition?.price??a.price??0)-(b.edition?.price??b.price??0)||i-j).map(([item])=>item);
+  // Buscador: sin mayúsculas ni tildes; busca en el nombre, la parte del avatar y la rareza.
+  const plain=text=>String(text||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim();
+  const matches=(item,words)=>{const text=plain(`${item.name} ${SLOT_NAME[item.slot]||''} ${GRADE_NAME[Avatar.rarity(item)]||''}`);return words.every(word=>text.includes(word))};
+  SLOT_ICON.todo='M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z';
   const slotIcon=id=>`<svg class="slot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${SLOT_ICON[id]||SLOT_ICON.extra}"/></svg>`;
   const LOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z"/></svg>';
   // Carta de la tienda: el color dice la rareza; abajo, lo que cuesta, si ya es tuya o qué hace falta para desbloquearla.
@@ -296,12 +304,26 @@
   }
   // Pestaña Armario: colección, cuerpo, partes del avatar (con lo que tienes de cada una), filtro y cartas.
   function wardrobe(current){
-    const all=Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)),have=all.filter(owns).length,pieces=Avatar.pieces(slot,current.body);
-    const filters=[['todo','Todo',pieces],['tuyo','Tuyas',pieces.filter(owns)],['tienda','Por conseguir',pieces.filter(item=>!owns(item))]],shown=filters.find(([id])=>id===show)[2];
+    const all=Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)),have=all.filter(owns).length;
+    const tabs=[['todo','Todo',all],...Avatar.SLOTS.map(([id,label])=>[id,label,Avatar.pieces(id,current.body)])];
     return `<div class="wardrobe-head"><div class="wardrobe-collection"><p><b>Colección</b><span>${have} / ${all.length}</span></p><div class="mission-bar" role="img" aria-label="Tienes ${have} de ${all.length} piezas"><i style="--m:${have/all.length}"></i></div></div><div class="profile-body" role="group" aria-label="Cuerpo del avatar">${Avatar.BODIES.map(([id,label])=>`<button type="button" aria-pressed="${id===current.body}" data-body="${id}">${label}</button>`).join('')}</div></div>
-<div class="profile-slots wardrobe-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>{const list=Avatar.pieces(id,current.body);return `<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${slotIcon(id)}<span>${label}</span><small>${list.filter(owns).length}/${list.length}</small></button>`}).join('')}</div>
-<div class="wardrobe-filter" role="group" aria-label="Qué piezas ver">${filters.map(([id,label,list])=>`<button type="button" aria-pressed="${id===show}" data-show="${id}">${label} <small>${list.length}</small></button>`).join('')}</div>
-<div class="profile-items">${shown.length?shown.map(item=>tile(item,current)).join(''):`<p class="wardrobe-empty">${show==='tuyo'?'Aún no tienes piezas de este tipo: pruébate las de la tienda.':'¡Ya las tienes todas!'}</p>`}</div>`;
+<div class="profile-slots wardrobe-slots" role="tablist" aria-label="Partes del avatar">${tabs.map(([id,label,list])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${slotIcon(id)}<span>${label}</span><small>${list.filter(owns).length}/${list.length}</small></button>`).join('')}</div>
+<div class="wardrobe-tools"><label class="wardrobe-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 1 0 0-13zM15.5 15.5 20 20"/></svg><input type="search" data-search value="${query.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" placeholder="Buscar ${slot==='todo'?'en todo el armario':'en '+(SLOT_NAME[slot]||'').toLowerCase()}" aria-label="Buscar piezas" autocomplete="off" enterkeyhint="search"></label><select class="wardrobe-grade" data-grade aria-label="Rareza"><option value="">Rareza: todas</option>${GRADES.map(id=>`<option value="${id}"${id===grade?' selected':''}>${GRADE_NAME[id]}</option>`).join('')}</select></div>
+<div class="wardrobe-results">${wardrobeResults(current,all)}</div>`;
+  }
+  // Filtro (todas, tuyas, por conseguir) y cartas: se rehace solo esta parte al escribir en el buscador, para no perder el foco.
+  function wardrobeResults(current,all){
+    const words=plain(query).split(/\s+/).filter(Boolean);
+    const pieces=byGrade((slot==='todo'?all:Avatar.pieces(slot,current.body)).filter(item=>(!grade||Avatar.rarity(item)===grade)&&matches(item,words)));
+    const filters=[['todo','Todo',pieces],['tuyo','Tuyas',pieces.filter(owns)],['tienda','Por conseguir',pieces.filter(item=>!owns(item))]],shown=filters.find(([id])=>id===show)[2];
+    const narrowed=words.length||grade,wider=slot!=='todo'&&narrowed?'<button type="button" class="duel-link" data-slot="todo">Buscar en todo el armario</button>':'';
+    const empty=narrowed&&!pieces.length?`No hay piezas${grade?` de rareza ${GRADE_NAME[grade].toLowerCase()}`:''}${words.length?` con «${query.trim().replace(/[<>&"]/g,'')}»`:''} ${slot==='todo'?'en el armario':`en ${(SLOT_NAME[slot]||'').toLowerCase()}`}.${wider?'<br>'+wider:''}`:show==='tuyo'?'Aún no tienes piezas de este tipo: pruébate las de la tienda.':'¡Ya las tienes todas!';
+    return `<div class="wardrobe-filter" role="group" aria-label="Qué piezas ver">${filters.map(([id,label,list])=>`<button type="button" aria-pressed="${id===show}" data-show="${id}">${label} <small>${list.length}</small></button>`).join('')}</div>
+<div class="profile-items">${shown.length?shown.map(item=>tile(item,current)).join(''):`<p class="wardrobe-empty">${empty}</p>`}</div>`;
+  }
+  function redrawResults(){
+    const box=main.querySelector('.wardrobe-results');if(!box){draw();return}
+    const current=look();box.innerHTML=wardrobeResults(current,Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)));
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
@@ -401,10 +423,18 @@ ${chosen?medalDetail(chosen,stats):''}
     const slot=id=>{if(!id)return '<span class="profile-medal is-empty" aria-hidden="true"><i class="medal-slot"></i></span>';const {def,tier}=Medals.parse(id);return `<button type="button" class="profile-medal" data-tab="medallas" data-show-medal="${def.id}" aria-label="${Medals.label(id)}">${Medals.art(id)}<b>${def.name}</b><small>${def.kind==='medalla'?Medals.tierName(tier):'Insignia'}</small></button>`};
     return `<div class="profile-medals"><p class="profile-medals-head" style="margin:0"><span>Vitrina</span><small>${count} / ${Medals.TOTAL}</small></p><div class="profile-medals-row">${[0,1,2].map(i=>slot(best[i])).join('')}</div>${count?'':'<p class="profile-medals-note">Completa tu primer reto y estrena la vitrina.</p>'}</div>`;
   }
+  // Mientras los faradios vuelan hasta el contador (coin-fly.js, decisión 0068), el contador enseña lo que van sumando
+  // las monedas que llegan, no el saldo final, aunque el perfil se redibuje entre medias.
+  let coinShow=null;
+  function flyCoins(origin,before){
+    const pill=$('#profile-coins'),paint=n=>{coinShow=n;pill.innerHTML=coins(n)};
+    if(!window.CoinFly||shell.hidden||!(state.coins>before))return;
+    CoinFly.fly({from:origin,pill,start:before,end:state.coins,paint,done:()=>{coinShow=null}});
+  }
   function draw(){
     if(trying&&owns(trying))trying=null; // Recién desbloqueada (nivel o «Casi casi»): ya no se está probando.
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
-    $('#profile-coins').innerHTML=coins(state.coins);
+    $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
     const side=tab==='medallas'?medalTab():tab==='cofres'?chestTab():tab==='armario'?wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
@@ -429,6 +459,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if($('#game-shell').hidden&&$('#duel-shell').hidden)document.body.classList.remove('modal-open');
     document.dispatchEvent(new CustomEvent('faraday:look'));
   }
+  // Buscador y rareza del armario: al escribir solo se rehacen las cartas, así el campo no pierde el foco.
+  shell.addEventListener('input',event=>{if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}});
+  shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
     if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
@@ -498,6 +531,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.dataset.claim){
       const id=target.dataset.claim;
+      // De dónde salen las monedas: el botón, tal como está ahora (al recoger se redibuja y desaparece).
+      const origin=target.getBoundingClientRect(),before=state.coins;
       const take=()=>{
       const period=periods().find(p=>p.ids.includes(id));
       if(!period||period.claimed.includes(id)||(period.progress[id]||0)<MISSIONS[id].goal)return;
@@ -505,13 +540,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       // Las tres del día dan faradios (decisión 0066); las tres de la semana, un cofre Rayo, que se abre en el momento.
       if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;if(period===state.missions.day)gained+=REWARD.daySet;else{won='rayo';state.stats.weekSet=1;grant(won)}}
       const result=reward({xp:REWARD.missionXp,coins:linked?0:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
+      if(!linked)flyCoins(origin,before);
       if(won&&!linked){tab='cofres';draw();openChest(won)}
       };
       // Con cuenta, la misión la comprueba y la paga el servidor (decisión 0061); aquí se marca y se da el cofre.
       if(!linked)take();
       else if(!target.disabled){target.disabled=true;serverAsk('mision',{id},'No se pudo recoger la misión. Inténtalo otra vez.','El servidor todavía no da esa misión por completada. Prueba en unos segundos.').then(data=>{
         target.disabled=false;if(!data)return;
-        take();serverCoins(data.coins);
+        take();serverCoins(data.coins);flyCoins(origin,before);
         // Si con esta se completan las tres, el servidor da el cofre: se trae y se abre.
         syncServer().then(()=>{if(data.chest){tab='cofres';draw();openChest(data.chest)}});
       })}
