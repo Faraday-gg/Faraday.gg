@@ -346,7 +346,7 @@ function buildModel(look){
   }
   const eyes=[],lids=[],face=look.face,hidden=has('sol')||has('visor')||has('visor2')||has('corazon');
   if(!hidden)for(const side of [-1,1]){
-    const eye=add(head,sphere(fem?.074:.07),ink,onHead(side*.215,-.04,1.004),[1,1.55,.4]);eye.castShadow=false;eye.userData.x=eye.position.x;eyes.push(eye);
+    const eye=add(head,sphere(fem?.074:.07),ink,onHead(side*.215,-.04,1.004),[1,1.55,.4]);eye.castShadow=false;eye.userData.x=eye.position.x;eye.userData.y=eye.position.y;eyes.push(eye);
     add(eye,sphere(.024),flat(PAPER),[side*-.012,.022,.06],[1,.65,1]).castShadow=false;
     if(fem)for(const [dx,dy,rz] of [[.062,.1,.75],[.09,.062,1.15]])add(head,capsule(.011,.045),ink,onHead(side*(.215+dx),-.04+dy,1.012),[1,1,.6],[0,0,-side*rz]).castShadow=false;
     if(face!=='feliz'){const lid=add(head,sphere(),skin,onHead(side*.215,.055,1.02),[.095,.075,.04],[0,0,side*(face==='serio'?.32:.16)]);lid.castShadow=false;lids.push(lid)}
@@ -526,11 +526,11 @@ const live=new Set(),queue=new Set(),asleep=new Set();
 // la cabeza y los antebrazos llegan un poco después que el cuerpo, que es lo que evita el aire de robot.
 // Canales: px, py, air = cadera (lado, altura, salto); ry, rz = giro y balanceo del cuerpo; s* = cintura; h* = cuello;
 // en cada brazo (a = el de la izquierda de la pantalla, b = el de la derecha): S = adelante/atrás, O = abrir, E = doblar el
-// codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye = mirada; fall, gx, gy = el personaje entero se
+// codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye, eyeY = mirada (lado, altura); fall, gx, gy = el personaje entero se
 // tumba en el plano de la pantalla y se desplaza (desmayo). Sin suavizar: lid = párpados, wide = ojos como platos,
 // frown = boca hacia abajo.
-const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye','fall','gx','gy'];
-const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22,fall:16,gx:16,gy:16};
+const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye','eyeY','fall','gx','gy'];
+const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22,eyeY:22,fall:16,gx:16,gy:16};
 const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x),hold=(u,a=.2,b=.8)=>ease(u/a)*ease((1-u)/(1-b));
 // Deriva irregular: tres ondas de periodos que no casan, para que el vaivén no se note en bucle.
 const drift=(t,seed)=>Math.sin(t*1.13+seed)*.5+Math.sin(t*.71+seed*2.3)*.3+Math.sin(t*1.93+seed*.7)*.2;
@@ -561,7 +561,7 @@ function neutralPose(item,t){
     hx:sad*.3+d(.45,3,.04),hy:d(.36,1,sad?.05:.15),hz:-lean*.05-.02+d(.3,7,.03),
     aS:.02+d(.6,11,.05),aO:.34-sad*.1+br*.012,aE:-.28+sad*.1+br*.02,aI:-.08,aY:br*.006-sad*.02,
     bS:.02+d(.55,12,.05),bO:.34-sad*.1+br*.012,bE:-.28+sad*.1-br*.015,bI:-.08,bY:br*.006-sad*.02,
-    fa:0,fb:0,eye:d(.8,13,.5),lid:sad*.3};
+    fa:0,fb:0,eye:d(.8,13,.5),eyeY:0,lid:sad*.3};
 }
 // Gestos. d = duración en segundos; f(u, t, item) = lo que suma a la postura base (u va de 0 a 1).
 const CLIPS={
@@ -587,6 +587,10 @@ const CLIPS={
   // Lamentarse
   suspiro:{d:2.8,f:u=>{const k=Math.sin(u*Math.PI)**2*(u<.5?1:-.4);return {...both({Y:.05*k}),sx:-.06*k,hx:-.1*k}}},
   negar:{d:2.2,f:u=>{const k=hold(u,.15,.85);return {hy:Math.sin(u*Math.PI*5)*.3*k,hx:.05*k,lid:.4*k}}},
+  // Le tocan con el ratón o el dedo: «¡Ay!». Respinga con los ojos apretados y se frota la cabeza, o se encoge con las dos
+  // manos en la cabeza.
+  ay:{d:1.25,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.6)/.4)),jolt=Math.sin(u*Math.PI*10)*(1-u)*ease(u/.04);return {air:Math.sin(Math.min(1,u/.28)*Math.PI)*.07,py:-.035*k,sx:-.12*k,hx:-.24*k+jolt*.05,hz:.2*k,sz:.07*k,px:jolt*.035,aO:1.75*k,aI:(1.45+Math.sin(t*17)*.14)*k,aE:.2*k,bO:.55*k,bE:-.7*k,bI:.3*k,eye:0,lid:u<.62?1:0,frown:1}}},
+  ay2:{d:1.15,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.55)/.45)),jolt=Math.sin(u*Math.PI*12)*(1-u)*ease(u/.04);return {...both({O:1.8*k,I:1.5*k,E:.2*k,Y:.06*k}),air:Math.sin(Math.min(1,u/.25)*Math.PI)*.05,py:-.06*k,sx:.1*k,hx:.12*k+jolt*.05,px:jolt*.04,rz:-jolt*.03,lid:u<.55?1:0,frown:1}}},
   // Encajar un golpe
   golpe:{d:.9,f:u=>{const k=(1-u)*ease(u/.08);return {px:Math.sin(u*30)*.07*k,sx:-.22*k,hx:-.25*k,...both({O:.5*k,E:-.5*k}),lid:u<.5?1:0}}},
   tambaleo:{d:1.5,f:u=>{const k=(1-u)*ease(u/.08),w=u*9.5;return {px:Math.sin(w)*.1*k,rz:-Math.sin(w)*.1*k,sz:Math.sin(w+1)*.1*k,hz:Math.sin(w+2)*.15*k,...both({O:.5*k}),lid:u<.4?1:0}}},
@@ -633,12 +637,42 @@ const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','
 const POOL={cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
 function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
-function nextClip(item,t){const pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
+function nextClip(item,t){let pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(attentive())pool=pool.filter(name=>name!=='mirar'&&name!=='pensar')||pool;if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
 // Cambia el estado de un avatar animado desde fuera (reactions.js): mood = cómo se queda; clip = gesto que hace ahora;
 // then = estado al que pasa cuando el gesto termina.
 function apply(item,{mood='',clip='',then=null}={}){
   const t=(performance.now()-item.born)/1000;item.clip=null;item.mood=mood;item.after=null;
   if(clip&&!reduced){item.after=then;play(item,clip,t)}else{if(then!==null)item.mood=then;item.wait=t+1.2+Math.random()*2}
+}
+// ---------- Sigue al ratón con la cabeza y la mirada. Se apunta la última posición del puntero; cada avatar calcula hacia
+// dónde queda desde su cabeza (item.at, proyectada en el fotograma anterior) como si el espectador estuviera a un palmo
+// de la pantalla. La dirección se suaviza despacio (LOOK) y luego pasa por los canales normales, así que los ojos llegan
+// antes y la cabeza les sigue con calma. Si el ratón se queda quieto un rato o sale de la ventana, vuelve a lo suyo.
+// Durante los gestos grandes (bailes, celebraciones, el «¡Ay!») la cabeza apenas se desvía; los ojos sí siguen.
+const pointer={x:0,y:0,at:-1e9},LOOK=3.2,ATTEND=4500;
+const CALM=new Set(['peso','botar','jarras','rascar','pie','hombros','estirar','temblor']);
+const noted=event=>{pointer.x=event.clientX;pointer.y=event.clientY;pointer.at=performance.now()};
+window.addEventListener('pointermove',event=>{if(event.pointerType!=='touch')noted(event)},{passive:true});
+window.addEventListener('pointerdown',noted,{passive:true});
+document.addEventListener('mouseout',event=>{if(!event.relatedTarget)pointer.at=-1e9});
+const clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
+const attentive=()=>!reduced&&performance.now()-pointer.at<ATTEND;
+function gaze(item,P,dt){
+  const look=item.look||(item.look={w:0,y:0,p:0}),r=item.at&&item.canvas.getBoundingClientRect();
+  let w=0,yaw=0,pitch=0;
+  if(r?.width&&attentive()&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall){
+    // Píxeles de la cabeza en pantalla y distancia imaginaria del espectador (más cerca en los avatares pequeños).
+    const x=r.left+(item.at.x+1)/2*r.width,y=r.top+(1-item.at.y)/2*r.height,far=Math.max(240,r.height*.9);
+    yaw=wrap(Math.atan2(pointer.x-x,far)-item.turn-(item.pose?.ry||0));pitch=Math.atan2(pointer.y-y,far);
+    // De espaldas no se gira a mirar.
+    w=Math.abs(yaw)>1.5?0:1;yaw=clamp(yaw,-.9,.9);pitch=clamp(pitch,-.4,.5);
+  }
+  const k=1-Math.exp(-dt*LOOK);look.w+=(w-look.w)*(1-Math.exp(-dt*2.4));look.y+=(yaw-look.y)*k;look.p+=(pitch-look.p)*k;
+  if(look.w<.001)return;
+  const head=(item.clip&&!CALM.has(item.lastClip)?.25:1)*(item.mood==='wait'?.2:1)*look.w,eyes=look.w;
+  P.hy+=(look.y*.72-P.hy*.6)*head;P.sy+=look.y*.16*head;P.hx+=(look.p*.62-P.hx*.4)*head;P.hz*=1-.4*head;
+  // Los ojos apuntan del todo, también lo que la cabeza aún no ha girado.
+  P.eye+=(clamp((yaw-look.y*.72*head)*2.4+look.y*.4,-2,2)-P.eye)*eyes;P.eyeY+=(clamp(-pitch*2.6,-1.4,1.4)-P.eyeY)*eyes;
 }
 function animate(item,now){
   const R=item.entry.parts,t=(now-item.born)/1000,dt=Math.min(.1,Math.max(0,(now-item.last)/1000));item.last=now;
@@ -651,6 +685,7 @@ function animate(item,now){
   }
   const P=basePose(item,t);
   if(item.clip){const extra=item.clip.f(Math.max(0,(t-item.clipAt)/item.clip.d),t,item);for(const key in extra)P[key]+=extra[key]}
+  gaze(item,P,dt);
   const cur=item.pose||(item.pose={...P});
   for(const key of KEYS)cur[key]+=(P[key]-cur[key])*(1-Math.exp(-dt*(RATE[key]||18)));
   R.body.position.set(cur.px,item.entry.base+cur.py+cur.air,0);R.body.rotation.set(0,cur.ry,cur.rz);
@@ -665,7 +700,7 @@ function animate(item,now){
   R.feet.forEach((shoe,i)=>{const [x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];shoe.position.set(x-cur.px,y-cur.py+tap*.05,z);shoe.rotation.x=toes-tap});
   const since=t-item.blinkFrom,lid=Math.min(1,Math.max(P.lid,since<.15?Math.sin(since/.15*Math.PI):0));
   const wide=Math.min(1,P.wide)*(1-lid);
-  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*.014});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
+  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*.014;eye.position.y=eye.userData.y+cur.eyeY*.014});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
   if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y}
   // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
   const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
@@ -682,8 +717,33 @@ function loop(now){
     if(!item.el.clientWidth||(covered&&item.home))continue;
     const [width,height]=sizeOf(item.el,item.data.mode);
     if(item.canvas.width!==width||item.canvas.height!==height){item.canvas.width=width;item.canvas.height=height}
-    animate(item,now);shoot(item.context,width,height,item.entry,item.data.mode,item.turn);
+    animate(item,now);shoot(item.context,width,height,item.entry,item.data.mode,item.turn);locate(item);
   }
+}
+// Dónde queda la cara en el lienzo (de -1 a 1), con la cámara tal como acaba de dibujarlo: de ahí sale la mirada.
+const FACE=new THREE.Vector3();
+function locate(item){FACE.set(0,-.04,.5);item.entry.parts.head.localToWorld(FACE).project(camera);item.at={x:FACE.x,y:FACE.y}}
+// Un toque (clic o dedo, sin arrastrar) encima del personaje: «¡Ay!». Solo cuenta si cae sobre el dibujo, no en el aire
+// de alrededor. En la portada el avatar está dentro del botón del armario: el toque en el personaje no lo abre (el resto
+// de la tarjeta, sí); con el teclado el botón funciona como siempre.
+function poke(item){
+  const el=item.el;let down=null;
+  el.addEventListener('pointerdown',event=>{down={x:event.clientX,y:event.clientY,at:performance.now()}});
+  el.addEventListener('click',event=>{
+    const start=down;down=null;
+    if(!start||!event.detail||Math.hypot(event.clientX-start.x,event.clientY-start.y)>8||performance.now()-start.at>600||!touches(item,event))return;
+    event.preventDefault();event.stopPropagation();
+    const t=(performance.now()-item.born)/1000;
+    if(item.mood==='ko'||item.clip===CLIPS.desmayo||(item.lastClip?.startsWith('ay')&&item.clip&&t-item.clipAt<.35))return;
+    item.after=null;play(item,Math.random()<.65?'ay':'ay2',t);item.wait=t+CLIPS.ay.d+1.5;
+    window.Sound?.ay?.();
+  });
+}
+function touches(item,event){
+  const r=item.canvas.getBoundingClientRect();if(!r.width)return false;
+  const x=Math.round((event.clientX-r.left)*item.canvas.width/r.width),y=Math.round((event.clientY-r.top)*item.canvas.height/r.height),s=Math.round(6*SCALE);
+  try{const {data}=item.context.getImageData(Math.max(0,x-s),Math.max(0,y-s),s*2,s*2);for(let i=3;i<data.length;i+=4)if(data[i]>60)return true}catch{return true}
+  return false;
 }
 function grab(item){
   const el=item.el;let lastX=0;el.style.touchAction='pan-y';el.style.cursor='grab';
@@ -704,8 +764,8 @@ function hydrate(el){
     // En la portada, al pasar el ratón por encima vuelve a saludar.
     if(emote==='wave')el.addEventListener('pointerenter',()=>{if(!item.clip)play(item,any(FIRST.wave),(performance.now()-item.born)/1000)});
     if(el._react)apply(item,el._react);
-    animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);
-    el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);
+    animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);locate(item);
+    el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);if(!reduced)poke(item);
     if(!running){running=true;requestAnimationFrame(loop)}
   }else{canvas.getContext('2d').drawImage(snapshot(data.look,data.mode,width,height),0,0);el.replaceChildren(canvas)}
 }

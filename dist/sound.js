@@ -123,7 +123,39 @@
     for(const [f,d] of [[1319,.55],[1568,.6],[2093,.7]])tone(f,at+.22,d,{type:'triangle',gain:.045});
     noise(at+.22,.5,{gain:.025,from:6000,to:11000,q:.8,filter:'highpass',attack:.02});
   }
+  // Voz del avatar: aguda, de niño pequeño. Se sintetiza por formantes: una onda con el tono de la voz (muy alto, unos
+  // 600 Hz, que sube y cae como una exclamación) pasa por tres filtros que imitan la boca diciendo cada vocal. Las
+  // resonancias de un niño son más altas que las de un adulto; deslizarlas de una vocal a otra es lo que forma la palabra.
+  // `vowels` = vocales por las que pasa ([F1, F2, F3] en Hz), `pitch` = curva del tono [inicio, pico, final].
+  const VOWEL={a:[1050,1750,3500],e:[620,2650,3700],i:[430,3150,3950],o:[640,1150,3300],u:[430,980,3250]};
+  function voice(vowels,{at=0,duration=.42,pitch=[560,720,430],gain=.12}={}){
+    if(!on||!context())return;
+    try{
+      const start=audio.currentTime+at,end=start+duration,lift=.92+Math.random()*.16,master=audio.createGain(),source=audio.createOscillator(),tremble=audio.createOscillator(),depth=audio.createGain();
+      source.type='sawtooth';
+      source.frequency.setValueAtTime(pitch[0]*lift,start);source.frequency.exponentialRampToValueAtTime(pitch[1]*lift,start+duration*.22);source.frequency.exponentialRampToValueAtTime(pitch[2]*lift,end);
+      // Un temblor rápido en el tono: lo aleja del pitido de máquina.
+      tremble.frequency.value=7.5;depth.gain.value=pitch[1]*lift*.025;tremble.connect(depth).connect(source.frequency);
+      master.gain.setValueAtTime(.0001,start);master.gain.exponentialRampToValueAtTime(gain,start+.025);master.gain.setValueAtTime(gain,start+duration*.55);master.gain.exponentialRampToValueAtTime(.0001,end);
+      const soft=audio.createBiquadFilter();soft.type='lowpass';soft.frequency.value=5200;master.connect(soft);output(soft,.12);
+      [1,.55,.22].forEach((level,n)=>{
+        const band=audio.createBiquadFilter(),amount=audio.createGain();band.type='bandpass';band.Q.value=n?9:5;amount.gain.value=level*(n?3:2);
+        vowels.forEach((vowel,i)=>{const f=VOWEL[vowel][n],when=start+duration*(i?.15+.55*i/(vowels.length-1):0);if(i)band.frequency.exponentialRampToValueAtTime(f,when);else band.frequency.setValueAtTime(f,when)});
+        source.connect(band).connect(amount).connect(master);
+      });
+      // Un soplo de aire al arrancar, como el golpe de voz de una exclamación.
+      noise(at,.06,{gain:gain*.25,from:2500,to:1800,q:1.2});
+      source.start(start);tremble.start(start);source.stop(end+.05);tremble.stop(end+.05);
+    }catch{}
+  }
+  // «¡Ay!» cuando tocan al avatar; a veces «¡Auu!» o un «¡ay, ay!» doble.
+  function ay(){
+    const pick=Math.random();
+    if(pick<.55)voice(['a','a','i'],{gain:.19});
+    else if(pick<.8)voice(['a','o','u'],{duration:.5,pitch:[600,760,420],gain:.11});
+    else{voice(['a','i'],{duration:.22,pitch:[620,700,560],gain:.14});voice(['a','a','i'],{at:.24,duration:.34,pitch:[660,780,440],gain:.14})}
+  }
   // Al activar el sonido (siempre desde un botón, dentro del gesto) se desbloquea en ese mismo momento.
   function set(value){on=!!value;if(on)unlock();try{localStorage.setItem(KEY,JSON.stringify(on))}catch{}document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on}}))}
-  window.Sound={tone,noise,bell,bed,casi,context,set,toggle:()=>{set(!on);return on},resume,get on(){return on}};
+  window.Sound={tone,noise,bell,bed,casi,voice,ay,context,set,toggle:()=>{set(!on);return on},resume,get on(){return on}};
 })();
