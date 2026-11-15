@@ -23,6 +23,8 @@
     duel:{win:15,draw:8,loss:5},levelCoins:30,levelChest:Chests.levelChest,charge:{today:40,archive:10,full:100},
     // Economía nueva (decisiones 0056 y 0066): daySet = faradios por recoger las tres misiones del día (antes, un cofre
     // Chispa); dayCap = faradios que se pueden ganar jugando en un día (cuentan los motivos de CAPPED).
+    // Sumideros (decisión 0069): swap = cambiar una misión por otra; shield = proteger la racha (desde `from` días).
+    swap:30,shield:{price:150,from:3},
     daySet:40,dayCap:400};
   const CAPPED=['reto','archivo','duelos','misiones'];
   // Lo que cabe hoy bajo el tope diario. Con cuenta lo lleva el servidor.
@@ -240,6 +242,18 @@
 
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
   let tab='armario',slot='top',trying=null,show='todo';
+  // swapping = la misión que se está a punto de cambiar (pide confirmar); shield = la oferta de proteger la racha que
+  // da el servidor a quien tiene cuenta ({days}); shieldTold = ya se avisó en esta visita.
+  let swapping=null,shield=null,shieldTold=false;
+  // Una misión se puede cambiar si no es la del reto de hoy, no está completada ni recogida y no salió ya de un cambio.
+  const canSwap=(period,id)=>id!=='reto-hoy'&&!(period.swapped||[]).includes(id)&&!period.claimed.includes(id)&&(period.progress[id]||0)<MISSIONS[id].goal;
+  // Si la racha se puede proteger: {days}. Ayer no se jugó, hoy todavía tampoco y la racha era de 3 días o más.
+  // Con cuenta lo dice el servidor; sin cuenta, la racha de este navegador.
+  function shieldOffer(){
+    if(linked)return shield;
+    return state.streak.count>=REWARD.shield.from&&state.streak.last===shift(madrid(),-2)?{days:state.streak.count}:null;
+  }
+  const shieldNote=days=>`Ayer no jugaste: tu racha de ${days} días está a punto de perderse. Puedes protegerla en tu perfil.`;
   // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
   const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria',nivel:'Exclusiva'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
   // Iconos de línea de cada parte del avatar, para las pestañas del probador.
@@ -291,7 +305,7 @@
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
-    return `<li class="mission${claimed?' is-claimed':done?' is-done':''}"><div><p>${mission.text}</p><div class="mission-bar"><i style="--m:${progress/mission.goal}"></i></div><small>${progress} / ${mission.goal}</small></div>${claimed?'<span class="mission-check" aria-label="Recogida">✓</span>':done?`<button type="button" class="game-primary" data-claim="${id}">Recoger +${mission.coins} ${COIN}</button>`:`<span class="mission-prize">+${coins(mission.coins)}</span>`}</li>`;
+    return `<li class="mission${claimed?' is-claimed':done?' is-done':''}"><div><p>${mission.text}</p><div class="mission-bar"><i style="--m:${progress/mission.goal}"></i></div><small>${progress} / ${mission.goal}</small></div>${claimed?'<span class="mission-check" aria-label="Recogida">✓</span>':done?`<button type="button" class="game-primary" data-claim="${id}">Recoger +${mission.coins} ${COIN}</button>`:`<span class="mission-side"><span class="mission-prize">+${coins(mission.coins)}</span>${canSwap(period,id)?`<button type="button" class="mission-swap" data-swap="${id}">${swapping===id?`Confirmar · ${REWARD.swap} ≈`:'Cambiar'}</button>`:''}</span>`}</li>`;
   }
   // Abre un cofre. El sorteo se hace y se guarda aquí, antes de la animación: cerrar o recargar no cambia lo que ha tocado.
   const dice=()=>{try{return crypto.getRandomValues(new Uint32Array(1))[0]/2**32}catch{return Math.random()}};
@@ -399,7 +413,7 @@ ${chosen?medalDetail(chosen,stats):''}
     main.classList.toggle('is-wardrobe',tab==='armario');
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
-<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}</section>
+<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}</section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
   }
@@ -417,7 +431,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
-    if(target.dataset.tab){tab=target.dataset.tab;trying=null;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
+    if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
     if(target.dataset.medal){picked=picked===target.dataset.medal?'':target.dataset.medal;draw();if(picked)main.querySelector('.medal-detail')?.scrollIntoView({block:'nearest',behavior:'smooth'});return}
     if(target.dataset.pin){state.medals.pin=target.dataset.pin;save();draw();document.dispatchEvent(new CustomEvent('faraday:look'));showToast('Destacada: la verán tus rivales en los duelos y tu grupo en las ligas.');return}
     if(target.dataset.slot){slot=target.dataset.slot;trying=null;draw();main.querySelector('.wardrobe-slots [aria-selected=true]')?.scrollIntoView({block:'nearest',inline:'nearest'});return}
@@ -452,6 +466,36 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
+    // Cambiar una misión por otra (decisión 0069): el primer toque pide confirmar; el segundo cobra y la cambia.
+    if(target.dataset.swap){
+      const id=target.dataset.swap;
+      if(swapping!==id){swapping=id;draw();return}
+      swapping=null;
+      const period=periods().find(p=>p.ids.includes(id));if(!period||!canSwap(period,id)){draw();return}
+      const apply=(to,progress=0)=>{
+        if(!MISSIONS[to]||!period.ids.includes(id))return draw();
+        period.ids[period.ids.indexOf(id)]=to;period.swapped=[...(period.swapped||[]),to];period.out=[...(period.out||[]),id];
+        delete period.progress[id];period.progress[to]=progress;save();draw();showToast(`Misión nueva: ${MISSIONS[to].text}`);
+      };
+      if(!linked){
+        const pool=(period===state.missions.day?DAILY:WEEKLY).filter(other=>!period.ids.includes(other)&&!(period.out||[]).includes(other));
+        if(!pool.length){showToast('No hay otra misión por la que cambiarla.');draw();return}
+        if(!spend(REWARD.swap,'cambio-mision')){showToast('No te llegan los faradios.');draw();return}
+        apply(pool[Math.floor(Math.random()*pool.length)]);
+      }else if(!target.disabled){target.disabled=true;serverAsk('cambiar-mision',{id},'No se pudo cambiar la misión. Inténtalo otra vez.','No hay otra misión por la que cambiarla.').then(data=>{
+        if(!data)return draw();
+        serverCoins(data.coins);apply(data.to,data.progress);
+      })}
+      return;
+    }
+    // Proteger la racha (decisión 0069): ayer cuenta como jugado y la racha sigue. Con cuenta lo cobra el servidor.
+    if('shield' in target.dataset){
+      const offer=shieldOffer();if(!offer||target.disabled)return;
+      const done=days=>{state.streak={count:days,last:shift(madrid(),-1)};shield=null;save();draw();showToast(`Racha protegida: sigues con ${days} días. Juega hoy para sumar otro.`)};
+      if(!linked){if(spend(REWARD.shield.price,'protector'))done(offer.days)}
+      else{target.disabled=true;serverAsk('proteger-racha',{},'No se pudo proteger la racha. Inténtalo otra vez.','Tu racha ya no se puede proteger.').then(data=>{if(!data)return draw();serverCoins(data.coins);done(Number.isInteger(data.streak)?data.streak:offer.days)})}
+      return;
+    }
     if(target.dataset.claim){
       const id=target.dataset.claim;
       const take=()=>{
@@ -571,6 +615,11 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   // Cofres y batería según el servidor (decisión 0063). applyServer los copia aquí para pintarlos; quiet = sin avisar.
   let opening=false;
   function applyServer(data,quiet=false){
+    // La oferta de proteger la racha (decisión 0069): se avisa una vez por visita.
+    if(data&&typeof data==='object'){
+      shield=data.shield&&Number.isInteger(data.shield.days)?{days:data.shield.days}:null;
+      if(shield&&!shieldTold){shieldTold=true;showToast(shieldNote(shield.days))}
+    }
     if(!data?.chests||typeof data.chests!=='object')return;
     const before=chestTotal();
     for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
@@ -647,4 +696,6 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   // Un cofre Chispa de regalo para estrenar los cofres, también para quien ya jugaba antes de que existieran.
   if(!state.cofres){state.cofres=true;grant('chispa')}
   periods();save();refresh();booted=true;
+  // Sin cuenta, el aviso de la racha en peligro sale de este navegador (con cuenta lo da el servidor, en applyServer).
+  setTimeout(()=>{const offer=!linked&&!shieldTold&&shieldOffer();if(offer){shieldTold=true;showToast(shieldNote(offer.days))}},4000);
 })();
