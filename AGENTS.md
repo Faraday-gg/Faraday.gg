@@ -84,6 +84,7 @@ Reglas para agentes:
   node tests/rangos.test.mjs
   node tests/apuestas.test.mjs
   node tests/economia.test.mjs
+  node tests/premios.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

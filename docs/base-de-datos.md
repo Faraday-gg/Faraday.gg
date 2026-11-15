@@ -243,6 +243,7 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Funciones (sin permisos para `anon` ni `authenticated`):
 
+- Desde la [decisión 0058](decisiones/0058-premios-del-reto-en-el-servidor.md), el servidor apunta también los motivos `reto` y `archivo` (con la fecha de la jornada en `ref`), que el navegador ya no puede declarar. No cambia el esquema.
 - `wallet_move(p_player, p_amount, p_reason, p_ref)`: mueve faradios desde el servidor y lo apunta. Devuelve `{coins}`; `{coins, repeated}` si ese motivo y referencia ya estaban apuntados, sin volver a mover nada; o `{error: 'saldo', coins}` si no llega para cobrar. Sustituye a `progress_credit`.
 - `progress_save(..., p_moves)`: como antes, y además apunta el desglose `{"motivo": cantidad}`. La primera subida se apunta como `saldo-inicial`; lo que el tope o el saldo mínimo recortan, como `tope`.
 - `community_propose(...)` y `community_vote(...)`: como antes, y apuntan lo cobrado con la propuesta como referencia.
