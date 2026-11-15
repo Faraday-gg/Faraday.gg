@@ -110,11 +110,12 @@
   const chargeNote=full=>full?' · ¡Batería llena: cofre Chispa!':'';
   const bought=()=>state.bought.day===madrid()?state.bought.count:0;
   // Suma experiencia y faradios. Al subir de nivel hay premio (faradios y un cofre) y se desbloquean las piezas de ese nivel.
-  function reward({xp=0,coins:gained=0}={}){
+  // reason = de dónde salen los faradios, para el libro contable del servidor (decisión 0057).
+  function reward({xp=0,coins:gained=0,reason='otros'}={}){
     const before=levelOf(state.xp);state.xp+=xp;const after=levelOf(state.xp),chests=[];
     for(let level=before+1;level<=after;level++){const type=REWARD.levelChest(level);grant(type);chests.push(Chests.CHESTS[type].name)}
     const levelCoins=(after-before)*REWARD.levelCoins;
-    state.coins+=gained+levelCoins;save();refresh();
+    move(gained,reason);move(levelCoins,'nivel');save();refresh();
     const body=look().body,unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after&&(!item.for||item.for===body)):[];
     return {levelUp:after>before,level:after,levelCoins,unlocked,chests};
   }
@@ -185,7 +186,7 @@
       const accuracy=detail.average<1.5?15:detail.average<2?10:detail.average<3?5:0,streak=Math.min(state.streak.count,REWARD.streakCap)*REWARD.streakCoins;
       gained=REWARD.todayCoins+accuracy+streak;xp=REWARD.todayXp;extra=state.streak.count>1?` · 🔥 ${state.streak.count} días seguidos`:'';
     }
-    const result=reward({xp,coins:gained});
+    const result=reward({xp,coins:gained,reason:detail.today?'reto':'archivo'});
     showToast(`Reto completado: +${gained} ≈ · +${xp} XP${extra}${storm}${chargeNote(full)}${levelNote(result)}${missionNote(done)}`);
   });
   document.addEventListener('faraday:duel',({detail})=>{
@@ -269,7 +270,7 @@
     const result=Chests.roll(type,{items:missing,pity:state.pity,random:dice});
     state.chests[type]--;state.pity=result.pity;state.stats.chests++;
     const rewards=result.rewards.map(reward=>{
-      if(reward.kind==='coins'){state.coins+=reward.amount;return reward}
+      if(reward.kind==='coins'){move(reward.amount,'cofres');return reward}
       state.owned.push(reward.key);const [itemSlot,id]=reward.key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
       return {...reward,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
     });
@@ -281,7 +282,7 @@
   // Comprar un cofre con faradios: como mucho Chests.BUY_CAP al día. Se abre en el momento.
   function buyChest(type){
     const chest=Chests.CHESTS[type];if(!chest||state.coins<chest.price||bought()>=Chests.BUY_CAP)return;
-    state.coins-=chest.price;state.bought={day:madrid(),count:bought()+1};grant(type);save();refresh();openChest(type);
+    move(-chest.price,'cofres-compra');state.bought={day:madrid(),count:bought()+1};grant(type);save();refresh();openChest(type);
   }
   // Pestaña Cofres: la batería, los cofres (abrir o comprar) y las probabilidades, siempre a la vista.
   function chestTab(){
@@ -377,7 +378,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.hasAttribute('data-cancel')){trying=null;draw();return}
     if(target.hasAttribute('data-buy')&&trying&&state.coins>=trying.price){
-      state.coins-=trying.price;state.owned.push(trying.slot+':'+trying.id);state.look={...look(),[trying.slot]:trying.id};
+      move(-trying.price,'tienda');state.owned.push(trying.slot+':'+trying.id);state.look={...look(),[trying.slot]:trying.id};
       showToast(`${trying.name}: ¡ya es tuyo!`);trying=null;save();refresh();return;
     }
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
@@ -388,7 +389,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       period.claimed.push(id);state.stats.missions++;const gained=MISSIONS[id].coins;let won='';
       // Las tres del día dan un cofre Chispa; las tres de la semana, un cofre Rayo. Se abre en el momento.
       if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;won=period===state.missions.day?'chispa':'rayo';if(won==='rayo')state.stats.weekSet=1;grant(won)}
-      const result=reward({xp:REWARD.missionXp,coins:gained});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
+      const result=reward({xp:REWARD.missionXp,coins:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
       if(won){tab='cofres';draw();openChest(won)}
     }
   });
@@ -404,8 +405,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const notes=[];let open=null;
     for(const prize of prizes){
       if(prize.kind==='bienvenida'){state.circuito.welcome=true;grant(prize.chest);open=prize.chest;notes.push(`¡Bienvenida al Circuito! Cofre Rayo y ${look().body==='mujer'?'gorro':'gorra'} Enchufe`)}
-      if(prize.kind==='conexion-invitado'){state.coins+=prize.coins;notes.push(`Ya estás conectado: +${prize.coins} ≈`)}
-      if(prize.kind==='conexion'){if(prize.chest){grant(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){state.coins+=prize.coins;notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
+      if(prize.kind==='conexion-invitado'){move(prize.coins,'referidos');notes.push(`Ya estás conectado: +${prize.coins} ≈`)}
+      if(prize.kind==='conexion'){if(prize.chest){grant(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){move(prize.coins,'referidos');notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
     }
     const before=state.circuito.n;if(Number.isInteger(connections)&&connections>before)state.circuito.n=connections;
     const body=look().body,unlocked=Avatar.CATALOG.filter(item=>Number.isInteger(item.circuito)&&item.circuito>before&&item.circuito<=state.circuito.n&&(!item.for||item.for===body));
@@ -434,6 +435,12 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   const LINK='casi-casi:progreso:cuenta';
   let link=stored(LINK)||{},linked=false,timer=0,sending=false,again=false;
   const keepLink=()=>{try{localStorage.setItem(LINK,JSON.stringify(link))}catch{}};
+  // Todo cambio de saldo pasa por aquí. Con cuenta, se apunta el motivo (link.moves) para que el servidor lo anote en su
+  // libro contable (decisión 0057); el desglose viaja con el siguiente guardado.
+  function move(amount,reason){
+    if(!amount)return;state.coins+=amount;
+    if(linked){link.moves??={};link.moves[reason]=(link.moves[reason]||0)+amount;if(!link.moves[reason])delete link.moves[reason];keepLink()}
+  }
   async function cloud(action,extra={}){
     const response=await fetch('/api/progreso',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({action,...extra}),signal:AbortSignal.timeout(10000)});
     if(!response.ok)throw Error('progreso '+response.status);
@@ -443,9 +450,11 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   async function push(){
     if(!linked)return;if(sending){again=true;return}
     sending=true;again=false;
-    const sent=state.coins,{coins:_,...rest}=state;
+    const sent=state.coins,moves={...link.moves},{coins:_,...rest}=state;
     try{
-      const {coins}=await cloud('guardar',{state:rest,delta:sent-(link.acked??0)});
+      const {coins}=await cloud('guardar',{state:rest,delta:sent-(link.acked??0),moves});
+      // Lo apuntado mientras viajaba la petición se queda para el siguiente guardado.
+      if(link.moves)for(const [reason,amount] of Object.entries(moves)){link.moves[reason]=(link.moves[reason]||0)-amount;if(!link.moves[reason])delete link.moves[reason]}
       // Lo ganado o gastado mientras viajaba la petición se conserva.
       state.coins=Math.max(0,coins+(state.coins-sent));link.acked=coins;keepLink();store();refresh();
     }catch{}finally{sending=false;if(again)schedule()}
@@ -476,12 +485,12 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
-  function spend(amount){if(!(amount>0)||state.coins<amount)return false;state.coins-=amount;save();refresh();return true}
+  function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
   window.Progress={look,spend,serverCoins,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
-  if(!state.welcome){state.welcome=true;state.coins+=REWARD.welcome}
+  if(!state.welcome){state.welcome=true;move(REWARD.welcome,'bienvenida')}
   // Un cofre Chispa de regalo para estrenar los cofres, también para quien ya jugaba antes de que existieran.
   if(!state.cofres){state.cofres=true;grant('chispa')}
   periods();save();refresh();booted=true;

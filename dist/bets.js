@@ -53,7 +53,7 @@ ${head}</section>`;
     // Cobro: al empezar (presentación o primera pregunta). Si el duelo ya terminó sin apunte, no se cobra nada.
     if(!ledger.duels[view.id]&&view.status==='playing'){
       const result=R.stake(ledger,view.id,id,{level:level(),coins:balance(),day:madrid(),now:Date.now()});
-      if(result.charged&&window.Progress?.spend?.(result.charged)){
+      if(result.charged&&window.Progress?.spend?.(result.charged,'apuestas')){
         store(result.ledger);ledger=result.ledger;
         window.showToast?.(`Apuesta ${R.TIERS[id].name}: −${int(result.charged)} ≈. Si ganas, te llevas ${int(result.charged*2)} ≈.`);
       }else if(result.reason!=='repetida')window.showToast?.(result.reason==='tope'?'Ya has hecho las apuestas de hoy: este duelo va sin apuesta.':'No te llegan los faradios: este duelo va sin apuesta.');
@@ -62,7 +62,7 @@ ${head}</section>`;
   }
   function pay(duelId,result){
     const before=load(),done=R.settle(before,duelId,result);if(done.ledger===before)return {...done,paid:0};
-    store(done.ledger);if(done.paid>0)window.Progress?.reward?.({coins:done.paid});
+    store(done.ledger);if(done.paid>0)window.Progress?.reward?.({coins:done.paid,reason:'apuestas'});
     return done;
   }
 

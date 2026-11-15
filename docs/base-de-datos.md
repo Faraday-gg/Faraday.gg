@@ -213,9 +213,39 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Funciones (sin permisos para `anon` ni `authenticated`; se llaman por `/rest/v1/rpc/` con la clave secreta):
 
-- `progress_save(p_player, p_state, p_delta, p_day, p_daily_cap, p_first_cap)`: guarda el progreso y suma `p_delta` al saldo, con tope diario para lo que se gana. Devuelve el saldo.
-- `progress_credit(p_player, p_amount)`: suma faradios (premio al autor). Devuelve el saldo.
+- `progress_save(p_player, p_state, p_delta, p_day, p_daily_cap, p_first_cap)`: guarda el progreso y suma `p_delta` al saldo, con tope diario para lo que se gana. Devuelve el saldo. La migración del libro contable la sustituye por otra con un parámetro más (`p_moves`).
+- `progress_credit(p_player, p_amount)`: suma faradios (premio al autor). Devuelve el saldo. La migración del libro contable la borra: la sustituye `wallet_move`.
 - `community_propose(...)` y `community_vote(...)`: comprueban las reglas, cobran del saldo e insertan, todo en la misma transacción. Devuelven `{coins}` o `{error}`.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Libro contable de faradios (migración `20261115120000_libro_contable`, **sin aplicar**)
+
+[Decisión 0057](decisiones/0057-libro-contable-de-faradios.md), `lib/comunidad.mjs`. Va **después** de `20261114120000_preguntas_comunidad`, porque usa `player_progress`. Si solo se aplica la primera, guardar el progreso y el premio al autor fallan.
+
+**`public.ledger`**: un apunte por cada cambio de saldo. No se modifica ni se borra; el saldo (`player_progress.coins`) es la suma de los apuntes del jugador.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Orden de los apuntes. |
+| `player_hash` | `text` | 64 caracteres hexadecimales | |
+| `amount` | `integer` | distinto de 0 | Positivo: faradios emitidos. Negativo: gastados. |
+| `reason` | `text` | `^[a-z0-9-]{1,32}$` | Motivo. Del navegador: `bienvenida`, `reto`, `archivo`, `duelos`, `nivel`, `misiones`, `cofres`, `cofres-compra`, `tienda`, `pistas`, `apuestas`, `referidos`, `otros`, `sin-desglose`, `tope` y `saldo-inicial`. Del servidor: `comunidad-proponer`, `comunidad-votar` y `comunidad-autor`. |
+| `source` | `text` | `servidor` o `navegador` | Quién calculó el movimiento. Lo del navegador es una declaración, no una prueba. |
+| `ref` | `text` | opcional | Lo que originó el apunte (id de la propuesta). Índice único `ledger_once` por `(player_hash, reason, ref)` cuando hay referencia: no se apunta dos veces. |
+| `balance` | `integer` | | Saldo tras el apunte. |
+| `day` | `date` | por defecto, hoy en `Europe/Madrid` | |
+| `created_at` | `timestamptz` | por defecto `now()` | |
+
+Índices `ledger_player` (`player_hash, id desc`) y `ledger_day` (`day, reason`).
+
+**`public.ledger_daily`** (vista): por día, motivo y origen, los faradios emitidos (`emitted`), los gastados (`spent`), cuántos jugadores (`players`) y cuántos apuntes (`moves`). Para medir la economía: `select * from ledger_daily where day >= current_date - 7 order by day, emitted desc;`.
+
+Funciones (sin permisos para `anon` ni `authenticated`):
+
+- `wallet_move(p_player, p_amount, p_reason, p_ref)`: mueve faradios desde el servidor y lo apunta. Devuelve `{coins}`; `{coins, repeated}` si ese motivo y referencia ya estaban apuntados, sin volver a mover nada; o `{error: 'saldo', coins}` si no llega para cobrar. Sustituye a `progress_credit`.
+- `progress_save(..., p_moves)`: como antes, y además apunta el desglose `{"motivo": cantidad}`. La primera subida se apunta como `saldo-inicial`; lo que el tope o el saldo mínimo recortan, como `tope`.
+- `community_propose(...)` y `community_vote(...)`: como antes, y apuntan lo cobrado con la propuesta como referencia.
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
@@ -293,6 +323,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261112010003` | [ligas](../supabase/migrations/20261112010003_ligas.sql) | Crea `leagues`, `league_members` (con el disparador del límite de 15) y `daily_results`, con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261112140721` | [referidos](../supabase/migrations/20261112140721_referidos.sql) | Crea `referral_codes` y `referrals` (Circuito de amigos), con RLS y sin permisos públicos. | 2026-11-12, por Luis con Claude Code |
 | `20261114120000` | [preguntas_comunidad](../supabase/migrations/20261114120000_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | **Pendiente**: rama `feat/preguntas-comunidad`, sin aplicar |
+| `20261115120000` | [libro_contable](../supabase/migrations/20261115120000_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily` y `wallet_move`; sustituye `progress_credit` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten cada movimiento. | **Pendiente**: rama `feat/libro-contable-faradios`, sin aplicar. Va después de `20261114120000` |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

@@ -58,6 +58,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0054](0054-inicio-de-sesion-con-apple-discord-y-twitch.md) | Inicio de sesión también con Apple, Discord y Twitch, con el mismo flujo OAuth que Google | Aceptada | 2026-11-14 |
 | [0055](0055-tokenomics-suscripcion-y-mercado.md) | Economía de faradios en el servidor, suscripción y mercado de artículos de colección entre jugadores | Aceptada | 2026-11-15 |
 | [0056](0056-cifras-de-la-economia-con-simulador.md) | Cifras de partida de la economía nueva, fijadas con un simulador de tres perfiles de jugador | Propuesta | 2026-11-15 |
+| [0057](0057-libro-contable-de-faradios.md) | Libro contable de faradios (cada movimiento con su motivo) y reparto de la fase 1 en cinco entregas | Propuesta | 2026-11-15 |
 
 ## Plantilla
 
