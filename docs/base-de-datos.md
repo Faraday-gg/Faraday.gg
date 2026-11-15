@@ -277,6 +277,27 @@ Desde esta decisión el servidor apunta también en `ledger` los motivos `mision
 
 Clave primaria `(player_hash, item)`. La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Ediciones de colección (migración `20261116120000_ediciones`, **sin aplicar**)
+
+[Decisión 0067](decisiones/0067-ediciones-de-coleccion.md), `lib/catalogo.mjs` y `lib/comunidad.mjs`. Las ediciones (nombre, tirada, precio, nivel y día de salida) no están en la base de datos: se definen en `dist/avatar.js`.
+
+**`public.collectibles`**: una fila por cada unidad numerada.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | |
+| `edition` | `text` | `^[a-z0-9-]{1,32}$` | El id de la edición en `dist/avatar.js` (`voltio`). |
+| `serial` | `integer` | > 0; único por edición | Número de serie: «n.º 17 de 500». |
+| `owner` | `text` | 64 caracteres hexadecimales | Quien la tiene ahora. Índice `collectibles_owner`. |
+| `minted_by` | `text` | 64 caracteres hexadecimales | Quien la compró al salir. |
+| `created_at` | `timestamptz` | por defecto `now()` | |
+
+**`public.edition_counters`**: `edition` (clave primaria) y `minted`, cuántas unidades se han emitido.
+
+**`public.edition_next(p_edition, p_total)`**: suma una unidad y devuelve su número de serie, o `null` si la tirada está completa. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
+
+La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -354,6 +375,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162701` | [libro_contable](../supabase/migrations/20261115162701_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily`, `wallet_move` y una `progress_save` de siete parámetros, y vuelve a crear `community_propose` y `community_vote` para que apunten cada movimiento. No borra las funciones antiguas. | 2026-11-15, por Luis con Claude Code |
 | `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
+| `20261116120000` | [ediciones](../supabase/migrations/20261116120000_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/ediciones-de-coleccion`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

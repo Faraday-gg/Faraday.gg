@@ -39,6 +39,17 @@
     ['gr','Grecia','blanco','azul'],['ch','Suiza','rojo','blanco'],['se','Suecia','amarillo','azul'],['pl','Polonia','blanco','rojo']
   ];
   const flagTops=prefix=>FLAGS.map(([code,country,color,trim])=>top('bandera-'+code,prefix+' '+country,200,'camiseta',color,trim,'#'+code));
+  // Ediciones de colección (decisión 0067): piezas de tirada cerrada y numerada, una por cuenta, que se compran con
+  // faradios desde el nivel `level` a partir del día `from` (hora de Madrid). No salen en cofres ni se venden en la
+  // tienda normal: por eso su precio va aquí (price) y no en la pieza. n = número de edición; total = unidades.
+  // La misma edición tiene una pieza por cuerpo; quien la compra tiene las dos.
+  // Estas dos primeras son de muestra, con formas y estampados que ya existían: las de verdad necesitan diseño propio.
+  const EDITIONS={
+    voltio:{id:'voltio',n:1,total:500,price:1200,level:10,from:'2026-11-15'},
+    amperio:{id:'amperio',n:2,total:500,price:1200,level:10,from:'2026-11-22'}
+  };
+  const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
+    top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
   const MEN=[
     top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
     top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
@@ -64,6 +75,7 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
+    ...editionTops(),
     // Exclusivas del Circuito de amigos (decisión 0038): la gorra, para quien entra invitado; el resto, por conexiones.
     hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
@@ -153,6 +165,7 @@
     top('uni-fuego','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
     top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
     top('sud-casi','Sudadera corta «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
+    ...editionTops(),
     hat('enchufe','Gorro Enchufe',0,'gorro','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Top Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
     top('sud-tesla','Sudadera corta Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
@@ -225,7 +238,9 @@
   const bodyOf=look=>look&&look.body==='mujer'?'mujer':'hombre',defaults=body=>DEFAULTS[body]||DEFAULT;
   const find=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
   // Piezas de un hueco que puede llevar un cuerpo: las suyas y las compartidas.
-  const pieces=(slot,body)=>CATALOG.filter(entry=>entry.slot===slot&&(!entry.for||entry.for===body));
+  // Las ediciones que aún no han salido no se enseñan.
+  const madridToday=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date());
+  const pieces=(slot,body)=>{const today=madridToday();return CATALOG.filter(entry=>entry.slot===slot&&(!entry.for||entry.for===body)&&!(entry.edition&&entry.edition.from>today))};
   // Un look siempre completo: las piezas desconocidas (de una versión anterior o más nueva) o del otro cuerpo pasan a las de
   // por defecto. Un look sin cuerpo (anterior a la decisión 0028) es de hombre.
   function normalize(look){
@@ -244,7 +259,7 @@
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi||entry.circuito?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;
@@ -259,5 +274,5 @@
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
   const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
-  window.Avatar={SLOTS,BODIES,CATALOG,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
+  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
 })();
