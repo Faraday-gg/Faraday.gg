@@ -1,6 +1,6 @@
 # 0067. Ediciones de colección: piezas numeradas de tirada cerrada
 
-- **Estado:** propuesta (código en la rama `feat/ediciones-de-coleccion`, montada sobre `feat/cifras-economia-nueva`; la migración `20261116120000_ediciones` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/ediciones-de-coleccion`, montada sobre `feat/cifras-economia-nueva`; la migración `20261115171046_ediciones` está **aplicada el 15 de noviembre de 2026**)
 - **Fecha:** 2026-11-15
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera entrega de la fase 3 («escasez»).
@@ -48,7 +48,7 @@ Además, el simulador ([0056](0056-cifras-de-la-economia-con-simulador.md), [006
 ### Código
 
 - `dist/avatar.js`: `EDITIONS`, las piezas y que no se enseñen antes de salir. `lib/catalogo.mjs`: `EDITIONS`.
-- `supabase/migrations/20261116120000_ediciones.sql`: `collectibles`, `edition_counters` y `edition_next`.
+- `supabase/migrations/20261115171046_ediciones.sql`: `collectibles`, `edition_counters` y `edition_next`.
 - `lib/comunidad.mjs`: acciones `ediciones` y `comprar-edicion`; `inventario` devuelve también las unidades. `lib/stores.mjs`: lo mismo contra Supabase.
 - `dist/progress.js`: la pieza en el armario, la compra y el número de serie.
 - `tests/ediciones.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
@@ -63,7 +63,7 @@ Además, el simulador ([0056](0056-cifras-de-la-economia-con-simulador.md), [006
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** `20261116120000_ediciones` (con la confirmación de Luis). Sin ella, las ediciones se ven en el armario pero comprar falla.
+- **La migración** `20261115171046_ediciones` **está aplicada** desde el 15 de noviembre de 2026 (el archivo se renombró con la versión que registró Supabase).
 - **Es un compromiso de contenido.** El simulador cuenta con una edición a la semana; con dos piezas de muestra el efecto en la economía es pequeño.
 - **Con pocos jugadores no se agotará ninguna.** 500 unidades es mucho hoy; la tirada de cada edición se elige al definirla.
 - **«Una por cuenta» no es «una por persona»**, como ya recogía la 0055.
