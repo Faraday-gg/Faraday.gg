@@ -186,7 +186,8 @@
       const accuracy=detail.average<1.5?15:detail.average<2?10:detail.average<3?5:0,streak=Math.min(state.streak.count,REWARD.streakCap)*REWARD.streakCoins;
       gained=REWARD.todayCoins+accuracy+streak;xp=REWARD.todayXp;extra=state.streak.count>1?` · 🔥 ${state.streak.count} días seguidos`:'';
     }
-    const result=reward({xp,coins:gained,reason:detail.today?'reto':'archivo'});
+    // Con cuenta, los faradios del reto los calcula y los paga el servidor (decisión 0058): aquí solo se piden.
+    const result=reward({xp,coins:linked?0:gained,reason:detail.today?'reto':'archivo'});if(linked)claim(detail.day);
     showToast(`Reto completado: +${gained} ≈ · +${xp} XP${extra}${storm}${chargeNote(full)}${levelNote(result)}${missionNote(done)}`);
   });
   document.addEventListener('faraday:duel',({detail})=>{
@@ -443,10 +444,29 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   async function cloud(action,extra={}){
     const response=await fetch('/api/progreso',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',body:JSON.stringify({action,...extra}),signal:AbortSignal.timeout(10000)});
-    if(!response.ok)throw Error('progreso '+response.status);
+    if(!response.ok)throw Object.assign(Error('progreso '+response.status),{status:response.status});
     return await response.json();
   }
   function schedule(){if(!linked)return;clearTimeout(timer);timer=setTimeout(push,1500)}
+  // Premios que paga el servidor (decisión 0058). link.claims = {fecha: intentos} de las jornadas completadas que aún no
+  // se han cobrado: se piden al momento y, si falla la red o el servidor todavía no tiene la última respuesta, otra vez
+  // en el siguiente guardado o al volver a entrar. El servidor paga cada jornada una sola vez.
+  let collecting=false;
+  function claim(day){link.claims??={};link.claims[day]??=0;keepLink();setTimeout(collect,1500)}
+  async function collect(){
+    if(!linked||collecting||!link.claims)return;collecting=true;
+    try{
+      for(const day of Object.keys(link.claims)){
+        try{const {coins}=await cloud('premio',{day});if(link.claims)delete link.claims[day];serverCoins(coins)}
+        catch(error){
+          if(!link.claims)break;
+          // 409: el servidor aún no ve el reto completo; se reintenta unas cuantas veces. Otros 4xx: no hay nada que cobrar.
+          if(error.status===409){if(++link.claims[day]>=5)delete link.claims[day]}else if(error.status>=400&&error.status<500)delete link.claims[day];
+        }
+      }
+      keepLink();
+    }finally{collecting=false}
+  }
   async function push(){
     if(!linked)return;if(sending){again=true;return}
     sending=true;again=false;
@@ -457,7 +477,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       if(link.moves)for(const [reason,amount] of Object.entries(moves)){link.moves[reason]=(link.moves[reason]||0)-amount;if(!link.moves[reason])delete link.moves[reason]}
       // Lo ganado o gastado mientras viajaba la petición se conserva.
       state.coins=Math.max(0,coins+(state.coins-sent));link.acked=coins;keepLink();store();refresh();
-    }catch{}finally{sending=false;if(again)schedule()}
+    }catch{}finally{sending=false;if(again)schedule();else collect()}
   }
   // Saldo que devuelve el servidor tras cobrar algo (votos y propuestas de la comunidad).
   function serverCoins(coins){
@@ -473,8 +493,10 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       const other=link.owner!==owner;hydrate({...remote.state,coins:remote.coins});
       if(other&&booted)showToast('Hemos recuperado el avatar y los faradios de tu cuenta.');
     }else if(has)state.coins=Math.max(0,remote.coins+(state.coins-(link.acked??remote.coins)));
-    link={owner,acked:has?remote.coins:remote.coins??0};keepLink();linked=true;store();refresh();
-    if(!has||state.savedAt>(remote.state.savedAt||0))push();
+    // Si es la misma cuenta de antes, se conserva lo que quedó pendiente de apuntar (moves) y de cobrar (claims).
+    const kept=link.owner===owner?{moves:link.moves,claims:link.claims}:{};
+    link={owner,acked:has?remote.coins:remote.coins??0,...kept};keepLink();linked=true;store();refresh();
+    if(!has||state.savedAt>(remote.state.savedAt||0))push();else collect();
     document.dispatchEvent(new CustomEvent('faraday:progreso'));
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).

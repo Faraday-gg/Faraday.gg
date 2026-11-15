@@ -26,6 +26,8 @@ La [0056](0056-cifras-de-la-economia-con-simulador.md) dejó pendiente medir la 
 | 4. Cofres, tienda y pistas | El sorteo, la compra y un inventario con una fila por pieza | `cofres`, `cofres-compra`, `tienda`, `pistas`, `referidos` |
 | 5. Cierre | Migra saldos y piezas con tope; el servidor deja de aceptar ganancias declaradas | Todos |
 
+> **Nota (2026-11-15):** la [0058](0058-premios-del-reto-en-el-servidor.md) corrige este reparto: las misiones y el premio por nivel pasan de la entrega 2 a la 3, con los duelos.
+
 Cada entrega quita motivos de la lista que el navegador puede declarar. Cuando la lista queda vacía, el saldo ya no se puede falsear.
 
 ### Esta entrega: el libro

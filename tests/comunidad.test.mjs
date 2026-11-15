@@ -156,7 +156,9 @@ try{
   r=await progress('guardar',eva,{state:{v:1},delta:45,moves:{reto:35,misiones:20,pistas:-100,cofres:60,inventado:999,tienda:'x'}});
   assert.equal(r.data.coins,start+45);
   moves=(await ledger(eva)).slice(0,5);
-  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{reto:35,misiones:20,pistas:-100,cofres:60,'sin-desglose':30});
+  // «reto» ya no es un motivo que pueda declarar el navegador (decisión 0058): va a «sin-desglose».
+  moves=(await ledger(eva)).slice(0,4);
+  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{misiones:20,pistas:-100,cofres:60,'sin-desglose':65});
   assert.ok(moves.every(move=>move.source==='navegador'&&move.day==='2026-11-23'));
   assert.equal(moves[0].balance,start+45);
   assert.equal(total(await ledger(eva)),start+45);
