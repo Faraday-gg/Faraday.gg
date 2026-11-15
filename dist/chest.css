@@ -168,7 +168,6 @@ body.chest-on{overflow:hidden}
 .card-front em,.chest-loot small{font-size:11px;font-style:normal;color:#666a6d}
 .card-coin{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;border:3px solid #1b1f27;background:#ffdb70;font:700 30px/1 var(--display);color:#1b1f27}
 .card-amount{font:700 30px/1 var(--num,var(--display))}
-.chest-next{margin-top:4px}
 .chest-stage .game-primary{background:#ffdb70;border-color:#ffdb70;color:#1b1f27}
 .chest-stage .game-primary:hover{background:#ffe89a}
 .chest-stage .game-secondary{border-color:#fffdf788;color:#fffdf7;background:transparent}
