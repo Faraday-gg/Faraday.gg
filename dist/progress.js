@@ -115,7 +115,8 @@
     const before=levelOf(state.xp);state.xp+=xp;const after=levelOf(state.xp),chests=[];
     for(let level=before+1;level<=after;level++){const type=REWARD.levelChest(level);grant(type);chests.push(Chests.CHESTS[type].name)}
     const levelCoins=(after-before)*REWARD.levelCoins;
-    move(gained,reason);move(levelCoins,'nivel');save();refresh();
+    // Con cuenta, el premio por nivel lo paga el servidor (decisión 0061).
+    move(gained,reason);move(linked?0:levelCoins,'nivel');save();refresh();
     const body=look().body,unlocked=after>before?Avatar.CATALOG.filter(item=>item.level>before&&item.level<=after&&(!item.for||item.for===body)):[];
     return {levelUp:after>before,level:after,levelCoins,unlocked,chests};
   }
@@ -385,13 +386,19 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
     if(target.dataset.claim){
-      const id=target.dataset.claim,period=periods().find(p=>p.ids.includes(id));
+      const id=target.dataset.claim;
+      const take=()=>{
+      const period=periods().find(p=>p.ids.includes(id));
       if(!period||period.claimed.includes(id)||(period.progress[id]||0)<MISSIONS[id].goal)return;
       period.claimed.push(id);state.stats.missions++;const gained=MISSIONS[id].coins;let won='';
       // Las tres del día dan un cofre Chispa; las tres de la semana, un cofre Rayo. Se abre en el momento.
       if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;won=period===state.missions.day?'chispa':'rayo';if(won==='rayo')state.stats.weekSet=1;grant(won)}
-      const result=reward({xp:REWARD.missionXp,coins:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
+      const result=reward({xp:REWARD.missionXp,coins:linked?0:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
       if(won){tab='cofres';draw();openChest(won)}
+      };
+      // Con cuenta, la misión la comprueba y la paga el servidor (decisión 0061); aquí se marca y se da el cofre.
+      if(!linked)take();
+      else if(!target.disabled){target.disabled=true;serverMission(id).then(coins=>{target.disabled=false;if(coins!=null){take();serverCoins(coins)}})}
     }
   });
   $('#profile-close').addEventListener('click',close);
@@ -481,6 +488,15 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       // Lo ganado o gastado mientras viajaba la petición se conserva.
       state.coins=Math.max(0,coins+(state.coins-sent));link.acked=coins;keepLink();store();refresh();
     }catch{}finally{sending=false;if(again)schedule();else collect()}
+  }
+  // Pide al servidor que pague una misión completada. Devuelve el saldo, o null si no la da por completada o falla.
+  // Espera a que no haya un guardado ni un cobro en marcha, para que no se cruce con ellos.
+  async function serverMission(id){
+    while(sending||collecting)await new Promise(resolve=>setTimeout(resolve,150));
+    collecting=true;
+    try{return (await cloud('mision',{id})).coins}
+    catch(error){showToast(error.status===409?'El servidor todavía no da esa misión por completada. Prueba en unos segundos.':'No se pudo recoger la misión. Inténtalo otra vez.');return null}
+    finally{collecting=false;if(again)schedule()}
   }
   // Saldo que devuelve el servidor tras cobrar algo (votos y propuestas de la comunidad).
   function serverCoins(coins){

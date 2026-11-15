@@ -58,7 +58,7 @@ const ledger=async player=>(await progress('movimientos',player)).data.moves;
 
 try{
   const luis=randomUUID(),ana=randomUUID();
-  await progress('guardar',luis,{state:{v:1},delta:100});
+  await progress('guardar',luis,{state:{v:1,xp:43500},delta:100});
 
   // Sin cuenta no hay premio del servidor; con cuenta, solo si el reto está completo.
   assert.equal((await progress('premio',null,{day:'2026-11-16'})).status,401);
@@ -97,17 +97,17 @@ try{
   assert.equal((await progress('premio',luis,{day:'2026-11-20'})).data.amount,20+15+4,'Racha de dos: el 19 y el 20');
 
   // Los premios de un jugador no los cobra otro, y los apuntes siguen sumando el saldo.
-  await progress('guardar',ana,{state:{v:1},delta:0});
+  await progress('guardar',ana,{state:{v:1,xp:43500},delta:0});
   assert.equal((await progress('premio',ana,{day:'2026-11-20'})).status,409);
   moves=await ledger(luis);
   assert.equal(moves.reduce((sum,move)=>sum+move.amount,0),(await progress('leer',luis)).data.coins);
-  assert.deepEqual(moves.filter(move=>move.source==='servidor').map(move=>[move.reason,move.ref,move.amount]).reverse(),
+  assert.deepEqual(moves.filter(move=>move.source==='servidor'&&move.reason!=='nivel').map(move=>[move.reason,move.ref,move.amount]).reverse(),
     [['reto','2026-11-16',37],['reto','2026-11-17',34],['reto','2026-11-19',22],['archivo','2026-11-18',5],['reto','2026-11-20',39]]);
 
   // Duelos (decisión 0059). El servidor mira el duelo guardado: quién ganó, si fue contra el bot y si alguien abandonó.
   clock=at('2026-11-21');
   const eva=randomUUID(),duel=(player,id)=>progress('premio',player,{duel:id});
-  await progress('guardar',eva,{state:{v:1},delta:0});
+  await progress('guardar',eva,{state:{v:1,xp:43500},delta:0});
   const start=(await progress('leer',luis)).data.coins;
   let id=await finished(luis,eva,0);
   assert.equal((await duel(null,id)).status,401);
@@ -143,7 +143,7 @@ try{
   // Apuestas en bote (decisión 0060): la cobra el servidor al empezar y la paga al terminar.
   clock=at('2026-11-23');
   const leo=randomUUID(),mar=randomUUID(),bet=(player,id)=>progress('apostar',player,{duel:id}),cash=(player,id)=>progress('cobrar-apuesta',player,{duel:id});
-  await progress('guardar',leo,{state:{v:1},delta:1000});await progress('guardar',mar,{state:{v:1},delta:100});
+  await progress('guardar',leo,{state:{v:1,xp:43500},delta:1000});await progress('guardar',mar,{state:{v:1,xp:43500},delta:100});
   // Un duelo en juego, en su primera pregunta, con la apuesta de cada uno.
   async function live(first,second,betA,betB){
     const id=randomUUID(),one=(player,tier)=>player==='bot'?{hash:'bot',bot:true,bet:null}:{hash:hashOf(player),bet:tier};
