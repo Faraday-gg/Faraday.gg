@@ -63,6 +63,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0059](0059-premios-de-los-duelos-en-el-servidor.md) | El servidor calcula y paga los faradios de los duelos; la entrega 3 de la fase 1 se parte en tres | Propuesta | 2026-11-15 |
 | [0060](0060-apuestas-en-bote.md) | Con cuenta, las apuestas son un bote entre los dos jugadores que lleva el servidor, con un 10 % destruido | Propuesta | 2026-11-15 |
 | [0061](0061-experiencia-y-misiones-en-el-servidor.md) | El servidor lleva la experiencia, el nivel y las misiones, y paga sus faradios | Propuesta | 2026-11-15 |
+| [0062](0062-tienda-y-pistas-en-el-servidor.md) | El servidor cobra la tienda y las pistas al precio de su catálogo, y empieza el inventario de piezas | Propuesta | 2026-11-15 |
 
 ## Plantilla
 
