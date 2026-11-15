@@ -56,6 +56,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0052](0052-preguntas-de-la-comunidad.md) | Preguntas de la comunidad y progreso en la cuenta | Propuesta | 2026-11-14 |
 | [0053](0053-bailes-del-avatar.md) | Siete bailes del avatar, de pasos de baile social y programados desde cero | Propuesta | 2026-11-14 |
 | [0054](0054-inicio-de-sesion-con-apple-discord-y-twitch.md) | Inicio de sesión también con Apple, Discord y Twitch, con el mismo flujo OAuth que Google | Aceptada | 2026-11-14 |
+| [0055](0055-tokenomics-suscripcion-y-mercado.md) | Economía de faradios en el servidor, suscripción y mercado de artículos de colección entre jugadores | Aceptada | 2026-11-15 |
 
 ## Plantilla
 
