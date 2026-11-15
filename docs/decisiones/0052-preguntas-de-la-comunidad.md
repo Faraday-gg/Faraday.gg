@@ -5,6 +5,8 @@
 - **Estado:** propuesta (rama `feat/preguntas-comunidad`; la migración `20261115162316_preguntas_comunidad` está **aplicada el 15 de noviembre de 2026**)
 - **Modifica:** la generación diaria de la [decisión 0017](0017-jornada-diaria-generada-con-openai.md) (los lunes), los faradios de la [0024](0024-avatar-faradios-y-misiones.md) (con cuenta, también en el servidor) y la cuenta de la [0022](0022-inicio-de-sesion-desde-el-servidor.md)
 
+> **Nota (2026-11-15):** la [0065](0065-cierre-de-la-economia-en-el-servidor.md) quita el tope de 1.500 ≈ al día (el navegador ya no suma ganancias) y cambia el de 5.000 ≈ de la primera vez por uno que depende de los días jugados.
+
 ## Contexto
 Luis quiere que los jugadores propongan preguntas, que se voten y que cada lunes salgan en el reto diario las 3 mejores de la semana. La IA busca la respuesta y explica cómo se llega a ella, para que todo el mundo lo vea al responder. Pidió además:
 

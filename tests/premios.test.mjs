@@ -42,7 +42,7 @@ async function finished(first,second,winner,reason='rondas'){
   await duels.create({id,code:id.slice(0,6).toUpperCase(),public:false,status:'finished',createdAt:clock,seenAt:clock,players:second?[one(first),one(second)]:[one(first)],questions:['q'],rounds:[{}],winner,reason,next:null});
   return id;
 }
-const api=createApi({store:{...fileStore(path.join(directory,'answers.json')),duels},persistDays:false,now:()=>clock,auth,log:()=>{}});
+const api=createApi({playedDays:async()=>200,store:{...fileStore(path.join(directory,'answers.json')),duels},persistDays:false,now:()=>clock,auth,log:()=>{}});
 async function post(route,body,player){
   const headers={'Content-Type':'application/json'};if(player)headers.cookie='faraday_sesion='+player;
   const response=await api.handle(new Request('http://casi.test/api/'+route,{method:'POST',headers,body:JSON.stringify(body)}));

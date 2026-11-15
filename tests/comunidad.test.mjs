@@ -18,7 +18,7 @@ let clock=at('2026-11-16');
 const auth={async current(request,read){const player=read(request,'faraday_sesion');return player?{account:{id:'u-'+player,email:'x@y.z',player},cookies:[]}:null}};
 let moderation=null;
 const store=fileStore(path.join(directory,'answers.json'));
-const api=createApi({store,persistDays:false,now:()=>clock,auth,log:()=>{},moderate:async proposal=>moderation?moderation(proposal):{ok:true,reason:'',title:proposal.title,unit:proposal.unit}});
+const api=createApi({playedDays:async()=>200,store,persistDays:false,now:()=>clock,auth,log:()=>{},moderate:async proposal=>moderation?moderation(proposal):{ok:true,reason:'',title:proposal.title,unit:proposal.unit}});
 async function post(route,body,player){
   const headers={'Content-Type':'application/json'};if(player)headers.cookie='faraday_sesion='+player;
   const response=await api.handle(new Request('http://casi.test/api/'+route,{method:'POST',headers,body:JSON.stringify(body)}));
@@ -48,17 +48,17 @@ try{
 
   // Progreso con cuenta: la primera vez se acepta el saldo (con tope); después, las ganancias tienen tope diario.
   assert.deepEqual((await progress('leer',luis)).data,{state:null,coins:null});
-  r=await progress('guardar',luis,{state:{v:1,xp:50,coins:999999},delta:300});
-  assert.equal(r.data.coins,300,'La primera vez entra lo que dice el navegador');
-  r=await progress('leer',luis);assert.equal(r.data.coins,300);assert.equal(r.data.state.xp,50);assert.equal(r.data.state.coins,undefined,'El saldo no va dentro del estado');
+  r=await progress('guardar',luis,{state:{v:1,xp:50,coins:999999},delta:400});
+  assert.equal(r.data.coins,400,'La primera vez entra lo que dice el navegador, hasta lo que dan sus días jugados');
+  r=await progress('leer',luis);assert.equal(r.data.coins,400);assert.equal(r.data.state.xp,50);assert.equal(r.data.state.coins,undefined,'El saldo no va dentro del estado');
   r=await progress('guardar',luis,{state:{v:1,xp:60},delta:RULES.dailyGain+5000});
-  assert.equal(r.data.coins,300+RULES.dailyGain,'Tope diario de ganancias');
+  assert.equal(r.data.coins,400,'El navegador ya no suma ganancias');
   r=await progress('guardar',luis,{state:{v:1,xp:60},delta:100});
-  assert.equal(r.data.coins,300+RULES.dailyGain,'Tope ya gastado hoy');
+  assert.equal(r.data.coins,400);
   r=await progress('guardar',luis,{state:{v:1,xp:60},delta:-200});
-  assert.equal(r.data.coins,100+RULES.dailyGain,'Gastar siempre resta');
+  assert.equal(r.data.coins,200,'Gastar siempre resta');
   clock=at('2026-11-17');
-  r=await progress('guardar',luis,{state:{v:1,xp:70},delta:100});assert.equal(r.data.coins,200+RULES.dailyGain,'Al día siguiente vuelve a haber tope');
+  r=await progress('guardar',luis,{state:{v:1,xp:70},delta:100});assert.equal(r.data.coins,200,'Al día siguiente tampoco: el navegador ya no suma (decisión 0065)');assert.equal(RULES.dailyGain,0);
   assert.equal((await progress('guardar',luis,{state:[1,2],delta:0})).status,400);
   assert.equal((await post('progreso',{action:'guardar',state:{big:'x'.repeat(RULES.stateBytes)},delta:0},luis)).status,413);
 
@@ -66,13 +66,13 @@ try{
   await progress('guardar',ana,{state:{v:1},delta:RULES.voteCost*2});
   assert.equal((await ask(ana,'¿Cuántos metros mide la torre Eiffel?')).data.code,'saldo','Ana no llega a 50');
   r=await ask(luis,'¿Cuántos metros mide la torre Eiffel?',{name:'  Luis <>  '});
-  assert.equal(r.status,200);assert.equal(r.data.coins,200+RULES.dailyGain-RULES.proposeCost);
+  assert.equal(r.status,200);assert.equal(r.data.coins,200-RULES.proposeCost);
   assert.equal((await ask(luis,'Pregunta sin nombre de autor',{name:'  '})).status,400);
   moderation=async()=>({ok:false,reason:'No tiene una cifra única.',title:'',unit:''});
   r=await ask(luis,'¿Cuál es la mejor canción de la historia?');
   assert.equal(r.status,422);assert.equal(r.data.error,'No tiene una cifra única.');
   moderation=null;
-  assert.equal((await progress('leer',luis)).data.coins,200+RULES.dailyGain-RULES.proposeCost,'Si se rechaza no se cobra');
+  assert.equal((await progress('leer',luis)).data.coins,200-RULES.proposeCost,'Si se rechaza no se cobra');
   await ask(luis,'¿Cuántos litros de agua caben en una piscina olímpica?');
   await ask(luis,'¿Cuántos pasos hay de Madrid a Lisboa?');
   assert.equal((await ask(luis,'¿Cuántas hojas tiene un roble adulto?')).data.code,'limite');
@@ -154,16 +154,16 @@ try{
   // El navegador desglosa el cambio por motivo; lo desconocido o lo que falte va a «sin-desglose».
   const start=(await progress('leer',eva)).data.coins;
   r=await progress('guardar',eva,{state:{v:1},delta:45,moves:{reto:35,referidos:20,otros:-100,bienvenida:60,inventado:999,tienda:'x'}});
-  assert.equal(r.data.coins,start+45);
+  assert.equal(r.data.coins,start,'Lo que declara el navegador ya no se suma');
   moves=(await ledger(eva)).slice(0,5);
   // «reto» ya no es un motivo que pueda declarar el navegador (decisión 0058): va a «sin-desglose».
-  moves=(await ledger(eva)).slice(0,3);
-  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{otros:-100,bienvenida:60,'sin-desglose':85});
+  moves=(await ledger(eva)).slice(0,4);
+  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{otros:-100,bienvenida:60,'sin-desglose':85,tope:-45});
   assert.ok(moves.every(move=>move.source==='navegador'&&move.day==='2026-11-23'));
-  assert.equal(moves[0].balance,start+45);
-  assert.equal(total(await ledger(eva)),start+45);
+  assert.equal(moves[0].balance,start);
+  assert.equal(total(await ledger(eva)),start);
   // Gastar más de lo que hay no deja el saldo en negativo, y el recorte se apunta.
-  r=await progress('guardar',eva,{state:{v:1},delta:-(start+45)-70,moves:{tienda:-(start+45)-70}});
+  r=await progress('guardar',eva,{state:{v:1},delta:-start-70,moves:{otros:-start-70}});
   assert.equal(r.data.coins,0);
   moves=await ledger(eva);assert.deepEqual([moves[0].reason,moves[0].amount,moves[0].balance],['tope',70,0]);assert.equal(total(moves),0);
 

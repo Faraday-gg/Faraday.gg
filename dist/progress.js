@@ -538,10 +538,17 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const before=chestTotal();
     for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
     if(Number.isFinite(data.charge))state.charge=data.charge;
+    // La experiencia también es la del servidor (decisión 0065): así el nivel que se ve es el que cuenta.
+    if(Number.isInteger(data.xp)&&data.xp>=0)state.xp=data.xp;
     store();refresh();
     if(!quiet&&chestTotal()>before)showToast(chestTotal()-before===1?'¡Tienes un cofre nuevo!':`¡Tienes ${chestTotal()-before} cofres nuevos!`);
   }
-  async function syncServer(){if(!linked)return;try{applyServer(await cloud('estado'))}catch{}}
+  async function syncServer(){if(!linked)return false;try{applyServer(await cloud('estado'));return true}catch{return false}}
+  // El armario de quien tiene cuenta es el inventario del servidor (decisión 0065): se copia al entrar.
+  async function syncItems(){
+    if(!await syncServer())return;
+    try{const {items}=await cloud('inventario');if(Array.isArray(items)){state.owned=items.map(one=>one.item).filter(key=>typeof key==='string');store();refresh()}}catch{}
+  }
   // Pide algo al servidor que cambia el saldo (recoger una misión, comprar, usar una pista). Devuelve su respuesta, o
   // null si falla (y avisa). Espera a que no haya un guardado ni un cobro en marcha, para no cruzarse con ellos.
   async function serverAsk(action,extra,failed,notYet=failed){
@@ -575,8 +582,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     // Si es la misma cuenta de antes, se conserva lo que quedó pendiente de apuntar (moves) y de cobrar (claims).
     const kept=link.owner===owner?{moves:link.moves,claims:link.claims}:{};
     link={owner,acked:has?remote.coins:remote.coins??0,...kept};keepLink();linked=true;store();refresh();
-    if(!has||state.savedAt>(remote.state.savedAt||0))push();else collect();
-    syncServer();
+    if(!has||state.savedAt>(remote.state.savedAt||0))await push();else collect();
+    syncItems();
     document.dispatchEvent(new CustomEvent('faraday:progreso'));
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).

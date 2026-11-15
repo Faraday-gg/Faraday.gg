@@ -28,7 +28,7 @@ let clock=at('2026-11-16'),seed=7;
 const random=()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646};
 const auth={async current(request,read){const player=read(request,'faraday_sesion');return player?{account:{id:'u-'+player,email:'x@y.z',player},cookies:[]}:null}};
 const duels=memoryDuels(),hashOf=player=>createHash('sha256').update(player).digest('hex');
-const api=createApi({store:{...fileStore(path.join(directory,'answers.json')),duels},persistDays:false,now:()=>clock,random,auth,log:()=>{}});
+const api=createApi({playedDays:async()=>200,store:{...fileStore(path.join(directory,'answers.json')),duels},persistDays:false,now:()=>clock,random,auth,log:()=>{}});
 async function post(route,body,player){
   const headers={'Content-Type':'application/json'};if(player)headers.cookie='faraday_sesion='+player;
   const response=await api.handle(new Request('http://casi.test/api/'+route,{method:'POST',headers,body:JSON.stringify(body)}));

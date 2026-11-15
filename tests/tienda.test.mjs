@@ -26,7 +26,7 @@ assert.ok(!REASONS.includes('tienda')&&!REASONS.includes('pistas'));
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-tienda-'));
 const auth={async current(request,read){const player=read(request,'faraday_sesion');return player?{account:{id:'u-'+player,email:'x@y.z',player},cookies:[]}:null}};
-const api=createApi({store:fileStore(path.join(directory,'answers.json')),persistDays:false,now:()=>Date.parse('2026-11-16T09:00:00Z'),auth,log:()=>{}});
+const api=createApi({playedDays:async()=>200,store:fileStore(path.join(directory,'answers.json')),persistDays:false,now:()=>Date.parse('2026-11-16T09:00:00Z'),auth,log:()=>{}});
 async function post(body,player){
   const headers={'Content-Type':'application/json'};if(player)headers.cookie='faraday_sesion='+player;
   const response=await api.handle(new Request('http://casi.test/api/progreso',{method:'POST',headers,body:JSON.stringify(body)}));
