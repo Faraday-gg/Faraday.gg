@@ -300,6 +300,33 @@ Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-
 
 La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Mercado (migración `20261116130000_mercado`, **sin aplicar**)
+
+[Decisión 0073](decisiones/0073-mercado-de-ediciones.md), `lib/mercado.mjs` y `lib/comunidad.mjs`.
+
+**`public.listings`**: un anuncio a precio fijo de una unidad de `collectibles`.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes del libro. |
+| `collectible_id` | `bigint` | referencia a `collectibles(id)` | Índice único `listings_active`: una unidad solo tiene un anuncio activo. |
+| `edition`, `serial` | `text`, `integer` | como en `collectibles` | Copia, para leer el tablón sin cruzar tablas. |
+| `seller` | `text` | 64 caracteres hexadecimales | Quien vende. Mientras el anuncio está activo la unidad sigue siendo suya (`collectibles.owner`), pero en depósito. |
+| `price` | `integer` | de 1 a 1.000.000 | |
+| `fee` | `integer` | ≥ 0, por defecto 0 | La comisión destruida al venderse. |
+| `status` | `text` | `activo`, `vendido` o `retirado` | |
+| `buyer` | `text` | opcional | Quien la compró. |
+| `seller_seen` | `boolean` | por defecto `false` | El vendedor ya ha visto el aviso de la venta. |
+| `created_at`, `closed_at` | `timestamptz` | | |
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo:
+
+- `market_list(p_seller, p_edition, p_serial, p_price, p_max)`: publica un anuncio. Devuelve `{id}` o `{error}`: `no-tuya`, `anunciada` o `tope`.
+- `market_cancel(p_listing, p_seller)`: retira un anuncio activo del vendedor.
+- `market_buy(p_listing, p_buyer, p_fee_percent)`: la compra entera. Bloquea el anuncio, los dos saldos y la unidad; cobra al comprador (apunte `mercado-compra`), paga al vendedor el precio menos la comisión (`mercado-venta`), cambia `collectibles.owner` y cierra el anuncio. Devuelve `{coins, edition, serial, price, fee}` o `{error}`: `cerrado`, `propio` o `saldo`.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -379,6 +406,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
+| `20261116130000` | [mercado](../supabase/migrations/20261116130000_mercado.sql) | Crea `listings`, `market_list`, `market_cancel` y `market_buy` (mercado de ediciones), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/mercado`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
