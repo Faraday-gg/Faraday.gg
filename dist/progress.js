@@ -66,7 +66,7 @@
     }catch{}
     if(!Number.isFinite(state.xp)||state.xp<0)state.xp=0;if(!Number.isFinite(state.coins)||state.coins<0)state.coins=0;
     if(!Array.isArray(state.owned))state.owned=[];if(!Array.isArray(state.days))state.days=[];if(!state.closet||typeof state.closet!=='object')state.closet={};
-    if(!state.chests||typeof state.chests!=='object')state.chests={};
+    if(!state.chests||typeof state.chests!=='object')state.chests={};if(!state.editions||typeof state.editions!=='object')state.editions={};
     for(const type of Chests.TYPES)if(!Number.isInteger(state.chests[type])||state.chests[type]<0)state.chests[type]=0;
     if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
     if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
@@ -92,7 +92,9 @@
   const info=(xp=state.xp)=>{const level=levelOf(xp),from=levelStart(level),to=levelStart(level+1);return {level,done:xp-from,need:to-from,ratio:(xp-from)/(to-from)}};
   // casi = pieza exclusiva que se desbloquea con ese número de «Casi casi»: ni se compra ni sale en cofres (decisión 0030).
   const circuit=item=>item.circuito==='bienvenida'?state.circuito.welcome:state.circuito.n>=item.circuito;
-  const owns=item=>(!item.price&&!item.level&&!item.casi&&!item.circuito)||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
+  // Ediciones de colección (decisión 0067): se tiene la pieza si se tiene una unidad de su edición (state.editions = {edición: n.º de serie}).
+  const serialOf=item=>item.edition&&state.editions?state.editions[item.edition.id]||0:0;
+  const owns=item=>(!item.price&&!item.level&&!item.casi&&!item.circuito&&!item.edition)||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
 
@@ -259,9 +261,24 @@
   // Carta de la tienda: el color dice la rareza; abajo, lo que cuesta, si ya es tuya o qué hace falta para desbloquearla.
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
-    const gate=own?'':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
-    const status=worn?'<span class="tile-state on">Puesto</span>':own?'<span class="tile-state">Tuya</span>':gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
+    const gate=own||item.edition?'':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
+    const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
     return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
+  }
+  // Lo que se dice de una edición de colección al probarla, y el botón de compra si se puede (decisión 0067).
+  // editionInfo = {edición: {left}} que da el servidor al abrir el perfil.
+  let editionInfo={};
+  function editionTry(item,missing){
+    const edition=item.edition,left=editionInfo[edition.id]?.left;
+    const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''}</p>`;
+    if(!linked)return note+'<p class="profile-try-note">Las ediciones se compran con cuenta: entra para conseguir la tuya.</p>';
+    if(left===0)return note;
+    if(levelOf(state.xp)<edition.level)return note+`<p class="profile-try-note">Se compra desde el nivel ${edition.level}.</p>`;
+    return note+`<button type="button" class="game-primary" data-buy-edition${missing>0?' disabled':''}>${missing>0?`Te faltan ${coins(missing)}`:`Comprar · ${coins(edition.price)}`}</button>`;
+  }
+  async function syncEditions(){
+    if(!linked)return;
+    try{const {editions}=await cloud('ediciones');editionInfo=Object.fromEntries(editions.map(one=>[one.id,one]));if(!shell.hidden)refresh()}catch{}
   }
   // Pestaña Armario: colección, cuerpo, partes del avatar (con lo que tienes de cada una), filtro y cartas.
   function wardrobe(current){
@@ -374,19 +391,20 @@ ${chosen?medalDetail(chosen,stats):''}
     if(trying&&owns(trying))trying=null; // Recién desbloqueada (nivel o «Casi casi»): ya no se está probando.
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(state.coins);
-    const missing=trying?trying.price-state.coins:0;
+    const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
     const side=tab==='medallas'?medalTab():tab==='cofres'?chestTab():tab==='armario'?wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
     main.classList.toggle('is-wardrobe',tab==='armario');
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
-${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
+${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}</section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
   }
   function open(which){
+    syncEditions();
     const fresh=state.medals.fresh.length>0;
     if(which)tab=which;else if(fresh)tab='medallas';else if(chestTotal())tab='cofres';trying=null;picked='';shell.hidden=false;document.body.classList.add('modal-open');
     if(typeof toggleMenu==='function')toggleMenu(false);draw();$('#profile-close').focus();
@@ -416,6 +434,15 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       return;
     }
     if(target.hasAttribute('data-cancel')){trying=null;draw();return}
+    if(target.hasAttribute('data-buy-edition')&&trying?.edition&&linked){
+      const item=trying,edition=item.edition;if(target.disabled)return;target.disabled=true;
+      serverAsk('comprar-edicion',{edition:edition.id},'No se pudo comprar la edición. Inténtalo otra vez.','No se puede comprar esta edición ahora mismo.').then(data=>{
+        target.disabled=false;if(!data){syncEditions();return}
+        state.editions={...state.editions,[edition.id]:data.serial};state.look={...look(),[item.slot]:item.id};if(trying===item)trying=null;
+        showToast(`${item.name}: ¡tuya! N.º ${data.serial} de ${data.total}`);save();refresh();serverCoins(data.coins);syncEditions();
+      });
+      return;
+    }
     if(target.hasAttribute('data-buy')&&trying&&state.coins>=trying.price){
       const item=trying,own=()=>{state.owned.push(item.slot+':'+item.id);state.look={...look(),[item.slot]:item.id};showToast(`${item.name}: ¡ya es tuyo!`);if(trying===item)trying=null;save();refresh()};
       if(!linked){move(-item.price,'tienda');own();return}
@@ -557,7 +584,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   // El armario de quien tiene cuenta es el inventario del servidor (decisión 0065): se copia al entrar.
   async function syncItems(){
     if(!await syncServer())return;
-    try{const {items}=await cloud('inventario');if(Array.isArray(items)){state.owned=items.map(one=>one.item).filter(key=>typeof key==='string');store();refresh()}}catch{}
+    try{
+      const {items,collectibles}=await cloud('inventario');
+      if(Array.isArray(items))state.owned=items.map(one=>one.item).filter(key=>typeof key==='string');
+      // Las unidades de colección: de cada edición se enseña el número de serie más bajo que se tenga.
+      if(Array.isArray(collectibles)){state.editions={};for(const one of collectibles)if(!state.editions[one.edition]||one.serial<state.editions[one.edition])state.editions[one.edition]=one.serial}
+      store();refresh();
+    }catch{}
+    syncEditions();
   }
   // Pide algo al servidor que cambia el saldo (recoger una misión, comprar, usar una pista). Devuelve su respuesta, o
   // null si falla (y avisa). Espera a que no haya un guardado ni un cobro en marcha, para no cruzarse con ellos.
