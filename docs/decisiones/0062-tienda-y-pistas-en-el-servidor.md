@@ -1,6 +1,6 @@
 # 0062. El servidor cobra la tienda y las pistas, y empieza el inventario
 
-- **Estado:** propuesta (código en la rama `feat/tienda-y-pistas-servidor`, montada sobre `feat/misiones-y-nivel-servidor`; la migración `20261115140000_inventario` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/tienda-y-pistas-servidor`, montada sobre `feat/misiones-y-nivel-servidor`; la migración `20261115162737_inventario` está **aplicada el 15 de noviembre de 2026**)
 - **Fecha:** 2026-11-15
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera parte de la entrega 4 de la fase 1 ([0061](0061-experiencia-y-misiones-en-el-servidor.md)), que aquí **se parte en dos**.
@@ -38,7 +38,7 @@ Tras esta entrega, el navegador solo puede declarar: `bienvenida`, `cofres`, `co
 ### Código
 
 - `lib/catalogo.mjs` (nuevo): `PIECES` y `HINT_COST`.
-- `supabase/migrations/20261115140000_inventario.sql`: tabla `items`.
+- `supabase/migrations/20261115162737_inventario.sql`: tabla `items`.
 - `lib/comunidad.mjs`: acciones `comprar`, `pista` e `inventario`, y el inventario del almacén local. `lib/stores.mjs`: lo mismo contra Supabase.
 - `vercel.json`: `dist/avatar.js` entre los archivos de la función.
 - `dist/progress.js`: con cuenta, comprar pregunta al servidor; `Progress.pay` para las pistas; `serverAsk` reúne las llamadas que cambian el saldo. `dist/pistas.js`: espera la respuesta del servidor.
@@ -58,5 +58,5 @@ Tras esta entrega, el navegador solo puede declarar: `bienvenida`, `cofres`, `co
 - **Comprar tarda uno o dos segundos**, lo que tarda la llamada; el botón se desactiva mientras tanto.
 - **Sin conexión no se puede comprar ni usar pistas con cuenta.** Antes sí, y se sincronizaba después.
 - **Depende de que `dist/avatar.js` esté en la función de Vercel.** Si falta, comprar responde «no disponible» y el resto sigue.
-- **Cuatro migraciones pendientes, en orden:** `20261114120000_preguntas_comunidad`, `20261115120000_libro_contable`, `20261115130000_experiencia_y_misiones` y `20261115140000_inventario`. Ninguna se ha ejecutado contra un Postgres real.
+- **Cuatro migraciones pendientes, en orden:** `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario`. Ninguna se ha ejecutado contra un Postgres real.
 - Hay que aceptar antes la PR de la entrega 3c: esta rama parte de la suya.

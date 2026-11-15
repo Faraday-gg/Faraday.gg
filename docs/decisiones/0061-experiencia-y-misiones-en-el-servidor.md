@@ -1,6 +1,6 @@
 # 0061. El servidor lleva la experiencia, el nivel y las misiones
 
-- **Estado:** propuesta (código en la rama `feat/misiones-y-nivel-servidor`, montada sobre `feat/apuestas-en-bote`; la migración `20261115130000_experiencia_y_misiones` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/misiones-y-nivel-servidor`, montada sobre `feat/apuestas-en-bote`; la migración `20261115162719_experiencia_y_misiones` está **aplicada el 15 de noviembre de 2026**)
 - **Fecha:** 2026-11-15
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la entrega 3c de la fase 1 ([0059](0059-premios-de-los-duelos-en-el-servidor.md)).
@@ -47,7 +47,7 @@ Tras esta entrega, el navegador solo puede declarar: `bienvenida`, `cofres`, `co
 ### Código
 
 - `lib/misiones.mjs` (nuevo): reglas de experiencia, nivel y misiones, sin almacén.
-- `supabase/migrations/20261115130000_experiencia_y_misiones.sql`: columnas `xp`, `stats` y `stats_version` en `player_progress`.
+- `supabase/migrations/20261115162719_experiencia_y_misiones.sql`: columnas `xp`, `stats` y `stats_version` en `player_progress`.
 - `lib/comunidad.mjs`: `withStats`, las acciones `estado` y `mision`, y la experiencia al cobrar jornadas y duelos. `lib/stores.mjs`: `stats` y `saveStats`. `lib/api.mjs`: avisa de cada respuesta. `lib/premios.mjs`: el premio del duelo dice también el resultado y las rondas.
 - `dist/progress.js`: con cuenta, «Recoger» pregunta al servidor y el premio por nivel no se suma en el navegador.
 - `tests/misiones.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
@@ -64,6 +64,6 @@ Tras esta entrega, el navegador solo puede declarar: `bienvenida`, `cofres`, `co
 - **Una lectura más por respuesta.** `POST /api/answers` consulta si el jugador tiene cuenta, también para quien juega sin ella. Si falla, la respuesta se guarda igual.
 - **Dos cuentas de experiencia.** La del navegador (lo que se ve) y la del servidor (lo que paga). Usan las mismas reglas, pero pueden separarse: si se juega con dos dispositivos, o si se respondió antes de entrar en la cuenta. Entonces el nivel que se ve y el que paga el servidor no coinciden, o «Recoger» responde que la misión aún no está completa. Se unifican en la entrega 4.
 - **El nivel para apostar** (0060) sigue saliendo del que dice el navegador; el servidor ya tiene el suyo y se puede usar en la entrega 4.
-- **Tres migraciones pendientes, en orden:** `20261114120000_preguntas_comunidad`, `20261115120000_libro_contable` y `20261115130000_experiencia_y_misiones`. Sin la tercera, los premios de jornadas y duelos se siguen pagando, pero no hay experiencia ni misiones en el servidor (y recoger una misión con cuenta falla).
+- **Tres migraciones pendientes, en orden:** `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable` y `20261115162719_experiencia_y_misiones`. Sin la tercera, los premios de jornadas y duelos se siguen pagando, pero no hay experiencia ni misiones en el servidor (y recoger una misión con cuenta falla).
 - **El SQL no se ha ejecutado contra un Postgres real**, como el de la 0057.
 - Hay que aceptar antes la PR de la entrega 3b: esta rama parte de la suya.

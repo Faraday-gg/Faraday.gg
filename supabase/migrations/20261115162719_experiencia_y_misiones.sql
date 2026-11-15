@@ -4,7 +4,7 @@
 --   stats: los contadores de las misiones de hoy y de la semana, lo ya recogido y la racha de duelos;
 --   stats_version: para no pisar un cambio con otro. El servidor solo guarda si la versión es la que leyó
 --     (PATCH ...?player_hash=eq.X&stats_version=eq.N), como en la tabla duels.
--- Necesita las migraciones 20261114120000_preguntas_comunidad y 20261115120000_libro_contable.
+-- Necesita las migraciones de preguntas_comunidad y libro_contable.
 -- Documentación: docs/base-de-datos.md
 
 alter table public.player_progress

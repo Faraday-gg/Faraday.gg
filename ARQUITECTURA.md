@@ -150,7 +150,7 @@ Los jugadores con cuenta proponen preguntas (50 ≈) y votan las de los demás (
 - La ronda R es el lunes en que se publica y se vota del domingo R−8 al sábado R−2. El domingo a las 00:01, `generateDay` (`lib/generar.mjs`) llama a `communityDay`. Esta función resuelve las 6 más votadas con OpenAI y búsqueda web, toma las 3 primeras válidas (completa con el banco editorial si faltan) y premia al autor. Si no hay ninguna, se genera la jornada de siempre.
 - Al proponer, `openaiModerator` (`gpt-5-mini`, sin búsqueda web) filtra la pregunta. Sin `OPENAI_API_KEY` solo hay comprobaciones básicas.
 - **Progreso en la cuenta:** con sesión iniciada, `dist/progress.js` guarda el progreso también en el servidor (`player_progress`). El saldo de faradios lo lleva el servidor: el navegador manda cuánto cambió, con tope diario para lo que se gana.
-- En local se guarda en `runtime/comunidad.json`; en Vercel, en las tablas `player_progress`, `community_proposals` y `community_votes` (migración `20261114120000_preguntas_comunidad`, **sin aplicar**).
+- En local se guarda en `runtime/comunidad.json`; en Vercel, en las tablas `player_progress`, `community_proposals` y `community_votes` (migración `20261115162316_preguntas_comunidad`, aplicada el 15 de noviembre de 2026).
 - El reto enseña el autor con `authorLine` (`dist/app.js`), encima de la pregunta y en el resultado.
 
 ## Circuito de amigos (referidos)

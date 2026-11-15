@@ -1,6 +1,6 @@
 # 0057. Libro contable de faradios y reparto de la fase 1 en entregas
 
-- **Estado:** propuesta (código en la rama `feat/libro-contable-faradios`; la migración `20261115120000_libro_contable` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/libro-contable-faradios`; la migración `20261115162701_libro_contable` está **aplicada el 15 de noviembre de 2026**, en una versión que no borra las funciones antiguas: ver la [bitácora](../bitacora/2026-11.md))
 - **Fecha:** 2026-11-15
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md) (fase 1, «economía en el servidor»).
@@ -45,7 +45,7 @@ Cada entrega quita motivos de la lista que el navegador puede declarar. Cuando l
 
 ### Código
 
-- `supabase/migrations/20261115120000_libro_contable.sql`: tabla, vista y funciones. Sustituye `progress_credit` por `wallet_move` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten.
+- `supabase/migrations/20261115162701_libro_contable.sql`: tabla, vista y funciones. Sustituye `progress_credit` por `wallet_move` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten.
 - `lib/comunidad.mjs`: `REASONS`, el desglose en la ruta del progreso y el libro en el almacén local. `lib/stores.mjs`: lo mismo contra Supabase.
 - `dist/progress.js`: `move()`. `dist/duel.js`, `dist/bets.js` y `dist/pistas.js` dicen su motivo al ganar o gastar.
 - `tests/comunidad.test.mjs`: los apuntes suman el saldo, el tope queda apuntado, el desglose se respeta y el premio al autor no se repite.
@@ -61,7 +61,7 @@ Cada entrega quita motivos de la lista que el navegador puede declarar. Cuando l
 ## Consecuencias
 
 - **El saldo se sigue pudiendo falsear** hasta la entrega 5: el navegador declara lo que gana, con el tope de 1.500 ≈ al día. Esta entrega solo lo deja apuntado.
-- **Hay que aplicar dos migraciones, en orden:** `20261114120000_preguntas_comunidad` y `20261115120000_libro_contable`. Con solo la primera, guardar el progreso y el premio al autor fallan (503). Necesitan la confirmación de Luis.
+- **Hay que aplicar dos migraciones, en orden:** `20261115162316_preguntas_comunidad` y `20261115162701_libro_contable`. Con solo la primera, guardar el progreso y el premio al autor fallan (503). Necesitan la confirmación de Luis.
 - **La migración no se ha ejecutado contra un Postgres real.** No hay base de datos local ni de preprod. La lógica está probada en el almacén local (`tests/comunidad.test.mjs`), que hace lo mismo en JavaScript; el SQL hay que revisarlo y probarlo al aplicarlo.
 - **La tabla crece** unos pocos apuntes por jugador y guardado. Con muchos jugadores habrá que agrupar o archivar los apuntes antiguos del navegador.
 - **Sin cuenta no hay libro.** Los jugadores sin cuenta siguen con todo en su navegador, como decide la 0055.
