@@ -957,6 +957,13 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .mission-bar{height:8px;border-radius:8px;background:#2026301a;overflow:hidden;margin-bottom:3px}
 .mission-bar i{display:block;height:100%;width:calc(var(--m,0)*100%);border-radius:inherit;background:var(--coral);transition:width .6s cubic-bezier(.22,1,.36,1)}
 .mission-prize{font:500 14px var(--num);white-space:nowrap}
+.mission-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.mission-swap{border:0;background:none;padding:4px 0;min-height:24px;color:var(--muted);font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+.mission-swap:hover{color:var(--ink)}
+.profile-shield{margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line);display:grid;gap:8px}
+.profile-shield p{margin:0}
+.profile-shield .game-secondary{padding:10px 14px;font-size:13px}
+.profile-shield .game-secondary:disabled{opacity:.6}
 .mission .game-primary{padding:10px 14px;font-size:13px;white-space:nowrap;animation:duel-urge 1.6s ease-in-out infinite}
 .mission.is-done{background:var(--yellow)}
 .mission.is-claimed{opacity:.6}
