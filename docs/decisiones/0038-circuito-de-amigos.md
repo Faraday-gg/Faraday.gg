@@ -4,6 +4,8 @@
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
 
+> **Nota (2026-11-15):** la [0064](0064-premios-del-circuito-en-el-servidor.md) cambia quién entrega los premios a quien tiene cuenta: los reparte el servidor. Las reglas del Circuito no cambian.
+
 ## Contexto
 
 Luis quiere que los jugadores inviten a sus amigos y que los dos ganen algo. La idea, con el análisis previo hecho con REA de Duolingo, GeoGuessr y Chess.com, está en [docs/ideas/referidos-circuito-de-amigos.md](../ideas/referidos-circuito-de-amigos.md). Luis la aprobó tal cual: «la idea me encanta, hazla».

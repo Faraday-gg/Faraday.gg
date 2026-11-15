@@ -8,7 +8,7 @@ import {randomUUID,createHash} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
 import {memoryDuels} from '../lib/duelos.mjs';
-import {Chests,chestProblem,CHARGE,FIRST_CHESTS,GIFT_CAP} from '../lib/cofres.mjs';
+import {Chests,chestProblem,CHARGE,FIRST_CHESTS} from '../lib/cofres.mjs';
 import {PIECES} from '../lib/catalogo.mjs';
 import {REASONS} from '../lib/comunidad.mjs';
 import {dailyIds} from '../lib/misiones.mjs';
@@ -20,7 +20,7 @@ const flat=fs.readFileSync(new URL('../dist/progress.js',import.meta.url),'utf8'
 assert.ok(flat.includes(`charge:{today:${CHARGE.today},archive:${CHARGE.archive},full:${CHARGE.full}}`),'REWARD.charge de progress.js ha cambiado');
 assert.ok(fs.readFileSync(new URL('../dist/duel.js',import.meta.url),'utf8').includes(`capped?${CHARGE.duelCapped}:${CHARGE.duel}`),'La batería de los duelos ha cambiado');
 assert.ok(JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url),'utf8')).functions['api/index.mjs'].includeFiles.includes('dist/chests.js'));
-assert.ok(!REASONS.includes('cofres')&&!REASONS.includes('cofres-compra'));assert.deepEqual(REASONS,['bienvenida','referidos','otros']);
+assert.ok(!REASONS.includes('cofres')&&!REASONS.includes('cofres-compra'));
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-cofres-'));
 const at=date=>Date.parse(date+'T09:00:00Z');
@@ -86,11 +86,8 @@ try{
   await progress('guardar',eva,{state:{v:1,xp:43500},delta:10});
   assert.equal((await progress('comprar-cofre',eva,{type:'chispa'})).data.code,'saldo');assert.equal((await state(eva)).chests.chispa,0);
 
-  // Cofres de regalo del Circuito: solo Rayo o Tormenta y con tope diario.
-  assert.equal((await progress('regalo-cofre',eva,{type:'faraday'})).status,400);
-  for(let n=0;n<GIFT_CAP;n++)assert.equal((await progress('regalo-cofre',eva,{type:'rayo'})).status,200);
-  assert.equal((await progress('regalo-cofre',eva,{type:'tormenta'})).data.code,'tope');
-  assert.equal((await state(eva)).chests.rayo,GIFT_CAP);
+  // Ya no se pueden declarar cofres de regalo: los del Circuito los da el servidor (decisión 0064).
+  assert.equal((await progress('regalo-cofre',eva,{type:'rayo'})).status,400);
 
   // Batería: el reto de hoy carga 40; un reto del archivo, 10; un duelo, 20. Al llegar a 100, un cofre Chispa.
   await progress('guardar',ana,{state:{v:1,xp:43500,charge:30},delta:0});

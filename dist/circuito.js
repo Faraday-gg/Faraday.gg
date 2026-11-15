@@ -54,8 +54,8 @@
     state=response.data;const notes=[];
     if(state.pending>0){
       const claimed=await call('reclamar');
-      if(claimed.ok&&window.Progress){const result=Progress.circuitPrizes(claimed.data.prizes,claimed.data.connections);if(result.text)notes.push(result.text)}
-    }else if(window.Progress)Progress.circuitPrizes([],state.connections);
+      if(claimed.ok&&window.Progress){const result=Progress.circuitPrizes(claimed.data.prizes,claimed.data.connections,claimed.data.server);if(result.text)notes.push(result.text)}
+    }else if(window.Progress)Progress.circuitPrizes([],state.connections,state.server);
     if(window.Progress){const current=Progress.circuitCurrent(state.current,state.rules.currentCharge);if(current)notes.push(current)}
     if(notes.length)setTimeout(()=>showToast(notes.join(' · ')),400);
     if(!shell.hidden&&shell.dataset.screen==='main')render();

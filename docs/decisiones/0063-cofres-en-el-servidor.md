@@ -31,6 +31,8 @@ Los cofres eran lo último grande que el navegador decidía solo: cuándo se gan
 
 ### Lo que queda declarado: los referidos
 
+> **Nota (2026-11-15):** cerrado por la [0064](0064-premios-del-circuito-en-el-servidor.md): los premios del Circuito los reparte el servidor y `regalo-cofre` ya no existe.
+
 Los premios del Circuito de amigos ([0038](0038-circuito-de-amigos.md)) los sigue repartiendo el navegador. Sus faradios se declaran con el motivo `referidos`, y sus cofres con `action: 'regalo-cofre'`: el servidor apunta el cofre sin poder comprobarlo, solo Rayo o Tormenta y **como mucho 2 al día**. Es un hueco conocido y acotado; se cierra cuando los referidos pasen al servidor.
 
 ### Las entregas de la fase 1
