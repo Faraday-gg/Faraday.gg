@@ -42,7 +42,8 @@ export const HOY={
   fallback:4
 };
 // Economía nueva (decisiones 0055, 0056 y 0066). Lo que ya está en el juego: las tres misiones del día dan faradios,
-// el lote reducido, el tope diario y las apuestas en bote. Lo que falta: ediciones, protector, repetir misión y mercado.
+// el lote reducido, el tope diario, las apuestas en bote, las ediciones, el protector de racha y cambiar una misión
+// (decisiones 0067 y 0069). Lo que falta: el mercado.
 export const PROPUESTA={
   ...HOY,name:'Propuesta',
   // Un cofre Chispa gratis al día en vez de dos: completar las misiones del día da faradios, no cofre.

@@ -70,6 +70,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0066](0066-cifras-de-la-economia-nueva.md) | Primeras cifras de la economía nueva: 40 ≈ por las tres misiones del día, lote por pieza repetida a la cuarta parte y tope de 400 ≈ al día | Propuesta | 2026-11-15 |
 | [0067](0067-ediciones-de-coleccion.md) | Ediciones de colección: piezas numeradas de tirada cerrada, una por cuenta, que se compran con faradios desde el nivel 10 | Propuesta | 2026-11-15 |
 | [0068](0068-faradios-que-vuelan-al-saldo.md) | Al recoger una misión, los faradios vuelan del botón al saldo y suenan al contar, como el oro de los juegos de móvil | Propuesta | 2026-11-15 |
+| [0069](0069-protector-de-racha-y-cambio-de-mision.md) | Protector de racha (150 ≈), cambio de misión (30 ≈) y una sola racha para el premio del reto y los cofres | Propuesta | 2026-11-16 |
 
 ## Plantilla
 
