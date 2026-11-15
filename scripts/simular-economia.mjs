@@ -25,9 +25,9 @@ export const MISSIONS={
 };
 const DAILY=['cerca-2','cerca-125','seis','archivo','duelo','duelo-gana'],WEEKLY=['sem-retos','sem-cerca','sem-duelos','sem-jugar'];
 
-// Reglas de hoy (decisiones 0024, 0027, 0036, 0039, 0044 y 0052).
+// Reglas de antes de la economía nueva (decisiones 0024, 0027, 0036, 0039, 0044 y 0052). Se conservan para comparar.
 export const HOY={
-  name:'Hoy',welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,missionXp:10,
+  name:'Antes',welcome:100,answerXp:5,todayXp:30,todayCoins:20,archiveXp:10,archiveCoins:5,streakCoins:2,streakCap:7,missionXp:10,
   accuracy:[[1.5,15],[2,10],[3,5]],duel:{win:15,loss:5,full:3,capped:.25,rounds:5},levelCoins:30,
   charge:{today:40,archive:10,duel:20,duelCapped:5,full:100},
   // Premio por completar las tres misiones del día y las tres de la semana.
@@ -37,10 +37,12 @@ export const HOY={
   bets:{mode:'banca',rake:0,cap:5,tiers:[[15,150],[12,60],[10,25]]},
   // Lo que todavía no existe: ediciones de colección, protector de racha, comisión del mercado y tope diario de ganancias.
   editions:null,protector:null,market:null,reroll:null,cap:null,
-  // Parte del lote de faradios que se cobra cuando el cofre trae una pieza de una rareza que ya se tiene entera.
-  fallback:1
+  // Lote de faradios cuando el cofre trae una pieza de una rareza que ya se tiene entera, en veces el de dist/chests.js.
+  // Antes era cuatro veces el de ahora (40, 90, 180, 380 y 800).
+  fallback:4
 };
-// Economía propuesta (decisión 0055). Valores de partida: se ajustan aquí hasta que la prueba pasa.
+// Economía nueva (decisiones 0055, 0056 y 0066). Lo que ya está en el juego: las tres misiones del día dan faradios,
+// el lote reducido, el tope diario y las apuestas en bote. Lo que falta: ediciones, protector, repetir misión y mercado.
 export const PROPUESTA={
   ...HOY,name:'Propuesta',
   // Un cofre Chispa gratis al día en vez de dos: completar las misiones del día da faradios, no cofre.
@@ -52,7 +54,7 @@ export const PROPUESTA={
   // Comisión destruida de lo que el jugador mueve en el mercado cada semana (profile.market).
   market:{fee:.1,level:10},
   reroll:{price:30},
-  cap:400,fallback:.25
+  cap:400,fallback:1
 };
 
 // Tres jugadores tipo. playToday = probabilidad de jugar el reto cada día; sigma = dispersión de sus respuestas (menos es

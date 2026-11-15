@@ -5,6 +5,8 @@
 - **Quién:** Luis, con Claude Code
 - **Amplía a:** la [0027](0027-cofres.md). Sustituye su apartado «Tres cofres» y sus reglas de qué cofre dan los niveles y las rachas. Todo lo demás de la 0027 (protecciones, batería, apertura, sin dinero real) sigue igual.
 
+> **Nota (2026-11-15):** la [0066](0066-cifras-de-la-economia-nueva.md) deja en la cuarta parte el lote por pieza repetida (10, 25, 45, 95 y 200 ≈) y cambia el cofre Chispa de las tres misiones del día por 40 ≈.
+
 ## Contexto
 
 Había tres cofres (Chispa, Rayo y Tormenta) que solo se diferenciaban en ser cada uno mejor y más caro que el anterior. Luis pidió seis en total, con cualidades y precios distintos acordes a las piezas y rarezas que existen, y dejó abierta la posibilidad de crear otra rareza.

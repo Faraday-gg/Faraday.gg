@@ -23,6 +23,8 @@ for(const [id,mission] of Object.entries(MISSIONS))assert.match(progress,new Reg
 has(duel,`DAILY_FULL=${HOY.duel.full},CAPPED_FACTOR=.25`);assert.equal(HOY.duel.capped,.25);
 has(duel,`charge:abandoned||(bot&&daily.bot)?0:capped?${HOY.charge.duelCapped}:${HOY.charge.duel}`);
 has(read('dist/pistas.js'),`COST=${HOY.hint}`);
+// Lo que ya está en el juego de la economía nueva (decisión 0066): faradios por las tres misiones del día y tope diario.
+has(progress,`daySet:${PROPUESTA.dailySet.coins},dayCap:${PROPUESTA.cap}}`);assert.equal(PROPUESTA.dailySet.chest,null);assert.equal(PROPUESTA.fallback,1);assert.equal(HOY.fallback,4);assert.equal(PROPUESTA.bets.mode,'bote');
 assert.equal(COMUNIDAD.voteCost,HOY.vote);assert.equal(COMUNIDAD.proposeCost,HOY.propose);
 {
   const page={};page.window=page;vm.createContext(page);vm.runInContext(read('dist/bets-rules.js'),page);

@@ -99,12 +99,12 @@ try{
   s=await state(ana);assert.equal(s.charge,0);assert.equal(s.chests.chispa,1,'Batería llena: cofre Chispa');
   await progress('premio',ana,{day:'2026-11-16'});assert.equal((await state(ana)).charge,0,'Cobrar otra vez no carga más');
 
-  // Las tres misiones del día dan un cofre Chispa. Con lo jugado están todas las posibles completas.
+  // Las tres misiones del día ya no dan cofre, sino faradios (decisión 0066). Con lo jugado están todas completas.
   const ids=dailyIds('2026-11-16');
   assert.equal((await progress('mision',ana,{id:ids[0]})).data.chest,undefined);
   assert.equal((await progress('mision',ana,{id:ids[1]})).data.chest,undefined);
-  r=await progress('mision',ana,{id:ids[2]});assert.equal(r.data.chest,'chispa');
-  assert.equal((await state(ana)).chests.chispa,2);
+  r=await progress('mision',ana,{id:ids[2]});assert.equal(r.data.chest,undefined);assert.equal(r.data.bonus,40);
+  assert.equal((await state(ana)).chests.chispa,1);
 
   // Racha: al tercer día seguido, un cofre Imán.
   clock=at('2026-11-17');await play(ana,'2026-11-17');await progress('premio',ana,{day:'2026-11-17'});

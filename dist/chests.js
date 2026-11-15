@@ -7,8 +7,10 @@
 (root=>{
   const RARITIES=['comun','especial','rara','epica','legendaria'];
   const LABEL={faradios:'Faradios',comun:'Común',especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria'};
-  // Si ya se tienen todas las piezas de una rareza, el premio pasa a ser este lote de faradios.
-  const FALLBACK={comun:40,especial:90,rara:180,epica:380,legendaria:800};
+  // Si ya se tienen todas las piezas de una rareza, el premio pasa a ser este lote de faradios. Es una cuarta parte de
+  // lo que fue al principio (40, 90, 180, 380 y 800): con el catálogo completo, esos lotes eran la mayor fuente de
+  // faradios del juego (decisiones 0056 y 0066).
+  const FALLBACK={comun:10,especial:25,rara:45,epica:95,legendaria:200};
   // Al décimo cofre seguido sin una pieza épica o legendaria, el siguiente la trae seguro.
   const PITY=10;
   // Como mucho, tres cofres comprados al día. Los que se ganan jugando no cuentan.
