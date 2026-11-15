@@ -35,6 +35,16 @@
     faraday:{name:'Faraday',price:2500,slots:4,coins:[100,200],sure:{legendaria:1},
       odds:{faradios:.3,comun:0,especial:.15,rara:.35,epica:.17,legendaria:.03}}
   };
+  // Acabados (decisión 0072): cada pieza de ropa, pantalón, zapatillas o cabeza que sale de un cofre puede traer además
+  // su versión cromada, holográfica o dorada, con esta probabilidad. Los nombres están en dist/avatar.js (FINISHES).
+  const FINISH_ODDS={cr:.03,ho:.01,or:.003},FINISH_SLOTS=['top','bottom','shoes','hat'];
+  // El acabado que le toca a la pieza `key` («hueco:id»), o '' si no le toca ninguno.
+  function finishOf(key,random){
+    if(!FINISH_SLOTS.includes(String(key).split(':')[0]))return '';
+    let left=random();
+    for(const [finish,chance] of Object.entries(FINISH_ODDS)){left-=chance;if(left<0)return finish}
+    return '';
+  }
   const TYPES=Object.keys(CHESTS);
   const count=type=>CHESTS[type].slots+(CHESTS[type].sure?1:0);
   const rank=rarity=>RARITIES.indexOf(rarity);
@@ -63,6 +73,8 @@
     }
     // El premio garantizado va el último: es el que se revela al final.
     if(chest.sure)rewards.push(piece(draw(chest.sure,random)));
+    // Los acabados se sortean al final, para no cambiar el sorteo de las piezas.
+    for(const reward of rewards)if(reward.kind==='item'){const finish=finishOf(reward.key,random);if(finish)reward.finish=finish}
     const lucky=rewards.some(reward=>high(reward.rarity||reward.instead));
     return {rewards,pity:lucky?0:pity+1};
   }
@@ -77,5 +89,5 @@
   const streakChest=days=>days===3?'iman':[7,14,30,50].includes(days)?'tormenta':days>=100&&days%100===0?'faraday':days>100&&days%50===0?'tormenta':null;
   // Cofre que da subir a un nivel: Dinamo en los múltiplos de 10, Rayo en los demás múltiplos de 5 y Chispa en el resto.
   const levelChest=level=>level%10===0?'dinamo':level%5===0?'rayo':'chispa';
-  root.Chests={CHESTS,TYPES,RARITIES,LABEL,FALLBACK,PITY,BUY_CAP,count,rank,high,roll,value,streakChest,levelChest};
+  root.Chests={CHESTS,TYPES,RARITIES,LABEL,FALLBACK,PITY,BUY_CAP,FINISH_ODDS,FINISH_SLOTS,finishOf,count,rank,high,roll,value,streakChest,levelChest};
 })(typeof window!=='undefined'?window:globalThis);

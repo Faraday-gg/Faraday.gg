@@ -236,7 +236,22 @@
   const DEFAULT={top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
   const DEFAULTS={hombre:DEFAULT,mujer:{top:'mj-top-blanco',bottom:'mj-ancho-lavado',shoes:'mj-skate-blanco',hat:'',hair:'mj-liso',hairColor:'castano',glasses:'',neck:'',extra:'',face:'mj-chula',skin:'miel'}};
   const bodyOf=look=>look&&look.body==='mujer'?'mujer':'hombre',defaults=body=>DEFAULTS[body]||DEFAULT;
-  const find=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
+  // Acabados (decisión 0072): versiones cromada, holográfica y dorada de las piezas de pago de ropa, pantalón,
+  // zapatillas y cabeza. No están en el catálogo: salen de la pieza normal, con el acabado detrás de «--» en el
+  // identificador («sud-gris--or»). Solo se consiguen en cofres (dist/chests.js, FINISH_ODDS).
+  const FINISHES={cr:{label:'Cromado'},ho:{label:'Holográfico'},or:{label:'Dorado'}},FINISH_SLOTS=['top','bottom','shoes','hat'],finished=new Map();
+  const finishable=entry=>!!entry&&FINISH_SLOTS.includes(entry.slot)&&entry.price>0&&!entry.level&&!entry.casi&&!entry.circuito&&!entry.edition;
+  const plain=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
+  // Una pieza del catálogo, o una con acabado (finish = el acabado, base = el identificador de la pieza normal).
+  function find(slot,id){
+    const entry=plain(slot,id);if(entry||typeof id!=='string')return entry;
+    const cut=id.lastIndexOf('--'),key=slot+':'+id;if(cut<1)return undefined;
+    if(finished.has(key))return finished.get(key);
+    const base=plain(slot,id.slice(0,cut)),finish=id.slice(cut+2);
+    if(!finishable(base)||!Object.hasOwn(FINISHES,finish))return undefined;
+    const made={...base,id,name:`${base.name} · ${FINISHES[finish].label.toLowerCase()}`,finish,base:base.id};
+    finished.set(key,made);return made;
+  }
   // Piezas de un hueco que puede llevar un cuerpo: las suyas y las compartidas.
   // Las ediciones que aún no han salido no se enseñan.
   const madridToday=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date());
@@ -252,7 +267,7 @@
   function resolve(look){
     if(look&&look._raw)return look._raw;
     const L=normalize(look),raw={body:L.body,skin:L.skin,face:L.face,hair:L.hair,hairColor:L.hairColor,extras:[]};
-    for(const [slot] of SLOTS){const entry=find(slot,L[slot]);if(entry.set)Object.assign(raw,entry.set);if(entry.extras)raw.extras.push(...entry.extras)}
+    for(const [slot] of SLOTS){const entry=find(slot,L[slot]);if(entry.set)Object.assign(raw,entry.set);if(entry.extras)raw.extras.push(...entry.extras);if(entry.finish)raw[slot+'Finish']=entry.finish}
     return raw;
   }
   // Cómo se enseña una pieza en la tienda: el muñeco por defecto con esa pieza puesta (las zapatillas, con pantalón corto).
@@ -274,5 +289,5 @@
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
   const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
-  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
+  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,FINISHES,FINISH_SLOTS,finishable,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
 })();
