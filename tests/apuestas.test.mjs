@@ -9,7 +9,7 @@ import vm from 'node:vm';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
-import {BET_LEVELS,betTier} from '../lib/apuestas.mjs';
+import {BET_LEVELS,betTier,BET_AMOUNTS,BET_CAP,BET_RAKE,betStake,betOpen,betResult,betPayout} from '../lib/apuestas.mjs';
 
 const page={};page.window=page;vm.createContext(page);
 vm.runInContext(fs.readFileSync(new URL('../dist/bets-rules.js',import.meta.url),'utf8'),page,{filename:'dist/bets-rules.js'});
@@ -20,6 +20,19 @@ assert.deepEqual(Array.from(R.IDS),['chispazo','calambre','alto-voltaje']);
 assert.equal(R.UNLOCK,10);
 assert.deepEqual(Object.fromEntries(Array.from(R.IDS,id=>[id,R.TIERS[id].level])),BET_LEVELS,'dist/bets-rules.js y lib/apuestas.mjs coinciden');
 const amounts=Array.from(R.IDS,id=>R.TIERS[id].amount);
+// Bote entre los dos jugadores (decisión 0060): mismas cantidades y mismo tope que en el navegador.
+assert.deepEqual(Object.fromEntries(Array.from(R.IDS,id=>[id,R.TIERS[id].amount])),BET_AMOUNTS);assert.equal(BET_CAP,R.DAILY_CAP);assert.equal(BET_RAKE,R.RAKE);
+{
+  const state=(a,b,extra={})=>({status:'playing',players:[{bet:a},{bet:b,...extra}],rounds:[{resolvedAt:null}],winner:null,reason:null});
+  assert.equal(betStake(state('calambre','alto-voltaje')),60,'Se juega la apuesta más baja de las dos');
+  assert.equal(betStake(state('chispazo',null)),0);assert.equal(betStake(state('chispazo','calambre',{bot:true})),0);assert.equal(betStake({players:[{bet:'chispazo'}]}),0);
+  assert.equal(betOpen(state('chispazo','chispazo')),true);
+  assert.equal(betOpen({...state('chispazo','chispazo'),rounds:[{resolvedAt:5}]}),false,'Resuelta la primera pregunta ya no se entra');
+  assert.equal(betOpen({...state('chispazo','chispazo'),rounds:[{},{}]}),false);assert.equal(betOpen({...state('chispazo','chispazo'),status:'finished'}),false);
+  assert.deepEqual([betResult({winner:0},0),betResult({winner:0},1),betResult({winner:'draw'},0),betResult({winner:null,reason:'cancelado'},0),betResult({winner:1,reason:'abandono'},0)],['won','lost','draw','void','lost']);
+  assert.deepEqual([betPayout('won',25),betPayout('lost',25),betPayout('draw',25),betPayout('void',25),betPayout('won',150)],[45,0,25,25,270],'Quien gana se lleva el bote menos el 10 %');
+  assert.deepEqual({...R.pot(60)},{win:48,fee:12});assert.equal(R.shared('calambre','alto-voltaje'),60);assert.equal(R.shared('calambre',null),0);
+}
 assert.deepEqual(amounts,[...amounts].sort((a,b)=>a-b));
 // Encaja en la economía: la apuesta baja no pasa de dos duelos ganados y lo más que se pierde en un día no llega a un cofre Tormenta (1.100 ≈).
 assert.ok(R.TIERS.chispazo.amount<=30);assert.ok(R.DAILY_CAP*amounts.at(-1)<1100);

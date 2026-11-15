@@ -5,6 +5,8 @@
 - **Quién:** Luis, con Claude Code
 - **Relacionada con:** [0023](0023-duelos-1vs1.md) (duelos), [0024](0024-avatar-faradios-y-misiones.md) (faradios), [0027](0027-cofres.md) y [0036](0036-seis-cofres.md) (economía y riesgo con menores).
 
+> **Nota (2026-11-15):** la [0060](0060-apuestas-en-bote.md) cambia la mecánica para quien tiene cuenta: la apuesta pasa a ser un bote entre los dos jugadores, cobrado y pagado por el servidor. Sin cuenta sigue como aquí.
+
 ## Contexto
 
 Luis pidió poder apostar faradios (≈) en cada duelo 1 vs 1, con tres niveles que se desbloquean al llegar al nivel 10. Antes de decidir la mecánica se miró dónde viven los faradios:

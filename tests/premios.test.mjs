@@ -140,5 +140,59 @@ try{
   assert.equal(moves.reduce((sum,move)=>sum+move.amount,0),(await progress('leer',luis)).data.coins);
   assert.ok(moves.filter(move=>move.reason==='duelos').every(move=>move.source==='servidor'&&/^[0-9a-f-]{36}$/.test(move.ref)));
 
+  // Apuestas en bote (decisión 0060): la cobra el servidor al empezar y la paga al terminar.
+  clock=at('2026-11-23');
+  const leo=randomUUID(),mar=randomUUID(),bet=(player,id)=>progress('apostar',player,{duel:id}),cash=(player,id)=>progress('cobrar-apuesta',player,{duel:id});
+  await progress('guardar',leo,{state:{v:1},delta:1000});await progress('guardar',mar,{state:{v:1},delta:100});
+  // Un duelo en juego, en su primera pregunta, con la apuesta de cada uno.
+  async function live(first,second,betA,betB){
+    const id=randomUUID(),one=(player,tier)=>player==='bot'?{hash:'bot',bot:true,bet:null}:{hash:hashOf(player),bet:tier};
+    await duels.create({id,code:id.slice(0,6).toUpperCase(),public:false,status:'playing',createdAt:clock,seenAt:clock,players:[one(first,betA),one(second,betB)],questions:['q'],rounds:[{resolvedAt:null}],winner:null,reason:null,next:null});
+    return id;
+  }
+  async function end(id,winner,reason='ko'){const row=await duels.get(id);await duels.save({...row.state,status:'finished',winner,reason,rounds:[{resolvedAt:clock}]},row.version)}
+  const coinsOf=async player=>(await progress('leer',player)).data.coins;
+
+  // Se juega la más baja de las dos (60): cada uno pone 60 y quien gana se lleva 120 menos el 10 %.
+  id=await live(leo,mar,'alto-voltaje','calambre');
+  assert.equal((await bet(null,id)).status,401);assert.equal((await bet(ana,id)).status,409,'No es su duelo');
+  assert.equal((await cash(leo,id)).status,409,'Sin terminar no se cobra');
+  r=await bet(leo,id);assert.deepEqual(r.data,{coins:940,stake:60});
+  assert.deepEqual((await bet(leo,id)).data,{coins:940,stake:60},'No se cobra dos veces');
+  assert.deepEqual((await bet(mar,id)).data,{coins:40,stake:60});
+  await end(id,0);
+  assert.equal((await bet(mar,id)).data.coins,40);
+  assert.deepEqual((await cash(leo,id)).data,{coins:940+108,amount:108,stake:60,result:'won'});
+  assert.equal((await cash(leo,id)).data.coins,1048,'El premio se paga una vez');
+  assert.deepEqual((await cash(mar,id)).data,{coins:40,amount:0,stake:60,result:'lost'});
+  assert.equal(await coinsOf(leo)+await coinsOf(mar),1100-12,'Del bote solo se destruye la comisión');
+
+  // Sin saldo no se entra; si el rival no llegó a poner su parte, se devuelve.
+  id=await live(leo,mar,'calambre','calambre');
+  assert.equal((await bet(mar,id)).data.code,'saldo');
+  await bet(leo,id);await end(id,1);
+  assert.deepEqual((await cash(leo,id)).data,{coins:1048,amount:60,stake:60,result:'void'});
+  assert.deepEqual((await cash(mar,id)).data,{coins:40,amount:0,stake:0,result:'none'});
+  // Empate: cada uno recupera lo suyo. Abandonar es perder.
+  id=await live(leo,mar,'chispazo','chispazo');await bet(leo,id);await bet(mar,id);await end(id,'draw','rondas');
+  assert.equal((await cash(leo,id)).data.result,'draw');assert.equal((await cash(mar,id)).data.amount,25);
+  assert.equal(await coinsOf(leo),1048);assert.equal(await coinsOf(mar),40);
+  id=await live(leo,mar,'chispazo','chispazo');await bet(leo,id);await bet(mar,id);await end(id,1,'abandono');
+  assert.equal((await cash(leo,id)).data.result,'lost');assert.deepEqual((await cash(mar,id)).data,{coins:40-25+45,amount:45,stake:25,result:'won'});
+  // Pasada la primera pregunta ya no se entra; sin apuesta de los dos o contra el bot no hay bote.
+  id=await live(leo,mar,'chispazo','chispazo');{const row=await duels.get(id);await duels.save({...row.state,rounds:[{resolvedAt:clock},{resolvedAt:null}]},row.version)}
+  assert.equal((await bet(leo,id)).data.code,'tarde');
+  assert.equal((await bet(leo,await live(leo,mar,'chispazo',null))).data.code,'sin-bote');
+  assert.equal((await bet(leo,await live(leo,'bot','chispazo',null))).data.code,'sin-bote');
+  // Tope: cinco duelos con apuesta al día (leo lleva cuatro).
+  assert.equal((await bet(leo,await live(leo,mar,'chispazo','chispazo'))).status,200);
+  assert.equal((await bet(leo,await live(leo,mar,'chispazo','chispazo'))).data.code,'tope');
+  clock=at('2026-11-24');
+  assert.equal((await bet(leo,await live(leo,mar,'chispazo','chispazo'))).status,200);
+  moves=await ledger(leo);
+  assert.equal(moves.reduce((sum,move)=>sum+move.amount,0),await coinsOf(leo));
+  assert.ok(moves.filter(move=>move.reason.startsWith('apuesta')).every(move=>move.source==='servidor'));
+  assert.ok(!REASONS.includes('apuestas'));
+
   console.log('premios: OK');
 }finally{fs.rmSync(directory,{recursive:true,force:true})}

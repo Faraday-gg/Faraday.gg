@@ -61,6 +61,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0057](0057-libro-contable-de-faradios.md) | Libro contable de faradios (cada movimiento con su motivo) y reparto de la fase 1 en cinco entregas | Propuesta | 2026-11-15 |
 | [0058](0058-premios-del-reto-en-el-servidor.md) | El servidor calcula y paga los faradios del reto del día y del archivo; reparto corregido de las entregas de la fase 1 | Propuesta | 2026-11-15 |
 | [0059](0059-premios-de-los-duelos-en-el-servidor.md) | El servidor calcula y paga los faradios de los duelos; la entrega 3 de la fase 1 se parte en tres | Propuesta | 2026-11-15 |
+| [0060](0060-apuestas-en-bote.md) | Con cuenta, las apuestas son un bote entre los dos jugadores que lleva el servidor, con un 10 % destruido | Propuesta | 2026-11-15 |
 
 ## Plantilla
 
