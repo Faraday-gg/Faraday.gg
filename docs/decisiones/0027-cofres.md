@@ -7,6 +7,8 @@
 
 - **Ampliada por:** la [0036](0036-seis-cofres.md), que deja seis cofres (añade Imán, Dinamo y Faraday) y cambia qué cofre dan algunos niveles y rachas. El apartado «Tres cofres» de abajo se conserva como estaba al decidirse.
 
+> **Nota (2026-11-15):** la [0063](0063-cofres-en-el-servidor.md) cambia el punto «sortear en el servidor»: con cuenta, los cofres se ganan, se compran y se sortean en el servidor. Las reglas de los cofres no cambian.
+
 ## Contexto
 
 Luis pidió un sistema de cofres como el de Clash Royale, EA FC o Rocket League, con una apertura muy cuidada (animación, luz y sonido), y permiso para reordenar la economía de faradios para que encaje.

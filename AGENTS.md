@@ -87,6 +87,7 @@ Reglas para agentes:
   node tests/premios.test.mjs
   node tests/misiones.test.mjs
   node tests/tienda.test.mjs
+  node tests/cofres-servidor.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

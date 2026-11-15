@@ -64,6 +64,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0060](0060-apuestas-en-bote.md) | Con cuenta, las apuestas son un bote entre los dos jugadores que lleva el servidor, con un 10 % destruido | Propuesta | 2026-11-15 |
 | [0061](0061-experiencia-y-misiones-en-el-servidor.md) | El servidor lleva la experiencia, el nivel y las misiones, y paga sus faradios | Propuesta | 2026-11-15 |
 | [0062](0062-tienda-y-pistas-en-el-servidor.md) | El servidor cobra la tienda y las pistas al precio de su catálogo, y empieza el inventario de piezas | Propuesta | 2026-11-15 |
+| [0063](0063-cofres-en-el-servidor.md) | El servidor lleva los cofres: cuándo se ganan, la compra y el sorteo; las piezas van al inventario | Propuesta | 2026-11-15 |
 
 ## Plantilla
 

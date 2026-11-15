@@ -104,9 +104,12 @@
   }
   // Cofres: se guardan sin abrir hasta que el jugador los abre.
   const chestTotal=()=>Chests.TYPES.reduce((sum,type)=>sum+state.chests[type],0);
-  const grant=(type,count=1)=>{state.chests[type]+=count};
+  // Con cuenta, los cofres los lleva el servidor (decisión 0063): aquí no se apuntan, llegan al sincronizar (syncServer).
+  const grant=(type,count=1)=>{if(linked)return;state.chests[type]+=count};
+  // Cofre de regalo del Circuito de amigos. Con cuenta se le pide al servidor que lo apunte.
+  const gift=type=>{if(!linked){grant(type);return}serverAsk('regalo-cofre',{type},'No se pudo apuntar el cofre de regalo.').then(data=>{if(data)applyServer(data)})};
   // La batería se carga jugando y, al llenarse, da un cofre Chispa. Lo que sobra se conserva.
-  function charge(amount){state.charge+=amount;let full=0;while(state.charge>=REWARD.charge.full){state.charge-=REWARD.charge.full;full++}if(full)grant('chispa',full);return full}
+  function charge(amount){if(linked)return 0;state.charge+=amount;let full=0;while(state.charge>=REWARD.charge.full){state.charge-=REWARD.charge.full;full++}if(full)grant('chispa',full);return full}
   const chargeNote=full=>full?' · ¡Batería llena: cofre Chispa!':'';
   const bought=()=>state.bought.day===madrid()?state.bought.count:0;
   // Suma experiencia y faradios. Al subir de nivel hay premio (faradios y un cofre) y se desbloquean las piezas de ese nivel.
@@ -267,13 +270,28 @@
   const dice=()=>{try{return crypto.getRandomValues(new Uint32Array(1))[0]/2**32}catch{return Math.random()}};
   function openChest(type){
     if(!state.chests[type]||ChestOpen.open)return;
+    // Con cuenta, el cofre se abre en el servidor: allí se sortea y se reparten los premios (decisión 0063).
+    if(linked){
+      if(opening)return;opening=true;
+      serverAsk('abrir-cofre',{type},'No se pudo abrir el cofre. Inténtalo otra vez.','Ese cofre ya no está.').then(data=>{
+        opening=false;if(!data){syncServer();return}
+        applyServer(data,true);state.stats.chests++;showChest(type,data.rewards,false);serverCoins(data.coins);
+      });
+      return;
+    }
     // Solo tocan piezas del cuerpo que se lleva puesto (y las comunes): así el premio siempre se puede estrenar (decisión 0028).
     const current=look(),missing=Avatar.CATALOG.filter(item=>item.price>0&&!item.level&&!owns(item)&&(!item.for||item.for===current.body)).map(item=>({key:item.slot+':'+item.id,rarity:Avatar.rarity(item)}));
     const result=Chests.roll(type,{items:missing,pity:state.pity,random:dice});
     state.chests[type]--;state.pity=result.pity;state.stats.chests++;
-    const rewards=result.rewards.map(reward=>{
-      if(reward.kind==='coins'){move(reward.amount,'cofres');return reward}
-      state.owned.push(reward.key);const [itemSlot,id]=reward.key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
+    showChest(type,result.rewards,true);
+  }
+  // Enseña la apertura de un cofre con sus premios. local = sorteado aquí (sin cuenta): se suman los faradios y las
+  // piezas; si lo sorteó el servidor, ya los ha repartido él y aquí solo se apuntan las piezas en el armario.
+  function showChest(type,list,local){
+    const current=look();
+    const rewards=Array.from(list).map(reward=>{
+      if(reward.kind==='coins'){if(local)move(reward.amount,'cofres');return reward}
+      if(!state.owned.includes(reward.key))state.owned.push(reward.key);const [itemSlot,id]=reward.key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
       return {...reward,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
     });
     save();refresh();
@@ -284,6 +302,15 @@
   // Comprar un cofre con faradios: como mucho Chests.BUY_CAP al día. Se abre en el momento.
   function buyChest(type){
     const chest=Chests.CHESTS[type];if(!chest||state.coins<chest.price||bought()>=Chests.BUY_CAP)return;
+    // Con cuenta, la compra la cobra el servidor y después se abre allí.
+    if(linked){
+      if(opening)return;opening=true;
+      serverAsk('comprar-cofre',{type},'No se pudo comprar el cofre. Inténtalo otra vez.','Hoy ya has comprado todos los cofres que se puede.').then(data=>{
+        opening=false;if(!data)return;
+        state.bought={day:madrid(),count:bought()+1};applyServer(data,true);serverCoins(data.coins);openChest(type);
+      });
+      return;
+    }
     move(-chest.price,'cofres-compra');state.bought={day:madrid(),count:bought()+1};grant(type);save();refresh();openChest(type);
   }
   // Pestaña Cofres: la batería, los cofres (abrir o comprar) y las probabilidades, siempre a la vista.
@@ -397,11 +424,16 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       // Las tres del día dan un cofre Chispa; las tres de la semana, un cofre Rayo. Se abre en el momento.
       if(!period.chest&&period.ids.every(mission=>period.claimed.includes(mission))){period.chest=true;won=period===state.missions.day?'chispa':'rayo';if(won==='rayo')state.stats.weekSet=1;grant(won)}
       const result=reward({xp:REWARD.missionXp,coins:linked?0:gained,reason:'misiones'});showToast(`+${gained} ≈ · +${REWARD.missionXp} XP${won?` · ¡Cofre ${Chests.CHESTS[won].name}!`:''}${levelNote(result)}`);
-      if(won){tab='cofres';draw();openChest(won)}
+      if(won&&!linked){tab='cofres';draw();openChest(won)}
       };
       // Con cuenta, la misión la comprueba y la paga el servidor (decisión 0061); aquí se marca y se da el cofre.
       if(!linked)take();
-      else if(!target.disabled){target.disabled=true;serverMission(id).then(coins=>{target.disabled=false;if(coins!=null){take();serverCoins(coins)}})}
+      else if(!target.disabled){target.disabled=true;serverAsk('mision',{id},'No se pudo recoger la misión. Inténtalo otra vez.','El servidor todavía no da esa misión por completada. Prueba en unos segundos.').then(data=>{
+        target.disabled=false;if(!data)return;
+        take();serverCoins(data.coins);
+        // Si con esta se completan las tres, el servidor da el cofre: se trae y se abre.
+        syncServer().then(()=>{if(data.chest){tab='cofres';draw();openChest(data.chest)}});
+      })}
     }
   });
   $('#profile-close').addEventListener('click',close);
@@ -415,15 +447,15 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   function circuitPrizes(prizes,connections){
     const notes=[];let open=null;
     for(const prize of prizes){
-      if(prize.kind==='bienvenida'){state.circuito.welcome=true;grant(prize.chest);open=prize.chest;notes.push(`¡Bienvenida al Circuito! Cofre Rayo y ${look().body==='mujer'?'gorro':'gorra'} Enchufe`)}
+      if(prize.kind==='bienvenida'){state.circuito.welcome=true;gift(prize.chest);open=prize.chest;notes.push(`¡Bienvenida al Circuito! Cofre Rayo y ${look().body==='mujer'?'gorro':'gorra'} Enchufe`)}
       if(prize.kind==='conexion-invitado'){move(prize.coins,'referidos');notes.push(`Ya estás conectado: +${prize.coins} ≈`)}
-      if(prize.kind==='conexion'){if(prize.chest){grant(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){move(prize.coins,'referidos');notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
+      if(prize.kind==='conexion'){if(prize.chest){gift(prize.chest);open??=prize.chest;notes.push('Amigo conectado: ¡cofre Rayo!')}else if(prize.coins){move(prize.coins,'referidos');notes.push(`Amigo conectado: +${prize.coins} ≈`)}}
     }
     const before=state.circuito.n;if(Number.isInteger(connections)&&connections>before)state.circuito.n=connections;
     const body=look().body,unlocked=Avatar.CATALOG.filter(item=>Number.isInteger(item.circuito)&&item.circuito>before&&item.circuito<=state.circuito.n&&(!item.for||item.for===body));
     if(unlocked.length)notes.push(`Nuevo: ${unlocked.map(item=>item.name).join(', ')}`);
     // Escalón de 3 amigos: un cofre Tormenta, una sola vez.
-    if(state.circuito.n>=3&&!state.circuito.storm){state.circuito.storm=true;grant('tormenta');notes.push('¡3 amigos conectados: cofre Tormenta!')}
+    if(state.circuito.n>=3&&!state.circuito.storm){state.circuito.storm=true;gift('tormenta');notes.push('¡3 amigos conectados: cofre Tormenta!')}
     save();refresh();return {text:notes.join(' · '),open};
   }
   // Corriente compartida: batería extra por cada día que jugasteis los dos (una vez por amigo y día).
@@ -479,6 +511,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       }
       keepLink();
     }finally{collecting=false;if(again)schedule()}
+    // Lo cobrado puede haber dado un cofre (batería, racha, nivel).
+    syncServer();
   }
   async function push(){
     if(!linked)return;if(sending||collecting){again=true;return}
@@ -494,7 +528,17 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   // Pide al servidor que pague una misión completada. Devuelve el saldo, o null si no la da por completada o falla.
   // Espera a que no haya un guardado ni un cobro en marcha, para que no se cruce con ellos.
-  const serverMission=async id=>(await serverAsk('mision',{id},'No se pudo recoger la misión. Inténtalo otra vez.','El servidor todavía no da esa misión por completada. Prueba en unos segundos.'))?.coins??null;
+  // Cofres y batería según el servidor (decisión 0063). applyServer los copia aquí para pintarlos; quiet = sin avisar.
+  let opening=false;
+  function applyServer(data,quiet=false){
+    if(!data?.chests||typeof data.chests!=='object')return;
+    const before=chestTotal();
+    for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
+    if(Number.isFinite(data.charge))state.charge=data.charge;
+    store();refresh();
+    if(!quiet&&chestTotal()>before)showToast(chestTotal()-before===1?'¡Tienes un cofre nuevo!':`¡Tienes ${chestTotal()-before} cofres nuevos!`);
+  }
+  async function syncServer(){if(!linked)return;try{applyServer(await cloud('estado'))}catch{}}
   // Pide algo al servidor que cambia el saldo (recoger una misión, comprar, usar una pista). Devuelve su respuesta, o
   // null si falla (y avisa). Espera a que no haya un guardado ni un cobro en marcha, para no cruzarse con ellos.
   async function serverAsk(action,extra,failed,notYet=failed){
@@ -529,6 +573,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const kept=link.owner===owner?{moves:link.moves,claims:link.claims}:{};
     link={owner,acked:has?remote.coins:remote.coins??0,...kept};keepLink();linked=true;store();refresh();
     if(!has||state.savedAt>(remote.state.savedAt||0))push();else collect();
+    syncServer();
     document.dispatchEvent(new CustomEvent('faraday:progreso'));
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
