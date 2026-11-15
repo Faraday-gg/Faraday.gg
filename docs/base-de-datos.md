@@ -257,7 +257,7 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 | Columna | Tipo | Reglas | Notas |
 | --- | --- | --- | --- |
 | `xp` | `integer` | ≥ 0, por defecto 0 | Experiencia que lleva el servidor. De ella salen el nivel y su premio (apunte `nivel`, referencia `nivel-N`). La de `state` es la que pinta el navegador. |
-| `stats` | `jsonb` | por defecto `{}` | Contadores de las misiones del día y de la semana (`day`, `week`: clave, contadores y misiones recogidas), racha y duelos del día (`duel`) y las últimas preguntas y duelos ya contados (`seen`). Vacío hasta la primera vez; entonces `xp` parte de la experiencia declarada en `state`, con tope. |
+| `stats` | `jsonb` | por defecto `{}` | Desde la [decisión 0063](decisiones/0063-cofres-en-el-servidor.md), también los cofres sin abrir (`chests`), la batería (`charge`), la racha (`streak`), la cuenta de mala suerte (`pity`), los cofres abiertos (`opened`) y los de regalo del día (`gifts`). Contadores de las misiones del día y de la semana (`day`, `week`: clave, contadores y misiones recogidas), racha y duelos del día (`duel`) y las últimas preguntas y duelos ya contados (`seen`). Vacío hasta la primera vez; entonces `xp` parte de la experiencia declarada en `state`, con tope. |
 | `stats_version` | `integer` | por defecto 0 | Concurrencia optimista, como en `duels`: el servidor guarda con `PATCH …?stats_version=eq.<leída>`. |
 
 Desde esta decisión el servidor apunta también en `ledger` los motivos `misiones` (referencia `<día o lunes>:<misión>`) y `nivel`, que el navegador ya no puede declarar. `POST /api/answers` lee esta fila en cada respuesta para saber si el jugador tiene cuenta.
@@ -272,7 +272,7 @@ Desde esta decisión el servidor apunta también en `ledger` los motivos `mision
 | --- | --- | --- | --- |
 | `player_hash` | `text` | 64 caracteres hexadecimales | |
 | `item` | `text` | `hueco:id` | La clave de la pieza en `dist/avatar.js` (`top:cam-crema-logo`). |
-| `source` | `text` | | De dónde salió: `tienda`. |
+| `source` | `text` | | De dónde salió: `tienda`, `cofre` o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
 Clave primaria `(player_hash, item)`. La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.

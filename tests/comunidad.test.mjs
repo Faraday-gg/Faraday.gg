@@ -153,12 +153,12 @@ try{
   assert.equal((await progress('leer',luis)).data.coins,before+RULES.authorPrize);
   // El navegador desglosa el cambio por motivo; lo desconocido o lo que falte va a «sin-desglose».
   const start=(await progress('leer',eva)).data.coins;
-  r=await progress('guardar',eva,{state:{v:1},delta:45,moves:{reto:35,referidos:20,'cofres-compra':-100,cofres:60,inventado:999,tienda:'x'}});
+  r=await progress('guardar',eva,{state:{v:1},delta:45,moves:{reto:35,referidos:20,otros:-100,bienvenida:60,inventado:999,tienda:'x'}});
   assert.equal(r.data.coins,start+45);
   moves=(await ledger(eva)).slice(0,5);
   // «reto» ya no es un motivo que pueda declarar el navegador (decisión 0058): va a «sin-desglose».
   moves=(await ledger(eva)).slice(0,4);
-  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{referidos:20,'cofres-compra':-100,cofres:60,'sin-desglose':65});
+  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{referidos:20,otros:-100,bienvenida:60,'sin-desglose':65});
   assert.ok(moves.every(move=>move.source==='navegador'&&move.day==='2026-11-23'));
   assert.equal(moves[0].balance,start+45);
   assert.equal(total(await ledger(eva)),start+45);
