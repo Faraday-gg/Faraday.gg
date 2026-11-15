@@ -380,8 +380,11 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.hasAttribute('data-cancel')){trying=null;draw();return}
     if(target.hasAttribute('data-buy')&&trying&&state.coins>=trying.price){
-      move(-trying.price,'tienda');state.owned.push(trying.slot+':'+trying.id);state.look={...look(),[trying.slot]:trying.id};
-      showToast(`${trying.name}: ¡ya es tuyo!`);trying=null;save();refresh();return;
+      const item=trying,own=()=>{state.owned.push(item.slot+':'+item.id);state.look={...look(),[item.slot]:item.id};showToast(`${item.name}: ¡ya es tuyo!`);if(trying===item)trying=null;save();refresh()};
+      if(!linked){move(-item.price,'tienda');own();return}
+      // Con cuenta, la compra la cobra el servidor al precio de su catálogo y apunta la pieza (decisión 0062).
+      if(target.disabled)return;target.disabled=true;
+      serverAsk('comprar',{item:item.slot+':'+item.id},'No se pudo comprar. Inténtalo otra vez.').then(data=>{target.disabled=false;if(data){own();serverCoins(data.coins)}});return;
     }
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
@@ -491,12 +494,22 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   // Pide al servidor que pague una misión completada. Devuelve el saldo, o null si no la da por completada o falla.
   // Espera a que no haya un guardado ni un cobro en marcha, para que no se cruce con ellos.
-  async function serverMission(id){
+  const serverMission=async id=>(await serverAsk('mision',{id},'No se pudo recoger la misión. Inténtalo otra vez.','El servidor todavía no da esa misión por completada. Prueba en unos segundos.'))?.coins??null;
+  // Pide algo al servidor que cambia el saldo (recoger una misión, comprar, usar una pista). Devuelve su respuesta, o
+  // null si falla (y avisa). Espera a que no haya un guardado ni un cobro en marcha, para no cruzarse con ellos.
+  async function serverAsk(action,extra,failed,notYet=failed){
     while(sending||collecting)await new Promise(resolve=>setTimeout(resolve,150));
     collecting=true;
-    try{return (await cloud('mision',{id})).coins}
-    catch(error){showToast(error.status===409?'El servidor todavía no da esa misión por completada. Prueba en unos segundos.':'No se pudo recoger la misión. Inténtalo otra vez.');return null}
+    try{return await cloud(action,extra)}
+    catch(error){showToast(error.status===402?'No te llegan los faradios.':error.status===409?notYet:failed);return null}
     finally{collecting=false;if(again)schedule()}
+  }
+  // Pagar algo fuera de la tienda (las pistas). Sin cuenta, se resta aquí; con cuenta, lo cobra el servidor (decisión 0062).
+  async function pay(amount,reason,ref){
+    if(!linked)return spend(amount,reason);
+    if(!(amount>0)||state.coins<amount)return false;
+    const data=await serverAsk('pista',{question:ref},'No se pudo usar la pista. Inténtalo otra vez.');
+    if(!data)return false;serverCoins(data.coins);return true;
   }
   // Saldo que devuelve el servidor tras cobrar algo (votos y propuestas de la comunidad).
   function serverCoins(coins){
@@ -527,7 +540,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={look,spend,serverCoins,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={look,spend,pay,serverCoins,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

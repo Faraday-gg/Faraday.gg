@@ -68,9 +68,13 @@ ${ad?`<button type="button" class="game-secondary" data-hint-ad><span aria-hidde
     document.dispatchEvent(new CustomEvent('faraday:hint',{detail:{question:q.id,via}}));
     onUnlock?.(box(q),via);
   }
-  function pay(){
+  // Con cuenta, la pista la cobra el servidor (Progress.pay, decisión 0062) y hay que esperar su respuesta.
+  async function pay(){
     if(!current||used(current.q.id))return;
-    if(!window.Progress?.spend?.(COST,'pistas')){render();return}
+    const entry=current;
+    const paid=window.Progress?.pay?await window.Progress.pay(COST,'pistas',entry.q.id):window.Progress?.spend?.(COST,'pistas');
+    if(current!==entry)return;
+    if(!paid){render();return}
     unlock('coins');
   }
   async function watch(){

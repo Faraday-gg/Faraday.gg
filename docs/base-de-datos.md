@@ -262,6 +262,21 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 Desde esta decisión el servidor apunta también en `ledger` los motivos `misiones` (referencia `<día o lunes>:<misión>`) y `nivel`, que el navegador ya no puede declarar. `POST /api/answers` lee esta fila en cada respuesta para saber si el jugador tiene cuenta.
 
+### Inventario (migración `20261115140000_inventario`, **sin aplicar**)
+
+[Decisión 0062](decisiones/0062-tienda-y-pistas-en-el-servidor.md), `lib/catalogo.mjs`.
+
+**`public.items`**: las piezas del catálogo que tiene cada jugador con cuenta. De momento solo las compradas en la tienda con cuenta.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | 64 caracteres hexadecimales | |
+| `item` | `text` | `hueco:id` | La clave de la pieza en `dist/avatar.js` (`top:cam-crema-logo`). |
+| `source` | `text` | | De dónde salió: `tienda`. |
+| `created_at` | `timestamptz` | por defecto `now()` | |
+
+Clave primaria `(player_hash, item)`. La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -338,6 +353,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261114120000` | [preguntas_comunidad](../supabase/migrations/20261114120000_preguntas_comunidad.sql) | Crea `player_progress`, `community_proposals`, `community_votes` y sus funciones, con RLS y sin permisos públicos. | **Pendiente**: rama `feat/preguntas-comunidad`, sin aplicar |
 | `20261115120000` | [libro_contable](../supabase/migrations/20261115120000_libro_contable.sql) | Crea `ledger`, la vista `ledger_daily` y `wallet_move`; sustituye `progress_credit` y vuelve a crear `progress_save`, `community_propose` y `community_vote` para que apunten cada movimiento. | **Pendiente**: rama `feat/libro-contable-faradios`, sin aplicar. Va después de `20261114120000` |
 | `20261115130000` | [experiencia_y_misiones](../supabase/migrations/20261115130000_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | **Pendiente**: rama `feat/misiones-y-nivel-servidor`, sin aplicar. Va después de `20261115120000` |
+| `20261115140000` | [inventario](../supabase/migrations/20261115140000_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/tienda-y-pistas-servidor`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
