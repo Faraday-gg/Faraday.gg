@@ -72,6 +72,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0068](0068-faradios-que-vuelan-al-saldo.md) | Al recoger una misión, los faradios vuelan del botón al saldo y suenan al contar, como el oro de los juegos de móvil | Propuesta | 2026-11-15 |
 | [0069](0069-protector-de-racha-y-cambio-de-mision.md) | Protector de racha (150 ≈), cambio de misión (30 ≈) y una sola racha para el premio del reto y los cofres | Propuesta | 2026-11-16 |
 | [0070](0070-avatar-sigue-al-raton-y-dice-ay.md) | El avatar sigue al ratón con la cabeza y la mirada, y dice «¡Ay!» con voz de niño pequeño si lo tocan | Propuesta | 2026-11-16 |
+| [0071](0071-fundicion.md) | Fundición: reciclar piezas por el 20 % de su precio y fundir cinco de una rareza para conseguir una de la siguiente | Propuesta | 2026-11-16 |
 
 ## Plantilla
 
