@@ -70,7 +70,7 @@ ${ad?`<button type="button" class="game-secondary" data-hint-ad><span aria-hidde
   }
   function pay(){
     if(!current||used(current.q.id))return;
-    if(!window.Progress?.spend?.(COST)){render();return}
+    if(!window.Progress?.spend?.(COST,'pistas')){render();return}
     unlock('coins');
   }
   async function watch(){

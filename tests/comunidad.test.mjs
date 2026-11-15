@@ -132,5 +132,38 @@ try{
   await assert.rejects(generateDay({date:'2027-03-02',store:fakeStore,apiKey:'x',log:()=>{},attempts:1,fetch:async()=>{throw Error('sin red')},community:async()=>{asked+=10;return fromCommunity}}),/sin red/);
   assert.equal(asked,1,'Un martes no se usa la comunidad');
 
+  // Libro contable (decisión 0057): cada cambio de saldo queda apuntado y los apuntes suman el saldo.
+  const ledger=async player=>(await progress('movimientos',player)).data.moves;
+  const total=moves=>moves.reduce((sum,move)=>sum+move.amount,0);
+  assert.equal((await progress('movimientos',null)).status,401);
+  for(const player of [luis,ana,eva]){
+    const moves=await ledger(player),coins=(await progress('leer',player)).data.coins;
+    assert.equal(total(moves),coins,'Los apuntes suman el saldo');
+    assert.equal(moves[0].balance,coins,'El último apunte lleva el saldo actual');
+    assert.equal(moves.at(-1).reason,'saldo-inicial');
+    assert.ok(moves.every(move=>move.amount!==0&&!('player' in move)));
+  }
+  let moves=await ledger(luis);
+  assert.deepEqual(moves[0],{amount:RULES.authorPrize,reason:'comunidad-autor',source:'servidor',ref:moves[0].ref,balance:moves[0].balance,day:'2026-11-22'});
+  assert.equal(moves.filter(move=>move.reason==='comunidad-proponer').length,3);
+  assert.ok(moves.some(move=>move.reason==='tope'&&move.amount===-5000),'Lo que recorta el tope diario queda apuntado');
+  assert.deepEqual((await ledger(ana)).filter(move=>move.reason==='comunidad-votar').map(move=>[move.amount,move.source]),[[-RULES.voteCost,'servidor'],[-RULES.voteCost,'servidor']]);
+  // El premio al autor no se paga dos veces por la misma pregunta.
+  await chosen.done();
+  assert.equal((await progress('leer',luis)).data.coins,before+RULES.authorPrize);
+  // El navegador desglosa el cambio por motivo; lo desconocido o lo que falte va a «sin-desglose».
+  const start=(await progress('leer',eva)).data.coins;
+  r=await progress('guardar',eva,{state:{v:1},delta:45,moves:{reto:35,misiones:20,pistas:-100,cofres:60,inventado:999,tienda:'x'}});
+  assert.equal(r.data.coins,start+45);
+  moves=(await ledger(eva)).slice(0,5);
+  assert.deepEqual(Object.fromEntries(moves.map(move=>[move.reason,move.amount])),{reto:35,misiones:20,pistas:-100,cofres:60,'sin-desglose':30});
+  assert.ok(moves.every(move=>move.source==='navegador'&&move.day==='2026-11-23'));
+  assert.equal(moves[0].balance,start+45);
+  assert.equal(total(await ledger(eva)),start+45);
+  // Gastar más de lo que hay no deja el saldo en negativo, y el recorte se apunta.
+  r=await progress('guardar',eva,{state:{v:1},delta:-(start+45)-70,moves:{tienda:-(start+45)-70}});
+  assert.equal(r.data.coins,0);
+  moves=await ledger(eva);assert.deepEqual([moves[0].reason,moves[0].amount,moves[0].balance],['tope',70,0]);assert.equal(total(moves),0);
+
   console.log('comunidad: OK');
 }finally{fs.rmSync(directory,{recursive:true,force:true})}
