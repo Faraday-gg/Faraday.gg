@@ -239,7 +239,7 @@
   }
 
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
-  let tab='armario',slot='top',trying=null,show='todo';
+  let tab='armario',slot='top',trying=null,show='todo',query='',grade='';
   // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
   const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria',nivel:'Exclusiva'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
   // Iconos de línea de cada parte del avatar, para las pestañas del probador.
@@ -256,6 +256,14 @@
     face:'M3.5 12a8.5 8.5 0 1 0 17 0 8.5 8.5 0 1 0-17 0zM8.5 14.5c2 2 5 2 7 0M9 9.5v.5M15 9.5v.5',
     skin:'M12 20.5a8.5 8.5 0 1 1 8.5-8.5c0 1.9-1.4 3-3 3h-2.2a1.8 1.8 0 0 0-1.2 3.1c.8.8.3 2.4-2.1 2.4zM7.5 11.5h.01M10 7.5h.01M14.5 7.5h.01'
   };
+  // Orden de las cartas: de menos a más rara; las exclusivas (nivel, «Casi casi», circuito, ediciones), al final.
+  const GRADES=['comun','especial','rara','epica','legendaria','nivel'],GRADE_NAME={comun:'Común',...RARITY};
+  const gradeOf=item=>GRADES.indexOf(Avatar.rarity(item));
+  const byGrade=list=>list.map((item,i)=>[item,i]).sort(([a,i],[b,j])=>gradeOf(a)-gradeOf(b)||(a.edition?.price??a.price??0)-(b.edition?.price??b.price??0)||i-j).map(([item])=>item);
+  // Buscador: sin mayúsculas ni tildes; busca en el nombre, la parte del avatar y la rareza.
+  const plain=text=>String(text||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim();
+  const matches=(item,words)=>{const text=plain(`${item.name} ${SLOT_NAME[item.slot]||''} ${GRADE_NAME[Avatar.rarity(item)]||''}`);return words.every(word=>text.includes(word))};
+  SLOT_ICON.todo='M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z';
   const slotIcon=id=>`<svg class="slot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${SLOT_ICON[id]||SLOT_ICON.extra}"/></svg>`;
   const LOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z"/></svg>';
   // Carta de la tienda: el color dice la rareza; abajo, lo que cuesta, si ya es tuya o qué hace falta para desbloquearla.
@@ -282,12 +290,26 @@
   }
   // Pestaña Armario: colección, cuerpo, partes del avatar (con lo que tienes de cada una), filtro y cartas.
   function wardrobe(current){
-    const all=Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)),have=all.filter(owns).length,pieces=Avatar.pieces(slot,current.body);
-    const filters=[['todo','Todo',pieces],['tuyo','Tuyas',pieces.filter(owns)],['tienda','Por conseguir',pieces.filter(item=>!owns(item))]],shown=filters.find(([id])=>id===show)[2];
+    const all=Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)),have=all.filter(owns).length;
+    const tabs=[['todo','Todo',all],...Avatar.SLOTS.map(([id,label])=>[id,label,Avatar.pieces(id,current.body)])];
     return `<div class="wardrobe-head"><div class="wardrobe-collection"><p><b>Colección</b><span>${have} / ${all.length}</span></p><div class="mission-bar" role="img" aria-label="Tienes ${have} de ${all.length} piezas"><i style="--m:${have/all.length}"></i></div></div><div class="profile-body" role="group" aria-label="Cuerpo del avatar">${Avatar.BODIES.map(([id,label])=>`<button type="button" aria-pressed="${id===current.body}" data-body="${id}">${label}</button>`).join('')}</div></div>
-<div class="profile-slots wardrobe-slots" role="tablist" aria-label="Partes del avatar">${Avatar.SLOTS.map(([id,label])=>{const list=Avatar.pieces(id,current.body);return `<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${slotIcon(id)}<span>${label}</span><small>${list.filter(owns).length}/${list.length}</small></button>`}).join('')}</div>
-<div class="wardrobe-filter" role="group" aria-label="Qué piezas ver">${filters.map(([id,label,list])=>`<button type="button" aria-pressed="${id===show}" data-show="${id}">${label} <small>${list.length}</small></button>`).join('')}</div>
-<div class="profile-items">${shown.length?shown.map(item=>tile(item,current)).join(''):`<p class="wardrobe-empty">${show==='tuyo'?'Aún no tienes piezas de este tipo: pruébate las de la tienda.':'¡Ya las tienes todas!'}</p>`}</div>`;
+<div class="profile-slots wardrobe-slots" role="tablist" aria-label="Partes del avatar">${tabs.map(([id,label,list])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${slotIcon(id)}<span>${label}</span><small>${list.filter(owns).length}/${list.length}</small></button>`).join('')}</div>
+<div class="wardrobe-tools"><label class="wardrobe-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 1 0 0-13zM15.5 15.5 20 20"/></svg><input type="search" data-search value="${query.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" placeholder="Buscar ${slot==='todo'?'en todo el armario':'en '+(SLOT_NAME[slot]||'').toLowerCase()}" aria-label="Buscar piezas" autocomplete="off" enterkeyhint="search"></label><select class="wardrobe-grade" data-grade aria-label="Rareza"><option value="">Rareza: todas</option>${GRADES.map(id=>`<option value="${id}"${id===grade?' selected':''}>${GRADE_NAME[id]}</option>`).join('')}</select></div>
+<div class="wardrobe-results">${wardrobeResults(current,all)}</div>`;
+  }
+  // Filtro (todas, tuyas, por conseguir) y cartas: se rehace solo esta parte al escribir en el buscador, para no perder el foco.
+  function wardrobeResults(current,all){
+    const words=plain(query).split(/\s+/).filter(Boolean);
+    const pieces=byGrade((slot==='todo'?all:Avatar.pieces(slot,current.body)).filter(item=>(!grade||Avatar.rarity(item)===grade)&&matches(item,words)));
+    const filters=[['todo','Todo',pieces],['tuyo','Tuyas',pieces.filter(owns)],['tienda','Por conseguir',pieces.filter(item=>!owns(item))]],shown=filters.find(([id])=>id===show)[2];
+    const narrowed=words.length||grade,wider=slot!=='todo'&&narrowed?'<button type="button" class="duel-link" data-slot="todo">Buscar en todo el armario</button>':'';
+    const empty=narrowed&&!pieces.length?`No hay piezas${grade?` de rareza ${GRADE_NAME[grade].toLowerCase()}`:''}${words.length?` con «${query.trim().replace(/[<>&"]/g,'')}»`:''} ${slot==='todo'?'en el armario':`en ${(SLOT_NAME[slot]||'').toLowerCase()}`}.${wider?'<br>'+wider:''}`:show==='tuyo'?'Aún no tienes piezas de este tipo: pruébate las de la tienda.':'¡Ya las tienes todas!';
+    return `<div class="wardrobe-filter" role="group" aria-label="Qué piezas ver">${filters.map(([id,label,list])=>`<button type="button" aria-pressed="${id===show}" data-show="${id}">${label} <small>${list.length}</small></button>`).join('')}</div>
+<div class="profile-items">${shown.length?shown.map(item=>tile(item,current)).join(''):`<p class="wardrobe-empty">${empty}</p>`}</div>`;
+  }
+  function redrawResults(){
+    const box=main.querySelector('.wardrobe-results');if(!box){draw();return}
+    const current=look();box.innerHTML=wardrobeResults(current,Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)));
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
@@ -415,6 +437,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if($('#game-shell').hidden&&$('#duel-shell').hidden)document.body.classList.remove('modal-open');
     document.dispatchEvent(new CustomEvent('faraday:look'));
   }
+  // Buscador y rareza del armario: al escribir solo se rehacen las cartas, así el campo no pierde el foco.
+  shell.addEventListener('input',event=>{if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}});
+  shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
     if(target.dataset.tab){tab=target.dataset.tab;trying=null;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
