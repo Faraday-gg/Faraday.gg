@@ -315,6 +315,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 
 - **`POST /api/answers`**:
   - La primera vez que una instancia recibe una respuesta de una jornada, inserta la jornada en `days` (`source` = `piloto` o `banco-editorial`) y sus tres preguntas en `questions` (`position` 1 a 3, `revision`, y en `content` el objeto completo). Ignora las filas que ya existan.
+  - Si la jornada ya estaba en `days` pero **a medias** (le faltan preguntas, o alguna está en otra posición porque el contenido cambió después de publicarse), la completa: mueve a su sitio las que ya están, mientras el sitio esté libre, e inserta las que faltan. Mientras tanto, `/api/day` y `/api/calendar` no sirven una jornada con menos preguntas que la del repositorio: usan la del repositorio.
   - Después inserta la respuesta en `answers`, ignorando duplicados por `(question_id, player_hash)`, y lee las respuestas de esa pregunta para devolver la distribución.
   - Si la cifra guardada no coincide con la enviada, responde `409`. La API de Supabase devuelve los `double precision` redondeados a 15 cifras significativas, así que la comparación usa una tolerancia relativa de 1e-12; si no, reenviar la misma respuesta con muchos decimales daba `409`.
 - **`POST /api/jugador`**: si el UUID llega desde la cookie `faraday_jugador` (el navegador perdió su `localStorage`), lee de `answers` todas las filas con ese `player_hash` para devolver el progreso. No hay índice propio por `player_hash` ([decisión 0009](decisiones/0009-jugador-sin-registro-con-cookie.md)).
