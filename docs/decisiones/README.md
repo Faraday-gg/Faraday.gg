@@ -80,6 +80,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0076](0076-suscripcion-sin-cobro.md) | La suscripción, sin el cobro: quién la tiene, 5 duelos al día en el plan gratuito, sin publicidad, anuncios sin tope y piezas de suscriptor | Propuesta | 2026-11-16 |
 | [0077](0077-cobro-con-stripe.md) | El cobro de la suscripción con Stripe: página de pago, portal del cliente y aviso de pago firmado, sin dependencias | Propuesta | 2026-11-16 |
 | [0078](0078-ordenes-de-compra-y-lista-de-deseos.md) | Órdenes de compra (faradios retenidos, 5 por cuenta), «vender ya» a la orden más alta y lista de deseos | Propuesta | 2026-11-16 |
+| [0079](0079-vitrina-de-colecciones.md) | Vitrina de colecciones: los artículos de colección y las piezas con acabado de cada jugador, a la vista solo si él quiere, y lista de coleccionistas | Propuesta | 2026-11-16 |
 
 ## Plantilla
 

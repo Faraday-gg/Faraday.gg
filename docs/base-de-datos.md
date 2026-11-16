@@ -424,6 +424,25 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Vitrinas de colecciones (migración `20261116170000_vitrinas`, **sin aplicar**)
+
+[Decisión 0079](decisiones/0079-vitrina-de-colecciones.md), `lib/vitrina.mjs`.
+
+**`public.showcases`**: la vitrina de un jugador. Lo que contiene no se guarda: se lee de `collectibles` y de `items` (las piezas con acabado).
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | |
+| `code` | `text` | 8 letras y números, único | Lo que va en el enlace para enseñarla. No es la cuenta. |
+| `public` | `boolean` | por defecto `false` | Si el jugador la enseña. |
+| `name` | `text` | hasta 40 caracteres | Con qué nombre se presenta. |
+| `avatar` | `jsonb` | | Con qué avatar. |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+**`public.showcase_ranking(p_limit)`**: los jugadores que enseñan su vitrina y tienen algún artículo de colección, de más a menos unidades: `code`, `name`, `avatar`, `units` y `editions`. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -507,6 +526,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
+| `20261116170000` | [vitrinas](../supabase/migrations/20261116170000_vitrinas.sql) | Crea `showcases` y la función `showcase_ranking` (vitrinas de colecciones), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/vitrina`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
