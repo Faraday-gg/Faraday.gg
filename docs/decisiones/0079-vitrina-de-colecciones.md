@@ -1,6 +1,6 @@
 # 0079. Vitrina de colecciones
 
-- **Estado:** propuesta (código en la rama `feat/vitrina`; la migración `20261116170000_vitrinas` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/vitrina`; la migración `20261116102311_vitrinas` está **aplicada** desde el 2026-11-16)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la segunda y última entrega de la fase 6, después de las órdenes de compra ([0078](0078-ordenes-de-compra-y-lista-de-deseos.md)).
@@ -45,7 +45,7 @@ En el mercado, pestaña **«Vitrinas»**: la propia arriba y la lista de colecci
 
 - `lib/vitrina.mjs` (nuevo): las vitrinas del almacén en memoria y las acciones `vitrina`, `vitrina-publicar` y `coleccionistas` de `POST /api/progreso`. `lib/stores.mjs`: lo mismo contra Supabase. `lib/comunidad.mjs` solo lo conecta.
 - `dist/market.js` y `dist/market.css`: la pestaña, la vitrina de otro jugador y el enlace `?vitrina=CÓDIGO`.
-- `supabase/migrations/20261116170000_vitrinas.sql` y `tests/vitrina.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
+- `supabase/migrations/20261116102311_vitrinas.sql` y `tests/vitrina.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
 
 ## Alternativas descartadas
 
@@ -58,7 +58,7 @@ En el mercado, pestaña **«Vitrinas»**: la propia arriba y la lista de colecci
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** (con la confirmación de Luis). Sin ella, la pestaña dice que las vitrinas no están disponibles y el resto del mercado funciona.
+- **La migración está aplicada** desde el 16 de noviembre (Luis lo confirmó).
 - **Quien enseña su vitrina deja ver qué artículos tiene y cuáles vende**, y con eso otros jugadores pueden ofrecerle un intercambio por fuera del juego. Es lo que se busca.
 - **El nombre de la vitrina es el del momento de enseñarla.** Si el jugador se cambia el nombre o el avatar, tiene que volver a pulsar el botón para que se actualice (apuntado en [mejoras](../mejoras/README.md)).
 - **El servidor no comprueba lo que lleva puesto el avatar** con el que se presenta la vitrina, como en los duelos: es el mismo hueco ya apuntado en mejoras.
