@@ -973,6 +973,7 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .profile-plan p{margin:0}
 .profile-plan p:first-child{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:4px;color:var(--ink);font-size:14px}
 .profile-plan small{font-size:12px;color:var(--muted)}
+.profile-plan button{margin-top:10px;padding:10px 16px;font-size:13px}
 .profile-plan.is-plus{background:var(--yellow);color:var(--ink)}
 .profile-shield{margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line);display:grid;gap:8px}
 .profile-shield p{margin:0}

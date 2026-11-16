@@ -93,7 +93,7 @@ try{
   const calls=[],fake=async(url,init={})=>{const target=new URL(url);calls.push({path:target.pathname,query:Object.fromEntries(target.searchParams),method:init.method||'GET',body:init.body?JSON.parse(init.body):null});
     return Response.json(target.pathname.endsWith('/subscriptions')&&(init.method||'GET')==='GET'?[{until:'2026-12-20T09:00:00Z',source:'manual'}]:target.pathname.endsWith('/duels')?[{created_at:'2026-11-20T09:00:00Z'}]:[])};
   const remote=supabaseStore({url:'https://proyecto.supabase.co',key:'sb_secret_prueba',fetch:fake}),hash='c'.repeat(64),sent=()=>calls.at(-1);
-  assert.deepEqual(await remote.community.subscriptionOf(hash),{until:Date.parse('2026-12-20T09:00:00Z'),source:'manual'});
+  assert.deepEqual(await remote.community.subscriptionOf(hash),{until:Date.parse('2026-12-20T09:00:00Z'),source:'manual',customer:null});
   assert.deepEqual([sent().path,sent().query.player_hash,sent().query.limit],['/rest/v1/subscriptions','eq.'+hash,'1']);
   await remote.community.setSubscription(hash,Date.parse('2027-01-01T00:00:00Z'),'manual','x');
   assert.deepEqual([sent().method,sent().query.on_conflict,sent().body.player_hash,sent().body.until,sent().body.source,sent().body.ref],['POST','player_hash',hash,'2027-01-01T00:00:00.000Z','manual','x']);

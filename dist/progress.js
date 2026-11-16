@@ -101,7 +101,8 @@
   // Ediciones de colección (decisión 0067): se tiene la pieza si se tiene una unidad de su edición (state.editions = {edición: n.º de serie}).
   const serialOf=item=>item.edition&&state.editions?state.editions[item.edition.id]||0:0;
   // plus = la cuenta tiene la suscripción activa (decisión 0076); lo dice el servidor. Las piezas de suscriptor solo se tienen con ella.
-  let plus=false,plusUntil=null;
+  // billing = si la suscripción se puede contratar, su precio y si el jugador ya es cliente de Stripe (decisión 0077).
+  let plus=false,plusUntil=null,billing=null;
   const owns=item=>item.plus?plus:(!item.price&&!item.level&&!item.casi&&!item.circuito&&!item.edition)||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
@@ -469,7 +470,12 @@ ${chosen?medalDetail(chosen,stats):''}
   // El plan del jugador (decisión 0076): qué da la suscripción y si la tiene. Todavía no se puede contratar.
   function planCard(){
     const perks='duelos sin límite, sin publicidad, anuncios sin tope en el mercado y piezas de suscriptor';
-    return `<div class="profile-plan${plus?' is-plus':''}"><p><b>${plus?'Suscripción activa':'Plan gratuito'}</b>${plus&&plusUntil?`<small>hasta el ${dateText(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date(plusUntil)))}</small>`:''}</p><p>${plus?`Tienes ${perks}.`:`${REWARD.freeDuels} duelos al día. La suscripción dará ${perks}. Todavía no se puede contratar.`}</p></div>`;
+    // El precio que dice Stripe («4,99 € al mes»), si se puede contratar.
+    const price=billing?.price&&Number.isFinite(billing.price.amount)?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
+    const until=plus&&plusUntil?`<small>hasta el ${dateText(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date(plusUntil)))}</small>`:'';
+    const action=!linked?'':billing?.managed?'<button type="button" class="game-secondary" data-manage-plan>Gestionar la suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Suscribirme${price?` · ${price}`:''}</button>`:'';
+    const text=plus?`Tienes ${perks}.`:`${REWARD.freeDuels} duelos al día. Con la suscripción: ${perks}.${billing?.enabled?(linked?' Se renueva sola y se cancela cuando quieras.':' Entra con tu cuenta para suscribirte.'):' Todavía no se puede contratar.'}`;
+    return `<div class="profile-plan${plus?' is-plus':''}"><p><b>${plus?'Suscripción activa':'Plan gratuito'}</b>${until}</p><p>${text}</p>${action}</div>`;
   }
   // Vitrina: las tres mejores, siempre a la vista bajo el nivel.
   function showcase(){
@@ -608,6 +614,12 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       return;
     }
     // Proteger la racha (decisión 0069): ayer cuenta como jugado y la racha sigue. Con cuenta lo cobra el servidor.
+    // Suscripción (decisión 0077): el servidor da la dirección de la página de pago de Stripe, o la de su portal, y se va a ella.
+    if('subscribe' in target.dataset||'managePlan' in target.dataset){
+      if(target.disabled)return;target.disabled=true;
+      serverAsk('subscribe' in target.dataset?'suscribirse':'gestionar-suscripcion',{},'No se pudo abrir la página de pago. Inténtalo otra vez.','Ya tienes la suscripción activa.').then(data=>{if(data?.url)location.href=data.url;else target.disabled=false});
+      return;
+    }
     if('shield' in target.dataset){
       const offer=shieldOffer();if(!offer||target.disabled)return;
       const done=days=>{state.streak={count:days,last:shift(madrid(),-1)};shield=null;save();draw();showToast(`Racha protegida: sigues con ${days} días. Juega hoy para sumar otro.`)};
@@ -747,7 +759,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
     if(Number.isFinite(data.charge))state.charge=data.charge;
     // Si la cuenta tiene la suscripción activa (decisión 0076).
-    if(typeof data.plus==='boolean'){plus=data.plus;plusUntil=data.plusUntil||null}
+    if(typeof data.plus==='boolean'){plus=data.plus;plusUntil=data.plusUntil||null;billing=data.billing||null}
     // La experiencia también es la del servidor (decisión 0065): así el nivel que se ve es el que cuenta.
     if(Number.isInteger(data.xp)&&data.xp>=0)state.xp=data.xp;
     store();refresh();
@@ -805,9 +817,19 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
   function detach(){
-    const was=linked||link.owner;linked=false;plus=false;plusUntil=null;clearTimeout(timer);
+    const was=linked||link.owner;linked=false;plus=false;plusUntil=null;billing=null;clearTimeout(timer);
     if(!was)return;
     link={};keepLink();hydrate(null);state.welcome=true;state.cofres=true;store();refresh();
+  }
+  // Al volver de la página de pago de Stripe (decisión 0077): el aviso de pago puede tardar unos segundos, así que se
+  // pregunta al servidor varias veces hasta que la suscripción aparece.
+  const paid=new URLSearchParams(location.search).get('suscripcion');
+  if(paid){
+    history.replaceState(null,'',location.pathname);
+    if(paid==='ok'){
+      let tries=0;const check=async()=>{if(linked)await syncServer();if(plus){showToast('¡Suscripción activa! Gracias.');if(!shell.hidden)draw();return}if(++tries<10)setTimeout(check,2000);else showToast('El pago está hecho; la suscripción aparecerá en unos minutos.')};
+      setTimeout(()=>{showToast('Pago recibido: activando tu suscripción…');check()},1500);
+    }else setTimeout(()=>showToast('No se ha hecho ningún cobro.'),1500);
   }
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
