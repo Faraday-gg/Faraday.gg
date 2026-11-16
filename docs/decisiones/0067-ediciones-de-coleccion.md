@@ -4,6 +4,7 @@
 - **Fecha:** 2026-11-15
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera entrega de la fase 3 («escasez»).
+- **Ampliada por:** la [0079](0079-sets-de-disfraces-por-partes.md): las partes de los sets son ediciones que no se compran y que sí salen en cofres. Lo que se dice abajo sigue valiendo para las ediciones que se compran.
 
 ## Contexto
 
