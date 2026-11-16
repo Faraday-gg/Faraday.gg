@@ -300,7 +300,7 @@ Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-
 
 La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Mercado (migración `20261116130000_mercado`, **sin aplicar**)
+### Mercado (migración `20261116003548_mercado`, aplicada el 2026-11-16)
 
 Decisiones [0073](decisiones/0073-mercado-de-ediciones.md) y [0074](decisiones/0074-mercado-con-pujas-e-indicadores.md), `lib/mercado.mjs`.
 
@@ -426,7 +426,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
-| `20261116130000` | [mercado](../supabase/migrations/20261116130000_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/mercado`, sin aplicar |
+| `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

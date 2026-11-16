@@ -1,6 +1,6 @@
 # 0074. Mercado con pantalla propia, subastas con pujas e indicadores
 
-- **Estado:** propuesta (código en la rama `feat/mercado`, montada sobre `feat/acabados`; la migración `20261116130000_mercado` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/mercado`, montada sobre `feat/acabados`; la migración `20261116003548_mercado` está **aplicada** desde el 2026-11-16)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Amplía a:** la [0073](0073-mercado-de-ediciones.md), del mismo día y en la misma rama. Lo que no se cambia aquí sigue como en la 0073 (qué se vende, comisión, tope de anuncios, quién puede vender).
@@ -83,7 +83,7 @@ Pujar y comprar ya piden confirmar en un cuadro que dice lo que cuesta y lo que 
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** (con la confirmación de Luis). Como la 0073 no llegó a aplicarse, es un solo archivo con el esquema completo.
+- **La migración está aplicada** desde el 16 de noviembre (Luis lo confirmó). Como la primera versión, la de la 0073, no llegó a aplicarse, es un solo archivo con el esquema completo.
 - **Hay relojes en pantalla** («termina en 2 h 4 min»), solo en las subastas. Es un cambio respecto a la 0055, que los evitaba en ediciones y temporadas para no meter prisa.
 - **Los faradios retenidos en pujas no están en ningún saldo** mientras dura la subasta: el total de saldos baja al pujar y sube al devolverse o al cobrarlos el vendedor. Para cuadrar la economía hay que contar los apuntes `mercado-puja`.
 - **Pujar permite pasar faradios entre cuentas** igual que comprar, perdiendo el 10 %.
