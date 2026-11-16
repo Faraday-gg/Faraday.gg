@@ -76,6 +76,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0072](0072-acabados.md) | Acabados: versiones cromada, holográfica y dorada de piezas que ya existen, que salen en cofres con poca probabilidad | Propuesta | 2026-11-16 |
 | [0073](0073-mercado-de-ediciones.md) | Mercado: anuncios a precio fijo de ediciones de colección, con compra en una sola operación y un 10 % de comisión destruida | Propuesta | 2026-11-16 |
 | [0074](0074-mercado-con-pujas-e-indicadores.md) | Mercado con pantalla propia, subastas con pujas (faradios retenidos, 5 % de subida, cierre al acabar) e indicadores; amplía la 0073 | Propuesta | 2026-11-16 |
+| [0075](0075-intercambios-privados.md) | Intercambios privados de artículos de colección: con un código, solo artículos, y el cambio se hace cuando confirman los dos | Propuesta | 2026-11-16 |
 
 ## Plantilla
 

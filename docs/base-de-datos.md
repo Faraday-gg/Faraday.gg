@@ -347,6 +347,35 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 
 La comisión no se apunta a nadie: es la diferencia entre lo que paga el comprador y lo que recibe el vendedor, y queda en `listings.fee`. Los faradios de una puja activa no están en ningún saldo. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Intercambios privados (migración `20261116140000_intercambios`, **sin aplicar**)
+
+[Decisión 0075](decisiones/0075-intercambios-privados.md), `lib/intercambios.mjs`.
+
+**`public.trades`**: un intercambio de artículos de colección entre dos cuentas. No mueve faradios.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | |
+| `code` | `text` | 6 letras y números, único | Lo que se pasa a la otra persona para que entre. |
+| `a`, `b` | `text` | 64 caracteres hexadecimales; `b` opcional y distinto de `a` | `a` crea el intercambio; `b` entra con el código. |
+| `a_name`, `b_name` | `text` | hasta 40 caracteres | Nombre que enseña cada uno. |
+| `a_avatar`, `b_avatar` | `jsonb` | | El avatar de cada uno, para pintarlo en la sala. |
+| `offer_a`, `offer_b` | `jsonb` | lista de hasta 10 | Lo que ofrece cada uno: `[{"edition": …, "serial": …}]`. |
+| `ok_a`, `ok_b` | `boolean` | por defecto `false` | Las confirmaciones. Se quitan si cambia una oferta. |
+| `status` | `text` | `abierto`, `hecho`, `cancelado` o `caducado` | Caduca si nadie lo toca en 30 minutos (lo marca el servidor al leer). |
+| `version` | `integer` | por defecto 0 | Sube con cada cambio de oferta; confirmar exige la versión vista. |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo. Devuelven la fila del intercambio o `{error}`:
+
+- `trade_join(p_code, p_player, p_name, p_avatar)`: entra con el código. Errores: `cerrado` o `lleno`.
+- `trade_offer(p_trade, p_player, p_units)`: cambia lo que ofrece un jugador y quita las dos confirmaciones. Errores: `cerrado` o `no-disponible` (alguna unidad no es suya o está anunciada en el mercado).
+- `trade_confirm(p_trade, p_player, p_ok, p_version)`: confirma o quita la confirmación. Con las dos, bloquea y comprueba todas las unidades y cambia `collectibles.owner` de todas a la vez. Errores: `cerrado`, `solo`, `cambio`, `vacio` o `no-disponible`.
+- `trade_cancel(p_trade, p_player)`: cancela un intercambio abierto.
+- `trade_free(p_edition, p_serial, p_player)`: dice si una unidad es de ese jugador y no tiene un anuncio activo. De uso interno.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -427,6 +456,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116140000` | [intercambios](../supabase/migrations/20261116140000_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/intercambios`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
