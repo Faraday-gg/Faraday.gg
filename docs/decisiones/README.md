@@ -77,6 +77,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0073](0073-mercado-de-ediciones.md) | Mercado: anuncios a precio fijo de ediciones de colección, con compra en una sola operación y un 10 % de comisión destruida | Propuesta | 2026-11-16 |
 | [0074](0074-mercado-con-pujas-e-indicadores.md) | Mercado con pantalla propia, subastas con pujas (faradios retenidos, 5 % de subida, cierre al acabar) e indicadores; amplía la 0073 | Propuesta | 2026-11-16 |
 | [0075](0075-intercambios-privados.md) | Intercambios privados de artículos de colección: con un código, solo artículos, y el cambio se hace cuando confirman los dos | Propuesta | 2026-11-16 |
+| [0076](0076-suscripcion-sin-cobro.md) | La suscripción, sin el cobro: quién la tiene, 5 duelos al día en el plan gratuito, sin publicidad, anuncios sin tope y piezas de suscriptor | Propuesta | 2026-11-16 |
 
 ## Plantilla
 
