@@ -1,0 +1,70 @@
+/* Duelos de tres (decisión 0082): marcador de tres, presentación, columnas del resultado y puestos finales.
+   El 1vs1 no usa nada de este archivo: todo cuelga de .is-three. */
+
+/* Portal: la fila de «Partida de tres» y «Retar a dos amigos» */
+.duel-three-modes{align-items:center;margin-top:8px}
+.duel-three-label{flex-basis:100%;font:700 11px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+
+/* Sala de espera con tres sitios */
+.duel-search.is-three{flex-wrap:wrap;gap:12px}
+.duel-search.is-three .duel-figure{max-width:30%}
+
+/* Marcador: la franja de ronda arriba y tres tarjetas iguales, la tuya primera */
+.duel-hud.is-three{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:min(720px,calc(100% - 24px))}
+.duel-hud.is-three .duel-mid{grid-column:1/-1;display:flex;justify-content:center;gap:10px}
+.duel-hud.is-three .duel-player[data-side]{grid-template-columns:1fr;grid-template-areas:"av" "who" "hp" "num";justify-items:center;text-align:center;row-gap:4px;padding:10px 8px}
+.duel-hud.is-three .duel-player[data-side=you]{box-shadow:0 0 0 2px var(--g-accent),0 10px 22px -16px #20263066}
+.duel-hud.is-three .duel-player .duel-avatar{--size:40px}
+.duel-hud.is-three .duel-who{flex-wrap:wrap;justify-content:center;gap:4px}
+.duel-hud.is-three .duel-name{max-width:100%;font-size:14px}
+.duel-hud.is-three .hp{width:100%}
+.duel-hud.is-three .hp-hit{right:8px;left:auto}
+.duel-hud.is-three .duel-level{display:inline}
+/* Eliminado: se queda a la vista, apagado y tachado */
+.duel-player.is-out{opacity:.5;filter:grayscale(.85)}
+.duel-player.is-out .duel-name{text-decoration:line-through}
+
+/* Presentación VS en tres bandas */
+.duel-versus.is-three{display:grid;place-items:center;background:linear-gradient(160deg,#2a2f55,#11141c 70%)}
+.versus-cards{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr)}
+.versus-card{position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;padding:0 8px max(9vh,56px);animation:versus-rise .6s cubic-bezier(.22,1,.36,1) both}
+.versus-card:nth-child(2){animation-delay:.1s}.versus-card:nth-child(3){animation-delay:.2s}
+.versus-card[data-you=true]{background:linear-gradient(0deg,#ff654866,#ff654800 70%)}
+.versus-card[data-you=false]:nth-child(2){background:linear-gradient(0deg,#4f5ee866,#4f5ee800 70%)}
+.versus-card[data-you=false]:nth-child(3){background:linear-gradient(0deg,#2fd6a266,#2fd6a200 70%)}
+.versus-card .versus-figure{width:min(26vw,40vh,320px)}
+.versus-card .versus-tag strong{font-size:clamp(16px,3.4vw,40px)}
+
+/* Resultado de la ronda: tres columnas */
+.duel-cols.is-three{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.duel-cols.is-three .duel-col{grid-template-columns:1fr;justify-items:center;text-align:center;padding:10px 6px}
+.duel-cols.is-three .duel-col-name{max-width:100%}
+.duel-col.is-out{opacity:.5}
+.duel-col-hit{margin-top:4px;font:700 14px var(--num);color:#c8321a}
+.duel-col-hit.is-safe{color:var(--g-muted);font-weight:500;font-size:12px}
+
+/* Final: puestos y rondas con tres marcadores */
+.duel-podium{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.duel-podium li{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:9px 12px;border-radius:14px;background:var(--g-hover)}
+.duel-podium li.is-you{box-shadow:inset 0 0 0 2px var(--g-accent)}
+.duel-podium b{font:700 16px var(--display)}
+.duel-podium span{font:700 15px var(--display);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duel-podium small{font:500 13px var(--num);color:var(--g-muted)}
+.duel-rounds.is-three li{grid-template-columns:34px 1fr auto 1fr auto 1fr 64px}
+.duel-rounds.is-three i{font-style:normal;color:var(--g-muted)}
+
+@media(max-width:560px){
+  .duel-hud.is-three{gap:5px;width:calc(100% - 16px)}
+  .duel-hud.is-three .duel-player[data-side]{padding:8px 4px}
+  .duel-hud.is-three .duel-player .duel-avatar{--size:34px}
+  .duel-hud.is-three .duel-name{font-size:12px}
+  .duel-hud.is-three .duel-level{font-size:10px}
+  .duel-hud.is-three .hp-num{font-size:11px}
+  .duel-cols.is-three .duel-col-guess{font-size:15px}
+  .duel-cols.is-three .duel-col-points{font-size:24px}
+  .versus-card{padding-bottom:max(12vh,60px)}
+  .versus-card .versus-figure{width:min(30vw,34vh)}
+  .duel-versus.is-three .versus-mark{font-size:clamp(64px,22vw,120px);top:30%}
+  .duel-versus.is-three .versus-meta{display:none}
+}
+@media(prefers-reduced-motion:reduce){.versus-card{animation:none}}

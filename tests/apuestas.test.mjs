@@ -32,6 +32,8 @@ assert.deepEqual(Object.fromEntries(Array.from(R.IDS,id=>[id,R.TIERS[id].amount]
   assert.deepEqual([betResult({winner:0},0),betResult({winner:0},1),betResult({winner:'draw'},0),betResult({winner:null,reason:'cancelado'},0),betResult({winner:1,reason:'abandono'},0)],['won','lost','draw','void','lost']);
   assert.deepEqual([betPayout('won',25),betPayout('lost',25),betPayout('draw',25),betPayout('void',25),betPayout('won',150)],[45,0,25,25,270],'Quien gana se lleva el bote menos el 10 %');
   assert.deepEqual({...R.pot(60)},{win:48,fee:12});assert.equal(R.shared('calambre','alto-voltaje'),60);assert.equal(R.shared('calambre',null),0);
+  assert.equal(R.shared('calambre','alto-voltaje','chispazo'),25,'En tres, la apuesta más baja de las tres');assert.equal(R.shared('calambre','chispazo',null),0,'Si uno no apuesta, no hay bote');
+  assert.deepEqual({...R.pot(25,3)},{win:42,fee:8},'Bote de tres: 75 menos el 10 %, y 25 que ya eran suyos');
 }
 assert.deepEqual(amounts,[...amounts].sort((a,b)=>a-b));
 // Encaja en la economía: la apuesta baja no pasa de dos duelos ganados y lo más que se pierde en un día no llega a un cofre Tormenta (1.100 ≈).

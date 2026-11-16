@@ -41,7 +41,7 @@
   }
   function renderLog(messages){
     const rival=bridge?.rival();
-    log.innerHTML=messages.length?messages.map(m=>`<li class="chat-msg" data-from="${m.from}" data-kind="${m.kind}">${m.from==='rival'?`<small>${esc(rival?.name||'Rival')}</small>`:''}${bubbleHtml(m)}</li>`).join('')
+    log.innerHTML=messages.length?messages.map(m=>`<li class="chat-msg" data-from="${m.from}" data-kind="${m.kind}">${m.from==='rival'?`<small>${esc((bridge?.speaker?.(m)||rival)?.name||'Rival')}</small>`:''}${bubbleHtml(m)}</li>`).join('')
       :`<li class="chat-empty">${rival?.bot?'Faraday-bot no lee mensajes, pero a veces reacciona.':'Saluda a tu rival o reacciona a la jugada.'}</li>`;
     log.scrollTop=log.scrollHeight;
   }
@@ -61,7 +61,7 @@
       element.textContent=content(m)||'';card.append(element);setTimeout(()=>element.remove(),m.kind==='reaction'?2600:4200);return;
     }
     if(m.from!=='rival'||isOpen())return;
-    peek.textContent=`${bridge?.rival()?.name||'Rival'}: ${content(m)||''}`;peek.classList.add('show');
+    peek.textContent=`${(bridge?.speaker?.(m)||bridge?.rival())?.name||'Rival'}: ${content(m)||''}`;peek.classList.add('show');
     clearTimeout(peekTimer);peekTimer=setTimeout(()=>peek.classList.remove('show'),3800);
   }
   function blip(){if(window.Sound){Sound.tone(880,0,.09,{type:'triangle',gain:.035});Sound.tone(1320,.07,.12,{type:'triangle',gain:.03})}}
@@ -76,7 +76,7 @@
     phase=view.phase;renderPhrases();
     const messages=view.chat||[],fresh=messages.filter(m=>!seen.has(m.n));
     messages.forEach(m=>seen.add(m.n));
-    dock.querySelector('#duel-chat-title').textContent=`Chat con ${bridge?.rival()?.name||'tu rival'}`;
+    dock.querySelector('#duel-chat-title').textContent=view.size===3?'Chat de la partida':`Chat con ${bridge?.rival()?.name||'tu rival'}`;
     if(first||fresh.length)renderLog(messages);
     if(first)return; // al volver a un duelo (recarga) no se repiten los avisos de lo ya escrito
     for(const m of fresh){
