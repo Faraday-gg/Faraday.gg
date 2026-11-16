@@ -274,7 +274,7 @@ Desde esta decisión el servidor apunta también en `ledger` los motivos `mision
 | --- | --- | --- | --- |
 | `player_hash` | `text` | 64 caracteres hexadecimales | |
 | `item` | `text` | `hueco:id` | La clave de la pieza en `dist/avatar.js` (`top:cam-crema-logo`). |
-| `source` | `text` | | De dónde salió: `tienda`, `cofre`, `fundicion` (la que da fundir cinco piezas, [decisión 0071](decisiones/0071-fundicion.md)), `devuelta` (una fundición que no se completó) o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
+| `source` | `text` | | Una pieza con acabado ([decisión 0072](decisiones/0072-acabados.md)) es una fila más, con el acabado detrás de dos guiones en `item` (`top:sud-gris--or`). De dónde salió: `tienda`, `cofre`, `fundicion` (la que da fundir cinco piezas, [decisión 0071](decisiones/0071-fundicion.md)), `devuelta` (una fundición que no se completó) o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
 Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-fundicion.md) el servidor también **borra** filas: reciclar o fundir una pieza la quita de aquí; el reciclaje se paga con `wallet_move` (motivo `reciclaje`, con una referencia al azar). La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
@@ -299,6 +299,149 @@ Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-
 **`public.edition_next(p_edition, p_total)`**: suma una unidad y devuelve su número de serie, o `null` si la tirada está completa. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
 
 La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Mercado (migración `20261116003548_mercado`, aplicada el 2026-11-16)
+
+Decisiones [0073](decisiones/0073-mercado-de-ediciones.md) y [0074](decisiones/0074-mercado-con-pujas-e-indicadores.md), `lib/mercado.mjs`.
+
+**`public.listings`**: un anuncio de una unidad de `collectibles`, con compra ya, subasta o las dos.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-compra` y `mercado-venta`. |
+| `collectible_id` | `bigint` | referencia a `collectibles(id)` | Índice único `listings_active`: una unidad solo tiene un anuncio activo. |
+| `edition`, `serial` | `text`, `integer` | como en `collectibles` | Copia, para leer el tablón sin cruzar tablas. |
+| `seller` | `text` | 64 caracteres hexadecimales | Mientras el anuncio está activo la unidad sigue siendo suya (`collectibles.owner`), pero en depósito. |
+| `buy_now` | `integer` | de 1 a 1.000.000, opcional | Precio de «compra ya». Tiene que haber `buy_now`, `start_bid` o los dos. |
+| `start_bid` | `integer` | de 1 a 1.000.000, opcional; menor que `buy_now` | Puja de salida. Con ella, el anuncio es una subasta y lleva `ends_at`. |
+| `top_bid`, `top_bidder`, `bids` | `integer`, `text`, `integer` | | La puja más alta, de quién es y cuántas pujas lleva. |
+| `ends_at` | `timestamptz` | obligatorio si hay `start_bid` | Final de la subasta. Se alarga si se puja en el último minuto. |
+| `status` | `text` | `activo`, `vendido`, `retirado` o `caducado` | `caducado` = subasta que acabó sin pujas. |
+| `sold_price`, `sold_by` | `integer`, `text` | `sold_by`: `compra` o `puja` | Precio final y cómo se vendió. |
+| `fee` | `integer` | ≥ 0, por defecto 0 | La comisión destruida al venderse. |
+| `buyer` | `text` | opcional | Quien se la llevó. |
+| `seller_seen`, `buyer_seen` | `boolean` | por defecto `false` | El vendedor ya ha visto el aviso (venta o caducidad); el ganador de la subasta, el suyo. |
+| `created_at`, `closed_at` | `timestamptz` | | |
+
+**`public.bids`**: una fila por puja.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-puja` y `mercado-puja-devuelta`. |
+| `listing_id` | `bigint` | referencia a `listings(id)` | |
+| `bidder` | `text` | 64 caracteres hexadecimales | |
+| `amount` | `integer` | > 0 | Los faradios retenidos. |
+| `status` | `text` | `activa`, `superada`, `ganadora` o `devuelta` | `activa` = la más alta; `superada` o `devuelta` = ya se devolvieron; `ganadora` = se llevó la unidad. |
+| `seen` | `boolean` | por defecto `true` | `false` mientras quien pujó no ha visto que se la devolvieron. |
+| `created_at` | `timestamptz` | | |
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo:
+
+- `market_list(p_seller, p_edition, p_serial, p_buy_now, p_start_bid, p_hours, p_max)`: publica un anuncio. Devuelve `{id}` o `{error}`: `no-tuya`, `anunciada` o `tope`.
+- `market_cancel(p_listing, p_seller)`: retira un anuncio activo sin pujas. `{ok}` o `{error}`: `cerrado` o `pujas`.
+- `market_buy(p_listing, p_buyer, p_fee_percent)`: «compra ya», entera. Bloquea el anuncio, los saldos y la unidad; devuelve la puja que hubiera, cobra al comprador (`mercado-compra`), paga al vendedor el precio menos la comisión (`mercado-venta`), cambia `collectibles.owner` y cierra el anuncio. `{coins, edition, serial, price, fee}` o `{error}`: `cerrado`, `sin-compra`, `propio` o `saldo`.
+- `market_bid(p_listing, p_bidder, p_amount, p_fee_percent, p_step_percent, p_snipe_seconds)`: puja. Retiene los faradios (`mercado-puja`), devuelve los suyos a quien iba ganando (`mercado-puja-devuelta`) y alarga la subasta si queda menos de `p_snipe_seconds`. Si llega a `buy_now`, compra. `{coins, topBid, bids, endsAt}` o `{error}`: `cerrado`, `sin-pujas`, `propio`, `ganando`, `baja` (con `min`) o `saldo`.
+- `market_settle(p_fee_percent)`: cierra las subastas terminadas (hasta 100): con pujas, paga al vendedor y cambia el dueño; sin pujas, las deja en `caducado`. Devuelve cuántas. El servidor la llama cada vez que alguien abre el mercado.
+- `market_owners()`: dueños distintos y unidades de cada edición.
+- `market_pay(p_player, p_amount, p_reason, p_ref)`: mueve faradios y lo apunta en `ledger`. De uso interno de las anteriores.
+
+La comisión no se apunta a nadie: es la diferencia entre lo que paga el comprador y lo que recibe el vendedor, y queda en `listings.fee`. Los faradios de una puja activa no están en ningún saldo. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Intercambios privados (migración `20261116005727_intercambios`, aplicada el 2026-11-16)
+
+[Decisión 0075](decisiones/0075-intercambios-privados.md), `lib/intercambios.mjs`.
+
+**`public.trades`**: un intercambio de artículos de colección entre dos cuentas. No mueve faradios.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | |
+| `code` | `text` | 6 letras y números, único | Lo que se pasa a la otra persona para que entre. |
+| `a`, `b` | `text` | 64 caracteres hexadecimales; `b` opcional y distinto de `a` | `a` crea el intercambio; `b` entra con el código. |
+| `a_name`, `b_name` | `text` | hasta 40 caracteres | Nombre que enseña cada uno. |
+| `a_avatar`, `b_avatar` | `jsonb` | | El avatar de cada uno, para pintarlo en la sala. |
+| `offer_a`, `offer_b` | `jsonb` | lista de hasta 10 | Lo que ofrece cada uno: `[{"edition": …, "serial": …}]`. |
+| `ok_a`, `ok_b` | `boolean` | por defecto `false` | Las confirmaciones. Se quitan si cambia una oferta. |
+| `status` | `text` | `abierto`, `hecho`, `cancelado` o `caducado` | Caduca si nadie lo toca en 30 minutos (lo marca el servidor al leer). |
+| `version` | `integer` | por defecto 0 | Sube con cada cambio de oferta; confirmar exige la versión vista. |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo. Devuelven la fila del intercambio o `{error}`:
+
+- `trade_join(p_code, p_player, p_name, p_avatar)`: entra con el código. Errores: `cerrado` o `lleno`.
+- `trade_offer(p_trade, p_player, p_units)`: cambia lo que ofrece un jugador y quita las dos confirmaciones. Errores: `cerrado` o `no-disponible` (alguna unidad no es suya o está anunciada en el mercado).
+- `trade_confirm(p_trade, p_player, p_ok, p_version)`: confirma o quita la confirmación. Con las dos, bloquea y comprueba todas las unidades y cambia `collectibles.owner` de todas a la vez. Errores: `cerrado`, `solo`, `cambio`, `vacio` o `no-disponible`.
+- `trade_cancel(p_trade, p_player)`: cancela un intercambio abierto.
+- `trade_free(p_edition, p_serial, p_player)`: dice si una unidad es de ese jugador y no tiene un anuncio activo. De uso interno.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Suscripciones (migración `20261116094407_suscripciones`, aplicada el 2026-11-16)
+
+[Decisión 0076](decisiones/0076-suscripcion-sin-cobro.md), `lib/suscripcion.mjs`.
+
+**`public.subscriptions`**: quién tiene la suscripción y hasta cuándo. Una fila por jugador.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | El jugador de la cuenta. |
+| `until` | `timestamptz` | obligatorio | Hasta cuándo vale. Está en vigor mientras sea posterior a ahora; al caducar no se borra. |
+| `source` | `text` | por defecto `manual` | De dónde viene: `manual` (escrita a mano) o `stripe` (la escribe el aviso de pago). |
+| `ref` | `text` | opcional | La suscripción en Stripe (`sub_…`). |
+| `customer` | `text` | opcional | El cliente en Stripe (`cus_…`), para abrirle el portal ([decisión 0077](decisiones/0077-cobro-con-stripe.md)). |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+La fila la escribe el servidor cuando llega un aviso de pago de Stripe (`POST /api/stripe`, `lib/stripe.mjs`). También se puede insertar a mano para regalar la suscripción; si esa cuenta paga después, manda lo que diga Stripe. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+El tope de duelos del plan gratuito no usa esta tabla: cuenta los duelos del día en `duels` (los que no están en `waiting`, por `created_at` y por el jugador dentro de `state`).
+
+### Órdenes de compra y lista de deseos (migración `20261116101427_ordenes_y_deseos`, aplicada el 2026-11-16)
+
+[Decisión 0078](decisiones/0078-ordenes-de-compra-y-lista-de-deseos.md), `lib/mercado.mjs`.
+
+**`public.buy_orders`**: una orden de compra de una edición («pago hasta tanto por cualquier unidad»).
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-orden` y `mercado-orden-devuelta`. |
+| `edition` | `text` | como en `collectibles` | |
+| `buyer` | `text` | 64 caracteres hexadecimales | Quien la pone. |
+| `price` | `integer` | de 1 a 1.000.000 | Lo que paga. Queda retenido mientras está abierta. |
+| `status` | `text` | `abierta`, `cumplida` o `cancelada` | |
+| `listing_id` | `bigint` | referencia a `listings(id)`, opcional | La venta con la que se cumplió. |
+| `created_at`, `closed_at` | `timestamptz` | | |
+
+**`public.wishlist`**: las ediciones que cada jugador ha marcado como deseadas. Clave primaria `(player_hash, edition)`.
+
+La migración cambia además la regla de `listings.sold_by`, que acepta `orden`: una venta por orden se apunta en `listings` como vendida.
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo:
+
+- `market_order(p_buyer, p_edition, p_price, p_max, p_fee_percent)`: pone una orden. Si hay un anuncio con «compra ya» a ese precio o menos, compra el más barato (lo de `market_buy` con `bought`). Si no, retiene los faradios (`mercado-orden`) y devuelve `{id, coins}`. Errores: `tope` o `saldo`.
+- `market_order_cancel(p_order, p_buyer)`: cancela una orden abierta y devuelve los faradios (`mercado-orden-devuelta`). `{coins}` o `{error: 'cerrado'}`.
+- `market_sell_now(p_seller, p_edition, p_serial, p_fee_percent)`: vende una unidad a la orden más alta de otro jugador (la más antigua si empatan). Paga al vendedor el precio menos la comisión (`mercado-venta`, referencia `orden-<n.º>`), cambia el dueño, cierra la orden y apunta la venta en `listings`. Errores: `no-tuya`, `anunciada` o `sin-ordenes`.
+- `wishlist_counts()`: en cuántas listas de deseos está cada edición.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Vitrinas de colecciones (migración `20261116102311_vitrinas`, aplicada el 2026-11-16)
+
+[Decisión 0079](decisiones/0079-vitrina-de-colecciones.md), `lib/vitrina.mjs`.
+
+**`public.showcases`**: la vitrina de un jugador. Lo que contiene no se guarda: se lee de `collectibles` y de `items` (las piezas con acabado).
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | |
+| `code` | `text` | 8 letras y números, único | Lo que va en el enlace para enseñarla. No es la cuenta. |
+| `public` | `boolean` | por defecto `false` | Si el jugador la enseña. |
+| `name` | `text` | hasta 40 caracteres | Con qué nombre se presenta. |
+| `avatar` | `jsonb` | | Con qué avatar. |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+**`public.showcase_ranking(p_limit)`**: los jugadores que enseñan su vitrina y tienen algún artículo de colección, de más a menos unidades: `code`, `name`, `avatar`, `units` y `editions`. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 ## Funciones
 
@@ -379,6 +522,11 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
+| `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
+| `20261116102311` | [vitrinas](../supabase/migrations/20261116102311_vitrinas.sql) | Crea `showcases` y la función `showcase_ranking` (vitrinas de colecciones), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

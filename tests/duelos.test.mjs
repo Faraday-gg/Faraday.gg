@@ -14,7 +14,8 @@ const answers=new Map(editorialDays.flatMap(day=>day.questions.map(q=>[q.id,q.an
 let clock=Date.parse('2026-11-11T10:00:00Z'),seed=7;
 const random=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
 function build(store){
-  const api=createApi({store,persistDays:false,now:()=>clock,random,log:()=>{}});
+  // Sin el tope diario del plan gratuito (decisión 0076): esta prueba juega muchos duelos seguidos. El tope se prueba en tests/suscripcion.test.mjs.
+  const api=createApi({store,persistDays:false,now:()=>clock,random,duelLimit:null,log:()=>{}});
   return async(action,player,extra={},init={})=>{
     const response=await api.handle(new Request('http://casi.test/api/duelo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,player,...extra}),...init}));
     return {status:response.status,data:await response.json()};

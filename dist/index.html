@@ -20,9 +20,11 @@
   <link rel="stylesheet" href="reconectar.css">
   <link rel="stylesheet" href="pistas.css">
   <link rel="stylesheet" href="duel-chat.css">
+  <link rel="stylesheet" href="duel-versus.css">
   <link rel="stylesheet" href="bets.css">
   <link rel="stylesheet" href="ranked.css">
   <link rel="stylesheet" href="armario.css">
+  <link rel="stylesheet" href="market.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -38,6 +40,7 @@
   <script src="medals.js" defer></script>
   <script src="coin-fly.js" defer></script>
   <script src="progress.js" defer></script>
+  <script src="market.js" defer></script>
   <script src="ads.js" defer></script>
   <script src="pistas.js" defer></script>
   <script src="circuito.js" defer></script>
@@ -70,6 +73,7 @@
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
       <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
+      <button class="home-league home-market" data-open-market type="button"><span aria-hidden="true">🛒</span> Mercado</button>
     </section>
 
     <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>
@@ -251,6 +255,16 @@
       <div class="profile-main" id="profile-main"></div>
     </div>
   </div>
+  <div class="market-shell" id="market-shell" hidden>
+    <div class="market-layout" role="dialog" aria-modal="true" aria-labelledby="market-title">
+      <header class="game-bar">
+        <button class="game-back" id="market-close" type="button" aria-label="Cerrar el mercado">×</button>
+        <a class="game-brand brand-link" href="/" data-go-home aria-label="Ir al inicio"><span class="brand-mark" aria-hidden="true">≈</span><span aria-hidden="true">Faraday<span class="brand-dot">.</span>gg</span></a>
+        <span class="coin-pill" id="market-coins" title="Faradios: se ganan jugando"></span>
+      </header>
+      <div class="market-main" id="market-main"></div>
+    </div>
+  </div>
   <div class="menu-drawer" id="menu-drawer" aria-hidden="true" inert>
     <div class="menu-scrim" data-menu-close></div>
     <nav class="menu-panel" aria-label="Menú">
@@ -266,6 +280,7 @@
       </ul>
       <h2 class="menu-title">Tú</h2>
       <ul class="menu-list">
+        <li><button type="button" class="menu-link" data-tone="blue" data-open-market><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v8h13v-8M10 20v-4.5h4V20"/></svg></span><span class="menu-text"><b>Mercado</b><small>Compra, vende y puja por artículos de colección</small></span></button></li>
         <li><button type="button" class="menu-link" data-tone="yellow" data-open-profile><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="5"/><path d="M9 10.8 6.5 3h4l1.5 4 1.5-4h4L15 10.8"/><path d="M12 12.8v4.4M10 15h4"/></svg></span><span class="menu-text"><b>Avatar, misiones y medallas</b><small>Armario, cofres y logros</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link menu-account" data-tone="ink" id="menu-account" data-auth-open aria-haspopup="dialog"><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="menu-text"><b id="menu-account-label">Entrar o crear cuenta</b><small id="menu-account-hint">Guarda tu progreso</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
       </ul>

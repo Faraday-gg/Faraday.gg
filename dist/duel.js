@@ -28,6 +28,8 @@
     tick:()=>tone(880,0,.05,{gain:.022}),
     go:()=>tone(1047,0,.25,{type:'triangle'}),
     hit:()=>tone(170,0,.32,{to:55,gain:.16}),
+    // Golpe seco cuando el «VS» cae en el centro de la pantalla.
+    slam:()=>{tone(140,0,.45,{to:45,gain:.2});tone(1400,0,.18,{to:300,type:'triangle',gain:.035})},
     good:()=>[523,659,784].forEach((f,i)=>tone(f,i*.09,.25,{type:'triangle'})),
     even:()=>tone(440,0,.25,{type:'triangle',gain:.04}),
     win:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.11,.4,{type:'triangle',gain:.07})),
@@ -118,7 +120,7 @@
 
   // Pantallas
   function renderLobby(message=''){
-    duel=null;shown='lobby';hud.hidden=true;setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
+    duel=null;shown='lobby';hud.hidden=true;hideVersus(true);setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
     const progress=Progress.info();
     content.innerHTML=`<p class="duel-kicker">Duelo 1 vs 1</p>
 <h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
@@ -151,9 +153,26 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<span class="duel-flash" aria-hidden="true"></span><p class="duel-kicker">Rival encontrado</p><div class="duel-vs"><div>${figure(me())}<strong>${escapeHtml(me().name)}${badge(me())}</strong>${betChip(me())}<small>Nv. ${me().level}</small>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(me().rank):''}</div><span class="duel-vs-mark">VS</span><div>${figure(rival())}<strong>${escapeHtml(rival().name)}${badge(rival())}</strong>${betChip(rival())}<small>${rival().bot?'Bot de práctica':'Nv. '+rival().level}</small>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(rival().rank):''}</div></div>
-<h2 id="duel-title" class="duel-count" aria-live="polite"><span id="duel-countdown">3</span></h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
-    sfx.tension();
+    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><h2 id="duel-title">${escapeHtml(me().name)} contra ${escapeHtml(rival().name)}</h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
+    showVersus();sfx.tension();
+  }
+  // Pantalla «VS» a toda pantalla al encontrar rival: cada jugador entra por su lado en una franja diagonal, con el avatar
+  // en grande y el apodo debajo; el VS cae en el centro con un destello. Dura lo que la fase «intro» del servidor (5 s)
+  // y se va en cuanto empieza la primera pregunta.
+  let versus=null;
+  function showVersus(){
+    hideVersus(true);
+    const ranked=player=>window.Ranked&&duel.mode==='ranked'?Ranked.chip(player.rank):'';
+    const side=(player,who)=>`<div class="versus-side" data-side="${who}"><span class="versus-band" aria-hidden="true"></span><div class="versus-player"><div class="versus-figure">${Avatar.render(lookOf(player),{live:true,emote:who==='you'?'wave':'',turn:who==='you'?.45:-.45})}</div><div class="versus-tag"><small>${who==='you'?'Tú':player.bot?'Bot de práctica':'Rival'}</small><strong>${escapeHtml(player.name)}</strong><span class="versus-meta">${badge(player)}${player.bot?'':'<b>Nv. '+player.level+'</b>'}${ranked(player)}${betChip(player)}</span></div></div></div>`;
+    versus=document.createElement('div');versus.className='duel-versus';
+    versus.innerHTML=side(me(),'you')+side(rival(),'rival')+`<span class="versus-flash" aria-hidden="true"></span><span class="versus-mark" aria-hidden="true">VS</span><p class="versus-count" aria-live="polite"><span class="sr-only">El duelo empieza en </span><span id="duel-countdown">${Math.max(1,Math.ceil((duel.round.startsAt-serverNow())/1000))}</span></p>`;
+    shell.append(versus);
+    if(!reduced())setTimeout(()=>{if(versus)sfx.slam()},520);
+  }
+  function hideVersus(now=false){
+    const element=versus;versus=null;if(!element)return;
+    if(now||reduced()){element.remove();return}
+    element.classList.add('is-out');setTimeout(()=>element.remove(),500);
   }
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
@@ -282,6 +301,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     const key=`${view.id}:${view.phase}:${view.round?.number||0}`;
     if(key!==shown){
       shown=key;clearTimeout(endTimer);
+      if(view.phase!=='intro')hideVersus();
       if(view.phase==='waiting')renderWaiting();
       else if(view.phase==='intro')renderIntro();
       else if(view.phase==='question')renderQuestion();
@@ -403,7 +423,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
       if(!window.confirm('¿Abandonar el duelo? Tu rival ganará la partida.'))return;
       const response=await call('salir',{id:duel.id});if(response.ok){duel=response.data;window.Bets?.track(duel);finishStats()}
     }else if(duel?.phase==='waiting')call('salir',{id:duel.id});
-    stopTimers();duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();window.DuelChat?.reset();
+    stopTimers();hideVersus(true);duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();window.DuelChat?.reset();
     if($('#game-shell').hidden)document.body.classList.remove('modal-open');
   }
 

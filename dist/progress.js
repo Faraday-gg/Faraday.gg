@@ -25,6 +25,8 @@
     // Chispa); dayCap = faradios que se pueden ganar jugando en un día (cuentan los motivos de CAPPED).
     // Sumideros (decisión 0069): swap = cambiar una misión por otra; shield = proteger la racha (desde `from` días).
     swap:30,shield:{price:150,from:3},
+    // Duelos al día en el plan gratuito (decisión 0076; lib/suscripcion.mjs, PLAN.duels).
+    freeDuels:5,
     // Fundición (decisión 0071): reciclar devuelve `back` del precio; fundir `need` piezas de una rareza da una de la siguiente.
     foundry:{need:5,back:.2,max:30},
     daySet:40,dayCap:400};
@@ -98,7 +100,10 @@
   const circuit=item=>item.circuito==='bienvenida'?state.circuito.welcome:state.circuito.n>=item.circuito;
   // Ediciones de colección (decisión 0067): se tiene la pieza si se tiene una unidad de su edición (state.editions = {edición: n.º de serie}).
   const serialOf=item=>item.edition&&state.editions?state.editions[item.edition.id]||0:0;
-  const owns=item=>(!item.price&&!item.level&&!item.casi&&!item.circuito&&!item.edition)||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
+  // plus = la cuenta tiene la suscripción activa (decisión 0076); lo dice el servidor. Las piezas de suscriptor solo se tienen con ella.
+  // billing = si la suscripción se puede contratar, su precio y si el jugador ya es cliente de Stripe (decisión 0077).
+  let plus=false,plusUntil=null,billing=null;
+  const owns=item=>item.plus?plus:(!item.price&&!item.level&&!item.casi&&!item.circuito&&!item.edition)||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
 
@@ -283,18 +288,23 @@
   const slotIcon=id=>`<svg class="slot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${SLOT_ICON[id]||SLOT_ICON.extra}"/></svg>`;
   const LOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z"/></svg>';
   // Carta de la tienda: el color dice la rareza; abajo, lo que cuesta, si ya es tuya o qué hace falta para desbloquearla.
+  // Las piezas de un hueco: las del catálogo y, detrás, las versiones con acabado que se tengan (decisión 0072).
+  function piecesOf(part,body){
+    const extra=state.owned.map(key=>{const [itemSlot,id]=String(key).split(':');return itemSlot===part&&id&&id.includes('--')?Avatar.find(itemSlot,id):null}).filter(item=>item&&(!item.for||item.for===body));
+    return [...Avatar.pieces(part,body),...extra];
+  }
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
-    const gate=own||item.edition?'':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
+    const gate=own||item.edition?'':item.plus?'Suscripción':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
     const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
-    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}" aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
+    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}"${item.finish?` data-finish="${item.finish}"`:''} aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${item.finish?`<span class="tile-rarity">${Avatar.FINISHES[item.finish].label}</span>`:RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${item.edition?'<span class="tile-trade">Comerciable</span>':''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
   }
   // Lo que se dice de una edición de colección al probarla, y el botón de compra si se puede (decisión 0067).
   // editionInfo = {edición: {left}} que da el servidor al abrir el perfil.
   let editionInfo={};
   function editionTry(item,missing){
     const edition=item.edition,left=editionInfo[edition.id]?.left;
-    const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''}</p>`;
+    const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''} Se puede comprar y vender en el mercado.</p><button type="button" class="game-secondary" data-open-market="${edition.id}">Ver en el mercado</button>`;
     if(!linked)return note+'<p class="profile-try-note">Las ediciones se compran con cuenta: entra para conseguir la tuya.</p>';
     if(left===0)return note;
     if(levelOf(state.xp)<edition.level)return note+`<p class="profile-try-note">Se compra desde el nivel ${edition.level}.</p>`;
@@ -306,8 +316,8 @@
   }
   // Pestaña Armario: colección, cuerpo, partes del avatar (con lo que tienes de cada una), filtro y cartas.
   function wardrobe(current){
-    const all=Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)),have=all.filter(owns).length;
-    const tabs=[['todo','Todo',all],...Avatar.SLOTS.map(([id,label])=>[id,label,Avatar.pieces(id,current.body)])];
+    const all=Avatar.SLOTS.flatMap(([id])=>piecesOf(id,current.body)),have=all.filter(owns).length;
+    const tabs=[['todo','Todo',all],...Avatar.SLOTS.map(([id,label])=>[id,label,piecesOf(id,current.body)])];
     return `<div class="wardrobe-head"><div class="wardrobe-collection"><p><b>Colección</b><span>${have} / ${all.length}</span></p><div class="mission-bar" role="img" aria-label="Tienes ${have} de ${all.length} piezas"><i style="--m:${have/all.length}"></i></div></div><div class="profile-body" role="group" aria-label="Cuerpo del avatar">${Avatar.BODIES.map(([id,label])=>`<button type="button" aria-pressed="${id===current.body}" data-body="${id}">${label}</button>`).join('')}</div></div>
 <div class="profile-slots wardrobe-slots" role="tablist" aria-label="Partes del avatar">${tabs.map(([id,label,list])=>`<button type="button" role="tab" aria-selected="${id===slot}" data-slot="${id}">${slotIcon(id)}<span>${label}</span><small>${list.filter(owns).length}/${list.length}</small></button>`).join('')}</div>
 <div class="wardrobe-tools"><label class="wardrobe-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 1 0 0-13zM15.5 15.5 20 20"/></svg><input type="search" data-search value="${query.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" placeholder="Buscar ${slot==='todo'?'en todo el armario':'en '+(SLOT_NAME[slot]||'').toLowerCase()}" aria-label="Buscar piezas" autocomplete="off" enterkeyhint="search"></label><select class="wardrobe-grade" data-grade aria-label="Rareza"><option value="">Rareza: todas</option>${GRADES.map(id=>`<option value="${id}"${id===grade?' selected':''}>${GRADE_NAME[id]}</option>`).join('')}</select></div>
@@ -316,7 +326,7 @@
   // Filtro (todas, tuyas, por conseguir) y cartas: se rehace solo esta parte al escribir en el buscador, para no perder el foco.
   function wardrobeResults(current,all){
     const words=plain(query).split(/\s+/).filter(Boolean);
-    const pieces=byGrade((slot==='todo'?all:Avatar.pieces(slot,current.body)).filter(item=>(!grade||Avatar.rarity(item)===grade)&&matches(item,words)));
+    const pieces=byGrade((slot==='todo'?all:piecesOf(slot,current.body)).filter(item=>(!grade||Avatar.rarity(item)===grade)&&matches(item,words)));
     const filters=[['todo','Todo',pieces],['tuyo','Tuyas',pieces.filter(owns)],['tienda','Por conseguir',pieces.filter(item=>!owns(item))]],shown=filters.find(([id])=>id===show)[2];
     const narrowed=words.length||grade,wider=slot!=='todo'&&narrowed?'<button type="button" class="duel-link" data-slot="todo">Buscar en todo el armario</button>':'';
     const empty=narrowed&&!pieces.length?`No hay piezas${grade?` de rareza ${GRADE_NAME[grade].toLowerCase()}`:''}${words.length?` con «${query.trim().replace(/[<>&"]/g,'')}»`:''} ${slot==='todo'?'en el armario':`en ${(SLOT_NAME[slot]||'').toLowerCase()}`}.${wider?'<br>'+wider:''}`:show==='tuyo'?'Aún no tienes piezas de este tipo: pruébate las de la tienda.':'¡Ya las tienes todas!';
@@ -325,7 +335,7 @@
   }
   function redrawResults(){
     const box=main.querySelector('.wardrobe-results');if(!box){draw();return}
-    const current=look();box.innerHTML=wardrobeResults(current,Avatar.SLOTS.flatMap(([id])=>Avatar.pieces(id,current.body)));
+    const current=look();box.innerHTML=wardrobeResults(current,Avatar.SLOTS.flatMap(([id])=>piecesOf(id,current.body)));
   }
   function missionRow(period,id){
     const mission=MISSIONS[id],progress=Math.min(mission.goal,period.progress[id]||0),done=progress>=mission.goal,claimed=period.claimed.includes(id);
@@ -356,8 +366,12 @@
     const current=look();
     const rewards=Array.from(list).map(reward=>{
       if(reward.kind==='coins'){if(local)move(reward.amount,'cofres');return reward}
-      if(!state.owned.includes(reward.key))state.owned.push(reward.key);const [itemSlot,id]=reward.key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
-      return {...reward,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
+      if(!state.owned.includes(reward.key))state.owned.push(reward.key);
+      // Con acabado (decisión 0072) se tienen las dos, la normal y la del acabado, y la que se enseña es la del acabado.
+      const key=reward.finish&&Avatar.find(...(reward.key+'--'+reward.finish).split(':'))?reward.key+'--'+reward.finish:reward.key;
+      if(!state.owned.includes(key))state.owned.push(key);
+      const [itemSlot,id]=key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
+      return {...reward,key,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
     });
     save();refresh();
     ChestOpen.play(type,rewards,{more:chestTotal(),onClose:refresh,
@@ -394,7 +408,7 @@
 <ul class="chest-shelf">${Chests.TYPES.map(card).join('')}</ul>
 <p class="chest-note">Los cofres se ganan jugando: Chispa al llenar la batería y al subir de nivel; Imán a los 3 días de racha; Rayo con las tres misiones de la semana y cada 5 niveles; Dinamo cada 10 niveles; Tormenta con las rachas de 7, 14, 30 y 50 días; Faraday a los 100 días de racha y cada 100 después. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
 <details class="chest-odds"><summary>Probabilidades</summary>${[Chests.TYPES.slice(0,3),Chests.TYPES.slice(3)].map(odds).join('')}
-<p>${sure} Imán nunca trae lotes de faradios. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
+<p>${sure} Imán nunca trae lotes de faradios. Cada pieza de ropa, pantalón, zapatillas o cabeza que sale puede traer además su versión con acabado: ${Object.entries(Chests.FINISH_ODDS).map(([finish,chance])=>`${Avatar.FINISHES[finish].label.toLowerCase()} ${percent(chance)}`).join(', ')}. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
   // Fundición (decisión 0071), dentro de la pestaña Cofres. foundry = está abierta; melt = las piezas elegidas;
   // melting = lo que se está a punto de hacer con ellas ('reciclar' o 'fundir'), que pide confirmar.
@@ -428,6 +442,8 @@
   }
   // Quita del armario las piezas fundidas.
   function lose(keys){state.owned=state.owned.filter(key=>!keys.includes(key));melt=[]}
+  // La entrada al mercado desde el armario (decisiones 0073 y 0074; la pantalla está en dist/market.js).
+  const marketDoor=()=>'<div class="foundry-door market-door"><p><b>Mercado</b><small>Compra, vende y puja por artículos de colección con otros jugadores. Son las piezas con la etiqueta «Comerciable».</small></p><button type="button" class="game-secondary" data-open-market>Abrir</button></div>';
   // Pestaña Medallas: resumen, la ficha de la elegida, las medallas con su nivel y avance, y las insignias.
   let picked='';
   const dateText=day=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Madrid'}).format(new Date(day+'T12:00:00Z'));
@@ -451,6 +467,16 @@ ${chosen?medalDetail(chosen,stats):''}
 <h3 class="mission-title">Medallas <small>bronce, plata, oro y diamante</small></h3><div class="medal-grid">${Medals.MEDALS.map(def=>medalTile(def,stats)).join('')}</div>
 <h3 class="mission-title">Insignias <small>se consiguen una vez</small></h3><div class="medal-grid">${Medals.BADGES.map(def=>medalTile(def,stats)).join('')}</div>`;
   }
+  // El plan del jugador (decisión 0076): qué da la suscripción y si la tiene. Todavía no se puede contratar.
+  function planCard(){
+    const perks='duelos sin límite, sin publicidad, anuncios sin tope en el mercado y piezas de suscriptor';
+    // El precio que dice Stripe («4,99 € al mes»), si se puede contratar.
+    const price=billing?.price&&Number.isFinite(billing.price.amount)?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
+    const until=plus&&plusUntil?`<small>hasta el ${dateText(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date(plusUntil)))}</small>`:'';
+    const action=!linked?'':billing?.managed?'<button type="button" class="game-secondary" data-manage-plan>Gestionar la suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Suscribirme${price?` · ${price}`:''}</button>`:'';
+    const text=plus?`Tienes ${perks}.`:`${REWARD.freeDuels} duelos al día. Con la suscripción: ${perks}.${billing?.enabled?(linked?' Se renueva sola y se cancela cuando quieras.':' Entra con tu cuenta para suscribirte.'):' Todavía no se puede contratar.'}`;
+    return `<div class="profile-plan${plus?' is-plus':''}"><p><b>${plus?'Suscripción activa':'Plan gratuito'}</b>${until}</p><p>${text}</p>${action}</div>`;
+  }
   // Vitrina: las tres mejores, siempre a la vista bajo el nivel.
   function showcase(){
     const best=featured().slice(0,3),count=gotMedals().length;
@@ -470,14 +496,14 @@ ${chosen?medalDetail(chosen,stats):''}
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?wardrobe(current)
+    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?marketDoor()+wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
     main.classList.toggle('is-wardrobe',tab==='armario');
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
-${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
-<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}</section>
+${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.plus?'<p class="profile-try-note">Pieza de suscriptor: se puede llevar mientras la suscripción esté activa. Todavía no se puede contratar.</p>':trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
+<div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}${planCard()}</section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
   }
@@ -494,7 +520,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     document.dispatchEvent(new CustomEvent('faraday:look'));
   }
   // Buscador y rareza del armario: al escribir solo se rehacen las cartas, así el campo no pierde el foco.
-  shell.addEventListener('input',event=>{if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}});
+  shell.addEventListener('input',event=>{
+    if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}
+  });
   shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
@@ -586,6 +614,12 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       return;
     }
     // Proteger la racha (decisión 0069): ayer cuenta como jugado y la racha sigue. Con cuenta lo cobra el servidor.
+    // Suscripción (decisión 0077): el servidor da la dirección de la página de pago de Stripe, o la de su portal, y se va a ella.
+    if('subscribe' in target.dataset||'managePlan' in target.dataset){
+      if(target.disabled)return;target.disabled=true;
+      serverAsk('subscribe' in target.dataset?'suscribirse':'gestionar-suscripcion',{},'No se pudo abrir la página de pago. Inténtalo otra vez.','Ya tienes la suscripción activa.').then(data=>{if(data?.url)location.href=data.url;else target.disabled=false});
+      return;
+    }
     if('shield' in target.dataset){
       const offer=shieldOffer();if(!offer||target.disabled)return;
       const done=days=>{state.streak={count:days,last:shift(madrid(),-1)};shield=null;save();draw();showToast(`Racha protegida: sigues con ${days} días. Juega hoy para sumar otro.`)};
@@ -724,6 +758,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const before=chestTotal();
     for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
     if(Number.isFinite(data.charge))state.charge=data.charge;
+    // Si la cuenta tiene la suscripción activa (decisión 0076).
+    if(typeof data.plus==='boolean'){plus=data.plus;plusUntil=data.plusUntil||null;billing=data.billing||null}
     // La experiencia también es la del servidor (decisión 0065): así el nivel que se ve es el que cuenta.
     if(Number.isInteger(data.xp)&&data.xp>=0)state.xp=data.xp;
     store();refresh();
@@ -781,14 +817,24 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
   function detach(){
-    const was=linked||link.owner;linked=false;clearTimeout(timer);
+    const was=linked||link.owner;linked=false;plus=false;plusUntil=null;billing=null;clearTimeout(timer);
     if(!was)return;
     link={};keepLink();hydrate(null);state.welcome=true;state.cofres=true;store();refresh();
+  }
+  // Al volver de la página de pago de Stripe (decisión 0077): el aviso de pago puede tardar unos segundos, así que se
+  // pregunta al servidor varias veces hasta que la suscripción aparece.
+  const paid=new URLSearchParams(location.search).get('suscripcion');
+  if(paid){
+    history.replaceState(null,'',location.pathname);
+    if(paid==='ok'){
+      let tries=0;const check=async()=>{if(linked)await syncServer();if(plus){showToast('¡Suscripción activa! Gracias.');if(!shell.hidden)draw();return}if(++tries<10)setTimeout(check,2000);else showToast('El pago está hecho; la suscripción aparecerá en unos minutos.')};
+      setTimeout(()=>{showToast('Pago recibido: activando tu suscripción…');check()},1500);
+    }else setTimeout(()=>showToast('No se ha hecho ningún cobro.'),1500);
   }
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={look,spend,pay,serverCoins,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={plus:()=>plus,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

@@ -73,6 +73,14 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0069](0069-protector-de-racha-y-cambio-de-mision.md) | Protector de racha (150 ≈), cambio de misión (30 ≈) y una sola racha para el premio del reto y los cofres | Propuesta | 2026-11-16 |
 | [0070](0070-avatar-sigue-al-raton-y-dice-ay.md) | El avatar sigue al ratón con la cabeza y la mirada, y dice «¡Ay!» con voz de niño pequeño si lo tocan | Propuesta | 2026-11-16 |
 | [0071](0071-fundicion.md) | Fundición: reciclar piezas por el 20 % de su precio y fundir cinco de una rareza para conseguir una de la siguiente | Propuesta | 2026-11-16 |
+| [0072](0072-acabados.md) | Acabados: versiones cromada, holográfica y dorada de piezas que ya existen, que salen en cofres con poca probabilidad | Propuesta | 2026-11-16 |
+| [0073](0073-mercado-de-ediciones.md) | Mercado: anuncios a precio fijo de ediciones de colección, con compra en una sola operación y un 10 % de comisión destruida | Propuesta | 2026-11-16 |
+| [0074](0074-mercado-con-pujas-e-indicadores.md) | Mercado con pantalla propia, subastas con pujas (faradios retenidos, 5 % de subida, cierre al acabar) e indicadores; amplía la 0073 | Propuesta | 2026-11-16 |
+| [0075](0075-intercambios-privados.md) | Intercambios privados de artículos de colección: con un código, solo artículos, y el cambio se hace cuando confirman los dos | Propuesta | 2026-11-16 |
+| [0076](0076-suscripcion-sin-cobro.md) | La suscripción, sin el cobro: quién la tiene, 5 duelos al día en el plan gratuito, sin publicidad, anuncios sin tope y piezas de suscriptor | Propuesta | 2026-11-16 |
+| [0077](0077-cobro-con-stripe.md) | El cobro de la suscripción con Stripe: página de pago, portal del cliente y aviso de pago firmado, sin dependencias | Propuesta | 2026-11-16 |
+| [0078](0078-ordenes-de-compra-y-lista-de-deseos.md) | Órdenes de compra (faradios retenidos, 5 por cuenta), «vender ya» a la orden más alta y lista de deseos | Propuesta | 2026-11-16 |
+| [0079](0079-vitrina-de-colecciones.md) | Vitrina de colecciones: los artículos de colección y las piezas con acabado de cada jugador, a la vista solo si él quiere, y lista de coleccionistas | Propuesta | 2026-11-16 |
 
 ## Plantilla
 

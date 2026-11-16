@@ -24,7 +24,26 @@ const floor=new THREE.Mesh(new THREE.CircleGeometry(8,64),new THREE.ShadowMateri
 
 // Sombreado por tonos (tres escalones) y contorno de tinta: le dan aire de cómic en vez de plástico blando.
 const ramp=new THREE.DataTexture(new Uint8Array([120,120,120,255,196,196,196,255,255,255,255,255]),3,1);ramp.minFilter=ramp.magFilter=THREE.NearestFilter;ramp.needsUpdate=true;
-const mat=(color,map=null)=>new THREE.MeshToonMaterial({color:map?'#ffffff':color,map,gradientMap:ramp});
+// Acabados (decisión 0072). Mientras `finish` tiene un acabado, mat() hace el material con un «matcap»: una bola
+// pintada que dice qué color se ve según hacia dónde mira cada punto de la superficie. Da brillo de metal sin luces
+// ni reflejos de verdad, y el holográfico cambia de color al girar el avatar. buildModel lo activa en cada prenda.
+let finish='';
+const FINISH_TINT='#f4f4f4',matcaps={};
+const BANDS={cr:['#ffffff','#dde5ee','#8793a3','#eef2f7','#5d6878','#262d38'],or:['#fffbe0','#ffd75e','#c2820c','#ffe88f','#96600a','#4f3204']};
+function matcap(kind){
+  return matcaps[kind]||=(()=>{const canvas=document.createElement('canvas'),S=canvas.width=canvas.height=256,c=canvas.getContext('2d');
+    const radial=stops=>{const g=c.createRadialGradient(S*.4,S*.34,0,S*.5,S*.5,S*.52);stops.forEach(([at,color])=>g.addColorStop(at,color));return g};
+    if(kind==='ho'){
+      // Arcoíris en abanico, aclarado en el centro y oscurecido en el borde.
+      const hues=[330,280,210,170,90,50,20,330];let g;
+      if(c.createConicGradient){g=c.createConicGradient(.6,S/2,S/2);hues.forEach((hue,i)=>g.addColorStop(i/(hues.length-1),`hsl(${hue} 95% 72%)`))}
+      else{g=c.createLinearGradient(0,0,S,S);hues.forEach((hue,i)=>g.addColorStop(i/(hues.length-1),`hsl(${hue} 95% 72%)`))}
+      c.fillStyle=g;c.fillRect(0,0,S,S);
+      c.fillStyle=radial([[0,'#ffffffee'],[.3,'#ffffff55'],[.7,'#ffffff00'],[1,'#2a1f4a88']]);c.fillRect(0,0,S,S);
+    }else{const colors=BANDS[kind]||BANDS.cr;c.fillStyle=radial([0,.22,.5,.68,.86,1].map((at,i)=>[at,colors[i]]));c.fillRect(0,0,S,S)}
+    const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture})();
+}
+const mat=(color,map=null)=>finish?new THREE.MeshMatcapMaterial({color:map?'#ffffff':color,map,matcap:matcap(finish)}):new THREE.MeshToonMaterial({color:map?'#ffffff':color,map,gradientMap:ramp});
 const flat=(color,opacity=1)=>new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity});
 const lineMat=new THREE.MeshBasicMaterial({color:INK,side:THREE.BackSide});
 const shade=(hex,k)=>'#'+new THREE.Color(hex).multiplyScalar(k).getHexString();
@@ -244,12 +263,17 @@ const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3;
 function buildModel(look){
   const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
-  const main=CLOTH[look.topColor]||PAPER,trim=CLOTH[look.trimColor]||INK,pantsC=DENIM[look.bottomColor]||DENIM.lavado,pants=mat(pantsC),pantsDark=mat(shade(pantsC,.78));
+  // Con acabado, la prenda pierde su color: queda clara (y su segundo color, gris) y el brillo lo pone el material.
+  const tint=(color,key,k=1)=>look[key]?shade(FINISH_TINT,k):color;
+  finish=look.bottomFinish||'';
+  const main=tint(CLOTH[look.topColor]||PAPER,'topFinish'),trim=tint(CLOTH[look.trimColor]||INK,'topFinish',.6),pantsC=tint(DENIM[look.bottomColor]||DENIM.lavado,'bottomFinish'),pants=mat(pantsC),pantsDark=mat(shade(pantsC,.78));
+  finish='';
   const ink=flat(INK),white=mat(PAPER),gold=new THREE.MeshStandardMaterial({color:GOLD,roughness:.28,metalness:.75});
   const type=look.top,sleeved=!['camiseta','baloncesto'].includes(type),bare=type==='baloncesto',O=.03,brandKey=look.print&&look.print[0]==='@'?look.print.slice(1):'';
   const body=new THREE.Group(),upper=new THREE.Group(),up=new THREE.Group(),neck=new THREE.Group(),head=new THREE.Group();
   model.add(body);upper.position.y=WAIST;up.position.y=-WAIST;upper.add(up);body.add(upper);neck.position.y=NECK;up.add(neck);head.position.y=1.8-NECK;neck.add(head);
 
+  finish=look.bottomFinish||'';
   // Piernas: pantalón ancho que se arruga sobre la zapatilla. En mujer hay además falda (con calcetín) y mallas.
   const lift={plataforma:.08,runner:.04,botas:.03}[look.shoes]||0,boots=look.shoes==='botas',short=look.bottom==='corto',skirt=fem&&look.bottom==='falda',tights=fem&&look.bottom==='mallas',gap=fem?.16:.18,legs=[],feet=[];body.position.y=lift;
   if(skirt){
@@ -263,6 +287,7 @@ function buildModel(look){
     add(body,ring(.3,.02),pantsDark,[0,.712,0],[1.04,.78,1],[Math.PI/2,0,0]);
   }else add(body,sphere(),pants,[0,.64,0],fem?[.325,.15,.26]:[.35,.17,.27],[],O);
   for(const side of [-1,1]){
+    finish=look.bottomFinish||'';
     const leg=new THREE.Group();leg.position.set(side*gap,.64,0);body.add(leg);legs.push(leg);
     if(skirt){add(leg,capsule(.092,.3),skin,[0,-.3,0],[],[],O);add(leg,new THREE.CylinderGeometry(.1,.1,.13,20),white,[0,-.47,0],[],[],O)}
     else if(tights)add(leg,capsule(.125,.3),pants,[0,-.28,0],[1,1,.95],[],O);
@@ -277,7 +302,8 @@ function buildModel(look){
     // Con pantalón largo, lo que queda dentro del bajo (lengüeta, caña de las altas y de las botas) no se dibuja: asomaba por la tela.
     const tucked=!skirt&&!tights&&!short;
     const shoe=new THREE.Group();shoe.position.set(side*gap,-lift,.07);shoe.rotation.y=side*.14;if(fem)shoe.scale.setScalar(.92);shoe.userData.home=[side*gap,-lift,.07];body.add(shoe);feet.push(shoe);
-    const shoeC=CLOTH[look.shoesColor]||PAPER,trimC=CLOTH[look.shoesTrim],upperM=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
+    finish=look.shoesFinish||'';
+    const shoeC=tint(CLOTH[look.shoesColor]||PAPER,'shoesFinish'),trimC=CLOTH[look.shoesTrim]&&tint(CLOTH[look.shoesTrim],'shoesFinish',.6),upperM=mat(shoeC),sole=mat(boots?'#2e2823':look.shoesSole==='goma'?'#b98a4f':light(shoeC)?'#e6e0d0':PAPER),accent=trimC?mat(trimC):null;
     add(shoe,box(),upperM,[0,.15+lift,.02],[.17,.115,.265],[],O);
     add(shoe,box(),sole,[0,.055+lift/2,.02],[.185,.06+lift/2,.285],[],O);
     add(shoe,box(),sole,[0,.12+lift,.215],[.15,.07,.08]);
@@ -291,6 +317,7 @@ function buildModel(look){
     if(boots){if(!tucked){add(shoe,capsule(.15,.12),upperM,[0,.34,-.06],[1,1,1.05],[],O);add(shoe,ring(.135,.035),mat(shade(shoeC,light(shoeC)?.7:1.6)),[0,.47,-.06],[1,1.05,1],[Math.PI/2,0,0],O)}add(shoe,box(),accent||sole,[0,.122+lift,.02],[.192,.014,.292])}
   }
 
+  finish=look.topFinish||'';
   // Torso: perfil cuadrado y corto, con la prenda pintada alrededor. En mujer, con cintura: la camiseta es un top corto (crop)
   // que deja ver una franja de tripa, y las prendas de manga larga llegan solo hasta la cintura (cut).
   const crop=fem&&type==='camiseta',cut=fem&&sleeved,tscale=fem?[1.04,1,.78]:[1.06,1,.8];
@@ -330,6 +357,7 @@ function buildModel(look){
     }
     if(type==='sudadera')for(const x of [-.075,.075])add(up,new THREE.CylinderGeometry(.014,.014,fem?.16:.2),white,[x,fem?1.1:1.08,fem?.295:.33]);
   }
+  finish='';
   // Collares: un aro inclinado que cae sobre el pecho. onChain da el punto del aro en el ángulo a (π/2 = delante y abajo).
   const chain=fem?{r:.2,z:.04}:{r:.25,z:.1},onChain=a=>[Math.cos(a)*chain.r,1.13+Math.sin(a)*chain.r*1.3*Math.cos(2.05),chain.z+Math.sin(a)*chain.r*1.3*Math.sin(2.05)];
   if(has('cadena'))add(up,ring(chain.r,.022),gold,[0,1.13,chain.z],[1,1.3,1],[2.05,0,0]);
@@ -449,8 +477,9 @@ function buildModel(look){
     }
   }
   // Gorros
+  finish=look.hatFinish||'';
   if(covered){
-    const cap=new THREE.Group(),hatC=CLOTH[look.hatColor]||INK,hatTrim=CLOTH[look.hatTrim]||trim,color=mat(hatC),dark=mat(shade(hatC,.72));head.add(cap);
+    const cap=new THREE.Group(),hatC=tint(CLOTH[look.hatColor]||INK,'hatFinish'),hatTrim=tint(CLOTH[look.hatTrim]||trim,'hatFinish',.6),color=mat(hatC),dark=mat(shade(hatC,.72));head.add(cap);
     if(['plana','atras','ladeada'].includes(hat)){
       cap.rotation.set(-.14,hat==='atras'?Math.PI:hat==='ladeada'?-.7:0,hat==='ladeada'?.1:0);
       add(cap,shell(3.2,0,Math.PI*2,0,Math.PI*.5),color,[0,.14,0],[.69,.6,.66],[],.025);
@@ -480,10 +509,12 @@ function buildModel(look){
     for(let i=-2;i<=2;i++){const a=i*.24,h=.2-Math.abs(i)*.05;add(tiara,new THREE.ConeGeometry(.055,h,4),gold,[Math.sin(a)*.42,.04+h/2,Math.cos(a)*.42])}
     add(tiara,sphere(.04),mat(CLOTH.rosa),[0,.27,.42]);
   }
+  finish=look.topFinish||'';
   if(hooded){
     add(head,shell(2.8,Math.PI/2+.85,Math.PI*2-1.7,0,Math.PI*.78),mat(shade(main,.92)),[0,.03,-.04],[HEAD.a*1.2,HEAD.b*1.2,HEAD.c*1.16]).material.side=THREE.DoubleSide;
     add(head,ring(.62,.05,Math.PI*1.25),mat(shade(main,.75)),[0,.03,.33],[1.05,1.05,1],[0,0,-Math.PI*.125]);
   }
+  finish='';
   if(has('cascos')||has('cascos2')){
     const alt=has('cascos2');add(head,ring(.7,.04,Math.PI),mat(alt?PAPER:INK),[0,0,-.02],[1,1.03,1],[],.06);
     for(const side of [-1,1])add(head,box(3),mat(alt?CLOTH.lila:CLOTH.coral),[side*.7,-.06,-.02],[.08,.2,.17],[],O);
