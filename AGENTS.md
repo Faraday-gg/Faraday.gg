@@ -98,6 +98,7 @@ Reglas para agentes:
   node tests/mercado.test.mjs
   node tests/intercambios.test.mjs
   node tests/suscripcion.test.mjs
+  node tests/ganadas.test.mjs
   node tests/stripe.test.mjs
   node tests/ordenes.test.mjs
   node tests/vitrina.test.mjs

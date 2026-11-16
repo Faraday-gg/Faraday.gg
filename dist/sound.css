@@ -1,0 +1,24 @@
+/* Control de volumen (sound.js): el botón del altavoz y la barra vertical que se despliega debajo. Colores fijos
+   (papel y tinta) para que se lea igual sobre cualquier fondo: la barra de la partida cambia de color con la categoría
+   y la del cofre es oscura. */
+.sound-control{position:relative;display:inline-grid;place-items:center}
+.sound-pop{position:absolute;top:calc(100% + 8px);right:-6px;z-index:30;width:56px;padding:10px 0 6px;border-radius:28px;background:#fffdf7;color:#202630;box-shadow:0 1px 2px #20263024,0 14px 30px -12px #20263080;display:flex;flex-direction:column;align-items:center;gap:6px;animation:sound-pop .14s ease-out}
+.sound-pop[hidden]{display:none}
+/* Puente invisible entre el botón y la barra: al bajar el ratón no se cierra por el hueco. */
+.sound-pop::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:10px}
+@keyframes sound-pop{from{opacity:0;transform:translateY(-4px)}}
+.sound-value{font:700 12px/1 var(--font,Arial,sans-serif);font-variant-numeric:tabular-nums;min-height:12px}
+.sound-slider{--level:1;position:relative;width:44px;height:136px;cursor:pointer;touch-action:none;border-radius:22px}
+.sound-slider:focus-visible{outline:3px solid #5586a5;outline-offset:0}
+.sound-track{position:absolute;left:50%;top:10px;bottom:10px;width:6px;margin-left:-3px;border-radius:3px;background:#2026301f;overflow:hidden}
+.sound-fill{position:absolute;left:0;right:0;bottom:0;height:calc(var(--level) * 100%);background:#ff6548;border-radius:inherit}
+.sound-thumb{position:absolute;left:50%;bottom:calc(10px + var(--level) * (100% - 20px));width:18px;height:18px;margin:0 0 -9px -9px;border-radius:50%;background:#fffdf7;border:2px solid #202630;box-shadow:0 1px 3px #20263040;pointer-events:none}
+.sound-slider:active .sound-thumb{transform:scale(1.15)}
+.sound-pop .sound-mute{width:40px;min-width:0;height:40px;padding:0;border:0;border-radius:50%;background:transparent;color:#202630;display:grid;place-items:center}
+.sound-pop .sound-mute:hover{background:#2026300f}
+.sound-mute svg{width:20px;height:20px}
+.sound-mute[aria-pressed=true] .sound-off,.sound-mute[aria-pressed=false] .sound-on{display:none}
+/* La barra se alinea con el borde del botón que queda junto al de la pantalla: a la derecha en la partida y el duelo,
+   a la izquierda en el cofre. */
+.chest-bar .sound-pop{right:auto;left:-6px}
+@media (prefers-reduced-motion:reduce){.sound-pop{animation:none}}

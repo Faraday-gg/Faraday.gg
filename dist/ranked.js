@@ -47,13 +47,21 @@
   const unlocked=()=>level()>=MIN_LEVEL;
   const mode=()=>unlocked()&&saved.get('modo','normal')==='ranked'?'ranked':'normal';
   let mine=saved.get('mio',null),top=[],position=null;
+  // Piezas de rango del avatar: se tienen desde que se llega a ese rango, aunque luego se baje.
+  // best = el rango más alto alcanzado, que dice el servidor. Al subir se avisa a progress.js con «faraday:rango».
+  const ORDER=Object.keys(RANKS).filter(id=>id!=='sin-rango');
+  const best=()=>ORDER.includes(mine?.best)?mine.best:null;
+  function keep(rank){
+    const before=best();mine=rank;saved.set('mio',rank);
+    if(best()&&best()!==before)document.dispatchEvent(new CustomEvent('faraday:rango',{detail:{best:best(),before}}));
+  }
 
   async function refresh(){
     try{
       await playerReady;
       const response=await fetch('/api/duelo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'rango',player:playerId()}),signal:AbortSignal.timeout(8000)});
       if(!response.ok)return;
-      const data=await response.json();mine=data.rank;top=data.top||[];position=data.position;saved.set('mio',mine);paint();
+      const data=await response.json();top=data.top||[];position=data.position;keep(data.rank);paint();
     }catch{}
   }
   // Barra de PR dentro de la división (o de las partidas de posicionamiento).
@@ -87,7 +95,7 @@
     const r=duel.rankResult;
     if(!r)return `<div class="ranked-result" id="ranked-result" data-pending="1"><p class="ranked-pending">Calculando tus PR…</p></div>`;
     const rank=r.rank,up=r.delta>0,changed=CHANGE[r.change],dir=/up|placed/.test(r.change)?'up':/down/.test(r.change)?'down':'';
-    mine=rank;saved.set('mio',rank);
+    keep(rank);
     const from=r.change==='same'?Math.max(0,(rank.pr-r.delta)/100):0;
     return `<div class="ranked-result${dir?' is-'+dir:''}" id="ranked-result" data-change="${r.change}">
 <div class="ranked-result-badge">${badge(rank,{size:64})}${dir?'<span class="ranked-burst" aria-hidden="true"></span>':''}</div>
@@ -118,5 +126,5 @@ ${changed?`<p class="ranked-change">${changed}</p>`:''}
   if(main)new MutationObserver(injectProfile).observe(main,{childList:true});
   document.querySelectorAll('[data-open-profile],[data-open-duel]').forEach(button=>button.addEventListener('click',()=>{if(unlocked())refresh()}));
 
-  window.Ranked={MIN_LEVEL,RANKS,badge,chip,text,lobby,mode,unlocked,refresh,result,animate,update,paint};
+  window.Ranked={MIN_LEVEL,RANKS,ORDER,best,badge,chip,text,lobby,mode,unlocked,refresh,result,animate,update,paint};
 })();

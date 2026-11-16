@@ -107,10 +107,10 @@
     stage=document.createElement('div');stage.className='chest-stage';stage.dataset.type=type;stage.dataset.phase=phase;stage.dataset.charge='0';
     stage.setAttribute('role','dialog');stage.setAttribute('aria-modal','true');stage.setAttribute('aria-label',`Abrir cofre ${chest.name}`);
     stage.innerHTML=`<canvas class="chest-fx" aria-hidden="true"></canvas><div class="chest-rays" aria-hidden="true"></div><div class="chest-flash" aria-hidden="true"></div>
-<div class="chest-bar"><button type="button" class="chest-mute" aria-pressed="${Sound.on}" aria-label="Sonido"><span aria-hidden="true">♪</span></button><button type="button" class="chest-skip">Saltar</button></div>
+<div class="chest-bar"><button type="button" class="chest-mute" aria-pressed="${Sound.on}" aria-label="Sonido" title="Sonido"><span aria-hidden="true">♪</span></button><button type="button" class="chest-skip">Saltar</button></div>
 <div class="chest-scene"><p class="chest-kicker">Cofre ${chest.name}</p><button type="button" class="chest-box" aria-label="Tocar para abrir el cofre ${chest.name}">${art(type)}</button><p class="chest-hint">Toca para abrir · ${rewards.length} premios</p><p class="chest-pips" aria-hidden="true">${'<i></i>'.repeat(TAPS)}</p></div>
 <div class="chest-cards" hidden></div><div class="chest-walk" hidden></div><div class="chest-summary" hidden></div><p class="sr-only" aria-live="polite"></p>`;
-    document.body.append(stage);document.body.classList.add('chest-on');
+    document.body.append(stage);document.body.classList.add('chest-on');Sound.control(stage.querySelector('.chest-mute'));
     const find=selector=>stage.querySelector(selector),box=find('.chest-box'),cards=find('.chest-cards'),walk=find('.chest-walk'),summary=find('.chest-summary'),live=find('[aria-live]');
     const fx=particles(find('.chest-fx'));fx.size();
     const palette=rarity=>[COLOR[rarity],'#ffffff',COLOR[rarity],'#ffdb70'];
@@ -194,7 +194,7 @@
       find(more?'[data-more]':'[data-done]').focus();
     }
     function close(next){
-      timers.forEach(clearTimeout);fx.stop();bed.stop();removeEventListener('resize',fx.size);removeEventListener('keydown',keys,true);
+      timers.forEach(clearTimeout);fx.stop();bed.stop();removeEventListener('resize',fx.size);removeEventListener('keydown',keys,true);document.removeEventListener('faraday:sonido',onSound);
       const node=stage;stage=null;node.classList.add('closing');document.body.classList.remove('chest-on');
       setTimeout(()=>node.remove(),calm?0:220);
       if(opener?.isConnected)opener.focus();
@@ -207,13 +207,16 @@
       if(target===box){tap();return}
       if(target.classList.contains('chest-card')){flip(target);return}
       if(target.classList.contains('chest-skip')){finish();return}
-      // Al silenciar se apaga la cama de fondo; al volver a activar el sonido, se retoma donde iba.
-      if(target.classList.contains('chest-mute')){const on=Sound.toggle();target.setAttribute('aria-pressed',String(on));bed.stop();if(on){bed=Sound.bed();if(phase!=='ready'&&phase!=='enter')bed.resolve(shown)}return}
       if(target.dataset.wear!==undefined){onEquip?.(rewards[Number(target.dataset.wear)].key);summary.querySelectorAll('.chest-wear').forEach(button=>{if(rewards[Number(button.dataset.wear)].slot===rewards[Number(target.dataset.wear)].slot){button.disabled=false;button.textContent='Ponérmelo'}});target.disabled=true;target.textContent='Puesto ✓';return}
       if(target.hasAttribute('data-more')){close(true);return}
       if(target.hasAttribute('data-done'))close();
     });
     // En window y en captura: Escape cierra el cofre antes de que lo vean el perfil o el duelo que hay debajo.
+    // Al silenciar se apaga la cama de fondo; al volver a activar el sonido, se retoma donde iba. Los cambios de volumen
+    // no la tocan: la barra mueve la ganancia general de sound.js.
+    let heard=Sound.on;
+    function onSound({detail}){if(detail.on===heard)return;heard=detail.on;bed.stop();if(heard){bed=Sound.bed();if(phase!=='ready'&&phase!=='enter')bed.resolve(shown)}}
+    document.addEventListener('faraday:sonido',onSound);
     addEventListener('keydown',keys,true);addEventListener('resize',fx.size);
     if(calm){finish();if(top<0)sfx.coins();else sfx.reveal(top)}else enter();
   }
