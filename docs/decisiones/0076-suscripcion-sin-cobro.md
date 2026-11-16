@@ -1,6 +1,6 @@
 # 0076. La suscripción, sin el cobro: plan, tope de duelos y ventajas
 
-- **Estado:** propuesta (código en la rama `feat/suscripcion`; la migración `20261116150000_suscripciones` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/suscripcion`; la migración `20261116094407_suscripciones` está **aplicada** desde el 2026-11-16, ya con la columna `customer` de la 0077)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Sigue en:** la [0077](0077-cobro-con-stripe.md), el cobro con Stripe. La tabla `subscriptions` gana allí la columna `customer`.
@@ -48,7 +48,7 @@ Se hace **todo lo que da la suscripción, sin el cobro**. Quién la tiene es una
 - `lib/duelos.mjs`: el tope (`allowance`) y la acción `limite`, que dice cuántos duelos lleva hoy el jugador. `lib/api.mjs` lo conecta; `duelLimit: null` lo desactiva en las pruebas que juegan muchos duelos seguidos.
 - `lib/mercado.mjs`: sin tope de anuncios con la suscripción. `lib/comunidad.mjs`: `estado` devuelve `plus`, `plusUntil` y `freeDuels`.
 - `dist/avatar.js` (piezas con `plus`), `dist/progress.js` (el plan, el recuadro del perfil y `Progress.plus()`), `dist/ads.js`, `dist/market.js` y `dist/styles.css`.
-- `supabase/migrations/20261116150000_suscripciones.sql` y `tests/suscripcion.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
+- `supabase/migrations/20261116094407_suscripciones.sql` y `tests/suscripcion.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
 
 ## Alternativas descartadas
 
@@ -61,7 +61,7 @@ Se hace **todo lo que da la suscripción, sin el cobro**. Quién la tiene es una
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** (con la confirmación de Luis). Sin ella nadie tiene suscripción y todo lo demás funciona; **el tope de 5 duelos se aplica igualmente**, porque no depende de esa tabla.
+- **La migración está aplicada** desde el 16 de noviembre (Luis lo confirmó). **El tope de 5 duelos no depende de esa tabla**: vale desde que el código llega a producción.
 - **El tope de 5 duelos empieza a valer para todos en cuanto esto llegue a producción**, antes de que se pueda pagar por quitarlo. Conviene decidir si se activa ya o se espera al cobro; hoy no hay un interruptor en producción (apuntado en [mejoras](../mejoras/README.md)).
 - **El tope se puede saltar borrando los datos del navegador** si se juega sin cuenta: es otro jugador nuevo. Es el mismo límite que tiene todo lo que se guarda sin cuenta.
 - **La publicidad de hoy es simulada** (0039): quitarla no cambia ingresos todavía.
