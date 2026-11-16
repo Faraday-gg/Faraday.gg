@@ -1,6 +1,6 @@
 # 0043. Clasificatorias y rangos en los duelos, de Bronce a Científico
 
-- **Estado:** propuesta (código en la rama `feat/clasificatorias-rangos`; migración `20261112200000_rangos` **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/clasificatorias-rangos`; migración `20261116231953_rangos`, aplicada el 2026-11-17)
 - **Fecha:** 2026-11-12
 - **Quién:** Luis, con Claude Code
 - **Amplía:** la [0023](0023-duelos-1vs1.md), que dejaba fuera «divisiones y clasificación por puntos».
@@ -54,7 +54,7 @@ K = 36   (ganar a un igual: +18; perder: −18)
 
 - `lib/rangos.mjs` calcula todo. La valoración de cada jugador se guarda en el duelo al emparejarse (`players[].rank`), y al terminar el duelo se apuntan los PR de los dos.
 - **Un duelo solo cuenta una vez:** cada ficha guarda los últimos 30 duelos apuntados con su resultado (`seen`). Si dos peticiones intentan apuntar el mismo duelo, la segunda recibe el mismo resultado sin tocar nada. Además, el duelo queda marcado (`rankSettled`) con control de versión.
-- **Persistencia:** tabla nueva `ranks` en Supabase (migración `20261112200000_rangos`, **sin aplicar**) y `runtime/rangos.json` en local. Si la tabla no existe o falla, la clasificatoria responde 503 y los duelos normales siguen funcionando; los PR de un duelo terminado se reintentan en la siguiente consulta.
+- **Persistencia:** tabla nueva `ranks` en Supabase (migración `20261116231953_rangos`, aplicada el 2026-11-17) y `runtime/rangos.json` en local. Si la tabla no existe o falla, la clasificatoria responde 503 y los duelos normales siguen funcionando; los PR de un duelo terminado se reintentan en la siguiente consulta.
 
 ### Interfaz
 
