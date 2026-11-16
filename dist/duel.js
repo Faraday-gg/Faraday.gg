@@ -524,7 +524,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   // El botón de sonido es el control de volumen de sound.js; aquí solo se para la música al silenciar.
   document.addEventListener('faraday:sonido',event=>{if(!event.detail.on)stopMusic()});
-  document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
+  document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',async()=>{await open();if(button.dataset.openDuel==='3')document.querySelector('[data-duel=quick3]')?.focus()}));
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
