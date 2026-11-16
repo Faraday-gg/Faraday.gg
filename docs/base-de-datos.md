@@ -386,11 +386,12 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 | --- | --- | --- | --- |
 | `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | El jugador de la cuenta. |
 | `until` | `timestamptz` | obligatorio | Hasta cuándo vale. Está en vigor mientras sea posterior a ahora; al caducar no se borra. |
-| `source` | `text` | por defecto `manual` | De dónde viene: `manual` (escrita a mano) o el proveedor de pagos, cuando lo haya. |
-| `ref` | `text` | opcional | El identificador de la suscripción en el proveedor. |
+| `source` | `text` | por defecto `manual` | De dónde viene: `manual` (escrita a mano) o `stripe` (la escribe el aviso de pago). |
+| `ref` | `text` | opcional | La suscripción en Stripe (`sub_…`). |
+| `customer` | `text` | opcional | El cliente en Stripe (`cus_…`), para abrirle el portal ([decisión 0077](decisiones/0077-cobro-con-stripe.md)). |
 | `created_at`, `updated_at` | `timestamptz` | | |
 
-Todavía no hay proveedor de pagos: para dar la suscripción a una cuenta se inserta su fila a mano. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+La fila la escribe el servidor cuando llega un aviso de pago de Stripe (`POST /api/stripe`, `lib/stripe.mjs`). También se puede insertar a mano para regalar la suscripción; si esa cuenta paga después, manda lo que diga Stripe. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 El tope de duelos del plan gratuito no usa esta tabla: cuenta los duelos del día en `duels` (los que no están en `waiting`, por `created_at` y por el jugador dentro de `state`).
 

@@ -38,6 +38,7 @@ Datos de referencia para todo el equipo (Luis y Álvaro). Aquí solo van identif
 | Producción (Vercel) | Rama `main` → <https://faraday-gg.vercel.app> |
 | Preview de `preprod` | <https://faraday-gg-git-preprod-faraday-game.vercel.app>, que se actualiza con cada merge en `preprod`. Abierta sin iniciar sesión, como el resto de despliegues ([decisión 0007](docs/decisiones/0007-preview-de-vercel-sin-login.md)). |
 | Funciones y variables | Región `fra1` (Frankfurt), según `vercel.json`. Variables en Production y Preview: `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (tipo *Secret*: su valor no se puede volver a leer en el panel). Ver [Despliegue](#despliegue-vercel-y-supabase). |
+| Stripe (cobro de la suscripción) | **Sin cuenta todavía.** El código está en `lib/stripe.mjs` ([decisión 0077](docs/decisiones/0077-cobro-con-stripe.md)). Necesita, solo en Production, las variables `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` y `STRIPE_PRICE_ID`, y un destino de avisos en Stripe que apunte a `/api/stripe`. Sin ellas la suscripción no se puede contratar y todo lo demás funciona. No se ponen en Preview: comparte la base de datos con producción. |
 
 ### Un solo entorno de Supabase
 

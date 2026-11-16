@@ -98,6 +98,7 @@ Reglas para agentes:
   node tests/mercado.test.mjs
   node tests/intercambios.test.mjs
   node tests/suscripcion.test.mjs
+  node tests/stripe.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

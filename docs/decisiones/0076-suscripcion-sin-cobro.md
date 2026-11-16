@@ -3,6 +3,7 @@
 - **Estado:** propuesta (código en la rama `feat/suscripcion`; la migración `20261116150000_suscripciones` está **sin aplicar**)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
+- **Sigue en:** la [0077](0077-cobro-con-stripe.md), el cobro con Stripe. La tabla `subscriptions` gana allí la columna `customer`.
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera entrega de la fase 5.
 
 ## Contexto
