@@ -1,6 +1,6 @@
 # 0075. Intercambios privados de artículos de colección
 
-- **Estado:** propuesta (código en la rama `feat/intercambios`; la migración `20261116140000_intercambios` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/intercambios`; la migración `20261116005727_intercambios` está **aplicada** desde el 2026-11-16)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la segunda entrega de la fase 4, después del mercado ([0073](0073-mercado-de-ediciones.md) y [0074](0074-mercado-con-pujas-e-indicadores.md)).
@@ -43,7 +43,7 @@ En el mercado, en la pestaña **Intercambios**: crear, entrar con un código, la
 ### Código
 
 - `lib/intercambios.mjs` (nuevo): reglas, los intercambios del almacén en memoria y las acciones `intercambios`, `intercambio`, `intercambio-crear`, `intercambio-unirse`, `intercambio-ofrecer`, `intercambio-confirmar` e `intercambio-cancelar` de `POST /api/progreso`. `lib/stores.mjs`: lo mismo contra Supabase. `lib/comunidad.mjs` solo lo conecta.
-- `supabase/migrations/20261116140000_intercambios.sql`.
+- `supabase/migrations/20261116005727_intercambios.sql`.
 - `dist/market.js` y `dist/market.css`: la pestaña y la sala.
 - `tests/intercambios.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
 
@@ -58,7 +58,7 @@ En el mercado, en la pestaña **Intercambios**: crear, entrar con un código, la
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** (con la confirmación de Luis). Sin ella, la pestaña dice que los intercambios no están disponibles; el resto del mercado funciona.
+- **La migración está aplicada** desde el 16 de noviembre (Luis lo confirmó).
 - **Los intercambios se saltan la comisión del mercado**, a propósito: quien quiera faradios tiene que vender. Dos jugadores pueden acordar un pago por fuera del juego; no se puede impedir y la 0055 lo asume.
 - **Sirven para repartir artículos entre cuentas propias**, que es lo que Luis quería permitir.
 - **Quien tiene el código puede entrar** mientras no haya entrado nadie. Si entra un desconocido, basta con no confirmar, o cancelar.
