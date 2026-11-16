@@ -14,6 +14,22 @@
 .home-avatar-plate{display:inline-flex;align-items:center;gap:8px;border-radius:40px;background:var(--paper);padding:6px 14px;font:500 13px var(--num);font-variant-numeric:tabular-nums;box-shadow:0 1px 2px #20263014,0 8px 20px -10px #20263066}
 .home-avatar-plate b{font:700 14px var(--display)}
 .home-avatar-cta{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;opacity:.75}
+/* Pantallas sin hueco al lado de la tarjeta (móvil y tableta): el avatar crece y pasa a ser lo principal de la
+   tarjeta. La placa del nivel se monta sobre sus pies para no gastar alto y el titular se aprieta. */
+@media(max-width:1099px){
+  .home-avatar{width:min(400px,100%);margin:4px auto 0;gap:0}
+  .home-avatar-stage{margin-bottom:-34px}
+  .home-avatar-plate{position:relative;z-index:1}
+  .home-avatar-cta{margin-top:12px}
+  .home-hero .home-play{margin-top:22px}
+}
+@media(max-width:760px){
+  .home-hero h1{font-size:clamp(36px,10.5vw,46px);margin:28px 0 14px}
+  .home-hero .hero-rounds{margin-top:12px}
+  .home-avatar{width:calc(100% + 24px);max-width:380px;margin:0 -12px}
+  .home-avatar-stage{margin-top:-8px;margin-bottom:-30px}
+  .home-avatar .home-chest-alert{top:6px;right:22px}
+}
 @media(min-width:1100px){
   .home-hero{position:relative}
   .home-avatar{position:absolute;right:calc(100% - 14px);bottom:26px;width:300px;margin:0}
