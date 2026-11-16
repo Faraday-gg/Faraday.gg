@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="ranked.css">
   <link rel="stylesheet" href="armario.css">
   <link rel="stylesheet" href="market.css">
+  <link rel="stylesheet" href="pase.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -40,6 +41,7 @@
   <script src="coin-fly.js" defer></script>
   <script src="progress.js" defer></script>
   <script src="market.js" defer></script>
+  <script src="pase.js" defer></script>
   <script src="ads.js" defer></script>
   <script src="pistas.js" defer></script>
   <script src="circuito.js" defer></script>
@@ -70,6 +72,7 @@
       <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
       <button class="home-avatar" id="home-avatar" type="button" data-open-profile aria-label="Tu avatar: abrir el armario y la tienda"></button>
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
+      <button class="home-pass" id="home-pass" data-open-pass type="button" aria-label="Pase de batalla: tu nivel y tus premios" hidden></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
       <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
       <button class="home-league home-market" data-open-market type="button"><span aria-hidden="true">🛒</span> Mercado</button>
@@ -279,6 +282,7 @@
       </ul>
       <h2 class="menu-title">Tú</h2>
       <ul class="menu-list">
+        <li><button type="button" class="menu-link" data-tone="yellow" data-open-pass><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="12" rx="9.5" ry="3.8"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/></svg></span><span class="menu-text"><b>Pase de batalla</b><small>Sube de nivel y recoge premios</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link" data-tone="blue" data-open-market><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5 5.5 4h13L20 9.5"/><path d="M4 9.5a2.7 2.7 0 0 0 5.3 0 2.7 2.7 0 0 0 5.4 0 2.7 2.7 0 0 0 5.3 0"/><path d="M5.5 12v8h13v-8M10 20v-4.5h4V20"/></svg></span><span class="menu-text"><b>Mercado</b><small>Compra, vende y puja por artículos de colección</small></span></button></li>
         <li><button type="button" class="menu-link" data-tone="yellow" data-open-profile><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="5"/><path d="M9 10.8 6.5 3h4l1.5 4 1.5-4h4L15 10.8"/><path d="M12 12.8v4.4M10 15h4"/></svg></span><span class="menu-text"><b>Avatar, misiones y medallas</b><small>Armario, cofres y logros</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link menu-account" data-tone="ink" id="menu-account" data-auth-open aria-haspopup="dialog"><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="menu-text"><b id="menu-account-label">Entrar o crear cuenta</b><small id="menu-account-hint">Guarda tu progreso</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>

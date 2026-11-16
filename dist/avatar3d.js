@@ -182,6 +182,12 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
       // Sudadera exclusiva «Casi casi» (decisión 0030): «1,1×» sobre una diana delante y el lema a la espalda.
       // Piezas exclusivas del Circuito de amigos (decisión 0038): un rayo dentro de un círculo.
       if(print==='rayo')at(x,Y(v),()=>{c.fillStyle=trim;c.beginPath();c.arc(0,0,34*scale,0,7);c.fill();c.lineWidth=5*scale;c.strokeStyle=INK;c.stroke();c.beginPath();for(const [px,py] of [[6,-26],[-14,4],[-1,4],[-7,26],[15,-6],[2,-6],[8,-26]])c.lineTo(px*scale,py*scale);c.closePath();c.fillStyle=INK;c.fill()});
+      // Piezas del pase de batalla (decisión 0079): un átomo, el radio de Curie (Ra, 88), la doble hélice, π y E=mc².
+      if(print==='atomo')at(x,Y(v),()=>{c.lineWidth=4*scale;c.strokeStyle=trim;for(const turn of [0,1.05,2.1]){c.beginPath();c.ellipse(0,0,38*scale,14*scale,turn,0,7);c.stroke()}c.fillStyle=trim;c.beginPath();c.arc(0,0,7*scale,0,7);c.fill()});
+      if(print==='radio')at(x,Y(v),()=>{const r=34*scale;c.fillStyle=trim;c.beginPath();c.roundRect(-r,-r,2*r,2*r,8*scale);c.fill();c.lineWidth=4*scale;c.strokeStyle=onTrim;c.stroke();c.fillStyle=onTrim;c.textAlign='center';c.textBaseline='middle';c.font=`900 ${40*scale}px "Arial Black",Arial,sans-serif`;c.fillText('Ra',0,7*scale);c.font=`900 ${13*scale}px Arial,sans-serif`;c.textAlign='left';c.fillText('88',-r+6*scale,-r+12*scale)});
+      if(print==='adn')at(x,Y(v),()=>{const h=40*scale,w=17*scale,px=t=>w*Math.sin(t*4.7);c.lineCap='round';c.lineWidth=3*scale;c.strokeStyle=on;for(let i=-4;i<=4;i++){const t=i/4.4;c.beginPath();c.moveTo(px(t),t*h);c.lineTo(-px(t),t*h);c.stroke()}c.lineWidth=6*scale;for(const side of [1,-1]){c.strokeStyle=side>0?trim:on;c.beginPath();for(let i=-20;i<=20;i++){const t=i/20;c.lineTo(side*px(t),t*h)}c.stroke()}});
+      if(print==='pi')word('π',x,Y(v),78*scale,trim,INK,false);
+      if(print==='emc2')word('E=mc²',x,Y(v),38*scale,trim,null,false,150*scale);
       if(print==='casi'){at(x,Y(v),()=>{c.lineWidth=5*scale;c.strokeStyle=trim;for(const r of [36,24,12]){c.beginPath();c.arc(0,0,r*scale,0,7);c.stroke()}c.rotate(-.12);c.font=`italic 900 ${42*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=10*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,1×',0,0);c.fillStyle=PAPER;c.fillText('1,1×',0,0)})}
     };
     c.fillStyle=main;c.fillRect(0,0,S,S);

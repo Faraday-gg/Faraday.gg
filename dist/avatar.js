@@ -1,7 +1,7 @@
 // Catálogo del avatar (decisiones 0024 y 0025). El avatar es un personaje 3D propio, de estética de calle, que dibuja
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
-// desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
+// desbloquea gratis al llegar a ese nivel; pase = se gana en el pase de batalla (decisión 0079); casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
 // 'bienvenida' para quien entra invitado o el número de amigos conectados. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
@@ -51,6 +51,15 @@
   // Piezas de suscriptor (decisión 0076): se pueden llevar mientras la suscripción esté activa. No se compran, no salen
   // en cofres y no se venden ni se intercambian. Esta primera es de muestra, con una forma y un estampado que ya existían.
   const plusTops=()=>[top('plus-rayo','Sudadera de suscriptor',0,'sudadera','negro','amarillo','logo',{plus:true})];
+  // Piezas del pase de batalla (decisión 0079): se ganan al recoger su nivel en el pase (lib/pase.mjs) y se quedan para
+  // siempre. No se compran, no salen en cofres, no llevan acabado y no se venden. pase = la temporada de la que salen.
+  // Los estampados (átomo, Ra, doble hélice, π y E=mc²) están en avatar3d.js.
+  const passPieces=woman=>{const shirt=woman?'Top':'Camiseta',more={pase:'t1'};return [
+    top('pase-curie','Sudadera Curie',0,'sudadera','negro','menta','radio',more),top('pase-atomo',shirt+' Átomo',0,'camiseta','blanco','azul','atomo',more),
+    hat('pase-tesla','Gorro Tesla',0,'gorro','morado','amarillo',more),top('pase-darwin','Chándal Darwin',0,'chandal','oliva','crema','',more),
+    hat('pase-newton','Gorra Newton',0,'plana','rojo','verde',more),top('pase-adn',shirt+' Doble hélice',0,'camiseta','lila','morado','adn',more),
+    top('pase-hipatia','Plumas Hipatia',0,'plumas','marino','amarillo','',more),top('pase-pi','Sudadera π',0,'sudadera','marino','amarillo','pi',more),
+    top('pase-emc2',shirt+' E = mc²',0,'camiseta','negro','amarillo','emc2',more),top('pase-nobel','Universitaria Nobel',0,'universitaria','blanco','amarillo','',more)]};
   const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
     top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
   const MEN=[
@@ -78,7 +87,7 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    ...editionTops(),...plusTops(),
+    ...editionTops(),...plusTops(),...passPieces(false),
     // Exclusivas del Circuito de amigos (decisión 0038): la gorra, para quien entra invitado; el resto, por conexiones.
     hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
@@ -168,7 +177,7 @@
     top('uni-fuego','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
     top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
     top('sud-casi','Sudadera corta «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    ...editionTops(),...plusTops(),
+    ...editionTops(),...plusTops(),...passPieces(true),
     hat('enchufe','Gorro Enchufe',0,'gorro','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Top Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
     top('sud-tesla','Sudadera corta Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
@@ -277,7 +286,7 @@
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition||entry.plus||entry.pase?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;

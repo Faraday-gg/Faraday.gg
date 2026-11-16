@@ -34,7 +34,13 @@
     corona:path('M3.5 8l4.5 4 4-7 4 7 4.5-4-2 11h-13z'),
     calendario:path('M4 6h16v14H4zM4 10h16M8 3.5v4M16 3.5v4M9 15l2 2 4-4'),
     bandera:path('M6 21V4M6 5h11l-2.5 4 2.5 4H6'),
-    pajarita:path('M4 7l8 5-8 5zM20 7l-8 5 8 5z')+dot(12,12,1.6)
+    pajarita:path('M4 7l8 5-8 5zM20 7l-8 5 8 5z')+dot(12,12,1.6),
+    // Insignias del pase de batalla (decisión 0079).
+    matraz:path('M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3M7.5 15h9'),
+    birrete:path('M2.5 9 12 4.5 21.5 9 12 13.5zM6.5 11v4.5c1.5 1.5 3.5 2 5.5 2s4-.5 5.5-2V11M21.5 9v5'),
+    laurel:ring(12,9.5,5.5)+path('M9 14.5 7.5 21l4.5-2 4.5 2-1.5-6.5')+dot(12,9.5,1.6),
+    mecenas:path('M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z'),
+    bombilla:path('M9.5 17h5M10 20.5h4M8.5 14.5a6 6 0 1 1 7 0c-.6.5-1 1.2-1 2.5h-5c0-1.3-.4-2-1-2.5z')
   };
   // stat = la cifra del jugador que la mide (las reúne progress.js); goals = lo que pide cada nivel; text = cómo se consigue.
   const medal=(id,name,icon,stat,goals,text,unit)=>({kind:'medalla',id,name,icon,stat,goals,text,unit});
@@ -64,7 +70,14 @@
     badge('legendario','Legendario','corona','legendary','Consigue una pieza legendaria para tu avatar.'),
     badge('punta-en-blanco','De punta en blanco','pajarita','dressed','Viste a tu avatar con algo en la cabeza, gafas, cuello y un extra a la vez.'),
     badge('semana-redonda','Semana redonda','calendario','weekSet','Recoge las tres misiones de una misma semana.'),
-    badge('pionero','Pionero','bandera','pioneer','Completa un reto en 2026, el año en que nació Faraday.gg.')
+    badge('pionero','Pionero','bandera','pioneer','Completa un reto en 2026, el año en que nació Faraday.gg.'),
+    // Del pase de batalla (decisión 0079, lib/pase.mjs): se recogen en su nivel del pase. Las tres primeras, en la pista
+    // gratuita; las dos últimas, en la prémium. progress.js las apunta cuando el servidor dice que están recogidas.
+    badge('becario','Becario de laboratorio','matraz','becario','Recoge la insignia del nivel 10 del pase de batalla «Pioneros de la ciencia».'),
+    badge('doctorado','Doctorado','birrete','doctorado','Recoge la insignia del nivel 20 del pase de batalla «Pioneros de la ciencia».'),
+    badge('nobel','Premio Nobel','laurel','nobel','Completa los 30 niveles del pase de batalla «Pioneros de la ciencia».'),
+    badge('mecenas','Mecenas de la ciencia','mecenas','mecenas','Recoge la insignia prémium del nivel 15 del pase de batalla «Pioneros de la ciencia».'),
+    badge('eureka','¡Eureka!','bombilla','eureka','Recoge la insignia prémium del nivel 25 del pase de batalla «Pioneros de la ciencia».')
   ];
   const ALL=[...MEDALS,...BADGES],TOTAL=ALL.reduce((sum,def)=>sum+def.goals.length,0);
   const value=(def,stats)=>{const n=Number(stats?.[def.stat]);return Number.isFinite(n)&&n>0?Math.floor(n):0};

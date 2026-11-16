@@ -11,8 +11,8 @@ vm.runInContext(fs.readFileSync(new URL('../dist/medals.js',import.meta.url),'ut
 const {Medals}=page,{MEDALS,BADGES,ALL,TOTAL,TIERS,earned,parse,progress,level,idOf,label,rank,art,chip}=Medals;
 const plain=value=>JSON.parse(JSON.stringify(value));
 
-// Catálogo: 12 medallas de cuatro niveles y 11 insignias.
-assert.equal(TIERS.length,4);assert.equal(MEDALS.length,12);assert.equal(BADGES.length,11);assert.equal(TOTAL,12*4+11);
+// Catálogo: 12 medallas de cuatro niveles y 16 insignias (5 son del pase de batalla, decisión 0079).
+assert.equal(TIERS.length,4);assert.equal(MEDALS.length,12);assert.equal(BADGES.length,16);assert.equal(TOTAL,12*4+16);
 assert.equal(new Set(ALL.map(def=>def.id)).size,ALL.length,'Identificadores sin repetir');
 assert.equal(new Set(ALL.map(def=>def.name)).size,ALL.length,'Nombres sin repetir');
 for(const def of ALL){
