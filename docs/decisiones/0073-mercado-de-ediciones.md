@@ -1,6 +1,6 @@
 # 0073. Mercado: anuncios a precio fijo de ediciones de colección
 
-- **Estado:** propuesta (código en la rama `feat/mercado`, montada sobre `feat/acabados`; la migración `20261116130000_mercado` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/mercado`, montada sobre `feat/acabados`; la migración `20261116003548_mercado` se aplicó el 2026-11-16 ya con el esquema de la 0074)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Ampliada por:** la [0074](0074-mercado-con-pujas-e-indicadores.md), el mismo día: pantalla propia, subastas con pujas e indicadores. La pantalla y los datos que se describen aquí son los de la primera versión.
@@ -46,7 +46,7 @@ Solo las **unidades numeradas de las ediciones de colección**. El catálogo nor
 
 ### Código
 
-- `supabase/migrations/20261116130000_mercado.sql`.
+- `supabase/migrations/20261116003548_mercado.sql`.
 - `lib/mercado.mjs`: las cifras y la comisión. `lib/comunidad.mjs`: acciones `mercado`, `vender`, `retirar` y `comprar-anuncio` de `POST /api/progreso`, y el mercado del almacén en memoria. `lib/stores.mjs`: lo mismo contra Supabase.
 - `inventario` y `ediciones` ya no cuentan las unidades anunciadas como del armario.
 - `dist/progress.js` y `dist/styles.css`: la pantalla, dentro de la pestaña Armario.

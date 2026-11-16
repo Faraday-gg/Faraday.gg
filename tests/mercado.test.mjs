@@ -31,7 +31,7 @@ assert.equal(nextBid({startBid:100,topBid:100}),105);assert.equal(nextBid({start
 }
 
 // La migración define las funciones sin permisos públicos y con search_path fijo.
-const sql=fs.readFileSync(new URL('../supabase/migrations/20261116130000_mercado.sql',import.meta.url),'utf8'),FUNCTIONS=['market_pay','market_list','market_cancel','market_buy','market_bid','market_settle','market_owners'];
+const sql=fs.readFileSync(new URL('../supabase/migrations/20261116003548_mercado.sql',import.meta.url),'utf8'),FUNCTIONS=['market_pay','market_list','market_cancel','market_buy','market_bid','market_settle','market_owners'];
 for(const name of FUNCTIONS){assert.ok(sql.includes(`create function public.${name}(`),name);assert.ok(sql.includes(`revoke execute on function public.${name}(`),name)}
 assert.equal(sql.match(/set search_path = ''/g).length,FUNCTIONS.length);
 for(const table of ['listings','bids'])assert.ok(sql.includes(`alter table public.${table} enable row level security`));
