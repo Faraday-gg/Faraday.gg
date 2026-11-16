@@ -1,11 +1,20 @@
 // Sonido compartido: tonos y ruido generados en el navegador con Web Audio (sin archivos). Lo usan los duelos (duel.js),
-// la apertura de cofres (chest-open.js, que añade campanillas con reverberación y una cama de fondo, decisión 0037) y el momento «¡Casi casi!» (casi.js). El ajuste de silencio es el mismo para todo el juego y se guarda en este navegador.
+// la apertura de cofres (chest-open.js, que añade campanillas con reverberación y una cama de fondo, decisión 0037) y el momento «¡Casi casi!» (casi.js). El silencio y el volumen son los mismos para todo el juego y se guardan en este navegador.
 (()=>{
-  const KEY='casi-casi:duelo:sonido';
-  let audio=null,on=true,hiss=null,hall=null;
+  const KEY='casi-casi:duelo:sonido',VOLUME_KEY='casi-casi:sonido:volumen';
+  let audio=null,master=null,on=true,volume=1,hiss=null,hall=null;
   try{on=JSON.parse(localStorage.getItem(KEY))??true}catch{}
+  try{const saved=Number(JSON.parse(localStorage.getItem(VOLUME_KEY)));if(localStorage.getItem(VOLUME_KEY)!==null&&saved>=0&&saved<=1)volume=saved}catch{}
+  // El oído percibe el volumen de forma logarítmica: con la curva al cuadrado la barra baja de forma pareja.
+  const level=()=>volume*volume;
   // El contexto se crea la primera vez que hace falta: los navegadores solo lo dejan sonar tras un gesto del usuario.
-  function context(){try{audio??=new (window.AudioContext||window.webkitAudioContext)()}catch{}return audio}
+  // Todo sale por `master`, la ganancia general que mueve la barra de volumen (también lo que ya está sonando).
+  function context(){
+    try{
+      if(!audio){audio=new (window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=level();master.connect(audio.destination)}
+    }catch{}
+    return audio;
+  }
   // Desbloqueo para el móvil. iOS Safari y Chrome en Android crean el contexto «suspendido» y solo lo dejan arrancar si
   // resume() se llama dentro de un gesto (los sonidos se disparan a menudo tras una respuesta del servidor, fuera del
   // gesto, y se quedaban mudos). Por eso, en cada toque o tecla mientras el contexto no esté sonando, se crea si falta,
@@ -34,13 +43,13 @@
       const length=Math.floor(audio.sampleRate*2.4),impulse=audio.createBuffer(2,length,audio.sampleRate);
       for(let channel=0;channel<2;channel++){const data=impulse.getChannelData(channel);for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*(1-i/length)**3}
       const convolver=audio.createConvolver(),back=audio.createGain();convolver.buffer=impulse;back.gain.value=.6;
-      convolver.connect(back).connect(audio.destination);hall=convolver;
+      convolver.connect(back).connect(master);hall=convolver;
     }catch{}
     return hall;
   }
   // Lleva un sonido a la salida y, si `wet` es mayor que 0, manda esa parte a la reverberación.
   function output(node,wet=0){
-    node.connect(audio.destination);
+    node.connect(master);
     if(wet>0&&room()){const send=audio.createGain();send.gain.value=wet;node.connect(send).connect(hall)}
   }
   // Una nota: oscilador con ataque corto y caída exponencial. `to` desliza la frecuencia hasta ese valor.
@@ -131,17 +140,17 @@
   function voice(vowels,{at=0,duration=.42,pitch=[560,720,430],gain=.12}={}){
     if(!on||!context())return;
     try{
-      const start=audio.currentTime+at,end=start+duration,lift=.92+Math.random()*.16,master=audio.createGain(),source=audio.createOscillator(),tremble=audio.createOscillator(),depth=audio.createGain();
+      const start=audio.currentTime+at,end=start+duration,lift=.92+Math.random()*.16,mouth=audio.createGain(),source=audio.createOscillator(),tremble=audio.createOscillator(),depth=audio.createGain();
       source.type='sawtooth';
       source.frequency.setValueAtTime(pitch[0]*lift,start);source.frequency.exponentialRampToValueAtTime(pitch[1]*lift,start+duration*.22);source.frequency.exponentialRampToValueAtTime(pitch[2]*lift,end);
       // Un temblor rápido en el tono: lo aleja del pitido de máquina.
       tremble.frequency.value=7.5;depth.gain.value=pitch[1]*lift*.025;tremble.connect(depth).connect(source.frequency);
-      master.gain.setValueAtTime(.0001,start);master.gain.exponentialRampToValueAtTime(gain,start+.025);master.gain.setValueAtTime(gain,start+duration*.55);master.gain.exponentialRampToValueAtTime(.0001,end);
-      const soft=audio.createBiquadFilter();soft.type='lowpass';soft.frequency.value=5200;master.connect(soft);output(soft,.12);
+      mouth.gain.setValueAtTime(.0001,start);mouth.gain.exponentialRampToValueAtTime(gain,start+.025);mouth.gain.setValueAtTime(gain,start+duration*.55);mouth.gain.exponentialRampToValueAtTime(.0001,end);
+      const soft=audio.createBiquadFilter();soft.type='lowpass';soft.frequency.value=5200;mouth.connect(soft);output(soft,.12);
       [1,.55,.22].forEach((level,n)=>{
         const band=audio.createBiquadFilter(),amount=audio.createGain();band.type='bandpass';band.Q.value=n?9:5;amount.gain.value=level*(n?3:2);
         vowels.forEach((vowel,i)=>{const f=VOWEL[vowel][n],when=start+duration*(i?.15+.55*i/(vowels.length-1):0);if(i)band.frequency.exponentialRampToValueAtTime(f,when);else band.frequency.setValueAtTime(f,when)});
-        source.connect(band).connect(amount).connect(master);
+        source.connect(band).connect(amount).connect(mouth);
       });
       // Un soplo de aire al arrancar, como el golpe de voz de una exclamación.
       noise(at,.06,{gain:gain*.25,from:2500,to:1800,q:1.2});
@@ -155,7 +164,84 @@
     else if(pick<.8)voice(['a','o','u'],{duration:.5,pitch:[600,760,420],gain:.11});
     else{voice(['a','i'],{duration:.22,pitch:[620,700,560],gain:.14});voice(['a','a','i'],{at:.24,duration:.34,pitch:[660,780,440],gain:.14})}
   }
-  // Al activar el sonido (siempre desde un botón, dentro del gesto) se desbloquea en ese mismo momento.
-  function set(value){on=!!value;if(on)unlock();try{localStorage.setItem(KEY,JSON.stringify(on))}catch{}document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on}}))}
-  window.Sound={tone,noise,bell,bed,casi,voice,ay,context,set,toggle:()=>{set(!on);return on},resume,get on(){return on}};
+  const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
+  const announce=()=>document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on,volume}}));
+  // Al activar el sonido (siempre desde un botón, dentro del gesto) se desbloquea en ese mismo momento. Si el volumen
+  // se había quedado a cero, vuelve a la mitad para que activar se oiga.
+  function set(value){on=!!value;if(on){if(volume<.05)setVolume(.5,true);unlock()}save(KEY,on);announce()}
+  // Volumen general de 0 a 1. Se aplica con una rampa corta para que no chasquee lo que esté sonando.
+  function setVolume(value,quiet){
+    volume=Math.min(1,Math.max(0,Number(value)||0));
+    if(master)try{master.gain.setTargetAtTime(level(),audio.currentTime,.03)}catch{master.gain.value=level()}
+    save(VOLUME_KEY,volume);if(!quiet)announce();
+  }
+
+  // Control de volumen: el botón del altavoz con una barra vertical que se despliega debajo. Con ratón la barra aparece
+  // al pasar por encima y el clic silencia, como en los reproductores de vídeo; en pantallas táctiles el toque abre la
+  // barra, que lleva su propio botón de silencio; con teclado se abre al llegar con el tabulador y se mueve con las
+  // flechas. Todos los controles del juego (partida, duelo y cofres) comparten el mismo ajuste.
+  const ICON='<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z"/><path class="sound-on" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/><path class="sound-off" d="m16 9.5 5 5m0-5-5 5"/></svg>';
+  const controls=new Set();
+  const blip=()=>{if(on)tone(660,0,.12,{gain:.08})};
+  function control(button){
+    if(!button||button.closest('.sound-control'))return;
+    const wrap=document.createElement('span'),pop=document.createElement('div'),id='sound-pop-'+Math.random().toString(36).slice(2,8);
+    wrap.className='sound-control';button.replaceWith(wrap);wrap.append(button,pop);
+    pop.className='sound-pop';pop.id=id;pop.hidden=true;
+    pop.innerHTML=`<output class="sound-value" aria-hidden="true"></output><div class="sound-slider" role="slider" tabindex="0" aria-label="Volumen" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100"><span class="sound-track"><span class="sound-fill"></span></span><span class="sound-thumb"></span></div><button type="button" class="sound-mute">${ICON}</button>`;
+    button.setAttribute('aria-controls',id);button.setAttribute('aria-expanded','false');
+    const slider=pop.querySelector('.sound-slider'),track=pop.querySelector('.sound-track'),value=pop.querySelector('.sound-value'),mute=pop.querySelector('.sound-mute');
+    let pointer='mouse',timer=0,dragging=false,returning=false;
+    const shown=()=>!pop.hidden;
+    function show(){clearTimeout(timer);if(!shown()){pop.hidden=false;button.setAttribute('aria-expanded','true')}}
+    function hide(){clearTimeout(timer);if(shown()&&!dragging){pop.hidden=true;button.setAttribute('aria-expanded','false')}}
+    const later=()=>{clearTimeout(timer);timer=setTimeout(hide,350)};
+    function paint(){
+      const percent=on?Math.round(volume*100):0;
+      button.setAttribute('aria-pressed',String(on));mute.setAttribute('aria-pressed',String(on));mute.setAttribute('aria-label',on?'Silenciar':'Activar sonido');
+      slider.setAttribute('aria-valuenow',String(percent));slider.setAttribute('aria-valuetext',on?percent+' %':'Silenciado');
+      slider.style.setProperty('--level',String(percent/100));value.textContent=String(percent);
+    }
+    // Llevar la barra a cero silencia; subirla desde el silencio vuelve a activar el sonido.
+    function choose(percent){
+      percent=Math.round(Math.min(100,Math.max(0,percent)));
+      if(percent===0){if(on)set(false);else paint();return}
+      setVolume(percent/100,true);if(on)announce();else set(true);
+    }
+    const fromPointer=event=>{const rect=track.getBoundingClientRect();choose((rect.bottom-event.clientY)/rect.height*100)};
+    slider.addEventListener('pointerdown',event=>{event.preventDefault();dragging=true;pointer=event.pointerType;try{slider.setPointerCapture(event.pointerId)}catch{}slider.focus({preventScroll:true});fromPointer(event)});
+    slider.addEventListener('pointermove',event=>{if(dragging)fromPointer(event)});
+    const release=()=>{if(!dragging)return;dragging=false;blip();if(pointer==='mouse'&&!wrap.matches(':hover'))later()};
+    slider.addEventListener('pointerup',release);slider.addEventListener('pointercancel',release);
+    slider.addEventListener('keydown',event=>{
+      const now=on?Math.round(volume*100):0,step={ArrowUp:5,ArrowRight:5,ArrowDown:-5,ArrowLeft:-5,PageUp:20,PageDown:-20}[event.key];
+      const next=step!==undefined?now+step:event.key==='Home'?0:event.key==='End'?100:null;
+      if(next===null)return;event.preventDefault();choose(next);blip();
+    });
+    wrap.addEventListener('pointerenter',event=>{if(event.pointerType==='mouse')show()});
+    wrap.addEventListener('pointerleave',event=>{if(event.pointerType==='mouse'&&!dragging)later()});
+    button.addEventListener('pointerdown',event=>{pointer=event.pointerType});
+    // En táctil el toque abre o cierra la barra; con ratón o teclado (detail 0) silencia o activa.
+    button.addEventListener('click',event=>{
+      if(event.detail&&pointer!=='mouse'){shown()?hide():show();return}
+      set(!on);blip();
+    });
+    mute.addEventListener('click',()=>{set(!on);blip()});
+    wrap.addEventListener('focusin',event=>{if(!returning&&(event.target!==button||button.matches(':focus-visible')))show()});
+    // Al cerrar con Escape el foco vuelve al botón sin reabrir la barra.
+    const dismiss=()=>{hide();returning=true;button.focus();returning=false};
+    wrap.addEventListener('focusout',event=>{if(!wrap.contains(event.relatedTarget)&&!wrap.matches(':hover'))hide()});
+    controls.add({wrap,shown,hide,dismiss,paint});paint();
+  }
+  const live=()=>{for(const item of controls)if(!item.wrap.isConnected)controls.delete(item);return controls};
+  document.addEventListener('faraday:sonido',()=>live().forEach(item=>item.paint()));
+  // Tocar fuera cierra la barra. Escape la cierra antes que el diálogo que la contiene (va en captura, en window).
+  document.addEventListener('pointerdown',event=>live().forEach(item=>{if(item.shown()&&!item.wrap.contains(event.target))item.hide()}),true);
+  window.addEventListener('keydown',event=>{
+    if(event.key!=='Escape')return;
+    for(const item of live())if(item.shown()){event.stopImmediatePropagation();event.preventDefault();item.dismiss();return}
+  },true);
+  // Los botones de sonido de la partida y del duelo ya están en la página; el del cofre lo añade chest-open.js.
+  document.querySelectorAll('.duel-sound').forEach(control);
+  window.Sound={tone,noise,bell,bed,casi,voice,ay,context,set,setVolume,control,toggle:()=>{set(!on);return on},resume,get on(){return on},get volume(){return volume}};
 })();
