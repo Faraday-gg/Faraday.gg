@@ -27,7 +27,7 @@ assert.equal(nextBid({startBid:100,topBid:100}),105);assert.equal(nextBid({start
   assert.deepEqual([a.last,a.change,a.avg7,a.sales7,a.volume7,a.sales24,a.high,a.low,a.sales],[1000,25,1000,3,3000,1,1200,400,4]);
   assert.deepEqual(a.history.map(point=>point.price),[400,1200,800,1000],'De la más antigua a la más reciente');
   assert.deepEqual([b.minted,b.owners,b.onSale,b.floor,b.last,b.change,b.avg7,b.sales7],[0,0,0,null,null,null,null,0]);
-  assert.deepEqual(stats.global,{listings:3,auctions:2,sales24:1,volume24:1000,sales7:3,volume7:3000,burned7:300,items:2});
+  assert.deepEqual(stats.global,{listings:3,auctions:2,sales24:1,volume24:1000,sales7:3,volume7:3000,burned7:300,items:2,orders:0});
 }
 
 // La migración define las funciones sin permisos públicos y con search_path fijo.
@@ -64,9 +64,9 @@ try{
   // El tablón, vacío: las reglas, los indicadores y las unidades de cada uno.
   assert.equal((await post({action:'mercado'},null)).status,401);
   let b=await board(luis);
-  assert.deepEqual(b.rules,{fee:10,max:3,level:10,maxPrice:MARKET.maxPrice,step:5,hours:MARKET.hours});assert.deepEqual([b.level,b.verified,b.now,b.coins],[10,true,clock,0]);
+  assert.deepEqual(b.rules,{fee:10,max:3,level:10,maxPrice:MARKET.maxPrice,step:5,hours:MARKET.hours,orders:5});assert.deepEqual([b.level,b.verified,b.now,b.coins],[10,true,clock,0]);
   assert.deepEqual(b.stats.editions.map(one=>[one.id,one.minted,one.owners,one.onSale,one.floor,one.last]),[[first.id,2,2,0,null,null]]);
-  assert.deepEqual(b.stats.global,{listings:0,auctions:0,sales24:0,volume24:0,sales7:0,volume7:0,burned7:0,items:1});
+  assert.deepEqual(b.stats.global,{listings:0,auctions:0,sales24:0,volume24:0,sales7:0,volume7:0,burned7:0,items:1,orders:0});
   assert.deepEqual(b.units,[{edition:first.id,serial:1,listing:null}]);assert.deepEqual([b.listings,b.sales,b.mine,b.bids,b.notices],[[],[],[],[],none]);
 
   // Vender: con cuenta comprobada, nivel 10, una unidad propia y precios válidos.
@@ -140,7 +140,7 @@ try{
   assert.deepEqual(await units(luis),[{edition:first.id,serial:2}]);assert.deepEqual(await units(ana),[]);
   assert.equal(await coinsOf(ana),2000+1155-116);assert.equal(await total(),before+1155-116,'La puja retenida pasa al vendedor, menos la comisión');assert.deepEqual(await lastMove(ana),['mercado-venta',1039,'servidor','3']);
   assert.deepEqual((await board(ana)).notices,{...none,sold:[{id:3,edition:first.id,serial:2,price:1155,fee:116}]});
-  assert.deepEqual((await board(luis)).notices,{...none,won:[{id:3,edition:first.id,serial:2,price:1155,fee:116}]});
+  assert.deepEqual((await board(luis)).notices,{...none,won:[{id:3,edition:first.id,serial:2,price:1155,fee:116,by:'puja'}]});
   assert.equal((await bid(eva,3,2000)).data.code,'cerrado');assert.equal((await buy(eva,3)).data.code,'cerrado');
 
   // Una subasta sin pujas caduca: la unidad vuelve al armario y el vendedor recibe el aviso. Sin espera para revender.
