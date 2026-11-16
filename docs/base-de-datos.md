@@ -376,7 +376,7 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Suscripciones (migración `20261116150000_suscripciones`, **sin aplicar**)
+### Suscripciones (migración `20261116094407_suscripciones`, aplicada el 2026-11-16)
 
 [Decisión 0076](decisiones/0076-suscripcion-sin-cobro.md), `lib/suscripcion.mjs`.
 
@@ -476,7 +476,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
-| `20261116150000` | [suscripciones](../supabase/migrations/20261116150000_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/suscripcion`, sin aplicar |
+| `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
