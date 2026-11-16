@@ -48,6 +48,9 @@
     voltio:{id:'voltio',n:1,total:500,price:1200,level:10,from:'2026-11-15'},
     amperio:{id:'amperio',n:2,total:500,price:1200,level:10,from:'2026-11-22'}
   };
+  // Piezas de suscriptor (decisión 0076): se pueden llevar mientras la suscripción esté activa. No se compran, no salen
+  // en cofres y no se venden ni se intercambian. Esta primera es de muestra, con una forma y un estampado que ya existían.
+  const plusTops=()=>[top('plus-rayo','Sudadera de suscriptor',0,'sudadera','negro','amarillo','logo',{plus:true})];
   const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
     top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
   const MEN=[
@@ -75,7 +78,7 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    ...editionTops(),
+    ...editionTops(),...plusTops(),
     // Exclusivas del Circuito de amigos (decisión 0038): la gorra, para quien entra invitado; el resto, por conexiones.
     hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
@@ -165,7 +168,7 @@
     top('uni-fuego','Universitaria fuego',1400,'universitaria','negro','coral'),top('uni-oro','Universitaria dorada',2000,'universitaria','negro','amarillo'),
     top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
     top('sud-casi','Sudadera corta «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    ...editionTops(),
+    ...editionTops(),...plusTops(),
     hat('enchufe','Gorro Enchufe',0,'gorro','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Top Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
     top('sud-tesla','Sudadera corta Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
@@ -274,7 +277,7 @@
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;

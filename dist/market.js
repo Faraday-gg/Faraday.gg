@@ -95,12 +95,12 @@ ${rows(list)||`<p class="mk-empty">${board.listings.length?'Ningún anuncio con 
   function sellPanel(edition){
     const rules=board.rules,mine=board.units.filter(unit=>unit.edition===edition),free=mine.filter(unit=>!unit.listing),active=board.units.filter(unit=>unit.listing).length;
     if(!mine.length)return `<section class="mk-panel"><h3 class="mk-title">Vender</h3><p class="mk-muted">No tienes ninguna unidad de este artículo. Cuando tengas una, podrás venderla aquí.</p></section>`;
-    const gate=!board.verified?'Para vender hace falta una cuenta con el correo comprobado.':board.level<rules.level?`Se puede vender desde el nivel ${rules.level}. Tienes el ${board.level}.`:!free.length?'Todas tus unidades de este artículo ya están anunciadas.':active>=rules.max?`Ya tienes ${rules.max} anuncios activos: retira uno para poner otro.`:'';
+    const gate=!board.verified?'Para vender hace falta una cuenta con el correo comprobado.':board.level<rules.level?`Se puede vender desde el nivel ${rules.level}. Tienes el ${board.level}.`:!free.length?'Todas tus unidades de este artículo ya están anunciadas.':rules.max!=null&&active>=rules.max?`Ya tienes ${rules.max} anuncios activos: retira uno para poner otro.`:'';
     if(gate)return `<section class="mk-panel"><h3 class="mk-title">Vender <small>${mine.length} ${mine.length===1?'unidad tuya':'unidades tuyas'}</small></h3><p class="mk-muted">${gate}</p></section>`;
     if(!free.some(unit=>edition+':'+unit.serial===form.unit))form.unit=edition+':'+free[0].serial;
     const buyNow=Number(form.buyNow),startBid=Number(form.startBid),okBuy=form.buyNow!==''&&Number.isInteger(buyNow)&&buyNow>=1&&buyNow<=rules.maxPrice,okBid=form.startBid!==''&&Number.isInteger(startBid)&&startBid>=1&&startBid<=rules.maxPrice;
     const summary=[okBuy?`Con compra ya recibes ${int(buyNow-feeOf(buyNow))} ≈.`:'',okBid?`En subasta, como mínimo ${int(startBid-feeOf(startBid))} ≈.`:''].filter(Boolean).join(' ')||'Pon un precio de compra ya, una puja de salida o las dos cosas.';
-    return `<section class="mk-panel mk-sell"><h3 class="mk-title">Vender <small>${active} de ${rules.max} anuncios activos</small></h3>
+    return `<section class="mk-panel mk-sell"><h3 class="mk-title">Vender <small>${rules.max!=null?`${active} de ${rules.max} anuncios activos`:`${active} anuncios activos · sin tope`}</small></h3>
 <div class="mk-form"><label><span>Unidad</span><select data-f="unit">${free.map(unit=>`<option value="${edition}:${unit.serial}"${form.unit===edition+':'+unit.serial?' selected':''}>N.º ${unit.serial}</option>`).join('')}</select></label>
 <label><span>Compra ya (≈)</span><input type="number" inputmode="numeric" min="1" max="${rules.maxPrice}" step="1" placeholder="Opcional" value="${form.buyNow}" data-f="buyNow"></label>
 <label><span>Puja de salida (≈)</span><input type="number" inputmode="numeric" min="1" max="${rules.maxPrice}" step="1" placeholder="Opcional" value="${form.startBid}" data-f="startBid"></label>
@@ -126,7 +126,7 @@ ${sellPanel(item)}
   function mine(){
     const active=board.mine.filter(one=>one.status==='activo'),closed=board.mine.filter(one=>one.status!=='activo'),free=board.units.filter(unit=>!unit.listing);
     const past=one=>`<li class="mk-line"><span><b>${nameOf(one.edition)}</b> <small>n.º ${one.serial}</small></span><span>${one.status==='vendido'?`Vendida por ${coins(one.soldPrice)} · recibiste ${int(one.soldPrice-one.fee)} ≈ <small>(${one.soldBy==='puja'?'subasta':'compra ya'})</small>`:one.status==='caducado'?'Caducó sin pujas':'Retirada'}</span><small>${one.closedAt?ago(one.closedAt):''}</small></li>`;
-    return `<h3 class="mk-title">Anuncios activos <small>${active.length} de ${board.rules.max}</small></h3>
+    return `<h3 class="mk-title">Anuncios activos <small>${board.rules.max!=null?`${active.length} de ${board.rules.max}`:`${active.length} · sin tope`}</small></h3>
 ${rows(active)||'<p class="mk-empty">No tienes nada anunciado.</p>'}
 <h3 class="mk-title">Tus artículos comerciables <small>${free.length}</small></h3>
 ${free.length?`<ul class="mk-lines">${free.map(unit=>`<li class="mk-line"><span><b>${nameOf(unit.edition)}</b> <small>n.º ${unit.serial}</small></span><button type="button" class="game-secondary" data-item="${unit.edition}" data-unit="${unit.edition}:${unit.serial}">Vender</button></li>`).join('')}</ul>`:'<p class="mk-empty">No tienes artículos de colección sin anunciar. Las ediciones nuevas se compran en el armario cuando salen, o aquí a otros jugadores.</p>'}

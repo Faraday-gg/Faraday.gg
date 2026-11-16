@@ -30,6 +30,8 @@
 
   // Muestra un anuncio y espera a que termine. Si ya hay uno abierto, no abre otro.
   function rewarded(){
+    // Con la suscripción no hay publicidad (decisión 0076): el premio se da sin anuncio.
+    if(window.Progress?.plus?.())return Promise.resolve(true);
     if(pending)return Promise.resolve(false);
     const d=build(),bar=d.querySelector('.ad-progress i'),status=d.querySelector('.ad-status'),done=d.querySelector('.ad-done');
     const total=(window.Ads.SECONDS||SECONDS)*1000,start=Date.now();
