@@ -296,6 +296,8 @@ Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-
 
 **`public.edition_counters`**: `edition` (clave primaria) y `minted`, cuántas unidades se han emitido.
 
+Desde la [decisión 0079](decisiones/0079-sets-de-disfraces-por-partes.md), las partes de los sets también son unidades de `collectibles` (ediciones `set-<set>-<parte>`): no se compran, las emite el servidor al abrir un cofre con `edition_next`, y `minted_by` es quien abrió el cofre. No cambia el esquema. El extra de faradios por set completo se apunta en `ledger` con el motivo `sets` (referencia `<motivo>:<día o duelo>`) y cuenta para el tope diario.
+
 **`public.edition_next(p_edition, p_total)`**: suma una unidad y devuelve su número de serie, o `null` si la tirada está completa. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
 
 La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
