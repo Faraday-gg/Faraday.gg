@@ -29,6 +29,8 @@
   .home-avatar{width:calc(100% + 24px);max-width:380px;margin:0 -12px}
   .home-avatar-stage{margin-top:-8px;margin-bottom:-30px}
   .home-avatar .home-chest-alert{top:6px;right:22px}
+  /* Los rayos del cofre giran y su caja asoma por la derecha: sin esto la página se mueve de lado en el móvil */
+  .home-hero{overflow-x:clip}
 }
 @media(min-width:1100px){
   .home-hero{position:relative}
