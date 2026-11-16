@@ -118,6 +118,17 @@
 .mk-sellnow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;padding:12px 14px;border-radius:14px;background:var(--yellow);font-size:13.5px}
 .mk-sellnow p{margin:0}
 
+/* Vitrinas de colecciones */
+.mk-units{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:0;padding:0}
+.mk-unit{display:grid;gap:3px;border-radius:16px;background:var(--paper);overflow:hidden;padding-bottom:10px;text-align:center}
+.mk-unit .mk-card-art{border:0;padding:0;width:100%;cursor:pointer}
+.mk-unit span.mk-card-art{cursor:default}
+.mk-unit b{padding:6px 8px 0;font-size:13.5px}
+.mk-unit small{font-size:12px;color:var(--muted)}
+.mk-unit[data-finish=cr] .mk-tag{background:#7d8a9c}.mk-unit[data-finish=ho] .mk-tag{background:#b06cf0}.mk-unit[data-finish=or] .mk-tag{background:#d99a06}
+.mk-rank{display:inline-grid;place-items:center;min-width:24px;font:700 13px var(--num);color:var(--muted)}
+.mk-gallery-actions{justify-content:flex-start;flex-wrap:wrap}
+
 /* Intercambios privados */
 .mk-trade{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
 .mk-who{display:flex;align-items:center;gap:8px;min-width:0}

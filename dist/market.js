@@ -191,11 +191,11 @@ ${board.sales.length?`<ul class="mk-lines">${board.sales.map(sale=>`<li class="m
     const head='<div class="mk-top"><h2 id="market-title">Mercado</h2><p>Compra, vende y puja por artículos de colección con otros jugadores.</p></div>';
     if(!linked()){main.innerHTML=`${head}<section class="mk-panel mk-gate"><h3>Entra para usar el mercado</h3><p class="mk-muted">En el mercado se compran, se venden y se subastan los artículos de colección: ediciones numeradas de tirada cerrada. Hace falta una cuenta para que el servidor guarde tus faradios y tus artículos.</p><button type="button" class="game-primary" data-auth-open>Entrar</button></section>`;return}
     if(!board){main.innerHTML=`${head}<p class="mk-empty">${failed?'El mercado no está disponible ahora mismo. Inténtalo dentro de un rato.':'Cargando el mercado…'}</p>`;return}
-    const g=board.stats.global,tabs=[['explorar','Explorar',0],['mios','Mis anuncios',board.mine.filter(one=>one.status==='activo').length],['pujas','Pujas y órdenes',board.bids.length+board.orders.length],['intercambios','Intercambios',(swaps?.trades||[]).filter(one=>one.status==='abierto').length],['actividad','Actividad',0]];
+    const g=board.stats.global,tabs=[['explorar','Explorar',0],['mios','Mis anuncios',board.mine.filter(one=>one.status==='activo').length],['pujas','Pujas y órdenes',board.bids.length+board.orders.length],['intercambios','Intercambios',(swaps?.trades||[]).filter(one=>one.status==='abierto').length],['vitrinas','Vitrinas',0],['actividad','Actividad',0]];
     main.innerHTML=`${head}${notices()}
 <div class="mk-kpis mk-global">${kpi('Anuncios activos',int(g.listings),`${g.auctions} ${g.auctions===1?'subasta':'subastas'}`)}${kpi('Ventas',int(g.sales24),'últimas 24 h')}${kpi('Volumen',coins(g.volume7),`7 días · ${int(g.sales7)} ventas`)}${kpi('Comisión destruida',coins(g.burned7),`7 días · ${board.rules.fee} % de cada venta`)}</div>
 <nav class="mk-tabs" role="tablist" aria-label="Secciones del mercado">${tabs.map(([id,label,count])=>`<button type="button" role="tab" aria-selected="${view===id&&!item}" data-view="${id}">${label}${count?`<i>${count}</i>`:''}</button>`).join('')}</nav>
-<div class="mk-view">${item?itemPage():view==='mios'?mine():view==='pujas'?bids():view==='actividad'?activity():view==='intercambios'?swapsTab():explore()}</div>${dialogBox()}`;
+<div class="mk-view">${item?itemPage():view==='mios'?mine():view==='pujas'?bids():view==='actividad'?activity():view==='intercambios'?swapsTab():view==='vitrinas'?galleryTab():explore()}</div>${dialogBox()}`;
   }
 
   // ---------- Intercambios privados (decisión 0075): dos jugadores se pasan artículos de colección, sin faradios.
@@ -258,6 +258,45 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
     if(data){joinCode='';watch()}
   }
 
+  // ---------- Vitrinas de colecciones (decisión 0079): lo que tiene cada jugador, a la vista de los demás si él quiere.
+  // gallery = la vitrina propia; collectors = los coleccionistas que enseñan la suya; shown = la de otro que se está viendo.
+  let gallery=null,collectors=null,shown=null;
+  const ZOOMS={top:'torso',bottom:'legs',shoes:'shoes'};
+  async function loadGallery(){
+    if(!linked())return;
+    try{const [own,list]=await Promise.all([window.Progress.cloud('vitrina'),window.Progress.cloud('coleccionistas')]);gallery=own.showcase;collectors=list.collectors;if(!shell.hidden&&view==='vitrinas')draw()}catch{}
+  }
+  // Pide algo de las vitrinas. Devuelve la respuesta, o null si falla (y avisa).
+  async function showcase(action,extra,missing){
+    if(busy)return null;busy=true;
+    try{return await window.Progress.cloud(action,extra)}
+    catch(error){toast(error.status===404||error.status===400?missing:'No se pudo hacer. Inténtalo otra vez.');return null}
+    finally{busy=false}
+  }
+  async function openShowcase(code){const data=await showcase('vitrina',{code},'Esa vitrina no existe o su dueño no la enseña.');if(data){shown=data.showcase;view='vitrinas';item='';draw();main.scrollIntoView({block:'start'})}}
+  // Lo que hay en una vitrina: las unidades de colección con su número de serie y las piezas con acabado.
+  function showcaseBody(show){
+    const finishes=show.finishes.map(key=>{const [part,id]=key.split(':'),entry=Avatar.find(part,id);return entry?`<li class="mk-unit" data-finish="${entry.finish}"><span class="mk-card-art">${Avatar.render(Avatar.preview(entry,entry.for||body()),{zoom:ZOOMS[part]||'',bust:!ZOOMS[part]})}<span class="mk-tag">${Avatar.FINISHES[entry.finish].label}</span></span><b>${entry.name}</b></li>`:''}).join('');
+    return `<p class="mk-muted">${show.units.length} ${show.units.length===1?'artículo de colección':'artículos de colección'} · ${show.editions} de ${show.released} ${show.released===1?'edición':'ediciones'} · ${show.finishes.length} ${show.finishes.length===1?'pieza con acabado':'piezas con acabado'}</p>
+<h4 class="mk-sub">Artículos de colección</h4>
+${show.units.length?`<ul class="mk-units">${show.units.map(unit=>`<li class="mk-unit"><button type="button" class="mk-card-art" data-item="${unit.edition}" aria-label="Ver ${nameOf(unit.edition)} en el mercado">${art(unit.edition)}</button><b>${nameOf(unit.edition)}</b><small>N.º ${unit.serial}${statOf(unit.edition)?` de ${int(statOf(unit.edition).total)}`:''}${unit.listed?' · en venta':''}</small></li>`).join('')}</ul>`:'<p class="mk-empty">Todavía no tiene ninguno.</p>'}
+<h4 class="mk-sub">Piezas con acabado</h4>
+${finishes?`<ul class="mk-units">${finishes}</ul>`:'<p class="mk-empty">Todavía no tiene ninguna. Salen en los cofres, con poca probabilidad.</p>'}`;
+  }
+  function galleryTab(){
+    if(shown&&!shown.mine)return `<button type="button" class="mk-back" data-gallery-back>← Todas las vitrinas</button>
+<section class="mk-panel"><h3 class="mk-title"><span class="mk-who"><span class="mk-face">${Avatar.render(shown.avatar||{},{bust:true})}</span><b>Vitrina de ${shown.name||'un jugador'}</b></span></h3>${showcaseBody(shown)}</section>`;
+    const link=gallery?.code?`${location.origin}/?vitrina=${gallery.code}`:'';
+    const mine=!gallery?'<p class="mk-empty">Cargando tu vitrina…</p>':`<p class="mk-muted">${gallery.public?'<b>La estás enseñando.</b> Cualquiera con el enlace, y quien te vea en la lista de coleccionistas, puede ver lo que hay aquí.':'<b>Ahora solo la ves tú.</b> Si la enseñas, los demás verán tus artículos de colección y tus piezas con acabado, con el nombre y el avatar que llevas ahora.'} Nunca se ve tu saldo ni tu cuenta.</p>
+<div class="mk-dialog-actions mk-gallery-actions">${gallery.public?`<button type="button" class="game-secondary" data-copy="${link}">Copiar enlace</button><button type="button" class="game-secondary" data-gallery-public="no">Dejar de enseñarla</button>`:'<button type="button" class="game-primary" data-gallery-public="si">Enseñar mi vitrina</button>'}</div>
+${showcaseBody(gallery)}`;
+    const row=(one,i)=>`<li class="mk-line"><button type="button" class="mk-link mk-who" data-showcase="${one.code}"><span class="mk-rank">${i+1}</span><span class="mk-face">${Avatar.render(one.avatar||{},{bust:true})}</span><b>${one.name||'Jugador'}</b></button><span>${one.units} ${one.units===1?'artículo':'artículos'} <small>· ${one.editions} ${one.editions===1?'edición':'ediciones'}</small></span></li>`;
+    return `<p class="mk-note"><b>Vitrinas.</b> Aquí se enseñan las colecciones: los artículos numerados y las piezas con acabado de cada jugador. La tuya solo se ve si tú quieres.</p>
+<section class="mk-panel"><h3 class="mk-title">Tu vitrina</h3>${mine}</section>
+<h3 class="mk-title">Coleccionistas <small>${collectors?collectors.length:0}</small></h3>
+${!collectors?'<p class="mk-empty">Cargando…</p>':collectors.length?`<ul class="mk-lines">${collectors.map(row).join('')}</ul>`:'<p class="mk-empty">Todavía nadie enseña su vitrina. Puedes ser el primero.</p>'}`;
+  }
+
   // ---------- Datos
   function collect(found){
     const line=(text,one)=>`${text} <b>${nameOf(one.edition)} n.º ${one.serial}</b>`;
@@ -307,7 +346,11 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
     if(event.target.classList.contains('mk-dialog')){dialog=null;draw();return}
     const target=event.target.closest('button');if(!target||!board)return;
     const data=target.dataset;
-    if(data.view){view=data.view;item='';if(view==='intercambios'){room=null;loadSwaps()}draw();main.scrollIntoView({block:'start'});return}
+    if(data.view){view=data.view;item='';if(view==='vitrinas'){shown=null;loadGallery()}if(view==='intercambios'){room=null;loadSwaps()}draw();main.scrollIntoView({block:'start'});return}
+    // Vitrinas (decisión 0079): enseñar o dejar de enseñar la propia, abrir la de otro y volver.
+    if(data.galleryPublic){const open=data.galleryPublic==='si';showcase('vitrina-publicar',{public:open,...identity()},'').then(done=>{if(!done)return;gallery=done.showcase;toast(open?'Tu vitrina ya se ve. Copia el enlace para compartirla.':'Tu vitrina vuelve a verla solo tú.');loadGallery();draw()});return}
+    if(data.showcase){openShowcase(data.showcase);return}
+    if('galleryBack' in data){shown=null;draw();return}
     // Intercambios privados: crear, entrar, abrir, ofrecer o quitar un artículo, confirmar y cancelar.
     if('tradeNew' in data){swap('intercambio-crear',identity(),'Ya tienes demasiados intercambios abiertos: cancela alguno.').then(done=>{if(done)watch()});return}
     if('tradeJoin' in data){joinSwap(joinCode.trim().toUpperCase());return}
@@ -378,11 +421,12 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
   main.addEventListener('change',event=>{if(event.target.matches('[data-sort]')){filter.sort=event.target.value;const box=main.querySelector('#mk-results');if(box)box.innerHTML=results()}});
   // Al entrar con la cuenta se miran las novedades (ventas, subastas ganadas, pujas superadas) y se avisa una vez.
   // Un enlace «?intercambio=CÓDIGO» abre el mercado y entra en ese intercambio (una vez, ya con la cuenta).
-  let invited=new URLSearchParams(location.search).get('intercambio')||'';
+  let invited=new URLSearchParams(location.search).get('intercambio')||'',invitedShowcase=new URLSearchParams(location.search).get('vitrina')||'';
   document.addEventListener('faraday:progreso',()=>{
+    if(invitedShowcase&&linked()){const code=invitedShowcase.trim().toUpperCase();invitedShowcase='';history.replaceState(null,'',location.pathname);open();view='vitrinas';loadGallery();load().then(()=>openShowcase(code))}
     if(invited&&linked()){const code=invited.trim().toUpperCase();invited='';history.replaceState(null,'',location.pathname);open();view='intercambios';draw();joinSwap(code)}
   });
   document.addEventListener('faraday:progreso',()=>{load().then(fresh=>{if(fresh&&shell.hidden)toast(fresh===1?'Tienes una novedad en el mercado.':`Tienes ${fresh} novedades en el mercado.`)})});
-  document.addEventListener('faraday:cuenta',({detail})=>{if(detail&&'account' in detail&&!detail.account){board=null;inbox=[];swaps=null;room=null;clearInterval(poll);if(!shell.hidden)draw()}});
+  document.addEventListener('faraday:cuenta',({detail})=>{if(detail&&'account' in detail&&!detail.account){board=null;inbox=[];gallery=null;collectors=null;shown=null;swaps=null;room=null;clearInterval(poll);if(!shell.hidden)draw()}});
   window.Market={open,close};
 })();
