@@ -2,7 +2,8 @@
 // avatar3d.js. Aquí vive lo que no necesita 3D: los huecos, las piezas con su precio y la traducción de un «look»
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
-// 'bienvenida' para quien entra invitado o el número de amigos conectados. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
+// 'bienvenida' para quien entra invitado o el número de amigos conectados; rango = al llegar a ese rango en las clasificatorias y
+// medalla = al conseguir esa medalla o insignia (decisión 0080). Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
 // precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
@@ -53,6 +54,16 @@
   const plusTops=()=>[top('plus-rayo','Sudadera de suscriptor',0,'sudadera','negro','amarillo','logo',{plus:true})];
   const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
     top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
+  // Piezas que solo se ganan (decisión 0080): ni se compran, ni salen en cofres, ni se funden, ni se venden.
+  // De rango: una universitaria negra con el color, el escudo y el nombre del rango, de Oro en adelante, y el átomo de
+  // los Científicos. El estampado '%rango' lo dibuja avatar3d.js. Mismo orden y nombres que lib/rangos.mjs (RANKS).
+  const RANKS=[['bronce','Bronce'],['plata','Plata'],['oro','Oro'],['calculista','Calculista'],['estimador','Estimador'],['doctorando','Doctorando'],['eminencia','Eminencia'],['cientifico','Científico']];
+  const rankPieces=()=>[...RANKS.slice(2).map(([id,name])=>top('rango-'+id,'Universitaria '+name,0,'universitaria','negro','blanco','%'+id,{rango:id})),
+    hat('atomo','Átomo',0,'atomo','amarillo','amarillo',{rango:'cientifico'})];
+  // De medalla: una sudadera negra con la medalla en el pecho y su nombre a la espalda (estampado '&medalla').
+  const medalPieces=(cut='')=>[top('med-racha',`Sudadera ${cut}Corriente continua`,0,'sudadera','negro','amarillo','&racha',{medalla:'racha-3'}),
+    top('med-clavo',`Sudadera ${cut}En el clavo`,0,'sudadera','negro','amarillo','&clavo',{medalla:'en-el-clavo'}),
+    top('med-duelista',`Sudadera ${cut}Duelista`,0,'sudadera','negro','amarillo','&duelista',{medalla:'duelista-3'})];
   const MEN=[
     top('cam-blanca','Camiseta blanca',0,'camiseta','blanco','negro'),top('cam-negra','Camiseta negra',0,'camiseta','negro','blanco'),
     top('cam-crema-logo','Oversize ≈ crema',60,'camiseta','crema','negro','logo'),top('cam-negra-logo','Oversize ≈ negra',80,'camiseta','negro','amarillo','logo'),
@@ -78,7 +89,7 @@
     top('cam-faraday','Camiseta ≈ dorada',0,'camiseta','amarillo','negro','logo',{level:3}),
     // Exclusiva: se desbloquea gratis con 10 «Casi casi» (respuestas a menos de 1,1×, decisión 0030). Ni se compra ni sale en cofres.
     top('sud-casi','Sudadera «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
-    ...editionTops(),...plusTops(),
+    ...editionTops(),...plusTops(),...rankPieces(),...medalPieces(),
     // Exclusivas del Circuito de amigos (decisión 0038): la gorra, para quien entra invitado; el resto, por conexiones.
     hat('enchufe','Gorra Enchufe',0,'plana','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Camiseta Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
@@ -169,6 +180,7 @@
     top('top-faraday','Top ≈ dorado',0,'camiseta','amarillo','negro','logo',{level:3}),
     top('sud-casi','Sudadera corta «Casi casi»',0,'sudadera','negro','amarillo','casi',{casi:10}),
     ...editionTops(),...plusTops(),
+    ...rankPieces(),...medalPieces('corta '),
     hat('enchufe','Gorro Enchufe',0,'gorro','azul','amarillo',{circuito:'bienvenida'}),
     top('cam-cable','Top Cable pelado',0,'camiseta','negro','amarillo','rayo',{circuito:1}),
     top('sud-tesla','Sudadera corta Bobina de Tesla',0,'sudadera','morado','amarillo','rayo',{circuito:5}),
@@ -243,7 +255,9 @@
   // zapatillas y cabeza. No están en el catálogo: salen de la pieza normal, con el acabado detrás de «--» en el
   // identificador («sud-gris--or»). Solo se consiguen en cofres (dist/chests.js, FINISH_ODDS).
   const FINISHES={cr:{label:'Cromado'},ho:{label:'Holográfico'},or:{label:'Dorado'}},FINISH_SLOTS=['top','bottom','shoes','hat'],finished=new Map();
-  const finishable=entry=>!!entry&&FINISH_SLOTS.includes(entry.slot)&&entry.price>0&&!entry.level&&!entry.casi&&!entry.circuito&&!entry.edition;
+  // earned = la pieza se gana jugando (por nivel, «Casi casi», Circuito, rango o medalla): no pasa por la tienda.
+  const earned=entry=>!!entry&&!!(entry.level||entry.casi||entry.circuito||entry.rango||entry.medalla);
+  const finishable=entry=>!!entry&&FINISH_SLOTS.includes(entry.slot)&&entry.price>0&&!earned(entry)&&!entry.edition;
   const plain=(slot,id)=>CATALOG.find(entry=>entry.slot===slot&&entry.id===id);
   // Una pieza del catálogo, o una con acabado (finish = el acabado, base = el identificador de la pieza normal).
   function find(slot,id){
@@ -277,7 +291,7 @@
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
   // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  const rarity=entry=>earned(entry)||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;
@@ -292,5 +306,5 @@
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
   const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
-  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,FINISHES,FINISH_SLOTS,finishable,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
+  window.Avatar={SLOTS,BODIES,CATALOG,RANKS,earned,EDITIONS,FINISHES,FINISH_SLOTS,finishable,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
 })();
