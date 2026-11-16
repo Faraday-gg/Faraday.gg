@@ -3,6 +3,7 @@
 - **Estado:** propuesta (código en la rama `feat/mercado`, montada sobre `feat/acabados`; la migración `20261116130000_mercado` está **sin aplicar**)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
+- **Ampliada por:** la [0074](0074-mercado-con-pujas-e-indicadores.md), el mismo día: pantalla propia, subastas con pujas e indicadores. La pantalla y los datos que se describen aquí son los de la primera versión.
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera entrega de la fase 4 («mercado e intercambios»).
 
 ## Contexto
