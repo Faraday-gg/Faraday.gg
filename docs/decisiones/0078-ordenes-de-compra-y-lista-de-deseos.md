@@ -1,6 +1,6 @@
 # 0078. Órdenes de compra, «vender ya» y lista de deseos
 
-- **Estado:** propuesta (código en la rama `feat/ordenes-de-compra`; la migración `20261116160000_ordenes_y_deseos` está **sin aplicar**)
+- **Estado:** propuesta (código en la rama `feat/ordenes-de-compra`; la migración `20261116101427_ordenes_y_deseos` está **aplicada** desde el 2026-11-16)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Concreta a:** la [0055](0055-tokenomics-suscripcion-y-mercado.md). Es la primera entrega de la fase 6 («mercado, segunda versión»), sobre el mercado de las [0073](0073-mercado-de-ediciones.md) y [0074](0074-mercado-con-pujas-e-indicadores.md).
@@ -51,7 +51,7 @@ La fase 6 de la 0055 pide tres cosas: órdenes de compra, lista de deseos y vitr
 
 - `lib/mercado.mjs`: las órdenes y los deseos en el almacén en memoria, los indicadores y las acciones `ordenar`, `cancelar-orden`, `vender-ya` y `desear` de `POST /api/progreso`. `lib/stores.mjs`: lo mismo contra Supabase.
 - `dist/market.js` y `dist/market.css`: la pantalla.
-- `supabase/migrations/20261116160000_ordenes_y_deseos.sql` y `tests/ordenes.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
+- `supabase/migrations/20261116101427_ordenes_y_deseos.sql` y `tests/ordenes.test.mjs` (nuevo, en la lista de [AGENTS.md](../../AGENTS.md)).
 
 ## Alternativas descartadas
 
@@ -64,7 +64,7 @@ La fase 6 de la 0055 pide tres cosas: órdenes de compra, lista de deseos y vitr
 
 ## Consecuencias
 
-- **Hace falta aplicar la migración** (con la confirmación de Luis). Sin ella, el mercado funciona como hasta ahora y las órdenes y los deseos no aparecen.
+- **La migración está aplicada** desde el 16 de noviembre (Luis lo confirmó).
 - **Más faradios retenidos fuera de los saldos:** a los de las pujas se suman los de las órdenes abiertas. Para cuadrar la economía hay que contar `mercado-orden`.
 - **Las órdenes dan un precio de referencia aunque no haya anuncios**, y dejan vender al momento: es lo que más ayuda a un mercado con pocos jugadores.
 - **«Vender ya» también sirve para pasar faradios entre cuentas** (orden alta desde una, venta desde otra), perdiendo el 10 %, como comprar y pujar.

@@ -395,7 +395,7 @@ La fila la escribe el servidor cuando llega un aviso de pago de Stripe (`POST /a
 
 El tope de duelos del plan gratuito no usa esta tabla: cuenta los duelos del día en `duels` (los que no están en `waiting`, por `created_at` y por el jugador dentro de `state`).
 
-### Órdenes de compra y lista de deseos (migración `20261116160000_ordenes_y_deseos`, **sin aplicar**)
+### Órdenes de compra y lista de deseos (migración `20261116101427_ordenes_y_deseos`, aplicada el 2026-11-16)
 
 [Decisión 0078](decisiones/0078-ordenes-de-compra-y-lista-de-deseos.md), `lib/mercado.mjs`.
 
@@ -506,7 +506,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
-| `20261116160000` | [ordenes_y_deseos](../supabase/migrations/20261116160000_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | **Pendiente**: rama `feat/ordenes-de-compra`, sin aplicar |
+| `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
