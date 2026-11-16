@@ -292,14 +292,14 @@
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const gate=own||item.edition?'':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
     const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
-    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}"${item.finish?` data-finish="${item.finish}"`:''} aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${item.finish?`<span class="tile-rarity">${Avatar.FINISHES[item.finish].label}</span>`:RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
+    return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}"${item.finish?` data-finish="${item.finish}"`:''} aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${item.finish?`<span class="tile-rarity">${Avatar.FINISHES[item.finish].label}</span>`:RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${item.edition?'<span class="tile-trade">Comerciable</span>':''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
   }
   // Lo que se dice de una edición de colección al probarla, y el botón de compra si se puede (decisión 0067).
   // editionInfo = {edición: {left}} que da el servidor al abrir el perfil.
   let editionInfo={};
   function editionTry(item,missing){
     const edition=item.edition,left=editionInfo[edition.id]?.left;
-    const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''}</p>`;
+    const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''} Se puede comprar y vender en el mercado.</p><button type="button" class="game-secondary" data-open-market="${edition.id}">Ver en el mercado</button>`;
     if(!linked)return note+'<p class="profile-try-note">Las ediciones se compran con cuenta: entra para conseguir la tuya.</p>';
     if(left===0)return note;
     if(levelOf(state.xp)<edition.level)return note+`<p class="profile-try-note">Se compra desde el nivel ${edition.level}.</p>`;
@@ -437,54 +437,8 @@
   }
   // Quita del armario las piezas fundidas.
   function lose(keys){state.owned=state.owned.filter(key=>!keys.includes(key));melt=[]}
-  // Mercado de ediciones de colección (decisión 0073), dentro de la pestaña Armario. Todo lo decide el servidor: aquí
-  // solo se pinta el tablón que devuelve (acción «mercado») y se le piden las operaciones.
-  // market = está abierto; board = el tablón; prices = el precio escrito para cada unidad; buying = el anuncio que se
-  // está a punto de comprar (pide confirmar).
-  let market=false,board=null,prices={},buying=0;
-  const editionPiece=(id,body)=>Avatar.CATALOG.find(item=>item.edition&&item.edition.id===id&&item.for===body)||Avatar.CATALOG.find(item=>item.edition&&item.edition.id===id);
-  const feeOf=price=>Math.min(price,Math.ceil(price*(board?.rules.fee??10)/100));
-  const marketDoor=()=>`<div class="foundry-door market-door"><p><b>Mercado</b><small>${linked?'Compra y vende ediciones de colección con otros jugadores.':'Con cuenta podrás comprar y vender ediciones de colección con otros jugadores.'}</small></p>${linked?'<button type="button" class="game-secondary" data-market>Abrir</button>':''}</div>`;
-  // Trae el tablón. Los avisos de ventas se enseñan una vez; el saldo se pone al día por si se ha vendido algo.
-  async function loadBoard(){
-    if(!linked)return;
-    try{
-      const data=await cloud('mercado');board=data;serverCoins(data.coins);
-      for(const sale of data.notices||[]){const piece=editionPiece(sale.edition,look().body);showToast(`Has vendido ${piece?piece.name:'una edición'} n.º ${sale.serial} por ${int(sale.price)} ≈: recibes ${int(sale.price-sale.fee)} ≈`)}
-      if(data.notices?.length)syncItems();
-      if(market&&!shell.hidden)draw();
-    }catch{if(market){board=board||{error:true};if(!shell.hidden)draw()}}
-  }
-  // Gráfica de las últimas ventas de una edición, de la más antigua a la más reciente.
-  function spark(values){
-    if(values.length<2)return '';
-    const low=Math.min(...values),high=Math.max(...values),span=high-low||1,step=100/(values.length-1);
-    return `<svg class="market-spark" viewBox="-2 -2 104 34" preserveAspectRatio="none" role="img" aria-label="Últimas ${values.length} ventas: de ${int(low)} a ${int(high)} faradios"><polyline points="${values.map((value,i)=>`${(i*step).toFixed(1)},${(30-(value-low)/span*30).toFixed(1)}`).join(' ')}"/></svg>`;
-  }
-  function marketTab(){
-    const back='<button type="button" class="duel-link" data-market>← Volver al armario</button>';
-    if(!board||board.error)return `<div class="foundry-head">${back}<h3 class="mission-title">Mercado</h3><p class="wardrobe-empty">${board?.error?'El mercado no está disponible ahora mismo.':'Cargando el mercado…'}</p></div>`;
-    const body=look().body,rules=board.rules,name=id=>editionPiece(id,body)?.name||'Edición';
-    const edition=one=>{
-      const piece=editionPiece(one.id,body),offers=board.listings.filter(listing=>listing.edition===one.id),sold=board.sales.filter(sale=>sale.edition===one.id).map(sale=>sale.price).reverse();
-      const row=listing=>`<li><span>N.º ${listing.serial} <small>de ${int(one.total)}</small></span><b>${coins(listing.price)}</b>${listing.mine?`<button type="button" class="game-secondary" data-unlist="${listing.id}">Retirar</button>`:`<button type="button" class="game-primary" data-buy-listing="${listing.id}"${state.coins<listing.price?' disabled':''}>${state.coins<listing.price?`Te faltan ${int(listing.price-state.coins)}`:buying===listing.id?'Confirmar':'Comprar'}</button>`}</li>`;
-      return `<section class="market-edition"><div class="market-art">${piece?Avatar.render(Avatar.preview(piece,body),{zoom:ZOOM[piece.slot]||'',bust:!ZOOM[piece.slot]}):''}</div><div class="market-info"><h4>${name(one.id)} <small>Edición n.º ${one.n}</small></h4><p>${int(one.minted)} de ${int(one.total)} emitidas · ${one.onSale} en venta${one.last?` · última venta ${int(one.last)} ≈`:''}</p>${spark(sold)}</div>
-<ul class="market-list">${offers.length?offers.map(row).join(''):'<li class="market-none">Nadie la vende ahora.</li>'}</ul></section>`;
-    };
-    const active=board.units.filter(unit=>unit.listing).length,gate=!board.verified?'Para vender hace falta una cuenta con el correo comprobado.':board.level<rules.level?`Se puede vender desde el nivel ${rules.level}. Tienes el ${board.level}.`:active>=rules.max?`Ya tienes ${rules.max} anuncios activos: retira uno para poner otro.`:'';
-    const unit=one=>{
-      const key=one.edition+':'+one.serial,price=prices[key]||'',valid=Number.isInteger(Number(price))&&Number(price)>=1&&Number(price)<=rules.maxPrice;
-      return `<li><span>${name(one.edition)} <small>n.º ${one.serial}</small></span>${one.listing?`<b>En venta · ${coins(one.listing.price)}</b><button type="button" class="game-secondary" data-unlist="${one.listing.id}">Retirar</button>`
-        :gate?'<small class="market-gate">En tu armario</small>'
-        :`<label class="market-price"><span class="sr-only">Precio en faradios</span><input type="number" inputmode="numeric" min="1" max="${rules.maxPrice}" step="1" placeholder="Precio" value="${price}" data-price="${key}"><small data-net="${key}">${valid?`Recibirás ${int(Number(price)-feeOf(Number(price)))} ≈`:''}</small></label><button type="button" class="game-primary" data-sell="${key}">Anunciar</button>`}</li>`;
-    };
-    return `<div class="foundry-head">${back}<h3 class="mission-title">Mercado <small>comisión del ${rules.fee} %</small></h3>
-<p class="foundry-note">Aquí se compran y se venden las ediciones de colección entre jugadores. El precio lo pone quien vende. De cada venta se destruye un ${rules.fee} %: quien vende recibe el resto. Mientras una unidad está anunciada no se puede llevar puesta.</p></div>
-${board.editions.length?board.editions.map(edition).join(''):'<p class="wardrobe-empty">Todavía no ha salido ninguna edición de colección.</p>'}
-<h3 class="mission-title">Tus unidades <small>${active} de ${rules.max} anuncios</small></h3>
-${gate&&board.units.length?`<p class="foundry-note">${gate}</p>`:''}
-<ul class="market-list market-mine">${board.units.length?board.units.map(unit).join(''):'<li class="market-none">No tienes ninguna edición de colección. Las nuevas se compran en el armario cuando salen.</li>'}</ul>`;
-  }
+  // La entrada al mercado desde el armario (decisiones 0073 y 0074; la pantalla está en dist/market.js).
+  const marketDoor=()=>'<div class="foundry-door market-door"><p><b>Mercado</b><small>Compra, vende y puja por artículos de colección con otros jugadores. Son las piezas con la etiqueta «Comerciable».</small></p><button type="button" class="game-secondary" data-open-market>Abrir</button></div>';
   // Pestaña Medallas: resumen, la ficha de la elegida, las medallas con su nivel y avance, y las insignias.
   let picked='';
   const dateText=day=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Madrid'}).format(new Date(day+'T12:00:00Z'));
@@ -527,7 +481,7 @@ ${chosen?medalDetail(chosen,stats):''}
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?(market?marketTab():wardrobe(current)+marketDoor())
+    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?marketDoor()+wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
@@ -553,16 +507,11 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   // Buscador y rareza del armario: al escribir solo se rehacen las cartas, así el campo no pierde el foco.
   shell.addEventListener('input',event=>{
     if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}
-    // El precio de un anuncio: se guarda lo escrito y se dice cuánto llegaría tras la comisión, sin volver a pintar.
-    if(event.target.matches('[data-price]')){
-      const key=event.target.dataset.price,price=Number(event.target.value);prices[key]=event.target.value;
-      const note=main.querySelector(`[data-net="${key}"]`);if(note)note.textContent=Number.isInteger(price)&&price>=1&&price<=(board?.rules.maxPrice||1e6)?`Recibirás ${int(price-feeOf(price))} ≈`:'';
-    }
   });
   shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
-    if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;foundry=false;melt=[];melting='';market=false;buying=0;picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
+    if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;foundry=false;melt=[];melting='';picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
     if(target.dataset.medal){picked=picked===target.dataset.medal?'':target.dataset.medal;draw();if(picked)main.querySelector('.medal-detail')?.scrollIntoView({block:'nearest',behavior:'smooth'});return}
     if(target.dataset.pin){state.medals.pin=target.dataset.pin;save();draw();document.dispatchEvent(new CustomEvent('faraday:look'));showToast('Destacada: la verán tus rivales en los duelos y tu grupo en las ligas.');return}
     if(target.dataset.slot){slot=target.dataset.slot;trying=null;draw();main.querySelector('.wardrobe-slots [aria-selected=true]')?.scrollIntoView({block:'nearest',inline:'nearest'});return}
@@ -597,33 +546,6 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.dataset.openChest){openChest(target.dataset.openChest);return}
     if(target.dataset.buyChest){buyChest(target.dataset.buyChest);return}
-    // Mercado (decisión 0073): abrir y cerrar, anunciar, retirar y comprar (la compra pide confirmar).
-    if('market' in target.dataset){market=!market;buying=0;trying=null;draw();if(market)loadBoard();return}
-    if(target.dataset.sell){
-      const key=target.dataset.sell,[edition,serial]=key.split(':'),price=Number(prices[key]);
-      if(!Number.isInteger(price)||price<1||price>(board?.rules.maxPrice||1e6)){showToast('Escribe un precio en faradios, sin decimales.');return}
-      if(target.disabled)return;target.disabled=true;
-      serverAsk('vender',{edition,serial:Number(serial),price},'No se pudo anunciar. Inténtalo otra vez.','No se puede anunciar ese artículo ahora.').then(data=>{
-        if(data){delete prices[key];showToast(`Anunciada por ${int(data.price)} ≈. Si se vende, recibes ${int(data.price-data.fee)} ≈.`);syncItems()}
-        loadBoard();
-      });
-      return;
-    }
-    if(target.dataset.unlist){
-      if(target.disabled)return;target.disabled=true;
-      serverAsk('retirar',{listing:Number(target.dataset.unlist)},'No se pudo retirar el anuncio. Inténtalo otra vez.','Ese anuncio ya no está activo.').then(data=>{if(data){showToast('Anuncio retirado: vuelve a tu armario.');syncItems()}loadBoard()});
-      return;
-    }
-    if(target.dataset.buyListing){
-      const id=Number(target.dataset.buyListing);
-      if(buying!==id){buying=id;draw();return}
-      buying=0;if(target.disabled)return;target.disabled=true;
-      serverAsk('comprar-anuncio',{listing:id},'No se pudo comprar. Inténtalo otra vez.','Ese anuncio ya no está en venta.').then(data=>{
-        if(data){serverCoins(data.coins);const piece=editionPiece(data.edition,look().body);showToast(`¡Tuya! ${piece?piece.name:'Edición'} n.º ${data.serial}${data.total?` de ${int(data.total)}`:''}`);syncItems()}
-        loadBoard();
-      });
-      return;
-    }
     // Fundición (decisión 0071): abrir y cerrar, elegir piezas, y reciclar o fundir (el primer toque pide confirmar).
     if('foundry' in target.dataset){foundry=!foundry;melt=[];melting='';draw();return}
     if(target.dataset.melt){
@@ -868,8 +790,6 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     link={owner,acked:has?remote.coins:remote.coins??0,...kept};keepLink();linked=true;store();refresh();
     if(!has||state.savedAt>(remote.state.savedAt||0))await push();else collect();
     syncItems();
-    // Las ventas hechas mientras no estaba: el tablón trae los avisos (decisión 0073).
-    loadBoard();
     document.dispatchEvent(new CustomEvent('faraday:progreso'));
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
@@ -881,7 +801,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={look,spend,pay,serverCoins,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
