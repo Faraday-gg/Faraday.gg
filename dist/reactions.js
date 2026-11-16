@@ -9,7 +9,7 @@
 // Por debajo de 1,1× manda el momento «¡Casi casi!» (casi.js, decisión 0030), que ya pone su sello, su destello y su
 // sonido: aquí solo se suman el gesto del avatar y el confeti, para no celebrar dos veces lo mismo.
 (()=>{
-  const stage=document.getElementById('game-avatar'),shell=document.getElementById('game-shell'),mute=document.getElementById('game-sound');
+  const stage=document.getElementById('game-avatar'),shell=document.getElementById('game-shell');
   if(!stage||!shell||!window.Avatar||!window.Sound)return;
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
   // Vibración (solo en móviles que la tienen). El navegador la bloquea si todavía no ha habido un toque real.
@@ -146,10 +146,4 @@
     later(detail.settle||260,()=>reveal(tier,detail.streak||0));
   });
 
-  // Botón de sonido de la barra del juego: el ajuste es el mismo que en los duelos y los cofres.
-  if(mute){
-    const paint=()=>mute.setAttribute('aria-pressed',String(Sound.on));paint();
-    mute.addEventListener('click',()=>{if(Sound.toggle())sfx.near()});
-    document.addEventListener('faraday:sonido',paint);
-  }
 })();
