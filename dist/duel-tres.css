@@ -1,9 +1,12 @@
 /* Duelos de tres (decisión 0082): marcador de tres, presentación, columnas del resultado y puestos finales.
    El 1vs1 no usa nada de este archivo: todo cuelga de .is-three. */
 
-/* Portal: la fila de «Partida de tres» y «Retar a dos amigos» */
-.duel-three-modes{align-items:center;margin-top:8px}
-.duel-three-label{flex-basis:100%;font:700 11px var(--display);letter-spacing:.14em;text-transform:uppercase;color:var(--g-muted)}
+/* Portal: selector 1 vs 1 / 1 vs 1 vs 1, con el mismo aspecto que Normal / Clasificatoria */
+.duel-sizes{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-top:14px;border-radius:50px;background:#ffffff1f}
+.duel-sizes button{display:flex;align-items:center;justify-content:center;gap:6px;border:0;border-radius:50px;padding:10px 12px;background:transparent;color:inherit;font-weight:800;font-size:14px;transition:background .15s,box-shadow .15s}
+.duel-sizes button[aria-checked="true"]{background:var(--paper);color:var(--ink);box-shadow:0 2px 8px -3px #20263055}
+.duel-sizes em{font:800 9px var(--display);font-style:normal;letter-spacing:.08em;text-transform:uppercase;padding:2px 6px;border-radius:99px;background:var(--coral);color:#fff}
+.duel-size-note{margin:12px 4px 0;font-size:13px;line-height:1.4;opacity:.8}
 
 /* Sala de espera con tres sitios */
 .duel-search.is-three{flex-wrap:wrap;gap:12px}

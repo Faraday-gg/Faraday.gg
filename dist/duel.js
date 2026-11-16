@@ -14,6 +14,7 @@
   let stats={xp:0,wins:0,losses:0,draws:0,streak:0,best:0,lastWin:'',...saved.get('progreso',{})};
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
 
+  let lobbySize=2;  // jugadores del duelo que se prepara en el portal: 2 (1 vs 1) o 3 (1 vs 1 vs 1)
   let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,chatWake=0,busy=false;
   const serverNow=()=>Date.now()+offset;
   // Duelo de tres (decisión 0082): duel.size===3. rival() es el primero de los otros; others() son los demás con su asiento.
@@ -145,12 +146,12 @@ ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</str
 </div>
 ${window.Bets?Bets.picker():''}
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
-${window.Ranked?Ranked.lobby():''}
-<div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
-<div class="duel-modes duel-three-modes"><span class="duel-three-label">Nuevo · 1 vs 1 vs 1</span><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
+<div class="duel-sizes" role="radiogroup" aria-label="Jugadores"><button type="button" role="radio" aria-checked="${lobbySize===2}" data-duel-size="2">1 vs 1</button><button type="button" role="radio" aria-checked="${lobbySize===3}" data-duel-size="3">1 vs 1 vs 1<em>Nuevo</em></button></div>
+${lobbySize===3?'<p class="duel-size-note">Tres jugadores, la misma pregunta. Cada uno pierde lo que le falta para igualar al mejor; el último en pie gana. Sin clasificatoria.</p>':window.Ranked?Ranked.lobby():''}
+<div class="duel-modes duel-cta">${lobbySize===3?'<button class="game-primary" type="button" data-duel="quick3">Partida rápida <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button>':`<button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button>`}</div>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
-<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · en los de tres, cada uno pierde lo que le falta para igualar al mejor</p>`;
-    window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
+<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde ${lobbySize===3?'otro jugador':'tu rival'}</p>`;
+    if(lobbySize===2){window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh()}
   }
   function renderWaitingThree(){
     hud.hidden=true;setView('result');
@@ -524,7 +525,12 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   // El botón de sonido es el control de volumen de sound.js; aquí solo se para la música al silenciar.
   document.addEventListener('faraday:sonido',event=>{if(!event.detail.on)stopMusic()});
-  document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',async()=>{await open();if(button.dataset.openDuel==='3')document.querySelector('[data-duel=quick3]')?.focus()}));
+  document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',async()=>{lobbySize=button.dataset.openDuel==='3'?3:2;await open()}));
+  // Selector 1 vs 1 / 1 vs 1 vs 1 del portal.
+  shell.addEventListener('click',event=>{
+    const choice=event.target.closest('[data-duel-size]');if(!choice||duel)return;
+    lobbySize=choice.dataset.duelSize==='3'?3:2;readProfile();renderLobby();
+  });
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
