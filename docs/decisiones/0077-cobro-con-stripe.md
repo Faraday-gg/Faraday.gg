@@ -58,7 +58,7 @@ Sea cual sea el aviso, el servidor **lee la suscripción en Stripe** y apunta su
 3. Activar el **portal del cliente** (Configuración → Facturación → Portal del cliente) y permitir cancelar.
 4. Crear un **destino de avisos** (*webhook*) con la dirección `https://<dominio de producción>/api/stripe` y estos avisos: `checkout.session.completed`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid` e `invoice.payment_failed`. Apuntar su secreto (`whsec_…`).
 5. Poner en Vercel, **solo en Production**, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` y `STRIPE_PRICE_ID`. El panel de Vercel lo lleva Álvaro.
-6. Aplicar la migración `suscripciones`.
+6. ~~Aplicar la migración `suscripciones`.~~ Hecho el 16 de noviembre.
 
 Conviene hacerlo antes con las **claves de prueba** de Stripe y sus tarjetas de prueba.
 

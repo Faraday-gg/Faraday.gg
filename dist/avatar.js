@@ -3,7 +3,7 @@
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
 // 'bienvenida' para quien entra invitado o el número de amigos conectados; rango = al llegar a ese rango en las clasificatorias y
-// medalla = al conseguir esa medalla o insignia (decisión 0078). Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
+// medalla = al conseguir esa medalla o insignia (decisión 0080). Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
 // precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
@@ -54,7 +54,7 @@
   const plusTops=()=>[top('plus-rayo','Sudadera de suscriptor',0,'sudadera','negro','amarillo','logo',{plus:true})];
   const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
     top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
-  // Piezas que solo se ganan (decisión 0078): ni se compran, ni salen en cofres, ni se funden, ni se venden.
+  // Piezas que solo se ganan (decisión 0080): ni se compran, ni salen en cofres, ni se funden, ni se venden.
   // De rango: una universitaria negra con el color, el escudo y el nombre del rango, de Oro en adelante, y el átomo de
   // los Científicos. El estampado '%rango' lo dibuja avatar3d.js. Mismo orden y nombres que lib/rangos.mjs (RANKS).
   const RANKS=[['bronce','Bronce'],['plata','Plata'],['oro','Oro'],['calculista','Calculista'],['estimador','Estimador'],['doctorando','Doctorando'],['eminencia','Eminencia'],['cientifico','Científico']];

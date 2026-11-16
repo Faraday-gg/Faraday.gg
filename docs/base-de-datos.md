@@ -376,7 +376,7 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Suscripciones (migración `20261116150000_suscripciones`, **sin aplicar**)
+### Suscripciones (migración `20261116094407_suscripciones`, aplicada el 2026-11-16)
 
 [Decisión 0076](decisiones/0076-suscripcion-sin-cobro.md), `lib/suscripcion.mjs`.
 
@@ -394,6 +394,54 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 La fila la escribe el servidor cuando llega un aviso de pago de Stripe (`POST /api/stripe`, `lib/stripe.mjs`). También se puede insertar a mano para regalar la suscripción; si esa cuenta paga después, manda lo que diga Stripe. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 El tope de duelos del plan gratuito no usa esta tabla: cuenta los duelos del día en `duels` (los que no están en `waiting`, por `created_at` y por el jugador dentro de `state`).
+
+### Órdenes de compra y lista de deseos (migración `20261116101427_ordenes_y_deseos`, aplicada el 2026-11-16)
+
+[Decisión 0078](decisiones/0078-ordenes-de-compra-y-lista-de-deseos.md), `lib/mercado.mjs`.
+
+**`public.buy_orders`**: una orden de compra de una edición («pago hasta tanto por cualquier unidad»).
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-orden` y `mercado-orden-devuelta`. |
+| `edition` | `text` | como en `collectibles` | |
+| `buyer` | `text` | 64 caracteres hexadecimales | Quien la pone. |
+| `price` | `integer` | de 1 a 1.000.000 | Lo que paga. Queda retenido mientras está abierta. |
+| `status` | `text` | `abierta`, `cumplida` o `cancelada` | |
+| `listing_id` | `bigint` | referencia a `listings(id)`, opcional | La venta con la que se cumplió. |
+| `created_at`, `closed_at` | `timestamptz` | | |
+
+**`public.wishlist`**: las ediciones que cada jugador ha marcado como deseadas. Clave primaria `(player_hash, edition)`.
+
+La migración cambia además la regla de `listings.sold_by`, que acepta `orden`: una venta por orden se apunta en `listings` como vendida.
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo:
+
+- `market_order(p_buyer, p_edition, p_price, p_max, p_fee_percent)`: pone una orden. Si hay un anuncio con «compra ya» a ese precio o menos, compra el más barato (lo de `market_buy` con `bought`). Si no, retiene los faradios (`mercado-orden`) y devuelve `{id, coins}`. Errores: `tope` o `saldo`.
+- `market_order_cancel(p_order, p_buyer)`: cancela una orden abierta y devuelve los faradios (`mercado-orden-devuelta`). `{coins}` o `{error: 'cerrado'}`.
+- `market_sell_now(p_seller, p_edition, p_serial, p_fee_percent)`: vende una unidad a la orden más alta de otro jugador (la más antigua si empatan). Paga al vendedor el precio menos la comisión (`mercado-venta`, referencia `orden-<n.º>`), cambia el dueño, cierra la orden y apunta la venta en `listings`. Errores: `no-tuya`, `anunciada` o `sin-ordenes`.
+- `wishlist_counts()`: en cuántas listas de deseos está cada edición.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Vitrinas de colecciones (migración `20261116170000_vitrinas`, **sin aplicar**)
+
+[Decisión 0079](decisiones/0079-vitrina-de-colecciones.md), `lib/vitrina.mjs`.
+
+**`public.showcases`**: la vitrina de un jugador. Lo que contiene no se guarda: se lee de `collectibles` y de `items` (las piezas con acabado).
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | |
+| `code` | `text` | 8 letras y números, único | Lo que va en el enlace para enseñarla. No es la cuenta. |
+| `public` | `boolean` | por defecto `false` | Si el jugador la enseña. |
+| `name` | `text` | hasta 40 caracteres | Con qué nombre se presenta. |
+| `avatar` | `jsonb` | | Con qué avatar. |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+**`public.showcase_ranking(p_limit)`**: los jugadores que enseñan su vitrina y tienen algún artículo de colección, de más a menos unidades: `code`, `name`, `avatar`, `units` y `editions`. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
+
+RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 ## Funciones
 
@@ -476,7 +524,9 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
-| `20261116150000` | [suscripciones](../supabase/migrations/20261116150000_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/suscripcion`, sin aplicar |
+| `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
+| `20261116170000` | [vitrinas](../supabase/migrations/20261116170000_vitrinas.sql) | Crea `showcases` y la función `showcase_ranking` (vitrinas de colecciones), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/vitrina`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

@@ -11,7 +11,7 @@
   const toast=message=>{if(typeof showToast==='function')showToast(message)};
   // view = pestaña; item = la edición abierta en su ficha; board = el tablón; skew = diferencia con el reloj del servidor;
   // inbox = avisos sin cerrar; form = lo escrito para vender; dialog = la puja o la compra que se está confirmando.
-  let view='explorar',item='',board=null,failed=false,skew=0,inbox=[],filter={q:'',kind:'todo',sort:'precio'},form={unit:'',buyNow:'',startBid:'',hours:24},dialog=null,busy=false,ticker=0,refresher=0;
+  let view='explorar',item='',board=null,failed=false,skew=0,inbox=[],filter={q:'',kind:'todo',sort:'precio',wished:false},form={unit:'',buyNow:'',startBid:'',hours:24},dialog=null,busy=false,ticker=0,refresher=0;
   const now=()=>Date.now()+skew,linked=()=>!!window.Progress?.linked();
   const body=()=>window.Progress?.look().body||'hombre';
   const piece=id=>Avatar.CATALOG.find(entry=>entry.edition&&entry.edition.id===id&&entry.for===body())||Avatar.CATALOG.find(entry=>entry.edition&&entry.edition.id===id);
@@ -70,11 +70,11 @@ ${history.map((point,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(point.price).t
     return [...list].sort((a,b)=>by(a,b)||a.id-b.id);
   }
   const plain=text=>String(text).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
-  const visible=()=>sorted(board.listings.filter(listing=>(filter.kind==='todo'||(filter.kind==='compra'?listing.buyNow!=null:listing.startBid!=null))&&plain(`${nameOf(listing.edition)} ${listing.serial}`).includes(plain(filter.q.trim()))));
+  const visible=()=>sorted(board.listings.filter(listing=>(filter.kind==='todo'||(filter.kind==='compra'?listing.buyNow!=null:listing.startBid!=null))&&plain(`${nameOf(listing.edition)} ${listing.serial}`).includes(plain(filter.q.trim()))&&(!filter.wished||board.wishes.includes(listing.edition))));
 
   // ---------- Pestañas
   function results(){
-    const words=plain(filter.q.trim()),items=board.stats.editions.filter(one=>plain(nameOf(one.id)).includes(words)),list=visible();
+    const words=plain(filter.q.trim()),items=board.stats.editions.filter(one=>plain(nameOf(one.id)).includes(words)&&(!filter.wished||board.wishes.includes(one.id))),list=visible();
     const card=one=>`<button type="button" class="mk-card" data-item="${one.id}"><span class="mk-card-art">${art(one.id)}<span class="mk-tag">Comerciable</span></span><span class="mk-card-body"><b>${nameOf(one.id)}</b><small>Edición n.º ${one.n} · ${int(one.total)} unidades</small>
 <span class="mk-card-price">${one.floor!=null?`<small>Desde</small> ${coins(one.floor)}`:one.topBid!=null?`<small>Puja</small> ${coins(one.topBid)}`:'<small>Sin anuncios</small>'}</span>
 <span class="mk-card-meta">${one.onSale} en venta${one.auctions?` · ${one.auctions} ${one.auctions===1?'subasta':'subastas'}`:''}</span>
@@ -88,8 +88,24 @@ ${rows(list)||`<p class="mk-empty">${board.listings.length?'Ningún anuncio con 
     return `<p class="mk-note"><b>¿Qué se puede comerciar?</b> Solo los artículos de colección: ediciones numeradas de tirada cerrada, que en el armario llevan la etiqueta «Comerciable». La ropa normal de la tienda y de los cofres no se vende entre jugadores.</p>
 <div class="mk-tools"><label class="mk-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 4a6.5 6.5 0 1 0 0 13 6.5 6.5 0 1 0 0-13zM15.5 15.5 20 20"/></svg><input type="search" data-q value="${filter.q.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" placeholder="Buscar artículo o número de serie" aria-label="Buscar en el mercado" autocomplete="off"></label>
 <div class="mk-seg" role="group" aria-label="Tipo de anuncio">${[['todo','Todo'],['compra','Compra ya'],['subasta','Subastas']].map(([id,label])=>`<button type="button" aria-pressed="${filter.kind===id}" data-kind="${id}">${label}</button>`).join('')}</div>
+<button type="button" class="mk-wishfilter" aria-pressed="${filter.wished}" data-wished>♥ Deseados${board.wishes.length?` <small>${board.wishes.length}</small>`:''}</button>
 <select data-sort aria-label="Ordenar anuncios">${[['precio','Más baratos'],['caro','Más caros'],['tiempo','Terminan antes'],['pujas','Con más pujas'],['nuevo','Más recientes']].map(([id,label])=>`<option value="${id}"${filter.sort===id?' selected':''}>${label}</option>`).join('')}</select></div>
 <div id="mk-results">${results()}</div>`;
+  }
+  // Órdenes de compra de un artículo (decisión 0078): los niveles de precio, las del jugador y el formulario para poner una.
+  let orderPrice='',sellingNow=false;
+  function orderNote(edition){
+    const one=statOf(edition),price=Number(orderPrice),ok=orderPrice!==''&&Number.isInteger(price)&&price>=1&&price<=board.rules.maxPrice,have=window.Progress.coins();
+    return !ok?'Escribe cuánto pagarías como mucho, en faradios y sin decimales.':one.floor!=null&&price>=one.floor?`Hay un anuncio por ${int(one.floor)} ≈ o menos: la compras al momento a ese precio.`:price>have?`Te faltan ${int(price-have)} ≈.`:`Se retienen ${int(price)} ≈ hasta que alguien te la venda o canceles la orden.`;
+  }
+  function ordersPanel(edition){
+    const one=statOf(edition),mine=board.orders.filter(order=>order.edition===edition);
+    return `<section class="mk-panel"><h3 class="mk-title">Órdenes de compra <small>${one.orders}</small></h3>
+<p class="mk-muted">Una orden dice «pago hasta tanto por cualquier unidad de este artículo». Quien tenga una puede vendértela al momento, aunque no estés conectado.</p>
+${one.book.length?`<table class="mk-table"><thead><tr><th scope="col">Precio</th><th scope="col">Órdenes</th></tr></thead><tbody>${one.book.map(level=>`<tr><td>${coins(level.price)}</td><td>${level.count}</td></tr>`).join('')}</tbody></table>`:'<p class="mk-empty">Nadie ha puesto una orden todavía.</p>'}
+${mine.length?`<ul class="mk-lines">${mine.map(order=>`<li class="mk-line"><span>Tu orden · <b>${coins(order.price)}</b> <small>${ago(order.at)}</small></span><button type="button" class="game-secondary" data-cancel-order="${order.id}">Cancelar</button></li>`).join('')}</ul>`:''}
+<div class="mk-form mk-order"><label><span>Pago hasta (≈)</span><input type="number" inputmode="numeric" min="1" max="${board.rules.maxPrice}" step="1" placeholder="Precio máximo" value="${orderPrice}" data-order-price="${edition}"></label><button type="button" class="game-primary" data-order="${edition}">Poner orden</button></div>
+<p class="mk-muted" data-ordernote>${orderNote(edition)}</p></section>`;
   }
   // El formulario para vender una unidad de esta edición, o por qué no se puede.
   function sellPanel(edition){
@@ -100,7 +116,9 @@ ${rows(list)||`<p class="mk-empty">${board.listings.length?'Ningún anuncio con 
     if(!free.some(unit=>edition+':'+unit.serial===form.unit))form.unit=edition+':'+free[0].serial;
     const buyNow=Number(form.buyNow),startBid=Number(form.startBid),okBuy=form.buyNow!==''&&Number.isInteger(buyNow)&&buyNow>=1&&buyNow<=rules.maxPrice,okBid=form.startBid!==''&&Number.isInteger(startBid)&&startBid>=1&&startBid<=rules.maxPrice;
     const summary=[okBuy?`Con compra ya recibes ${int(buyNow-feeOf(buyNow))} ≈.`:'',okBid?`En subasta, como mínimo ${int(startBid-feeOf(startBid))} ≈.`:''].filter(Boolean).join(' ')||'Pon un precio de compra ya, una puja de salida o las dos cosas.';
-    return `<section class="mk-panel mk-sell"><h3 class="mk-title">Vender <small>${rules.max!=null?`${active} de ${rules.max} anuncios activos`:`${active} anuncios activos · sin tope`}</small></h3>
+    // Si hay una orden de compra de otro jugador, se puede vender ya a ese precio, sin anunciar (decisión 0078).
+    const top=board.sellNow?.[edition],now=top?`<div class="mk-sellnow"><p>Hay una orden de compra de <b>${int(top)} ≈</b>. Si vendes ya, recibes <b>${int(top-feeOf(top))} ≈</b> al momento.</p><button type="button" class="game-secondary" data-sell-now>${sellingNow?'Confirmar: vender ya':`Vender ya por ${int(top)} ≈`}</button></div>`:'';
+    return `<section class="mk-panel mk-sell"><h3 class="mk-title">Vender <small>${rules.max!=null?`${active} de ${rules.max} anuncios activos`:`${active} anuncios activos · sin tope`}</small></h3>${now}
 <div class="mk-form"><label><span>Unidad</span><select data-f="unit">${free.map(unit=>`<option value="${edition}:${unit.serial}"${form.unit===edition+':'+unit.serial?' selected':''}>N.º ${unit.serial}</option>`).join('')}</select></label>
 <label><span>Compra ya (≈)</span><input type="number" inputmode="numeric" min="1" max="${rules.maxPrice}" step="1" placeholder="Opcional" value="${form.buyNow}" data-f="buyNow"></label>
 <label><span>Puja de salida (≈)</span><input type="number" inputmode="numeric" min="1" max="${rules.maxPrice}" step="1" placeholder="Opcional" value="${form.startBid}" data-f="startBid"></label>
@@ -113,13 +131,14 @@ ${rows(list)||`<p class="mk-empty">${board.listings.length?'Ningún anuncio con 
     const offers=[...board.listings.filter(listing=>listing.edition===item)].sort((a,b)=>ask(a)-ask(b)||a.id-b.id),sold=board.sales.filter(sale=>sale.edition===item);
     return `<button type="button" class="mk-back" data-back>← Todos los artículos</button>
 <section class="mk-item"><div class="mk-item-art">${art(item,'stage')}</div>
-<div class="mk-item-info"><p class="mk-tags"><span class="mk-tag">Comerciable</span><span class="mk-chip">Edición n.º ${one.n}</span></p><h3>${nameOf(item)}</h3>
+<div class="mk-item-info"><p class="mk-tags"><span class="mk-tag">Comerciable</span><span class="mk-chip">Edición n.º ${one.n}</span><button type="button" class="mk-wish" aria-pressed="${board.wishes.includes(item)}" data-wish="${item}">${board.wishes.includes(item)?'♥ En tu lista de deseos':'♡ Añadir a deseados'}</button></p><h3>${nameOf(item)}</h3>
 <p class="mk-muted">Artículo de colección: ${int(one.total)} unidades numeradas y no habrá más. ${int(one.minted)} emitidas, en manos de ${int(one.owners)} ${one.owners===1?'jugador':'jugadores'}.</p>
 <div class="mk-kpis">${kpi('Precio más bajo',one.floor!=null?coins(one.floor):'—','compra ya')}${kpi('Puja más alta',one.topBid!=null?coins(one.topBid):'—',`${one.auctions} ${one.auctions===1?'subasta':'subastas'}`)}${kpi('Última venta',one.last!=null?coins(one.last):'—',change(one.change))}
 ${kpi('Precio medio',one.avg7!=null?coins(one.avg7):'—','7 días')}${kpi('Ventas',int(one.sales7),`7 días · ${int(one.volume7)} ≈`)}${kpi('En venta',int(one.onSale),`de ${int(one.minted)} emitidas`)}
-${kpi('Máximo',one.high!=null?coins(one.high):'—','histórico')}${kpi('Mínimo',one.low!=null?coins(one.low):'—','histórico')}${kpi('Dueños',int(one.owners),`${int(one.total-one.minted)} sin emitir`)}</div></div></section>
+${kpi('Máximo',one.high!=null?coins(one.high):'—','histórico')}${kpi('Mínimo',one.low!=null?coins(one.low):'—','histórico')}${kpi('Dueños',int(one.owners),`${int(one.total-one.minted)} sin emitir`)}${kpi('Orden más alta',one.topOrder!=null?coins(one.topOrder):'—',`${one.orders} ${one.orders===1?'orden':'órdenes'} de compra`)}${kpi('La quieren',int(one.wishes),one.wishes===1?'lista de deseos':'listas de deseos')}</div></div></section>
 <section class="mk-panel"><h3 class="mk-title">Historial de precios</h3>${chart(one.history)}</section>
 <section class="mk-panel"><h3 class="mk-title">En venta <small>${offers.length}</small></h3>${rows(offers,{named:false})||'<p class="mk-empty">Nadie la vende ahora.</p>'}</section>
+${ordersPanel(item)}
 ${sellPanel(item)}
 <section class="mk-panel"><h3 class="mk-title">Últimas ventas <small>${sold.length}</small></h3>${sold.length?`<table class="mk-table"><thead><tr><th scope="col">N.º</th><th scope="col">Precio</th><th scope="col">Cómo</th><th scope="col">Cuándo</th></tr></thead><tbody>${sold.map(sale=>`<tr><td>${sale.serial}</td><td>${coins(sale.price)}</td><td>${sale.by==='puja'?'Subasta':'Compra ya'}</td><td>${ago(sale.at)}</td></tr>`).join('')}</tbody></table>`:'<p class="mk-empty">Todavía no hay ventas.</p>'}</section>`;
   }
@@ -138,7 +157,9 @@ ${closed.length?`<ul class="mk-lines">${closed.map(past).join('')}</ul>`:'<p cla
 <div class="mk-cell"><small>Tu puja</small><b>${coins(one.amount)}</b></div><div class="mk-cell"><small>Puja actual</small><b>${coins(one.topBid)}</b></div><div class="mk-cell"><small>Termina en</small><b data-ends="${one.endsAt}">${left(one.endsAt)}</b></div>
 <div class="mk-actions">${one.winning?'<span class="mk-chip win">Vas ganando</span>':`<span class="mk-chip lose">Te han superado</span><button type="button" class="game-secondary" data-bid="${one.id}">Pujar más</button>`}</div></li>`;
     return `<h3 class="mk-title">Tus pujas <small>${board.bids.length}</small></h3>
-${board.bids.length?`<ul class="mk-rows">${board.bids.map(line).join('')}</ul>`:'<p class="mk-empty">No tienes pujas en marcha. En las subastas, tus faradios quedan retenidos mientras vas ganando; si te superan, vuelven a tu saldo.</p>'}`;
+${board.bids.length?`<ul class="mk-rows">${board.bids.map(line).join('')}</ul>`:'<p class="mk-empty">No tienes pujas en marcha. En las subastas, tus faradios quedan retenidos mientras vas ganando; si te superan, vuelven a tu saldo.</p>'}
+<h3 class="mk-title">Tus órdenes de compra <small>${board.orders.length} de ${board.rules.orders}</small></h3>
+${board.orders.length?`<ul class="mk-lines">${board.orders.map(order=>`<li class="mk-line"><button type="button" class="mk-link" data-item="${order.edition}"><b>${nameOf(order.edition)}</b> <small>cualquier unidad</small></button><span>Pagas hasta ${coins(order.price)} <small>${ago(order.at)}</small></span><button type="button" class="game-secondary" data-cancel-order="${order.id}">Cancelar</button></li>`).join('')}</ul>`:'<p class="mk-empty">No tienes órdenes de compra. Se ponen en la ficha de cada artículo: dices cuánto pagarías y, cuando alguien quiera vender a ese precio, es tuya.</p>'}`;
   }
   function activity(){
     return `<h3 class="mk-title">Últimas ventas del mercado <small>${board.sales.length}</small></h3>
@@ -170,11 +191,11 @@ ${board.sales.length?`<ul class="mk-lines">${board.sales.map(sale=>`<li class="m
     const head='<div class="mk-top"><h2 id="market-title">Mercado</h2><p>Compra, vende y puja por artículos de colección con otros jugadores.</p></div>';
     if(!linked()){main.innerHTML=`${head}<section class="mk-panel mk-gate"><h3>Entra para usar el mercado</h3><p class="mk-muted">En el mercado se compran, se venden y se subastan los artículos de colección: ediciones numeradas de tirada cerrada. Hace falta una cuenta para que el servidor guarde tus faradios y tus artículos.</p><button type="button" class="game-primary" data-auth-open>Entrar</button></section>`;return}
     if(!board){main.innerHTML=`${head}<p class="mk-empty">${failed?'El mercado no está disponible ahora mismo. Inténtalo dentro de un rato.':'Cargando el mercado…'}</p>`;return}
-    const g=board.stats.global,tabs=[['explorar','Explorar',0],['mios','Mis anuncios',board.mine.filter(one=>one.status==='activo').length],['pujas','Mis pujas',board.bids.length],['intercambios','Intercambios',(swaps?.trades||[]).filter(one=>one.status==='abierto').length],['actividad','Actividad',0]];
+    const g=board.stats.global,tabs=[['explorar','Explorar',0],['mios','Mis anuncios',board.mine.filter(one=>one.status==='activo').length],['pujas','Pujas y órdenes',board.bids.length+board.orders.length],['intercambios','Intercambios',(swaps?.trades||[]).filter(one=>one.status==='abierto').length],['vitrinas','Vitrinas',0],['actividad','Actividad',0]];
     main.innerHTML=`${head}${notices()}
 <div class="mk-kpis mk-global">${kpi('Anuncios activos',int(g.listings),`${g.auctions} ${g.auctions===1?'subasta':'subastas'}`)}${kpi('Ventas',int(g.sales24),'últimas 24 h')}${kpi('Volumen',coins(g.volume7),`7 días · ${int(g.sales7)} ventas`)}${kpi('Comisión destruida',coins(g.burned7),`7 días · ${board.rules.fee} % de cada venta`)}</div>
 <nav class="mk-tabs" role="tablist" aria-label="Secciones del mercado">${tabs.map(([id,label,count])=>`<button type="button" role="tab" aria-selected="${view===id&&!item}" data-view="${id}">${label}${count?`<i>${count}</i>`:''}</button>`).join('')}</nav>
-<div class="mk-view">${item?itemPage():view==='mios'?mine():view==='pujas'?bids():view==='actividad'?activity():view==='intercambios'?swapsTab():explore()}</div>${dialogBox()}`;
+<div class="mk-view">${item?itemPage():view==='mios'?mine():view==='pujas'?bids():view==='actividad'?activity():view==='intercambios'?swapsTab():view==='vitrinas'?galleryTab():explore()}</div>${dialogBox()}`;
   }
 
   // ---------- Intercambios privados (decisión 0075): dos jugadores se pasan artículos de colección, sin faradios.
@@ -237,10 +258,49 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
     if(data){joinCode='';watch()}
   }
 
+  // ---------- Vitrinas de colecciones (decisión 0079): lo que tiene cada jugador, a la vista de los demás si él quiere.
+  // gallery = la vitrina propia; collectors = los coleccionistas que enseñan la suya; shown = la de otro que se está viendo.
+  let gallery=null,collectors=null,shown=null;
+  const ZOOMS={top:'torso',bottom:'legs',shoes:'shoes'};
+  async function loadGallery(){
+    if(!linked())return;
+    try{const [own,list]=await Promise.all([window.Progress.cloud('vitrina'),window.Progress.cloud('coleccionistas')]);gallery=own.showcase;collectors=list.collectors;if(!shell.hidden&&view==='vitrinas')draw()}catch{}
+  }
+  // Pide algo de las vitrinas. Devuelve la respuesta, o null si falla (y avisa).
+  async function showcase(action,extra,missing){
+    if(busy)return null;busy=true;
+    try{return await window.Progress.cloud(action,extra)}
+    catch(error){toast(error.status===404||error.status===400?missing:'No se pudo hacer. Inténtalo otra vez.');return null}
+    finally{busy=false}
+  }
+  async function openShowcase(code){const data=await showcase('vitrina',{code},'Esa vitrina no existe o su dueño no la enseña.');if(data){shown=data.showcase;view='vitrinas';item='';draw();main.scrollIntoView({block:'start'})}}
+  // Lo que hay en una vitrina: las unidades de colección con su número de serie y las piezas con acabado.
+  function showcaseBody(show){
+    const finishes=show.finishes.map(key=>{const [part,id]=key.split(':'),entry=Avatar.find(part,id);return entry?`<li class="mk-unit" data-finish="${entry.finish}"><span class="mk-card-art">${Avatar.render(Avatar.preview(entry,entry.for||body()),{zoom:ZOOMS[part]||'',bust:!ZOOMS[part]})}<span class="mk-tag">${Avatar.FINISHES[entry.finish].label}</span></span><b>${entry.name}</b></li>`:''}).join('');
+    return `<p class="mk-muted">${show.units.length} ${show.units.length===1?'artículo de colección':'artículos de colección'} · ${show.editions} de ${show.released} ${show.released===1?'edición':'ediciones'} · ${show.finishes.length} ${show.finishes.length===1?'pieza con acabado':'piezas con acabado'}</p>
+<h4 class="mk-sub">Artículos de colección</h4>
+${show.units.length?`<ul class="mk-units">${show.units.map(unit=>`<li class="mk-unit"><button type="button" class="mk-card-art" data-item="${unit.edition}" aria-label="Ver ${nameOf(unit.edition)} en el mercado">${art(unit.edition)}</button><b>${nameOf(unit.edition)}</b><small>N.º ${unit.serial}${statOf(unit.edition)?` de ${int(statOf(unit.edition).total)}`:''}${unit.listed?' · en venta':''}</small></li>`).join('')}</ul>`:'<p class="mk-empty">Todavía no tiene ninguno.</p>'}
+<h4 class="mk-sub">Piezas con acabado</h4>
+${finishes?`<ul class="mk-units">${finishes}</ul>`:'<p class="mk-empty">Todavía no tiene ninguna. Salen en los cofres, con poca probabilidad.</p>'}`;
+  }
+  function galleryTab(){
+    if(shown&&!shown.mine)return `<button type="button" class="mk-back" data-gallery-back>← Todas las vitrinas</button>
+<section class="mk-panel"><h3 class="mk-title"><span class="mk-who"><span class="mk-face">${Avatar.render(shown.avatar||{},{bust:true})}</span><b>Vitrina de ${shown.name||'un jugador'}</b></span></h3>${showcaseBody(shown)}</section>`;
+    const link=gallery?.code?`${location.origin}/?vitrina=${gallery.code}`:'';
+    const mine=!gallery?'<p class="mk-empty">Cargando tu vitrina…</p>':`<p class="mk-muted">${gallery.public?'<b>La estás enseñando.</b> Cualquiera con el enlace, y quien te vea en la lista de coleccionistas, puede ver lo que hay aquí.':'<b>Ahora solo la ves tú.</b> Si la enseñas, los demás verán tus artículos de colección y tus piezas con acabado, con el nombre y el avatar que llevas ahora.'} Nunca se ve tu saldo ni tu cuenta.</p>
+<div class="mk-dialog-actions mk-gallery-actions">${gallery.public?`<button type="button" class="game-secondary" data-copy="${link}">Copiar enlace</button><button type="button" class="game-secondary" data-gallery-public="no">Dejar de enseñarla</button>`:'<button type="button" class="game-primary" data-gallery-public="si">Enseñar mi vitrina</button>'}</div>
+${showcaseBody(gallery)}`;
+    const row=(one,i)=>`<li class="mk-line"><button type="button" class="mk-link mk-who" data-showcase="${one.code}"><span class="mk-rank">${i+1}</span><span class="mk-face">${Avatar.render(one.avatar||{},{bust:true})}</span><b>${one.name||'Jugador'}</b></button><span>${one.units} ${one.units===1?'artículo':'artículos'} <small>· ${one.editions} ${one.editions===1?'edición':'ediciones'}</small></span></li>`;
+    return `<p class="mk-note"><b>Vitrinas.</b> Aquí se enseñan las colecciones: los artículos numerados y las piezas con acabado de cada jugador. La tuya solo se ve si tú quieres.</p>
+<section class="mk-panel"><h3 class="mk-title">Tu vitrina</h3>${mine}</section>
+<h3 class="mk-title">Coleccionistas <small>${collectors?collectors.length:0}</small></h3>
+${!collectors?'<p class="mk-empty">Cargando…</p>':collectors.length?`<ul class="mk-lines">${collectors.map(row).join('')}</ul>`:'<p class="mk-empty">Todavía nadie enseña su vitrina. Puedes ser el primero.</p>'}`;
+  }
+
   // ---------- Datos
   function collect(found){
     const line=(text,one)=>`${text} <b>${nameOf(one.edition)} n.º ${one.serial}</b>`;
-    const fresh=[...found.sold.map(one=>`${line('Has vendido',one)} por ${int(one.price)} ≈: recibes ${int(one.price-one.fee)} ≈.`),...found.won.map(one=>`${line('¡Has ganado la subasta de',one)} por ${int(one.price)} ≈! Ya está en tu armario.`),
+    const fresh=[...found.sold.map(one=>`${line('Has vendido',one)} por ${int(one.price)} ≈: recibes ${int(one.price-one.fee)} ≈.`),...found.won.map(one=>`${line(one.by==='orden'?'Se ha cumplido tu orden de compra:':'¡Has ganado la subasta de',one)} por ${int(one.price)} ≈${one.by==='orden'?'.':'!'} Ya está en tu armario.`),
       ...found.outbid.map(one=>`${line('Te han superado la puja en',one)}: se te han devuelto ${int(one.amount)} ≈.`),...found.expired.map(one=>`${line('Tu subasta de',one)} terminó sin pujas: vuelve a tu armario.`)];
     inbox=[...fresh,...inbox].slice(0,8);return fresh.length;
   }
@@ -286,7 +346,11 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
     if(event.target.classList.contains('mk-dialog')){dialog=null;draw();return}
     const target=event.target.closest('button');if(!target||!board)return;
     const data=target.dataset;
-    if(data.view){view=data.view;item='';if(view==='intercambios'){room=null;loadSwaps()}draw();main.scrollIntoView({block:'start'});return}
+    if(data.view){view=data.view;item='';if(view==='vitrinas'){shown=null;loadGallery()}if(view==='intercambios'){room=null;loadSwaps()}draw();main.scrollIntoView({block:'start'});return}
+    // Vitrinas (decisión 0079): enseñar o dejar de enseñar la propia, abrir la de otro y volver.
+    if(data.galleryPublic){const open=data.galleryPublic==='si';showcase('vitrina-publicar',{public:open,...identity()},'').then(done=>{if(!done)return;gallery=done.showcase;toast(open?'Tu vitrina ya se ve. Copia el enlace para compartirla.':'Tu vitrina vuelve a verla solo tú.');loadGallery();draw()});return}
+    if(data.showcase){openShowcase(data.showcase);return}
+    if('galleryBack' in data){shown=null;draw();return}
     // Intercambios privados: crear, entrar, abrir, ofrecer o quitar un artículo, confirmar y cancelar.
     if('tradeNew' in data){swap('intercambio-crear',identity(),'Ya tienes demasiados intercambios abiertos: cancela alguno.').then(done=>{if(done)watch()});return}
     if('tradeJoin' in data){joinSwap(joinCode.trim().toUpperCase());return}
@@ -303,6 +367,22 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
     if('clear' in data){inbox=[];draw();return}
     if('close' in data){dialog=null;draw();return}
     if(data.kind){filter.kind=data.kind;draw();return}
+    // Lista de deseos y órdenes de compra (decisión 0078).
+    if('wished' in data){filter.wished=!filter.wished;draw();return}
+    if(data.wish){const on=!board.wishes.includes(data.wish);act('desear',{edition:data.wish,on},'No se pudo cambiar la lista de deseos.','').then(done=>{if(done)toast(on?'Añadido a tu lista de deseos.':'Quitado de tu lista de deseos.')});return}
+    if(data.order){
+      const price=Number(orderPrice);if(orderPrice===''||!Number.isInteger(price)||price<1||price>board.rules.maxPrice){toast('Escribe un precio en faradios, sin decimales.');return}
+      if(target.disabled)return;target.disabled=true;
+      act('ordenar',{edition:data.order,price},'No se pudo poner la orden. Inténtalo otra vez.',`Ya tienes ${board.rules.orders} órdenes de compra abiertas, o el anuncio ya no está.`).then(done=>{if(!done)return;orderPrice='';toast(done.bought?`¡Tuya! ${nameOf(done.edition)} n.º ${done.serial} por ${int(done.price)} ≈`:`Orden puesta: ${int(done.price)} ≈ retenidos.`);draw()});
+      return;
+    }
+    if(data.cancelOrder){if(target.disabled)return;target.disabled=true;act('cancelar-orden',{order:Number(data.cancelOrder)},'No se pudo cancelar la orden. Inténtalo otra vez.','Esa orden ya no está abierta.').then(done=>{if(done)toast('Orden cancelada: los faradios vuelven a tu saldo.')});return}
+    if('sellNow' in data){
+      if(!sellingNow){sellingNow=true;draw();return}
+      sellingNow=false;if(target.disabled)return;target.disabled=true;const [edition,serial]=form.unit.split(':');
+      act('vender-ya',{edition,serial:Number(serial)},'No se pudo vender. Inténtalo otra vez.','Ya no hay una orden de compra para ese artículo.').then(done=>{if(done)toast(`Vendida por ${int(done.price)} ≈: recibes ${int(done.price-done.fee)} ≈.`)});
+      return;
+    }
     if(data.bid){const listing=board.listings.find(one=>one.id===Number(data.bid));if(listing){dialog={type:'bid',id:listing.id,amount:String(listing.minBid)};draw();main.querySelector('[data-amount]')?.select()}return}
     if(data.buy){dialog={type:'buy',id:Number(data.buy)};draw();return}
     if(data.quick){dialog.amount=data.quick;draw();return}
@@ -323,11 +403,12 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
       act('vender',{edition,serial:Number(serial),buyNow,startBid,hours:startBid!=null?Number(form.hours):null},'No se pudo anunciar. Inténtalo otra vez.','No se puede anunciar ese artículo ahora.').then(done=>{if(done){form={...form,buyNow:'',startBid:''};toast('Anuncio publicado.');draw()}});
       return;
     }
-    if(data.item){item=data.item;if(data.unit)form.unit=data.unit;dialog=null;draw();main.scrollIntoView({block:'start'})}
+    if(data.item){item=data.item;orderPrice='';sellingNow=false;if(data.unit)form.unit=data.unit;dialog=null;draw();main.scrollIntoView({block:'start'})}
   });
   main.addEventListener('input',event=>{
     const el=event.target;
     if(el.matches('[data-code]')){joinCode=el.value;return}
+    if(el.matches('[data-order-price]')){orderPrice=el.value;const note=main.querySelector('[data-ordernote]');if(note)note.textContent=orderNote(el.dataset.orderPrice);return}
     if(el.matches('[data-q]')){filter.q=el.value;const box=main.querySelector('#mk-results');if(box)box.innerHTML=results();return}
     if(el.matches('[data-amount]')&&dialog){dialog.amount=el.value;const listing=board.listings.find(one=>one.id===dialog.id),amount=Number(el.value),have=window.Progress.coins(),valid=Number.isInteger(amount)&&listing&&amount>=listing.minBid;
       const note=main.querySelector('[data-bidnote]'),go=main.querySelector('[data-confirm]');
@@ -340,11 +421,12 @@ ${!swaps?'<p class="mk-empty">Cargando…</p>':list.length?`<ul class="mk-lines"
   main.addEventListener('change',event=>{if(event.target.matches('[data-sort]')){filter.sort=event.target.value;const box=main.querySelector('#mk-results');if(box)box.innerHTML=results()}});
   // Al entrar con la cuenta se miran las novedades (ventas, subastas ganadas, pujas superadas) y se avisa una vez.
   // Un enlace «?intercambio=CÓDIGO» abre el mercado y entra en ese intercambio (una vez, ya con la cuenta).
-  let invited=new URLSearchParams(location.search).get('intercambio')||'';
+  let invited=new URLSearchParams(location.search).get('intercambio')||'',invitedShowcase=new URLSearchParams(location.search).get('vitrina')||'';
   document.addEventListener('faraday:progreso',()=>{
+    if(invitedShowcase&&linked()){const code=invitedShowcase.trim().toUpperCase();invitedShowcase='';history.replaceState(null,'',location.pathname);open();view='vitrinas';loadGallery();load().then(()=>openShowcase(code))}
     if(invited&&linked()){const code=invited.trim().toUpperCase();invited='';history.replaceState(null,'',location.pathname);open();view='intercambios';draw();joinSwap(code)}
   });
   document.addEventListener('faraday:progreso',()=>{load().then(fresh=>{if(fresh&&shell.hidden)toast(fresh===1?'Tienes una novedad en el mercado.':`Tienes ${fresh} novedades en el mercado.`)})});
-  document.addEventListener('faraday:cuenta',({detail})=>{if(detail&&'account' in detail&&!detail.account){board=null;inbox=[];swaps=null;room=null;clearInterval(poll);if(!shell.hidden)draw()}});
+  document.addEventListener('faraday:cuenta',({detail})=>{if(detail&&'account' in detail&&!detail.account){board=null;inbox=[];gallery=null;collectors=null;shown=null;swaps=null;room=null;clearInterval(poll);if(!shell.hidden)draw()}});
   window.Market={open,close};
 })();

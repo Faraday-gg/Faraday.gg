@@ -159,7 +159,7 @@ const FLAGS={
   pl:['POL',({H})=>H([W,'#dc143c'])]
 };
 // stretch = cuánto más estirado está lo vertical que lo horizontal en el lienzo (depende del largo de la prenda); k = tamaño del estampado.
-// Piezas que solo se ganan (decisión 0078). '%rango': la prenda toma el color del rango (los de lib/rangos.mjs), lleva
+// Piezas que solo se ganan (decisión 0080). '%rango': la prenda toma el color del rango (los de lib/rangos.mjs), lleva
 // su escudo en el pecho y su nombre a la espalda. '&medalla': un disco dorado con el icono de la medalla (los trazos de
 // dist/medals.js, en un lienzo de 24 × 24) y su nombre a la espalda.
 const RANK_PRINTS={oro:['ORO','#d29a1e'],calculista:['CALCULISTA','#1f9a8a'],estimador:['ESTIMADOR','#2f74d0'],doctorando:['DOCTORANDO','#7a4cd0'],eminencia:['EMINENCIA','#c43d6c'],cientifico:['CIENTÍFICO','#ff5a36']};
@@ -513,7 +513,7 @@ function buildModel(look){
     if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.66,.045),dark,[0,.37,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);
-  // Átomo de los Científicos (decisión 0078): tres órbitas doradas y el núcleo, flotando sobre la cabeza.
+  // Átomo de los Científicos (decisión 0080): tres órbitas doradas y el núcleo, flotando sobre la cabeza.
   if(hat==='atomo'){
     for(const turn of [0,Math.PI/3,-Math.PI/3])add(head,ring(.3,.028),gold,[0,1.08,-.04],[1,.4,1],[0,0,turn]);
     add(head,sphere(.07),mat('#ff5a36'),[0,1.08,-.04]);

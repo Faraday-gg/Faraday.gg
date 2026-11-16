@@ -1,4 +1,4 @@
-// Prueba las piezas del avatar que solo se ganan (decisión 0078): las de rango y las de medalla. Comprueba que el
+// Prueba las piezas del avatar que solo se ganan (decisión 0080): las de rango y las de medalla. Comprueba que el
 // catálogo (dist/avatar.js) las marca bien, que cada una apunta a un rango o a una medalla que existe, que los dos cuerpos
 // tienen las mismas, que no pasan por la tienda, los acabados ni la fundición, y que el servidor dice el rango más alto.
 import assert from 'node:assert/strict';

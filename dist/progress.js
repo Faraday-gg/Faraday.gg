@@ -103,7 +103,7 @@
   // plus = la cuenta tiene la suscripción activa (decisión 0076); lo dice el servidor. Las piezas de suscriptor solo se tienen con ella.
   // billing = si la suscripción se puede contratar, su precio y si el jugador ya es cliente de Stripe (decisión 0077).
   let plus=false,plusUntil=null,billing=null;
-  // Piezas de rango y de medalla (decisión 0078). El rango más alto alcanzado lo dice el servidor (ranked.js lo recuerda
+  // Piezas de rango y de medalla (decisión 0080). El rango más alto alcanzado lo dice el servidor (ranked.js lo recuerda
   // en este navegador, y de ahí se lee mientras ranked.js no ha cargado); las medallas están en state.medals.got.
   const RANK_IDS=Avatar.RANKS.map(([id])=>id),rankName=id=>(Avatar.RANKS.find(([rank])=>rank===id)||[])[1]||id;
   const bestRank=()=>RANK_IDS.indexOf(window.Ranked?window.Ranked.best():stored('casi-casi:rango:mio')?.best);

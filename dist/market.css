@@ -109,6 +109,26 @@
 .mk-gate{justify-items:start}
 .mk-gate h3{margin:0;font:700 20px var(--display)}
 
+/* Órdenes de compra y lista de deseos */
+.mk-wish,.mk-wishfilter{border:1.5px solid var(--line);border-radius:20px;background:var(--paper);padding:3px 10px;font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.mk-wishfilter{padding:9px 13px;font-size:13px}
+.mk-wish[aria-pressed=true],.mk-wishfilter[aria-pressed=true]{border-color:var(--coral);background:#ff654818;color:#c23a22}
+.mk-wishfilter small{font:700 11px var(--num)}
+.mk-order{grid-template-columns:minmax(140px,220px) auto;align-items:end;justify-content:start}
+.mk-sellnow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;padding:12px 14px;border-radius:14px;background:var(--yellow);font-size:13.5px}
+.mk-sellnow p{margin:0}
+
+/* Vitrinas de colecciones */
+.mk-units{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:0;padding:0}
+.mk-unit{display:grid;gap:3px;border-radius:16px;background:var(--paper);overflow:hidden;padding-bottom:10px;text-align:center}
+.mk-unit .mk-card-art{border:0;padding:0;width:100%;cursor:pointer}
+.mk-unit span.mk-card-art{cursor:default}
+.mk-unit b{padding:6px 8px 0;font-size:13.5px}
+.mk-unit small{font-size:12px;color:var(--muted)}
+.mk-unit[data-finish=cr] .mk-tag{background:#7d8a9c}.mk-unit[data-finish=ho] .mk-tag{background:#b06cf0}.mk-unit[data-finish=or] .mk-tag{background:#d99a06}
+.mk-rank{display:inline-grid;place-items:center;min-width:24px;font:700 13px var(--num);color:var(--muted)}
+.mk-gallery-actions{justify-content:flex-start;flex-wrap:wrap}
+
 /* Intercambios privados */
 .mk-trade{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
 .mk-who{display:flex;align-items:center;gap:8px;min-width:0}

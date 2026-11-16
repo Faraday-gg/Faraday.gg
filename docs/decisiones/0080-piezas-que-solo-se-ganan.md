@@ -1,4 +1,4 @@
-# 0078. Piezas del avatar que solo se ganan: de rango y de medalla
+# 0080. Piezas del avatar que solo se ganan: de rango y de medalla
 
 - **Estado:** propuesta (código en la rama `feat/piezas-que-se-ganan`; sin migración)
 - **Fecha:** 2026-11-16
