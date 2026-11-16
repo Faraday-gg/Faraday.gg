@@ -83,6 +83,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0079](0079-vitrina-de-colecciones.md) | Vitrina de colecciones: los artículos de colección y las piezas con acabado de cada jugador, a la vista solo si él quiere, y lista de coleccionistas | Propuesta | 2026-11-16 |
 | [0080](0080-piezas-que-solo-se-ganan.md) | Piezas del avatar que solo se ganan: de rango y de medalla | Propuesta | 2026-11-16 |
 | [0081](0081-avatar-en-las-tarjetas-para-compartir.md) | El avatar en las tarjetas para compartir, y una tarjeta para los duelos | Propuesta | 2026-11-16 |
+| [0082](0082-duelos-1vs1vs1.md) | Duelos 1vs1vs1: partidas de tres | Aceptada | 2026-11-16 |
 
 ## Plantilla
 

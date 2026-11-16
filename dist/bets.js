@@ -40,7 +40,7 @@
       return `<button type="button" class="bet-card" data-bet="${id}" data-tier="${index}" aria-pressed="${on}"${s.ok?'':' disabled'} aria-label="${t.name}: apostar ${t.amount} faradios${s.ok?'':'. '+note.replace(/<[^>]+>/g,'')}"><span class="bet-bolts" aria-hidden="true">${bolt.repeat(index)}</span><b class="bet-name">${t.name}</b><span class="bet-amount">${coins(t.amount)}</span><small class="bet-note">${note}</small></button>`;
     };
     const head=locked?`<p class="bet-lock">${lock}<span>Se desbloquea en el nivel ${R.UNLOCK}</span></p>`
-      :online()?`<p class="bet-help">Bote entre los dos: se juega la apuesta más baja de las dos. Quien gana se lleva el bote menos un 10 %; si empatáis, cada uno recupera lo suyo; abandonar es perder. ${left?`Hoy te ${left===1?'queda 1 apuesta':`quedan ${left} apuestas`}.`:'Hoy ya no quedan apuestas.'} Contra el bot no se apuesta.</p>`
+      :online()?`<p class="bet-help">Bote entre los jugadores: se juega la apuesta más baja de todos y tienen que apostar todos. Quien gana se lleva el bote menos un 10 %; si empatáis, cada uno recupera lo suyo; abandonar es perder. ${left?`Hoy te ${left===1?'queda 1 apuesta':`quedan ${left} apuestas`}.`:'Hoy ya no quedan apuestas.'} Contra el bot no se apuesta.</p>`
       :`<p class="bet-help">Contra la banca: si ganas, doblas; si pierdes o abandonas, la pierdes; si empatáis, la recuperas. ${left?`Hoy te ${left===1?'queda 1 apuesta':`quedan ${left} apuestas`}.`:'Hoy ya no quedan apuestas.'} Contra el bot no se apuesta.</p>`;
     return `<section class="bet-picker${compact?' is-compact':''}${locked?' is-locked':''}" id="bet-picker" aria-labelledby="bet-title">
 <div class="bet-top"><h3 id="bet-title">Apuesta${compact?' para la siguiente':''}</h3><span class="bet-balance">Tienes ${coins(balance())}</span></div>
@@ -53,7 +53,7 @@ ${head}</section>`;
   function chip(player){
     const t=player&&R.tier(player.bet);if(!t)return '';
     // Con cuenta se enseña lo que de verdad hay en juego: la apuesta más baja de las dos, o nada si el rival no apuesta.
-    const both=online()&&current?.players?.length>1,amount=both?R.shared(current.players[0].bet,current.players[1].bet):t.amount;
+    const both=online()&&current?.players?.length>1,amount=both?R.shared(...current.players.map(one=>one.bet)):t.amount;
     if(!amount)return '';
     return `<span class="bet-chip" data-tier="${R.IDS.indexOf(player.bet)+1}" title="Apuesta ${t.name}: ${amount} faradios"><span aria-hidden="true">${bolt}</span>${int(amount)} ${COIN}<span class="sr-only"> apostados</span></span>`;
   }
@@ -81,14 +81,14 @@ ${head}</section>`;
   function trackServer(view,id){
     const ledger=load(),entry=ledger.duels[view.id];
     if(!entry&&view.status==='playing'&&!busy.has(view.id)){
-      const stake=R.shared(id,view.players[1-view.you]?.bet);if(!stake)return;
+      const stake=R.shared(...view.players.map(one=>one.bet));if(!stake)return;
       busy.add(view.id);
       server('apostar',view.id).then(({ok,data})=>{
         const now=load(),day=madrid();
         if(ok){
           now.duels[view.id]={tier:id,amount:data.stake,status:'open',delta:-data.stake,at:Date.now(),server:true};now.count=R.usedToday(now,day)+1;now.day=day;store(now);
           window.Progress?.serverCoins?.(data.coins);
-          window.showToast?.(`Al bote: −${int(data.stake)} ≈. Si ganas, te llevas ${int(data.stake+R.pot(data.stake).win)} ≈.`);
+          window.showToast?.(`Al bote: −${int(data.stake)} ≈. Si ganas, te llevas ${int(data.stake+R.pot(data.stake,view.players.length).win)} ≈.`);
         }else if(data.code==='saldo'||data.code==='tope')window.showToast?.(data.code==='tope'?'Ya has hecho las apuestas de hoy: este duelo va sin apuesta.':'No te llegan los faradios: este duelo va sin apuesta.');
       }).catch(()=>{}).finally(()=>busy.delete(view.id));
     }
@@ -126,10 +126,10 @@ ${head}</section>`;
     if(!entry||entry.status==='open')return '';
     const t=R.TIERS[entry.tier],delta=entry.delta;
     const sign=delta>0?'+':delta<0?'−':'±',kind=delta>0?'up':delta<0?'down':'even';
-    const text=entry.server?(entry.status==='won'?`Te llevas el bote de ${int(entry.amount*2)} ≈ menos el 10 %.`
+    const text=entry.server?(entry.status==='won'?`Te llevas el bote de ${int(entry.amount*(view.size||2))} ≈ menos el 10 %.`
       :entry.status==='draw'?'Empate: cada uno recupera lo suyo.'
       :entry.status==='void'?'Tu rival no llegó a poner su parte: recuperas lo tuyo.'
-      :view.reason==='abandono'&&view.winner==='rival'?'Abandonar cuenta como perder: el bote es para tu rival.':'El bote es para tu rival.')
+      :view.reason==='abandono'&&view.winner==='rival'?'Abandonar cuenta como perder: el bote es para tu rival.':view.size===3?'El bote es para quien ha ganado.':'El bote es para tu rival.')
       :entry.status==='won'?`Recuperas tus ${int(t.amount)} ≈ y la banca te da otros ${int(t.amount)}.`
       :entry.status==='draw'?'Empate: recuperas lo apostado.'
       :entry.status==='void'?'Duelo anulado: recuperas lo apostado.'

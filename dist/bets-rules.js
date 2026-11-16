@@ -23,9 +23,10 @@
   // juega la más baja de las dos apuestas y quien gana se lleva el bote menos esta parte, que se destruye.
   const RAKE=.1;
   // Lo que pone cada uno en el bote según la apuesta de los dos (0 si alguno no apuesta).
-  const shared=(mine,theirs)=>{const a=TIERS[mine]?.amount||0,b=TIERS[theirs]?.amount||0;return a&&b?Math.min(a,b):0};
-  // Con `stake` cada uno: lo que gana de más quien gana (win) y lo que se destruye (fee).
-  const pot=stake=>{const fee=Math.round(2*stake*RAKE);return {win:stake-fee,fee}};
+  // En un duelo de tres (decisión 0082) ponen los tres: se le pasan las tres apuestas.
+  const shared=(...tiers)=>{const amounts=tiers.map(id=>TIERS[id]?.amount||0);return amounts.length>1&&amounts.every(Boolean)?Math.min(...amounts):0};
+  // Con `stake` cada uno: lo que gana de más quien gana (win) y lo que se destruye (fee). size = jugadores en el bote.
+  const pot=(stake,size=2)=>{const fee=Math.round(size*stake*RAKE);return {win:(size-1)*stake-fee,fee}};
   // Lo que se guarda de cada duelo: tier, amount, status (open, won, lost, draw, void) y delta (lo ganado o perdido al final).
   const KEEP=40;
 

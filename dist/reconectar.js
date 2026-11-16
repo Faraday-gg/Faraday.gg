@@ -22,11 +22,11 @@
 
   const counted=()=>{try{return JSON.parse(localStorage.getItem(COUNTED))||[]}catch{return[]}};
   function describe(duel){
-    const rival=duel.rival?.name?esc(duel.rival.name):'';
+    const rival=duel.size===3&&duel.rivals?.length?duel.rivals.map(esc).join(' y '):duel.rival?.name?esc(duel.rival.name):'';
     if(duel.status==='finished')return {title:'Ver cómo acabó tu duelo',note:rival?`contra ${rival}`:''};
-    if(duel.status==='waiting')return {title:'Reconectar a la partida',note:`Esperando rival · código ${esc(duel.code)}`};
+    if(duel.status==='waiting')return {title:'Reconectar a la partida',note:duel.size===3?`Esperando a ${duel.waitingFor} más · código ${esc(duel.code)}`:`Esperando rival · código ${esc(duel.code)}`};
     const round=duel.round?`Ronda ${duel.round} de ${duel.maxRounds} · `:'';
-    return {title:'Reconectar a la partida',note:`${round}${int(duel.hp[0])} – ${int(duel.hp[1])} de vida${rival?` · contra ${rival}`:''}`};
+    return {title:'Reconectar a la partida',note:`${round}${duel.size===3?`tu vida: ${int(duel.hp[0])}`:`${int(duel.hp[0])} – ${int(duel.hp[1])} de vida`}${rival?` · contra ${rival}`:''}`};
   }
   function render(){
     const show=!!active&&shell.hidden;
