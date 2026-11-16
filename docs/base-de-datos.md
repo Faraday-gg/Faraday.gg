@@ -347,7 +347,7 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 
 La comisión no se apunta a nadie: es la diferencia entre lo que paga el comprador y lo que recibe el vendedor, y queda en `listings.fee`. Los faradios de una puja activa no están en ningún saldo. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Intercambios privados (migración `20261116140000_intercambios`, **sin aplicar**)
+### Intercambios privados (migración `20261116005727_intercambios`, aplicada el 2026-11-16)
 
 [Decisión 0075](decisiones/0075-intercambios-privados.md), `lib/intercambios.mjs`.
 
@@ -375,6 +375,25 @@ Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path`
 - `trade_free(p_edition, p_serial, p_player)`: dice si una unidad es de ese jugador y no tiene un anuncio activo. De uso interno.
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Suscripciones (migración `20261116150000_suscripciones`, **sin aplicar**)
+
+[Decisión 0076](decisiones/0076-suscripcion-sin-cobro.md), `lib/suscripcion.mjs`.
+
+**`public.subscriptions`**: quién tiene la suscripción y hasta cuándo. Una fila por jugador.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `player_hash` | `text` | clave primaria, 64 caracteres hexadecimales | El jugador de la cuenta. |
+| `until` | `timestamptz` | obligatorio | Hasta cuándo vale. Está en vigor mientras sea posterior a ahora; al caducar no se borra. |
+| `source` | `text` | por defecto `manual` | De dónde viene: `manual` (escrita a mano) o `stripe` (la escribe el aviso de pago). |
+| `ref` | `text` | opcional | La suscripción en Stripe (`sub_…`). |
+| `customer` | `text` | opcional | El cliente en Stripe (`cus_…`), para abrirle el portal ([decisión 0077](decisiones/0077-cobro-con-stripe.md)). |
+| `created_at`, `updated_at` | `timestamptz` | | |
+
+La fila la escribe el servidor cuando llega un aviso de pago de Stripe (`POST /api/stripe`, `lib/stripe.mjs`). También se puede insertar a mano para regalar la suscripción; si esa cuenta paga después, manda lo que diga Stripe. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+El tope de duelos del plan gratuito no usa esta tabla: cuenta los duelos del día en `duels` (los que no están en `waiting`, por `created_at` y por el jugador dentro de `state`).
 
 ## Funciones
 
@@ -456,7 +475,8 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261116003548` | [mercado](../supabase/migrations/20261116003548_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
-| `20261116140000` | [intercambios](../supabase/migrations/20261116140000_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/intercambios`, sin aplicar |
+| `20261116005727` | [intercambios](../supabase/migrations/20261116005727_intercambios.sql) | Crea `trades` y las funciones `trade_join`, `trade_offer`, `trade_confirm`, `trade_cancel` y `trade_free` (intercambios privados), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
+| `20261116150000` | [suscripciones](../supabase/migrations/20261116150000_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/suscripcion`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente
