@@ -109,6 +109,15 @@
 .mk-gate{justify-items:start}
 .mk-gate h3{margin:0;font:700 20px var(--display)}
 
+/* Órdenes de compra y lista de deseos */
+.mk-wish,.mk-wishfilter{border:1.5px solid var(--line);border-radius:20px;background:var(--paper);padding:3px 10px;font-size:11.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.mk-wishfilter{padding:9px 13px;font-size:13px}
+.mk-wish[aria-pressed=true],.mk-wishfilter[aria-pressed=true]{border-color:var(--coral);background:#ff654818;color:#c23a22}
+.mk-wishfilter small{font:700 11px var(--num)}
+.mk-order{grid-template-columns:minmax(140px,220px) auto;align-items:end;justify-content:start}
+.mk-sellnow{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;padding:12px 14px;border-radius:14px;background:var(--yellow);font-size:13.5px}
+.mk-sellnow p{margin:0}
+
 /* Intercambios privados */
 .mk-trade{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
 .mk-who{display:flex;align-items:center;gap:8px;min-width:0}
