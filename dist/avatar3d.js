@@ -182,9 +182,30 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
       // Sudadera exclusiva «Casi casi» (decisión 0030): «1,1×» sobre una diana delante y el lema a la espalda.
       // Piezas exclusivas del Circuito de amigos (decisión 0038): un rayo dentro de un círculo.
       if(print==='rayo')at(x,Y(v),()=>{c.fillStyle=trim;c.beginPath();c.arc(0,0,34*scale,0,7);c.fill();c.lineWidth=5*scale;c.strokeStyle=INK;c.stroke();c.beginPath();for(const [px,py] of [[6,-26],[-14,4],[-1,4],[-7,26],[15,-6],[2,-6],[8,-26]])c.lineTo(px*scale,py*scale);c.closePath();c.fillStyle=INK;c.fill()});
+      // Sets (decisión 0079): un matraz que burbujea (científico) y un panel de mandos (robot).
+      if(print==='matraz')at(x,Y(v),()=>{
+        c.scale(scale,scale);c.lineJoin='round';c.lineWidth=5;c.strokeStyle=INK;
+        c.beginPath();c.moveTo(-9,-34);c.lineTo(9,-34);c.lineTo(9,-10);c.lineTo(30,26);c.quadraticCurveTo(33,34,24,34);c.lineTo(-24,34);c.quadraticCurveTo(-33,34,-30,26);c.lineTo(-9,-10);c.closePath();c.fillStyle=PAPER;c.fill();c.stroke();
+        c.beginPath();c.moveTo(-19,8);c.lineTo(19,8);c.lineTo(29,26);c.quadraticCurveTo(31,32,24,32);c.lineTo(-24,32);c.quadraticCurveTo(-31,32,-29,26);c.closePath();c.fillStyle=trim;c.fill();
+        c.fillStyle=trim;for(const [bx,by,r] of [[-2,-44,5],[10,-54,4],[-10,-60,3]]){c.beginPath();c.arc(bx,by,r,0,7);c.fill();c.lineWidth=2;c.stroke()}
+        c.fillStyle=INK;c.fillRect(-13,-38,26,5);
+      });
+      if(print==='panel')at(x,Y(v),()=>{
+        c.scale(scale,scale);c.lineWidth=4;c.strokeStyle=INK;c.fillStyle=shade(main,.55);c.beginPath();c.roundRect(-46,-28,92,56,8);c.fill();c.stroke();
+        c.fillStyle='#0d2233';c.fillRect(-38,-20,44,22);c.strokeStyle='#5ff2a0';c.lineWidth=3;c.beginPath();for(const [px,py] of [[-36,-8],[-28,-8],[-24,-16],[-18,-2],[-12,-12],[-6,-8],[4,-8]])c.lineTo(px,py);c.stroke();
+        ['#e5383b','#ffc93c','#5ff2a0'].forEach((color,i)=>{c.fillStyle=color;c.beginPath();c.arc(20,-15+i*13,5,0,7);c.fill()});
+        c.fillStyle=trim;c.fillRect(-38,10,44,8);c.strokeStyle=INK;c.lineWidth=2;c.strokeRect(-38,10,44,8);
+      });
       if(print==='casi'){at(x,Y(v),()=>{c.lineWidth=5*scale;c.strokeStyle=trim;for(const r of [36,24,12]){c.beginPath();c.arc(0,0,r*scale,0,7);c.stroke()}c.rotate(-.12);c.font=`italic 900 ${42*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=10*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,1×',0,0);c.fillStyle=PAPER;c.fillText('1,1×',0,0)})}
     };
     c.fillStyle=main;c.fillRect(0,0,S,S);
+    // Sets (decisión 0079). Escamas por toda la prenda, con la tripa del segundo color; rayas de marinero.
+    if(print==='escamas'){
+      const n=20,w=S/n;c.strokeStyle=shade(main,.68);c.lineWidth=3;
+      for(let row=0;row*w*1.5<S;row++)for(let i=0;i<=n;i++){c.beginPath();c.ellipse(i*w+(row%2)*w/2,row*w*1.5,w/2,w*1.1,0,0,Math.PI);c.stroke()}
+      c.fillStyle=trim;c.beginPath();c.ellipse(F(0),Y(.5),S*.075,S*.3,0,0,7);c.fill();c.strokeStyle=shade(trim,.75);c.lineWidth=4;for(const v of [.3,.4,.5,.6,.7]){c.beginPath();c.moveTo(F(-.26),Y(v));c.lineTo(F(.26),Y(v));c.stroke()}
+    }
+    if(print==='rayas')for(let v=.12;v<.92;v+=.16){c.fillStyle=trim;c.fillRect(0,Y(v+.08),S,S*.08)}
     if(print==='ajedrez'&&type!=='universitaria'){const n=32,h=(Y(.3)-Y(.46))/2;for(let i=0;i<n;i++)for(let j=0;j<2;j++){c.fillStyle=(i+j)%2?PAPER:INK;c.fillRect(i*S/n,Y(.46)+j*h,S/n+1,h+1)}}
     if(print==='llamas'&&type!=='universitaria')for(const [color,top] of [['#ff6548',.44],['#ffc93c',.27]]){
       c.fillStyle=color;c.beginPath();c.moveTo(0,S);for(let i=0;i<=24;i++)c.lineTo((i+(i%2?.5:0))*S/24,Y(i%2?top:top*.4));c.lineTo(S,S);c.fill();
@@ -344,10 +365,14 @@ function buildModel(look){
       else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
     const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);
+    // Guantes (decisión 0079): la mano va del color del guante y lleva un puño que tapa la muñeca.
+    const skin0=skin,gloved=CLOTH[look.gloves]?mat(CLOTH[look.gloves]):null;
+    if(gloved)add(fore,new THREE.CylinderGeometry(.105*K,.092*K,.07,20),mat(shade(CLOTH[look.gloves],.8)),[0,-.185,0],[],[],O);
+    {const skin=gloved||skin0;
     add(hand,box(3),skin,[0,-.04,0],[.056,.07,.086],[],.045);
     // Los dedos salen en abanico y un poco curvados hacia la palma; el contorno de cada uno dibuja la línea entre dedos.
     for(const [z,length] of [[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]])add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3);
-    add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);
+    add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);}
   }
   if(type==='sudadera'||type==='plumas'){
     // Capucha caída: un rollo alrededor del cuello, con el centro relleno para que por detrás no se vea el hueco.
@@ -491,6 +516,64 @@ function buildModel(look){
     }
     if(hat==='gorro'){cap.rotation.x=-.3;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.12,0],[.685,.66,.655],[],.025);add(cap,ring(.63,.085),dark,[0,.16,0],[1.07,1.02,1],[Math.PI/2,0,0],.03);add(cap,sphere(),color,[0,.66,-.2],[.26,.18,.26],[.5,0,0],O);if(look.hatBrand)decal(cap,look.hatBrand,light(shade(hatC,.72))?INK:PAPER,[0,.16,.75],.2)}
     if(hat==='pescador'){cap.rotation.x=-.16;add(cap,shell(3.4,0,Math.PI*2,0,Math.PI*.5),color,[0,.2,0],[.67,.5,.64],[],.025);add(cap,new THREE.CylinderGeometry(.66,.95,.2,40,1,true),color,[0,.2,0]).material.side=THREE.DoubleSide;add(cap,ring(.675,.03),mat(hatTrim),[0,.3,0],[1,.97,1],[Math.PI/2,0,0]);if(look.hatBrand)decal(cap,look.hatBrand,light(hatC)?INK:PAPER,[0,.45,.66],.2,[-.12,0,0])}
+    // Cabezas de los sets (decisión 0079): diseños propios, hechos con las mismas formas que el resto de gorros.
+    if(hat==='astronauta'){
+      // Casco redondo con el cristal por delante y un aro en el cuello.
+      const glass=new THREE.MeshBasicMaterial({color:'#9fd8ff',transparent:true,opacity:.28,depthWrite:false});
+      add(cap,new THREE.SphereGeometry(1,40,24,Math.PI*.86,Math.PI*1.28),color,[0,.05,-.02],[.86,.84,.84],[],.02).material.side=THREE.DoubleSide;
+      add(cap,new THREE.SphereGeometry(1,32,20,-Math.PI*.14,Math.PI*1.28),glass,[0,.05,-.02],[.85,.83,.83]).castShadow=false;
+      add(cap,box(3),mat(hatTrim),[0,.84,-.3],[.2,.07,.34],[.5,0,0],O);
+      add(cap,ring(.5,.075),dark,[0,-.66,-.02],[1.15,1.05,1],[Math.PI/2,0,0],.03);
+      for(const side of [-1,1])add(cap,new THREE.CylinderGeometry(.13,.13,.07,20),mat(hatTrim),[side*.86,.02,-.02],[],[0,0,Math.PI/2],.04);
+      add(cap,new THREE.CylinderGeometry(.012,.012,.3),dark,[.5,.95,-.2],[],[0,0,-.3]);add(cap,sphere(.045),mat(CLOTH.rojo),[.545,1.09,-.2]);
+    }
+    if(hat==='dragon'){
+      // Capucha con cuernos, cresta de púas, ojos y morro sobre la frente.
+      cap.rotation.x=-.2;add(cap,shell(3,0,Math.PI*2,0,Math.PI*.52),color,[0,.1,0],[.7,.68,.67],[],.025);
+      const horn=mat(CLOTH.crema),bright=mat(hatTrim);
+      for(const side of [-1,1]){
+        add(cap,new THREE.ConeGeometry(.13,.52,10),horn,[side*.44,.92,-.02],[],[-.2,0,side*-.4],.05);
+        add(cap,sphere(.13),flat(PAPER),[side*.27,.52,.6],[1,1,.5]).castShadow=false;add(cap,sphere(.06),flat(INK),[side*.27,.52,.665],[.55,1.3,.5]).castShadow=false;
+        add(cap,sphere(.04),flat(INK),[side*.11,.3,.875]).castShadow=false;
+      }
+      add(cap,box(3),color,[0,.28,.68],[.32,.13,.2],[.1,0,0],O);
+      for(let i=0;i<6;i++){const a=.35+i*.42;add(cap,new THREE.ConeGeometry(.085,.24-i*.02,4),bright,[0,.1+Math.cos(a)*.74,-Math.sin(a)*.72],[.6,1,1],[-a,0,0],.05)}
+    }
+    if(hat==='heroe'){
+      // Capucha ajustada con antifaz y un rayo en la frente.
+      add(cap,shell(2.9,0,Math.PI*2,0,Math.PI*.58),color,[0,.02,0],[HEAD.a*1.06,HEAD.b*1.07,HEAD.c*1.06],[],.02);
+      const bolt=new THREE.Shape();[[.05,.2],[-.11,-.02],[-.01,-.02],[-.06,-.2],[.12,.04],[.02,.04]].forEach(([x,y],i)=>i?bolt.lineTo(x,y):bolt.moveTo(x,y));
+      add(cap,new THREE.ShapeGeometry(bolt),flat(CLOTH[look.hatTrim]||GOLD),[0,.36,.615],[1.1,1.1,1],[-.42,0,0]).castShadow=false;
+      for(const side of [-1,1])add(cap,box(3),mat(hatTrim),[side*.66,.02,-.04],[.05,.2,.16],[0,0,side*-.2],O);
+    }
+    if(hat==='cientifico'){
+      // Pelo blanco de punta hacia los lados, calva arriba y gafas de laboratorio en la frente.
+      add(cap,hairCap(.3,.8),color,[],[HEAD.a*1.06,HEAD.b*1.06,HEAD.c*1.06],[],.02);
+      for(const side of [-1,1])for(const [y,z,length,tilt] of [[.34,.1,.5,1.05],[.2,-.2,.56,1.3],[.42,-.3,.44,.8],[.05,.05,.46,1.5],[.3,-.5,.4,1.0]])
+        add(cap,new THREE.ConeGeometry(.17,length,7),color,[side*(.56+length*.2),y+length*.16,z],[1,1,.8],[0,0,side*-tilt],.05);
+      add(cap,box(3),color,[0,.05,-.56],[.5,.3,.14],[.1,0,0],O);
+      const strap=flat(INK),lens=new THREE.MeshBasicMaterial({color:CLOTH[look.hatTrim]||CLOTH.lima,transparent:true,opacity:.75});
+      add(cap,ring(.63,.035),strap,[0,.36,0],[1.03,.98,1],[Math.PI/2-.1,0,0]);
+      for(const side of [-1,1]){add(cap,new THREE.CylinderGeometry(.15,.15,.1,24),strap,[side*.19,.37,.57],[],[Math.PI/2-.2,0,0]);add(cap,new THREE.CircleGeometry(.115,24),lens,[side*.19,.38,.625],[],[-.2,0,0]).castShadow=false}
+    }
+    if(hat==='tricornio'){
+      // Sombrero de tres picos: copa baja y ala levantada, con ribete dorado y una pluma.
+      cap.rotation.x=-.12;const edge=mat(hatTrim);
+      add(cap,shell(3,0,Math.PI*2,0,Math.PI*.5),color,[0,.3,0],[.62,.5,.6],[],.025);
+      // El ala es un embudo de tres lados, con un pico hacia delante, y el ribete va en su borde.
+      add(cap,new THREE.CylinderGeometry(1.04,.6,.3,3,1,true),color,[0,.44,0],[1,1,1],[],.03).material.side=THREE.DoubleSide;
+      add(cap,new THREE.CylinderGeometry(.62,.62,.04,3),color,[0,.3,0]);
+      add(cap,new THREE.CylinderGeometry(1.07,1.04,.045,3,1,true),edge,[0,.6,0]).material.side=THREE.DoubleSide;
+      add(cap,capsule(.05,.42),mat(CLOTH.rojo),[-.5,.86,-.25],[1,1,.4],[.3,0,.5],.06);
+    }
+    if(hat==='robot'){
+      // Casco cuadrado de chapa: visera con ojos de luz, tornillos en las sienes y antena.
+      const glow=flat(CLOTH[look.hatTrim]||CLOTH.azul);
+      add(cap,blob(new THREE.SphereGeometry(1,36,20,0,Math.PI*2,0,Math.PI*.56),7),color,[0,.03,-.01],[.72,.68,.69],[],.025);
+      add(cap,box(6),dark,[0,.28,.6],[.5,.09,.1],[],O);for(const side of [-1,1])add(cap,new THREE.CircleGeometry(.05,16),glow,[side*.2,.28,.705]).castShadow=false;
+      for(const side of [-1,1]){add(cap,new THREE.CylinderGeometry(.14,.14,.1,20),dark,[side*.74,.02,-.02],[],[0,0,Math.PI/2],.04);add(cap,new THREE.CylinderGeometry(.06,.06,.16,12),mat(hatTrim),[side*.78,.02,-.02],[],[0,0,Math.PI/2])}
+      add(cap,new THREE.CylinderGeometry(.02,.02,.3),dark,[0,.84,-.05]);add(cap,sphere(.07),mat(CLOTH.rojo),[0,1.02,-.05],[],[],.06);
+    }
     if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.66,.045),dark,[0,.37,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);

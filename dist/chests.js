@@ -45,6 +45,10 @@
     for(const [finish,chance] of Object.entries(FINISH_ODDS)){left-=chance;if(left<0)return finish}
     return '';
   }
+  // Sets (decisión 0079): cuando un premio es épico o legendario (pieza, o el lote de faradios que la sustituye cuando ya
+  // se tienen todas), con esta probabilidad sale en su lugar una parte de set de esa rareza. Las partes son ediciones
+  // numeradas de tirada cerrada (dist/avatar.js, SETS): pueden repetirse, porque se venden y se intercambian.
+  const SET_ODDS={epica:.2,legendaria:.25};
   const TYPES=Object.keys(CHESTS);
   const count=type=>CHESTS[type].slots+(CHESTS[type].sure?1:0);
   const rank=rarity=>RARITIES.indexOf(rarity);
@@ -58,7 +62,9 @@
   }
   // Abre un cofre. `items` son las piezas que el jugador todavía no tiene ({key, rarity}); `pity`, los cofres que lleva
   // seguidos sin épica o legendaria. Devuelve los premios y la nueva cuenta. No repite pieza dentro del mismo cofre.
-  function roll(type,{items=[],pity=0,random=Math.random}={}){
+  // `parts` son las partes de set a las que todavía les quedan unidades ({key, edition, rarity}); solo las pasa el
+  // servidor, que es quien numera las unidades. Una parte que sale lleva `part` = su edición.
+  function roll(type,{items=[],parts=[],pity=0,random=Math.random}={}){
     const chest=CHESTS[type],left={};
     for(const rarity of RARITIES)left[rarity]=items.filter(item=>item.rarity===rarity);
     const coins=()=>{const [min,max]=chest.coins;return {kind:'coins',amount:min+5*Math.floor(random()*((max-min)/5+1))}};
@@ -75,6 +81,12 @@
     if(chest.sure)rewards.push(piece(draw(chest.sure,random)));
     // Los acabados se sortean al final, para no cambiar el sorteo de las piezas.
     for(const reward of rewards)if(reward.kind==='item'){const finish=finishOf(reward.key,random);if(finish)reward.finish=finish}
+    // Las partes de set, después de todo lo demás: sin partes, el sorteo es el de siempre.
+    if(parts.length)for(const [index,reward] of rewards.entries()){
+      const rarity=reward.rarity||reward.instead,pool=parts.filter(one=>one.rarity===rarity);
+      if(!high(rarity)||!pool.length||random()>=(SET_ODDS[rarity]||0))continue;
+      const one=pool[Math.floor(random()*pool.length)];rewards[index]={kind:'item',key:one.key,rarity,part:one.edition};
+    }
     const lucky=rewards.some(reward=>high(reward.rarity||reward.instead));
     return {rewards,pity:lucky?0:pity+1};
   }
@@ -89,5 +101,5 @@
   const streakChest=days=>days===3?'iman':[7,14,30,50].includes(days)?'tormenta':days>=100&&days%100===0?'faraday':days>100&&days%50===0?'tormenta':null;
   // Cofre que da subir a un nivel: Dinamo en los múltiplos de 10, Rayo en los demás múltiplos de 5 y Chispa en el resto.
   const levelChest=level=>level%10===0?'dinamo':level%5===0?'rayo':'chispa';
-  root.Chests={CHESTS,TYPES,RARITIES,LABEL,FALLBACK,PITY,BUY_CAP,FINISH_ODDS,FINISH_SLOTS,finishOf,count,rank,high,roll,value,streakChest,levelChest};
+  root.Chests={CHESTS,TYPES,RARITIES,LABEL,FALLBACK,PITY,BUY_CAP,SET_ODDS,FINISH_ODDS,FINISH_SLOTS,finishOf,count,rank,high,roll,value,streakChest,levelChest};
 })(typeof window!=='undefined'?window:globalThis);

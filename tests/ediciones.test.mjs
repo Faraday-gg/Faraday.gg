@@ -8,13 +8,16 @@ import vm from 'node:vm';
 import {randomUUID,createHash} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
-import {PIECES,EDITIONS} from '../lib/catalogo.mjs';
+import {PIECES,EDITIONS as ALL} from '../lib/catalogo.mjs';
+
+// Las partes de los sets (decisión 0079) también son ediciones, pero no se compran: las prueba tests/sets.test.mjs.
+const EDITIONS=new Map([...ALL].filter(([,edition])=>!edition.set));
 
 // El catálogo: cada edición tiene una pieza por cuerpo, con el precio en la edición y no en la pieza, así que ni se
 // vende en la tienda normal ni sale en los cofres.
 const page={};page.window=page;vm.createContext(page);vm.runInContext(fs.readFileSync(new URL('../dist/avatar.js',import.meta.url),'utf8'),page);
 // (Array.from: las listas que salen de dist/ son de otro contexto y deepEqual las vería distintas.)
-const {Avatar}=page,entries=Array.from(Avatar.CATALOG).filter(item=>item.edition);
+const {Avatar}=page,entries=Array.from(Avatar.CATALOG).filter(item=>item.edition&&!item.edition.set);
 assert.ok(EDITIONS.size>=2);assert.equal(entries.length,2*EDITIONS.size);
 for(const edition of EDITIONS.values()){
   const own=entries.filter(item=>item.edition.id===edition.id);

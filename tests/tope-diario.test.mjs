@@ -15,7 +15,7 @@ import {getDay} from '../content-engine.mjs';
 // Las cifras son las del navegador y las del simulador.
 const flat=fs.readFileSync(new URL('../dist/progress.js',import.meta.url),'utf8').replace(/\s/g,'');
 assert.ok(flat.includes(`daySet:${DAY_SET},dayCap:${DAILY_CAP}}`),'daySet y dayCap de progress.js ya no coinciden con el servidor');
-assert.deepEqual([DAY_SET,DAILY_CAP],[40,400]);assert.deepEqual(CAPPED,['reto','archivo','duelos','duelos-bot','misiones']);
+assert.deepEqual([DAY_SET,DAILY_CAP],[40,400]);assert.deepEqual(CAPPED,['reto','archivo','duelos','duelos-bot','misiones','sets']);
 {
   const page={};page.window=page;vm.createContext(page);vm.runInContext(fs.readFileSync(new URL('../dist/chests.js',import.meta.url),'utf8'),page);
   assert.deepEqual({...page.Chests.FALLBACK},{comun:10,especial:25,rara:45,epica:95,legendaria:200},'El lote por pieza repetida es la cuarta parte del de antes');

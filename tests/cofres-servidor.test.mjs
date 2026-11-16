@@ -62,7 +62,8 @@ try{
   assert.equal(r.status,200);assert.equal(r.data.rewards.length,Chests.count('chispa'));assert.equal(r.data.chests.chispa,1);
   const lots=r.data.rewards.filter(reward=>reward.kind==='coins').reduce((sum,reward)=>sum+reward.amount,0);
   assert.equal(r.data.coins,before+lots);assert.equal(await coinsOf(luis),before+lots);
-  for(const reward of r.data.rewards.filter(reward=>reward.kind==='item')){
+  // (Las partes de set, decisión 0079, no son piezas del catálogo que se compra: las prueba tests/sets.test.mjs.)
+  for(const reward of r.data.rewards.filter(reward=>reward.kind==='item'&&!reward.part)){
     const piece=PIECES.get(reward.key);assert.ok(piece&&reward.key!==cheap&&(!piece.body||piece.body==='hombre'));assert.equal(piece.rarity,reward.rarity);
     assert.ok((await inventory(luis)).some(item=>item.item===reward.key&&item.source==='cofre'));
   }
@@ -70,7 +71,7 @@ try{
   const seen=new Set([cheap]);
   for(let n=0;n<FIRST_CHESTS;n++){
     r=await progress('abrir-cofre',luis,{type:'rayo'});assert.equal(r.status,200);assert.equal(r.data.rewards.length,Chests.count('rayo'));
-    for(const reward of r.data.rewards.filter(reward=>reward.kind==='item')){assert.ok(!seen.has(reward.key),'Pieza repetida: '+reward.key);seen.add(reward.key)}
+    for(const reward of r.data.rewards.filter(reward=>reward.kind==='item'&&!reward.part)){assert.ok(!seen.has(reward.key),'Pieza repetida: '+reward.key);seen.add(reward.key)}
   }
   assert.equal((await progress('abrir-cofre',luis,{type:'rayo'})).data.code,'sin-cofre');
   let moves=(await progress('movimientos',luis)).data.moves;

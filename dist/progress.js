@@ -283,7 +283,7 @@
   const byGrade=list=>list.map((item,i)=>[item,i]).sort(([a,i],[b,j])=>gradeOf(a)-gradeOf(b)||(a.edition?.price??a.price??0)-(b.edition?.price??b.price??0)||i-j).map(([item])=>item);
   // Buscador: sin mayúsculas ni tildes; busca en el nombre, la parte del avatar y la rareza.
   const plain=text=>String(text||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().trim();
-  const matches=(item,words)=>{const text=plain(`${item.name} ${SLOT_NAME[item.slot]||''} ${GRADE_NAME[Avatar.rarity(item)]||''}`);return words.every(word=>text.includes(word))};
+  const matches=(item,words)=>{const text=plain(`${item.name} ${SLOT_NAME[item.slot]||''} ${GRADE_NAME[Avatar.rarity(item)]||''}${item.edition?.set?' set '+setOf(item).name:''}`);return words.every(word=>text.includes(word))};
   SLOT_ICON.todo='M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z';
   const slotIcon=id=>`<svg class="slot-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${SLOT_ICON[id]||SLOT_ICON.extra}"/></svg>`;
   const LOCK='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5.5 11h13v9.5h-13z"/></svg>';
@@ -294,15 +294,37 @@
     return [...Avatar.pieces(part,body),...extra];
   }
   function tile(item,current){
-    const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
+    const own=owns(item),worn=current[item.slot]===item.id,zoom=item.zoom||ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const gate=own||item.edition?'':item.plus?'Suscripción':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
-    const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
+    const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?.set?`<span class="tile-state lock">${LOCK}Cofres</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
     return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}"${item.finish?` data-finish="${item.finish}"`:''} aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${item.finish?`<span class="tile-rarity">${Avatar.FINISHES[item.finish].label}</span>`:RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${item.edition?'<span class="tile-trade">Comerciable</span>':''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
   }
   // Lo que se dice de una edición de colección al probarla, y el botón de compra si se puede (decisión 0067).
   // editionInfo = {edición: {left}} que da el servidor al abrir el perfil.
   let editionInfo={};
+  // Sets (decisión 0079). Cada parte es una edición que solo sale en cofres. setInfo = {edición: {left, serials}} que da
+  // el servidor; lo que se tiene sale de state.editions, así que el panel funciona también antes de que conteste.
+  let setInfo={};
+  const setOf=item=>Avatar.SETS.find(set=>set.id===item.edition.set),partItem=part=>Avatar.find(...part.key.split(':'));
+  const setDone=set=>set.parts.every(part=>owns(partItem(part)));
+  const setRate=()=>Math.min(Avatar.SET_BONUS.max,Math.round(Avatar.SETS.filter(setDone).length*Avatar.SET_BONUS.each*100)/100);
+  const pct=rate=>Math.round(rate*100)+' %';
+  function setTry(item){
+    const edition=item.edition,set=setOf(item),have=set.parts.filter(part=>owns(partItem(part))).length,left=setInfo[edition.id]?.left;
+    return `<p class="profile-try-note">Parte del set <b>${set.name}</b> (tienes ${have} de ${set.parts.length}). Solo sale en cofres, en el sitio de un premio ${edition.rarity==='legendaria'?'legendario':'épico'}: hay ${int(edition.total)} unidades numeradas${Number.isInteger(left)?(left>0?` y quedan ${int(left)} por salir`:', y ya han salido todas'):''}. Se puede vender e intercambiar en el mercado.</p><p class="profile-try-note">Con el set completo ganas un ${pct(Avatar.SET_BONUS.each)} más de faradios por partida.</p><button type="button" class="game-secondary" data-open-market="${edition.id}">Ver en el mercado</button>`;
+  }
+  // El panel de sets del armario: qué partes se tienen de cada uno y el extra de faradios que dan los completos.
+  function setsPanel(current){
+    const rate=setRate(),done=Avatar.SETS.filter(setDone).length;
+    const chip=part=>{const item=partItem(part),own=owns(item);return `<button type="button" class="set-part${own?' is-own':''}${current[item.slot]===item.id?' is-on':''}" data-item="${part.key}" data-rarity="${part.rarity}" title="${item.name}${own?'':' · por conseguir'}" aria-label="${item.name}: ${own?'la tienes':'por conseguir'}">${slotIcon(item.slot)}</button>`};
+    const row=set=>{const have=set.parts.filter(part=>owns(partItem(part))).length,full=have===set.parts.length;return `<li class="set-row${full?' is-full':''}"><p><b>${set.name}</b><small>${full?`Completo · +${pct(Avatar.SET_BONUS.each)}`:`${have} / ${set.parts.length}`}</small></p><div class="set-parts">${set.parts.map(chip).join('')}</div></li>`};
+    return `<details class="sets-panel"${setsOpen?' open':''}><summary><span><b>Sets</b><small>${done?`${done} ${done===1?'completo':'completos'} · +${pct(rate)} de faradios por partida`:`Completa un set: +${pct(Avatar.SET_BONUS.each)} de faradios por partida`}</small></span></summary>
+<ul class="set-list">${Avatar.SETS.map(row).join('')}</ul>
+<p class="set-note">Las partes solo salen en cofres, en el sitio de un premio épico o legendario, y hay pocas: ${int(Avatar.CATALOG.find(entry=>entry.edition?.rarity==='epica').edition.total)} unidades de cada parte épica y ${int(Avatar.CATALOG.find(entry=>entry.edition?.rarity==='legendaria').edition.total)} de cada cabeza legendaria. Pueden tocarte repetidas: se venden y se intercambian en el mercado. Cada set completo da un ${pct(Avatar.SET_BONUS.each)} más de faradios en el reto y en los duelos, hasta un ${pct(Avatar.SET_BONUS.max)}${linked?'':'. Hace falta cuenta para conseguirlas'}.</p></details>`;
+  }
+  let setsOpen=false;
   function editionTry(item,missing){
+    if(item.edition.set)return setTry(item);
     const edition=item.edition,left=editionInfo[edition.id]?.left;
     const note=`<p class="profile-try-note">Edición de colección n.º ${edition.n}: ${int(edition.total)} unidades numeradas, una por cuenta.${Number.isInteger(left)?(left>0?` Quedan ${int(left)}.`:' Está agotada.'):''} Se puede comprar y vender en el mercado.</p><button type="button" class="game-secondary" data-open-market="${edition.id}">Ver en el mercado</button>`;
     if(!linked)return note+'<p class="profile-try-note">Las ediciones se compran con cuenta: entra para conseguir la tuya.</p>';
@@ -313,6 +335,7 @@
   async function syncEditions(){
     if(!linked)return;
     try{const {editions}=await cloud('ediciones');editionInfo=Object.fromEntries(editions.map(one=>[one.id,one]));if(!shell.hidden)refresh()}catch{}
+    try{const {sets}=await cloud('sets');setInfo=Object.fromEntries(sets.flatMap(set=>set.parts).map(part=>[part.edition,part]));if(!shell.hidden)refresh()}catch{}
   }
   // Pestaña Armario: colección, cuerpo, partes del avatar (con lo que tienes de cada una), filtro y cartas.
   function wardrobe(current){
@@ -366,6 +389,12 @@
     const current=look();
     const rewards=Array.from(list).map(reward=>{
       if(reward.kind==='coins'){if(local)move(reward.amount,'cofres');return reward}
+      // Parte de set (decisión 0079): es una unidad de colección numerada, no una pieza del inventario normal.
+      if(reward.part){
+        if(!state.editions[reward.part]||reward.serial<state.editions[reward.part])state.editions={...state.editions,[reward.part]:reward.serial};
+        const [partSlot,partId]=reward.key.split(':'),item=Avatar.find(partSlot,partId),zoom=item.zoom||ZOOM[partSlot]||'';
+        return {...reward,name:`${item.name} · n.º ${reward.serial} de ${reward.total}`,slot:`Set ${setOf(item).name} · ${SLOT_NAME[partSlot]}`,art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[partSlot]:partId},{live:true,emote:'cheer'})};
+      }
       if(!state.owned.includes(reward.key))state.owned.push(reward.key);
       // Con acabado (decisión 0072) se tienen las dos, la normal y la del acabado, y la que se enseña es la del acabado.
       const key=reward.finish&&Avatar.find(...(reward.key+'--'+reward.finish).split(':'))?reward.key+'--'+reward.finish:reward.key;
@@ -408,7 +437,7 @@
 <ul class="chest-shelf">${Chests.TYPES.map(card).join('')}</ul>
 <p class="chest-note">Los cofres se ganan jugando: Chispa al llenar la batería y al subir de nivel; Imán a los 3 días de racha; Rayo con las tres misiones de la semana y cada 5 niveles; Dinamo cada 10 niveles; Tormenta con las rachas de 7, 14, 30 y 50 días; Faraday a los 100 días de racha y cada 100 después. También se compran con faradios: ${left?`hoy puedes comprar ${left} más`:'hoy ya has comprado todos los que se puede'} (máximo ${Chests.BUY_CAP} al día).</p>
 <details class="chest-odds"><summary>Probabilidades</summary>${[Chests.TYPES.slice(0,3),Chests.TYPES.slice(3)].map(odds).join('')}
-<p>${sure} Imán nunca trae lotes de faradios. Cada pieza de ropa, pantalón, zapatillas o cabeza que sale puede traer además su versión con acabado: ${Object.entries(Chests.FINISH_ODDS).map(([finish,chance])=>`${Avatar.FINISHES[finish].label.toLowerCase()} ${percent(chance)}`).join(', ')}. Nunca sale una pieza que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
+<p>${sure} Imán nunca trae lotes de faradios. Cada pieza de ropa, pantalón, zapatillas o cabeza que sale puede traer además su versión con acabado: ${Object.entries(Chests.FINISH_ODDS).map(([finish,chance])=>`${Avatar.FINISHES[finish].label.toLowerCase()} ${percent(chance)}`).join(', ')}. Un premio épico o legendario puede ser, en su lugar, una parte de set numerada (${Object.entries(Chests.SET_ODDS).map(([kind,chance])=>`${lower(kind)} ${percent(chance)}`).join(', ')}), mientras queden unidades y solo con cuenta; esas sí pueden repetirse. Nunca sale una pieza normal que ya tengas: si no quedan de esa rareza, recibes faradios. Si abres ${Chests.PITY} cofres seguidos sin una épica o legendaria, el siguiente la trae seguro (llevas ${Math.min(state.pity,Chests.PITY)}).</p></details>`;
   }
   // Fundición (decisión 0071), dentro de la pestaña Cofres. foundry = está abierta; melt = las piezas elegidas;
   // melting = lo que se está a punto de hacer con ellas ('reciclar' o 'fundir'), que pide confirmar.
@@ -496,7 +525,7 @@ ${chosen?medalDetail(chosen,stats):''}
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?marketDoor()+wardrobe(current)
+    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?marketDoor()+setsPanel(current)+wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
@@ -523,6 +552,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   shell.addEventListener('input',event=>{
     if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}
   });
+  // El panel de sets recuerda si está abierto mientras se redibuja el armario.
+  shell.addEventListener('toggle',event=>{if(event.target.classList?.contains('sets-panel'))setsOpen=event.target.open},true);
   shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
@@ -720,7 +751,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if(!linked||collecting||sending||!link.claims||!Object.keys(link.claims).length)return;collecting=true;
     try{
       for(const day of Object.keys(link.claims)){
-        try{const {coins}=await cloud('premio',day.startsWith('duelo:')?{duel:day.slice(6)}:{day});if(link.claims)delete link.claims[day];serverCoins(coins)}
+        try{const {coins,bonus}=await cloud('premio',day.startsWith('duelo:')?{duel:day.slice(6)}:{day});if(link.claims)delete link.claims[day];serverCoins(coins);if(bonus>0)showToast(`Extra por tus sets: +${int(bonus)} ≈`)}
         catch(error){
           if(!link.claims)break;
           // 409: el servidor aún no ve el reto completo; se reintenta unas cuantas veces. Otros 4xx: no hay nada que cobrar.

@@ -103,3 +103,26 @@
 }
 @media(max-width:360px){.profile-items{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(prefers-reduced-motion:reduce){.profile-tile[data-rarity=legendaria] .tile-art::after{animation:none;display:none}}
+
+/* Sets (decisión 0079): panel plegable del armario con las partes de cada set y el extra de faradios */
+.sets-panel{margin:0 0 14px;border-radius:16px;background:var(--cream);overflow:hidden}
+.sets-panel summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;cursor:pointer;list-style:none}
+.sets-panel summary::-webkit-details-marker{display:none}
+.sets-panel summary::after{content:'';flex:none;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);transition:transform .15s}
+.sets-panel[open] summary::after{transform:rotate(-135deg)}
+.sets-panel summary span{display:grid;gap:4px;font-size:15px}
+.sets-panel summary small,.set-note{font-size:12.5px;line-height:1.45;color:var(--muted)}
+.set-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px;margin:0;padding:0 12px;list-style:none}
+.set-row{display:grid;gap:8px;padding:10px 12px;border-radius:14px;background:var(--paper);box-shadow:0 0 0 1.5px #2026301a}
+.set-row.is-full{box-shadow:0 0 0 2px #f2a516;background:linear-gradient(180deg,#fff6d6,var(--paper))}
+.set-row p{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin:0;font-size:14px}
+.set-row small{font:700 11px var(--num);color:var(--muted)}
+.set-row.is-full small{color:#8a5a00}
+.set-parts{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.set-part{display:grid;place-items:center;aspect-ratio:1;min-width:0;border:1.5px dashed #20263040;border-radius:10px;background:transparent;color:#2026305c;padding:0;cursor:pointer}
+.set-part.is-own{border:0;background:#ff6548;color:#fff}
+.set-part.is-own[data-rarity=legendaria]{background:linear-gradient(135deg,#ffd75e,#f2a516);color:#3d2a00}
+.set-part.is-on{outline:2px solid var(--ink);outline-offset:1px}
+.set-part:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.set-part .slot-icon{width:18px;height:18px}
+.set-note{margin:10px 16px 14px}

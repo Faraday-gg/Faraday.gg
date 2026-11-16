@@ -16,7 +16,8 @@
   const body=()=>window.Progress?.look().body||'hombre';
   const piece=id=>Avatar.CATALOG.find(entry=>entry.edition&&entry.edition.id===id&&entry.for===body())||Avatar.CATALOG.find(entry=>entry.edition&&entry.edition.id===id);
   const nameOf=id=>piece(id)?.name||'Edición',statOf=id=>board.stats.editions.find(one=>one.id===id);
-  const art=(id,zoom='torso')=>{const entry=piece(id);return entry?Avatar.render(Avatar.preview(entry,body()),{zoom}):''};
+  // Cada artículo se enseña con el encuadre de su hueco: la cabeza de cerca, el pantalón y el calzado desde abajo.
+  const art=(id,zoom)=>{const entry=piece(id);if(!entry)return '';zoom??=entry.zoom||{hat:'bust',bottom:'legs',shoes:'shoes'}[entry.slot]||'torso';return Avatar.render(Avatar.preview(entry,body()),zoom==='bust'?{bust:true}:{zoom})};
   const feeOf=price=>Math.min(price,Math.ceil(price*board.rules.fee/100));
   // Cuánto falta para una fecha y cuánto hace de otra, en palabras.
   function left(ends){

@@ -3,7 +3,7 @@
 // ({hueco: identificador}) a lo que hay que dibujar. Un precio se paga con faradios (progress.js); level = la pieza se
 // desbloquea gratis al llegar a ese nivel; casi = al sumar ese número de «Casi casi» (decisión 0030); circuito = por el Circuito de amigos (decisión 0038):
 // 'bienvenida' para quien entra invitado o el número de amigos conectados. Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
-// (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
+// (decisión 0026), con su logotipo y los colores de sus modelos, y los sets de disfraces por partes (decisión 0079). Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
 // precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
 (()=>{
@@ -11,8 +11,8 @@
   const PALETTE={
     SKIN:{clara:'#ffd9b8',miel:'#f2bd8c',tostada:'#d99c6c',canela:'#b5744a',cacao:'#8a5637',ebano:'#5e3a26',robot:'#c9ccd3'},
     HAIR:{castano:'#6b4a34',negro:'#24242b',rubio:'#f0c75e',pelirrojo:'#d9683c',gris:'#b9b6ae',platino:'#f2efe6',azul:'#3fa9f5',rosa:'#ff7aa8',verde:'#2fd67b',violeta:'#9a7df0',naranja:'#ff8a2a',turquesa:'#22c7c0'},
-    CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c',marron:'#8a5a33',trigo:'#d9a441'},
-    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',rojo:'#e5383b',rosa:'#ff9dbd',lila:'#cdbcff'}
+    CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c',marron:'#8a5a33',trigo:'#d9a441',plata:'#c9ced6',lima:'#9bd63f',naranja:'#ff8a2a'},
+    DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',rojo:'#e5383b',rosa:'#ff9dbd',lila:'#cdbcff',blanco:PAPER,verde:'#2f7d55',azul:'#3fa9f5',marron:'#8a5a33'}
   };
   const SLOTS=[['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
   // set = lo que la pieza cambia en el dibujo; extras = accesorios que se suman.
@@ -51,6 +51,52 @@
   // Piezas de suscriptor (decisión 0076): se pueden llevar mientras la suscripción esté activa. No se compran, no salen
   // en cofres y no se venden ni se intercambian. Esta primera es de muestra, con una forma y un estampado que ya existían.
   const plusTops=()=>[top('plus-rayo','Sudadera de suscriptor',0,'sudadera','negro','amarillo','logo',{plus:true})];
+  // Sets (decisión 0079): seis disfraces de diseño propio, cada uno en cinco partes (cabeza, ropa, pantalón, calzado y
+  // guantes). Cada parte es una edición de colección (decisión 0067) que no se compra: solo sale en cofres, en el sitio
+  // de un premio épico o legendario (dist/chests.js, SET_ODDS), numerada y con tirada cerrada, y se puede vender e
+  // intercambiar como las demás ediciones. La cabeza es legendaria y las otras cuatro, épicas. Valen para los dos cuerpos.
+  // Quien tiene las cinco partes de un set gana más faradios por partida (SET_BONUS; lo aplica lib/comunidad.mjs).
+  //   SET_UNITS = unidades de cada parte según su rareza. each = extra por set completo; max = extra máximo.
+  const SET_FROM='2026-11-16',SET_UNITS={epica:120,legendaria:40},SET_BONUS={each:.1,max:.3};
+  const SET_NAMES={astronauta:'Astronauta',dragon:'Dragón',voltio:'Capitán Voltio',cientifico:'Científico loco',pirata:'Pirata',robot:'Robot'};
+  let setNumber=100;
+  const part=(set,code,rarity,entry)=>{const id='set-'+set+'-'+code;return {...entry,id,edition:{id,n:++setNumber,total:SET_UNITS[rarity],price:0,level:0,from:SET_FROM,set,rarity}}};
+  // Los guantes van en el hueco de extras: tiñen las manos (gloves) y se enseñan con el encuadre del torso (zoom).
+  const gloves=(name,color)=>item('extra','',name,0,{set:{gloves:color},zoom:'torso'});
+  const SET_PARTS=[
+    part('astronauta','casco','legendaria',hat('','Casco de astronauta',0,'astronauta','blanco','naranja')),
+    part('astronauta','traje','epica',top('','Traje espacial',0,'plumas','blanco','naranja')),
+    part('astronauta','pantalon','epica',bottom('','Pantalón espacial',0,'ancho','blanco')),
+    part('astronauta','botas','epica',shoes('','Botas lunares',0,'botas','blanco','naranja')),
+    part('astronauta','guantes','epica',gloves('Guantes de astronauta','naranja')),
+    part('dragon','cabeza','legendaria',hat('','Cabeza de dragón',0,'dragon','verde','amarillo')),
+    part('dragon','escamas','epica',top('','Sudadera de escamas',0,'sudadera','verde','amarillo','escamas')),
+    part('dragon','patas','epica',bottom('','Patas de dragón',0,'cargo','verde')),
+    part('dragon','garras','epica',shoes('','Garras de dragón',0,'botas','verde','amarillo')),
+    part('dragon','zarpas','epica',gloves('Zarpas de dragón','lima')),
+    part('voltio','capucha','legendaria',hat('','Capucha del Capitán Voltio',0,'heroe','azul','amarillo')),
+    part('voltio','traje','epica',top('','Traje del Capitán Voltio',0,'camiseta','azul','amarillo','rayo')),
+    part('voltio','mallas','epica',bottom('','Pantalón del Capitán Voltio',0,'chandal','azul')),
+    part('voltio','botas','epica',shoes('','Botas del Capitán Voltio',0,'botas','rojo','amarillo')),
+    part('voltio','guantes','epica',gloves('Guantes del Capitán Voltio','rojo')),
+    part('cientifico','pelo','legendaria',hat('','Pelo de científico loco',0,'cientifico','blanco','lima')),
+    part('cientifico','bata','epica',top('','Sudadera de laboratorio',0,'sudadera','blanco','lima','matraz')),
+    part('cientifico','pantalon','epica',bottom('','Pantalón de laboratorio',0,'ancho','gris')),
+    part('cientifico','zapatos','epica',shoes('','Zapatillas radiactivas',0,'skate','negro','lima')),
+    part('cientifico','guantes','epica',gloves('Guantes de goma','lima')),
+    part('pirata','tricornio','legendaria',hat('','Tricornio pirata',0,'tricornio','negro','amarillo')),
+    part('pirata','camiseta','epica',top('','Camiseta de marinero',0,'camiseta','blanco','rojo','rayas')),
+    part('pirata','bombachos','epica',bottom('','Bombachos de pirata',0,'corto','marron')),
+    part('pirata','botas','epica',shoes('','Botas de pirata',0,'botas','marron','amarillo')),
+    part('pirata','guantes','epica',gloves('Guantes de pirata','negro')),
+    part('robot','cabeza','legendaria',hat('','Cabeza de robot',0,'robot','plata','azul')),
+    part('robot','chasis','epica',top('','Chasis de robot',0,'sudadera','plata','azul','panel')),
+    part('robot','piernas','epica',bottom('','Piernas hidráulicas',0,'cargo','gris')),
+    part('robot','botas','epica',shoes('','Botas magnéticas',0,'plataforma','plata','azul')),
+    part('robot','pinzas','epica',gloves('Pinzas de robot','plata'))
+  ];
+  // Los sets con sus partes: [{id, name, parts: [{key, edition, slot, rarity}]}].
+  const SETS=Object.entries(SET_NAMES).map(([id,name])=>({id,name,parts:SET_PARTS.filter(entry=>entry.edition.set===id).map(entry=>({key:entry.slot+':'+entry.id,edition:entry.id,slot:entry.slot,rarity:entry.edition.rarity}))}));
   const editionTops=()=>[top('ed-voltio','Sudadera Voltio',0,'sudadera','menta','morado','logo',{edition:EDITIONS.voltio}),
     top('ed-amperio','Universitaria Amperio',0,'universitaria','coral','crema','',{edition:EDITIONS.amperio})];
   const MEN=[
@@ -235,7 +281,7 @@
     ...[['clara','Clara'],['miel','Miel'],['tostada','Tostada'],['canela','Canela'],['cacao','Cacao'],['ebano','Ébano']].map(([id,name])=>item('skin',id,name,0,{color:PALETTE.SKIN[id]}))
   ];
   // Las piezas de mujer llevan el prefijo «mj-» en el identificador, para que no choquen con las de hombre.
-  const CATALOG=[...SHARED,...MEN.map(entry=>({...entry,for:'hombre'})),...WOMEN.map(entry=>({...entry,id:'mj-'+entry.id,for:'mujer'}))];
+  const CATALOG=[...SHARED,...SET_PARTS,...MEN.map(entry=>({...entry,for:'hombre'})),...WOMEN.map(entry=>({...entry,id:'mj-'+entry.id,for:'mujer'}))];
   const DEFAULT={top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
   const DEFAULTS={hombre:DEFAULT,mujer:{top:'mj-top-blanco',bottom:'mj-ancho-lavado',shoes:'mj-skate-blanco',hat:'',hair:'mj-liso',hairColor:'castano',glasses:'',neck:'',extra:'',face:'mj-chula',skin:'miel'}};
   const bodyOf=look=>look&&look.body==='mujer'?'mujer':'hombre',defaults=body=>DEFAULTS[body]||DEFAULT;
@@ -276,8 +322,8 @@
   // Cómo se enseña una pieza en la tienda: el muñeco por defecto con esa pieza puesta (las zapatillas, con pantalón corto).
   // Las piezas compartidas se enseñan sobre el cuerpo que se lleva puesto.
   function preview(entry,body='hombre'){const own=entry.for||body;return {...DEFAULTS[own],body:own,...(entry.slot==='shoes'?{bottom:own==='mujer'?'mj-corto-vaquero':'corto-negro'}:{}),[entry.slot]:entry.id}}
-  // Rareza según el precio: da color a la etiqueta de la tienda.
-  const rarity=entry=>entry.level||entry.casi||entry.circuito||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
+  // Rareza según el precio: da color a la etiqueta de la tienda. Las partes de un set llevan la suya (decisión 0079).
+  const rarity=entry=>entry.edition&&entry.edition.rarity?entry.edition.rarity:entry.level||entry.casi||entry.circuito||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
     const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;
@@ -292,5 +338,5 @@
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.
   const background=()=>'radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 62%,#e4d9bf 100%)';
-  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,FINISHES,FINISH_SLOTS,finishable,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
+  window.Avatar={SLOTS,BODIES,CATALOG,EDITIONS,SETS,SET_BONUS,FINISHES,FINISH_SLOTS,finishable,DEFAULT,PALETTE,defaults,pieces,find,normalize,resolve,preview,render,background,rarity};
 })();
