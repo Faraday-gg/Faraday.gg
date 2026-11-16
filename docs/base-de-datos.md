@@ -274,7 +274,7 @@ Desde esta decisión el servidor apunta también en `ledger` los motivos `mision
 | --- | --- | --- | --- |
 | `player_hash` | `text` | 64 caracteres hexadecimales | |
 | `item` | `text` | `hueco:id` | La clave de la pieza en `dist/avatar.js` (`top:cam-crema-logo`). |
-| `source` | `text` | | De dónde salió: `tienda`, `cofre`, `fundicion` (la que da fundir cinco piezas, [decisión 0071](decisiones/0071-fundicion.md)), `devuelta` (una fundición que no se completó) o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
+| `source` | `text` | | Una pieza con acabado ([decisión 0072](decisiones/0072-acabados.md)) es una fila más, con el acabado detrás de dos guiones en `item` (`top:sud-gris--or`). De dónde salió: `tienda`, `cofre`, `fundicion` (la que da fundir cinco piezas, [decisión 0071](decisiones/0071-fundicion.md)), `devuelta` (una fundición que no se completó) o `inicial` (las que el jugador ya tenía al empezar el servidor a llevar sus cofres, decisión 0063). |
 | `created_at` | `timestamptz` | por defecto `now()` | |
 
 Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-fundicion.md) el servidor también **borra** filas: reciclar o fundir una pieza la quita de aquí; el reciclaje se paga con `wallet_move` (motivo `reciclaje`, con una referencia al azar). La compra cobra con `wallet_move` (motivo `tienda`, referencia = la pieza) y después inserta aquí; las pistas se cobran con motivo `pistas` y la pregunta como referencia. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
@@ -299,6 +299,53 @@ Clave primaria `(player_hash, item)`. Desde la [decisión 0071](decisiones/0071-
 **`public.edition_next(p_edition, p_total)`**: suma una unidad y devuelve su número de serie, o `null` si la tirada está completa. Sin permisos para `anon` ni `authenticated` y con `search_path` fijo.
 
 La compra cobra con `wallet_move` (motivo `edicion`, referencia = la edición: una por cuenta), pide el número con `edition_next` e inserta en `collectibles`. Si no quedan, devuelve lo cobrado con el motivo `edicion-devuelta`. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
+
+### Mercado (migración `20261116130000_mercado`, **sin aplicar**)
+
+Decisiones [0073](decisiones/0073-mercado-de-ediciones.md) y [0074](decisiones/0074-mercado-con-pujas-e-indicadores.md), `lib/mercado.mjs`.
+
+**`public.listings`**: un anuncio de una unidad de `collectibles`, con compra ya, subasta o las dos.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-compra` y `mercado-venta`. |
+| `collectible_id` | `bigint` | referencia a `collectibles(id)` | Índice único `listings_active`: una unidad solo tiene un anuncio activo. |
+| `edition`, `serial` | `text`, `integer` | como en `collectibles` | Copia, para leer el tablón sin cruzar tablas. |
+| `seller` | `text` | 64 caracteres hexadecimales | Mientras el anuncio está activo la unidad sigue siendo suya (`collectibles.owner`), pero en depósito. |
+| `buy_now` | `integer` | de 1 a 1.000.000, opcional | Precio de «compra ya». Tiene que haber `buy_now`, `start_bid` o los dos. |
+| `start_bid` | `integer` | de 1 a 1.000.000, opcional; menor que `buy_now` | Puja de salida. Con ella, el anuncio es una subasta y lleva `ends_at`. |
+| `top_bid`, `top_bidder`, `bids` | `integer`, `text`, `integer` | | La puja más alta, de quién es y cuántas pujas lleva. |
+| `ends_at` | `timestamptz` | obligatorio si hay `start_bid` | Final de la subasta. Se alarga si se puja en el último minuto. |
+| `status` | `text` | `activo`, `vendido`, `retirado` o `caducado` | `caducado` = subasta que acabó sin pujas. |
+| `sold_price`, `sold_by` | `integer`, `text` | `sold_by`: `compra` o `puja` | Precio final y cómo se vendió. |
+| `fee` | `integer` | ≥ 0, por defecto 0 | La comisión destruida al venderse. |
+| `buyer` | `text` | opcional | Quien se la llevó. |
+| `seller_seen`, `buyer_seen` | `boolean` | por defecto `false` | El vendedor ya ha visto el aviso (venta o caducidad); el ganador de la subasta, el suyo. |
+| `created_at`, `closed_at` | `timestamptz` | | |
+
+**`public.bids`**: una fila por puja.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `id` | `bigint` | identidad | Es la referencia de los apuntes `mercado-puja` y `mercado-puja-devuelta`. |
+| `listing_id` | `bigint` | referencia a `listings(id)` | |
+| `bidder` | `text` | 64 caracteres hexadecimales | |
+| `amount` | `integer` | > 0 | Los faradios retenidos. |
+| `status` | `text` | `activa`, `superada`, `ganadora` o `devuelta` | `activa` = la más alta; `superada` o `devuelta` = ya se devolvieron; `ganadora` = se llevó la unidad. |
+| `seen` | `boolean` | por defecto `true` | `false` mientras quien pujó no ha visto que se la devolvieron. |
+| `created_at` | `timestamptz` | | |
+
+Funciones, todas sin permisos para `anon` ni `authenticated` y con `search_path` fijo:
+
+- `market_list(p_seller, p_edition, p_serial, p_buy_now, p_start_bid, p_hours, p_max)`: publica un anuncio. Devuelve `{id}` o `{error}`: `no-tuya`, `anunciada` o `tope`.
+- `market_cancel(p_listing, p_seller)`: retira un anuncio activo sin pujas. `{ok}` o `{error}`: `cerrado` o `pujas`.
+- `market_buy(p_listing, p_buyer, p_fee_percent)`: «compra ya», entera. Bloquea el anuncio, los saldos y la unidad; devuelve la puja que hubiera, cobra al comprador (`mercado-compra`), paga al vendedor el precio menos la comisión (`mercado-venta`), cambia `collectibles.owner` y cierra el anuncio. `{coins, edition, serial, price, fee}` o `{error}`: `cerrado`, `sin-compra`, `propio` o `saldo`.
+- `market_bid(p_listing, p_bidder, p_amount, p_fee_percent, p_step_percent, p_snipe_seconds)`: puja. Retiene los faradios (`mercado-puja`), devuelve los suyos a quien iba ganando (`mercado-puja-devuelta`) y alarga la subasta si queda menos de `p_snipe_seconds`. Si llega a `buy_now`, compra. `{coins, topBid, bids, endsAt}` o `{error}`: `cerrado`, `sin-pujas`, `propio`, `ganando`, `baja` (con `min`) o `saldo`.
+- `market_settle(p_fee_percent)`: cierra las subastas terminadas (hasta 100): con pujas, paga al vendedor y cambia el dueño; sin pujas, las deja en `caducado`. Devuelve cuántas. El servidor la llama cada vez que alguien abre el mercado.
+- `market_owners()`: dueños distintos y unidades de cada edición.
+- `market_pay(p_player, p_amount, p_reason, p_ref)`: mueve faradios y lo apunta en `ledger`. De uso interno de las anteriores.
+
+La comisión no se apunta a nadie: es la diferencia entre lo que paga el comprador y lo que recibe el vendedor, y queda en `listings.fee`. Los faradios de una puja activa no están en ningún saldo. RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
 ## Funciones
 
@@ -379,6 +426,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261115162719` | [experiencia_y_misiones](../supabase/migrations/20261115162719_experiencia_y_misiones.sql) | Añade `xp`, `stats` y `stats_version` a `player_progress`. | 2026-11-15, por Luis con Claude Code |
 | `20261115162737` | [inventario](../supabase/migrations/20261115162737_inventario.sql) | Crea `items` (piezas de cada jugador con cuenta), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
 | `20261115171046` | [ediciones](../supabase/migrations/20261115171046_ediciones.sql) | Crea `collectibles`, `edition_counters` y `edition_next` (ediciones de colección), con RLS y sin permisos públicos. | 2026-11-15, por Luis con Claude Code |
+| `20261116130000` | [mercado](../supabase/migrations/20261116130000_mercado.sql) | Crea `listings`, `bids` y las funciones `market_list`, `market_cancel`, `market_buy`, `market_bid`, `market_settle`, `market_owners` y `market_pay` (mercado con subastas), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/mercado`, sin aplicar |
 | `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
 
 ## Pendiente

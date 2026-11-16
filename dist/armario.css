@@ -48,6 +48,11 @@
 .profile-tile[data-rarity=epica]{--r:#ff6548;--r-soft:#ffdccf}
 .profile-tile[data-rarity=legendaria]{--r:#f2a516;--r-soft:#ffe9a8}
 .profile-tile[data-rarity=nivel]{--r:#1fae6c;--r-soft:#d3f3e2}
+/* Acabados (decisión 0072): la etiqueta y el borde llevan el color del acabado, no el de la rareza. */
+.profile-tile[data-finish=cr]{--r:#7d8a9c;--r-soft:#e6ebf1}
+.profile-tile[data-finish=ho]{--r:#b06cf0;--r-soft:#f1e4ff}
+.profile-tile[data-finish=or]{--r:#d99a06;--r-soft:#fff0b8}
+.profile-tile[data-finish=ho] .tile-rarity{background:linear-gradient(90deg,#ff7aa8,#b06cf0,#3fa9f5,#2fd67b)!important}
 .profile-tile:hover{transform:translateY(-3px);border-color:transparent;box-shadow:0 0 0 1.5px var(--r),0 14px 26px -14px #20263099}
 .profile-tile[data-rarity=epica],.profile-tile[data-rarity=legendaria]{background:var(--paper)}
 .profile-tile .tile-art{position:relative;display:block;width:100%;height:auto;aspect-ratio:1;border-radius:0;overflow:hidden;background:radial-gradient(circle at 50% 40%,#fffdf7 0,var(--r-soft) 72%);border-bottom:3px solid var(--r)}
