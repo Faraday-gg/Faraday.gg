@@ -159,11 +159,23 @@ const FLAGS={
   pl:['POL',({H})=>H([W,'#dc143c'])]
 };
 // stretch = cuánto más estirado está lo vertical que lo horizontal en el lienzo (depende del largo de la prenda); k = tamaño del estampado.
+// Piezas que solo se ganan (decisión 0078). '%rango': la prenda toma el color del rango (los de lib/rangos.mjs), lleva
+// su escudo en el pecho y su nombre a la espalda. '&medalla': un disco dorado con el icono de la medalla (los trazos de
+// dist/medals.js, en un lienzo de 24 × 24) y su nombre a la espalda.
+const RANK_PRINTS={oro:['ORO','#d29a1e'],calculista:['CALCULISTA','#1f9a8a'],estimador:['ESTIMADOR','#2f74d0'],doctorando:['DOCTORANDO','#7a4cd0'],eminencia:['EMINENCIA','#c43d6c'],cientifico:['CIENTÍFICO','#ff5a36']};
+const MEDAL_PRINTS={
+  racha:['RACHA DE 30','M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.2 2-4 .2 1.6 1 2.4 1.8 2.6C11 9.5 10.5 6 12 3z'],
+  clavo:['EN EL CLAVO','M6 12a6 6 0 1 0 12 0a6 6 0 1 0-12 0M12 2v5M12 17v5M2 12h5M17 12h5M11.5 12h1'],
+  duelista:['DUELISTA','M5 4l9.5 9.5M5 4v3M5 4h3M19 4l-9.5 9.5M19 4v3M19 4h-3M8 14l-3.5 3.5 2 2L10 16M16 14l3.5 3.5-2 2L14 16']
+};
+const SHIELD='M24 3l20 7v17c0 13-9 22-20 27C13 49 4 40 4 27V10z';
 function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
+  const rank=print[0]==='%'&&RANK_PRINTS[print.slice(1)]?print.slice(1):'',emblem=print[0]==='&'&&MEDAL_PRINTS[print.slice(1)]?print.slice(1):'';
+  if(rank)trim=RANK_PRINTS[rank][1];
   const texture=paint((c,S)=>{
     const F=s=>(.75+s*.25)*S,B=s=>(.25+s*.25)*S,Y=v=>(1-v)*S,dark=shade(main,.78),on=light(main)?INK:PAPER,onTrim=light(trim)?INK:PAPER;
     // brand = logotipo de una marca real ('@nike'): sustituye a FRDY y al sello ≈ de la prenda.
-    const brand=print[0]==='@'?print.slice(1):'',tag=brand||'FRDY';
+    const brand=print[0]==='@'?print.slice(1):'',tag=brand||(rank?RANK_PRINTS[rank][0]:'FRDY');
     // flag = bandera de una camiseta de selección ('#es'): delante, la bandera; a la espalda, las siglas del país.
     const flag=print[0]==='#'&&FLAGS[print.slice(1)]?print.slice(1):'';
     // Dibuja con proporción real: en el lienzo, lo vertical está más estirado que lo horizontal (2,6 veces en el torso de hombre).
@@ -177,6 +189,11 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
       if(brand==='gucci')at(x,Y(v-.07*scale),()=>['#1f6b45','#c8102e','#1f6b45'].forEach((color,i)=>{c.fillStyle=color;c.fillRect(-44*scale,(i-1.5)*4*scale,88*scale,4*scale+.5)}));
       if(flag)at(x,Y(v),()=>drawFlag(c,flag,68*scale,46*scale));
       if(print==='logo')badge(x,Y(v),30*scale,trim,onTrim);
+      if(emblem)at(x,Y(v),()=>{
+        c.fillStyle='#ffc93c';c.beginPath();c.arc(0,0,36*scale,0,7);c.fill();c.lineWidth=5*scale;c.strokeStyle=INK;c.stroke();
+        c.lineWidth=2*scale;c.strokeStyle='#b8860b';c.beginPath();c.arc(0,0,29*scale,0,7);c.stroke();
+        c.scale(2.1*scale,2.1*scale);c.translate(-12,-12);c.lineWidth=2.2;c.lineCap=c.lineJoin='round';c.strokeStyle=INK;c.stroke(new Path2D(MEDAL_PRINTS[emblem][1]));
+      });
       if(print==='frdy')word('FRDY',x,Y(v),40*scale,trim,onTrim);
       if(print==='tag')at(x,Y(v),()=>{c.rotate(-.14);c.font=`italic 900 ${46*scale}px "Arial Black",Arial,sans-serif`;c.textAlign='center';c.textBaseline='middle';c.lineWidth=9*scale;c.lineJoin='round';c.strokeStyle=INK;c.strokeText('1,2×',0,0);c.fillStyle=trim;c.fillText('1,2×',0,0);c.fillStyle=PAPER;c.fillRect(-52*scale,24*scale,104*scale,5*scale)});
       // Sudadera exclusiva «Casi casi» (decisión 0030): «1,1×» sobre una diana delante y el lema a la espalda.
@@ -193,12 +210,14 @@ function torsoTexture(type,main,trim,print,{stretch=2.6,k=1}={}){
       bands(0,.11,[trim,PAPER,trim,PAPER,trim]);bands(.9,1,[trim,PAPER,trim]);
       c.fillStyle=INK;c.fillRect(F(0)-2,Y(.9),4,Y(.11)-Y(.9));for(const v of [.2,.36,.52,.68,.82]){c.fillStyle=PAPER;c.beginPath();c.ellipse(F(0),Y(v),5,9,0,0,7);c.fill();c.strokeStyle=INK;c.lineWidth=2;c.stroke()}
       c.strokeStyle=trim;c.lineWidth=6;c.lineCap='round';for(const s of [-1,1]){c.beginPath();c.moveTo(F(s*.5),Y(.4));c.lineTo(F(s*.62),Y(.24));c.stroke()}
-      badge(F(.44),Y(.68),20,PAPER,main);word('26',F(-.44),Y(.68),24,trim,null,false);
+      if(rank)at(F(.44),Y(.68),()=>{c.scale(.9,.9);c.translate(-24,-28);const shield=new Path2D(SHIELD);c.fillStyle=trim;c.fill(shield);c.lineWidth=3;c.lineJoin='round';c.strokeStyle=PAPER;c.stroke(shield)});
+      else badge(F(.44),Y(.68),20,PAPER,main);
+      word('26',F(-.44),Y(.68),24,trim,null,false);
       word(tag,B(0),Y(.72),52,PAPER,trim);badge(B(0),Y(.42),40,trim,onTrim);
     }
     if(type==='sudadera'){
       bands(0,.09,[dark]);c.fillStyle=dark;c.beginPath();c.roundRect(F(-.5),Y(.36),F(.5)-F(-.5),Y(.12)-Y(.36),18);c.fill();c.strokeStyle=shade(main,.6);c.lineWidth=3;c.stroke();
-      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else if(print==='rayo')word('CIRCUITO',B(0),Y(.7),30,trim,null);else if(flag)word(FLAGS[flag][0],B(0),Y(.7),34,trim,INK,false);else word('FRDY',B(0),Y(.7),30,on,null);
+      graphic(F(0),brand?.47:.62,(brand?1.05:1.25)*k);if(brand)mark(B(0),Y(.62),84,40,on);else if(print==='casi')word('CASI CASI',B(0),Y(.7),30,trim,null);else if(emblem)word(MEDAL_PRINTS[emblem][0],B(0),Y(.7),30,trim,null);else if(print==='rayo')word('CIRCUITO',B(0),Y(.7),30,trim,null);else if(flag)word(FLAGS[flag][0],B(0),Y(.7),34,trim,INK,false);else word('FRDY',B(0),Y(.7),30,on,null);
     }
     if(type==='camiseta'){bands(.93,1,[dark]);graphic(F(0),.6,1.5*k);if(flag){at(B(0),Y(.8),()=>drawFlag(c,flag,30,20));word(FLAGS[flag][0],B(0),Y(.56),64,trim,INK,false)}else badge(B(0),Y(.8),14,on,main)}
     if(type==='chandal'){
@@ -420,7 +439,7 @@ function buildModel(look){
 
   // Pelo: una capa sobre el cráneo y, encima, los mechones de cada peinado. Con gorro solo asoma lo que cabe.
   // sway = lo que cuelga (melena, coletas, trenzas): al animar se balancea con retardo respecto a la cabeza.
-  const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola','lazo','diadema','tiara'].includes(hat),F=fem?FEM_HAIR[hair]:null,sway=[];
+  const hat=look.hat,hair=look.hair,hooded=hat==='capucha',covered=!!hat&&!['capucha','corona','aureola','atomo','lazo','diadema','tiara'].includes(hat),F=fem?FEM_HAIR[hair]:null,sway=[];
   const scalp=(front=.34,back=.8,grow=1.045)=>add(head,hairCap(front,back),hairM,[],[HEAD.a*grow,HEAD.b*grow,HEAD.c*grow],[],.02);
   const spike=(x,y,z,rx,rz,size=1)=>add(head,new THREE.ConeGeometry(.1*size,.3*size,8),hairM,[x,y,z],[1,1,.7],[rx,0,rz],.05);
   // Flequillo de cortina: dos mechones pegados a la frente, dentro de la silueta de la cabeza (antes sobresalían como dos
@@ -494,6 +513,11 @@ function buildModel(look){
     if(hat==='boina'){cap.rotation.set(-.12,0,.16);add(cap,sphere(1,32,20),color,[.05,.52,-.03],[.76,.25,.74],[],.025);add(cap,ring(.66,.045),dark,[0,.37,0],[1.06,1,1],[Math.PI/2,0,0],.03);add(cap,capsule(.022,.05),color,[.05,.79,-.03])}
   }
   if(hat==='aureola')add(head,ring(.36,.045),gold,[0,.86,-.04],[1,1,1],[Math.PI/2-.14,0,0]);
+  // Átomo de los Científicos (decisión 0078): tres órbitas doradas y el núcleo, flotando sobre la cabeza.
+  if(hat==='atomo'){
+    for(const turn of [0,Math.PI/3,-Math.PI/3])add(head,ring(.3,.028),gold,[0,1.08,-.04],[1,.4,1],[0,0,turn]);
+    add(head,sphere(.07),mat('#ff5a36'),[0,1.08,-.04]);
+  }
   if(hat==='corona'){
     add(head,new THREE.CylinderGeometry(.4,.36,.2,24,1,true),gold,[0,.66,-.03],[],[-.1,0,0]).material.side=THREE.DoubleSide;
     for(let i=0;i<7;i++){const a=i/7*Math.PI*2;add(head,new THREE.ConeGeometry(.085,.2,4),gold,[Math.sin(a)*.4,.84,Math.cos(a)*.4-.05]);add(head,sphere(.035),mat(CLOTH.rojo),[Math.sin(a)*.4,.96,Math.cos(a)*.4-.05])}

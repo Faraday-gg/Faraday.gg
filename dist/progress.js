@@ -103,7 +103,12 @@
   // plus = la cuenta tiene la suscripción activa (decisión 0076); lo dice el servidor. Las piezas de suscriptor solo se tienen con ella.
   // billing = si la suscripción se puede contratar, su precio y si el jugador ya es cliente de Stripe (decisión 0077).
   let plus=false,plusUntil=null,billing=null;
-  const owns=item=>item.plus?plus:(!item.price&&!item.level&&!item.casi&&!item.circuito&&!item.edition)||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
+  // Piezas de rango y de medalla (decisión 0078). El rango más alto alcanzado lo dice el servidor (ranked.js lo recuerda
+  // en este navegador, y de ahí se lee mientras ranked.js no ha cargado); las medallas están en state.medals.got.
+  const RANK_IDS=Avatar.RANKS.map(([id])=>id),rankName=id=>(Avatar.RANKS.find(([rank])=>rank===id)||[])[1]||id;
+  const bestRank=()=>RANK_IDS.indexOf(window.Ranked?window.Ranked.best():stored('casi-casi:rango:mio')?.best);
+  const reached=item=>bestRank()>=RANK_IDS.indexOf(item.rango),medalled=item=>!!state.medals?.got?.[item.medalla];
+  const owns=item=>item.plus?plus:(!item.price&&!Avatar.earned(item)&&!item.edition)||(item.rango&&reached(item))||(item.medalla&&medalled(item))||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
 
@@ -156,6 +161,9 @@
       legendary:state.owned.some(key=>{const [itemSlot,id]=key.split(':'),item=Avatar.find(itemSlot,id);return item&&Avatar.rarity(item)==='legendaria'})?1:0,
       dressed:DRESSED.every(part=>current[part])?1:0};
   }
+  // Cómo se consigue una medalla o insignia, y las piezas del avatar que da (las del cuerpo que se lleva).
+  const medalText=id=>{const found=Medals.parse(id);return found?found.def.text(found.def.goals[found.tier-1]):''};
+  const medalPieces=ids=>{const body=look().body;return Avatar.CATALOG.filter(item=>item.medalla&&ids.includes(item.medalla)&&(!item.for||item.for===body))};
   const gotMedals=()=>Object.keys(state.medals.got).filter(id=>Medals.parse(id));
   // Lo que se enseña: la destacada a mano y, después, lo más difícil y lo más reciente. Solo el nivel más alto de cada medalla.
   function featured(){
@@ -168,13 +176,24 @@
     const fresh=Medals.earned(medalStats()).filter(id=>!state.medals.got[id]);if(!fresh.length)return;
     const today=madrid();for(const id of fresh)state.medals.got[id]=today;
     state.medals.fresh=[...new Set([...state.medals.fresh,...fresh])];save();
-    if(booted){Medals.announce(fresh,()=>open('medallas'));document.dispatchEvent(new CustomEvent('faraday:look'))}
+    if(booted){
+      Medals.announce(fresh,()=>open('medallas'));document.dispatchEvent(new CustomEvent('faraday:look'));
+      const won=medalPieces(fresh);if(won.length&&typeof showToast==='function')setTimeout(()=>showToast(`Pieza nueva en tu armario: ${won.map(item=>item.name).join(', ')}`),1500);
+    }
   }
   // La ceremonia enseña las que aún no se han visto y las da por vistas.
   function celebrateFresh(){
     const fresh=state.medals.fresh;if(!fresh.length)return;
     state.medals.fresh=[];save();Medals.celebrate(fresh,{onClose:()=>{refresh();$('#profile-close').focus()}});
   }
+
+  // Al llegar a un rango nuevo en las clasificatorias (ranked.js), se avisa de las piezas que da y se repinta.
+  document.addEventListener('faraday:rango',({detail})=>{
+    const from=RANK_IDS.indexOf(detail.before),to=RANK_IDS.indexOf(detail.best),body=look().body;
+    const won=Avatar.CATALOG.filter(item=>item.rango&&RANK_IDS.indexOf(item.rango)>from&&RANK_IDS.indexOf(item.rango)<=to&&(!item.for||item.for===body));
+    if(booted&&won.length&&typeof showToast==='function')setTimeout(()=>showToast(`¡Rango ${rankName(detail.best)}! Pieza nueva en tu armario: ${won.map(item=>item.name).join(', ')}`),1500);
+    if(booted)refresh();
+  });
 
   // «Casi casi»: una vez por pregunta. Al llegar a la cifra de una pieza exclusiva, se avisa de que ya es tuya.
   function countCasi(detail){
@@ -295,7 +314,7 @@
   }
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
-    const gate=own||item.edition?'':item.plus?'Suscripción':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
+    const gate=own||item.edition?'':item.plus?'Suscripción':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.rango?`Rango ${rankName(item.rango)}`:item.medalla?Medals.label(item.medalla):item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
     const status=worn?'<span class="tile-state on">Puesto</span>':own?`<span class="tile-state">${item.edition?`N.º ${serialOf(item)} de ${item.edition.total}`:'Tuya'}</span>`:item.edition?`<span class="tile-state price">Edición · ${coins(item.edition.price)}</span>`:gate?`<span class="tile-state lock">${LOCK}${gate}</span>`:`<span class="tile-state price">${coins(item.price)}</span>`;
     return `<button type="button" class="profile-tile${worn?' is-on':''}${trying===item?' is-trying':''}${own?'':' is-locked'}${gate?' is-gated':''}" data-item="${item.slot}:${item.id}" data-rarity="${rarity}"${item.finish?` data-finish="${item.finish}"`:''} aria-pressed="${worn}"><span class="tile-art">${Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom})}</span>${item.finish?`<span class="tile-rarity">${Avatar.FINISHES[item.finish].label}</span>`:RARITY[rarity]?`<span class="tile-rarity">${RARITY[rarity]}</span>`:''}${item.edition?'<span class="tile-trade">Comerciable</span>':''}${worn?'<span class="tile-badge" aria-hidden="true">✓</span>':''}<span class="tile-name">${item.name}</span>${status}</button>`;
   }
@@ -457,6 +476,7 @@
     const steps=isMedal?`<ol class="medal-steps">${def.goals.map((goal,i)=>`<li class="${i<p.level?'on':''}"><span aria-hidden="true">${i<p.level?'✓':'·'}</span><b>${Medals.tierName(i+1)}</b><span>${def.text(goal)}</span></li>`).join('')}</ol>`:'';
     return `<section class="medal-detail" aria-live="polite">${Medals.art(id,{locked:!p.level})}<h3>${def.name}${isMedal&&p.level?` · ${Medals.tierName(p.level)}`:''}</h3>
 <p>${isMedal?p.complete?'Tienes los cuatro niveles.':`Siguiente nivel: ${Medals.tierName(p.level+1).toLowerCase()}. Llevas ${int(p.value)} de ${int(p.goal)}.`:def.text()}</p>
+${medalPieces(def.goals.map((goal,i)=>Medals.idOf(def,i+1))).map(item=>`<p class="medal-detail-prize">${owns(item)?'Tienes':'Da'} una pieza para el avatar: <b>${item.name}</b>${isMedal?` (nivel ${Medals.tierName(Medals.parse(item.medalla).tier).toLowerCase()})`:''}.</p>`).join('')}
 <p class="medal-detail-date">${p.level&&got?`Conseguida el ${dateText(got)}`:!isMedal&&def.goals[0]>1?`Llevas ${int(p.value)} de ${int(def.goals[0])}`:'Aún sin conseguir'}</p>${steps}
 <div class="medal-detail-actions">${p.level?shown?'<span>★ Es tu medalla destacada: la ven tus rivales y tu liga</span>':`<button type="button" class="game-primary" data-pin="${def.id}">Destacar junto a mi nombre</button>`:''}<button type="button" class="duel-link" data-medal="${def.id}">Cerrar</button></div></section>`;
   }
@@ -502,7 +522,7 @@ ${chosen?medalDetail(chosen,stats):''}
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
     main.classList.toggle('is-wardrobe',tab==='armario');
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
-${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.plus?'<p class="profile-try-note">Pieza de suscriptor: se puede llevar mientras la suscripción esté activa. Todavía no se puede contratar.</p>':trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
+${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.plus?'<p class="profile-try-note">Pieza de suscriptor: se puede llevar mientras la suscripción esté activa. Todavía no se puede contratar.</p>':trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.rango?`<p class="profile-try-note">Exclusiva de las clasificatorias: se desbloquea al llegar al rango ${rankName(trying.rango)}. Ni se compra ni sale en cofres, y no se pierde si luego bajas de rango.</p>`:trying.medalla?`<p class="profile-try-note">Exclusiva: se desbloquea con «${Medals.label(trying.medalla)}». ${medalText(trying.medalla)} Ni se compra ni sale en cofres.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}${planCard()}</section>
 <section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
