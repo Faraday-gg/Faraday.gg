@@ -440,7 +440,12 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(action==='again'){renderLobby();begin('buscar',{mode:window.Ranked?.mode()||'normal'})}
     if(action==='cancel'){call('salir',{id:duel.id});renderLobby()}
     if(action==='share')share(`Te reto a un duelo en Faraday.gg. Código: ${duel.code}`,event.target.closest('[data-link]').dataset.link);
-    if(action==='share-result')share(`${duel.winner==='you'?'He ganado':duel.winner==='draw'?'He empatado':'He perdido'} un duelo en Faraday.gg contra ${rival().name} (${int(me().hp)} – ${int(rival().hp)} de vida). ¿Te atreves?`,location.origin+location.pathname);
+    // Con la tarjeta para stories cargada, el resultado se comparte como imagen con el avatar (decisión 0081).
+    if(action==='share-result'&&window.ShareCard?.openDuel){
+      const rounds=duel.rounds||[],rank=duel.mode==='ranked'&&duel.rankResult?.rank&&!duel.rankResult.rank.placing?duel.rankResult.rank:null;
+      ShareCard.openDuel({result:duel.winner==='you'?'win':duel.winner==='draw'?'draw':'loss',name:me().name,rival:rival().name,won:rounds.filter(r=>r.loser==='rival').length,lost:rounds.filter(r=>r.loser==='you').length,
+        level:Progress.level(),ranked:duel.mode==='ranked',rank:rank?.label||'',rankColor:rank?.color||'',medal:window.Medals?Medals.label(Progress.badge()):''},event.target.closest('[data-duel]'));
+    }else if(action==='share-result')share(`${duel.winner==='you'?'He ganado':duel.winner==='draw'?'He empatado':'He perdido'} un duelo en Faraday.gg contra ${rival().name} (${int(me().hp)} – ${int(rival().hp)} de vida). ¿Te atreves?`,location.origin+location.pathname);
   });
   content.addEventListener('submit',event=>{
     if(event.target.id==='duel-form')submit(event);

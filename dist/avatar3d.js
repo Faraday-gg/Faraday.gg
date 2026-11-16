@@ -818,4 +818,7 @@ setInterval(()=>{for(const el of asleep){if(!el.isConnected)asleep.delete(el);el
 enqueue(document.body);
 // play(nombre) lanza un gesto en todos los avatares animados (o solo en el de la posición index): sirve para probarlos desde la consola.
 // react(el) aplica a ese avatar el estado que reactions.js ha dejado en el._react (si aún no está dibujado, lo recoge al nacer).
-window.Avatar3D={ready:true,views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+// Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
+// (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
+const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
+window.Avatar3D={ready:true,shot,views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};

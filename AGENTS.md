@@ -101,6 +101,7 @@ Reglas para agentes:
   node tests/stripe.test.mjs
   node tests/ordenes.test.mjs
   node tests/vitrina.test.mjs
+  node tests/tarjetas.test.mjs
   ```
 
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.

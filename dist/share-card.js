@@ -1,5 +1,7 @@
 // Tarjeta para stories (decisión 0032): una imagen vertical de 1080 × 1920 con el resultado del día, sin destripar ninguna cifra real.
 // app.js solo llama a window.ShareCard.open(día, respuestas, número de edición); todo lo demás vive aquí.
+// Las dos tarjetas llevan el avatar del jugador, y hay una segunda para el resultado de un duelo (decisión 0081):
+// duel.js llama a window.ShareCard.openDuel(datos).
 (() => {
   const W = 1080, H = 1920;
   const TONES = {coral:'#ff6548', mostaza:'#ffb627', verde:'#2fd67b', cian:'#3fc5f0', violeta:'#b49bff', rosa:'#ff7aa8'};
@@ -107,9 +109,25 @@
     ctx.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
   }
 
+  const fonts = () => Promise.all(['400 40px DM Sans', '800 40px DM Sans', '700 40px Space Grotesk', '300 40px Geist', '400 40px Geist', '500 40px Geist']
+    .map(f => document.fonts?.load(f).catch(() => null)));
+  // El avatar del jugador tal como lo lleva (decisión 0081): una foto fija que hace avatar3d.js.
+  // Si el 3D no ha cargado o falla, la tarjeta sale sin él.
+  function avatarShot(mode, width) {
+    try { return window.Avatar3D?.shot && window.Avatar && window.Progress?.look ? Avatar3D.shot(Avatar.resolve(Progress.look()), mode, width) : null; } catch { return null; }
+  }
+  // Dibuja el avatar de pie: centrado en x, con los pies en «bottom» y una sombra en el suelo.
+  function stand(ctx, shot, x, bottom, height) {
+    const width = height * shot.width / shot.height;
+    ctx.save(); ctx.fillStyle = '#20263026'; ctx.beginPath(); ctx.ellipse(x, bottom - height * .075, width * .3, height * .028, 0, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    ctx.drawImage(shot, x - width / 2, bottom - height, width, height);
+  }
+  const playLink = () => window.Circuito ? `Juega conmigo: ${Circuito.link(location.origin + location.pathname)}` : 'Juega en faraday.gg';
+
   async function draw(day, guesses, edition, sum, withPhoto = true) {
-    await Promise.all(['400 40px DM Sans', '800 40px DM Sans', '700 40px Space Grotesk', '300 40px Geist', '400 40px Geist', '500 40px Geist']
-      .map(f => document.fonts?.load(f).catch(() => null)));
+    await fonts();
+    // Con avatar, las marcas, la media y la llamada se van a la derecha y él queda de pie a la izquierda.
+    const me = avatarShot('full', 640), mid = me ? 700 : W / 2;
     const q = day.questions[sum.pick], guess = guesses[sum.pick];
     const tone = TONES[window.CATEGORIES?.[q.category]?.tone] || TONES.coral;
     const photo = withPhoto ? await loadImage(q.image?.src) : null;
@@ -196,14 +214,84 @@
 
     // Marcas por pregunta y distancia media.
     const size = 112, gap = 32, rowW = sum.marks.length * size + (sum.marks.length - 1) * gap;
-    sum.marks.forEach((m, i) => drawMark(ctx, m, (W - rowW) / 2 + i * (size + gap), 1376, size));
+    if (me) stand(ctx, me, 210, 1800, 470);
+    sum.marks.forEach((m, i) => drawMark(ctx, m, mid - rowW / 2 + i * (size + gap), 1376, size));
     ctx.textAlign = 'center'; ctx.fillStyle = INK;
-    ctx.font = `800 28px ${FONT}`; ctx.fillText('DISTANCIA MEDIA', W / 2, 1546);
-    ctx.font = `300 112px ${NUM}`; ctx.fillText(times(sum.average), W / 2, 1650);
+    ctx.font = `800 28px ${FONT}`; ctx.fillText('DISTANCIA MEDIA', mid, 1546);
+    ctx.font = `300 112px ${NUM}`; ctx.fillText(times(sum.average), mid, 1650);
 
     // Llamada a jugar.
     ctx.font = `800 34px ${FONT}`;
     const cta = 'Juega en faraday.gg →', ctaW = ctx.measureText(cta).width + 80;
+    ctx.fillStyle = INK; roundRect(ctx, mid - ctaW / 2, 1688, ctaW, 84, 42); ctx.fill();
+    ctx.fillStyle = PAPER; ctx.fillText(cta, mid, 1742);
+    ctx.textAlign = 'left';
+    return canvas;
+  }
+
+  // ---- Tarjeta de duelo (decisión 0081) ----
+  // info = {result: 'win' | 'draw' | 'loss', name, rival, won, lost (rondas), level, ranked, rank, rankColor, medal}.
+  const RESULT = {win: ['¡VICTORIA!', 'He ganado'], draw: ['EMPATE', 'He empatado'], loss: ['DERROTA', 'He perdido']};
+  const resultOf = info => RESULT[info.result] || RESULT.loss;
+  function duelText(info) {
+    return [
+      `Faraday.gg · Duelo${info.ranked ? ' clasificatorio' : ''}`,
+      `${resultOf(info)[1]} contra ${info.rival} · ${info.won}–${info.lost} en rondas`,
+      [info.rank, info.medal].filter(Boolean).join(' · '),
+      info.result === 'win' ? '¿Me ganas tú?' : '¿Lo haces mejor?',
+      playLink()
+    ].filter(Boolean).join('\n');
+  }
+  async function drawDuel(info) {
+    await fonts();
+    const win = info.result === 'win', accent = win ? GOLD[1] : info.result === 'draw' ? TONES.cian : TONES.coral;
+    const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d'); ctx.textBaseline = 'alphabetic';
+    // Fondo: dorado con rayos si se ganó; si no, un color liso.
+    if (win) {
+      const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, GOLD[0]); g.addColorStop(.5, GOLD[1]); g.addColorStop(1, GOLD[2]);
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      ctx.save(); ctx.globalAlpha = .2; ctx.fillStyle = PAPER;
+      for (let i = 0; i < 14; i++) { ctx.beginPath(); ctx.moveTo(W / 2, 930); const a = i / 14 * Math.PI * 2; ctx.arc(W / 2, 930, 1700, a, a + .11); ctx.fill(); }
+      ctx.restore();
+    } else { ctx.fillStyle = accent; ctx.fillRect(0, 0, W, H); }
+    // Cabecera: la marca y el tipo de duelo. Lo importante queda a más de 200 px de los bordes (interfaz de Instagram).
+    const HY = 210;
+    ctx.fillStyle = INK; ctx.beginPath(); ctx.arc(110, HY, 40, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = accent; ctx.font = `500 56px ${FONT}`; ctx.textAlign = 'center'; ctx.fillText('≈', 110, HY + 20);
+    ctx.textAlign = 'left'; ctx.fillStyle = INK; ctx.font = `700 54px ${DISPLAY}`; ctx.fillText('Faraday', 170, HY + 19);
+    const fw = ctx.measureText('Faraday').width; ctx.fillStyle = PAPER; ctx.fillText('.', 170 + fw, HY + 19); ctx.fillStyle = INK; ctx.fillText('gg', 170 + fw + ctx.measureText('.').width, HY + 19);
+    ctx.textAlign = 'right'; ctx.font = `800 30px ${FONT}`; ctx.fillText(info.ranked ? 'CLASIFICATORIA' : 'DUELO 1 VS 1', W - 70, HY + 14);
+    // Resultado y rival.
+    ctx.textAlign = 'center'; ctx.fillStyle = INK;
+    fit(ctx, resultOf(info)[0], W - 160, 700, 156, DISPLAY, 80); ctx.fillText(resultOf(info)[0], W / 2, 420);
+    ctx.font = `600 46px ${FONT}`; ctx.fillText(wrap(ctx, `contra ${info.rival}`, W - 200, 1)[0], W / 2, 492);
+    // Foco claro y, encima, el avatar de cuerpo entero.
+    ctx.save(); ctx.shadowColor = '#20263055'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 24;
+    ctx.fillStyle = PAPER; ctx.beginPath(); ctx.arc(W / 2, 930, 380, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    ctx.lineWidth = 5; ctx.strokeStyle = INK; ctx.beginPath(); ctx.arc(W / 2, 930, 380, 0, Math.PI * 2); ctx.stroke();
+    const me = avatarShot('full', 640);
+    if (me) stand(ctx, me, W / 2, 1378, 880);
+    else { ctx.fillStyle = INK; ctx.font = `500 360px ${FONT}`; ctx.fillText('≈', W / 2, 1050); }
+    // Placa con el nombre.
+    fit(ctx, info.name, W - 300, 700, 58, DISPLAY, 34);
+    const plate = Math.max(320, ctx.measureText(info.name).width + 110);
+    ctx.fillStyle = INK; roundRect(ctx, (W - plate) / 2, 1336, plate, 92, 46); ctx.fill();
+    ctx.fillStyle = PAPER; ctx.fillText(info.name, W / 2, 1401);
+    // Lo que se presume: nivel, rango y medalla destacada.
+    const chips = [[`Nivel ${info.level}`, PAPER, INK], info.rank && [info.rank, info.rankColor || NIGHT, '#ffffff'], info.medal && [info.medal, PAPER, INK]].filter(Boolean);
+    let chipSize = 30, widths;
+    for (; chipSize >= 20; chipSize -= 2) { ctx.font = `800 ${chipSize}px ${FONT}`; widths = chips.map(([label]) => ctx.measureText(label).width + chipSize * 1.8); if (widths.reduce((a, b) => a + b, 0) + (chips.length - 1) * 16 <= W - 120) break; }
+    let cx = (W - widths.reduce((a, b) => a + b, 0) - (chips.length - 1) * 16) / 2;
+    chips.forEach(([label, fill, color], i) => {
+      ctx.fillStyle = fill; roundRect(ctx, cx, 1452, widths[i], 64, 32); ctx.fill(); ctx.lineWidth = 4; ctx.strokeStyle = INK; roundRect(ctx, cx, 1452, widths[i], 64, 32); ctx.stroke();
+      ctx.fillStyle = color; ctx.fillText(label, cx + widths[i] / 2, 1484 + chipSize * .36); cx += widths[i] + 16;
+    });
+    // Rondas ganadas y perdidas, y la llamada a jugar.
+    ctx.fillStyle = INK; ctx.font = `800 28px ${FONT}`; ctx.fillText('RONDAS', W / 2, 1566);
+    ctx.font = `300 100px ${NUM}`; ctx.fillText(`${info.won}–${info.lost}`, W / 2, 1658);
+    ctx.font = `800 34px ${FONT}`;
+    const cta = win ? '¿Me ganas? faraday.gg →' : 'Juega en faraday.gg →', ctaW = ctx.measureText(cta).width + 80;
     ctx.fillStyle = INK; roundRect(ctx, (W - ctaW) / 2, 1688, ctaW, 84, 42); ctx.fill();
     ctx.fillStyle = PAPER; ctx.fillText(cta, W / 2, 1742);
     ctx.textAlign = 'left';
@@ -231,7 +319,7 @@
     document.body.append(dialog);
     dialog.addEventListener('keydown', e => { if (e.key === 'Escape') e.stopPropagation(); }); // Que Escape cierre solo la vista previa, no el juego.
     dialog.addEventListener('click', e => { if (e.target === dialog || e.target.closest('[data-share-close]')) dialog.close(); });
-    dialog.addEventListener('close', () => { if (state?.url) URL.revokeObjectURL(state.url); state = null; document.getElementById('share-result')?.focus(); });
+    dialog.addEventListener('close', () => { const back = state?.back; if (state?.url) URL.revokeObjectURL(state.url); state = null; (back?.isConnected ? back : document.getElementById('share-result'))?.focus(); });
     dialog.querySelector('#share-go').addEventListener('click', share);
     dialog.querySelector('#share-download').addEventListener('click', download);
     return dialog;
@@ -251,7 +339,7 @@
     const {blob, text, fileName} = state;
     const file = blob ? new File([blob], fileName, {type: 'image/png'}) : null;
     try {
-      if (file && navigator.canShare?.({files: [file]})) { await navigator.share({files: [file], text, title: 'Mi resultado en Faraday.gg'}); return; }
+      if (file && navigator.canShare?.({files: [file]})) { await navigator.share({files: [file], text, title: state.title || 'Mi resultado en Faraday.gg'}); return; }
       const copied = await copyText(text);
       if (blob) { download(); toast(copied ? 'Texto copiado e imagen descargada.' : 'Imagen descargada.'); }
       else toast(copied ? 'Resultado copiado al portapapeles.' : 'No se pudo compartir ahora mismo.');
@@ -262,6 +350,8 @@
     const sum = summarize(day, guesses), text = shareText(day, sum, edition), d = ensureDialog();
     const img = d.querySelector('#share-image'), loading = d.querySelector('.share-loading'), preview = d.querySelector('.share-preview');
     d.classList.toggle('is-golden', sum.golden);
+    d.querySelector('#share-title').textContent = 'Tu tarjeta del día';
+    d.querySelector('#share-hint').textContent = 'Súbela a tus stories: la cifra real va tapada para que nadie se la salte.';
     d.querySelector('#share-text').textContent = text; d.querySelector('#share-status').textContent = '';
     img.hidden = true; loading.hidden = false; loading.textContent = 'Preparando la imagen…'; preview.setAttribute('aria-busy', 'true');
     const token = state = {text, fileName: `faraday-${day.id}.png`, blob: null, url: null};
@@ -282,5 +372,30 @@
     d.querySelector('#share-download').disabled = !token.blob;
   }
 
-  window.ShareCard = {open, summarize, shareText, markOf, draw};
+  // Vista previa de la tarjeta de un duelo. back = el botón al que vuelve el foco al cerrar.
+  async function openDuel(info, back = null) {
+    const text = duelText(info), d = ensureDialog();
+    const img = d.querySelector('#share-image'), loading = d.querySelector('.share-loading'), preview = d.querySelector('.share-preview');
+    d.classList.toggle('is-golden', info.result === 'win');
+    d.querySelector('#share-title').textContent = 'Tu tarjeta del duelo';
+    d.querySelector('#share-hint').textContent = 'Súbela a tus stories y reta a quien la vea.';
+    d.querySelector('#share-text').textContent = text; d.querySelector('#share-status').textContent = '';
+    img.hidden = true; loading.hidden = false; loading.textContent = 'Preparando la imagen…'; preview.setAttribute('aria-busy', 'true');
+    const token = state = {text, fileName: `faraday-duelo-${new Date().toISOString().slice(0, 10)}.png`, blob: null, url: null, back, title: 'Mi duelo en Faraday.gg'};
+    if (!d.open) d.showModal();
+    d.querySelector('#share-go').focus();
+    try {
+      const blob = await toBlob(await drawDuel(info));
+      if (state !== token) return;
+      token.blob = blob; token.url = URL.createObjectURL(blob);
+      img.alt = `Tarjeta de Faraday.gg de un duelo${info.ranked ? ' clasificatorio' : ''}. ${resultOf(info)[1]} contra ${info.rival}, ${info.won} a ${info.lost} en rondas. Sale el avatar de ${info.name}, nivel ${info.level}${info.rank ? ', ' + info.rank : ''}${info.medal ? ', medalla ' + info.medal : ''}.`;
+      img.src = token.url; img.hidden = false; loading.hidden = true;
+    } catch {
+      if (state !== token) return;
+      loading.textContent = 'No se pudo preparar la imagen. Puedes compartir el texto.';
+    } finally { preview.setAttribute('aria-busy', 'false'); }
+    d.querySelector('#share-download').disabled = !token.blob;
+  }
+
+  window.ShareCard = {open, openDuel, summarize, shareText, duelText, markOf, draw, drawDuel};
 })();
