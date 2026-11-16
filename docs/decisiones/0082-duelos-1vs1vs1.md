@@ -1,6 +1,6 @@
 # 0082. Duelos 1vs1vs1: partidas de tres
 
-- **Estado:** propuesta (código en la rama `feat/duelo-1vs1vs1`; **sin migración**). Las reglas son una propuesta del agente: Luis solo dijo «1vs1vs1, partidas de 3», así que conviene que las revise antes de fusionar.
+- **Estado:** aceptada (reglas validadas por Luis el 2026-11-16; código en la rama `feat/duelo-1vs1vs1`; sin migración)
 - **Fecha:** 2026-11-16
 - **Quién:** Luis, con Claude Code
 - **Amplía a:** la [0023](0023-duelos-1vs1.md) (duelos), la [0034](0034-dano-progresivo-en-duelos.md) (daño progresivo), la [0040](0040-chat-en-los-duelos.md) (chat), la [0042](0042-reconectar-a-la-partida.md) (reconectar), la [0044](0044-apuestas-en-duelos.md) y la [0060](0060-apuestas-en-bote.md) (apuestas) y la [0048](0048-calculo-y-sin-repetir-en-duelos.md) (sin repetir).
