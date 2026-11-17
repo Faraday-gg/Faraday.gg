@@ -533,3 +533,11 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 
 - **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Con la generación diaria (decisión 0017) cada fecha tendrá su jornada `ia` desde la noche anterior; falta configurarla (migración, Vault y variables de Vercel).
 - No se migran las respuestas de `runtime/answers.json`: son pruebas locales.
+
+## Traza la tendencia
+
+La migración `20261117120000_tendencias` añade `trend_answers`. La clave primaria `(scope, day, player_hash, round)` protege el primer intento de cada ronda. La fila conserva el identificador de la gráfica y el array de estimaciones anuales. `scope` separa la muestra de Vercel Preview de la pública dentro del mismo proyecto de Supabase. La tabla tiene RLS y el acceso se concede a `service_role`.
+
+La función `trend_community` devuelve el número de respuestas de otros jugadores de ese ámbito, día y gráfica. Con tres respuestas o más también devuelve la media por año. El navegador recibe solo esas cifras agregadas. El banco de series y la lógica de puntuación se cargan en el servidor.
+
+La migración está pendiente de aplicación por el responsable.

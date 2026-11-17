@@ -32,7 +32,7 @@ const auth=createAuth({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SEC
 const moderate=openaiModerator({apiKey:process.env.OPENAI_API_KEY});
 // El cobro de la suscripción (decisión 0077). Sin las variables de Stripe no se puede contratar; lo demás funciona.
 const stripe=createStripe({secret:process.env.STRIPE_SECRET_KEY,webhookSecret:process.env.STRIPE_WEBHOOK_SECRET,price:process.env.STRIPE_PRICE_ID});
-const api=createApi({persistDays:false,store,generator,auth,moderate,stripe});
+const api=createApi({persistDays:false,store,generator,auth,moderate,stripe,trendScope:process.env.VERCEL_ENV==='production'?'publico':'preview'});
 
 export default {
   async fetch(request){return await api.handle(request)??json(404,{error:'Ruta no disponible'})}
