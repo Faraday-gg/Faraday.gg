@@ -13,7 +13,7 @@ const store=process.env.SUPABASE_URL&&process.env.SUPABASE_SECRET_KEY
 // El cobro de la suscripción con Stripe (decisión 0077): solo si están sus variables en .env (claves de prueba).
 const {createStripe}=await import('./lib/stripe.mjs');
 const stripe=createStripe({secret:process.env.STRIPE_SECRET_KEY,webhookSecret:process.env.STRIPE_WEBHOOK_SECRET,price:process.env.STRIPE_PRICE_ID});
-const api=createApi({store,stripe,auth:createAuth({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY})});
+const api=createApi({store,stripe,trendScope:'preview',auth:createAuth({url:process.env.SUPABASE_URL,key:process.env.SUPABASE_SECRET_KEY})});
 const root=path.resolve('dist');
 const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.jpg':'image/jpeg'};
 const server=http.createServer(async(req,res)=>{

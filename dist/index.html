@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="ranked.css">
   <link rel="stylesheet" href="armario.css">
   <link rel="stylesheet" href="market.css">
+  <link rel="stylesheet" href="tendencias.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -55,6 +56,7 @@
   <script src="comunidad.js" defer></script>
   <script src="reactions.js" defer></script>
   <script src="auth.js" defer></script>
+  <script src="tendencias.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
 </head>
 <body>
@@ -73,6 +75,7 @@
       <button class="home-avatar" id="home-avatar" type="button" data-open-profile aria-label="Tu avatar: abrir el armario y la tienda"></button>
       <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
       <button class="home-duel" data-open-duel type="button"><span class="home-duel-tag">Nuevo</span>Duelo 1 vs 1 <span aria-hidden="true">⚔</span></button>
+      <button class="home-duel home-trends" data-open-trends type="button">Traza la tendencia <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M6 15l4-5 4 3 6-7"/></svg></button>
       <button class="home-league" data-open-league type="button"><span aria-hidden="true">🏆</span> Ligas con amigos</button>
       <button class="home-league home-market" data-open-market type="button"><span aria-hidden="true">🛒</span> Mercado</button>
     </section>
@@ -275,6 +278,7 @@
       <h2 class="menu-title">Juega</h2>
       <ul class="menu-list">
         <li><button type="button" class="menu-link" data-tone="coral" data-open-duel><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 17.5 3 6V3h3l11.5 11.5M13 19l6-6M16 16l4 4M19 21l2-2"/><path d="M14.5 6.5 18 3h3v3l-3.5 3.5M5 14l4 4M7 17l-3 3M3 19l2 2"/></svg></span><span class="menu-text"><b>Duelo 1 vs 1</b><small>Un rival, diez preguntas, a la vez</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
+        <li><button type="button" class="menu-link" data-tone="blue" data-open-trends><span class="menu-ico"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18M6 15l4-5 4 3 6-7"/></svg></span><span class="menu-text"><b>Traza la tendencia</b><small>Dibuja lo que pasó después</small></span><span class="trends-menu-arrow" aria-hidden="true">›</span></button></li>
         <li><button type="button" class="menu-link" data-tone="yellow" data-open-league><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4.5A2.5 2.5 0 0 0 7 11M17 6h2.5A2.5 2.5 0 0 1 17 11M12 14v4M8 21h8M9.5 18h5"/></svg></span><span class="menu-text"><b>Ligas con amigos</b><small>Gana la semana a tu grupo</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link" data-tone="coral" data-open-community><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v8a2.5 2.5 0 0 1-2.5 2.5H11l-4.5 4v-4A2.5 2.5 0 0 1 4 13.5z"/><path d="M10 7.5a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.5M12 13h.01"/></svg></span><span class="menu-text"><b>Preguntas de la comunidad</b><small>Propón y vota las del lunes</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link" data-tone="blue" data-open-circuit><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6"/></svg></span><span class="menu-text"><b>Invita amigos</b><small>Ganáis faradios los dos</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
@@ -329,5 +333,22 @@
     <p class="auth-fine">Solo usamos tu correo para identificar tu cuenta. Nada de publicidad ni boletines.</p>
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="trends-dialog" id="trends-dialog" aria-labelledby="trends-title">
+    <header class="trends-header">
+      <div class="trends-header-inner">
+        <button class="game-back" type="button" aria-label="Cerrar Traza la tendencia" data-close-trends autofocus>×</button>
+        <div>
+          <p class="section-kicker">FARADAY.GG</p>
+          <h2 id="trends-title">Traza la tendencia</h2>
+          <p id="trends-progress" class="trends-progress"></p>
+        </div>
+      </div>
+    </header>
+    <div class="trends-stage">
+      <aside class="trends-companion" aria-hidden="true"><span id="trends-avatar" class="trends-avatar"></span><p id="trends-avatar-line"></p></aside>
+      <div id="trends-content"></div>
+      <p class="trends-error" id="trends-error" role="alert" hidden></p>
+    </div>
+  </dialog>
 </body>
 </html>

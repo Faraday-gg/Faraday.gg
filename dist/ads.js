@@ -29,17 +29,21 @@
   }
 
   // Muestra un anuncio y espera a que termine. Si ya hay uno abierto, no abre otro.
-  function rewarded(){
+  function rewarded({kind='pista'}={}){
     // Con la suscripción no hay publicidad (decisión 0076): el premio se da sin anuncio.
-    if(window.Progress?.plus?.())return Promise.resolve(true);
+    if(kind==='pista'){
+      if(window.Progress?.plus?.())return Promise.resolve(true);
+    }
     if(pending)return Promise.resolve(false);
     const d=build(),bar=d.querySelector('.ad-progress i'),status=d.querySelector('.ad-status'),done=d.querySelector('.ad-done');
     const total=(window.Ads.SECONDS||SECONDS)*1000,start=Date.now();
+    const challenge=kind==='tendencias';
+    done.textContent=challenge?'Jugar la partida extra →':'Ver la pista →';
     done.hidden=true;bar.style.setProperty('--p','0');
     const tick=()=>{
       const left=Math.max(0,total-(Date.now()-start));bar.style.setProperty('--p',String(1-left/total));
-      if(left>0){status.textContent=`La pista llega en ${Math.ceil(left/1000)} s · si lo cierras antes, no hay pista`;return}
-      clearInterval(timer);timer=null;status.textContent='¡Listo! Ya puedes ver tu pista.';done.hidden=false;done.focus();
+      if(left>0){status.textContent=challenge?`La partida extra se desbloquea en ${Math.ceil(left/1000)} s`:`La pista llega en ${Math.ceil(left/1000)} s · si lo cierras antes, no hay pista`;return}
+      clearInterval(timer);timer=null;status.textContent=challenge?'¡Listo! Ya puedes jugar la partida extra.':'¡Listo! Ya puedes ver tu pista.';done.hidden=false;done.focus();
     };
     tick();timer=setInterval(tick,250);
     d.showModal();
