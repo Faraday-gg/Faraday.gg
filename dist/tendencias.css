@@ -90,3 +90,7 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-replay{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 14px;margin:16px 0;border:1px solid var(--line);border-radius:14px;background:var(--blue)}
 .trends-replay h4{flex-basis:100%;margin:0 0 4px;font-family:var(--display)}
 .trends-replay .game-secondary{background:var(--paper)}
+
+.trends-plot.is-editable{cursor:grab}
+.trends-plot.is-editing{cursor:grabbing}
+.trends-plot.is-editing .trends-drawn{stroke-width:4}

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {mkdtempSync,rmSync} from 'node:fs';
+import {mkdtempSync,readFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
 import {createApi,PLAYER_COOKIE} from '../lib/api.mjs';
@@ -9,7 +9,8 @@ import {createTrends,fileTrends,trendEdition,trendReplay,trendScore} from '../li
 
 const start=Date.parse('2026-11-17T00:00:00Z');
 const ids=new Set();
-let monthly=0;
+const categories=new Map();
+let tournaments=0;
 for(let i=0;i<34;i++){
   const day=new Date(start+i*86400000).toISOString().slice(0,10);
   const charts=trendEdition(day);
@@ -21,21 +22,23 @@ for(let i=0;i<34;i++){
     assert(chart.cut>=5);
     assert(chart.values.length-chart.cut-1>=6&&chart.values.length-chart.cut-1<=30);
     assert(chart.max>chart.min&&chart.values.every(value=>Number.isFinite(value)&&value>=chart.min&&value<=chart.max),chart.id);
-    assert(chart.detail.length>30&&chart.source.provider,chart.id);
-    if(chart.period==='month'){
-      monthly++;
-      assert.equal(chart.values.length,24);
-      assert.equal(chart.source.license,'CC0 1.0');
-      assert.equal(new URL(chart.source.url).hostname,'wikimedia.org');
-    }else{
-      assert.equal(chart.source.license,'CC BY 4.0');
-      assert.equal(new URL(chart.source.url).hostname,'datos.bancomundial.org');
+    assert(chart.detail.length>15&&chart.source.provider,chart.id);
+    assert(chart.context.story.length>40&&chart.source.url.startsWith('https://'),chart.id);
+    categories.set(chart.category,(categories.get(chart.category)||0)+1);
+    if(chart.period==='edition'){
+      tournaments++;
+      assert.equal(chart.labels.length,chart.values.length);
+      assert.deepEqual([...chart.labels].sort((a,b)=>a-b),chart.labels);
+      assert.equal(new Set(chart.labels).size,chart.labels.length);
+      assert.equal(chart.labels[0],1950);
     }
     assert.deepEqual(trendScore(chart,chart.values.slice(chart.cut+1)),{score:1000,error:0});
   }
 }
 assert.equal(ids.size,102);
-assert.equal(monthly,75);
+assert.equal(categories.size,6);
+assert([...categories.values()].every(count=>count===17));
+assert.equal(tournaments,17);
 
 const temp=mkdtempSync(path.join(tmpdir(),'faraday-tendencias-'));
 let clock=start;
@@ -121,13 +124,26 @@ try{
   assert.equal(next.results.length,0);
 }finally{rmSync(temp,{recursive:true,force:true})}
 
-const oldCharts=JSON.parse(await (await import('node:fs/promises')).readFile(new URL('../content/tendencias.json',import.meta.url),'utf8'));
+const readBank=name=>JSON.parse(readFileSync(new URL(`../content/${name}.json`,import.meta.url),'utf8'));
+const oldCharts=readBank('tendencias');
 const oldDate='2026-11-17',old=trendEdition(oldDate,0,oldCharts)[0],oldStore=fileTrends();
 await oldStore.add({scope:'publico',day:oldDate,player_hash:'legacy',round:0,chart:old.id,guess:old.values.slice(old.cut+1)});
 const legacyGame=createTrends({store:oldStore,now:()=>start});
 const preserved=await legacyGame('legacy',{action:'estado'});
 assert.equal(preserved.body.results[0].id,old.id);
 assert.notEqual(preserved.body.current.id,trendEdition(oldDate)[1].id);
+
+const popCharts=readBank('tendencias-pop');
+const oldDaily=trendEdition(oldDate,0,popCharts);
+const oldReplay=trendReplay(oldDate,oldDaily,popCharts);
+for(const [round,chart] of [...oldDaily,oldReplay[0]].entries()){
+  await oldStore.add({scope:'publico',day:oldDate,player_hash:'pop',round,chart:chart.id,guess:chart.values.slice(chart.cut+1)});
+}
+await oldStore.startReplay('publico',oldDate,'pop',start);
+await oldStore.unlockReplay('publico',oldDate,'pop');
+const oldExtra=(await legacyGame('pop',{action:'estado'})).body;
+assert.equal(oldExtra.results.at(-1).id,oldReplay[0].id);
+assert.equal(oldExtra.current.id,oldReplay[1].id);
 
 const requests=[];
 const store=supabaseStore({url:'https://proyecto.supabase.co',key:'clave-falsa',fetch:async(url,options)=>{

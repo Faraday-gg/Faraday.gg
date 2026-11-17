@@ -89,7 +89,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
-content/tendencias*.json Banco vigente de 102 gráficas y banco anterior para partidas iniciadas
+content/tendencias*.json Banco vigente de 102 gráficas y bancos anteriores para partidas iniciadas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
@@ -130,7 +130,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Traza la tendencia
 
-El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco combina visitas mensuales de Wikimedia Analytics con series WDI. Se prepara con los scripts de `research/` y se carga en el servidor.
+El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco vigente reúne series de seis conjuntos públicos sobre alimentos, Fórmula 1, nombres, exoplanetas, Mundiales y huracanes. La curva puede ajustarse con el puntero o por fecha antes de revelar. Se prepara con los scripts de `research/` y se carga en el servidor.
 
 `POST /api/tendencias` admite `estado`, `revelar`, `preparar-extra` y `activar-extra`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y, con al menos tres trazos ajenos, la media de la comunidad.
 
