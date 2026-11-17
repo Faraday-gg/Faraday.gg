@@ -89,7 +89,7 @@ try{
   assert.deepEqual(b.data.round.multipliers,[1,1]);assert.deepEqual(b.data.round.nextMultipliers,[1.5,1]);
   assert.equal(b.data.round.answer,real);assert.deepEqual(b.data.players.map(p=>p.hp),[6000,2003]);
   // «Cómo se calcula» llega con el resultado (decisión 0048), igual que en el reto diario.
-  assert(b.data.round.explain&&Array.isArray(b.data.round.explain.sources)&&b.data.round.explain.sources.length,'El resultado trae el cálculo y sus fuentes');
+  assert(b.data.round.explain&&Array.isArray(b.data.round.explain.sources)&&b.data.round.explain.sources.some(s=>s.fact),'El resultado trae el cálculo y el dato aportado por la fuente');
   assert(b.data.round.explain.calc||b.data.round.explain.referenceExpression||b.data.round.explain.math,'Hay algo con lo que pintar el cálculo');
   assert.equal((await duel('responder',luis,{id,guess:real})).status,409,'Fuera de tiempo');
 

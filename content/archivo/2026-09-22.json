@@ -88,7 +88,7 @@
       "answer": 23799.9605,
       "math": "En 2022 se produjeron 135,1 millones de toneladas de plátanos. Son 135,1 billones de gramos; entre 180 g por plátano, 750.556 millones de plátanos. Entre los 31.536.000 segundos del año: 23.800 plátanos por segundo.",
       "referenceExpression": "135100000 × 1000000 ÷ 180 ÷ (365 × 86400)",
-      "assumptions": "180 g por plátano con piel: el USDA da 118 g de pulpa para uno mediano y la piel pesa bastante. Parte de la cosecha se pierde antes de comerse.",
+      "assumptions": "Usamos 180 g por plátano con piel como supuesto del juego. Los 118 g del USDA son comestibles; dividir el peso de cosecha por esa porción mezclaría magnitudes distintas. El resultado es una media anual, no una tasa real de recolección continua.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -97,18 +97,42 @@
           "fact": "En 2022 la producción mundial fue de 179 millones de toneladas: 135,1 millones de plátanos y 44,2 millones de plátanos macho (FAOSTAT)."
         },
         {
-          "title": "USDA FoodData Central · Bananas, raw",
-          "url": "https://fdc.nal.usda.gov/food-details/173944/nutrients",
-          "fact": "Un plátano mediano (de 7 a 7 7/8 pulgadas) pesa 118 g de parte comestible."
+          "title": "USDA Agricultural Research Service · Pesos de porciones de fruta",
+          "url": "https://www.ars.usda.gov/ARSUserFiles/80400525/Articles/MDA06_FruitWgt.pdf",
+          "fact": "La tabla del USDA indica 118 g de pulpa para una banana mediana en su base de referencia (NDB 09040). No es el peso de cosecha."
         }
       ],
       "reasoning": {
-        "heading": "Toneladas al año entre peso y segundos",
+        "heading": "La cosecha se pesa con cáscara",
         "steps": [
-          "El plátano es una de las frutas más comidas del mundo: más de cien millones de toneladas al año.",
-          "Si cada uno pesa unos 200 g, 100 millones de toneladas son 500.000 millones de plátanos; un año tiene unos 30 millones de segundos: unos 16.000 por segundo.",
-          "Con 135,1 millones de toneladas y 180 g por plátano salen 23.800 por segundo: un camión lleno cada pocos segundos."
+          "El dato de producción es un peso de frutos cosechados. La cifra del USDA de 118 g corresponde a la porción comestible de una pieza mediana, de modo que no podemos usarla directamente.",
+          "Suponemos 180 g para la pieza entera. Con esa hipótesis, de cada kilo salen unas 5,6 piezas. Multiplicamos por 135.100 millones de kg en el año y dividimos por sus segundos.",
+          "Si la pieza entera pesara 200 g, saldrían unas 21.400 por segundo. La masa de cada fruto pesa más en la estimación que usar 365 o 365,25 días."
         ]
+      },
+      "calc": {
+        "intro": "Convertimos el peso anual de cosecha en piezas enteras y luego en una media por segundo.",
+        "rows": [
+          {
+            "label": "Cosecha mundial en 2022",
+            "value": "135.100.000 t",
+            "source": 1
+          },
+          {
+            "label": "Gramos por tonelada",
+            "value": "× 1.000.000 g/t"
+          },
+          {
+            "label": "Masa modelada con piel",
+            "value": "÷ 180 g",
+            "assumed": true
+          },
+          {
+            "label": "Segundos del año",
+            "value": "÷ (365 × 86.400)"
+          }
+        ],
+        "result": "Plátanos por segundo"
       }
     }
   ]

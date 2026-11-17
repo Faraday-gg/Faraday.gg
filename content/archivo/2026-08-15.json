@@ -9,14 +9,14 @@
       "verifiedAt": "2026-11-10",
       "category": "hogar",
       "tag": "Tarta de cera",
-      "title": "Si clavaras en una sola tarta todas las velas que soplarás hasta los 80 años, ¿cuántos kilos de cera llevaría?",
-      "detail": "Suma una vela por año en cada cumpleaños, del primero al 80, y pésalas con velas de espiral de 2,5 pulgadas. Ten un extintor a mano.",
+      "title": "Si soplas una vela por cada año que cumples hasta los 80, ¿cuántos kilos como máximo sumarían todas esas velas?",
+      "detail": "Clavas una vela al cumplir un año, dos al cumplir dos y así hasta los 80. Para aproximar la masa, reparte entre las 288 velas el peso de un paquete de envío de una libra.",
       "unit": "kg",
       "answer": 5.1029141625,
-      "math": "De 1 a 80 velas: 80 × 81 ÷ 2 = 3.240 velas. Una caja de 288 velas de espiral pesa 1 libra (453,6 g) con su envoltorio: unos 1,57 g por vela. 3.240 × 1,575 g ≈ 5,1 kg de velas.",
+      "math": "Del cumpleaños 1 al 80 sumamos 3.240 velas. La caja de 288 pesa una libra con embalaje. Al prorratear su peso de envío resultan cerca de 5,1 kg. La masa de cera sola será menor.",
       "referenceExpression": "(80 × 81 ÷ 2) × 453,59237 ÷ 288 ÷ 1000",
-      "assumptions": "El peso por vela sale del peso de envío de la caja, que incluye cartón y envoltorio, así que la cera real es algo menos. Velas más gruesas o de número cambian mucho el resultado.",
-      "confidence": "Dato de fabricante + modelo",
+      "assumptions": "El comercio informa el peso de envío, que incluye embalaje. Dividirlo por el número de velas da una aproximación por exceso, no un peso medido de cera.",
+      "confidence": "Peso de envío + aproximación",
       "sources": [
         {
           "title": "WebstaurantStore · Creative Converting 2 1/2\" 24-Count Rainbow Color Spiral Candles",
@@ -25,12 +25,31 @@
         }
       ],
       "reasoning": {
-        "heading": "Suma, luego pesa",
+        "heading": "Las velas pesan menos que el paquete",
         "steps": [
-          "Una vela de cumpleaños pesa poco más de un gramo. Si soplas unas pocas miles en tu vida, la tarta cargaría varios kilos.",
-          "1 + 2 + … + 80 es 80 × 81 ÷ 2 = 3.240 velas. Con 1,5 g por vela, unos 4,9 kg.",
-          "Con 288 velas por libra salen 1,575 g por vela y 5,1 kg en total: la tarta necesitaría una mesa reforzada y los bomberos de guardia."
+          "Empareja el primer cumpleaños con el último: 1 + 80 = 81, 2 + 79 también. Cuarenta pares de 81 velas suman 3.240.",
+          "La ficha del vendedor anuncia una libra de peso de envío por 288 velas. Si se reparte entre todas, toca cerca de 1,58 g por vela, con su parte del embalaje incluida.",
+          "Si retirar el embalaje redujera la masa por pieza a 1 g, la tarta llevaría unos 3,24 kg. Los 5,1 kg sirven como referencia por exceso, no como peso exacto de la cera."
         ]
+      },
+      "calc": {
+        "intro": "Sumamos las velas de todos los cumpleaños y usamos el peso de envío como aproximación por exceso.",
+        "rows": [
+          {
+            "label": "Velas de 80 cumpleaños",
+            "value": "80 × 81 ÷ 2 = 3.240 velas"
+          },
+          {
+            "label": "Peso de envío por vela",
+            "value": "× (453,6 g ÷ 288 velas)",
+            "source": 1
+          },
+          {
+            "label": "Conversión a kilogramos",
+            "value": "÷ 1.000 g/kg"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

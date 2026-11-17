@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-09-18-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "arquitectura",
       "tag": "Alambre a lo grande",
       "title": "¿Cuántas vueltas a la Tierra darían los alambres de los cables principales del Golden Gate?",
@@ -38,12 +38,28 @@
         "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
       },
       "reasoning": {
-        "heading": "Cables por alambres por longitud",
+        "heading": "Dentro de cada cable hay miles de alambres",
         "steps": [
-          "Cada cable mide unos 2,3 km y mide casi un metro de grosor, así que dentro caben miles y miles de alambres finos. Con unos 25.000 alambres por cable, dos cables sumarían unos 115.000 km.",
-          "La vuelta al ecuador son unos 40.000 km, así que el alambre daría unas tres vueltas.",
-          "El dato oficial es 129.000 km: 3,22 vueltas a la Tierra. Todo ese alambre cuelga sobre un estrecho de menos de 3 km."
+          "La autoridad del puente suma el alambre de acero de ambos cables principales. Es la distancia que obtendrías al poner los hilos uno tras otro, no el largo del puente.",
+          "Con un radio ecuatorial de unos 6.378 km, una vuelta mide 2π veces ese valor: unos 40.075 km.",
+          "Tres vueltas requieren unos 120.225 km. Sobran casi 9.000 km de alambre: algo más de un quinto de vuelta adicional."
         ]
+      },
+      "calc": {
+        "intro": "Comparamos el alambre que hay dentro de los dos cables con la circunferencia del ecuador.",
+        "rows": [
+          {
+            "label": "Alambre en ambos cables",
+            "value": "129.000 km",
+            "source": 1
+          },
+          {
+            "label": "Vuelta por el ecuador",
+            "value": "÷ (2 × π × 6.378,137 km)",
+            "source": 2
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

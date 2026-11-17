@@ -6,16 +6,16 @@
     {
       "id": "archivo-2026-08-24-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "historia",
       "tag": "Mudanza neolítica",
-      "title": "¿Cuántos equipos de fútbol completos hacían falta para arrastrar una de las grandes piedras de Stonehenge?",
-      "detail": "Un sarsen medio sobre un trineo de madera, con once jugadores por equipo y cada uno moviendo 100 kg. Los suplentes y el árbitro no tiran.",
+      "title": "¿A cuántos equipos de fútbol correspondería la masa de una piedra de Stonehenge si asignas 100 kg por persona?",
+      "detail": "Haz una cuenta ideal: compara la masa de un sarsen de 25 toneladas con una cuota ficticia de 100 kg por persona y equipos de 11. No intenta reconstruir el transporte real.",
       "unit": "equipos",
       "answer": 22.727272727272727,
-      "math": "Un sarsen medio pesa 25 toneladas (25.000 kg). A 100 kg por persona: 25.000 ÷ 100 = 250 personas; entre 11 por equipo ≈ 22,7 equipos.",
+      "math": "English Heritage usa 25 toneladas como referencia para un sarsen medio. Si asignamos 100 kg de masa a cada persona, salen 250 personas; en grupos de 11, equivalen a unos 22,7 equipos.",
       "referenceExpression": "25.000 ÷ 100 ÷ 11",
-      "assumptions": "Las 25 «tons» de English Heritage se toman como 25.000 kg. Los 100 kg por persona con trineo y rodillos son una suposición del juego; depende del terreno y la técnica.",
+      "assumptions": "100 kg por persona es una cuota imaginaria. Para estimar el esfuerzo de arrastre haría falta conocer el terreno, la pendiente, el roce y cómo se repartía la fuerza.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
@@ -25,12 +25,32 @@
         }
       ],
       "reasoning": {
-        "heading": "Toneladas entre once",
+        "heading": "Masa y fuerza responden preguntas distintas",
         "steps": [
-          "Una piedra que pesa como cuatro elefantes necesita cientos de brazos. Unas cuantas plantillas, desde luego.",
-          "25.000 kg ÷ 100 kg = 250 personas; entre 10 serían 25 equipos.",
-          "Con equipos de 11 salen 22,7 equipos: una liga entera y algo más tirando de la misma cuerda."
+          "English Heritage sitúa la masa de un sarsen medio en unas 25 toneladas. Es la masa de la piedra; el esfuerzo para moverla no se mide en kilos.",
+          "En nuestro juego, 11 jugadores suman una cuota de 1.100 kg. Repartir 25.000 kg entre 1.100 kg por equipo da unos 22,7 equipos. Si solo aceptas equipos enteros, necesitas 23.",
+          "En un terreno horizontal, un trineo y unos rodillos pueden necesitar esfuerzos muy diferentes para mover esa misma masa. De este resultado no se deduce cuánta gente participó en Stonehenge."
         ]
+      },
+      "calc": {
+        "intro": "Es un reparto de masa para el juego, no un cálculo de la fuerza necesaria para arrastrar la piedra.",
+        "rows": [
+          {
+            "label": "Masa de un sarsen medio",
+            "value": "25.000 kg",
+            "source": 1
+          },
+          {
+            "label": "Cuota de masa por persona",
+            "value": "÷ 100 kg",
+            "assumed": true
+          },
+          {
+            "label": "Jugadores por equipo",
+            "value": "÷ 11"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {
