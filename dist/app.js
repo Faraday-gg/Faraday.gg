@@ -201,11 +201,13 @@ function toggleWorkspace(open){const panel=$('#workspace-panel'),toggle=$('#work
 function calcCompact(text){let out='',comma=false;for(const c of String(text).replace(/pi/gi,'π').replace(/\*/g,'×').replace(/[/:]/g,'÷').replace(/-/g,'−').replace(/x/gi,'×').replace(/[^\d,+−×÷π]/g,'')){if(c===','){if(comma)continue;comma=true;if(!/\d$/.test(out))out+='0'}else if(!/\d/.test(c))comma=false;out+=c}return out}
 function calcDisplay(compact){return compact.replace(/(\d+)(,\d*)?/g,(_,int,dec='')=>int.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+dec).replace(/([\d,π])([+−×÷])/g,'$1 $2 ')}
 const calcFromNumber=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:6,useGrouping:false}).format(n).replace('.',',').replace('-','−');
+const calcResultFormat=new Intl.NumberFormat('es-ES',{maximumSignificantDigits:17,useGrouping:false});
 // Pinta la forma compacta en el campo y deja el cursor tras `count` caracteres significativos (los que no son espacios ni puntos de miles).
 function setCalc(compact,count=compact.length){const input=$('#scratch-expression'),display=calcDisplay(compact);if(!touchCalculator)input.focus();input.value=display;let i=0;for(;i<display.length&&count>0;i++)if(!/[\s.]/.test(display[i]))count--;while(display[i]===' ')i++;input.setSelectionRange(i,i);if(touchCalculator)input.scrollLeft=input.scrollWidth;$('#scratch-result').textContent='='}
 function evaluateCalculation(source){
   const expression=calcCompact(source).replace(/,/g,'.').replace(/×/g,'*').replace(/÷/g,'/').replace(/−/g,'-');
-  if(!expression||expression.length>100||/[^\d.,\s+\-*/:×÷−πx]/i.test(source.replace(/pi/gi,'')))throw Error('Operación no válida');
+  // Un resultado reutilizado puede ocupar hasta 327 caracteres sin notación científica.
+  if(!expression||expression.length>500||/[^\d.,\s+\-*/:×÷−πx]/i.test(source.replace(/pi/gi,'')))throw Error('Operación no válida');
   let index=0;
   function primary(){if(expression[index]==='π'){index++;return Math.PI}const match=/^\d+(?:\.\d*)?/.exec(expression.slice(index));if(!match)throw Error('Falta un número');index+=match[0].length;return Number(match[0])}
   function unary(){if(expression[index]==='+'){index++;return unary()}if(expression[index]==='-'){index++;return -unary()}return primary()}
@@ -213,7 +215,20 @@ function evaluateCalculation(source){
   function addition(){let value=multiplication();while(expression[index]==='+'||expression[index]==='-'){const operator=expression[index++],right=multiplication();value=operator==='+'?value+right:value-right}return value}
   const result=addition();if(index!==expression.length||!Number.isFinite(result))throw Error('Operación no válida');return result
 }
-function calculate(){const source=$('#scratch-expression').value.trim();try{const result=evaluateCalculation(source);$('#scratch-result').textContent=`= ${formatTape(result)}`;workspaceData.history.unshift({expression:source,result});workspaceData.history=workspaceData.history.slice(0,40);saveWorkspace();renderHistory()}catch{$('#scratch-result').textContent='Revisa la operación'}}
+function calculate(){
+  const input=$('#scratch-expression'),output=$('#scratch-result'),source=input.value.trim();
+  let result;
+  try{result=evaluateCalculation(source)}catch{output.textContent='Revisa la operación';return}
+  setCalc(calcCompact(calcResultFormat.format(result)));
+  const announcement=document.createElement('span');
+  announcement.className='sr-only';
+  announcement.textContent=`Resultado: ${input.value}`;
+  output.replaceChildren(announcement);
+  workspaceData.history.unshift({expression:source,result});
+  workspaceData.history=workspaceData.history.slice(0,40);
+  saveWorkspace();
+  renderHistory();
+}
 // En pantallas táctiles la calculadora solo se usa con sus teclas: el campo es de solo lectura y no recibe el foco, así no se abre el teclado del móvil.
 const touchCalculator=matchMedia('(pointer:coarse)').matches;
 // key: una tecla (C, ⌫, Supr, =, la coma, un operador, π o un dígito) o un texto pegado.

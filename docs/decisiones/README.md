@@ -85,6 +85,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0081](0081-avatar-en-las-tarjetas-para-compartir.md) | El avatar en las tarjetas para compartir, y una tarjeta para los duelos | Propuesta | 2026-11-16 |
 | [0082](0082-duelos-1vs1vs1.md) | Duelos 1vs1vs1: partidas de tres | Aceptada (daño actualizado en [0083](0083-multiplicadores-personales-en-duelos.md)) | 2026-11-16 |
 | [0083](0083-multiplicadores-personales-en-duelos.md) | Multiplicadores personales en los duelos | Propuesta | 2026-11-17 |
+| [0084](0084-continuar-desde-el-resultado-de-la-calculadora.md) | Continuar desde el resultado de la calculadora | Aceptada | 2026-11-17 |
 
 ## Plantilla
 
