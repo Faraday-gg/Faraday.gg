@@ -64,3 +64,29 @@ body:has(.trends-dialog[open]){overflow:hidden}
   .trends-actions button{padding:11px 15px}
 }
 .trends-drawn{fill:none;stroke:#ca412e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+
+.trends-header-inner{width:min(1220px,100%);grid-template-columns:auto 1fr;padding-block:12px}
+.trends-stage{width:min(1220px,100%);display:grid;grid-template-columns:clamp(175px,19vw,225px) minmax(0,1fr);gap:16px}
+.trends-companion{position:sticky;top:105px;align-self:start;padding-top:clamp(50px,13vh,112px);text-align:center}
+.trends-companion p{min-height:24px;margin:-6px 0 0;font:700 19px var(--display)}
+.trends-avatar{display:block;width:100%;aspect-ratio:1;background:none}
+.trends-error{grid-column:2}
+.trends-plot text{font-size:15px}
+.trends-plot .trends-axis-title{font:700 14px var(--font);fill:var(--muted)}
+.trends-guide{stroke:var(--line);stroke-dasharray:2 5;opacity:.8}
+@media(max-width:760px){
+  .trends-stage{display:block}
+  .trends-companion{position:sticky;top:82px;z-index:1;display:flex;align-items:center;gap:12px;padding:0 0 2px;text-align:left;background:var(--cream)}
+  .trends-companion p{margin:0}
+  .trends-avatar{width:98px}
+}
+@media(max-width:560px){
+  .trends-avatar{width:86px}
+  .trends-plot text{font-size:12px}
+  .trends-plot .trends-axis-title{font-size:12px}
+  .trends-card{padding-inline:10px}
+}
+.trends-coordinate{display:block;min-height:1.25em;margin:0 0 4px;text-align:right;font:650 13px var(--num);color:var(--muted)}
+.trends-replay{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 14px;margin:16px 0;border:1px solid var(--line);border-radius:14px;background:var(--blue)}
+.trends-replay h4{flex-basis:100%;margin:0 0 4px;font-family:var(--display)}
+.trends-replay .game-secondary{background:var(--paper)}

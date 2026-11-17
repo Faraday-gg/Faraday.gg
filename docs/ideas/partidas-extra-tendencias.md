@@ -1,6 +1,6 @@
 # Partidas extra en Traza la tendencia
 
-- **Estado:** abierta.
+- **Estado:** aprobada para prueba, [decisión 0086](../decisiones/0086-graficas-y-partida-extra.md).
 - **Fecha:** 2026-11-17.
 - **Propuesta por:** Álvaro.
 
@@ -14,4 +14,4 @@ Una partida adicional da al jugador una forma de seguir dentro de Faraday despu�
 
 ## Dudas
 
-Falta decidir el desbloqueo, la disponibilidad diaria de partidas extra y cómo seleccionar sus gráficas sin adelantar las siguientes ediciones. Ver la [decisión 0085](../decisiones/0085-traza-la-tendencia.md).
+Queda por integrar el proveedor de anuncios reales. La prueba permite una partida extra al día, con anuncio simulado o suscripción activa.

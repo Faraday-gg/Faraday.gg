@@ -40,9 +40,9 @@ node tests/pistas.test.mjs
 
 ## Probar Traza la tendencia
 
-Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. Dibuja las tres series del día o completa los puntos con «Editar valores por año». Después de cada respuesta puedes consultar la fuente y los datos anuales. Vuelve a abrir la modalidad para comprobar que recupera el progreso.
+Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. Dibuja las tres series del día o completa los puntos con «Editar valores por mes» o «Editar valores por año». Después de cada respuesta puedes consultar la fuente y los datos de cada fecha. Vuelve a abrir la modalidad para comprobar que recupera el progreso. Al cerrar la partida diaria, prueba «Ver anuncio de prueba» para desbloquear tres gráficas más.
 
-Ejecuta `node tests/tendencias.test.mjs` para verificar las 102 gráficas, la persistencia y la comparación comunitaria. En Vercel hace falta la migración de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia).
+Ejecuta `node tests/tendencias.test.mjs` para verificar las 102 gráficas, la persistencia y la comparación comunitaria. En Vercel hacen falta las dos migraciones de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia).
 
 ## Despliegue: Vercel y Supabase
 

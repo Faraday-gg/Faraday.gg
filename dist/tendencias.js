@@ -5,12 +5,14 @@
   const stage=document.getElementById('trends-avatar');
   const alert=document.getElementById('trends-error');
   const home=document.querySelector('.home-trends');
-  const box={width:640,height:280,left:80,right:618,top:20,bottom:238};
+  const subtitle=document.getElementById('trends-avatar-line');
+  const samplesPerPeriod=16;
+  let box;
   const number=new Intl.NumberFormat('es-ES',{maximumFractionDigits:4,useGrouping:'always'});
   const fmt=value=>number.format(value);
   const text=value=>escapeHtml(String(value));
   const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
-  let edition,chart,draft,stroke,opener,view=0,lookKey='',pending=false;
+  let edition,chart,draft,trace,stroke,opener,view=0,lookKey='',pending=false;
   const element=selector=>content.querySelector(selector);
 
   function avatar(state){
@@ -26,11 +28,18 @@
     window.Avatar3D?.react?.(actor);
   }
 
+  const tiers=[
+    {min:950,label:'¡Casi casi!',clip:'clavada',rest:'cheer'},
+    {min:800,label:'Muy cerca',clip:'salto',rest:'cheer'},
+    {min:600,label:'Cerca',clip:'puno',rest:''},
+    {min:350,label:'Lejos',clip:'encoger',rest:'meh'},
+    {min:0,label:'Muy lejos',clip:'facepalm',rest:'sad'},
+  ];
   function mood(score,animate){
-    const rest=score>=800?'cheer':score>=500?'meh':'sad';
-    if(!animate)return avatar({mood:rest});
-    const clip=score>=950?'clavada':score>=800?'salto':score>=500?'casi':'facepalm';
-    avatar({clip,mood:'',then:rest});
+    const tier=tiers.find(item=>score>=item.min);
+    subtitle.textContent=tier.label;
+    avatar(animate?{clip:tier.clip,mood:'',then:tier.rest}:{mood:tier.rest});
+    return tier.label;
   }
 
   async function request(action,extra={}){
@@ -54,24 +63,52 @@
     if(focus)element('h3')?.focus({preventScroll:true});
   }
 
-  const x=(q,index)=>box.left+index/(q.end-q.start)*(box.right-box.left);
+  const shortDate=new Intl.DateTimeFormat('es',{month:'short',year:'2-digit',timeZone:'UTC'});
+  const longDate=new Intl.DateTimeFormat('es',{month:'long',year:'numeric',timeZone:'UTC'});
+  function dateLabel(q,period,short=false){
+    if(q.period!=='month')return String(period);
+    const date=new Date(Date.UTC(Math.floor(period/12),period%12,1));
+    return (short?shortDate:longDate).format(date);
+  }
+  const unitOfTime=q=>q.period==='month'?'mes':'año';
+  const roundLabel=index=>`${index>=edition.rounds?'Partida extra · ':''}Gráfica ${index%edition.rounds+1} de ${edition.rounds}`;
+
+  function x(q,index){
+    const cut=box.left+(box.right-box.left)*.37;
+    if(index<=q.cut)return box.left+(cut-box.left)*index/q.cut;
+    return cut+(box.right-cut)*(index-q.cut)/(q.end-q.start-q.cut);
+  }
   const y=(q,value)=>box.bottom-(value-q.min)/(q.max-q.min)*(box.bottom-box.top);
   const points=(q,values,offset=0)=>values.map((value,index)=>`${x(q,index+offset)},${y(q,value)}`).join(' ');
   const line=(q,values)=>points(q,[q.history.at(-1),...values],q.cut);
   function plot(q,result){
-    const marker=x(q,q.cut), years=[q.start,q.start+q.cut,q.end];
+    box=matchMedia('(max-width: 560px)').matches
+      ?{width:360,height:334,left:52,right:350,top:34,bottom:300}
+      :{width:880,height:442,left:77,right:854,top:36,bottom:398};
+    const marker=x(q,q.cut),cutYear=q.start+q.cut;
+    const years=[q.start,cutYear,cutYear+Math.round((q.end-cutYear)/2),q.end];
     const tick=q.tick;
     const first=Math.ceil(q.min/tick-1e-9),last=Math.floor(q.max/tick+1e-9);
+    const minorTicks=Array.from({length:Math.max(0,last-first)},(_,i)=>{
+      const at=y(q,(first+i+.5)*tick);
+      return `<line class="trends-guide" x1="${box.left}" x2="${box.right}" y1="${at}" y2="${at}"/>`;
+    }).join('');
     const ticks=Array.from({length:last-first+1},(_,i)=>{
       const value=Number(((first+i)*tick).toFixed(q.precision));
       const at=y(q,value);
       return `<line class="trends-grid" x1="${box.left}" x2="${box.right}" y1="${at}" y2="${at}"/><text x="${box.left-8}" y="${at+5}" text-anchor="end">${fmt(value)}</text>`;
     }).join('');
-    const dates=years.map((year,i)=>`<text x="${x(q,year-q.start)}" y="${box.bottom+28}" text-anchor="${['start','middle','end'][i]}">${year}</text>`).join('');
+    const dates=years.map((year,i)=>`<text x="${x(q,year-q.start)}" y="${box.bottom+22}" text-anchor="${['start','middle','middle','end'][i]}">${text(dateLabel(q,year,true))}</text>`).join('');
+    const guides=Array.from({length:q.end-cutYear},(_,i)=>{
+      const at=x(q,q.cut+i+1);
+      return `<line class="trends-guide" x1="${at}" x2="${at}" y1="${box.top}" y2="${box.bottom}"/>`;
+    }).join('');
     const community=result?.community?.values;
-    return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+(q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
+    return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
-      ${ticks}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
+      <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">Historial</text>
+      <text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">${result?'Tramo revelado':'Tramo ampliado'}</text>
+      ${minorTicks}${ticks}${guides}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
       <polyline class="trends-history" points="${points(q,q.history)}"/>
       ${result?`<polygon class="trends-gap" points="${line(q,result.actual)} ${points(q,result.guess,q.cut+1).split(' ').reverse().join(' ')}"/><polyline class="trends-actual" points="${line(q,result.actual)}"/><polyline class="trends-guess" points="${line(q,result.guess)}"/>
         ${community?`<polyline class="trends-community" points="${line(q,community)}"/>`:''}`:
@@ -83,24 +120,28 @@
   function renderQuestion(){
     chart=edition.current;
     draft=Array(chart.end-chart.start-chart.cut).fill(null);
+    trace=Array(draft.length*samplesPerPeriod+1).fill(null);
+    trace[0]=chart.history.at(-1);
     stroke=null;
-    progress.textContent=`Gráfica ${edition.results.length+1} de ${edition.rounds}`;
+    subtitle.textContent='';
+    progress.textContent=roundLabel(edition.results.length);
     avatar({mood:'nervous'});
     const q=chart,cut=q.start+q.cut;
-    const options=draft.map((_,i)=>`<option value="${i}">${cut+i+1}</option>`).join('');
+    const options=draft.map((_,i)=>`<option value="${i}">${text(dateLabel(q,cut+i+1))}</option>`).join('');
     screen(`<section class="trends-card">
       <h3 tabindex="-1">${text(q.title)}</h3>
       <p class="trends-detail">${text(q.detail)}</p>
       <p class="trends-unit">${text(q.unit)}</p>
       ${plot(q)}
-      <p class="trends-caption">Arrastra desde el último punto hasta ${q.end}. Puedes repasar cualquier parte del trazo antes de revelar.</p>
-      <details class="trends-editor"><summary>Editar valores por año</summary>
+      <output class="trends-coordinate" data-trends-coordinate></output>
+      <p class="trends-caption">Arrastra hasta ${text(dateLabel(q,q.end))}. Puedes repasar el trazo o corregir cada dato antes de revelar.</p>
+      <details class="trends-editor"><summary>Editar valores por ${unitOfTime(q)}</summary>
         <div class="trends-controls">
-          <label>Año<select data-trends-year>${options}</select></label>
+          <label>${q.period==='month'?'Mes':'Año'}<select data-trends-year>${options}</select></label>
           <label>Tu estimación<input data-trends-value type="number" min="${q.min}" max="${q.max}" step="any"></label>
           <button class="game-secondary" type="button" data-trends-set>Guardar punto</button>
         </div>
-        <p class="trends-caption">Último dato conocido: ${cut} · ${fmt(q.history.at(-1))} ${text(q.unit)}.</p>
+        <p class="trends-caption">Último dato conocido: ${text(dateLabel(q,cut))} · ${fmt(q.history.at(-1))} ${text(q.unit)}.</p>
       </details>
       <div class="trends-actions">
         <button class="game-secondary" type="button" data-trends-clear disabled>Borrar trazo</button>
@@ -113,62 +154,64 @@
   }
 
   function updateDraft(index){
-    const coordinates=[chart.history.at(-1),...draft];
-    const path=coordinates.map((value,i)=>value===null?'':`${i===0||coordinates[i-1]===null?'M':'L'}${x(chart,chart.cut+i)} ${y(chart,value)}`).join(' ');
+    const path=trace.map((value,i)=>value===null?'':`${i===0||trace[i-1]===null?'M':'L'}${x(chart,chart.cut+i/samplesPerPeriod)} ${y(chart,value)}`).join(' ');
     element('.trends-drawn').setAttribute('d',path);
     if(index!==undefined){
       const cursor=element('.trends-cursor');
-      cursor.setAttribute('cx',x(chart,chart.cut+index+1));
-      cursor.setAttribute('cy',y(chart,draft[index]));
+      cursor.setAttribute('cx',x(chart,chart.cut+index/samplesPerPeriod));
+      cursor.setAttribute('cy',y(chart,trace[index]));
       cursor.setAttribute('visibility','visible');
+      const label=dateLabel(chart,chart.start+chart.cut+Math.round(index/samplesPerPeriod));
+      element('[data-trends-coordinate]').textContent=`${label} · ${fmt(trace[index])}`;
     }
     const count=draft.filter(value=>value!==null).length;
-    const caption=`${count} de ${draft.length} años trazados`;
+    const caption=`${count} de ${draft.length} ${chart.period==='month'?'meses':'años'} trazados`;
     const counter=element('[data-trends-count]');
     if(counter.textContent!==caption)counter.textContent=caption;
     element('[data-trends-reveal]').disabled=pending||count!==draft.length;
-    element('[data-trends-clear]').disabled=pending||!count;
+    element('[data-trends-clear]').disabled=pending||trace.slice(1).every(value=>value===null);
   }
 
   const quantize=value=>Number(clamp(value,chart.min,chart.max).toFixed(chart.precision));
   function bindPlot(){
     const svg=element('.trends-plot');
     function position(event){
-      const bounds=svg.getBoundingClientRect();
-      const px=(event.clientX-bounds.left)*box.width/bounds.width;
-      const py=(event.clientY-bounds.top)*box.height/bounds.height;
-      const index=Math.round((px-box.left)*(chart.end-chart.start)/(box.right-box.left))-chart.cut-1;
-      const value=chart.max-(py-box.top)*(chart.max-chart.min)/(box.bottom-box.top);
-      return {px,py,index:clamp(index,0,draft.length-1),value:quantize(value)};
+      const transform=svg.getScreenCTM().inverse();
+      const p=new DOMPoint(event.clientX,event.clientY).matrixTransform(transform);
+      const marker=x(chart,chart.cut), max=trace.length-1;
+      const index=Math.round((p.x-marker)*max/(box.right-marker));
+      const value=chart.max-(p.y-box.top)*(chart.max-chart.min)/(box.bottom-box.top);
+      return {x:p.x,y:p.y,index:clamp(index,1,max),value:quantize(value)};
     }
     function draw(point){
-      const previous=stroke.point;
-      if(previous.index===point.index)draft[point.index]=point.value;
-      else{
-        const first=Math.max(0,Math.min(previous.index,point.index));
-        const last=Math.max(previous.index,point.index);
-        for(let i=first;i<=last;i++){
-          const fraction=(i-previous.index)/(point.index-previous.index);
-          draft[i]=quantize(previous.value+(point.value-previous.value)*fraction);
-        }
+      const start=stroke.point;
+      const delta=point.index-start.index;
+      for(let i=Math.max(1,Math.min(start.index,point.index));i<=Math.max(start.index,point.index);i++){
+        const value=delta?start.value+(point.value-start.value)*(i-start.index)/delta:point.value;
+        trace[i]=quantize(value);
+        if(i%samplesPerPeriod===0)draft[i/samplesPerPeriod-1]=trace[i];
       }
       stroke.point=point;
-      updateDraft(point.index);
+    }
+    function update(event){
+      const events=event.getCoalescedEvents?.();
+      for(const sample of events?.length?events:[event])draw(position(sample));
+      window.Avatar3D?.lookAt?.(stage.firstElementChild,event.clientX,event.clientY);
+      updateDraft(stroke.point.index);
     }
     svg.addEventListener('pointerdown',event=>{
       if(pending||!event.isPrimary||event.button!==0)return;
       const point=position(event);
-      if(point.px<x(chart,chart.cut)-10||point.px>box.right+10||point.py<box.top-10||point.py>box.bottom+10)return;
-      const previous=draft[point.index]===null&&draft.every(value=>value===null)
-        ?{index:-1,value:chart.history.at(-1)}:point;
-      stroke={id:event.pointerId,point:previous};
+      if(point.x<x(chart,chart.cut)-10||point.x>box.right+10||point.y<box.top-10||point.y>box.bottom+10)return;
+      const first=trace.slice(1).every(value=>value===null);
+      stroke={id:event.pointerId,point:first?{index:0,value:trace[0]}:point};
       svg.setPointerCapture(event.pointerId);
-      draw(point);
+      update(event);
     });
-    svg.addEventListener('pointermove',event=>{if(stroke?.id===event.pointerId)draw(position(event))});
+    svg.addEventListener('pointermove',event=>{if(stroke?.id===event.pointerId)update(event)});
     svg.addEventListener('pointerup',event=>{
       if(stroke?.id!==event.pointerId)return;
-      draw(position(event));
+      update(event);
       stroke=null;
       syncEditor();
     });
@@ -192,7 +235,17 @@
     const year=element('[data-trends-year]');
     const index=Number(year.value);
     draft[index]=quantize(input.valueAsNumber);
-    updateDraft(index);
+    const position=(index+1)*samplesPerPeriod;
+    trace[position]=draft[index];
+    for(const adjacent of [index-1,index+1]){
+      const near=adjacent<0?trace[0]:draft[adjacent];
+      if(near==null)continue;
+      const endpoint=(adjacent+1)*samplesPerPeriod;
+      for(let i=Math.min(position,endpoint)+1;i<Math.max(position,endpoint);i++){
+        trace[i]=near+(draft[index]-near)*(i-endpoint)/(position-endpoint);
+      }
+    }
+    updateDraft(position);
     if(index<draft.length-1){year.selectedIndex=index+1;syncEditor();input.focus()}
   }
 
@@ -227,29 +280,31 @@
     const from=q.history.at(-1),last=observations.at(-1);
     const low=Math.min(...observations),high=Math.max(...observations);
     const extreme=low===high?'El dato se mantuvo constante en el tramo oculto.':
-      `En el tramo oculto, el mínimo fue ${fmt(low)} en ${cut+observations.indexOf(low)+1} y el máximo fue ${fmt(high)} en ${cut+observations.indexOf(high)+1}.`;
+      `En el tramo oculto, el mínimo fue ${fmt(low)} en ${text(dateLabel(q,cut+observations.indexOf(low)+1))} y el máximo fue ${fmt(high)} en ${text(dateLabel(q,cut+observations.indexOf(high)+1))}.`;
     const changeUnit=q.unit.startsWith('%')?'puntos porcentuales':q.unit;
-    const facts=from===last?`Acabó en el mismo nivel que en ${cut} (${fmt(from)}).`:
-      `De ${fmt(from)} en ${cut} a ${fmt(last)} en ${q.end}, un cambio de ${fmt(Math.abs(last-from))} ${text(changeUnit)}.`;
-    const rows=observations.map((value,i)=>`<tr><th scope="row">${cut+i+1}</th><td>${fmt(q.guess[i])}</td><td>${fmt(value)}</td>${q.community.values?`<td>${fmt(q.community.values[i])}</td>`:''}</tr>`).join('');
+    const facts=from===last?`Acabó en el mismo nivel que en ${text(dateLabel(q,cut))} (${fmt(from)}).`:
+      `De ${fmt(from)} en ${text(dateLabel(q,cut))} a ${fmt(last)} en ${text(dateLabel(q,q.end))}, un cambio de ${fmt(Math.abs(last-from))} ${text(changeUnit)}.`;
+    const rows=observations.map((value,i)=>`<tr><th scope="row">${text(dateLabel(q,cut+i+1))}</th><td>${fmt(q.guess[i])}</td><td>${fmt(value)}</td>${q.community.values?`<td>${fmt(q.community.values[i])}</td>`:''}</tr>`).join('');
     const count=q.community.count;
     const community=q.community.values?`Media de ${count} trazos de otros jugadores de hoy.`:
       'La curva de la comunidad aparecerá cuando haya al menos tres trazos de otros jugadores.';
-    progress.textContent=`Gráfica ${index+1} de ${edition.rounds}`;
-    mood(q.score,animate);
+    progress.textContent=roundLabel(index);
+    const verdict=mood(q.score,animate);
     screen(`<section class="trends-card">
       <h3 tabindex="-1">${text(q.title)}</h3>
       <p class="trends-unit">${text(q.unit)}</p>
       ${plot(q,q)}
       <div class="trends-legend"><span>Datos reales</span><span class="trends-key-guess">Tu trazo</span>${q.community.values?'<span class="trends-key-community">Comunidad</span>':''}</div>
       <p class="trends-caption">${community}</p>
-      <div class="trends-points"><strong>${fmt(q.score)} pts</strong><span>Error medio: ${fmt(q.error)} ${text(changeUnit)}</span></div>
+      <div class="trends-points"><strong>${fmt(q.score)} pts</strong><b>${verdict}</b><span>Error medio: ${fmt(q.error)} ${text(changeUnit)}</span></div>
       <details class="trends-source" open><summary>Qué pasó</summary>
-        <p>${facts} ${extreme}</p><p>${text(q.detail)}</p>
-        <p><a href="${text(q.source.url)}" target="_blank" rel="noopener">${text(q.source.title)} ↗</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">${text(q.source.license)}</a></p>
-        <details><summary>Proveedor y datos por año</summary>
+        <p>${facts} ${extreme}</p>
+        ${q.context?`<p>${text(q.context.story)} <a href="${text(q.context.url)}" target="_blank" rel="noopener">Ver fuente del contexto ↗</a></p>`:''}
+        <p>${text(q.detail)}</p>
+        <p><a href="${text(q.source.url)}" target="_blank" rel="noopener">${text(q.source.title)} ↗</a> · <a href="${text(q.source.licenseUrl||'https://creativecommons.org/licenses/by/4.0/')}" target="_blank" rel="noopener">${text(q.source.license)}</a></p>
+        <details><summary>Proveedor y datos por ${unitOfTime(q)}</summary>
           <p>${text(q.source.provider)}</p>
-          <table class="trends-data"><thead><tr><th scope="col">Año</th><th scope="col">Tu trazo</th><th scope="col">Real</th>${q.community.values?'<th scope="col">Comunidad</th>':''}</tr></thead><tbody>${rows}</tbody></table>
+          <table class="trends-data"><thead><tr><th scope="col">${q.period==='month'?'Mes':'Año'}</th><th scope="col">Tu trazo</th><th scope="col">Real</th>${q.community.values?'<th scope="col">Comunidad</th>':''}</tr></thead><tbody>${rows}</tbody></table>
         </details>
       </details>
       <div class="trends-actions"><button class="game-primary" type="button" ${review?'data-trends-summary':'data-trends-next'}>${review?'Volver al resultado':edition.current?'Siguiente gráfica →':'Ver resultado →'}</button></div>
@@ -257,23 +312,68 @@
   }
 
   function summary(){
-    const total=edition.results.reduce((sum,result)=>sum+result.score,0);
-    progress.textContent='Partida de hoy completada';
-    mood(total/edition.rounds,false);
-    const review=edition.results.map((result,i)=>`<button class="game-secondary" type="button" data-trends-review="${i}"><span>${text(result.title)}</span><b>${fmt(result.score)} pts</b></button>`).join('');
+    const daily=edition.results.slice(0,edition.rounds),extra=edition.results.slice(edition.rounds);
+    const pointsOf=results=>results.reduce((sum,result)=>sum+result.score,0);
+    const total=pointsOf(daily),extraTotal=pointsOf(extra);
+    const heading=extra.length?'Tus partidas de hoy':'Tu resultado de hoy';
+    progress.textContent=extra.length?'Partida extra completada':'Partida diaria completada';
+    mood((extra.length?extraTotal:total)/edition.rounds,false);
+    const review=(results,offset)=>results.map((result,i)=>`<button class="game-secondary" type="button" data-trends-review="${i+offset}"><span>${text(result.title)}</span><b>${fmt(result.score)} pts</b></button>`).join('');
+    const score=total=>`<div class="trends-points"><strong>${fmt(total)} pts</strong><span>de ${fmt(1000*edition.rounds)}</span></div>`;
+    const offer=edition.extra==='available'?`<section class="trends-replay"><h4>Juega otras tres gráficas</h4>
+      <button class="game-primary" type="button" data-trends-extra>${edition.plus?'Jugar partida extra':'Ver anuncio de prueba'}</button>
+      ${edition.plus?'':'<button class="game-secondary" type="button" data-trends-plan>Ver suscripción</button>'}
+    </section>`:'';
     screen(`<section class="trends-card">
-      <h3 tabindex="-1">Tu resultado de hoy</h3>
-      <div class="trends-points"><strong>${fmt(total)} pts</strong><span>de ${fmt(1000*edition.rounds)}</span></div>
+      <h3 tabindex="-1">${heading}</h3>
+      ${extra.length?'<h4>Partida diaria</h4>':''}${score(total)}
+      <div class="trends-review">${review(daily,0)}</div>
+      ${extra.length?`<h4>Partida extra</h4>${score(extraTotal)}<div class="trends-review">${review(extra,edition.rounds)}</div>`:offer}
       <p class="trends-detail">Mañana tendrás tres gráficas nuevas.</p>
-      <div class="trends-review">${review}</div>
-      <div class="trends-actions"><button class="game-primary" data-close-trends type="button">Cerrar partida</button></div>
+      <div class="trends-actions"><button class="game-secondary" data-close-trends type="button">Cerrar partida</button></div>
     </section>`);
+  }
+
+  async function startExtra(button){
+    if(pending)return;
+    pending=true;
+    button.disabled=true;
+    notice();
+    const token=view,date=edition.date;
+    try{
+      let next=await request('preparar-extra',{date});
+      if(token!==view)return;
+      if(next.watch){
+        const complete=await window.Ads.rewarded({kind:'tendencias'});
+        if(!complete||token!==view)return;
+        next=await request('activar-extra',{date});
+      }
+      if(token!==view)return;
+      edition=next;
+      if(next.current)renderQuestion();
+      else summary();
+    }catch(error){
+      if(token===view)notice(error.status?error.message:'No se pudo abrir la partida extra. Inténtalo de nuevo.');
+    }finally{
+      if(token===view){pending=false;button.disabled=false}
+    }
+  }
+
+  function openPlan(){
+    dialog.close();
+    setTimeout(()=>{
+      window.Progress.open();
+      const plan=document.querySelector('.profile-plan');
+      plan?.scrollIntoView({block:'center'});
+      if(plan){plan.tabIndex=-1;plan.focus({preventScroll:true})}
+    },0);
   }
 
   async function load(){
     const token=++view;
     pending=false;
     progress.textContent='Tres gráficas al día';
+    subtitle.textContent='';
     avatar({mood:''});
     screen('<p class="trends-caption" role="status">Cargando las gráficas de hoy…</p>',{focus:false});
     try{
@@ -305,9 +405,13 @@
     else if(button.hasAttribute('data-trends-reveal'))reveal();
     else if(button.hasAttribute('data-trends-retry'))load();
     else if(button.hasAttribute('data-trends-set'))storePoint();
+    else if(button.hasAttribute('data-trends-extra'))startExtra(button);
+    else if(button.hasAttribute('data-trends-plan'))openPlan();
     else if(button.hasAttribute('data-trends-clear')){
       draft.fill(null);
+      trace.fill(null,1);
       element('.trends-cursor').setAttribute('visibility','hidden');
+      element('[data-trends-coordinate]').textContent='';
       syncEditor();
       updateDraft();
     }

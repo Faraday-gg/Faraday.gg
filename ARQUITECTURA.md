@@ -83,13 +83,13 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
-  tendencias.js, tendencias.css  Traza la tendencia: dibujo anual, comparación y avatar
+  tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
-content/tendencias.json  Banco versionado de 102 gráficas históricas
+content/tendencias*.json Banco vigente de 102 gráficas y banco anterior para partidas iniciadas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
@@ -130,11 +130,11 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Traza la tendencia
 
-El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco se prepara a partir de World Development Indicators con `research/preparar-tendencias.py` y se carga en el servidor.
+El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco combina visitas mensuales de Wikimedia Analytics con series WDI. Se prepara con los scripts de `research/` y se carga en el servidor.
 
-`POST /api/tendencias` admite `estado` y `revelar`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y, con al menos tres trazos ajenos, la media de la comunidad.
+`POST /api/tendencias` admite `estado`, `revelar`, `preparar-extra` y `activar-extra`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y, con al menos tres trazos ajenos, la media de la comunidad.
 
-En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers` y `trend_community` en Supabase, con ámbitos separados para Preview y producción. La migración está pendiente de aplicación. Ver [decisión 0085](docs/decisiones/0085-traza-la-tendencia.md).
+En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers`, `trend_community` y `trend_replays` en Supabase, con ámbitos separados para Preview y producción. Las migraciones están pendientes de aplicación. El plan activo desbloquea una partida extra al día y el anuncio de prueba verifica la espera desde el servidor. Ver [decisión 0086](docs/decisiones/0086-graficas-y-partida-extra.md).
 
 ## Duelos
 

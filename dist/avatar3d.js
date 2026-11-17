@@ -692,7 +692,7 @@ const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','
 const POOL={cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
 function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
-function nextClip(item,t){let pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(attentive())pool=pool.filter(name=>name!=='mirar'&&name!=='pensar')||pool;if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
+function nextClip(item,t){let pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(attentive(item))pool=pool.filter(name=>name!=='mirar'&&name!=='pensar')||pool;if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
 // Cambia el estado de un avatar animado desde fuera (reactions.js): mood = cómo se queda; clip = gesto que hace ahora;
 // then = estado al que pasa cuando el gesto termina.
 function apply(item,{mood='',clip='',then=null}={}){
@@ -704,21 +704,26 @@ function apply(item,{mood='',clip='',then=null}={}){
 // de la pantalla. La dirección se suaviza despacio (LOOK) y luego pasa por los canales normales, así que los ojos llegan
 // antes y la cabeza les sigue con calma. Si el ratón se queda quieto un rato o sale de la ventana, vuelve a lo suyo.
 // Durante los gestos grandes (bailes, celebraciones, el «¡Ay!») la cabeza apenas se desvía; los ojos sí siguen.
-const pointer={x:0,y:0,at:-1e9},LOOK=3.2,ATTEND=4500;
+const pointer={x:0,y:0,at:-1e9},targets=new WeakMap(),LOOK=3.2,ATTEND=4500;
 const CALM=new Set(['peso','botar','jarras','rascar','pie','hombros','estirar','temblor']);
 const noted=event=>{pointer.x=event.clientX;pointer.y=event.clientY;pointer.at=performance.now()};
 window.addEventListener('pointermove',event=>{if(event.pointerType!=='touch')noted(event)},{passive:true});
 window.addEventListener('pointerdown',noted,{passive:true});
 document.addEventListener('mouseout',event=>{if(!event.relatedTarget)pointer.at=-1e9});
 const clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),wrap=a=>Math.atan2(Math.sin(a),Math.cos(a));
-const attentive=()=>!reduced&&performance.now()-pointer.at<ATTEND;
+function aimFor(item){
+  const target=targets.get(item.el);
+  return target&&performance.now()-target.at<ATTEND?target:pointer;
+}
+const attentive=item=>!reduced&&performance.now()-aimFor(item).at<ATTEND;
 function gaze(item,P,dt){
   const look=item.look||(item.look={w:0,y:0,p:0}),r=item.at&&item.canvas.getBoundingClientRect();
+  const aim=aimFor(item);
   let w=0,yaw=0,pitch=0;
-  if(r?.width&&attentive()&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall){
+  if(r?.width&&!reduced&&performance.now()-aim.at<ATTEND&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall){
     // Píxeles de la cabeza en pantalla y distancia imaginaria del espectador (más cerca en los avatares pequeños).
     const x=r.left+(item.at.x+1)/2*r.width,y=r.top+(1-item.at.y)/2*r.height,far=Math.max(240,r.height*.9);
-    yaw=wrap(Math.atan2(pointer.x-x,far)-item.turn-(item.pose?.ry||0));pitch=Math.atan2(pointer.y-y,far);
+    yaw=wrap(Math.atan2(aim.x-x,far)-item.turn-(item.pose?.ry||0));pitch=Math.atan2(aim.y-y,far);
     // De espaldas no se gira a mirar.
     w=Math.abs(yaw)>1.5?0:1;yaw=clamp(yaw,-.9,.9);pitch=clamp(pitch,-.4,.5);
   }
@@ -845,4 +850,4 @@ enqueue(document.body);
 // Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
 // (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
 const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
-window.Avatar3D={ready:true,shot,views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+window.Avatar3D={ready:true,shot,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};

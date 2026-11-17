@@ -3,6 +3,7 @@
 - **Estado:** implementado en la rama `feat/traza-la-tendencia`, pendiente de revisión.
 - **Fecha:** 2026-11-17.
 - **Quién:** Álvaro, con Codex.
+- **Actualización:** [decisión 0086](0086-graficas-y-partida-extra.md) para el trazo, el avatar, el banco vigente y la partida extra.
 
 ## Contexto
 
