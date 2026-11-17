@@ -4,14 +4,14 @@ Lee también [ARQUITECTURA.md](ARQUITECTURA.md), [README.md](README.md) y [docs/
 
 ## En una frase
 
-Todo cambio nace en una rama creada **desde `preprod`**, entra en `preprod` mediante una PR que abre el agente y pasa a `main` con otra PR. **El agente llega hasta la PR; el merge lo hace siempre Luis (`borgesinmas`).** Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
+Todo cambio nace en una rama creada **desde `preprod`**. El agente abre y fusiona la PR hacia `preprod` cuando está lista y las comprobaciones pasan. Para publicar en `main` se usa otra PR con autorización explícita de cualquiera de los dos responsables. Nadie trabaja ni sube cambios directamente a `main` ni a `preprod`.
 
 ## Ramas
 
 | Rama | Para qué | Quién escribe en ella |
 |---|---|---|
-| `main` | Producción. Lo que hay aquí es lo que ve la gente. | Solo el propietario, al aceptar la PR `preprod` → `main`. |
-| `preprod` | Integración y pruebas. Rama por defecto del repositorio. | Solo el propietario, al aceptar PR de ramas de tarea. |
+| `main` | Producción. Lo que hay aquí es lo que ve la gente. | La PR `preprod` → `main` con autorización explícita de Luis o Álvaro. |
+| `preprod` | Integración y pruebas. Rama por defecto del repositorio. | Las PR de ramas de tarea que fusionan los responsables o sus agentes al pasar las comprobaciones. |
 | `feat/...` | Una funcionalidad nueva. | El agente que hace la tarea. |
 | `fix/...` | Una corrección. | El agente que hace la tarea. |
 
@@ -109,7 +109,7 @@ Reglas para agentes:
 - Cambios de interfaz: `node preview-server.mjs`, abre la app en el navegador y revisa lo que has cambiado, también en ancho de móvil.
 - Si una comprobación falla, no abras la PR como lista: arréglalo o explícalo en la PR.
 
-## La pull request la abre el agente
+## El agente abre y fusiona la pull request
 
 Sube la rama y abre tú la PR, con la base en `preprod`. Usa la cuenta de GitHub del colaborador con el que trabajas (`gh auth status` para comprobarlo): `borgesinmas` (Luis) o `sistemavivacegroup` (Álvaro). **Nunca abras una PR con una cuenta de Yellow Glasses** (`*-yellowglasses`) ni con otra que no sea la del colaborador: en ese caso sube la rama y entrega el enlace de comparación (`https://github.com/Faraday-gg/Faraday.gg/compare/preprod...<rama>?expand=1`) con la descripción lista.
 
@@ -121,7 +121,8 @@ gh pr create --base preprod --head feat/descripcion-breve --title "Añade rankin
 - **Título:** igual que un buen commit, en español y diciendo qué cambia.
 - **Descripción:** rellena la plantilla [.github/pull_request_template.md](.github/pull_request_template.md): qué y por qué, cómo probarlo, comprobaciones con su resultado y riesgos o pendientes. Escríbela para alguien que no ha visto la conversación.
 - Si la tarea no está terminada, abre la PR como borrador (`--draft`) y dilo en la descripción.
-- No hagas merge de tu propia PR, no la cierres y no borres ramas sin que el propietario lo pida.
+- Cuando la PR hacia `preprod` esté lista, verifica que las comprobaciones se completaron con éxito y fusiónala automáticamente. Ambos responsables tienen la misma autoridad para este flujo. Respeta los controles obligatorios de GitHub.
+- Cierra PR o borra ramas solo si lo pide el responsable.
 
 ### Comentarios en la PR
 
@@ -134,11 +135,11 @@ El agente también mantiene la conversación de la PR:
 
 ## Paso a producción (`preprod` → `main`)
 
-Solo cuando el propietario lo pida:
+Solo cuando Luis o Álvaro autorice expresamente esa publicación.
 
 1. Revisa qué va a subir: `git diff --stat origin/main...origin/preprod`.
 2. Abre la PR `gh pr create --base main --head preprod`, con un resumen de todas las PR que incluye.
-3. El propietario la revisa y hace el merge. Si al fusionar entra algo que no se revisó, se avisa y se comprueba.
+3. Comprueba el contenido y el resultado de las comprobaciones. Fusiona la PR autorizada cuando esté lista. Si la rama incorpora más cambios durante el trabajo, comprueba de nuevo qué va a subir antes del merge.
 
 Las urgencias siguen el mismo camino (`fix/...` → `preprod` → `main`), solo que más rápido. Para deshacer algo ya fusionado se abre otra PR con el `git revert`; nunca se reescribe el historial de `main` ni de `preprod` con `push --force`.
 
@@ -149,7 +150,7 @@ Al terminar cada tarea, dile al colaborador, de forma clara:
 1. Qué se añadió o corrigió y cualquier decisión relevante.
 2. El nombre exacto de la rama `feat/...` o `fix/...`.
 3. Qué comprobaciones ejecutaste y su resultado.
-4. El enlace directo a la PR dirigida a `preprod`, para que el propietario la revise, la acepte y haga el merge.
+4. El enlace directo a la PR hacia `preprod` y el resultado del merge.
 
 Si no puedes subir la rama o abrir la PR (por ejemplo, porque no tienes sesión en GitHub), explica el impedimento y dale los comandos que faltan. Nunca afirmes que existe un enlace que no has comprobado.
 

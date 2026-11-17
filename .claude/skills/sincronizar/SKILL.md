@@ -81,5 +81,5 @@ Normas:
 1. Enseña al colaborador un resumen de qué documentos cambiaste y por qué.
 2. Haz commit solo de esos archivos (`git add <archivo>`, nunca `git add -A`), en la rama de la tarea:
    `Sincroniza la documentación con <resumen breve>`.
-3. Sube la rama (`git push -u origin <rama>`). Si la PR ya existe, deja un comentario con lo que se ha documentado (`gh pr comment`); si no existe, ofrécete a abrirla hacia `preprod` usando la entrada de la bitácora como base de la descripción.
-4. No hagas merge ni cambies `main` o `preprod`.
+3. Sube la rama (`git push -u origin <rama>`). Si la PR ya existe, deja un comentario con lo que se ha documentado (`gh pr comment`); si no existe, ábrela hacia `preprod` usando la entrada de la bitácora como base de la descripción.
+4. Cuando la PR esté lista y las comprobaciones hayan pasado, fusiónala hacia `preprod` según [AGENTS.md](../../../AGENTS.md). Para publicar en `main` hace falta autorización explícita de Luis o Álvaro.
