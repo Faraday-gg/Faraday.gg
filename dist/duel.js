@@ -95,12 +95,13 @@
   // marcada en la barra antes de desaparecer, y la cifra del golpe sube flotando.
   function renderHud(){
     hud.classList.toggle('is-three',three());
+    const vitals=who=>`<div class="duel-vitals"><span class="hp-num" data-hp-num="${who}"></span><strong class="duel-boost" data-boost="${who}" title="Multiplicador de daño" hidden><span class="sr-only">Multiplicador de daño: </span><span data-boost-value></span></strong></div>`;
     if(three()){
-      const card=(player,seat)=>`<div class="duel-player${player.hp<=0?' is-out':''}" data-side="${seat===duel.you?'you':'rival'}" data-seat="${seat}">${avatar(player)}<div class="duel-who"><span class="duel-name">${seat===duel.you?'Tú':escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${'Nv. '+player.level}</span><span class="duel-check" data-check="${seat}" hidden>✓</span></div><div class="hp" role="img" data-hp="${seat}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${seat}"></span></div>`;
+      const card=(player,seat)=>`<div class="duel-player${player.hp<=0?' is-out':''}" data-side="${seat===duel.you?'you':'rival'}" data-seat="${seat}">${avatar(player)}<div class="duel-who"><span class="duel-name">${seat===duel.you?'Tú':escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${'Nv. '+player.level}</span><span class="duel-check" data-check="${seat}" hidden>✓</span></div><div class="hp" role="img" data-hp="${seat}"><i class="hp-ghost"></i><i class="hp-fill"></i></div>${vitals(seat)}</div>`;
       hud.innerHTML=`<div class="duel-mid"><span id="duel-round"></span><b id="duel-mult"></b></div>`+[duel.you,...others().map(one=>one.seat)].map(seat=>card(duel.players[seat],seat)).join('');
       hud.hidden=false;hud.dataset.duel=duel.id;setHp(false);return;
     }
-    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(player.rank):''}<span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div><span class="hp-num" data-hp-num="${who}"></span></div>`;
+    const side=(player,who)=>`<div class="duel-player" data-side="${who}">${avatar(player)}<div class="duel-who"><span class="duel-name">${escapeHtml(player.name)}</span>${badge(player)}${betChip(player)}<span class="duel-level">${player.bot?'Bot':'Nv. '+player.level}</span>${window.Ranked&&duel.mode==='ranked'?Ranked.chip(player.rank):''}<span class="duel-check" data-check="${who}" hidden>✓</span></div><div class="hp" role="img" data-hp="${who}"><i class="hp-ghost"></i><i class="hp-fill"></i></div>${vitals(who)}</div>`;
     hud.innerHTML=side(me(),'you')+`<div class="duel-mid"><span id="duel-round"></span><b id="duel-mult"></b></div>`+side(rival(),'rival');
     hud.hidden=false;hud.dataset.duel=duel.id;setHp(false);
   }
@@ -124,8 +125,30 @@
   }
   function setRoundInfo(){
     const round=duel.round;if(!round||!$('#duel-round'))return;
-    $('#duel-round').textContent=`Ronda ${round.number}`;$('#duel-mult').textContent=`Daño ${times(round.multiplier)}`;
-    for(const [who,index] of three()?duel.players.map((one,seat)=>[String(seat),seat]):[['you',duel.you],['rival',1-duel.you]]){const check=hud.querySelector(`[data-check="${who}"]`);if(check)check.hidden=!(duel.phase==='question'&&round.answered[index])}
+    $('#duel-round').textContent=`Ronda ${round.number}`;
+    $('#duel-mult').textContent=round.multipliers?'Daño':`Daño ${times(round.multiplier)}`;
+    for(const [who,index] of three()?duel.players.map((one,seat)=>[String(seat),seat]):[['you',duel.you],['rival',1-duel.you]]){
+      const check=hud.querySelector(`[data-check="${who}"]`);
+      check.hidden=!(duel.phase==='question'&&round.answered[index]);
+      const boost=hud.querySelector(`[data-boost="${who}"]`),value=round.multipliers?.[index];
+      boost.hidden=value==null;
+      if(value==null)continue;
+      const label=times(value),number=boost.querySelector('[data-boost-value]');
+      if(number.textContent!==label){
+        number.textContent=label;
+        boost.classList.toggle('is-boosted',value>1);
+      }
+    }
+  }
+  function nextRoundNote(round){
+    if(round.nextMultipliers){
+      const winner=round.nextMultipliers.findIndex((value,seat)=>value>round.multipliers[seat]);
+      if(winner===duel.you)return `Tu daño sube a <b>${times(round.nextMultipliers[winner])}</b> en la siguiente ronda.`;
+      if(winner>=0)return `${joinNames([duel.players[winner].name])} sube a <b>${times(round.nextMultipliers[winner])}</b> en la siguiente ronda.`;
+    }else if(round.nextMultiplier>round.multiplier){
+      return `Atención: en la siguiente ronda el daño sube a ${times(round.nextMultiplier)}.`;
+    }
+    return 'Prepárate para la siguiente pregunta.';
   }
 
   // Pantallas
@@ -149,7 +172,7 @@ ${window.Ranked?Ranked.lobby():''}
 <div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
 <div class="duel-modes duel-three-modes"><span class="duel-three-label">Nuevo · 1 vs 1 vs 1</span><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
-<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · en los de tres, cada uno pierde lo que le falta para igualar al mejor</p>`;
+<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada</p>`;
     window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
   }
   function renderWaitingThree(){
@@ -176,7 +199,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><h2 id="duel-title">${escapeHtml(me().name)} contra ${escapeHtml(rival().name)}</h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. El daño empieza flojo y sube en cada ronda.</p>`;
+    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><h2 id="duel-title">${escapeHtml(me().name)} contra ${escapeHtml(rival().name)}</h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. ${duel.round.multipliers?'Tu daño empieza en ×1 y sube +0,5 cada vez que ganas una ronda.':'El daño empieza flojo y sube en cada ronda.'}</p>`;
     showVersus();sfx.tension();
   }
   // Pantalla «VS» a toda pantalla al encontrar rival: cada jugador entra por su lado en una franja diagonal, con el avatar
@@ -206,7 +229,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
     const round=duel.round,q=round.question;switchWorkspace(`duelo:${duel.id}:${round.number}`);setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
-    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number} · daño ${times(round.multiplier)}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multipliers?'':` · daño ${times(round.multiplier)}`}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
 <h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q,{eager:true,links:false}):''}
 <div id="duel-answer"></div>`;
@@ -262,13 +285,14 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     setView('result');setRoundInfo();revealed=duel.id+':'+round.number;
     const column=(player,guess,pointsWon,who)=>`<div class="duel-col${round.loser&&round.loser!==who?' is-best':''}">${figure(player,'col',{emote:round.loser===who?'hurt':round.loser?'cheer':''})}<span class="duel-col-name">${who==='you'?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${guess==null?'—':times(Math.max(guess/round.answer,round.answer/guess))}</span>${guess!=null&&window.CasiCasi?.is(Math.max(guess/round.answer,round.answer/guess))?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${pointsWon}">0</b><small>puntos</small></div>`;
     const outcome=round.loser===null?'Empate en esta ronda: nadie pierde vida.':round.loser==='rival'?`Le quitas <b>${int(round.damage)}</b> de vida a ${escapeHtml(rival().name)}.`:`Pierdes <b>${int(round.damage)}</b> de vida.`;
+    const damageDetail=round.multipliers?`${int(Math.abs(myPoints-theirPoints))} ${times(round.multiplier)}`:`Daño ${times(round.multiplier)}`;
     content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Resultado · ronda ${round.number}</span><span class="duel-kicker" id="duel-countdown"></span></div>
 <h2 id="duel-title" class="duel-q-small">${q.title}</h2>
 <div class="duel-real"><small>Real</small><strong>≈ ${rounded(round.answer)}</strong><span>${q.unit}</span>${round.source?`<a href="${round.source.url}" target="_blank" rel="noopener">Fuente: ${escapeHtml(round.source.title.length>60?round.source.title.slice(0,58)+'…':round.source.title)}</a>`:''}</div>
 <div class="duel-cols">${column(me(),mine,myPoints,'you')}${column(rival(),theirs,theirPoints,'rival')}</div>
-<p class="duel-outcome is-${round.loser||'even'}">${outcome}${round.loser?` <small>Daño ${times(round.multiplier)}</small>`:''}</p>
+<p class="duel-outcome is-${round.loser||'even'}">${outcome}${round.loser?` <small>${damageDetail}</small>`:''}</p>
 ${explainBlock(q,round.answer,round.explain,final?'':' <small>· también al final del duelo</small>')}
-${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atención: en la siguiente ronda el daño sube a ${times(round.nextMultiplier)}.`:'Prepárate para la siguiente pregunta.'}</p>`}`;
+${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
     // La barra de vida baja un instante después de ver los puntos, con su golpe.
     setTimeout(()=>{if(!duel||revealed!==duel.id+':'+round.number)return;setHp(true);(round.loser==='you'?sfx.hit:round.loser==='rival'?sfx.good:sfx.even)()},reduced()?0:1100);
@@ -289,7 +313,7 @@ ${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atenci
 <div class="duel-cols is-three">${seats.map(column).join('')}</div>
 <p class="duel-outcome is-${round.damages[duel.you]>0?'you':hit.length?'rival':'even'}">${outcome}${hit.length?` <small>Daño ${times(round.multiplier)}</small>`:''}</p>
 ${explainBlock(q,round.answer,round.explain,final?'':' <small>· también al final del duelo</small>')}
-${final?'':`<p class="duel-note">${round.nextMultiplier>round.multiplier?`Atención: en la siguiente ronda el daño sube a ${times(round.nextMultiplier)}.`:'Prepárate para la siguiente pregunta.'}</p>`}`;
+${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
     setTimeout(()=>{if(!duel||revealed!==duel.id+':'+round.number)return;setHp(true);(round.damages[duel.you]>0?sfx.hit:round.best.includes(duel.you)?sfx.good:sfx.even)()},reduced()?0:1100);
   }
