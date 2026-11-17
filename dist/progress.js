@@ -489,11 +489,11 @@ ${chosen?medalDetail(chosen,stats):''}
   }
   // El plan del jugador (decisión 0076): qué da la suscripción y si la tiene. Todavía no se puede contratar.
   function planCard(){
-    const perks='duelos sin límite, sin publicidad, anuncios sin tope en el mercado y piezas de suscriptor';
+    const perks='duelos sin límite, una partida extra al día en Traza la tendencia, sin publicidad, anuncios sin tope en el mercado y piezas de suscriptor';
     // El precio que dice Stripe («4,99 € al mes»), si se puede contratar.
     const price=billing?.price&&Number.isFinite(billing.price.amount)?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
     const until=plus&&plusUntil?`<small>hasta el ${dateText(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date(plusUntil)))}</small>`:'';
-    const action=!linked?'':billing?.managed?'<button type="button" class="game-secondary" data-manage-plan>Gestionar la suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Suscribirme${price?` · ${price}`:''}</button>`:'';
+    const action=!linked?'<button type="button" class="game-secondary" data-plan-login>Entrar para ver el plan</button>':billing?.managed?'<button type="button" class="game-secondary" data-manage-plan>Gestionar la suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Suscribirme${price?` · ${price}`:''}</button>`:'';
     const text=plus?`Tienes ${perks}.`:`${REWARD.freeDuels} duelos al día. Con la suscripción: ${perks}.${billing?.enabled?(linked?' Se renueva sola y se cancela cuando quieras.':' Entra con tu cuenta para suscribirte.'):' Todavía no se puede contratar.'}`;
     return `<div class="profile-plan${plus?' is-plus':''}"><p><b>${plus?'Suscripción activa':'Plan gratuito'}</b>${until}</p><p>${text}</p>${action}</div>`;
   }
@@ -635,6 +635,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     // Proteger la racha (decisión 0069): ayer cuenta como jugado y la racha sigue. Con cuenta lo cobra el servidor.
     // Suscripción (decisión 0077): el servidor da la dirección de la página de pago de Stripe, o la de su portal, y se va a ella.
+    if('planLogin' in target.dataset){$('#home-account')?.click();return}
     if('subscribe' in target.dataset||'managePlan' in target.dataset){
       if(target.disabled)return;target.disabled=true;
       serverAsk('subscribe' in target.dataset?'suscribirse':'gestionar-suscripcion',{},'No se pudo abrir la página de pago. Inténtalo otra vez.','Ya tienes la suscripción activa.').then(data=>{if(data?.url)location.href=data.url;else target.disabled=false});

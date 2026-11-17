@@ -28,7 +28,7 @@ La segunda tanda revisa las 87 plantillas a partir de sus 11 magnitudes de orige
 
 También se reescriben 10 preguntas guardadas en Supabase con fuentes primarias y pasos que permiten repetir la cuenta. En Plutón se especifica que la distancia medida parte del Sol. En los 747 se explica que Boeing cuenta también los aviones de carga y que 400 plazas es un supuesto. En el dato de Ecovidrio se convierten kilos de envases de varios tipos a botellas equivalentes de 400 g. [NASA](https://science.nasa.gov/dwarf-planets/pluto/facts/), [Boeing](https://investors.boeing.com/investors/news/press-release-details/2022/Final-Boeing-747-Airplane-Leaves-Everett-Factory/default.aspx), [Ecovidrio](https://ecovidrio.es/resultados-reciclaje-envases-vidrio-espana-2024)
 
-Se verificaron las diferencias y el plan de publicación sobre una copia de los datos. La consulta de las respuestas se limitó a comprobar si existía alguna por pregunta. Las mejoras de esta tanda se explican en la [decisión 0086](../decisiones/0086-conservar-referencias-publicadas.md).
+Se verificaron las diferencias y el plan de publicación sobre una copia de los datos. La consulta de las respuestas se limitó a comprobar si existía alguna por pregunta. Las mejoras de esta tanda se explican en la [decisión 0088](../decisiones/0088-conservar-referencias-publicadas.md).
 
 ## Qué corrigió la primera tanda
 

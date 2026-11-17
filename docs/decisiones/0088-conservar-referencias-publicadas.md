@@ -1,4 +1,4 @@
-# 0086. Conservar la referencia con la que se juega una pregunta
+# 0088. Conservar la referencia con la que se juega una pregunta
 
 - **Estado:** propuesta
 - **Fecha:** 2026-11-17
