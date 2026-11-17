@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
+- **Última actualización:** 2026-11-17, Luis pidió aplicar la migración de las clasificatorias: **aplicada** como `20261116231953_rangos` (el archivo se llamaba `20261112200000_rangos`). Antes: 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -22,7 +22,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | `public.duels` | La memoria del servidor local | Duelos 1 vs 1: una fila por duelo con su estado completo. |
 | `public.leagues`, `public.league_members`, `public.daily_results` | `runtime/ligas.json` del servidor local | Ligas de amigos: las ligas, sus miembros (máximo 15) y la distancia media del reto diario jugado el mismo día. |
 | `public.referral_codes`, `public.referrals` | `runtime/referidos.json` del servidor local | Circuito de amigos (referidos): el código de cada jugador y quién invitó a quién, con los premios ya cobrados. |
-| `public.ranks` (**sin aplicar**) | `runtime/rangos.json` del servidor local | Clasificatorias de los duelos: valoración, partidas y colchón de cada jugador. |
+| `public.ranks` | `runtime/rangos.json` del servidor local | Clasificatorias de los duelos: valoración, partidas y colchón de cada jugador. |
 
 ### Qué está en Supabase y qué no
 
@@ -161,9 +161,9 @@ Cobrar es un `PATCH` con `*_claimed = eq.false` que devuelve la fila: si no la d
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
-### Clasificatorias (migración `20261112200000_rangos`, **sin aplicar**)
+### Clasificatorias (migración `20261116231953_rangos`, aplicada el 2026-11-17)
 
-[Decisión 0043](decisiones/0043-clasificatorias-y-rangos.md), `lib/rangos.mjs`. Hasta que se aplique, la opción «Clasificatoria» responde 503 («Las clasificatorias no están disponibles ahora mismo») y los duelos normales siguen funcionando.
+[Decisión 0043](decisiones/0043-clasificatorias-y-rangos.md), `lib/rangos.mjs`. Si la tabla no respondiera, la opción «Clasificatoria» respondería 503 («Las clasificatorias no están disponibles ahora mismo») y los duelos normales seguirían funcionando.
 
 **`public.ranks`**
 
@@ -527,7 +527,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261116094407` | [suscripciones](../supabase/migrations/20261116094407_suscripciones.sql) | Crea `subscriptions` (quién tiene la suscripción y hasta cuándo), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
 | `20261116102311` | [vitrinas](../supabase/migrations/20261116102311_vitrinas.sql) | Crea `showcases` y la función `showcase_ranking` (vitrinas de colecciones), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
-| `20261112200000` | [rangos](../supabase/migrations/20261112200000_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | **Pendiente**: rama `feat/clasificatorias-rangos`, sin aplicar |
+| `20261116231953` | [rangos](../supabase/migrations/20261116231953_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | 2026-11-17, por Luis con Claude Code (el archivo se llamaba `20261112200000_rangos.sql`) |
 
 ## Pendiente
 
