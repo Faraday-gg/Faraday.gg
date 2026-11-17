@@ -87,6 +87,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0083](0083-multiplicadores-personales-en-duelos.md) | Multiplicadores personales en los duelos | Propuesta | 2026-11-17 |
 | [0084](0084-continuar-desde-el-resultado-de-la-calculadora.md) | Continuar desde el resultado de la calculadora | Aceptada | 2026-11-17 |
 | [0085](0085-fuentes-junto-al-calculo.md) | Fuentes junto a las cifras, supuestos visibles y explicación escrita para el archivo | Propuesta | 2026-11-17 |
+| [0086](0086-conservar-referencias-publicadas.md) | Conservar la referencia con la que se juega una pregunta | Propuesta | 2026-11-17 |
 
 ## Plantilla
 
