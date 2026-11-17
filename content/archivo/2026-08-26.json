@@ -6,36 +6,52 @@
     {
       "id": "archivo-2026-08-26-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "comida",
       "tag": "Pica que pica",
-      "title": "¿Cuántos jalapeños tendrías que comerte para igualar el picante de un solo chile Carolina Reaper?",
-      "detail": "Sumamos unidades Scoville: el Carolina Reaper de su récord Guinness contra jalapeños de 5.000 SHU. Ten un vaso de leche cerca.",
+      "title": "Si todos pesaran lo mismo, ¿cuántos jalapeños contendrían tantos capsaicinoides como un Carolina Reaper?",
+      "detail": "Usa jalapeños de 5.000 unidades Scoville. Los chiles del juego tienen la misma masa; comparamos la cantidad de compuestos picantes, no la sensación al comerlos.",
       "unit": "jalapeños",
       "answer": 328.2366,
-      "math": "El Carolina Reaper certificado por Guinness promedió 1.641.183 SHU. Con jalapeños de 5.000 SHU: 1.641.183 ÷ 5.000 ≈ 328 jalapeños.",
+      "math": "Guinness recoge 1.641.183 unidades Scoville para el Carolina Reaper analizado. Para un jalapeño de 5.000, el cociente es 328,2. A igual masa, esa relación aproxima la cantidad de capsaicinoides.",
       "referenceExpression": "1.641.183 ÷ 5.000",
-      "assumptions": "El picante no se suma de verdad al comer varios chiles; es una comparación de escalas. Jalapeño de 5.000 SHU, en la parte suave de su rango (4.000-8.500). El Reaper fue el chile más picante del mundo hasta 2023, cuando lo superó el Pepper X.",
+      "assumptions": "Igualamos las masas y usamos 5.000 unidades Scoville por jalapeño como valor del modelo. Cada fruto puede tener otra masa y otra concentración.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Carolina Reaper",
-          "url": "https://en.wikipedia.org/wiki/Carolina_Reaper",
-          "fact": "En la certificación de Guinness, un lote promedió 1.641.183 SHU; en 2023 el Pepper X le quitó el título de chile más picante."
+          "title": "Guinness World Records · Carolina Reaper",
+          "url": "https://www.guinnessworldrecords.com/news/2013/11/confirmed-smokin-eds-carolina-reaper-sets-new-record-for-hottest-chilli-53033",
+          "fact": "El Carolina Reaper analizado promedió 1.641.183 unidades Scoville."
         },
         {
-          "title": "Wikipedia · Jalapeño",
-          "url": "https://en.wikipedia.org/wiki/Jalape%C3%B1o",
-          "fact": "Los jalapeños suelen tener entre 4.000 y 8.500 unidades Scoville."
+          "title": "UC Agriculture and Natural Resources · Peppers",
+          "url": "https://ucanr.edu/sites/default/files/2026-04/Peppers%202026.04.pdf",
+          "fact": "La escala mide concentración; el material cita de 2.500 a 8.000 unidades para jalapeños."
         }
       ],
       "reasoning": {
-        "heading": "Scoville entre Scoville",
+        "heading": "La escala mide concentración",
         "steps": [
-          "Un jalapeño pica, pero el Reaper está en otra liga: cientos de veces más. Saldrán cientos de jalapeños.",
-          "1,6 millones ÷ 5.000 ≈ 320. El orden de magnitud: unos pocos cientos.",
-          "Con 1.641.183 SHU salen 328 jalapeños. Con jalapeños más bravos, de 8.000 SHU, bastarían unos 205."
+          "Agregar más jalapeños no hace más concentrado un puré de jalapeños. Aumenta la cantidad total de compuestos picantes, igual que un vaso más grande de agua salada lleva más sal sin cambiar lo salada que está.",
+          "Si dos chiles pesan igual, puedes comparar sus concentraciones para estimar cuántos igualan la cantidad total. 1.641.183 ÷ 5.000 equivale a unas 328 piezas del modelo.",
+          "Con jalapeños de 2.500 unidades, el doble. Si los pesos también cambian, necesitarías la masa de cada variedad para repetir el cálculo."
         ]
+      },
+      "calc": {
+        "intro": "Dividimos las concentraciones porque las dos piezas del modelo tienen la misma masa.",
+        "rows": [
+          {
+            "label": "Carolina Reaper analizado",
+            "value": "1.641.183 SHU",
+            "source": 1
+          },
+          {
+            "label": "Jalapeño de referencia",
+            "value": "÷ 5.000 SHU",
+            "assumed": true
+          }
+        ],
+        "result": "Jalapeños"
       }
     },
     {

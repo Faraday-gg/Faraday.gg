@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-08-14-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "naturaleza",
       "tag": "Buceo de fondo",
       "title": "Nadando a 2 km/h sin parar, ¿cuántos días tardarías en recorrer la Gran Barrera de Coral?",
@@ -15,22 +15,42 @@
       "answer": 47.916666666666664,
       "math": "La Gran Barrera de Coral mide unos 2.300 km. A 2 km/h son 1.150 horas; entre 24 h al día, unos 47,9 días.",
       "referenceExpression": "2300 ÷ 2 ÷ 24",
-      "assumptions": "Trayecto en línea recta a lo largo del arrecife y velocidad constante. Ignoramos corrientes, descansos y que el arrecife es un conjunto de miles de arrecifes.",
+      "assumptions": "La longitud de referencia es la extensión del parque a lo largo de la costa. No es una ruta navegable medida ni la suma de todos los arrecifes. Ignoramos corrientes, paradas y desvíos.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Guinness World Records · Longest reef",
-          "url": "https://www.guinnessworldrecords.com/world-records/66687-longest-reef.html",
-          "fact": "La Gran Barrera de Coral mide aproximadamente 2.300 km (1.430 millas)."
+          "title": "Great Barrier Reef Marine Park Authority · Datos del parque marino",
+          "url": "https://www.gbrmpa.gov.au/learn/fascinating-facts-about-great-barrier-reef",
+          "fact": "El parque marino se extiende unos 2.300 km a lo largo de la costa de Queensland."
         }
       ],
       "reasoning": {
-        "heading": "Longitud entre velocidad",
+        "heading": "Convierte tu velocidad en kilómetros por día",
         "steps": [
-          "El arrecife recorre buena parte de la costa este de Australia: piensa en más de 2.000 km. A paso de nadador tranquilo, eso son semanas.",
-          "2.000 km a 2 km/h son 1.000 horas, unas 42 jornadas de 24 horas. Ya sabemos que es más de un mes.",
-          "Con 2.300 km salen 1.150 horas: 47,9 días sin parar. Con descansos de ocho horas al día te irías a más de 70 días."
+          "La autoridad del parque da unos 2.300 km de extremo a extremo siguiendo la costa. No se trata de nadar por el borde de cada arrecife.",
+          "Si mantuvieras 2 km/h durante 24 horas, harías 48 km al día. Dividir 2.300 entre 48 da casi 48 días.",
+          "Con solo 12 horas de nado al día harías 24 km diarios y tardarías unos 96 días. Reducir a la mitad el tiempo diario duplica los días."
         ]
+      },
+      "calc": {
+        "intro": "Tomamos el largo del parque marino y suponemos una velocidad constante de nado.",
+        "rows": [
+          {
+            "label": "Extensión del parque marino",
+            "value": "≈ 2.300 km",
+            "source": 1
+          },
+          {
+            "label": "Velocidad de nado",
+            "value": "÷ 2 km/h",
+            "assumed": true
+          },
+          {
+            "label": "Horas por día",
+            "value": "÷ 24 h/día"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

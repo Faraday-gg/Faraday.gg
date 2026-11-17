@@ -7,7 +7,7 @@
       {
         "id": "piloto-v3-2026-11-09-1",
         "revision": 1,
-        "verifiedAt": "2026-11-10",
+        "verifiedAt": "2026-11-17",
         "category": "lugares",
         "tag": "Toalla en la plaza",
         "title": "¿Cuántas toallas de playa harían falta para cubrir la Plaza de España de Sevilla?",
@@ -16,18 +16,13 @@
         "answer": 33333.333333333336,
         "math": "La Plaza de España ocupa unos 50.000 m² en total. Cada toalla mide 1 × 1,5 m = 1,5 m². 50.000 ÷ 1,5 ≈ 33.333 toallas.",
         "referenceExpression": "50000 ÷ (1 × 1,5)",
-        "assumptions": "Usamos la superficie total aproximada, que suma unos 19.000 m² construidos y 31.000 m² al aire libre. La toalla grande de 100 × 150 cm es un supuesto del modelo.",
+        "assumptions": "Tomamos los 50.000 m² del recinto completo que publica Turismo de Sevilla, con sus edificios. La toalla de 100 × 150 cm es la que fija el juego. Comparamos áreas sin contar recortes ni solapes.",
         "confidence": "Dato aproximado + cálculo",
         "sources": [
           {
-            "title": "Wikipedia · Plaza de España (Sevilla)",
-            "url": "https://es.wikipedia.org/wiki/Plaza_de_Espa%C3%B1a_(Sevilla)",
-            "fact": "Su superficie total es de unos 50.000 m²: unos 19.000 m² construidos y 31.000 m² de espacio abierto."
-          },
-          {
-            "title": "Wikipedia · Towel",
-            "url": "https://en.wikipedia.org/wiki/Towel",
-            "fact": "Una toalla de baño grande, que envuelve todo el cuerpo, mide 100 × 150 cm o 90 × 160 cm."
+            "title": "Turismo de Sevilla · La Plaza de España",
+            "url": "https://www.legacy.visitasevilla.es/historia/la-plaza-de-espana",
+            "fact": "La plaza, inaugurada en 1929, ocupa unos 50.000 m² de superficie total."
           }
         ],
         "image": {
@@ -39,23 +34,25 @@
           "licenseUrl": "https://commons.wikimedia.org/wiki/File:PlazaEspanaDesdeAire.jpg"
         },
         "reasoning": {
-          "heading": "Primero la plaza, luego la toalla",
+          "heading": "Cada tres metros cuadrados piden dos toallas",
           "steps": [
-            "La plaza es enorme: un gran semicírculo con edificios, ría y explanada. Digamos que ocupa como siete campos de fútbol, unos 50.000 m².",
-            "Una toalla grande ocupa metro y medio cuadrado: 50.000 ÷ 1,5 son más de 30.000 toallas.",
-            "Con los 50.000 m² de la plaza salen 33.333 toallas. Si solo cubrieras los 31.000 m² al aire libre, bastarían unas 20.667."
+            "Turismo de Sevilla da 50.000 m² para toda la plaza; la comparación cubre la huella del recinto, no los pisos de los edificios por separado.",
+            "Una toalla de 100 × 150 cm mide 1 × 1,5 m; una pareja cubre 3 m². Caben unas 16.667 parejas en la superficie total: unas 33.333 toallas.",
+            "Si usas toallas de 1 m², la cuenta sube a 50.000. El área de cada toalla controla el resultado: pasar de 1 m² a 1,5 m² lo reduce a dos tercios."
           ]
         },
         "calc": {
-          "intro": "La plaza ocupa como siete campos de fútbol, y una toalla grande, metro y medio cuadrado.",
+          "intro": "Dividimos la superficie total del recinto entre el área de una toalla abierta.",
           "rows": [
             {
-              "label": "Superficie de la plaza",
-              "value": "50.000 m²"
+              "label": "Superficie total del recinto",
+              "value": "≈ 50.000 m²",
+              "source": 1
             },
             {
-              "label": "Una toalla de 1 × 1,5 m",
-              "value": "÷ 1,5 m²"
+              "label": "Superficie de una toalla",
+              "value": "÷ (1 m × 1,5 m)",
+              "assumed": true
             }
           ],
           "result": "Toallas"
@@ -64,7 +61,7 @@
       {
         "id": "piloto-v2-2",
         "revision": 2,
-        "verifiedAt": "2026-11-09",
+        "verifiedAt": "2026-11-17",
         "category": "espacio",
         "tag": "Charcutería orbital",
         "title": "¿Cuántos jamones pesarían lo mismo que la Estación Espacial Internacional?",
@@ -82,24 +79,26 @@
           }
         ],
         "reasoning": {
-          "heading": "Primero imagina qué estás pesando",
+          "heading": "Compara masas en la misma unidad",
           "steps": [
-            "Los paneles solares se ven enormes, pero son finos: no conviene imaginar la estación como un bloque macizo de metal. La masa se concentra en módulos, estructura y equipos. Un punto de partida plausible es varios cientos de toneladas.",
-            "Probemos con 400 toneladas y un jamón de unos 7 kg. Pasar a kilos da 400.000; dividido entre 7 queda cerca de 57.000 jamones. La cifra de referencia debería estar por ahí.",
-            "NASA publica una masa de referencia de 419.725 kg. Con nuestro jamón de 7 kg salen 59.960,71 jamones equivalentes: en lenguaje útil, unos 60.000. No es una masa inmutable de la ISS: los vehículos y la carga acoplados la hacen variar."
+            "La ficha de la NASA publica 419.725 kg, unas 420 toneladas. Esa masa puede variar al acoplarse o separarse naves y carga.",
+            "En una tonelada caben algo más de 140 jamones de 7 kg. Otra forma de hacerlo de cabeza: 420.000 ÷ 7 = 60.000.",
+            "Usando la masa de la ficha salen cerca de 59.961 jamones equivalentes. Si fueran piezas de 8 kg, necesitarías unos 52.500; elegir el tamaño del jamón importa más que afinar la tonelada."
           ]
         },
         "referenceExpression": "419725 ÷ 7",
         "calc": {
-          "intro": "La estación pesa cientos de toneladas; un jamón entero, unos 7 kilos.",
+          "intro": "La NASA publica la masa de la estación; el juego fija cuánto pesa el jamón.",
           "rows": [
             {
-              "label": "Masa de la ISS",
-              "value": "419.725 kg"
+              "label": "Masa de referencia de la estación",
+              "value": "419.725 kg",
+              "source": 1
             },
             {
-              "label": "Un jamón entero",
-              "value": "÷ 7 kg"
+              "label": "Masa de cada jamón",
+              "value": "÷ 7 kg",
+              "assumed": true
             }
           ],
           "result": "Jamones"
@@ -371,7 +370,7 @@
       {
         "id": "piloto-v2-8",
         "revision": 2,
-        "verifiedAt": "2026-11-09",
+        "verifiedAt": "2026-11-17",
         "category": "arquitectura",
         "tag": "París en material de oficina",
         "title": "¿Cuántos clips pesarían lo mismo que la estructura metálica de la torre Eiffel?",
@@ -383,9 +382,9 @@
         "confidence": "Dato documentado + modelo",
         "sources": [
           {
-            "title": "Torre Eiffel · procedencia del hierro",
-            "url": "https://www.toureiffel.paris/fr/actualites/histoire-et-culture/dou-vient-le-fer-de-la-tour-eiffel",
-            "fact": "Masa de la estructura de hierro: 7.300 toneladas."
+            "title": "Tour Eiffel · La torre en cifras",
+            "url": "https://www.toureiffel.paris/en/the-monument/key-figures",
+            "fact": "La estructura metálica pesa 7.300 toneladas; la torre en conjunto pesa 10.100 toneladas."
           }
         ],
         "reasoning": {
@@ -402,7 +401,8 @@
           "rows": [
             {
               "label": "Hierro de la torre",
-              "value": "7.300 t"
+              "value": "7.300 t",
+              "source": 1
             },
             {
               "label": "Gramos en una tonelada",
@@ -419,7 +419,7 @@
       {
         "id": "piloto-v2-9",
         "revision": 2,
-        "verifiedAt": "2026-11-09",
+        "verifiedAt": "2026-11-17",
         "category": "lugares",
         "tag": "Arquitectura de emergencia",
         "title": "¿Cuántos rollos de papel higiénico apilados alcanzarían la punta de la Sagrada Família?",
@@ -431,9 +431,9 @@
         "confidence": "Dimensión documentada + modelo",
         "sources": [
           {
-            "title": "Sagrada Família · cuaderno de arquitectura",
-            "url": "https://www.sagradafamilia.cat/documents/20142/1205286/SF_Booklet_04_20240405_digital_AF.pdf/29d08418-9034-2d14-58fb-b6a5d0c3ff09",
-            "fact": "La torre de Jesucristo está diseñada para alcanzar 172,5 metros."
+            "title": "Sagrada Família · Construcción de la torre de Jesús",
+            "url": "https://blog.sagradafamilia.org/en/phases-construction-jesus-tower/",
+            "fact": "Al instalar el brazo superior de la cruz, la torre alcanzó su altura de 172,5 metros."
           }
         ],
         "image": {
@@ -458,7 +458,8 @@
           "rows": [
             {
               "label": "Torre de Jesucristo",
-              "value": "172,5 m"
+              "value": "172,5 m",
+              "source": 1
             },
             {
               "label": "Alto de un rollo",
@@ -526,42 +527,44 @@
       {
         "id": "piloto-v2-11",
         "revision": 2,
-        "verifiedAt": "2026-11-09",
+        "verifiedAt": "2026-11-17",
         "category": "transporte",
         "tag": "Un baño antes de despegar",
         "title": "¿Cuántas bañeras podrías llenar con el combustible que cabe en un Airbus A380?",
         "detail": "Bañeras de 150 litros, llenas hasta arriba. Compara volúmenes: nadie va a bañarse en queroseno.",
         "unit": "bañeras",
         "answer": 2133.3333333333335,
-        "math": "La capacidad máxima documentada es 320.000 litros. A 150 litros por bañera: unas 2.133 bañeras.",
-        "assumptions": "Capacidad máxima de los depósitos, no consumo de un vuelo. Bañera ideal de 150 litros.",
+        "math": "Redondeamos la capacidad utilizable de la ficha EASA a 320.000 litros. Una bañera del juego tiene 150 L: 320.000 ÷ 150 ≈ 2.133.",
+        "assumptions": "Redondeamos a 320.000 L y suponemos que cada bañera se llena con 150 L. Una bañera real y la cantidad de combustible que lleva un avión pueden variar.",
         "confidence": "Dato del fabricante + modelo",
         "sources": [
           {
-            "title": "Airbus · A380 Facts & Figures, febrero de 2022",
-            "url": "https://www.airbus.com/sites/g/files/jlcbta136/files/2025-01/airbus-a380-facts-and-figures-february-2022.pdf",
-            "fact": "Capacidad máxima de combustible: 320.000 litros."
+            "title": "EASA · Certificado de tipo del Airbus A380, § 3.3",
+            "url": "https://www.easa.europa.eu/en/downloads/7309/en",
+            "fact": "El certificado de 2026 lista 324.339 litros de combustible utilizable, incluidos 793 litros en los sistemas. Redondeamos a 320.000 L para esta estimación."
           }
         ],
         "reasoning": {
-          "heading": "Empieza por imaginar un vuelo de muchas horas",
+          "heading": "La capacidad del tanque no es lo que siempre lleva",
           "steps": [
-            "Un A380 transporta a cientos de pasajeros muy lejos. Sus depósitos no estarán en la escala de un coche: conviene pensar en cientos de miles de litros.",
-            "Si apuestas por 300.000 litros y una bañera grande necesita unos 150, la división sale fácil: 300.000 ÷ 150 = 2.000.",
-            "Airbus documenta una capacidad máxima de 320.000 L. Dividir entre 150 L da 2.133,33 bañeras equivalentes. Capacidad máxima y combustible consumido en un vuelo no son lo mismo."
+            "El certificado de EASA da 324.339 L utilizables con los sistemas incluidos. Para estimar redondeamos a 320.000 L. Si usaras el dato sin redondear, saldrían unas 2.162 bañeras, en vez de 2.133.",
+            "Cada 1.000 litros equivalen a 1 m³. El tanque equivale a 320 m³ y una bañera de 150 litros a 0,15 m³. El cociente equivale a unas 2.133 bañeras.",
+            "Comprueba con números fáciles: 2.000 bañeras de 150 L necesitarían 300.000 L. Los 20.000 L restantes darían para unas 133 más."
           ]
         },
         "referenceExpression": "320000 ÷ 150",
         "calc": {
-          "intro": "El depósito del A380 es enorme; una bañera llena, unos 150 litros.",
+          "intro": "Redondeamos la capacidad de combustible utilizable y la comparamos con una bañera de 150 litros.",
           "rows": [
             {
-              "label": "Combustible del A380",
-              "value": "320.000 L"
+              "label": "Combustible utilizable redondeado",
+              "value": "≈ 320.000 L",
+              "source": 1
             },
             {
-              "label": "Una bañera",
-              "value": "÷ 150 L"
+              "label": "Agua que cabe en una bañera del juego",
+              "value": "÷ 150 L",
+              "assumed": true
             }
           ],
           "result": "Bañeras"
@@ -570,42 +573,48 @@
       {
         "id": "piloto-v2-12",
         "revision": 2,
-        "verifiedAt": "2026-11-09",
+        "verifiedAt": "2026-11-17",
         "category": "cultura",
         "tag": "Seis piezas, una vida",
         "title": "Si probaras una construcción distinta con seis piezas LEGO cada segundo, ¿cuántos años necesitarías para verlas todas?",
         "detail": "Seis ladrillos 2 × 4 del mismo color, unidos de las formas habituales que cuenta LEGO House. Sin repetir y sin dormir. Años de 365 días.",
         "unit": "años",
         "answer": 29.01775003170979,
-        "math": "LEGO House cita 915.103.765 construcciones. A una por segundo, dividido entre 31.536.000 segundos al año: unos 29 años.",
+        "math": "LEGO publica 915.103.765 combinaciones con seis ladrillos de 2 × 4. A una por segundo son 915.103.765 segundos; al dividir entre 31.536.000 segundos al año resultan unos 29 años.",
         "assumptions": "Es el recuento estándar de construcciones conectadas con seis ladrillos iguales, no una enumeración con ángulos arbitrarios.",
         "confidence": "Recuento documentado + modelo",
         "sources": [
           {
-            "title": "LEGO House · presentación oficial, 2025",
-            "url": "https://legohouse.com/media/gxbornxs/eng_lego-house-social-presentation-19-5-25.pdf",
-            "fact": "Para seis ladrillos del mismo color se citan 915.103.765 combinaciones."
+            "title": "LEGO · The stud and tube principle",
+            "url": "https://www.lego.com/en-us/history/articles/d-the-stud-and-tube-principle",
+            "fact": "LEGO cuenta 915.103.765 formas de combinar seis ladrillos de tamaño 2 × 4."
           }
         ],
         "reasoning": {
-          "heading": "Lo difícil es intuir cuántas formas distintas existen",
+          "heading": "El problema es recorrer todas las combinaciones",
           "steps": [
-            "Con dos ladrillos ya puedes desplazar uno respecto al otro. Al añadir más, aparecen posiciones verticales, laterales y ramificaciones. El número crece mucho más rápido que seis veces el de dos piezas.",
-            "Una vez que sospechas cientos de millones de construcciones, compara con el tiempo: un año tiene unos 30 millones de segundos. Mil millones de pruebas exigirían algo más de treinta años.",
-            "LEGO House cita 915.103.765 construcciones estándar con seis ladrillos iguales. A una por segundo y años de 365 días, son 29,018 años. No estamos contando piezas inclinadas en ángulos arbitrarios ni el tiempo de desmontarlas."
+            "LEGO da el número para seis ladrillos de 2 × 4. Cambiar su posición relativa, el giro o los puntos de encaje abre configuraciones distintas; no estamos contando solo torres.",
+            "Un año de 365 días tiene 31.536.000 segundos. A una configuración por segundo podrías probar unos 31,5 millones cada año.",
+            "Treinta años a ese ritmo darían para unos 946 millones, algo más que el total de LEGO. Si cada configuración llevara dos segundos, el tiempo subiría a unos 58 años."
           ]
         },
         "referenceExpression": "915103765 ÷ (365 × 24 × 3600)",
         "calc": {
-          "intro": "Una construcción por segundo, y un año tiene unos 31,5 millones de segundos.",
+          "intro": "Convertimos las combinaciones publicadas por LEGO en años a una prueba por segundo.",
           "rows": [
             {
-              "label": "Construcciones posibles",
-              "value": "915.103.765"
+              "label": "Combinaciones de seis ladrillos 2 × 4",
+              "value": "915.103.765",
+              "source": 1
             },
             {
-              "label": "Segundos en un año",
-              "value": "÷ 31.536.000"
+              "label": "Combinaciones probadas por segundo",
+              "value": "÷ 1/s",
+              "assumed": true
+            },
+            {
+              "label": "Segundos en un año de 365 días",
+              "value": "÷ (365 × 24 × 3.600)"
             }
           ],
           "result": "Años"

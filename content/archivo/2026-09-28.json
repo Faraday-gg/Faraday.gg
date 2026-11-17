@@ -71,7 +71,7 @@
     {
       "id": "archivo-2026-09-28-3",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "comida",
       "tag": "Baño vitamínico",
       "title": "¿Cuántas naranjas harían falta para llenar una bañera de zumo?",
@@ -84,18 +84,34 @@
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "USDA FoodData Central · Orange juice, raw",
-          "url": "https://fdc.nal.usda.gov/food-details/169098/nutrients",
-          "fact": "Una naranja da 86 g de zumo; una taza (236,6 ml) de zumo pesa 248 g."
+          "title": "USDA · Nutritive Value of Foods, tabla 9",
+          "url": "https://www.ars.usda.gov/is/np/NutritiveValueofFoods/NutritiveValueofFoods.pdf",
+          "fact": "Entradas 329 y 330: una taza de zumo de naranja crudo pesa 248 g; el zumo de una naranja pesa 86 g."
         }
       ],
       "reasoning": {
-        "heading": "Litros de bañera entre zumo por naranja",
+        "heading": "Pesa cuánto rinde una naranja y pásalo a volumen",
         "steps": [
-          "Una naranja da como mucho medio vaso de zumo: unos 80 ml.",
-          "150 litros son 150.000 ml: 150.000 ÷ 80 ≈ 1.900 naranjas.",
-          "Con 0,0820 L por naranja salen 1.828: unas 18 cajas de naranjas y una tarde entera exprimiendo."
+          "El USDA da dos medidas para el zumo crudo: 86 g de rendimiento por naranja y 248 g por taza. Dividir 86 entre 248 dice qué fracción de taza rinde cada fruta: un poco más de un tercio.",
+          "Una taza de la medida estadounidense son unos 237 ml. Un poco más de un tercio de una taza da unos 82 ml por naranja; doce naranjas dan casi un litro.",
+          "Multiplica las doce naranjas por los 150 litros de la bañera para obtener una estimación mental de 1.800. La cuenta sin redondear da unas 1.828. Una naranja seca o grande cambiaría más la cifra que ese redondeo."
         ]
+      },
+      "calc": {
+        "intro": "Convertimos el rendimiento de una naranja de gramos a litros antes de dividir.",
+        "rows": [
+          {
+            "label": "Volumen de la bañera",
+            "value": "150 L",
+            "assumed": true
+          },
+          {
+            "label": "Volumen exprimido por naranja",
+            "value": "÷ (86 ÷ 248 × 0,2366 L)",
+            "source": 1
+          }
+        ],
+        "result": "Naranjas"
       }
     }
   ]

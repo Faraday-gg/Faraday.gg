@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-08-12-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "naturaleza",
       "tag": "Árbol de colegio",
       "title": "¿Cuántos lápices saldrían del tronco de la secuoya General Sherman, el árbol más grande del mundo?",
@@ -15,13 +15,13 @@
       "answer": 247766666.66666666,
       "math": "El National Park Service da al tronco unos 1.486,6 m³, es decir, 1.486.600.000 cm³. Entre 6 cm³ de madera por lápiz: unos 247,8 millones de lápices.",
       "referenceExpression": "1486,6 × 1000000 ÷ 6",
-      "assumptions": "Suponemos que toda la madera del tronco se aprovecha y que cada lápiz necesita unos 6 cm³. En la práctica se pierde mucha madera al serrar, y no se puede talar: es un árbol protegido de un parque nacional.",
+      "assumptions": "Usamos 6 cm³ de madera por lápiz y aprovechamiento ideal del tronco. En una fábrica se perdería madera al retirar la corteza, secar y cortar.",
       "confidence": "Dato oficial + modelo",
       "sources": [
         {
-          "title": "National Park Service · The General Sherman Tree",
-          "url": "https://www.nps.gov/seki/learn/nature/sherman.htm",
-          "fact": "El árbol más grande del mundo por volumen: unos 52.500 pies cúbicos (1.486,6 m³) de tronco; 83,8 m de altura."
+          "title": "National Park Service · Los árboles más grandes del mundo",
+          "url": "https://www.nps.gov/seki/learn/nature/largest-trees-in-world.htm",
+          "fact": "Clasifica a General Sherman como el mayor por volumen del tronco: 52.508 pies cúbicos, unos 1.487 m³."
         }
       ],
       "image": {
@@ -33,12 +33,32 @@
         "licenseUrl": "https://creativecommons.org/licenses/by/3.0"
       },
       "reasoning": {
-        "heading": "Del tronco a la caja de lápices",
+        "heading": "El tamaño del lápiz limita la cuenta",
         "steps": [
-          "El General Sherman mide más de 80 m de alto y 11 m de ancho en la base. Un tronco así tiene más de mil metros cúbicos de madera.",
-          "Un lápiz es un palito de unos 18 cm por 0,7 cm de grosor: unos 6 cm³. Un metro cúbico da para unos 170.000 lápices.",
-          "Con los 1.486,6 m³ del Parque Nacional salen 247,8 millones de lápices: uno para cada alumno de Europa y de sobra para repetir."
+          "El National Park Service compara el volumen de los troncos; no cuenta las ramas. Tomamos unos 1.487 m³ como volumen de partida.",
+          "Un lápiz de 18 cm necesita una sección media de un tercio de cm² para sumar 6 cm³ de madera. Esa sección corresponde aproximadamente a un círculo de 6,5 mm de diámetro: es un modelo que puedes comprobar con una regla.",
+          "En 1 m³ caben un millón de cm³: unas 167.000 piezas de 6 cm³. Multiplica por unos 1.487 m³ y llegas a unos 248 millones, antes de descontar desperdicio."
         ]
+      },
+      "calc": {
+        "intro": "Pasamos el volumen del tronco a centímetros cúbicos y lo dividimos entre la madera de un lápiz.",
+        "rows": [
+          {
+            "label": "Volumen del tronco",
+            "value": "≈ 1.486,6 m³",
+            "source": 1
+          },
+          {
+            "label": "Centímetros cúbicos en un metro cúbico",
+            "value": "× 1.000.000"
+          },
+          {
+            "label": "Madera por lápiz",
+            "value": "÷ 6 cm³",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {
