@@ -131,51 +131,54 @@
     {
       "id": "jornada-2026-11-23-3",
       "revision": 1,
-      "verifiedAt": "2026-11-12",
+      "verifiedAt": "2026-11-17",
       "category": "espacio",
       "ambito": "latam",
       "tag": "Espejo con queso",
-      "title": "¿Cuántas pizzas familiares de 40 cm tendrían la misma superficie que el espejo principal del telescopio ELT de Chile?",
-      "detail": "Compara áreas: el espejo es un círculo de 39 m de diámetro y cada pizza, uno de 40 cm. No hace falta encajar círculos; puedes estirar la masa.",
+      "title": "¿Cuántas pizzas de 40 cm sumarían el área de un disco con el mismo diámetro que el espejo principal del ELT de Chile?",
+      "detail": "Imagina que el contorno de 39 m del espejo primario es un disco lleno, sin hueco central. Compara su área con la de pizzas redondas de 40 cm.",
       "unit": "pizzas",
       "answer": 9506.249999999998,
-      "math": "Dos círculos se comparan por el cuadrado de su diámetro: (39 ÷ 0,4)² = 97,5² ≈ 9.506 pizzas.",
+      "math": "El ESO da 39 m como diámetro aproximado. Al comparar dos discos, el área escala con el cuadrado del diámetro: (39 ÷ 0,40)² ≈ 9.506 pizzas equivalentes.",
       "referenceExpression": "39 × 39 ÷ (0,4 × 0,4)",
-      "assumptions": "Tratamos el espejo como un círculo lleno de 39 m, aunque en realidad está hecho de 798 segmentos hexagonales y tiene un hueco central. La pizza familiar de 40 cm es una condición del juego.",
+      "assumptions": "Usamos un disco ideal del diámetro exterior. El espejo real es segmentado y tiene un hueco central, de modo que recoge luz en una superficie menor. Comparamos áreas, sin intentar embaldosar un círculo de pizzas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "ESO · ELT: el espejo primario M1",
+          "title": "ESO · ELT, espejo primario M1",
           "url": "https://elt.eso.org/mirror/M1/",
-          "fact": "El espejo primario del ELT tiene 39 m de diámetro y está formado por 798 segmentos de unos 1,45 m."
+          "fact": "El diámetro nominal del espejo primario es de 39 m; está formado por 798 segmentos."
+        },
+        {
+          "title": "ESO · Diseño óptico del ELT",
+          "url": "https://eso.org/sci/facilities/eelt/telescope/mirrors/",
+          "fact": "La ficha del diseño óptico indica una obstrucción central de 11,1 m en el primario."
         }
       ],
       "reasoning": {
-        "heading": "Diámetros al cuadrado",
+        "heading": "Si multiplicas el diámetro, el área crece dos veces",
         "steps": [
-          "El espejo del ELT, en el desierto de Atacama, mide casi 40 m de lado a lado; una pizza familiar, 0,4 m. El diámetro es 100 veces mayor.",
-          "Las superficies crecen con el cuadrado: 100² = 10.000 pizzas.",
-          "Con 39 m exactos, 39 ÷ 0,4 = 97,5, y 97,5² = 9.506 pizzas familiares para cubrir el espejo."
+          "El ESO describe un espejo segmentado de unos 39 m. Para la cuenta, trazamos en torno a él un disco de ese diámetro e ignoramos la abertura central.",
+          "Cada pizza mide 0,40 m de ancho. A lo largo del diámetro entran 97,5 anchos de pizza. El área crece tanto a lo ancho como a lo largo: elevamos 97,5 al cuadrado.",
+          "El resultado ronda 9.500. Si descontaras solo un disco central de 11,1 m, eliminarías unas 770 pizzas equivalentes; aún no sería una medida exacta del vidrio."
         ]
       },
       "calc": {
-        "intro": "Dos círculos: se comparan los diámetros al cuadrado.",
+        "intro": "Comparamos dos discos ideales: el de 39 m del contorno exterior y el de una pizza de 40 cm.",
         "rows": [
           {
-            "label": "Diámetro del espejo",
-            "value": "39 m"
+            "label": "Diámetro exterior del modelo",
+            "value": "39 m",
+            "source": 1
           },
           {
             "label": "Diámetro de la pizza",
-            "value": "÷ 0,4 m"
+            "value": "÷ 0,40 m",
+            "assumed": true
           },
           {
-            "label": "Veces más ancho",
-            "value": "= 97,5"
-          },
-          {
-            "label": "Al cuadrado",
-            "value": "× 97,5"
+            "label": "Relación de áreas",
+            "value": "= (39 ÷ 0,40)²"
           }
         ],
         "result": "Pizzas familiares"

@@ -1,9 +1,9 @@
-# 0086. Gráficas ampliadas y partida extra en Traza la tendencia
+# 0087. Gráficas ampliadas y partida extra en Traza la tendencia
 
 - **Estado:** en revisión.
 - **Fecha:** 2026-11-17.
 - **Quién:** Álvaro, con Codex.
-- **Amplía:** [decisión 0085](0085-traza-la-tendencia.md).
+- **Amplía:** [decisión 0086](0086-traza-la-tendencia.md).
 
 ## Decisión
 

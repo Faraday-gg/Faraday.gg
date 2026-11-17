@@ -86,8 +86,9 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0082](0082-duelos-1vs1vs1.md) | Duelos 1vs1vs1: partidas de tres | Aceptada (daño actualizado en [0083](0083-multiplicadores-personales-en-duelos.md)) | 2026-11-16 |
 | [0083](0083-multiplicadores-personales-en-duelos.md) | Multiplicadores personales en los duelos | Propuesta | 2026-11-17 |
 | [0084](0084-continuar-desde-el-resultado-de-la-calculadora.md) | Continuar desde el resultado de la calculadora | Aceptada | 2026-11-17 |
-| [0085](0085-traza-la-tendencia.md) | Traza la tendencia: partida diaria de gráficas con avatar y comparación comunitaria | En revisión | 2026-11-17 |
-| [0086](0086-graficas-y-partida-extra.md) | Gráficas ampliadas, avatar lateral, banco de cultura popular y una partida extra diaria | En revisión | 2026-11-17 |
+| [0085](0085-fuentes-junto-al-calculo.md) | Fuentes junto a las cifras, supuestos visibles y explicación escrita para el archivo | Propuesta | 2026-11-17 |
+| [0086](0086-traza-la-tendencia.md) | Traza la tendencia: partida diaria de gráficas con avatar y comparación comunitaria | En revisión | 2026-11-17 |
+| [0087](0087-graficas-y-partida-extra.md) | Gráficas ampliadas, avatar lateral, banco de cultura popular y una partida extra diaria | En revisión | 2026-11-17 |
 
 ## Plantilla
 

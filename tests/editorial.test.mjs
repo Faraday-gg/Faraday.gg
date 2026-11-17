@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {getDay,madridDate,written} from '../content-engine.mjs';
 import {ambitos} from '../lib/generar.mjs';
+import {buildContent} from '../lib/publicar.mjs';
+import {auditQuestions} from '../research/auditar-preguntas.mjs';
 const baseline=JSON.parse(fs.readFileSync('content/banco-base.json','utf8'));
 assert.equal(baseline.length,21);assert(baseline.every(q=>q.image&&fs.existsSync('dist/'+q.image.src)&&q.reasoning?.steps.length===3&&q.referenceExpression));
 // Cuenta por pasos (decisión 0029): las preguntas del piloto la traen escrita a mano.
@@ -60,4 +62,19 @@ console.log(`OK: 21 fotos y razonamientos; 29 ediciones nuevas (${writtenIds.siz
   for(const day of archive){assert(day.id<'2026-11-09',`${day.id}: el archivo va antes del piloto`);assert(fs.existsSync(`content/archivo/${day.id}.json`))}
   for(let i=1;i<editorialDays.length;i++)assert.equal(Date.parse(editorialDays[i].id)-Date.parse(editorialDays[i-1].id),86400000,'Jornadas editoriales consecutivas');
   console.log(`OK: ${editorialDays.length} jornadas editoriales desde ${FIRST_DAY} (${archive.length} de archivo), con categoría válida; ${Math.round(photos*100)} % con foto.`);
+}
+
+// Las cuentas se pueden reproducir con sus unidades normalizadas. La auditoría separa
+// los errores aritméticos de las referencias que todavía necesitan revisión humana.
+{
+  const {questions}=buildContent('https://local.invalid');
+  for(const q of auditQuestions(questions)){
+    assert(q.relativeError!==null&&q.relativeError<=.0005,`${q.id}: ${q.expression} da ${q.calculated}, esperaba ${q.answer}`);
+  }
+  const example=auditQuestions([{id:'ejemplo',day_id:'2026-08-09',content:{answer:120,referenceExpression:'100 ÷ 2'}}])[0];
+  assert(example.issues.includes('operación y respuesta difieren más del 0,05 %'));
+  for(const {id,content:q} of questions)for(const r of q.calc?.rows||[]){
+    if(r.source!==undefined)assert(Number.isInteger(r.source)&&q.sources[r.source-1]&&!r.assumed,`${id}: la fila «${r.label}» apunta a una fuente existente`);
+  }
+  console.log(`OK: operaciones reproducibles y citas de las filas válidas en ${questions.length} preguntas.`);
 }

@@ -134,7 +134,7 @@ El jugador completa el tramo oculto de tres series históricas y puede repasar l
 
 `POST /api/tendencias` admite `estado`, `revelar`, `preparar-extra` y `activar-extra`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y, con al menos tres trazos ajenos, la media de la comunidad.
 
-En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers`, `trend_community` y `trend_replays` en Supabase, con ámbitos separados para Preview y producción. Las migraciones están pendientes de aplicación. El plan activo desbloquea una partida extra al día y el anuncio de prueba verifica la espera desde el servidor. Ver [decisión 0086](docs/decisiones/0086-graficas-y-partida-extra.md).
+En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers`, `trend_community` y `trend_replays` en Supabase, con ámbitos separados para Preview y producción. Las migraciones están pendientes de aplicación. El plan activo desbloquea una partida extra al día y el anuncio de prueba verifica la espera desde el servidor. Ver [decisión 0087](docs/decisiones/0087-graficas-y-partida-extra.md).
 
 ## Duelos
 

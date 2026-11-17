@@ -44,7 +44,7 @@
     {
       "id": "archivo-2026-09-25-2",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "arquitectura",
       "tag": "Tejas sin prisa",
       "title": "Colocando una teja cada 30 segundos, ¿cuántos días tardarías en cubrir la Ópera de Sídney?",
@@ -53,13 +53,13 @@
       "answer": 366.66875,
       "math": "Las cubiertas de la Ópera llevan 1.056.006 tejas. A 30 s cada una: 31.680.180 segundos; entre 86.400 s por día: 366,7 días.",
       "referenceExpression": "1056006 × 30 ÷ 86400",
-      "assumptions": "Ritmo constante las 24 horas. En la obra real las tejas se montaron en paneles prefabricados.",
+      "assumptions": "Una persona y 30 segundos por teja, sin descansos. En la obra real se prepararon módulos de tejas, en vez de colocar cada una por separado sobre la cubierta.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Sydney Opera House",
-          "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
-          "fact": "Las cubiertas están revestidas con 1.056.006 tejas de dos colores."
+          "title": "Sydney Opera House · The spherical solution",
+          "url": "https://www.sydneyoperahouse.com/our-story/the-spherical-solution",
+          "fact": "El techo tiene 1.056.006 tejas, agrupadas para el montaje en 4.228 módulos."
         }
       ],
       "image": {
@@ -71,12 +71,32 @@
         "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
       },
       "reasoning": {
-        "heading": "Tejas por tiempo",
+        "heading": "¿Qué ritmo hace falta para colocar un millón de piezas?",
         "steps": [
-          "Las velas se ven lisas, pero son un mosaico de tejas pequeñas: del orden de un millón.",
-          "A dos tejas por minuto, un millón son 500.000 minutos: unas 8.300 horas, casi un año sin dormir.",
-          "Con 1.056.006 tejas salen 366,7 días. Con jornadas de 8 horas, serían tres años largos."
+          "La Ópera cuenta 1.056.006 tejas en la cubierta. Se agruparon en más de cuatro mil módulos antes del montaje: ese es un dato de la obra, distinto del método del juego.",
+          "Dos tejas por minuto son 120 por hora y 2.880 por día sin parar. Al dividir el total por ese ritmo salen cerca de 367 días.",
+          "Si la persona trabajara ocho horas al día, el ritmo diario bajaría a un tercio. El mismo trabajo ideal rondaría entonces los tres años."
         ]
+      },
+      "calc": {
+        "intro": "Calculamos cuánto tardaría una sola persona, con el mismo tiempo para cada teja.",
+        "rows": [
+          {
+            "label": "Tejas de la cubierta",
+            "value": "1.056.006",
+            "source": 1
+          },
+          {
+            "label": "Tiempo por teja",
+            "value": "× 30 s",
+            "assumed": true
+          },
+          {
+            "label": "Segundos por día",
+            "value": "÷ 86.400 s/día"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

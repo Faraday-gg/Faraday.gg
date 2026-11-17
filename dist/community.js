@@ -61,35 +61,29 @@ function questionMedia(q,{eager=false,links=true}={}){
   const photo=q.image;
   return `<figure class="question-photo"><button type="button" class="photo-zoom" data-photo-zoom aria-expanded="false" aria-label="Ampliar fotografía"><img src="${photo.src}" alt="${escapeHtml(photo.alt)}" loading="${eager?'eager" fetchpriority="high':'lazy'}"></button><figcaption>${links?`<a href="${photo.url}" target="_blank" rel="noopener">${photo.credit}</a> · <a href="${photo.licenseUrl}" target="_blank" rel="noopener">${photo.license}</a>`:`${photo.credit} · ${photo.license}`}</figcaption></figure>`;
 }
-function sourceMarkup(q){return `<details class="sources"><summary>Fuentes y supuestos</summary><p class="source-confidence">${q.confidence} · Comprobado el 09/11/2026</p><ul>${q.sources.map(s=>`<li><a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)} ↗</a><p>${escapeHtml(s.fact)}</p></li>`).join('')}</ul><p class="source-assumptions"><strong>Qué estamos suponiendo</strong>${escapeHtml(q.assumptions)}</p></details>`}
-function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`}
-// Panel «Cómo se calcula» (decisión 0029): una frase, la cuenta en filas separadas por una línea tenue y la cifra final resaltada.
-// Las filas salen de q.calc (escritas a mano); si la pregunta no las trae, se deducen de referenceExpression.
-const CALC_NUMBER=/\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?(?:\.\d+)?/g;
-// En referenceExpression la coma es decimal y el punto, si aparece en grupos de tres, separa miles.
-function calcNumber(text){const n=Number(/\.\d{3}(?!\d)/.test(text)&&!/^\d+\.\d{1,2}$/.test(text)?text.replace(/\./g,'').replace(',','.'):text.replace(',','.'));return Number.isFinite(n)?new Intl.NumberFormat('es-ES',{maximumFractionDigits:3,useGrouping:'always'}).format(n):text}
-function calcFromExpression(expression){
-  const text=String(expression||'').trim(),tokens=text.match(new RegExp(CALC_NUMBER.source+'|[×÷+−*/^()-]','g'));if(!tokens)return null;
-  if(tokens.length===1)return [];
-  if(tokens.length<3||tokens.some(t=>'()^'.includes(t)))return [{label:'La cuenta',value:text.replace(CALC_NUMBER,calcNumber)}];
-  const words={'×':'Multiplicado por','*':'Multiplicado por','÷':'Dividido entre','/':'Dividido entre','+':'Más','−':'Menos','-':'Menos'},signs={'*':'×','/':'÷','-':'−'};
-  const rows=[{label:'Partimos de',value:calcNumber(tokens[0])}];
-  for(let i=1;i+1<tokens.length;i+=2){if(!words[tokens[i]])return [{label:'La cuenta',value:text.replace(CALC_NUMBER,calcNumber)}];rows.push({label:words[tokens[i]],value:`${signs[tokens[i]]||tokens[i]} ${calcNumber(tokens[i+1])}`})}
-  return rows;
+function populationMarkup(q){return `<section class="population" aria-label="Cómo respondieron los demás"><div id="population-${q.id}"><p class="population-status">Cargando…</p></div></section>`;}
+function sourceLink(source){
+  const title=escapeHtml(source.title||'Fuente');
+  return /^https:\/\/[^\s]+$/i.test(source.url||'')?`<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener">${title}</a>`:title;
 }
+// Solo se muestran filas escritas para la pregunta. Una fórmula por sí sola no explica qué significa cada número.
 function calcMarkup(q){
-  const rows=q.calc?.rows?.length?q.calc.rows:calcFromExpression(q.referenceExpression);if(!rows)return '';
+  if(!q.calc?.rows?.length)return '';
   const answer=new Intl.NumberFormat('es-ES',{maximumSignificantDigits:3,useGrouping:'always'}).format(q.answer);
-  const row=(label,value,extra='')=>`<div class="calc-row${extra}"><dt>${escapeHtml(label)}</dt><dd>${escapeHtml(value)}</dd></div>`;
-  return `<dl class="calc-table">${rows.map(r=>row(r.label,r.value)).join('')}${row(q.calc?.result||'Resultado',`≈ ${answer} ${q.unit}`,' calc-result')}</dl>`;
+  const row=({label,value,source,assumed},extra='')=>{
+    const citation=Number.isInteger(source)&&source>0?q.sources?.[source-1]:null;
+    const note=citation?sourceLink(citation):assumed?'Supuesto del modelo':'';
+    return `<div class="calc-row${extra}"><dt>${escapeHtml(label)}${note?`<span class="calc-basis">${note}</span>`:''}</dt><dd>${escapeHtml(value)}</dd></div>`;
+  };
+  return `<dl class="calc-table">${q.calc.rows.map(r=>row(r)).join('')}${row({label:q.calc.result||'Resultado',value:`≈ ${answer} ${q.unit}`},' calc-result')}</dl>`;
 }
 function explainMarkup(q){
-  const intro=q.calc?.intro||q.reasoning?.heading||'';
   const table=calcMarkup(q);
-  const steps=q.reasoning?`<details class="explain-more"><summary>Razonamiento completo</summary><ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol></details>`:'';
-  const body=table?`${intro?`<p class="calc-intro">${escapeHtml(intro)}</p>`:''}${table}${steps}`:`<p>${escapeHtml(q.math)}</p>`;
-  const sources=`<p class="explain-sources">Fuentes: ${q.sources.map(s=>`<a href="${s.url}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a>`).join(' · ')}</p>`;
-  return `${body}${q.assumptions?`<p class="explain-note">${escapeHtml(q.assumptions)}</p>`:''}${questionMedia(q)}${sources}`;
+  const explanation=table?q.calc.intro:q.math;
+  const steps=q.reasoning?.steps?.length?`<details class="explain-more"><summary>Razonamiento completo</summary><ol class="explain-steps">${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol></details>`:'';
+  const expression=!table&&q.referenceExpression&&!q.math?.includes(q.referenceExpression)?`<details class="explain-more calc-expression"><summary>Ver la operación de referencia</summary><p>${escapeHtml(q.referenceExpression)}</p></details>`:'';
+  const sources=q.sources?.length?`<div class="explain-sources"><strong>De dónde salen los datos</strong><ul>${q.sources.map(s=>`<li>${sourceLink(s)}${s.fact?`<span>${escapeHtml(s.fact)}</span>`:''}</li>`).join('')}</ul></div>`:'';
+  return `${explanation?`<p class="calc-intro">${escapeHtml(explanation)}</p>`:''}${table}${expression}${q.assumptions?`<p class="explain-note"><strong>Supuestos: </strong>${escapeHtml(q.assumptions)}</p>`:''}${sources}${steps}${questionMedia(q)}`;
 }
 function compactNumber(value){return new Intl.NumberFormat('es-ES',{notation:value>=1e12?'scientific':'compact',maximumFractionDigits:1}).format(value)}
 function reasoningMarkup(q){

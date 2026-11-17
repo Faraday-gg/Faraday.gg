@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-08-18-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "espacio",
       "tag": "Día interminable",
       "title": "¿Cuántas horas dura un día sideral de Venus?",
@@ -25,12 +25,27 @@
         }
       ],
       "reasoning": {
-        "heading": "Venus gira despacísimo",
+        "heading": "El signo habla de dirección, no de duración",
         "steps": [
-          "Venus es famoso por girar tan lento que su día es más largo que su año. Su año dura unos 225 días terrestres, así que la rotación debe superar esa cifra.",
-          "Si da una vuelta en unos 240 días, en horas son 240 × 24 ≈ 5.800.",
-          "NASA da 5.832,6 horas, unos 243 días. Como gira al revés, el Sol sale por el oeste y un día solar dura «solo» 2.802 horas."
+          "Para medir un día sideral, imagina una marca en el suelo y espera hasta que vuelva a orientarse hacia la misma estrella lejana.",
+          "La ficha de NASA da −5.832,6 horas. El signo menos indica un giro retrógrado; para una duración contamos 5.832,6 horas, unas 243 jornadas terrestres.",
+          "Si miraras el Sol en lugar de las estrellas, obtendrías un día solar de unas 2.802 horas. Venus se mueve a lo largo de su órbita mientras gira, de modo que son dos medidas distintas."
         ]
+      },
+      "calc": {
+        "intro": "El día sideral termina cuando Venus acaba una rotación respecto de las estrellas.",
+        "rows": [
+          {
+            "label": "Rotación sideral según NASA",
+            "value": "−5.832,6 h",
+            "source": 1
+          },
+          {
+            "label": "Duración: magnitud sin signo",
+            "value": "= 5.832,6 h"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

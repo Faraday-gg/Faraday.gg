@@ -1,9 +1,9 @@
-# 0085. Traza la tendencia
+# 0086. Traza la tendencia
 
 - **Estado:** implementado en la rama `feat/traza-la-tendencia`, pendiente de revisión.
 - **Fecha:** 2026-11-17.
 - **Quién:** Álvaro, con Codex.
-- **Actualización:** [decisión 0086](0086-graficas-y-partida-extra.md) para el trazo, el avatar, el banco vigente y la partida extra.
+- **Actualización:** [decisión 0087](0087-graficas-y-partida-extra.md) para el trazo, el avatar, el banco vigente y la partida extra.
 
 ## Contexto
 

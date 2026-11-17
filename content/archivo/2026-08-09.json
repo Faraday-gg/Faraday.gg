@@ -6,22 +6,22 @@
     {
       "id": "archivo-2026-08-09-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "comida",
       "tag": "Oro rojo",
       "title": "¿Cuántas flores de azafrán hacen falta para reunir un kilo de azafrán?",
       "detail": "Cuenta flores de Crocus sativus recogidas a mano y despojadas de sus estigmas, que se tuestan hasta quedar secos. El kilo es de azafrán seco, listo para la paella; las abejas no colaboran.",
       "unit": "flores",
       "answer": 142857.14285714287,
-      "math": "Una flor recién cogida rinde de media unos 7 mg de azafrán seco (Wikipedia, «Saffron»). Un kilo son 1.000.000 mg: 1.000.000 ÷ 7 ≈ 142.857 flores.",
+      "math": "Una referencia agronómica recopilada por el Ministerio de Agricultura sitúa el rendimiento entre 100.000 y 150.000 flores por kilo seco. Si usamos 7 mg por flor, 1.000.000 ÷ 7 da unas 143.000 flores.",
       "referenceExpression": "1000000 ÷ 7",
-      "assumptions": "Usamos el rendimiento medio por flor. Cada flor da tres estigmas y su peso varía con la variedad, la cosecha y el secado; otras fuentes citan entre 100.000 y 300.000 flores por kilo.",
+      "assumptions": "Usamos 7 mg secos por flor, un valor compatible con el intervalo publicado. El rendimiento depende de la cosecha y del secado.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · Saffron (Harvesting)",
-          "url": "https://en.wikipedia.org/wiki/Saffron",
-          "fact": "Una flor recién recogida rinde de media 30 mg de azafrán fresco o 7 mg seco; en torno a 150.000 flores por kilogramo."
+          "title": "Ministerio de Agricultura · Agricultura, n.º 637",
+          "url": "https://www.mapa.gob.es/ministerio/pags/Biblioteca/Revistas/pdf_Agri%2FAgri_1985_637_completa.pdf",
+          "fact": "La referencia agronómica estima de 100.000 a 150.000 flores para obtener 5 kg de estigmas frescos, que se reducen a 1 kg tras el secado."
         }
       ],
       "image": {
@@ -33,12 +33,27 @@
         "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
       },
       "reasoning": {
-        "heading": "Piensa en miligramos, no en flores",
+        "heading": "La mayor parte del peso se va al secar",
         "steps": [
-          "Un estigma de azafrán es un hilillo rojo que casi no pesa. Si una flor diera algo menos de 10 mg de especia seca, un kilo pediría al menos 100.000 flores.",
-          "Con 3 estigmas por flor y unos 2 mg secos por estigma, cada flor aporta 6 mg. 1.000.000 mg entre 6 dan unas 167.000 flores: hablamos de cientos de miles.",
-          "El rendimiento medio documentado es de 7 mg secos por flor, así que salen 142.857 flores. Con flores más pequeñas o un secado más intenso la cifra sube con facilidad hacia las 200.000: por eso el azafrán cuesta lo que cuesta."
+          "La referencia del Ministerio describe una pérdida de cuatro quintas partes del peso entre separar los estigmas y secarlos. Por eso se cuentan miligramos de hebra seca por flor, no flores enteras.",
+          "Si hacen falta entre 100.000 y 150.000 flores por kilo, cada flor aporta entre 6,7 y 10 mg secos. Usamos 7 mg para la cuenta: un kilo son un millón de miligramos.",
+          "Si la cosecha diera 10 mg por flor en vez de 7, bastarían 100.000. Esa diferencia de rendimiento importa mucho más que redondear el resultado al millar."
         ]
+      },
+      "calc": {
+        "intro": "Divide un kilo de especia seca entre lo que rinde una flor.",
+        "rows": [
+          {
+            "label": "Objetivo de azafrán seco",
+            "value": "1.000.000 mg"
+          },
+          {
+            "label": "Rendimiento por flor",
+            "value": "÷ 7 mg",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

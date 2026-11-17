@@ -36,8 +36,14 @@
       "calc": {
         "intro": "Las búsquedas de un año repartidas entre sus segundos.",
         "rows": [
-          {"label": "Búsquedas al año", "value": "5.000.000.000.000"},
-          {"label": "Segundos de un año", "value": "÷ 31.536.000 s"}
+          {
+            "label": "Búsquedas al año",
+            "value": "5.000.000.000.000"
+          },
+          {
+            "label": "Segundos de un año",
+            "value": "÷ 31.536.000 s"
+          }
         ],
         "result": "Búsquedas por segundo"
       }
@@ -75,10 +81,22 @@
       "calc": {
         "intro": "Las visitas de un año repartidas por minutos, y diez minutos de huevo.",
         "rows": [
-          {"label": "Visitas al año", "value": "42.000.000"},
-          {"label": "Minutos de un año", "value": "÷ 525.600 min"},
-          {"label": "Visitas por minuto", "value": "= 79,9"},
-          {"label": "Huevo duro", "value": "× 10 min"}
+          {
+            "label": "Visitas al año",
+            "value": "42.000.000"
+          },
+          {
+            "label": "Minutos de un año",
+            "value": "÷ 525.600 min"
+          },
+          {
+            "label": "Visitas por minuto",
+            "value": "= 79,9"
+          },
+          {
+            "label": "Huevo duro",
+            "value": "× 10 min"
+          }
         ],
         "result": "Visitas por huevo"
       }
@@ -86,7 +104,7 @@
     {
       "id": "jornada-2026-11-28-3",
       "revision": 1,
-      "verifiedAt": "2026-11-12",
+      "verifiedAt": "2026-11-17",
       "category": "espacio",
       "ambito": "mundial",
       "tag": "Viaje al Webb",
@@ -106,20 +124,30 @@
         }
       ],
       "reasoning": {
-        "heading": "Kilómetros entre velocidad, horas entre 24",
+        "heading": "La distancia aumenta mucho antes de llegar a Webb",
         "steps": [
-          "El Webb está mucho más lejos que la Luna, aunque muchísimo más cerca que el Sol. Hablamos de más de un millón de kilómetros.",
-          "Un millón y medio de kilómetros a 100 km/h son unas 15.000 horas. Un día tiene 24 horas: entre 600 y 700 días.",
-          "La cuenta exacta da 625 días: casi un año y nueve meses conduciendo sin parar para llegar al telescopio."
+          "Según NASA, el Webb orbita el Sol en torno a la región de L2, a unos 1,5 millones de kilómetros de la Tierra. No está clavado en ese punto: se mueve alrededor de él.",
+          "A 100 km/h recorres 2.400 km en un día si no paras. Dividir 1.500.000 km por 2.400 km diarios da 625 días.",
+          "La propia NASA indica que la nave tardó cerca de un mes en llegar a esa región. Los 625 días solo comparan la distancia con la velocidad de un auto, en un trayecto ideal."
         ]
       },
       "calc": {
-        "intro": "Distancia al Webb entre la velocidad del auto, y de horas a días.",
+        "intro": "Usamos la separación aproximada entre la Tierra y la zona donde orbita Webb.",
         "rows": [
-          {"label": "Distancia al Webb", "value": "1.500.000 km"},
-          {"label": "Velocidad del auto", "value": "÷ 100 km/h"},
-          {"label": "Horas de viaje", "value": "= 15.000 h"},
-          {"label": "Horas por día", "value": "÷ 24"}
+          {
+            "label": "Distancia nominal a L2",
+            "value": "≈ 1.500.000 km",
+            "source": 1
+          },
+          {
+            "label": "Velocidad constante",
+            "value": "÷ 100 km/h",
+            "assumed": true
+          },
+          {
+            "label": "Horas por día",
+            "value": "÷ 24 h/día"
+          }
         ],
         "result": "Días de viaje"
       },

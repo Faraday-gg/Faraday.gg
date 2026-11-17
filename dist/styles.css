@@ -402,7 +402,7 @@
 .calc-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:9px 0;border-bottom:1px dashed color-mix(in srgb,var(--g-fg) 14%,transparent)}
 .calc-row:last-child{border-bottom:0}
 .calc-row dt{flex:1 1 auto;font-size:14px;line-height:1.35;min-width:0}
-.calc-row dd{flex:0 1 auto;max-width:62%;margin:0;font-size:14px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.calc-row dd{flex:0 1 auto;min-width:min(10ch,40%);max-width:62%;margin:0;font-size:14px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .calc-result dt,.calc-result dd{font-weight:800}
 .calc-result dd{color:var(--g-accent)}
 .explain-more{margin:0 0 10px;font-size:13px}
@@ -418,8 +418,13 @@
 .photo-zoom img{display:block;width:100%;height:110px;max-height:none;object-fit:cover;border-radius:14px}
 .explain-panel .question-photo figcaption{color:inherit;opacity:.7;margin-top:4px}
 .explain-panel h4{margin:16px 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
-.explain-sources{margin:8px 0 0;font-size:12px;line-height:1.5;color:var(--g-muted)}
-.explain-sources a,.explain-panel figcaption a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.calc-expression{margin:0 0 10px;font-size:14px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.calc-basis{display:block;margin-top:3px;font-size:12px;color:var(--g-muted)}
+.explain-sources{margin:12px 0;font-size:13px;line-height:1.5;color:var(--g-fg)}
+.explain-sources ul{padding-inline-start:18px;margin:5px 0 0}
+.explain-sources li+li{margin-top:6px}
+.explain-sources li span{display:block}
+.calc-basis a,.explain-sources a,.explain-panel figcaption a{color:inherit;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
 @media(max-width:760px){
   .verdict-x{font-size:clamp(40px,12vw,48px)}
   .ledger>div{padding:12px}

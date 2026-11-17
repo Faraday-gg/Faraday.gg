@@ -13,7 +13,7 @@ Propuestas que aún no hemos decidido hacer: funcionalidades, cambios en el jueg
 | [Reels animados para Instagram: qué funciona hoy y cómo se produce](reels-animados-instagram.md) | Álvaro, con Claude Code | abierta | 2026-11-14 |
 | [Reels de Casi Casi: qué nos falta para producir los mejores vídeos](reels-que-nos-falta.md) | Álvaro, con Claude Code | abierta | 2026-11-14 |
 | [El avatar como escaparate: que lo que se gana se vea](avatar-como-escaparate.md) | Luis, con Claude Code | abierta (primer paso: [decisión 0080](../decisiones/0080-piezas-que-solo-se-ganan.md)) | 2026-11-16 |
-| [Partidas extra en Traza la tendencia](partidas-extra-tendencias.md) | Álvaro | aprobada para prueba: [decisión 0086](../decisiones/0086-graficas-y-partida-extra.md) | 2026-11-17 |
+| [Partidas extra en Traza la tendencia](partidas-extra-tendencias.md) | Álvaro | aprobada para prueba: [decisión 0087](../decisiones/0087-graficas-y-partida-extra.md) | 2026-11-17 |
 
 Estados: **abierta** (por discutir), **aprobada** (enlazar a la decisión o PR), **descartada** (dejar el motivo).
 

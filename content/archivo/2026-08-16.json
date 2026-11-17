@@ -36,16 +36,16 @@
     {
       "id": "archivo-2026-08-16-2",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "cuerpo",
       "tag": "Series nocturnas",
-      "title": "Si cada sueño fuera un capítulo, ¿cuántas temporadas de diez capítulos soñarías a lo largo de 80 años?",
-      "detail": "Cuenta un sueño por cada ciclo de sueño, con cinco ciclos por noche durante 80 años, y agrúpalos en temporadas de diez capítulos. Sin anuncios, pero con algún final raro.",
+      "title": "Si cada ciclo de sueño diera un capítulo, ¿cuántas temporadas de diez capítulos soñarías en 80 años con cinco ciclos por noche?",
+      "detail": "Para este juego, imagina un episodio por ciclo de sueño y cinco ciclos cada noche durante 80 años. Una temporada tiene diez episodios.",
       "unit": "temporadas",
       "answer": 14610,
-      "math": "Normalmente hay de 4 a 6 ciclos de sueño por noche y se sueña sobre todo en la fase REM. Con 5 sueños por noche: 80 × 365,25 × 5 = 146.100 sueños. Entre 10 capítulos por temporada: 14.610 temporadas.",
+      "math": "El NHLBI describe de cuatro a seis ciclos de sueño en una noche típica. Elegimos cinco y asignamos un episodio por ciclo: 80 × 365,25 × 5 ÷ 10 = 14.610 temporadas.",
       "referenceExpression": "80 × 365,25 × 5 ÷ 10",
-      "assumptions": "Suponemos un sueño por ciclo, cinco por noche, todas las noches. Muchos sueños no se recuerdan y los bebés tienen otros ritmos, así que es una cuenta de orden de magnitud.",
+      "assumptions": "Un sueño por ciclo es una regla ficticia para estimar. El número real de sueños, su duración y lo que recuerdas varían.",
       "confidence": "Rango fisiológico + modelo",
       "sources": [
         {
@@ -55,12 +55,32 @@
         }
       ],
       "reasoning": {
-        "heading": "De noches a temporadas",
+        "heading": "Un ciclo de sueño no equivale a un sueño contado",
         "steps": [
-          "80 años son unas 29.000 noches. Si cada noche trae varios sueños, hablamos de más de cien mil capítulos.",
-          "Con 5 ciclos por noche salen unos 146.000 sueños; en temporadas de 10, unas 15.000.",
-          "La cuenta exacta da 146.100 sueños y 14.610 temporadas: ninguna plataforma de streaming tiene tanto catálogo, y casi todo lo olvidas al despertar."
+          "El NHLBI describe cuatro a seis ciclos por noche y señala que solemos soñar en la fase REM. Esa fuente mide ciclos; no cuenta sueños individuales.",
+          "Elegimos cinco ciclos por noche y los convertimos, por convenio, en cinco episodios. Diez episodios son una temporada: en el modelo completas una temporada cada dos noches.",
+          "Con unas 29.220 noches en 80 años, salen 14.610 temporadas. Si salieran cuatro episodios por noche en vez de cinco, la cuenta bajaría a unas 11.700."
         ]
+      },
+      "calc": {
+        "intro": "Para el juego contamos un episodio imaginario por ciclo de sueño.",
+        "rows": [
+          {
+            "label": "Noches en 80 años",
+            "value": "80 × 365,25"
+          },
+          {
+            "label": "Episodios por noche",
+            "value": "× 5",
+            "assumed": true
+          },
+          {
+            "label": "Episodios por temporada",
+            "value": "÷ 10",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {
