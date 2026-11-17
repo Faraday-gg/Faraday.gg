@@ -2,7 +2,7 @@
 // ganador, abandono, entrada, chat, premios y bote. No espera ni usa red.
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
-import {RULES,createDuels,memoryDuels,multiplier} from '../lib/duelos.mjs';
+import {RULES,createDuels,memoryDuels} from '../lib/duelos.mjs';
 import {createDuelPrizes} from '../lib/premios.mjs';
 import {betStake,betResult,betPayout} from '../lib/apuestas.mjs';
 import {createRanked,memoryRanks} from '../lib/rangos.mjs';
@@ -49,28 +49,30 @@ try{
   t+=RULES.rushMs+RULES.graceMs;
   c=await call('estado',eva,{id});
   assert.equal(c.data.phase,'reveal');assert.deepEqual(c.data.round.points,[5000,3997,0]);
-  assert.deepEqual(c.data.round.damages,[0,Math.round(1003*multiplier(1)),Math.round(5000*multiplier(1))]);
-  assert.deepEqual(c.data.players.map(p=>p.hp),[6000,6000-201,6000-1000]);assert.deepEqual(c.data.round.best,[0]);
+  assert.deepEqual(c.data.round.damages,[0,1003,5000]);
+  assert.deepEqual(c.data.players.map(p=>p.hp),[6000,4997,1000]);assert.deepEqual(c.data.round.best,[0]);
+  assert.deepEqual(c.data.round.multipliers,[1,1,1]);assert.deepEqual(c.data.round.nextMultipliers,[1.5,1,1]);
 
   // El chat se abre y cada mensaje dice quién lo escribe.
   const chat=await call('chat',eva,{id,kind:'phrase',value:'uff'});
   assert.equal(chat.status,200);assert.deepEqual(chat.data.chat.map(m=>[m.seat,m.from]),[[2,'you']]);
   assert.deepEqual((await call('estado',ana,{id})).data.chat.map(m=>[m.seat,m.from]),[[2,'rival']]);
 
-  // Rondas siguientes: Ana siempre clava, Luis falla por 100× y Eva por 10×. Cae primero Luis; después Eva sigue.
-  let view,round=1;
-  while(true){
-    t+=RULES.revealMs;view=(await call('estado',ana,{id})).data;
-    if(view.phase==='finished')break;
-    round=view.round.number;const real2=answer(view);
-    await call('responder',ana,{id,guess:real2});await call('responder',luis,{id,guess:real2*100});
-    // Con Luis fuera, la ronda se cierra cuando responden los que quedan.
-    const alive=view.round.alive;
-    if(alive.includes(2))await call('responder',eva,{id,guess:real2*10});
-    view=(await call('estado',ana,{id})).data;
-    if(view.status==='finished')break;
-    assert.equal(view.phase,'reveal');assert.equal(view.round.alive.length,alive.length);
+  // Ana y Luis empatan arriba: Eva recibe daño con ×1,5, pero nadie sube su multiplicador.
+  async function playRound(guesses,alive){
+    t+=RULES.revealMs;const open=(await call('estado',ana,{id})).data;
+    assert.deepEqual(open.round.alive,alive);
+    for(const seat of alive)await call('responder',[ana,luis,eva][seat],{id,guess:answer(open)*guesses[seat]});
+    return (await call('estado',ana,{id})).data;
   }
+  let view=await playRound([1,1,1.1],[0,1,2]);
+  assert.deepEqual(view.round.best,[0,1]);assert.deepEqual(view.round.damages,[0,0,207]);
+  assert.deepEqual(view.round.multipliers,[1.5,1,1]);assert.deepEqual(view.round.nextMultipliers,[1.5,1,1]);
+  // Ana elimina a Luis en la tercera y a Eva en la cuarta. Solo los que quedan cierran esa ronda.
+  view=await playRound([1,100,1.1],[0,1,2]);
+  assert.deepEqual(view.round.damages,[0,7500,207]);assert.deepEqual(view.round.nextMultipliers,[2,1,1]);
+  view=await playRound([1,null,2],[0,2]);
+  assert.deepEqual(view.round.damages,[0,0,2006]);
   assert.equal(view.reason,'ko');assert.equal(view.winner,'you');assert.deepEqual(view.places,[1,3,2],'Ana primera; Luis cayó antes que Eva');
   assert.equal((await call('estado',luis,{id})).data.winner,'rival');
   assert(view.rounds.every(r=>r.damages.length===3&&r.points.length===3));

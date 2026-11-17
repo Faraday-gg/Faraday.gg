@@ -125,12 +125,12 @@ runtime/                 Estado local generado; excluido de Git
 
 El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
 
-## Duelos 1 vs 1
+## Duelos
 
-Dos jugadores responden a la vez la misma pregunta y quien queda más lejos pierde vida ([decisión 0023](docs/decisiones/0023-duelos-1vs1.md)). Cada uno empieza con 6000; una respuesta vale de 0 a 5000 puntos según su distancia a la cifra real y quien puntúa menos pierde la diferencia, multiplicada a partir de la ronda 4. Hay 3 minutos por pregunta, que bajan a 30 segundos cuando el rival responde.
+Dos o tres jugadores responden a la vez la misma pregunta. Cada uno empieza con 6000 de vida y una respuesta vale de 0 a 5000 puntos según su proximidad a la cifra real. En el 1v1 normal, el 1v1 clasificatorio y el 1v1v1, quien puntúa por debajo del primero pierde la diferencia por el multiplicador del líder. Cada jugador empieza en ×1 y suma 0,5 al ganar una ronda en solitario, con efecto desde la siguiente pregunta. En un empate en cabeza se aplica el mayor multiplicador de los líderes al daño a terceros. La práctica con Faraday-bot usa un multiplicador común que sube al avanzar de ronda. Hay 3 minutos por pregunta, que bajan a 30 segundos al recibir la primera respuesta. [Decisión sobre los multiplicadores](docs/decisiones/0083-multiplicadores-personales-en-duelos.md).
 
 - `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `activo` (¿tengo un duelo en marcha?, decisión 0042), `responder`, `bot`, `salir` y `revancha`.
-- `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival no llegan al navegador hasta que la ronda termina.
+- `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, con la vida y el multiplicador de cada jugador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival llegan al navegador al terminar la ronda.
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. La migración `20261112005952_duelos` se aplicó el 12 de noviembre de 2026; si la tabla fallara, la ruta responde 503 sin afectar al resto.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
 

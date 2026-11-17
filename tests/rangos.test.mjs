@@ -9,6 +9,7 @@ import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
 import {RANKED_MIN_LEVEL,RANKS,RULES,TOP,rankOf,applyResult,publicRank,expected,fresh,memoryRanks} from '../lib/rangos.mjs';
 import {RULES as DUEL} from '../lib/duelos.mjs';
+import {editorialDays} from '../content-engine.mjs';
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-rangos-'));
 let clock=Date.parse('2026-11-12T10:00:00Z'),seed=11;
@@ -94,6 +95,14 @@ try{
   let b=await duel('buscar',luis,{name:'Luis',mode:'ranked',level:12});
   assert.equal(b.data.id,a.data.id,'Se emparejan los dos de clasificatoria');assert.equal(b.data.phase,'intro');assert.equal(b.data.rankResult,null);
   const id=a.data.id;
+  assert.deepEqual(b.data.round.multipliers,[1,1]);
+  clock+=DUEL.introMs;
+  const question=editorialDays.flatMap(day=>day.questions).find(q=>q.id===b.data.round.question.id);
+  await duel('responder',ana,{id,guess:question.answer});
+  b=await duel('responder',luis,{id,guess:question.answer*2});
+  assert.equal(b.data.round.damage,1003);assert.deepEqual(b.data.round.nextMultipliers,[1.5,1]);
+  clock+=DUEL.revealMs;
+  b=await duel('estado',luis,{id});assert.deepEqual(b.data.round.multipliers,[1.5,1]);
   // Luis abandona: gana Ana. Los PR se apuntan una sola vez aunque los dos consulten varias veces.
   b=await duel('salir',luis,{id});assert.equal(b.data.status,'finished');
   assert.equal(b.data.rankResult.delta,-RULES.placementK/2);assert.equal(b.data.rankResult.change,'placement');

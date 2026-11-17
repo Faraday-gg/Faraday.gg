@@ -36,7 +36,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0031](0031-ligas-de-amigos.md) | Ligas de amigos con clasificación semanal | Propuesta (migración aplicada) | 2026-11-12 |
 | [0032](0032-tarjeta-para-stories.md) | Tarjeta para stories al compartir el resultado del día | Propuesta | 2026-11-12 |
 | [0033](0033-avatar-en-el-reto-y-recompensa.md) | El avatar reacciona en el reto diario y los aciertos se celebran | Propuesta | 2026-11-12 |
-| [0034](0034-dano-progresivo-en-duelos.md) | Daño progresivo en los duelos | Propuesta | 2026-11-12 |
+| [0034](0034-dano-progresivo-en-duelos.md) | Daño progresivo en los duelos | Sustituida para nuevos duelos entre jugadores por [0083](0083-multiplicadores-personales-en-duelos.md) | 2026-11-12 |
 | [0035](0035-medallas-e-insignias.md) | Medallas e insignias en el perfil, con una destacada que ven los rivales y la liga | Propuesta | 2026-11-12 |
 | [0036](0036-seis-cofres.md) | Seis cofres, cada uno con su cualidad y su precio | Propuesta | 2026-11-12 |
 | [0037](0037-sonido-de-los-cofres-por-rareza.md) | Sonido de los cofres: uno por rareza y una cama de fondo | Propuesta | 2026-11-12 |
@@ -83,7 +83,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0079](0079-vitrina-de-colecciones.md) | Vitrina de colecciones: los artículos de colección y las piezas con acabado de cada jugador, a la vista solo si él quiere, y lista de coleccionistas | Propuesta | 2026-11-16 |
 | [0080](0080-piezas-que-solo-se-ganan.md) | Piezas del avatar que solo se ganan: de rango y de medalla | Propuesta | 2026-11-16 |
 | [0081](0081-avatar-en-las-tarjetas-para-compartir.md) | El avatar en las tarjetas para compartir, y una tarjeta para los duelos | Propuesta | 2026-11-16 |
-| [0082](0082-duelos-1vs1vs1.md) | Duelos 1vs1vs1: partidas de tres | Aceptada | 2026-11-16 |
+| [0082](0082-duelos-1vs1vs1.md) | Duelos 1vs1vs1: partidas de tres | Aceptada (daño actualizado en [0083](0083-multiplicadores-personales-en-duelos.md)) | 2026-11-16 |
+| [0083](0083-multiplicadores-personales-en-duelos.md) | Multiplicadores personales en los duelos | Propuesta | 2026-11-17 |
 
 ## Plantilla
 

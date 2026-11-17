@@ -724,7 +724,13 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .hp-ghost{background:var(--coral);opacity:.6;transition:width .9s cubic-bezier(.22,1,.36,1) .8s}
 .hp-fill{background:#2fd67b;transition:width .45s cubic-bezier(.22,1,.36,1),background-color .4s}
 .hp[data-level=mid] .hp-fill{background:#ffb627}.hp[data-level=low] .hp-fill{background:var(--coral)}
-.hp-num{grid-area:num;font:500 13px var(--num);font-variant-numeric:tabular-nums}
+.duel-vitals{grid-area:num;display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px;min-width:0}
+.duel-hud:not(.is-three) .duel-player[data-side=rival] .duel-vitals{flex-direction:row-reverse;justify-content:flex-start}
+.duel-hud.is-three .duel-vitals{justify-content:center}
+.hp-num{font:500 13px var(--num);font-variant-numeric:tabular-nums}
+.duel-boost{display:inline-flex;align-items:center;justify-content:center;min-width:26px;padding:2px 4px;border-radius:8px;background:#20263012;color:var(--ink);font:700 12px/1 var(--num);white-space:nowrap;font-variant-numeric:tabular-nums}
+.duel-boost.is-boosted{background:#ffdb70}
+.duel-boost[hidden]{display:none}
 .hp-hit{position:absolute;top:-8px;right:12px;font:800 19px var(--num);color:#c8321a;text-shadow:0 1px 0 var(--paper);pointer-events:none;animation:duel-hit 1.8s cubic-bezier(.22,1,.36,1) forwards}
 .duel-player[data-side=rival] .hp-hit{right:auto;left:12px}
 .duel-player.is-hit{animation:duel-shake .45s}

@@ -63,6 +63,7 @@ try{
   let b=await duel('buscar',luis,{name:'Luis',avatar:99});
   assert.equal(b.data.id,id,'Se une al duelo que estaba esperando');assert.equal(b.data.phase,'intro');assert.equal(b.data.you,1);assert.deepEqual(b.data.players[1].avatar,{},'Un avatar no válido se queda en el de por defecto');
   assert.deepEqual(b.data.players.map(p=>p.hp),[RULES.maxHp,RULES.maxHp]);
+  assert.deepEqual(b.data.round.multipliers,[1,1]);
   assert.equal((await duel('estado',otra,{id})).status,403,'Un tercero no puede mirar el duelo');
   assert.equal((await duel('responder',ana,{id,guess:10})).status,409,'No se responde antes de que empiece la ronda');
 
@@ -84,32 +85,40 @@ try{
   // Luis no responde: al acabar el tiempo pierde tantos puntos de vida como puntos sacó Ana.
   clock+=RULES.rushMs+RULES.graceMs;
   b=await duel('estado',luis,{id});
-  assert.equal(b.data.phase,'reveal');assert.deepEqual(b.data.round.points,[3997,0]);assert.equal(b.data.round.damage,799);assert.equal(b.data.round.loser,'you');
-  assert.equal(b.data.round.answer,real);assert.deepEqual(b.data.players.map(p=>p.hp),[6000,5201]);
+  assert.equal(b.data.phase,'reveal');assert.deepEqual(b.data.round.points,[3997,0]);assert.equal(b.data.round.damage,3997);assert.equal(b.data.round.loser,'you');
+  assert.deepEqual(b.data.round.multipliers,[1,1]);assert.deepEqual(b.data.round.nextMultipliers,[1.5,1]);
+  assert.equal(b.data.round.answer,real);assert.deepEqual(b.data.players.map(p=>p.hp),[6000,2003]);
   // «Cómo se calcula» llega con el resultado (decisión 0048), igual que en el reto diario.
   assert(b.data.round.explain&&Array.isArray(b.data.round.explain.sources)&&b.data.round.explain.sources.length,'El resultado trae el cálculo y sus fuentes');
   assert(b.data.round.explain.calc||b.data.round.explain.referenceExpression||b.data.round.explain.math,'Hay algo con lo que pintar el cálculo');
   assert.equal((await duel('responder',luis,{id,guess:real})).status,409,'Fuera de tiempo');
 
-  // Rondas 2 a 4: responden los dos y el resultado sale al momento. Ana clava todas y Luis falla por 100×:
-  // el daño crece (1500, 2000, 2500) y Luis aguanta hasta la cuarta, donde cae por K.O.
+  // Luis gana la segunda pese a tener un multiplicador menor. Empatan la tercera y Ana gana las dos últimas.
   const seen=new Set([a.data.round.question.id]);
-  for(const [number,hp] of [[2,3701],[3,1701],[4,0]]){
+  for(const {number,guesses,boosts,next,damage,hp} of [
+    {number:2,guesses:[1.1,1],boosts:[1.5,1],next:[1.5,1.5],damage:138,hp:[5862,2003]},
+    {number:3,guesses:[1,1],boosts:[1.5,1.5],next:[1.5,1.5],damage:0,hp:[5862,2003]},
+    {number:4,guesses:[1,2],boosts:[1.5,1.5],next:[2,1.5],damage:1505,hp:[5862,498]},
+    {number:5,guesses:[1,2],boosts:[2,1.5],next:[2.5,1.5],damage:2006,hp:[5862,0]}
+  ]){
     clock+=RULES.revealMs;
     b=await duel('estado',luis,{id});assert.equal(b.data.phase,'question');assert.equal(b.data.round.number,number);
+    assert.deepEqual(b.data.round.multipliers,boosts);
     const real2=answers.get(b.data.round.question.id);assert(!seen.has(b.data.round.question.id));seen.add(b.data.round.question.id);
-    clock+=5000;await duel('responder',luis,{id,guess:real2*100});
-    clock+=5000;a=await duel('responder',ana,{id,guess:real2});
-    assert.equal(a.data.players[1].hp,hp);
-    if(hp)assert.equal(a.data.phase,'reveal'),assert.equal(a.data.round.nextMultiplier,multiplier(number+1));
+    clock+=5000;await duel('responder',luis,{id,guess:real2*guesses[1]});
+    clock+=5000;a=await duel('responder',ana,{id,guess:real2*guesses[0]});
+    assert.equal(a.data.round.damage,damage);assert.deepEqual(a.data.round.nextMultipliers,next);
+    assert.deepEqual(a.data.players.map(p=>p.hp),hp);
+    assert.equal(a.data.phase,hp[1]?'reveal':'finished');
   }
-  assert.equal(a.data.phase,'finished');assert.equal(a.data.winner,'you');assert.equal(a.data.reason,'ko');assert.equal(a.data.rounds.length,4);assert(a.data.rounds.every(r=>r.question.title&&r.question.answer>0&&r.explain&&r.guesses.length===2),'El repaso final trae cada pregunta con su cálculo');
+  assert.equal(a.data.phase,'finished');assert.equal(a.data.winner,'you');assert.equal(a.data.reason,'ko');assert.equal(a.data.rounds.length,5);assert(a.data.rounds.every(r=>r.question.title&&r.question.answer>0&&r.explain&&r.guesses.length===2),'El repaso final trae cada pregunta con su cálculo');
   b=await duel('estado',luis,{id});assert.equal(b.data.winner,'rival');assert.equal(b.data.round.loser,'you');
 
   // Revancha: Ana la pide, Luis la ve en el duelo terminado y la acepta.
   a=await duel('revancha',ana,{id,name:'Ana'});assert.equal(a.data.status,'waiting');assert.equal(a.data.public,false);
   b=await duel('estado',luis,{id});assert.equal(b.data.next,a.data.code);
   b=await duel('revancha',luis,{id,name:'Luis'});assert.equal(b.data.id,a.data.id);assert.equal(b.data.phase,'intro');
+  assert.deepEqual(b.data.round.multipliers,[1,1]);
 
   // Abandonar da la victoria al rival.
   b=await duel('salir',luis,{id:b.data.id});assert.equal(b.data.winner,'rival');assert.equal(b.data.reason,'abandono');
@@ -129,6 +138,7 @@ try{
   // Bot de práctica: responde solo y recorta el tiempo de la persona.
   a=await duel('crear',ana,{name:'Ana'});a=await duel('bot',ana,{id:a.data.id});
   assert.equal(a.data.players[1].bot,true);assert.equal(a.data.phase,'intro');
+  assert.equal(a.data.round.multiplier,.2);assert(!('multipliers' in a.data.round));
   clock+=RULES.introMs;
   for(let second=0;second<60&&!a.data.round?.answered[1];second++){clock+=1000;a=await duel('estado',ana,{id:a.data.id})}
   assert.equal(a.data.phase,'question');assert.deepEqual(a.data.round.answered,[false,true]);assert.equal(a.data.round.rushed,true);
