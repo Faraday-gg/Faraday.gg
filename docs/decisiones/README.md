@@ -90,6 +90,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0086](0086-traza-la-tendencia.md) | Traza la tendencia: partida diaria de gráficas con avatar y comparación comunitaria | En revisión | 2026-11-17 |
 | [0087](0087-graficas-y-partida-extra.md) | Gráficas ampliadas, avatar lateral, banco de cultura popular y una partida extra diaria | En revisión | 2026-11-17 |
 | [0088](0088-conservar-referencias-publicadas.md) | Conservar la referencia con la que se juega una pregunta | Propuesta | 2026-11-17 |
+| [0089](0089-merge-automatico-de-pr.md) | Merge automático de PR comprobadas hacia preprod | Aceptada | 2026-11-17 |
 
 ## Plantilla
 
