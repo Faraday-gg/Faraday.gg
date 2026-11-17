@@ -6,36 +6,56 @@
     {
       "id": "archivo-2026-10-23-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "comida",
       "tag": "Torre burbujeante",
-      "title": "Si apilaras todas las botellas de champán vendidas en un año, ¿cuántos kilómetros mediría la pila?",
+      "title": "¿Cuántos kilómetros mediría una pila con todas las botellas de champán expedidas en 2025?",
       "detail": "Todas las botellas de champán expedidas en 2025, de pie una sobre otra, sin que se caiga ninguna. Usa la altura de una botella champenoise estándar de 75 cl. El último en descorcharla, que la mire desde abajo.",
       "unit": "km",
       "answer": 79800,
       "math": "En 2025 se expidieron unos 266 millones de botellas de champán. Una botella de 75 cl mide 30 cm. 266.000.000 × 0,30 m = 79.800.000 m ≈ 79.800 km.",
       "referenceExpression": "266000000 × 0,3 ÷ 1000",
-      "assumptions": "Todas las botellas de 75 cl y 30 cm, aunque una parte son magnums o medias botellas. Cifras provisionales de expediciones de 2025 publicadas por el Comité Champagne en enero de 2026.",
+      "assumptions": "Usamos una botella de 30 cm como modelo para todos los formatos. Imaginamos una pila recta ideal.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Vinetur · Champagne shipments fall 2% globally (22/1/2026)",
-          "url": "https://www.vinetur.com/fr/2026012295281/champagne-shipments-fall-2-globally-as-us-market-defies-downturn-with-1-sales-growth.html",
-          "fact": "Según el Comité Champagne, las expediciones mundiales de champán bajaron un 2 % en 2025, hasta 266 millones de botellas."
+          "title": "Comité Champagne · Balance de expediciones 2025",
+          "url": "https://www.champagne.fr/en/find-out-more/mediaroom/champagne-press/champagne-2025-shipment-review-and-outlook",
+          "fact": "En 2025 se expidieron 266 millones de botellas de champán."
         },
         {
-          "title": "Saverglass · Eco Design 75 cl couronne champ 29",
-          "url": "https://saverglass.com/en/our-products/catalog-sparkling-wine/eco-design-75-cl-couronne-champ-29",
+          "title": "Saverglass · Botella de champán Eco Design 75 cl",
+          "url": "https://www.saverglass.com/en/our-products/catalog-sparkling-wine/eco-design-75-cl-couronne-champ-29",
           "fact": "Botella champenoise de 75 cl con una altura de 300 mm."
         }
       ],
       "reasoning": {
-        "heading": "Botellas por altura",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Se venden centenares de millones de botellas de champán al año; pongamos 300 millones. Cada una mide unos 30 cm.",
-          "300 millones × 0,3 m = 90 millones de metros, 90.000 km: más de dos vueltas a la Tierra si la tumbaras.",
-          "Con las 266 millones de botellas de 2025 salen 79.800 km, casi una quinta parte del camino a la Luna."
+          "El Comité Champagne registró expediciones de 266 millones de botellas en 2025. El dato se refiere a botellas enviadas al mercado en ese año.",
+          "Una botella de 30 cm equivale a 0,3 m. Cada millón de botellas apiladas suma 300 km.",
+          "Multiplicar 266 por 300 da 79.800 km, casi dos vueltas de 40.000 km alrededor de la Tierra."
         ]
+      },
+      "calc": {
+        "intro": "Contamos las expediciones de 2025 y usamos la altura de una botella de referencia.",
+        "rows": [
+          {
+            "label": "Botellas expedidas en 2025",
+            "value": "266.000.000",
+            "source": 1
+          },
+          {
+            "label": "Altura por botella",
+            "value": "× 0,3 m",
+            "source": 2
+          },
+          {
+            "label": "Metros por kilómetro",
+            "value": "÷ 1.000"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

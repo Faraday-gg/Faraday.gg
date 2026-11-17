@@ -41,7 +41,7 @@
     {
       "id": "archivo-2026-09-28-2",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "transporte",
       "tag": "Estadios en el aire",
       "title": "Si todos los Boeing 747 fabricados despegaran a la vez llenos, ¿cuántos estadios de 80.000 personas vaciarían?",
@@ -50,22 +50,43 @@
       "answer": 7.87,
       "math": "Boeing fabricó 1.574 aviones 747. Con 400 pasajeros cada uno: 629.600 personas. Entre 80.000 por estadio: 7,87 estadios.",
       "referenceExpression": "1574 × 400 ÷ 80000",
-      "assumptions": "400 plazas es una configuración típica de pasajeros; muchos 747 fueron cargueros sin pasajeros y otros llevaban más de 500. Estadio de 80.000 espectadores.",
+      "assumptions": "Suponemos 400 plazas en cada avión, incluidas las variantes que en la realidad fueron cargueros. Contamos un aforo constante de 80.000.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "AirlineGeeks · Boeing entrega el último 747 a Atlas Air",
-          "url": "https://www.airlinegeeks.com/2023/02/01/boeing-delivers-last-ever-747-to-atlas-air/",
-          "fact": "El programa 747 sumó un total de 1.574 unidades construidas en 54 años de producción en Everett."
+          "title": "Boeing · Final Boeing 747 Airplane Leaves Everett Factory",
+          "url": "https://investors.boeing.com/investors/news/press-release-details/2022/Final-Boeing-747-Airplane-Leaves-Everett-Factory/default.aspx",
+          "fact": "Boeing construyó 1.574 unidades de la familia 747 durante 54 años."
         }
       ],
       "reasoning": {
-        "heading": "Aviones por asientos entre aforo",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Se fabricaron unos 1.500 Jumbos y cada uno lleva unas 400 personas: unas 600.000 en total.",
-          "Un gran estadio tiene 80.000 asientos: 600.000 ÷ 80.000 = 7,5 estadios.",
-          "Con 1.574 aviones salen 629.600 pasajeros y 7,87 estadios: casi ocho finales de Mundial sin nadie en la grada."
+          "Boeing construyó 1.574 aviones de la familia 747. El total incluye aviones de carga, como el último que salió de fábrica.",
+          "La hipótesis del juego pone 400 asientos en cada uno. Un estadio de 80.000 personas llenaría 200 aviones con esa distribución.",
+          "1.574 ÷ 200 equivale a 7,87 estadios. Si cada avión llevara 500 pasajeros, se acercaría a diez estadios."
         ]
+      },
+      "calc": {
+        "intro": "Imaginamos todos los 747 con la misma cantidad de pasajeros y traducimos ese total a estadios.",
+        "rows": [
+          {
+            "label": "Boeing 747 construidos",
+            "value": "1.574",
+            "source": 1
+          },
+          {
+            "label": "Pasajeros por avión del modelo",
+            "value": "× 400",
+            "assumed": true
+          },
+          {
+            "label": "Aforo del estadio imaginario",
+            "value": "÷ 80.000",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

@@ -14,7 +14,19 @@ function fakeSupabase(){
     if(url.pathname===`/storage/v1/object/list/${BUCKET}`)return Response.json([...objects].map(([name,data])=>({name,metadata:{eTag:`"${createHash('md5').update(data).digest('hex')}"`,size:data.length}})));
     if(url.pathname.startsWith(`/storage/v1/object/${BUCKET}/`)){assert.equal(headers.get('x-upsert'),'true');objects.set(decodeURIComponent(url.pathname.split('/').pop()),Buffer.from(init.body));return new Response('{}',{status:200})}
     const table={days,questions}[url.pathname.replace('/rest/v1/','')];if(!table)return new Response('{}',{status:404});
-    if(method==='GET'){const offset=Number(url.searchParams.get('offset')),limit=Number(url.searchParams.get('limit'));return Response.json(structuredClone([...table.values()].sort((a,b)=>a.id<b.id?-1:1).slice(offset,offset+limit)))}
+    if(method==='GET'){
+      const offset=Number(url.searchParams.get('offset')),limit=Number(url.searchParams.get('limit'));
+      const rows=structuredClone([...table.values()].sort((a,b)=>a.id<b.id?-1:1).slice(offset,offset+limit));
+      if(table===questions&&url.searchParams.get('select').includes('answers(')){
+        for(const row of rows)row.answers=answered.has(row.id)?[{question_id:row.id}]:[];
+      }
+      return Response.json(rows);
+    }
+    if(method==='PATCH'){
+      const id=url.searchParams.get('id').replace(/^eq\./,'');
+      table.set(id,{...table.get(id),...JSON.parse(init.body)});
+      return new Response(null,{status:204});
+    }
     if(method==='DELETE'){const id=url.searchParams.get('id').replace(/^eq\./,'');if(answered.has(id))return new Response('{"code":"23503"}',{status:409});table.delete(id);return new Response(null,{status:204})}
     assert.match(headers.get('prefer'),/resolution=merge-duplicates/);
     for(const row of JSON.parse(init.body)){
@@ -58,9 +70,21 @@ sb.questions.delete(slot.id);sb.questions.set(old.id,old);
 result=await run();assert.deepEqual(result.replaced,['pregunta-antigua']);
 assert(!sb.questions.has('pregunta-antigua')&&sb.questions.has(slot.id));
 
-// 6. …y si tiene respuestas, la publicación falla sin tocarla.
+// 6. Una pregunta jugada y un id reutilizado con otro objetivo se conservan.
 sb.questions.delete(slot.id);sb.questions.set(old.id,old);sb.answered.add(old.id);
-await assert.rejects(run(),/ya tiene respuestas/);assert(sb.questions.has('pregunta-antigua'));
+const reuse=content.questions[0],published={...sb.questions.get(reuse.id),answer:reuse.answer*2};
+published.content={...published.content,answer:published.answer};
+sb.questions.set(reuse.id,published);
+const sameScore=sb.questions.get('piloto-v2-2');
+sameScore.answer=Number(sameScore.answer.toPrecision(15));
+sameScore.title='explicación anterior';
+result=await run();
+assert.deepEqual(new Set(result.preserved),new Set([old.id,reuse.id]));
+assert(sb.questions.has(old.id)&&!sb.questions.has(slot.id));
+assert.equal(sb.questions.get(reuse.id).answer,published.answer);
+assert.equal(sb.questions.get('piloto-v2-2').answer,sameScore.answer);
+assert.notEqual(sb.questions.get('piloto-v2-2').title,'explicación anterior','Se aplica la corrección compatible');
+sb.questions.set(reuse.id,structuredClone(reuse));
 
 // 7. Las jornadas generadas con OpenAI (source «ia») no se tocan: ni la jornada ni sus preguntas.
 sb.answered.clear();sb.questions.delete(old.id);await run();

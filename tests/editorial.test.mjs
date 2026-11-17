@@ -78,3 +78,17 @@ console.log(`OK: 21 fotos y razonamientos; 29 ediciones nuevas (${writtenIds.siz
   }
   console.log(`OK: operaciones reproducibles y citas de las filas válidas en ${questions.length} preguntas.`);
 }
+
+// La plantilla antigua de las fichas de dominó redondeaba 0,00125 m² a 0,001,
+// lo que daba 155 millones de piezas frente a los 124 millones con que puntuaba.
+{
+  const {refreshTemplateExplanation}=await import('../content-engine.mjs');
+  const published={id:'daily-v1-0-5-243683bb',revision:1,unit:'fichas de dominó',answer:124000000,referenceExpression:'155.000 ÷ 0,001'};
+  const corrected=refreshTemplateExplanation(published);
+  assert.equal(corrected.id,published.id);
+  assert.equal(corrected.answer,published.answer);
+  assert.equal(auditQuestions([{id:published.id,content:corrected}])[0].relativeError,0);
+  assert(corrected.calc.rows.some(row=>row.assumed&&row.value.includes('0,00125')));
+  const different={...published,answer:155000000};
+  assert.equal(refreshTemplateExplanation(different),different,'No explica una pregunta con otra referencia');
+}

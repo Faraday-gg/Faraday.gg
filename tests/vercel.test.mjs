@@ -191,6 +191,45 @@ try{
     assert.deepEqual((await ask('day&date='+real.id)).data.questions.map(q=>q.id),ids);
   }
 
+  // Una pregunta jugada puede tener el mismo id y una respuesta distinta que
+  // el respaldo local. La petición fría debe puntuar con el contenido de Supabase.
+  {
+    const {getDay}=await import('../content-engine.mjs');
+    const local=getDay('2026-10-06',{persist:false}),historical=fakeSupabase(),reference=202;
+    const q={...local.questions[0],answer:reference};
+    const displaced={...local.questions[1],id:'pregunta-historica',answer:50};
+    historical.tables.days.set(local.id,{id:local.id,name:local.name,theme:'',source:'piloto'});
+    for(const [index,entry] of [q,displaced].entries()){
+      historical.tables.questions.set(entry.id,{id:entry.id,day_id:local.id,position:index+1,revision:entry.revision??1,title:entry.title,unit:entry.unit,answer:entry.answer,content:entry});
+    }
+    const api=createApi({persistDays:false,store:supabaseStore({url:'https://proyecto.supabase.co',key:KEY,fetch:historical.fetch}),log:()=>{}});
+    historical.tables.answers.set('previa',{question_id:q.id,player_hash:'f'.repeat(64),guess:reference});
+    const cold=await api.handle(new Request(SITE+'/api?route=answers',{method:'POST',headers:{host:'casi.test'},body:JSON.stringify({player:randomUUID(),guess:reference,question:q.id})}));
+    assert.equal(cold.status,200);
+    assert.equal((await cold.json()).near,1,'La distribución usa la referencia publicada incluso en frío');
+    const day=await api.handle(new Request(SITE+'/api?route=day&date='+local.id));
+    assert.deepEqual((await day.json()).questions.map(q=>q.id),[q.id,displaced.id,local.questions[2].id]);
+    assert.equal(historical.tables.questions.get(q.id).answer,reference);
+  }
+
+  // El panel de una plantilla almacenada usa la multiplicación y la división
+  // con sus datos completos aun cuando la base conserve el texto antiguo.
+  {
+    const {getDay}=await import('../content-engine.mjs');
+    const date='2026-12-04',historical=fakeSupabase(),day=getDay(date,{persist:false});
+    const q={...day.questions[0],id:'daily-v1-0-5-243683bb',revision:1,unit:'fichas de dominó',answer:124000000,referenceExpression:'155.000 ÷ 0,001'};
+    historical.tables.days.set(date,{id:date,name:day.name,theme:day.theme,source:'banco-editorial'});
+    for(const [index,entry] of [q,...day.questions.slice(1)].entries()){
+      historical.tables.questions.set(entry.id,{id:entry.id,day_id:date,position:index+1,revision:entry.revision,title:entry.title,unit:entry.unit,answer:entry.answer,content:entry});
+    }
+    const api=createApi({persistDays:false,store:supabaseStore({url:'https://proyecto.supabase.co',key:KEY,fetch:historical.fetch}),log:()=>{}});
+    const response=await api.handle(new Request(SITE+'/api?route=day&date='+date));
+    const shown=(await response.json()).questions[0];
+    assert.equal(shown.referenceExpression,'155000 ÷ 0,00125');
+    assert.equal(shown.answer,q.answer);
+    assert.equal(historical.tables.questions.get(q.id).content.referenceExpression,q.referenceExpression);
+  }
+
   // Sin variables de entorno: el calendario funciona y las respuestas fallan de forma controlada.
   const bare=createApi({persistDays:false,store:supabaseStore({}),log:()=>{}});
   assert.equal((await bare.handle(new Request(SITE+'/api?route=calendar'))).status,200);

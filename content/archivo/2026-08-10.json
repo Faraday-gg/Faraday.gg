@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-08-10-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "hogar",
       "tag": "Torre de pan tostado",
       "title": "Si apilaras todas las tostadas que comerás en tu vida, ¿cuántos pisos de altura tendría la torre?",
@@ -15,27 +15,53 @@
       "answer": 118.35561,
       "math": "La esperanza de vida en España es de 84,01 años (INE, 2024). Desde los 3 años quedan 81,01 años × 365,25 días ≈ 29.589 tostadas. Con 12 mm cada una, la pila mide unos 355 m: entre 3 m por piso, unos 118 pisos.",
       "referenceExpression": "(84,01 − 3) × 365,25 × 0,012 ÷ 3",
-      "assumptions": "Una tostada diaria y una rebanada de 12 mm (grosor «sándwich»; en el Reino Unido van de 10 a 16 mm). La pila supone pan sin aplastar y pisos de 3 m; con rebanadas gruesas la torre sube por encima de 150 pisos.",
+      "assumptions": "El juego fija una tostada al día desde los tres años, rebanadas de 12 mm y pisos de 3 m. La pila no se comprime.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "INE · Movimiento Natural de la Población 2024 (nota de prensa)",
-          "url": "https://www.ine.es/dyngs/Prensa/MNP2024.htm",
+          "title": "INE · Indicadores Demográficos Básicos 2024",
+          "url": "https://www.ine.es/dyngs/Prensa/es/MNP2024.htm",
           "fact": "La esperanza de vida al nacimiento en España se situó en 84,01 años en 2024."
-        },
-        {
-          "title": "Wikipedia · Sliced bread",
-          "url": "https://en.wikipedia.org/wiki/Sliced_bread",
-          "fact": "En el Reino Unido las rebanadas van de 16 mm a 10 mm; en Australia, 12-13 mm es el grosor «sándwich»."
         }
       ],
       "reasoning": {
-        "heading": "De rebanadas a rascacielos",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Unos 80 años de desayunos son casi 30.000 mañanas. Si cada tostada mide un centímetro, la pila ya pasa de 300 m.",
-          "Una rebanada de pan de molde ronda 1-1,5 cm. 30.000 × 1,2 cm son 360 m, y a 3 m por piso eso es un rascacielos de unos 120 plantas.",
-          "Con los 81,01 años que quedan desde los 3 (INE) salen 29.589 tostadas y 355 m de pan: 118 pisos. Más alta que muchos rascacielos europeos, y crujiente."
+          "El INE estima 84,01 años de esperanza de vida al nacer en España para 2024. Usamos esa cifra para una vida hipotética, con una tostada al día a partir de los tres años.",
+          "En 81 años caben casi 30.000 tostadas. Si cada una mide 12 mm, la pila supera por poco los 350 m.",
+          "Cada 250 tostadas suman tres metros, un piso del modelo. Dividir unas 29.600 entre 250 da unos 118 pisos. Con una tostada cada dos días, saldrían 59."
         ]
+      },
+      "calc": {
+        "intro": "Contamos una tostada diaria desde los tres años y dividimos su altura acumulada entre la de un piso.",
+        "rows": [
+          {
+            "label": "Esperanza de vida en España en 2024",
+            "value": "84,01 años",
+            "source": 1
+          },
+          {
+            "label": "Edad de la primera tostada",
+            "value": "− 3 años",
+            "assumed": true
+          },
+          {
+            "label": "Tostadas en un año medio",
+            "value": "× 365,25",
+            "assumed": true
+          },
+          {
+            "label": "Grosor de cada tostada",
+            "value": "× 0,012 m",
+            "assumed": true
+          },
+          {
+            "label": "Altura por piso",
+            "value": "÷ 3 m",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

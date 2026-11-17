@@ -6,31 +6,51 @@
     {
       "id": "archivo-2026-09-26-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "espacio",
       "tag": "Vuelo sin escalas",
-      "title": "¿Cuántos años tardaría un avión comercial a 900 km/h en llegar a Plutón?",
-      "detail": "Un avión de pasajeros que vuela a 900 km/h sin parar desde el Sol hasta Plutón, a su distancia media. Sin repostar, sin turbulencias y con el carrito de bebidas pasando cada hora.",
+      "title": "A 900 km/h, ¿cuántos años tardaría un avión en recorrer la distancia media del Sol a Plutón?",
+      "detail": "Usa 900 km/h durante todo el trayecto y la distancia de la órbita de Plutón respecto del Sol como referencia.",
       "unit": "años",
       "answer": 747.8389,
       "math": "Plutón está de media a 5.900 millones de km del Sol. A 900 km/h hacen falta 6.555.556 horas; entre 8.766 horas por año: 747,8 años.",
       "referenceExpression": "5900000000 ÷ 900 ÷ 8766",
-      "assumptions": "Distancia media desde el Sol, no desde la Tierra; la órbita de Plutón es muy excéntrica y la distancia real varía entre unos 4.400 y 7.400 millones de km.",
+      "assumptions": "Dividimos una distancia de referencia por una velocidad constante ficticia. El espacio carece del aire que necesita un avión comercial.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "NASA · Pluto: Facts",
+          "title": "NASA Science · Pluto Facts",
           "url": "https://science.nasa.gov/dwarf-planets/pluto/facts/",
-          "fact": "De media, Plutón está a 5.900 millones de km del Sol (3.700 millones de millas, 39 UA)."
+          "fact": "La distancia orbital media de Plutón al Sol es de unos 5.900 millones de kilómetros."
         }
       ],
       "reasoning": {
-        "heading": "Distancia entre velocidad",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Un avión cruza el Atlántico en unas 8 horas; Plutón está a miles de millones de km, casi un millón de veces más lejos.",
-          "A 900 km/h se recorren unos 8 millones de km al año: 6.000 millones entre 8 millones son unos 750 años.",
-          "Con 5.900 millones de km salen 747,8 años: si hubiera despegado en tiempos de Alfonso X, aún no habría llegado."
+          "La NASA cita 5.900 millones de kilómetros como distancia orbital media desde el Sol. Para el juego tomamos esa longitud, unas 39 veces la distancia entre la Tierra y el Sol.",
+          "Un avión de 900 km/h viajaría cerca de ocho millones de kilómetros en un año entero. Dividir 5.900 millones por ese ritmo deja unos 748 años.",
+          "Cambiar el punto de partida del Sol a la órbita terrestre podría sumar o restar unos 150 millones de kilómetros según la alineación, unos 19 años a ese ritmo. La órbita alargada de Plutón también cambia la distancia real."
         ]
+      },
+      "calc": {
+        "intro": "Para fijar la distancia de este viaje imaginario usamos el promedio de la órbita de Plutón respecto del Sol.",
+        "rows": [
+          {
+            "label": "Distancia media entre el Sol y Plutón",
+            "value": "5.900.000.000 km",
+            "source": 1
+          },
+          {
+            "label": "Velocidad del avión imaginario",
+            "value": "÷ 900 km/h",
+            "assumed": true
+          },
+          {
+            "label": "Horas de un año medio",
+            "value": "÷ 8.766 h"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

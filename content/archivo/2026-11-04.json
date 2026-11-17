@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-11-04-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "tecnologia",
       "tag": "Señal con prisa",
       "title": "¿Cuántos milisegundos tarda en llegar a tu móvil la señal de un satélite GPS?",
@@ -15,27 +15,47 @@
       "answer": 67.37994723002672,
       "math": "Los satélites GPS orbitan a unos 20.200 km. La luz viaja a 299.792.458 m/s. 20.200.000 ÷ 299.792.458 ≈ 0,0674 s, unos 67,4 milisegundos.",
       "referenceExpression": "20200000 ÷ 299792458 × 1000",
-      "assumptions": "Satélite en la vertical exacta y propagación en el vacío. Un satélite cerca del horizonte está bastante más lejos y la señal tarda más.",
+      "assumptions": "Modelo de un satélite en la vertical del receptor. Se omiten el efecto atmosférico y el tiempo de procesamiento.",
       "confidence": "Dato oficial + física",
       "sources": [
         {
           "title": "GPS.gov · Space Segment",
           "url": "https://www.gps.gov/space-segment",
-          "fact": "Los satélites GPS vuelan en órbita media a una altitud aproximada de 20.200 km."
+          "fact": "Los satélites GPS vuelan en órbita media a unos 20.200 km de altitud."
         },
         {
-          "title": "Wikipedia · Speed of light",
-          "url": "https://en.wikipedia.org/wiki/Speed_of_light",
-          "fact": "La velocidad de la luz en el vacío es exactamente 299.792.458 m/s."
+          "title": "BIPM · Resolución de la 17.ª CGPM sobre el metro",
+          "url": "https://www.bipm.org/en/committees/cg/cgpm/17-1983/resolution-1",
+          "fact": "La velocidad de la luz en el vacío se fija en 299.792.458 metros por segundo."
         }
       ],
       "reasoning": {
-        "heading": "Distancia entre la velocidad más rápida que existe",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "La luz recorre unos 300.000 km cada segundo. Los satélites GPS están bastante más altos que la Estación Espacial, a unas decenas de miles de km.",
-          "Si estuviera a 20.000 km, la señal tardaría 20.000 ÷ 300.000 = 1/15 de segundo, unos 67 milisegundos.",
-          "Con 20.200 km y la velocidad exacta de la luz salen 67,4 ms. Parece poco, pero un error de un solo microsegundo en el reloj ya te desplaza unos 300 metros en el mapa."
+          "GPS.gov sitúa la órbita a unos 20.200 km de altitud. Con el satélite justo encima, esa cifra aproxima la distancia que recorre la señal.",
+          "En un milisegundo, la luz recorre casi 300 km. Dividir 20.200 km entre unos 300 km por milisegundo da unos 67 ms.",
+          "Con el satélite más bajo en el cielo, la señal recorre un trayecto oblicuo más largo. Aquí contamos solo el viaje de la señal en un sentido."
         ]
+      },
+      "calc": {
+        "intro": "Usamos la altitud orbital como longitud del trayecto para un satélite justo encima del teléfono.",
+        "rows": [
+          {
+            "label": "Altitud de los satélites GPS",
+            "value": "20.200.000 m",
+            "source": 1
+          },
+          {
+            "label": "Velocidad de la luz en el vacío",
+            "value": "÷ 299.792.458 m/s",
+            "source": 2
+          },
+          {
+            "label": "Milisegundos por segundo",
+            "value": "× 1.000"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {
