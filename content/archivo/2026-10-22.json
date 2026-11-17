@@ -36,7 +36,7 @@
     {
       "id": "archivo-2026-10-22-2",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "espacio",
       "tag": "Escapada solar",
       "title": "¿Cuántos años tardaría un coche a 120 km/h en llegar al Sol?",
@@ -49,48 +49,88 @@
       "confidence": "Dato científico",
       "sources": [
         {
-          "title": "Wikipedia · Astronomical unit",
-          "url": "https://en.wikipedia.org/wiki/Astronomical_unit",
-          "fact": "La UAI fijó en 2012 la unidad astronómica en exactamente 149.597.870.700 metros."
+          "title": "Unión Astronómica Internacional · Resolución B2 de 2012",
+          "url": "https://www.iau.org/static/resolutions/IAU2012_English.pdf",
+          "fact": "La unidad astronómica equivale exactamente a 149.597.870.700 m."
         }
       ],
       "reasoning": {
-        "heading": "Distancia entre velocidad",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "El Sol está a unos 150 millones de km. A 120 km/h recorres unos 1.000.000 de km al año (120 × 8.766 horas).",
-          "150 millones entre 1 millón dan unos 150 años: ni tus nietos llegarían.",
-          "Con la unidad astronómica exacta salen 142,2 años. Si salieras en enero, cuando la Tierra está más cerca, te ahorrarías unos dos años y medio."
+          "La UAI define una unidad astronómica como 149.597.870.700 m exactos. Esa unidad da una escala para la separación entre la Tierra y el Sol, que cambia durante su órbita.",
+          "En un día a 120 km/h recorres 2.880 km. En un año a ese ritmo avanzas algo más de un millón de kilómetros.",
+          "150 millones de kilómetros entre algo más de un millón por año son unos 142 años. Con ocho horas de marcha al día, el viaje duraría el triple."
         ]
+      },
+      "calc": {
+        "intro": "Tomamos una unidad astronómica y la dividimos entre lo que avanza el coche en un año.",
+        "rows": [
+          {
+            "label": "Distancia de referencia al Sol",
+            "value": "149.597.870,7 km",
+            "source": 1
+          },
+          {
+            "label": "Velocidad constante",
+            "value": "÷ 120 km/h",
+            "assumed": true
+          },
+          {
+            "label": "Horas de un día",
+            "value": "÷ 24 h"
+          },
+          {
+            "label": "Días de un año medio",
+            "value": "÷ 365,25"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {
       "id": "archivo-2026-10-22-3",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "hogar",
       "tag": "Contenedor verde",
-      "title": "¿Cuántas botellas de vino recicla de media cada español al año?",
-      "detail": "Contamos todo el vidrio del contenedor verde como si fueran botellas de vino de 400 g. Los tarros de mermelada se hacen pasar por tinto.",
+      "title": "¿A cuántas botellas de vino de 400 g equivale el vidrio que se deposita por persona en España al año?",
+      "detail": "Compara la masa de todos los envases depositados en el contenedor verde en 2024 con botellas de vino vacías de 400 g.",
       "unit": "botellas",
       "answer": 47.75,
-      "math": "En 2024 cada español depositó de media 19,1 kg de vidrio en el contenedor verde (Ecovidrio, recogido por OKDiario). 19,1 ÷ 0,4 ≈ 47,8 botellas.",
+      "math": "Ecovidrio publica 19,1 kg de vidrio depositado por habitante. 19,1 ÷ 0,4 ≈ 47,75 botellas equivalentes.",
       "referenceExpression": "19,1 ÷ 0,4",
-      "assumptions": "Botella de vino de 400 g. Ecovidrio habla de unos 65 envases por persona porque muchos frascos y botellines pesan menos.",
+      "assumptions": "Suponemos botellas vacías de 400 g. La estadística suma todos los envases depositados, incluidos frascos y tarros.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "OKDiario · España vuelve a superar el millón de toneladas de envases de vidrio recuperadas",
-          "url": "https://okdiario.com/okgreen/espana-vuelve-superar-millon-toneladas-envases-vidrio-recuperadas-14433603",
-          "fact": "En 2024 cada ciudadano depositó 19,1 kg de vidrio en el contenedor verde, unos 65 envases por persona (datos de Ecovidrio)."
+          "title": "Ecovidrio · Resultados de recogida de envases de vidrio 2024",
+          "url": "https://ecovidrio.es/resultados-reciclaje-envases-vidrio-espana-2024",
+          "fact": "En 2024 se depositaron 19,1 kg de vidrio por habitante, equivalentes a unos 65 envases de varios tipos."
         }
       ],
       "reasoning": {
-        "heading": "Kilos de vidrio entre el peso de una botella",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Una botella por semana y por persona parece razonable: unas 50 al año.",
-          "Si cada uno recicla unos 20 kg y una botella de vino pesa 400 g, salen 50.",
-          "Con los 19,1 kg de 2024 salen 47,8 botellas de vino equivalentes. Contando envases reales, más ligeros, Ecovidrio llega a 65."
+          "Ecovidrio estima que en España se depositaron 19,1 kg de vidrio por persona en 2024. La cifra incluye muchos tipos de envase.",
+          "Para comparar, imagina que todo ese vidrio fueran botellas vacías de 400 g. Cada kilo equivaldría a 2,5 botellas y 19,1 kg a unas 48.",
+          "El propio informe habla de unos 65 envases reales por persona, que en esta cuenta pesan menos de 300 g de media. Cambia el número porque el contenedor mezcla tamaños."
         ]
+      },
+      "calc": {
+        "intro": "Expresamos lo recogido en el contenedor verde como botellas de un peso fijo.",
+        "rows": [
+          {
+            "label": "Vidrio recogido por habitante en 2024",
+            "value": "19,1 kg",
+            "source": 1
+          },
+          {
+            "label": "Masa de una botella vacía",
+            "value": "÷ 0,4 kg",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     }
   ]

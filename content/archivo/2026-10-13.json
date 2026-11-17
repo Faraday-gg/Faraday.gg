@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-10-13-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "deportes",
       "tag": "Edificio de granito",
       "title": "¿Cuántos pisos de 3 m tendría un edificio tan alto como la pared de El Capitán, en Yosemite?",
@@ -15,13 +15,13 @@
       "answer": 304.6666666666667,
       "math": "El Capitán mide unos 914 m (3.000 pies) de la base a la cumbre por su cara más alta. 914 ÷ 3 ≈ 304,7 pisos.",
       "referenceExpression": "914 ÷ 3",
-      "assumptions": "La altura de 3.000 pies es una cifra redondeada. Plantas de 3 m exactos, sin vestíbulos altos ni azotea.",
+      "assumptions": "Usamos la cara vertical descrita por el parque y una altura fija de 3 m por piso.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Wikipedia · El Capitan",
-          "url": "https://en.wikipedia.org/wiki/El_Capitan",
-          "fact": "Unos 3.000 pies (914 m) de la base a la cumbre por su cara más alta."
+          "title": "National Park Service · Geología de Yosemite",
+          "url": "https://home.nps.gov/yose/learn/nature/geology.htm",
+          "fact": "La pared vertical de El Capitán se eleva unos 3.000 pies sobre el fondo del valle."
         }
       ],
       "image": {
@@ -33,12 +33,28 @@
         "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
       },
       "reasoning": {
-        "heading": "Altura de la pared entre altura de una planta",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Es una de las paredes más famosas del mundo: casi un kilómetro de granito vertical.",
-          "Un kilómetro entre plantas de 3 m da unas 333 plantas. Ningún rascacielos se acerca.",
-          "Con los 914 m documentados salen 304,7 pisos. Como la cifra viene de 3.000 pies redondeados, puede bailar unos pocos pisos arriba o abajo."
+          "El Servicio de Parques Nacionales describe una cara rocosa que se alza unos 3.000 pies sobre el valle. Como cada pie son 0,3048 m, eso equivale a unos 914 m.",
+          "Trescientos pisos de 3 m ya alcanzarían los 900 m. Para los últimos 14 m necesitas casi otros cinco pisos.",
+          "El cociente es 304,7 pisos. Si las plantas fueran de 4 m, la misma pared equivaldría a unas 229."
         ]
+      },
+      "calc": {
+        "intro": "Comparamos los metros de la pared vertical con una planta de tres metros.",
+        "rows": [
+          {
+            "label": "Altura aproximada de la pared",
+            "value": "914 m",
+            "source": 1
+          },
+          {
+            "label": "Altura por piso",
+            "value": "÷ 3 m",
+            "assumed": true
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

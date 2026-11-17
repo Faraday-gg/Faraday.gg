@@ -457,7 +457,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
 `lib/stores.mjs` accede por la API REST de Supabase (PostgREST), sin SDK, con la clave secreta en la cabecera `apikey`.
 
 - **Contenido (`/api/calendar`, `/api/day`, `/daily-content.js`)**: **manda Supabase.** La API lee las jornadas de `days` con sus preguntas (`questions.content`, en orden de `position`). Si una fecha no está publicada en Supabase, o Supabase no responde, usa `content-engine.mjs` como respaldo para no dejar la web sin preguntas, y lo anota en el registro. `/api/calendar` indica `"source": "supabase"` cuando ha leído de la base de datos.
-- **Respuestas a preguntas que solo existen en Supabase**: la API busca la pregunta en `questions` y usa su cifra de referencia para puntuar.
+- **Respuestas a preguntas publicadas**. La API busca su referencia en Supabase, incluso cuando aún no ha cargado la jornada. En una jornada parcial conserva las preguntas de Supabase y completa los huecos con el repositorio.
 
 - **`POST /api/answers`**:
   - La primera vez que una instancia recibe una respuesta de una jornada, inserta la jornada en `days` (`source` = `piloto` o `banco-editorial`) y sus tres preguntas en `questions` (`position` 1 a 3, `revision`, y en `content` el objeto completo). Ignora las filas que ya existan.
@@ -471,7 +471,7 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Compara el repositorio con Supabase y **solo sube lo que ha cambiado**: imágenes cuyo MD5 no coincide con el de Storage, y jornadas o preguntas nuevas o con algún campo distinto (el `content` se compara sin tener en cuenta el orden de las claves, que jsonb no conserva). Si no hay cambios, solo lee.
   - En los despliegues **Preview** (`preprod` y demás ramas) no hace nada, porque comparten base de datos con producción.
   - Si en producción faltan las variables de Supabase, avisa y deja seguir el despliegue (la web usa el contenido del repositorio como respaldo). Si Supabase falla, **el despliegue falla**, para no publicar una web con contenido a medias.
-  - Si una fecha y posición ya tenía otra pregunta (otro `id`), la retira **solo si no tiene respuestas**. Si las tiene, la base de datos lo impide y la publicación falla explicando qué pregunta es. Nunca borra jornadas ni respuestas.
+  - Si la posición está ocupada por otro `id` con respuestas, se conserva la pregunta publicada y se sigue con las demás. También se conservan los ids reutilizados con distinta cifra, unidad, revisión o posición. El informe enumera esas referencias. [Decisión 0088](decisiones/0088-conservar-referencias-publicadas.md).
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
 - **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.

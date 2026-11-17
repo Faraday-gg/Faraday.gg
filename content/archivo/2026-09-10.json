@@ -6,7 +6,7 @@
     {
       "id": "archivo-2026-09-10-1",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "deportes",
       "tag": "Carrusel de lujo",
       "title": "A 200 km/h de media, ¿cuántas vueltas daría un Fórmula 1 al circuito de Mónaco en una hora?",
@@ -15,22 +15,38 @@
       "answer": 59.934073,
       "math": "El circuito de Mónaco mide 3,337 km. En una hora a 200 km/h se recorren 200 km. 200 ÷ 3,337 ≈ 59,9 vueltas.",
       "referenceExpression": "200 ÷ 3,337",
-      "assumptions": "Velocidad media constante de 200 km/h, irreal en Mónaco: en carrera la media ronda bastante menos por sus curvas lentas.",
+      "assumptions": "La velocidad media de 200 km/h es un supuesto del juego. Se cuenta la fracción de vuelta y se excluyen paradas.",
       "confidence": "Dato documentado + modelo",
       "sources": [
         {
-          "title": "Formula 1 · Monaco Grand Prix",
-          "url": "https://www.formula1.com/en/racing/2025/monaco",
-          "fact": "Longitud del circuito de Mónaco: 3,337 km."
+          "title": "Formula 1 · Guía del circuito de Mónaco",
+          "url": "https://www.formula1.com/en/latest/article/circuit-guide-everything-you-need-to-know-about-the-circuit-of-monaco.vFsmfGHr6RWyLFtxi58wi",
+          "fact": "Longitud de cada vuelta al Circuit de Monaco: 3,337 km."
         }
       ],
       "reasoning": {
-        "heading": "Distancia de una hora entre una vuelta",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Mónaco es el circuito más corto del calendario: algo más de 3 km entre casinos y puertos.",
-          "A 200 km/h recorres 200 km en una hora. 200 entre 3 dan unas 65 vueltas.",
-          "Con los 3,337 km oficiales salen 59,9 vueltas en una hora. En la vida real nadie mantiene esa media entre la curva del hotel y el puerto: los pilotos van mucho más despacio."
+          "La Fórmula 1 mide 3,337 km para una vuelta al trazado de Mónaco. El juego da una velocidad media ficticia de 200 km/h.",
+          "En una hora recorres 200 km. Tres vueltas ocuparían algo más de 10 km, así que para 200 km esperas unas sesenta.",
+          "Sesenta vueltas son 200,22 km. A 200 km exactos habrías cerrado 59 vueltas y estarías a 220 m de acabar la siguiente."
         ]
+      },
+      "calc": {
+        "intro": "En una hora a velocidad constante, divides la distancia recorrida entre lo que mide una vuelta.",
+        "rows": [
+          {
+            "label": "Distancia recorrida en una hora",
+            "value": "200 km",
+            "assumed": true
+          },
+          {
+            "label": "Longitud de una vuelta",
+            "value": "÷ 3,337 km",
+            "source": 1
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

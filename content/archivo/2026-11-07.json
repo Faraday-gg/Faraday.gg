@@ -36,7 +36,7 @@
     {
       "id": "archivo-2026-11-07-2",
       "revision": 1,
-      "verifiedAt": "2026-11-10",
+      "verifiedAt": "2026-11-17",
       "category": "deportes",
       "tag": "Aplausos azulgranas",
       "title": "Si cada gol oficial de Messi con el Barça se celebrara con un minuto de aplausos, ¿cuántos partidos de 90 minutos aplaudirías?",
@@ -45,22 +45,42 @@
       "answer": 7.466666666666667,
       "math": "Messi marcó 672 goles con el FC Barcelona, récord de goles con un solo club. 672 minutos ÷ 90 ≈ 7,5 partidos.",
       "referenceExpression": "672 ÷ 90",
-      "assumptions": "Contamos todos los goles oficiales con el primer equipo, en todas las competiciones. El minuto de aplausos por gol es el supuesto del juego.",
+      "assumptions": "Contamos partidos de 90 minutos, sin descanso, añadido ni prórroga.",
       "confidence": "Dato documentado + cálculo",
       "sources": [
         {
-          "title": "Wikipedia · Lionel Messi",
-          "url": "https://en.wikipedia.org/wiki/Lionel_Messi",
-          "fact": "Con el Barcelona estableció los récords de más goles con un solo club (672) y más goles en LaLiga (474)."
+          "title": "FC Barcelona · Estadísticas de Lionel Messi",
+          "url": "https://players.fcbarcelona.com/en/player/548-messi-lionel-andres-messi-cuccitini",
+          "fact": "La ficha del club separa 672 goles en partidos oficiales y 37 en encuentros no oficiales."
         }
       ],
       "reasoning": {
-        "heading": "Goles convertidos en minutos",
+        "heading": "Cómo estimarlo",
         "steps": [
-          "Messi pasó 17 temporadas en el primer equipo del Barça y en muchas marcó 40 o 50 goles. Algo más de 600 goles parece razonable.",
-          "600 minutos entre 90 son casi 7 partidos enteros.",
-          "Con los 672 goles reales salen 7,5 partidos: siete partidos completos y una primera parte larga aplaudiendo sin parar."
+          "El FC Barcelona registra 672 goles oficiales de Messi. Su ficha cuenta los amistosos aparte.",
+          "Un minuto por gol suma 672 minutos. Siete partidos seguidos ocuparían 630.",
+          "Quedarían 42 minutos de aplausos después del séptimo partido: 42 ÷ 90 es algo menos de medio partido."
         ]
+      },
+      "calc": {
+        "intro": "Convertimos los goles oficiales en minutos y los dividimos entre noventa.",
+        "rows": [
+          {
+            "label": "Goles oficiales con el FC Barcelona",
+            "value": "672",
+            "source": 1
+          },
+          {
+            "label": "Minutos de aplauso por gol",
+            "value": "× 1",
+            "assumed": true
+          },
+          {
+            "label": "Minutos por partido",
+            "value": "÷ 90"
+          }
+        ],
+        "result": "Resultado"
       }
     },
     {

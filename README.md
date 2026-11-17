@@ -60,6 +60,8 @@ Las jornadas, preguntas e imágenes se sirven desde Supabase. Se editan en `cont
 node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
 
+Para comprobar las operaciones de referencia del banco en local, ejecuta `node research/auditar-preguntas.mjs`. Los resultados del cotejo y el criterio para contrastar las fuentes están en la [auditoría editorial](docs/mejoras/auditoria-preguntas.md).
+
 Detalle en [docs/base-de-datos.md](docs/base-de-datos.md).
 
 ## Documentación y colaboración
