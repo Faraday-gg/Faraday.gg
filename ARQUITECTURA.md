@@ -83,10 +83,13 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
+  tendencias.js, tendencias.css  Traza la tendencia: dibujo anual, comparación y avatar
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
+lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
+content/tendencias.json  Banco versionado de 102 gráficas históricas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)
@@ -124,6 +127,14 @@ runtime/                 Estado local generado; excluido de Git
 5. El servidor valida pregunta, identificador y cifra; calcula un hash SHA-256 del identificador; guarda una respuesta por pregunta y navegador (en `runtime/answers.json` o en Supabase); y devuelve una distribución que excluye al propio jugador. `POST /api/daily-scores` compara la puntuación total de quienes completaron las tres preguntas. El histograma usa una escala logarítmica; la curva suavizada aparece a partir de cinco respuestas ajenas.
 
 El identificador anónimo evita duplicados accidentales por navegador, pero no autentica a una persona ni impide que alguien genere otros identificadores. La muestra de respuestas se comparte entre quienes usan el mismo almacén: el mismo archivo local o la misma tabla de Supabase. Si la API no está disponible, la interfaz conserva las estimaciones locales y muestra que la comparación comunitaria no está disponible.
+
+## Traza la tendencia
+
+El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco se prepara a partir de World Development Indicators con `research/preparar-tendencias.py` y se carga en el servidor.
+
+`POST /api/tendencias` admite `estado` y `revelar`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y, con al menos tres trazos ajenos, la media de la comunidad.
+
+En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers` y `trend_community` en Supabase, con ámbitos separados para Preview y producción. La migración está pendiente de aplicación. Ver [decisión 0085](docs/decisiones/0085-traza-la-tendencia.md).
 
 ## Duelos
 

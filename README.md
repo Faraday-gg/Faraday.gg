@@ -38,6 +38,12 @@ node tests/medallas.test.mjs
 node tests/pistas.test.mjs
 ```
 
+## Probar Traza la tendencia
+
+Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. Dibuja las tres series del día o completa los puntos con «Editar valores por año». Después de cada respuesta puedes consultar la fuente y los datos anuales. Vuelve a abrir la modalidad para comprobar que recupera el progreso.
+
+Ejecuta `node tests/tendencias.test.mjs` para verificar las 102 gráficas, la persistencia y la comparación comunitaria. En Vercel hace falta la migración de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia).
+
 ## Despliegue: Vercel y Supabase
 
 - Vercel sirve `dist/` como web estática y la API con una única función, `api/index.mjs`. `vercel.json` reescribe `/api/<ruta>` y `/daily-content.js` hacia ella y fija la región `fra1`, junto a la base de datos.

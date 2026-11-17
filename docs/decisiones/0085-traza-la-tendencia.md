@@ -1,8 +1,12 @@
-# 0084. Traza la tendencia
+# 0085. Traza la tendencia
 
 - **Estado:** implementado en la rama `feat/traza-la-tendencia`, pendiente de revisión.
 - **Fecha:** 2026-11-17.
 - **Quién:** Álvaro, con Codex.
+
+## Contexto
+
+Álvaro pidió ampliar las opciones para seguir jugando después del reto diario. La referencia para la jugabilidad fue Extraplot. Faraday ya tenía avatar, colores, botones y preguntas de estimación con fuentes que sirven como referencia editorial y visual.
 
 ## Decisión
 
@@ -14,13 +18,13 @@
 - El banco inicial tiene 102 series de 34 indicadores en español. Se partió del estilo editorial de Casi Casi, con pregunta directa, unidades explícitas, referentes de España y Latinoamérica, y contexto y fuentes al revelar. Los valores vienen de la descarga WDI del Banco Mundial del 16 de noviembre de 2026 y mantienen la atribución de cada indicador. El preparador de `research/` conserva solo tramos anuales completos, convierte unidades documentadas y comprueba la licencia declarada en el catálogo.
 - Las partidas extra quedan pendientes de decisión sobre anuncio recompensado o suscripción.
 
-## Alternativas
+## Alternativas descartadas
 
 - La mecánica de referencia se estudió jugando en la interfaz pública de [Extraplot](https://guessdash.com/extraplot). La interacción, el banco, la puntuación y las vistas se implementaron para Faraday.
 - Una muestra simulada daría una referencia desde el primer intento, a costa de representar curvas inventadas como comparación de jugadores. Se eligió esperar a una muestra de tres.
 - Calcular los resultados en el navegador exigiría enviarle la continuación antes de tiempo. El banco se carga en el servidor y la API revela el tramo oculto de cada ronda tras guardar la respuesta. El repositorio es público y permite consultar el banco fuera del juego.
 
-## Puesta en marcha
+## Consecuencias
 
 - El banco vive en `content/tendencias.json` y los 34 tríos se repiten en orden. Al ampliar o actualizar el banco, debe mantenerse la selección y escala de las ediciones que se estén jugando.
 - En local, el servidor guarda el progreso en `runtime/tendencias.json` junto al archivo de respuestas. En las Preview y en producción hace falta aplicar la migración `20261117120000_tendencias` autorizada por el responsable. La modalidad se puede probar en local con varios perfiles antes de aplicarla.
