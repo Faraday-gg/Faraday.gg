@@ -130,7 +130,7 @@ El identificador anónimo evita duplicados accidentales por navegador, pero no a
 
 ## Traza la tendencia
 
-El jugador completa el tramo oculto de tres series históricas y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco vigente reúne series de seis conjuntos públicos sobre alimentos, Fórmula 1, nombres, exoplanetas, Mundiales y huracanes. La curva puede ajustarse con el puntero o por fecha antes de revelar. Se prepara con los scripts de `research/` y se carga en el servidor.
+El jugador completa el tramo oculto de tres series y puede repasar los resultados del día. La edición cambia a medianoche de Madrid y el avatar utiliza los gestos de resultado del reto diario. El banco vigente reúne 108 gráficas de doce categorías. Se prepara con los scripts de `research/` y se carga en el servidor. En el navegador, el aviso de inicio señala el tramo pendiente y las guías SVG muestran el periodo y la estimación al dibujar o ajustar la curva. Se puede ajustar con el puntero o por fecha antes de revelar.
 
 `POST /api/tendencias` admite `estado`, `revelar`, `preparar-extra` y `activar-extra`. Usa la identidad de la sesión o la cookie del jugador. Guarda el primer trazo de cada ronda y calcula los puntos con el error absoluto medio dividido por la escala de la gráfica. Al revelar devuelve la serie real, su atribución y la media de la comunidad cuando han respondido al menos tres jugadores más. Hasta entonces devuelve como referencia separada la media de 32 simulaciones calculadas a partir del historial visible.
 

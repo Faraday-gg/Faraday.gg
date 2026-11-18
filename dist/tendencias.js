@@ -8,6 +8,7 @@
   const samplesPerPeriod=16;
   let box;
   const number=new Intl.NumberFormat('es-ES',{maximumFractionDigits:4,useGrouping:'always'});
+  const axisNumber=new Intl.NumberFormat('es-ES',{notation:'compact',maximumFractionDigits:2});
   const fmt=value=>number.format(value);
   const text=value=>escapeHtml(String(value));
   const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
@@ -86,10 +87,35 @@
   const y=(q,value)=>box.bottom-(value-q.min)/(q.max-q.min)*(box.bottom-box.top);
   const points=(q,values,offset=0)=>values.map((value,index)=>`${x(q,index+offset)},${y(q,value)}`).join(' ');
   const line=(q,values)=>points(q,[q.history.at(-1),...values],q.cut);
+  function drawingGuides(q,marker){
+    const middle=(marker+box.right)/2;
+    const compact=box.width===360;
+    const width=compact?154:232;
+    const height=compact?34:46;
+    const badge=axis=>`<g class="trends-axis-value" data-trends-axis="${axis}">
+      <rect x="${-box.badge/2}" y="-11" width="${box.badge}" height="22" rx="5"/>
+      <text text-anchor="middle" dominant-baseline="central"></text>
+    </g>`;
+    return `<path class="trends-drawn"/>
+      <g class="trends-draw-hint" aria-hidden="true">
+        <circle class="trends-start-ring" cx="${marker}" cy="${y(q,q.history.at(-1))}" r="13"/>
+        <g transform="translate(${middle} ${(box.top+box.bottom)/2})">
+          <rect class="trends-hint-panel" x="${-width/2}" y="${-height/2}" width="${width}" height="${height}" rx="${height/2}"/>
+          <text class="trends-hint-text" x="${compact?-14:-8}" text-anchor="middle" dominant-baseline="central">Dibuja el resto</text>
+          <path class="trends-hint-arrow" d="M${width/2-(compact?27:35)} 0h12m-5-5 5 5-5 5"/>
+        </g>
+      </g>
+      <g class="trends-crosshair" visibility="hidden" aria-hidden="true">
+        <path class="trends-projection"/>
+        <circle class="trends-cursor" r="4"/>
+        ${badge('x')}${badge('y')}
+      </g>`;
+  }
+
   function plot(q,result){
     box=matchMedia('(max-width: 560px)').matches
-      ?{width:360,height:334,left:52,right:350,top:34,bottom:300}
-      :{width:880,height:442,left:77,right:854,top:36,bottom:398};
+      ?{width:360,height:334,left:52,right:350,top:34,bottom:300,badge:56}
+      :{width:880,height:442,left:77,right:854,top:36,bottom:398,badge:70};
     const marker=x(q,q.cut),cutYear=q.start+q.cut;
     const years=[q.start,cutYear,cutYear+Math.round((q.end-cutYear)/2),q.end];
     const tick=q.tick;
@@ -103,7 +129,7 @@
       const at=y(q,value);
       return `<line class="trends-grid" x1="${box.left}" x2="${box.right}" y1="${at}" y2="${at}"/><text x="${box.left-8}" y="${at+5}" text-anchor="end">${fmt(value)}</text>`;
     }).join('');
-    const dates=years.map((year,i)=>`<text x="${x(q,year-q.start)}" y="${box.bottom+22}" text-anchor="${['start','middle','middle','end'][i]}">${text(dateLabel(q,year,true))}</text>`).join('');
+    const dates=years.map((year,i)=>`<text class="trends-date-tick" x="${x(q,year-q.start)}" y="${box.bottom+22}" text-anchor="${['start','middle','middle','end'][i]}">${text(dateLabel(q,year,true))}</text>`).join('');
     const guides=Array.from({length:q.end-cutYear},(_,i)=>{
       const at=x(q,q.cut+i+1);
       return `<line class="trends-guide" x1="${at}" x2="${at}" y1="${box.top}" y2="${box.bottom}"/>`;
@@ -112,12 +138,12 @@
     return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
       <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${q.period==='season'?'Meses visibles':'Historial'}</text>
-      <text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">${result?'Tramo revelado':'Tramo ampliado'}</text>
+      ${result?`<text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">Tramo revelado</text>`:''}
       ${minorTicks}${ticks}${guides}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
       <polyline class="trends-history" points="${points(q,q.history)}"/>
       ${result?`<polygon class="trends-gap" points="${line(q,result.actual)} ${points(q,result.guess,q.cut+1).split(' ').reverse().join(' ')}"/><polyline class="trends-actual" points="${line(q,result.actual)}"/><polyline class="trends-guess" points="${line(q,result.guess)}"/>
         ${comparison?`<polyline class="trends-community" points="${line(q,comparison)}"/>`:''}`:
-        '<path class="trends-drawn"/><circle class="trends-cursor" r="4" visibility="hidden"/>'}
+        drawingGuides(q,marker)}
       <circle class="trends-pin" cx="${marker}" cy="${y(q,q.history.at(-1))}" r="5"/>
       ${result?'':'<circle class="trends-resume" r="7" visibility="hidden"/>'}
     </svg>`;
@@ -138,8 +164,8 @@
       <p class="trends-detail">${text(q.detail)}</p>
       <p class="trends-unit">${text(q.unit)}</p>
       ${plot(q)}
-      <output class="trends-coordinate" data-trends-coordinate></output>
-      <p class="trends-caption">Arrastra el punto amarillo para seguir dibujando hasta ${text(dateLabel(q,q.end))}. Agarra el resto de la línea para ajustarla.</p>
+      <output class="trends-coordinate" data-trends-coordinate aria-live="off"></output>
+      <p class="trends-caption">Arrastra desde el punto amarillo hasta ${text(dateLabel(q,q.end))}. Agarra la línea para ajustarla.</p>
       <details class="trends-editor"><summary>Editar valores por ${unitOfTime(q)}</summary>
         <div class="trends-controls">
           <label>${timeLabel(q)}<select data-trends-year>${options}</select></label>
@@ -163,17 +189,49 @@
     return gap<0?trace.length-1:gap-1;
   }
 
+  function updateCoordinates(index){
+    const crosshair=element('.trends-crosshair');
+    const output=element('[data-trends-coordinate]');
+    const dateTicks=element('.trends-plot').querySelectorAll('.trends-date-tick');
+    if(index===undefined){
+      crosshair.setAttribute('visibility','hidden');
+      for(const tick of dateTicks)tick.removeAttribute('visibility');
+      output.textContent='';
+      return;
+    }
+    const value=trace[index];
+    const date=chart.start+chart.cut+Math.round(index/samplesPerPeriod);
+    const px=x(chart,chart.cut+index/samplesPerPeriod),py=y(chart,value);
+    crosshair.setAttribute('visibility','visible');
+    crosshair.querySelector('.trends-projection').setAttribute('d',`M${box.left} ${py}H${px}V${box.bottom}`);
+    const cursor=crosshair.querySelector('.trends-cursor');
+    cursor.setAttribute('cx',px);
+    cursor.setAttribute('cy',py);
+    const half=box.badge/2;
+    const xCenter=clamp(px,half+2,box.width-half-2);
+    for(const tick of dateTicks){
+      const distance=Math.abs(xCenter-Number(tick.getAttribute('x')));
+      tick.setAttribute('visibility',distance<half+20?'hidden':'visible');
+    }
+    const badges=[
+      ['x',dateLabel(chart,date,true),xCenter,box.bottom+18],
+      ['y',axisNumber.format(value),Math.max(half+2,box.left-half-6),py],
+    ];
+    for(const [axis,label,cx,cy] of badges){
+      const badge=crosshair.querySelector(`[data-trends-axis="${axis}"]`);
+      badge.setAttribute('transform',`translate(${cx} ${cy})`);
+      badge.querySelector('text').textContent=label;
+    }
+    output.textContent=`${dateLabel(chart,date)} · ${fmt(value)} ${chart.unit}`;
+  }
+
   function updateDraft(index){
     const path=trace.map((value,i)=>value===null?'':`${i===0||trace[i-1]===null?'M':'L'}${x(chart,chart.cut+i/samplesPerPeriod)} ${y(chart,value)}`).join(' ');
     element('.trends-drawn').setAttribute('d',path);
-    if(index!==undefined){
-      const cursor=element('.trends-cursor');
-      cursor.setAttribute('cx',x(chart,chart.cut+index/samplesPerPeriod));
-      cursor.setAttribute('cy',y(chart,trace[index]));
-      cursor.setAttribute('visibility','visible');
-      const label=dateLabel(chart,chart.start+chart.cut+Math.round(index/samplesPerPeriod));
-      element('[data-trends-coordinate]').textContent=`${label} · ${fmt(trace[index])}`;
-    }
+    const hasTrace=trace.some((value,i)=>i>0&&value!==null);
+    element('.trends-draw-hint').setAttribute('visibility',hasTrace?'hidden':'visible');
+    if(!hasTrace)updateCoordinates();
+    else if(index>0)updateCoordinates(index);
     const count=draft.filter(value=>value!==null).length;
     const end=endOfTrace(), handle=element('.trends-resume');
     handle.setAttribute('cx',x(chart,chart.cut+end/samplesPerPeriod));
@@ -183,7 +241,7 @@
     const counter=element('[data-trends-count]');
     if(counter.textContent!==caption)counter.textContent=caption;
     element('[data-trends-reveal]').disabled=pending||count!==draft.length;
-    element('[data-trends-clear]').disabled=pending||trace.slice(1).every(value=>value===null);
+    element('[data-trends-clear]').disabled=pending||!hasTrace;
   }
 
   const quantize=value=>Number(clamp(value,chart.min,chart.max).toFixed(chart.precision));
@@ -220,7 +278,7 @@
     function hit(point,type){
       const end=endOfTrace();
       const unfinished=end<trace.length-1;
-      const radius=type==='touch'?20:12;
+      const radius=type==='touch'?20:end===0?17:12;
       if(unfinished&&distanceTo(point,end)<=radius)return {origin:end};
       let nearest=0,distance=type==='touch'?25:15;
       for(let i=1;i<trace.length;i++){
@@ -504,8 +562,6 @@
     else if(button.hasAttribute('data-trends-clear')){
       draft.fill(null);
       trace.fill(null,1);
-      element('.trends-cursor').setAttribute('visibility','hidden');
-      element('[data-trends-coordinate]').textContent='';
       syncEditor();
       updateDraft();
     }

@@ -94,3 +94,19 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-plot.is-editing{cursor:grabbing}
 .trends-plot.is-editing .trends-drawn{stroke-width:4}
 .trends-plot.is-resumable .trends-resume{stroke-width:3}
+.trends-draw-hint,.trends-crosshair{pointer-events:none}
+.trends-hint-panel{fill:var(--paper);stroke:var(--ink);stroke-opacity:.2}
+.trends-plot .trends-hint-text{font:700 23px var(--display)}
+.trends-hint-arrow{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.trends-start-ring{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.trends-plot.is-resumable .trends-start-ring{stroke-opacity:.8}
+.trends-projection{fill:none;stroke:#ca412e;stroke-opacity:.62;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
+.trends-axis-value rect{fill:var(--ink)}
+.trends-plot .trends-axis-value text{fill:var(--paper);font-weight:700;font-variant-numeric:tabular-nums}
+@media(max-width:560px){
+  .trends-plot .trends-hint-text{font-size:16px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .trends-start-ring{transform-box:fill-box;transform-origin:center;animation:trends-start-pulse 1.5s ease-out 3}
+  @keyframes trends-start-pulse{0%,100%{transform:scale(1)}45%{transform:scale(1.35);stroke-opacity:.15}}
+}
