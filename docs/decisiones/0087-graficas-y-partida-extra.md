@@ -4,6 +4,7 @@
 - **Fecha:** 2026-11-17.
 - **Quién:** Álvaro, con Codex.
 - **Amplía:** [decisión 0086](0086-traza-la-tendencia.md).
+- **Actualización** — [Decisión 0090](0090-curva-editable-y-banco-de-historias.md) para editar el trazo y renovar el banco activo.
 
 ## Decisión
 

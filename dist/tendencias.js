@@ -66,11 +66,14 @@
   const shortDate=new Intl.DateTimeFormat('es',{month:'short',year:'2-digit',timeZone:'UTC'});
   const longDate=new Intl.DateTimeFormat('es',{month:'long',year:'numeric',timeZone:'UTC'});
   function dateLabel(q,period,short=false){
+    if(q.labels)return String(q.labels[period-q.start]);
     if(q.period!=='month')return String(period);
     const date=new Date(Date.UTC(Math.floor(period/12),period%12,1));
     return (short?shortDate:longDate).format(date);
   }
-  const unitOfTime=q=>q.period==='month'?'mes':'año';
+  const unitOfTime=q=>({month:'mes',edition:'edición'})[q.period]||'año';
+  const timeLabel=q=>({month:'Mes',edition:'Edición'})[q.period]||'Año';
+  const times=q=>({month:'meses trazados',edition:'ediciones trazadas'})[q.period]||'años trazados';
   const roundLabel=index=>`${index>=edition.rounds?'Partida extra · ':''}Gráfica ${index%edition.rounds+1} de ${edition.rounds}`;
 
   function x(q,index){
@@ -134,10 +137,10 @@
       <p class="trends-unit">${text(q.unit)}</p>
       ${plot(q)}
       <output class="trends-coordinate" data-trends-coordinate></output>
-      <p class="trends-caption">Arrastra hasta ${text(dateLabel(q,q.end))}. Puedes repasar el trazo o corregir cada dato antes de revelar.</p>
+      <p class="trends-caption">Arrastra hasta ${text(dateLabel(q,q.end))}. Para ajustar la curva, agarra la línea y muévela antes de revelar.</p>
       <details class="trends-editor"><summary>Editar valores por ${unitOfTime(q)}</summary>
         <div class="trends-controls">
-          <label>${q.period==='month'?'Mes':'Año'}<select data-trends-year>${options}</select></label>
+          <label>${timeLabel(q)}<select data-trends-year>${options}</select></label>
           <label>Tu estimación<input data-trends-value type="number" min="${q.min}" max="${q.max}" step="any"></label>
           <button class="game-secondary" type="button" data-trends-set>Guardar punto</button>
         </div>
@@ -165,7 +168,7 @@
       element('[data-trends-coordinate]').textContent=`${label} · ${fmt(trace[index])}`;
     }
     const count=draft.filter(value=>value!==null).length;
-    const caption=`${count} de ${draft.length} ${chart.period==='month'?'meses':'años'} trazados`;
+    const caption=`${count} de ${draft.length} ${times(chart)}`;
     const counter=element('[data-trends-count]');
     if(counter.textContent!==caption)counter.textContent=caption;
     element('[data-trends-reveal]').disabled=pending||count!==draft.length;
@@ -176,12 +179,12 @@
   function bindPlot(){
     const svg=element('.trends-plot');
     function position(event){
-      const transform=svg.getScreenCTM().inverse();
-      const p=new DOMPoint(event.clientX,event.clientY).matrixTransform(transform);
+      const transform=svg.getScreenCTM();
+      const p=new DOMPoint(event.clientX,event.clientY).matrixTransform(transform.inverse());
       const marker=x(chart,chart.cut), max=trace.length-1;
       const index=Math.round((p.x-marker)*max/(box.right-marker));
       const value=chart.max-(p.y-box.top)*(chart.max-chart.min)/(box.bottom-box.top);
-      return {x:p.x,y:p.y,index:clamp(index,1,max),value:quantize(value)};
+      return {x:p.x,y:p.y,scaleX:Math.abs(transform.a),scaleY:Math.abs(transform.d),index:clamp(index,1,max),value:quantize(value)};
     }
     function draw(point){
       const start=stroke.point;
@@ -193,29 +196,84 @@
       }
       stroke.point=point;
     }
+    function hit(point,type){
+      let nearest=0,distance=type==='touch'?25:15;
+      for(let i=1;i<trace.length;i++){
+        if(trace[i]===null)continue;
+        const dx=(point.x-x(chart,chart.cut+i/samplesPerPeriod))*point.scaleX;
+        const dy=(point.y-y(chart,trace[i]))*point.scaleY;
+        const gap=Math.hypot(dx,dy);
+        if(gap<distance){nearest=i;distance=gap}
+      }
+      return nearest;
+    }
+
+    function grab(anchor,point){
+      let left=anchor,right=anchor;
+      while(left>0&&trace[left-1]!==null)left--;
+      while(right<trace.length-1&&trace[right+1]!==null)right++;
+      return {anchor,left,right,original:trace.slice(),point};
+    }
+
+    function adjust(point){
+      const {anchor,left,right,original,point:start}=stroke.edit;
+      const target=clamp(anchor+point.index-start.index,Math.min(left+1,anchor),Math.max(right-1,anchor));
+      const delta=(start.y-point.y)*(chart.max-chart.min)/(box.bottom-box.top);
+      const radius=2*samplesPerPeriod;
+      const from=Math.max(left,Math.min(target,anchor)-radius);
+      const to=Math.min(right,Math.max(target,anchor)+radius);
+      // Relee el trazo de inicio en cada movimiento para que volver al origen reproduzca la misma curva.
+      trace=original.slice();
+      for(let i=Math.max(from,1);i<=to;i++){
+        const edge=i<target?from:to;
+        const influence=i===target?1:1-(i-target)/(edge-target);
+        const sample=edge+(anchor-edge)*influence;
+        const low=Math.floor(sample),high=Math.ceil(sample);
+        const value=original[low]+(original[high]-original[low])*(sample-low);
+        const weight=influence*influence*(3-2*influence);
+        trace[i]=quantize(value+delta*weight);
+      }
+      draft=draft.map((_,i)=>trace[(i+1)*samplesPerPeriod]);
+      return target;
+    }
+
     function update(event){
-      const events=event.getCoalescedEvents?.();
-      for(const sample of events?.length?events:[event])draw(position(sample));
+      let index;
+      if(stroke.edit)index=adjust(position(event));
+      else{
+        const events=event.getCoalescedEvents?.();
+        for(const sample of events?.length?events:[event])draw(position(sample));
+        index=stroke.point.index;
+      }
       window.Avatar3D?.lookAt?.(stage.firstElementChild,event.clientX,event.clientY);
-      updateDraft(stroke.point.index);
+      updateDraft(index);
     }
     svg.addEventListener('pointerdown',event=>{
       if(pending||!event.isPrimary||event.button!==0)return;
       const point=position(event);
       if(point.x<x(chart,chart.cut)-10||point.x>box.right+10||point.y<box.top-10||point.y>box.bottom+10)return;
-      const first=trace.slice(1).every(value=>value===null);
-      stroke={id:event.pointerId,point:first?{index:0,value:trace[0]}:point};
+      const last=trace.findLastIndex(value=>value!==null);
+      const extending=point.index>last+samplesPerPeriod/3;
+      const anchor=extending?0:hit(point,event.pointerType);
+      const start=extending||last===0?{index:last,value:trace[last]}:point;
+      stroke={id:event.pointerId,point:start,edit:anchor?grab(anchor,point):null};
+      svg.classList.toggle('is-editing',Boolean(anchor));
       svg.setPointerCapture(event.pointerId);
       update(event);
     });
-    svg.addEventListener('pointermove',event=>{if(stroke?.id===event.pointerId)update(event)});
+    svg.addEventListener('pointermove',event=>{
+      if(stroke?.id===event.pointerId)update(event);
+      else if(event.pointerType!=='touch')svg.classList.toggle('is-editable',Boolean(hit(position(event),event.pointerType)));
+    });
     svg.addEventListener('pointerup',event=>{
       if(stroke?.id!==event.pointerId)return;
       update(event);
-      stroke=null;
       syncEditor();
     });
-    svg.addEventListener('lostpointercapture',()=>{stroke=null});
+    svg.addEventListener('lostpointercapture',()=>{
+      stroke=null;
+      svg.classList.remove('is-editing');
+    });
   }
 
   function syncEditor(){
@@ -298,13 +356,13 @@
       <p class="trends-caption">${community}</p>
       <div class="trends-points"><strong>${fmt(q.score)} pts</strong><b>${verdict}</b><span>Error medio: ${fmt(q.error)} ${text(changeUnit)}</span></div>
       <details class="trends-source" open><summary>Qué pasó</summary>
+        ${q.context?`<p>${text(q.context.story)}${q.context.url?` <a href="${text(q.context.url)}" target="_blank" rel="noopener">Ver fuente del contexto ↗</a>`:''}</p>`:''}
         <p>${facts} ${extreme}</p>
-        ${q.context?`<p>${text(q.context.story)} <a href="${text(q.context.url)}" target="_blank" rel="noopener">Ver fuente del contexto ↗</a></p>`:''}
         <p>${text(q.detail)}</p>
         <p><a href="${text(q.source.url)}" target="_blank" rel="noopener">${text(q.source.title)} ↗</a> · <a href="${text(q.source.licenseUrl||'https://creativecommons.org/licenses/by/4.0/')}" target="_blank" rel="noopener">${text(q.source.license)}</a></p>
         <details><summary>Proveedor y datos por ${unitOfTime(q)}</summary>
           <p>${text(q.source.provider)}</p>
-          <table class="trends-data"><thead><tr><th scope="col">${q.period==='month'?'Mes':'Año'}</th><th scope="col">Tu trazo</th><th scope="col">Real</th>${q.community.values?'<th scope="col">Comunidad</th>':''}</tr></thead><tbody>${rows}</tbody></table>
+          <table class="trends-data"><thead><tr><th scope="col">${timeLabel(q)}</th><th scope="col">Tu trazo</th><th scope="col">Real</th>${q.community.values?'<th scope="col">Comunidad</th>':''}</tr></thead><tbody>${rows}</tbody></table>
         </details>
       </details>
       <div class="trends-actions"><button class="game-primary" type="button" ${review?'data-trends-summary':'data-trends-next'}>${review?'Volver al resultado':edition.current?'Siguiente gráfica →':'Ver resultado →'}</button></div>
