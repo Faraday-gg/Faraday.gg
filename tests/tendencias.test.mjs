@@ -51,9 +51,10 @@ for(let i=0;i<36;i++){
     assert.deepEqual(trendScore(chart,chart.values.slice(chart.cut+1)),{score:1000,error:0});
     const forecast={...chart,end:chart.start+chart.values.length-1,history:chart.values.slice(0,chart.cut+1)};
     const simulation=simulateTrends(forecast);
-    assert.equal(simulation.count,32);
-    assert.equal(simulation.values.length,chart.values.length-chart.cut-1);
-    assert(simulation.values.every(value=>Number.isFinite(value)&&value>=chart.min&&value<=chart.max),chart.id);
+    assert.equal(simulation.length,200);
+    assert(simulation.every(trace=>trace.length===chart.values.length-chart.cut-1&&
+      trace.every(value=>Number.isFinite(value)&&value>=chart.min&&value<=chart.max)),chart.id);
+    assert(new Set(simulation.map(trace=>trace.join(','))).size>=100,chart.id);
     assert.deepEqual(simulateTrends({...forecast,values:[]}),simulation);
   }
 }
@@ -85,10 +86,13 @@ try{
   assert.match((await call({action:'estado'},{as:null})).cookie,/faraday_jugador=/);
   assert.equal((await call({action:'estado'},{origin:'https://otra.test'})).status,403);
   const reveal=(chart,guess,game=0)=>({action:'revelar',date:state.date,game,chart:chart.id,guess});
+  const traces=(chart,after=0)=>({action:'trazos',date:state.date,chart:chart.id,after});
   const replay=(action,game=1)=>({action,date:state.date,game});
   const actual=chart=>chart.values.slice(chart.cut+1);
   const constant=(chart,value)=>actual(chart).map(()=>value);
   assert.equal((await call(reveal(second,actual(second)))).status,409);
+  assert.equal((await call(traces(first))).status,409);
+  assert.equal((await call(traces(first,-1))).status,400);
   assert.equal((await call(replay('preparar-extra'))).status,409);
   assert.equal((await call(reveal(first,[]))).status,400);
   assert.equal((await call(reveal(first,constant(first,first.max+1)))).status,400);
@@ -100,20 +104,23 @@ try{
   assert.equal(saved.status,200);
   assert.deepEqual(retried.body.results[0].guess,saved.body.results[0].guess);
   assert.deepEqual(saved.body.results[0].actual,actual(first));
-  assert.deepEqual(saved.body.results[0].community,{count:0,values:null});
-  assert.equal(saved.body.results[0].simulation.count,32);
-  assert.deepEqual(saved.body.results[0].simulation,retried.body.results[0].simulation);
+  assert(!('community' in saved.body.results[0]));
+  const examples=(await call(traces(first))).body;
+  assert.equal(examples.simulated,true);
+  assert.equal(examples.traces.length,200);
+  assert.equal(examples.next,null);
+  assert.equal((await call(traces(first),{as:randomUUID()})).status,409);
   for(const value of [first.min,first.min,first.max]){
     const other=await call(reveal(first,constant(first,value)),{as:randomUUID()});
     assert.equal(other.status,200);
-    if(value===first.min)assert.equal(other.body.results[0].community.values,null);
+    assert(!('community' in other.body.results[0]));
   }
   api=createApi({store:fileStore(file),now:()=>clock,log:()=>{}});
   const resumed=(await call({action:'estado'})).body;
   assert.equal(resumed.current.id,second.id);
-  assert.equal(resumed.results[0].community.count,3);
-  assert(resumed.results[0].community.values.every(value=>value===(2*first.min+first.max)/3));
-  assert.equal(resumed.results[0].simulation,null);
+  assert.deepEqual((await call(traces(first))).body,{
+    traces:[constant(first,first.min),constant(first,first.min),constant(first,first.max)],next:null,simulated:false
+  });
   const preview=createApi({store:fileStore(file),now:()=>clock,trendScope:'preview'});
   assert.deepEqual((await call({action:'estado'},{on:preview})).body.results,[]);
   await call(reveal(second,actual(second)));
@@ -224,25 +231,35 @@ await oldStore.unlockReplay('publico',oldDate,'pop',1);
 const oldExtra=(await legacyGame('pop',{action:'estado'})).body;
 assert.equal(oldExtra.results.at(-1).id,oldReplay[0].id);
 assert.equal(oldExtra.current.id,oldReplay[1].id);
-for(const [player_hash,round,value] of [['one',3,10],['one',102,99],['two',3,20],['three',3,30]]){
-  await oldStore.add({scope:'publico',day:oldDate,player_hash,round,chart:'repeat',guess:[value]});
-}
-assert.deepEqual(await oldStore.community('publico',oldDate,'another','repeat'),{count:3,values:[20]});
+const addTrace=(player_hash,round,value,scope='publico')=>oldStore.add({
+  scope,day:oldDate,player_hash,round,chart:'repeat',guess:[value]
+});
+await addTrace('another',0,9);
+await addTrace('player-1',102,999);
+for(let i=1;i<=205;i++)await addTrace(`player-${i}`,3,i);
+await addTrace('preview-player',0,999,'preview');
+const firstPage=await oldStore.traces('publico',oldDate,'another','repeat',0);
+const lastPage=await oldStore.traces('publico',oldDate,'another','repeat',firstPage.next);
+assert.equal(firstPage.traces.length,200);
+assert.deepEqual(lastPage,{traces:[[201],[202],[203],[204],[205]],next:null});
+assert.deepEqual([...firstPage.traces,...lastPage.traces],Array.from({length:205},(_,i)=>[i+1]));
+assert.equal(await oldStore.traces('preview',oldDate,'another','repeat',0),null);
 
 const requests=[];
 const store=supabaseStore({url:'https://proyecto.supabase.co',key:'clave-falsa',fetch:async(url,options)=>{
   requests.push({url:new URL(url),options});
-  return Response.json(url.includes('/rpc/')?{count:3,values:[10]}:[]);
+  return Response.json(url.includes('/rpc/')?{traces:[[10]],next:null}:[]);
 }});
 const playerHash='a'.repeat(64);
 await store.trends.answers('preview','2026-11-17',playerHash,2);
 await store.trends.add({scope:'preview',day:'2026-11-17',player_hash:playerHash,chart:'a',round:0,guess:[10]});
-assert.deepEqual(await store.trends.community('preview','2026-11-17',playerHash,'a'),{count:3,values:[10]});
+assert.deepEqual(await store.trends.traces('preview','2026-11-17',playerHash,'a',0),{traces:[[10]],next:null});
 assert.equal(requests[0].url.searchParams.get('scope'),'eq.preview');
 assert.equal(requests[0].url.searchParams.get('and'),'(round.gte.6,round.lt.9)');
 assert.equal(requests[1].url.searchParams.get('on_conflict'),'scope,day,player_hash,round');
 assert.match(requests[1].options.headers.Prefer,/ignore-duplicates/);
-assert.equal(JSON.parse(requests[2].options.body).p_player,playerHash);
+assert.equal(requests[2].url.pathname,'/rest/v1/rpc/trend_traces');
+assert.deepEqual(JSON.parse(requests[2].options.body),{p_scope:'preview',p_day:oldDate,p_player:playerHash,p_chart:'a',p_after:0});
 await store.trends.lastRound('preview',oldDate,playerHash);
 await store.trends.startReplay('preview',oldDate,playerHash,2,start);
 await store.trends.unlockReplay('preview',oldDate,playerHash,2,start);
@@ -251,4 +268,4 @@ assert.equal(requests[4].url.searchParams.get('on_conflict'),'scope,day,player_h
 assert.equal(JSON.parse(requests[4].options.body).game,2);
 assert.equal(requests[5].url.searchParams.get('game'),'eq.2');
 assert.equal(requests[6].url.searchParams.get('requested_at'),`eq.${start}`);
-console.log('Traza la tendencia: banco, simulación, agregados, rondas ilimitadas, persistencia y Supabase simulado correctos');
+console.log('Traza la tendencia: banco, trazos individuales, rondas ilimitadas, persistencia y Supabase simulado correctos');

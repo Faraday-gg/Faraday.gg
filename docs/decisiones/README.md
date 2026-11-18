@@ -95,6 +95,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0091](0091-reanudar-trazos-y-partidas-extra.md) | Punto para reanudar el dibujo, trazos simulados y partidas extra sin límite | Implementada | 2026-11-18 |
 | [0092](0092-graficas-con-pendientes-estables.md) | Auditoría de pendientes y nueva rotación con ciclos mensuales y series por bienios | Implementada | 2026-11-18 |
 | [0093](0093-guia-y-coordenadas-de-dibujo.md) | Aviso de inicio y coordenadas al dibujar en Traza | Implementada | 2026-11-18 |
+| [0094](0094-revelacion-y-trazos-individuales.md) | Revelación animada y trazos individuales de otros jugadores | Implementada | 2026-11-18 |
 
 ## Plantilla
 

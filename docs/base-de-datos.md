@@ -34,7 +34,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y Vercel lo publica al desplegar producción. |
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
 | Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
-| Traza la tendencia | `trend_answers`, `trend_community`, `trend_replays` | Trazos diarios por ronda y agregado comunitario por entorno. Migraciones pendientes de aplicación. |
+| Traza la tendencia | `trend_answers`, `trend_traces`, `trend_replays` | Trazos diarios por ronda y consulta paginada de trazos ajenos por entorno. Migraciones pendientes de aplicación. |
 | Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
 | HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
 
@@ -531,10 +531,12 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261116231953` | [rangos](../supabase/migrations/20261116231953_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | 2026-11-17, por Luis con Claude Code (el archivo se llamaba `20261112200000_rangos.sql`) |
 | `20261117120000` | [tendencias](../supabase/migrations/20261117120000_tendencias.sql) | Crea `trend_answers` y `trend_community` para la partida diaria de gráficas. | Pendiente de aplicación |
 | `20261117130000` | [repeticiones_tendencias](../supabase/migrations/20261117130000_repeticiones_tendencias.sql) | Amplía a seis rondas y registra el desbloqueo en `trend_replays`. | Pendiente de aplicación |
+| `20261118030040` | [partidas_ilimitadas_tendencias](../supabase/migrations/20261118030040_partidas_ilimitadas_tendencias.sql) | Elimina el límite de rondas y registra el desbloqueo por partida. | Pendiente de aplicación |
+| `20261118035240` | [trazos_individuales_tendencias](../supabase/migrations/20261118035240_trazos_individuales_tendencias.sql) | Añade el cursor de trazos y la función `trend_traces`. | Pendiente de aplicación |
 
 ## Pendiente
 
-- Aplicar las dos migraciones de Traza la tendencia tras autorización del responsable y comprobar la Preview.
+- Aplicar las cuatro migraciones de Traza la tendencia tras autorización del responsable y comprobar la Preview.
 - **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Con la generación diaria (decisión 0017) cada fecha tendrá su jornada `ia` desde la noche anterior; falta configurarla (migración, Vault y variables de Vercel).
 - No se migran las respuestas de `runtime/answers.json`: son pruebas locales.
 
@@ -542,8 +544,10 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 
 La migración `20261117120000_tendencias` añade `trend_answers`. La clave primaria `(scope, day, player_hash, round)` protege el primer intento de cada ronda. La fila conserva el identificador de la gráfica y el array de estimaciones por mes o año. `scope` separa la muestra de Vercel Preview de la pública dentro del mismo proyecto de Supabase. La tabla tiene RLS y el acceso se concede a `service_role`.
 
-La función `trend_community` devuelve el número de otros jugadores de ese ámbito, día y gráfica. Con tres jugadores o más también devuelve la media por fecha. El navegador recibe esas cifras agregadas. El banco de series, las simulaciones y la lógica de puntuación se cargan en el servidor.
+El banco de series, las simulaciones y la lógica de puntuación se cargan en el servidor. Las versiones anteriores consultaban la función `trend_community` para mostrar la media.
 
 La migración `20261117130000_repeticiones_tendencias` añade las primeras tres rondas adicionales y crea `trend_replays`. Tiene RLS y acceso de lectura y escritura solo desde `service_role`.
 
-La migración `20261118030040_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`. Si una gráfica se repite al agotar el banco, la función de comunidad usa el primer trazo de cada jugador. Las tres migraciones están pendientes de aplicación en el entorno compartido.
+La migración `20261118030040_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`.
+
+La migración `20261118035240_trazos_individuales_tendencias` añade un cursor numérico indexado a las respuestas. `trend_traces` requiere que el solicitante haya revelado la gráfica y devuelve únicamente los vectores de estimaciones de los demás y el cursor de la siguiente página. Recupera hasta 200 por llamada, cuenta solo el primer trazo de cada jugador por gráfica y separa fecha y entorno. Solo `service_role` tiene permiso de ejecución.
