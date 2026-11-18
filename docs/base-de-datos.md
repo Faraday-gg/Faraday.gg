@@ -542,8 +542,8 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 
 La migración `20261117120000_tendencias` añade `trend_answers`. La clave primaria `(scope, day, player_hash, round)` protege el primer intento de cada ronda. La fila conserva el identificador de la gráfica y el array de estimaciones por mes o año. `scope` separa la muestra de Vercel Preview de la pública dentro del mismo proyecto de Supabase. La tabla tiene RLS y el acceso se concede a `service_role`.
 
-La función `trend_community` devuelve el número de respuestas de otros jugadores de ese ámbito, día y gráfica. Con tres respuestas o más también devuelve la media por fecha. El navegador recibe solo esas cifras agregadas. El banco de series y la lógica de puntuación se cargan en el servidor.
+La función `trend_community` devuelve el número de otros jugadores de ese ámbito, día y gráfica. Con tres jugadores o más también devuelve la media por fecha. El navegador recibe esas cifras agregadas. El banco de series, las simulaciones y la lógica de puntuación se cargan en el servidor.
 
-La migración `20261117130000_repeticiones_tendencias` conserva el intento original y admite tres rondas adicionales. `trend_replays` guarda la hora de inicio del anuncio de prueba y el desbloqueo único por entorno, jugador y fecha. Tiene RLS y acceso de lectura y escritura solo desde `service_role`.
+La migración `20261117130000_repeticiones_tendencias` añade las primeras tres rondas adicionales y crea `trend_replays`. Tiene RLS y acceso de lectura y escritura solo desde `service_role`.
 
-Las dos migraciones están pendientes de aplicación por el responsable.
+La migración `20261118030040_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`. Si una gráfica se repite al agotar el banco, la función de comunidad usa el primer trazo de cada jugador. Las tres migraciones están pendientes de aplicación en el entorno compartido.
