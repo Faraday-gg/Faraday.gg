@@ -89,7 +89,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
-content/tendencias*.json Banco vigente de 102 gráficas y bancos anteriores para partidas iniciadas
+content/tendencias*.json Banco vigente de 108 gráficas y bancos anteriores para partidas iniciadas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
 lib/stores.mjs           Almacenes de respuestas: archivo local y Supabase
 lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (POST /api/duelo)

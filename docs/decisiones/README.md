@@ -93,6 +93,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0089](0089-merge-automatico-de-pr.md) | Merge automático de PR comprobadas hacia preprod | Aceptada | 2026-11-17 |
 | [0090](0090-curva-editable-y-banco-de-historias.md) | Ajuste de curvas antes de revelar y banco de historias con fuentes | Implementada | 2026-11-18 |
 | [0091](0091-reanudar-trazos-y-partidas-extra.md) | Punto para reanudar el dibujo, trazos simulados y partidas extra sin límite | Implementada | 2026-11-18 |
+| [0092](0092-graficas-con-pendientes-estables.md) | Auditoría de pendientes y nueva rotación con ciclos mensuales y series por bienios | Implementada | 2026-11-18 |
 
 ## Plantilla
 

@@ -63,14 +63,19 @@
   const shortDate=new Intl.DateTimeFormat('es',{month:'short',year:'2-digit',timeZone:'UTC'});
   const longDate=new Intl.DateTimeFormat('es',{month:'long',year:'numeric',timeZone:'UTC'});
   function dateLabel(q,period,short=false){
-    if(q.labels)return String(q.labels[period-q.start]);
+    if(q.labels){
+      const label=q.labels[period-q.start];
+      if(q.period==='season'&&short)return label.slice(0,3)+'.';
+      if(q.period==='biennium'&&!short)return `${label-1}–${label}`;
+      return String(label);
+    }
     if(q.period!=='month')return String(period);
     const date=new Date(Date.UTC(Math.floor(period/12),period%12,1));
     return (short?shortDate:longDate).format(date);
   }
-  const unitOfTime=q=>({month:'mes',edition:'edición'})[q.period]||'año';
-  const timeLabel=q=>({month:'Mes',edition:'Edición'})[q.period]||'Año';
-  const times=q=>({month:'meses trazados',edition:'ediciones trazadas'})[q.period]||'años trazados';
+  const unitOfTime=q=>({month:'mes',season:'mes',edition:'edición',biennium:'bienio'})[q.period]||'año';
+  const timeLabel=q=>({month:'Mes',season:'Mes',edition:'Edición',biennium:'Bienio'})[q.period]||'Año';
+  const times=q=>({month:'meses trazados',season:'meses trazados',edition:'ediciones trazadas',biennium:'bienios trazados'})[q.period]||'años trazados';
   const roundLabel=index=>`${index>=edition.rounds?`Partida extra ${edition.game} · `:''}Gráfica ${index%edition.rounds+1} de ${edition.rounds}`;
 
   function x(q,index){
@@ -106,7 +111,7 @@
     const comparison=result?.community?.values||result?.simulation?.values;
     return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
-      <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">Historial</text>
+      <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${q.period==='season'?'Meses visibles':'Historial'}</text>
       <text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">${result?'Tramo revelado':'Tramo ampliado'}</text>
       ${minorTicks}${ticks}${guides}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
       <polyline class="trends-history" points="${points(q,q.history)}"/>

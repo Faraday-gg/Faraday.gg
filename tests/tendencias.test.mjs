@@ -8,30 +8,46 @@ import {fileStore,supabaseStore} from '../lib/stores.mjs';
 import {createTrends,fileTrends,simulateTrends,trendEdition,trendReplay,trendScore} from '../lib/tendencias.mjs';
 
 const start=Date.parse('2026-11-17T00:00:00Z');
+const auditedStart=start+86400000;
 const ids=new Set();
-const categories=new Map();
-let tournaments=0;
-for(let i=0;i<34;i++){
-  const day=new Date(start+i*86400000).toISOString().slice(0,10);
+const categories=new Set(),periods=new Set();
+let varied=0;
+for(let i=0;i<36;i++){
+  const day=new Date(auditedStart+i*86400000).toISOString().slice(0,10);
   const charts=trendEdition(day);
   assert.equal(charts.length,3);
+  assert.equal(new Set(charts.map(chart=>chart.category)).size,3);
   assert(trendReplay(day).every(extra=>charts.every(chart=>chart.id!==extra.id)));
   for(const chart of charts){
     assert(!ids.has(chart.id),chart.id);
     ids.add(chart.id);
-    assert(chart.cut>=5);
+    assert(chart.cut>=4);
     assert(chart.values.length-chart.cut-1>=6&&chart.values.length-chart.cut-1<=30);
     assert(chart.max>chart.min&&chart.values.every(value=>Number.isFinite(value)&&value>=chart.min&&value<=chart.max),chart.id);
     assert(chart.detail.length>15&&chart.source.provider,chart.id);
     assert(chart.context.story.length>40&&chart.source.url.startsWith('https://'),chart.id);
-    categories.set(chart.category,(categories.get(chart.category)||0)+1);
-    if(chart.period==='edition'){
-      tournaments++;
+    categories.add(chart.category);
+    periods.add(chart.period||'year');
+    if(chart.labels){
       assert.equal(chart.labels.length,chart.values.length);
-      assert.deepEqual([...chart.labels].sort((a,b)=>a-b),chart.labels);
       assert.equal(new Set(chart.labels).size,chart.labels.length);
-      assert.equal(chart.labels[0],1950);
+      if(chart.period==='season'){
+        assert.equal(chart.labels.length,12);
+        assert.equal(chart.labels[0],'enero');
+        assert.equal(chart.labels[11],'diciembre');
+      }else{
+        assert.deepEqual([...chart.labels].sort((a,b)=>a-b),chart.labels);
+        if(chart.period==='biennium')assert(chart.labels.slice(1).every((year,index)=>year-chart.labels[index]===2));
+      }
     }
+    const samples=chart.values.slice(chart.cut-1);
+    const slopes=samples.slice(1).map((value,i)=>(value-samples[i])/(chart.max-chart.min));
+    const hidden=slopes.slice(1);
+    const turns=hidden.map((value,i)=>({from:slopes[i],to:value}));
+    assert(Math.max(...hidden.map(Math.abs))<=.25,chart.id);
+    assert(turns.every(({from,to})=>from*to>=0||Math.min(Math.abs(from),Math.abs(to))<=.115),chart.id);
+    assert(turns.reduce((sum,{from,to})=>sum+Math.abs(from-to),0)/turns.length<=.085,chart.id);
+    if(Math.max(...hidden)>.02&&Math.min(...hidden)<-.02)varied++;
     assert.deepEqual(trendScore(chart,chart.values.slice(chart.cut+1)),{score:1000,error:0});
     const forecast={...chart,end:chart.start+chart.values.length-1,history:chart.values.slice(0,chart.cut+1)};
     const simulation=simulateTrends(forecast);
@@ -41,13 +57,13 @@ for(let i=0;i<34;i++){
     assert.deepEqual(simulateTrends({...forecast,values:[]}),simulation);
   }
 }
-assert.equal(ids.size,102);
-assert.equal(categories.size,6);
-assert([...categories.values()].every(count=>count===17));
-assert.equal(tournaments,17);
-const rotation=Array.from({length:34},(_,i)=>trendReplay('2026-11-17',undefined,undefined,i+1).map(chart=>chart.id));
-assert.equal(new Set(rotation.slice(0,33).flat()).size,99);
-assert.deepEqual(rotation[33],rotation[0]);
+assert.equal(ids.size,108);
+assert.equal(categories.size,12);
+assert.deepEqual(periods,new Set(['year','season','edition','biennium']));
+assert(varied>=20);
+const rotation=Array.from({length:36},(_,i)=>trendReplay('2026-11-18',undefined,undefined,i+1).map(chart=>chart.id));
+assert.equal(new Set(rotation.slice(0,35).flat()).size,105);
+assert.deepEqual(rotation[35],rotation[0]);
 
 const temp=mkdtempSync(path.join(tmpdir(),'faraday-tendencias-'));
 let clock=start;
@@ -161,6 +177,34 @@ try{
 }finally{rmSync(temp,{recursive:true,force:true})}
 
 const readBank=name=>JSON.parse(readFileSync(new URL(`../content/${name}.json`,import.meta.url),'utf8'));
+const stableDate='2026-11-18',storyBank=readBank('tendencias-historias');
+const storyDaily=trendEdition(stableDate,0,storyBank);
+const storyExtra=trendReplay(stableDate,storyDaily,storyBank);
+const cutoverStore=fileTrends();
+const cutoverGame=createTrends({store:cutoverStore,now:()=>auditedStart});
+const submit=(player,chart,game=0)=>cutoverGame(player,{
+  date:stableDate,game,action:'revelar',chart:chart.id,guess:chart.values.slice(chart.cut+1)
+});
+const firstCutover=(await cutoverGame('new',{action:'estado'})).body.current;
+assert.equal(firstCutover.id,'estable-clima-madrid');
+assert.equal(firstCutover.period,'season');
+assert.equal(firstCutover.labels[11],'diciembre');
+assert(!('actual' in firstCutover)&&!('values' in firstCutover));
+const newResult=await submit('new',trendEdition(stableDate)[0]);
+assert.equal(newResult.body.results[0].score,1000);
+assert.equal(newResult.body.current.period,'biennium');
+const oldFirst=await submit('old',storyDaily[0]);
+assert.equal(oldFirst.body.current.id,storyDaily[1].id);
+for(const chart of storyDaily.slice(1))assert.equal((await submit('old',chart)).status,200);
+await cutoverStore.startReplay('publico',stableDate,'old',1,auditedStart);
+await cutoverStore.unlockReplay('publico',stableDate,'old',1);
+assert.equal((await submit('old',storyExtra[0],1)).body.current.id,storyExtra[1].id);
+assert.equal((await cutoverGame('old',{action:'estado'})).body.results.at(-1).score,1000);
+const race=await Promise.all([submit('race',storyDaily[0]),submit('race',trendEdition(stableDate)[0])]);
+assert.deepEqual(race.map(response=>response.status).sort(),[200,409]);
+const winner=race.find(response=>response.status===200).body.results[0].id;
+assert.equal((await cutoverGame('race',{action:'estado'})).body.results[0].id,winner);
+
 const oldCharts=readBank('tendencias');
 const oldDate='2026-11-17',old=trendEdition(oldDate,0,oldCharts)[0],oldStore=fileTrends();
 await oldStore.add({scope:'publico',day:oldDate,player_hash:'legacy',round:0,chart:old.id,guess:old.values.slice(old.cut+1)});

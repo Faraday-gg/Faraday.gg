@@ -10,7 +10,7 @@
     { "source": "/api/:route", "destination": "/api?route=:route" }
   ],
   "functions": {
-    "api/index.mjs": { "includeFiles": "{dist/questions.json,dist/categories.js,dist/avatar.js,dist/chests.js,content/banco-base.json,content/tendencias.json,content/tendencias-pop.json,content/tendencias-historias.json,content/archivo/*.json}", "maxDuration": 300 }
+    "api/index.mjs": { "includeFiles": "{dist/questions.json,dist/categories.js,dist/avatar.js,dist/chests.js,content/banco-base.json,content/tendencias*.json,content/archivo/*.json}", "maxDuration": 300 }
   },
   "crons": [
     { "path": "/api/generar-dia", "schedule": "30 23 * * *" }
