@@ -80,7 +80,7 @@
   const roundLabel=index=>`${index>=edition.rounds?`Partida extra ${edition.game} · `:''}Gráfica ${index%edition.rounds+1} de ${edition.rounds}`;
 
   function x(q,index){
-    const cut=box.left+(box.right-box.left)*.37;
+    const cut=box.left+(box.right-box.left)*box.split;
     if(index<=q.cut)return box.left+(cut-box.left)*index/q.cut;
     return cut+(box.right-cut)*(index-q.cut)/(q.end-q.start-q.cut);
   }
@@ -99,6 +99,32 @@
     </g>
     ${guess('trends-result-halo')}${guess(ownTrace?'trends-guess trends-drawn':'trends-guess')}`;
   }
+
+  function labelEnds(graph,result,showActual,community){
+    const compact=box.width===360;
+    const labels=[{kind:'own',name:'Tu trazo',value:result.guess.at(-1)}];
+    if(showActual)labels.push({kind:'actual',name:'Dato real',value:result.actual.at(-1)});
+    if(community?.traces.length){
+      // Ancla la etiqueta del grupo a un trazo existente en el centro de sus extremos.
+      const ends=community.traces.map(trace=>trace.at(-1)).sort((a,b)=>a-b);
+      const name=community.simulated?(compact?'Simulados':'Trazos simulados'):(compact?'Otros':'Otros jugadores');
+      labels.push({kind:'peers',name,value:ends[Math.floor(ends.length/2)]});
+    }
+    const endpoints=labels.map(label=>({...label,end:y(result,label.value)})).sort((a,b)=>a.end-b.end);
+    const gap=compact?17:25;
+    let nextY=box.top;
+    endpoints.forEach((label,i)=>{
+      const maxY=box.bottom-gap*(endpoints.length-i-1);
+      label.at=clamp(label.end,nextY,maxY);
+      nextY=label.at+gap;
+    });
+    graph.querySelector('.trends-end-labels').innerHTML=endpoints.map(({kind,name,end,at})=>
+      `<g class="trends-end-label trends-end-${kind}">
+        <path d="M${box.right} ${end}L${box.right+8} ${at}"/>
+        <text x="${box.right+11}" y="${at}" dominant-baseline="central">${name}</text>
+      </g>`).join('');
+  }
+
   function drawingGuides(q,marker){
     const middle=(marker+box.right)/2;
     const compact=box.width===360;
@@ -125,9 +151,10 @@
   }
 
   function plot(q,result,ownTrace){
-    box=matchMedia('(max-width: 560px)').matches
-      ?{width:360,height:334,left:52,right:350,top:34,bottom:300,badge:56}
-      :{width:880,height:442,left:77,right:854,top:36,bottom:398,badge:70};
+    const compact=matchMedia('(max-width: 560px)').matches;
+    box=compact
+      ?{width:360,height:334,left:52,right:290,top:34,bottom:300,badge:56,split:.32}
+      :{width:880,height:442,left:77,right:746,top:36,bottom:398,badge:70,split:.37};
     const marker=x(q,q.cut),cutYear=q.start+q.cut;
     const years=[q.start,cutYear,cutYear+Math.round((q.end-cutYear)/2),q.end];
     const tick=q.tick;
@@ -147,15 +174,17 @@
       return `<line class="trends-guide" x1="${at}" x2="${at}" y1="${box.top}" y2="${box.bottom}"/>`;
     }).join('');
     const clip=kind=>`<clipPath id="trends-clip-${kind}"><rect x="${marker-4}" y="${box.top-4}" width="${box.right-marker+8}" height="${box.bottom-box.top+8}"/></clipPath>`;
-    return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
+    const historyLabel=q.period==='season'?(compact?'Meses':'Meses visibles'):'Historial';
+    return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de tu trazo con el dato real y los demás trazos':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
-      <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${q.period==='season'?'Meses visibles':'Historial'}</text>
+      <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${historyLabel}</text>
       ${result?`<text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">Tramo revelado</text>`:''}
       ${minorTicks}${ticks}${guides}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
       <polyline class="trends-history" points="${points(q,q.history)}"/>
       ${result?`<defs>${clip('real')}${clip('others')}</defs>
         <g class="trends-peer-traces" clip-path="url(#trends-clip-others)" aria-hidden="true"></g>
-        ${resultLines(q,result,ownTrace)}`:
+        ${resultLines(q,result,ownTrace)}
+        <g class="trends-end-labels"></g>`:
         drawingGuides(q,marker)}
       <circle class="trends-pin" cx="${marker}" cy="${y(q,q.history.at(-1))}" r="5"/>
       ${result?'':'<circle class="trends-resume" r="7" visibility="hidden"/>'}
@@ -447,12 +476,12 @@
     const date=edition.date;
     const layer=graph.querySelector('.trends-peer-traces');
     const status=details.querySelector('[data-trends-trace-status]');
-    const key=details.querySelector('[data-trends-trace-key]');
     const retry=details.querySelector('[data-trends-retry-traces]');
     const next=details.querySelector('[data-trends-next]');
     retry.hidden=true;
     status.textContent='Cargando los trazos…';
     const motion=animate&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    labelEnds(graph,result,!motion);
     if(motion){
       const bounds=graph.getBoundingClientRect();
       const header=dialog.querySelector('.trends-header').getBoundingClientRect();
@@ -460,11 +489,12 @@
         graph.scrollIntoView({block:'center',behavior:'smooth'});
       }
     }
-    const drawn=motion?sweep(graph,'real',1050):Promise.resolve();
-    if(next){
-      next.disabled=true;
-      drawn.then(()=>{next.disabled=false});
-    }
+    if(next&&motion)next.disabled=true;
+    const drawn=motion?sweep(graph,'real',1050).then(()=>{
+      if(!graph.isConnected)return;
+      labelEnds(graph,result,true);
+      if(next)next.disabled=false;
+    }):Promise.resolve();
     async function collect(){
       const traces=[];
       let nextPage=0,simulated=false;
@@ -481,11 +511,10 @@
       const [data]=await Promise.all([collect(),drawn]);
       if(!data||!layer.isConnected)return;
       layer.innerHTML=data.traces.map(values=>`<polyline points="${line(result,values)}"/>`).join('');
-      key.textContent=data.simulated?'Trazos simulados':'Otros jugadores';
-      key.hidden=false;
       status.textContent=data.simulated?`${fmt(data.traces.length)} trazos simulados de ejemplo.`:
         `${fmt(data.traces.length)} ${data.traces.length===1?'trazo de otro jugador':'trazos de otros jugadores'} de hoy.`;
       if(motion)await sweep(graph,'others',950);
+      if(layer.isConnected)labelEnds(graph,result,true,data);
     }catch{
       if(!layer.isConnected)return;
       status.textContent='No se pudieron cargar los trazos.';
@@ -506,7 +535,6 @@
     progress.textContent=roundLabel(index);
     mood(q.score,animate);
     const result=`<section class="trends-result" data-trends-result="${index}" tabindex="-1" aria-label="Resultado del trazo">
-      <div class="trends-legend"><span>Datos reales</span><span class="trends-key-guess">Tu trazo</span><span class="trends-key-peers" data-trends-trace-key hidden></span></div>
       <p class="trends-caption" data-trends-trace-status role="status"></p>
       <button class="game-secondary" data-trends-retry-traces type="button" hidden>Reintentar la carga de trazos</button>
       <div class="trends-points"><strong>${fmt(q.score)} pts</strong><span>Error medio: ${fmt(q.error)} ${text(changeUnit)}</span></div>
