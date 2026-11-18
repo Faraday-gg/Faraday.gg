@@ -30,6 +30,7 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-gap{fill:var(--coral);fill-opacity:.16;fill-rule:evenodd}
 .trends-pin{fill:var(--yellow);stroke:var(--ink);stroke-width:2}
 .trends-cursor{fill:var(--paper);stroke:#ca412e;stroke-width:2}
+.trends-resume{fill:var(--yellow);stroke:var(--ink);stroke-width:2;vector-effect:non-scaling-stroke}
 .trends-legend{display:flex;gap:8px 16px;flex-wrap:wrap;margin:8px 0;color:var(--ink);font-size:13px;font-weight:700}
 .trends-legend span::before{content:'';display:inline-block;width:16px;margin:0 5px 3px 0;border-bottom:3px solid}
 .trends-legend .trends-key-guess::before{border-color:#ca412e}
@@ -66,9 +67,8 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-drawn{fill:none;stroke:#ca412e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 
 .trends-header-inner{width:min(1220px,100%);grid-template-columns:auto 1fr;padding-block:12px}
-.trends-stage{width:min(1220px,100%);display:grid;grid-template-columns:clamp(175px,19vw,225px) minmax(0,1fr);gap:16px}
-.trends-companion{position:sticky;top:105px;align-self:start;padding-top:clamp(50px,13vh,112px);text-align:center}
-.trends-companion p{min-height:24px;margin:-6px 0 0;font:700 19px var(--display)}
+.trends-stage{width:min(1260px,100%);display:grid;grid-template-columns:clamp(200px,21vw,270px) minmax(0,1fr);gap:16px}
+.trends-companion{position:sticky;top:105px;align-self:start;padding-top:clamp(40px,11vh,90px)}
 .trends-avatar{display:block;width:100%;aspect-ratio:1;background:none}
 .trends-error{grid-column:2}
 .trends-plot text{font-size:15px}
@@ -76,12 +76,11 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-guide{stroke:var(--line);stroke-dasharray:2 5;opacity:.8}
 @media(max-width:760px){
   .trends-stage{display:block}
-  .trends-companion{position:sticky;top:82px;z-index:1;display:flex;align-items:center;gap:12px;padding:0 0 2px;text-align:left;background:var(--cream)}
-  .trends-companion p{margin:0}
-  .trends-avatar{width:98px}
+  .trends-companion{top:82px;z-index:1;padding:0 0 2px;background:var(--cream)}
+  .trends-avatar{width:120px}
 }
 @media(max-width:560px){
-  .trends-avatar{width:86px}
+  .trends-avatar{width:108px}
   .trends-plot text{font-size:12px}
   .trends-plot .trends-axis-title{font-size:12px}
   .trends-card{padding-inline:10px}
@@ -94,3 +93,4 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-plot.is-editable{cursor:grab}
 .trends-plot.is-editing{cursor:grabbing}
 .trends-plot.is-editing .trends-drawn{stroke-width:4}
+.trends-plot.is-resumable .trends-resume{stroke-width:3}
