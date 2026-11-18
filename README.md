@@ -40,7 +40,7 @@ node tests/pistas.test.mjs
 
 ## Probar Traza la tendencia
 
-Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. El aviso «Dibuja el resto» marca el tramo pendiente. Arrastra el punto amarillo para empezar o reanudar el dibujo. Las guías muestran el periodo y la estimación en los ejes. Agarra la línea para ajustarla o usa el editor por fecha. Después de revelar puedes consultar la fuente, los datos de cada fecha y la media de los trazos simulados hasta que haya tres jugadores más. Al terminar la diaria o cualquier partida extra, «Ver anuncio de prueba» desbloquea otras tres gráficas y «Ver suscripción» sigue disponible en el plan gratuito.
+Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. El aviso «Dibuja el resto» marca el tramo pendiente. Arrastra el punto amarillo para empezar o reanudar el dibujo. Las guías muestran el periodo y la estimación en los ejes. Agarra la línea para ajustarla o usa el editor por fecha. Al revelar se dibuja primero el dato real y luego todos los trazos de los demás a la vez. Si todavía no hay otras respuestas se muestran 200 ejemplos marcados como simulados. Al terminar la diaria o cualquier partida extra, «Ver anuncio de prueba» desbloquea otras tres gráficas y «Ver suscripción» sigue disponible en el plan gratuito.
 
 Ejecuta `node tests/tendencias.test.mjs` para verificar las 108 gráficas de la rotación, los límites de pendiente, las partidas extra y las comparaciones. En Vercel hacen falta las migraciones de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia).
 
