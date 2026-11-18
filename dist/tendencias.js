@@ -88,6 +88,17 @@
   const points=(q,values,offset=0)=>values.map((value,index)=>`${x(q,index+offset)},${y(q,value)}`).join(' ');
   const line=(q,values)=>points(q,[q.history.at(-1),...values],q.cut);
   const tracePath=(q,samples)=>samples.map((value,i)=>value===null?'':`${i===0||samples[i-1]===null?'M':'L'}${x(q,q.cut+i/samplesPerPeriod)} ${y(q,value)}`).join(' ');
+  function resultLines(q,result,ownTrace){
+    const actual=line(q,result.actual);
+    const own=ownTrace?tracePath(q,ownTrace):line(q,result.guess);
+    const guess=classes=>ownTrace?`<path class="${classes}" d="${own}"/>`:
+      `<polyline class="${classes}" points="${own}"/>`;
+    return `<g clip-path="url(#trends-clip-real)">
+      <polyline class="trends-result-halo" points="${actual}"/>
+      <polyline class="trends-actual" points="${actual}"/>
+    </g>
+    ${guess('trends-result-halo')}${guess(ownTrace?'trends-guess trends-drawn':'trends-guess')}`;
+  }
   function drawingGuides(q,marker){
     const middle=(marker+box.right)/2;
     const compact=box.width===360;
@@ -135,7 +146,7 @@
       const at=x(q,q.cut+i+1);
       return `<line class="trends-guide" x1="${at}" x2="${at}" y1="${box.top}" y2="${box.bottom}"/>`;
     }).join('');
-    const clip=kind=>`<clipPath id="trends-clip-${kind}"><rect x="${marker-2}" y="${box.top-2}" width="${box.right-marker+4}" height="${box.bottom-box.top+4}"/></clipPath>`;
+    const clip=kind=>`<clipPath id="trends-clip-${kind}"><rect x="${marker-4}" y="${box.top-4}" width="${box.right-marker+8}" height="${box.bottom-box.top+8}"/></clipPath>`;
     return `<svg class="trends-plot${result?'':' is-drawing'}" viewBox="0 0 ${box.width} ${box.height}" role="img" aria-label="${result?'Comparación de las curvas':'Gráfica hasta '+dateLabel(q,q.start+q.cut)+'. El tramo sombreado es el que debes completar.'}">
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
       <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${q.period==='season'?'Meses visibles':'Historial'}</text>
@@ -144,9 +155,7 @@
       <polyline class="trends-history" points="${points(q,q.history)}"/>
       ${result?`<defs>${clip('real')}${clip('others')}</defs>
         <g class="trends-peer-traces" clip-path="url(#trends-clip-others)" aria-hidden="true"></g>
-        <polyline class="trends-actual" clip-path="url(#trends-clip-real)" points="${line(q,result.actual)}"/>
-        ${ownTrace?`<path class="trends-guess trends-drawn" d="${tracePath(q,ownTrace)}"/>`:
-          `<polyline class="trends-guess" points="${line(q,result.guess)}"/>`}`:
+        ${resultLines(q,result,ownTrace)}`:
         drawingGuides(q,marker)}
       <circle class="trends-pin" cx="${marker}" cy="${y(q,q.history.at(-1))}" r="5"/>
       ${result?'':'<circle class="trends-resume" r="7" visibility="hidden"/>'}
@@ -471,8 +480,7 @@
     try{
       const [data]=await Promise.all([collect(),drawn]);
       if(!data||!layer.isConnected)return;
-      layer.innerHTML=data.traces.map((values,i)=>
-        `<polyline data-trace-style="${i%5}" points="${line(result,values)}"/>`).join('');
+      layer.innerHTML=data.traces.map(values=>`<polyline points="${line(result,values)}"/>`).join('');
       key.textContent=data.simulated?'Trazos simulados':'Otros jugadores';
       key.hidden=false;
       status.textContent=data.simulated?`${fmt(data.traces.length)} trazos simulados de ejemplo.`:
