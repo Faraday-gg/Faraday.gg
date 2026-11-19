@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Actualización de continuaciones:** 2026-11-19. Migración nueva preparada y validada localmente; consulta de catálogo confirma que `continuation_states` y `trend_answers` todavía no existen. No se aplica SQL en la base compartida.
+- **Última actualización:** 2026-11-19. Álvaro autoriza expresamente aplicar las cinco migraciones de Traza y anuncios: **aplicadas** en el proyecto compartido. Catálogo, RLS, permisos y API de preprod comprobados. Archivos renombrados con las versiones registradas por Supabase; correspondencias en el historial.
 - **Última actualización histórica:** 2026-11-19, migración de Ascensión **aplicada** con autorización expresa de Álvaro como `20261119055720_ascension`. Se verifican RLS y permisos exclusivos de servidor. Antes: 2026-11-17, se preparan las migraciones de Traza la tendencia, pendientes de aplicar. Ese mismo día Luis pidió aplicar la migración de las clasificatorias: **aplicada** como `20261116231953_rangos` (el archivo se llamaba `20261112200000_rangos`). Antes: 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
@@ -36,8 +36,8 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
 | Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
 | Ascensión | `ascension_runs` | Partida diaria y prácticas por jugador, fecha y entorno; copia privada del banco, reloj, versión y clasificación. |
-| Continuación con anuncios | `continuation_states` | Recibos por modo/día y retos extra; acceso privado de servidor. Migración pendiente. |
-| Traza la tendencia | `trend_answers`, `trend_traces`, `trend_replays` | Trazos diarios por ronda y consulta paginada de trazos ajenos por entorno. Migraciones pendientes de aplicación. |
+| Continuación con anuncios | `continuation_states` | Recibos por modo/día y retos extra; acceso privado de servidor. Migración aplicada. |
+| Traza la tendencia | `trend_answers`, `trend_traces`, `trend_replays` | Trazos diarios por ronda y consulta paginada de trazos ajenos por entorno. Migraciones aplicadas el 19 de noviembre de 2026. |
 | Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
 | HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
 
@@ -534,32 +534,30 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261116101427` | [ordenes_y_deseos](../supabase/migrations/20261116101427_ordenes_y_deseos.sql) | Crea `buy_orders`, `wishlist` y las funciones `market_order`, `market_order_cancel`, `market_sell_now` y `wishlist_counts`; `listings.sold_by` acepta `orden`. | 2026-11-16, por Luis con Claude Code |
 | `20261116102311` | [vitrinas](../supabase/migrations/20261116102311_vitrinas.sql) | Crea `showcases` y la función `showcase_ranking` (vitrinas de colecciones), con RLS y sin permisos públicos. | 2026-11-16, por Luis con Claude Code |
 | `20261116231953` | [rangos](../supabase/migrations/20261116231953_rangos.sql) | Crea `ranks` (clasificatorias de los duelos), con RLS y sin permisos públicos. | 2026-11-17, por Luis con Claude Code (el archivo se llamaba `20261112200000_rangos.sql`) |
-| `20261117120000` | [tendencias](../supabase/migrations/20261117120000_tendencias.sql) | Crea `trend_answers` y `trend_community` para la partida diaria de gráficas. | Pendiente de aplicación |
-| `20261117130000` | [repeticiones_tendencias](../supabase/migrations/20261117130000_repeticiones_tendencias.sql) | Amplía a seis rondas y registra el desbloqueo en `trend_replays`. | Pendiente de aplicación |
-| `20261118030040` | [partidas_ilimitadas_tendencias](../supabase/migrations/20261118030040_partidas_ilimitadas_tendencias.sql) | Elimina el límite de rondas y registra el desbloqueo por partida. | Pendiente de aplicación |
-| `20261118035240` | [trazos_individuales_tendencias](../supabase/migrations/20261118035240_trazos_individuales_tendencias.sql) | Añade el cursor de trazos y la función `trend_traces`. | Pendiente de aplicación |
+| `20261119111347` | [tendencias](../supabase/migrations/20261119111347_tendencias.sql) | Crea `trend_answers` y `trend_community` para la partida diaria de gráficas. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261117120000`) |
+| `20261119111359` | [repeticiones_tendencias](../supabase/migrations/20261119111359_repeticiones_tendencias.sql) | Amplía a seis rondas y registra el desbloqueo en `trend_replays`. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261117130000`) |
+| `20261119111402` | [partidas_ilimitadas_tendencias](../supabase/migrations/20261119111402_partidas_ilimitadas_tendencias.sql) | Elimina el límite de rondas y registra el desbloqueo por partida. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261118030040`) |
+| `20261119111406` | [trazos_individuales_tendencias](../supabase/migrations/20261119111406_trazos_individuales_tendencias.sql) | Añade el cursor de trazos y la función `trend_traces`. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261118035240`) |
 | `20261119055720` | [ascension](../supabase/migrations/20261119055720_ascension.sql) | Crea `ascension_runs`, índice parcial de diarias completadas, RLS y permisos de servidor. | 2026-11-19, por Álvaro con Codex y autorización expresa (generada inicialmente como `20261119054236`) |
 
-| `20261119061307` | [anuncios_continuacion](../supabase/migrations/20261119061307_anuncios_continuacion.sql) | Crea `continuation_states`, RLS y permisos privados de servidor para recibos y prácticas. | Pendiente de autorización y aplicación |
+| `20261119111409` | [anuncios_continuacion](../supabase/migrations/20261119111409_anuncios_continuacion.sql) | Crea `continuation_states`, RLS y permisos privados de servidor para recibos y prácticas. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261119061307`) |
 
 ## Pendiente
 
-- Aplicar la migración de continuación con autorización expresa y verificar la Preview; no se ejecuta durante el despliegue.
-- Aplicar las cuatro migraciones de Traza la tendencia tras autorización del responsable y comprobar la Preview.
 - **Más contenido**: el banco editorial termina el 14 de diciembre de 2026. Con la generación diaria (decisión 0017) cada fecha tendrá su jornada `ia` desde la noche anterior; falta configurarla (migración, Vault y variables de Vercel).
 - No se migran las respuestas de `runtime/answers.json`: son pruebas locales.
 
 ## Traza la tendencia
 
-La migración `20261117120000_tendencias` añade `trend_answers`. La clave primaria `(scope, day, player_hash, round)` protege el primer intento de cada ronda. La fila conserva el identificador de la gráfica y el array de estimaciones por mes o año. `scope` separa la muestra de Vercel Preview de la pública dentro del mismo proyecto de Supabase. La tabla tiene RLS y el acceso se concede a `service_role`.
+La migración `20261119111347_tendencias` añade `trend_answers`. La clave primaria `(scope, day, player_hash, round)` protege el primer intento de cada ronda. La fila conserva el identificador de la gráfica y el array de estimaciones por mes o año. `scope` separa la muestra de Vercel Preview de la pública dentro del mismo proyecto de Supabase. La tabla tiene RLS y el acceso se concede a `service_role`.
 
 El banco de series, las simulaciones y la lógica de puntuación se cargan en el servidor. Las versiones anteriores consultaban la función `trend_community` para mostrar la media.
 
-La migración `20261117130000_repeticiones_tendencias` añade las primeras tres rondas adicionales y crea `trend_replays`. Tiene RLS y acceso de lectura y escritura solo desde `service_role`.
+La migración `20261119111359_repeticiones_tendencias` añade las primeras tres rondas adicionales y crea `trend_replays`. Tiene RLS y acceso de lectura y escritura solo desde `service_role`.
 
-La migración `20261118030040_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`.
+La migración `20261119111402_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`.
 
-La migración `20261118035240_trazos_individuales_tendencias` añade un cursor numérico indexado a las respuestas. `trend_traces` requiere que el solicitante haya revelado la gráfica y devuelve únicamente los vectores de estimaciones de los demás y el cursor de la siguiente página. Recupera hasta 200 por llamada, cuenta solo el primer trazo de cada jugador por gráfica y separa fecha y entorno. Solo `service_role` tiene permiso de ejecución.
+La migración `20261119111406_trazos_individuales_tendencias` añade un cursor numérico indexado a las respuestas. `trend_traces` requiere que el solicitante haya revelado la gráfica y devuelve únicamente los vectores de estimaciones de los demás y el cursor de la siguiente página. Recupera hasta 200 por llamada, cuenta solo el primer trazo de cada jugador por gráfica y separa fecha y entorno. Solo `service_role` tiene permiso de ejecución.
 
 ## Ascensión
 
@@ -585,11 +583,11 @@ No se guardan los textos rechazados. Los resultados admitidos conservan el nombr
 
 ## Continuación con anuncios
 
-`20261119061307_anuncios_continuacion.sql` crea `continuation_states`. Clave primaria `(scope, day, player_hash, key)`, estado JSON de objeto, versión positiva y fecha de creación. El ámbito y el hash se validan con restricciones; `key` admite `ad:daily`, `ad:trends`, `ad:duel`, `ad:duel3`, `ad:ranked`, `ad:practice` o `daily:<uuid>`.
+`20261119111409_anuncios_continuacion.sql` crea `continuation_states`. Clave primaria `(scope, day, player_hash, key)`, estado JSON de objeto, versión positiva y fecha de creación. El ámbito y el hash se validan con restricciones; `key` admite `ad:daily`, `ad:trends`, `ad:duel`, `ad:duel3`, `ad:ranked`, `ad:practice` o `daily:<uuid>`.
 
 Las filas `ad:` conservan un anuncio pendiente con plazo y los recibos completados. Las filas `daily:` guardan tres preguntas editoriales y las primeras estimaciones de la práctica. No contienen saldos ni premios. El contador y los recibos se actualizan con filtro de versión; las inserciones no sobrescriben conflictos. Las lecturas paginadas no introducen un máximo artificial de partidas.
 
-RLS activado y todos los permisos revocados a `public`, `anon` y `authenticated`; `service_role` recibe SELECT, INSERT y UPDATE. Solo la API devuelve el estado necesario al jugador identificado. Las pruebas verifican esquema, permisos y conflictos de versión en Postgres local. No se aplica todavía en el proyecto compartido ni se migran datos de prueba locales.
+RLS activado y todos los permisos revocados a `public`, `anon` y `authenticated`; `service_role` recibe SELECT, INSERT y UPDATE. Solo la API devuelve el estado necesario al jugador identificado. Las pruebas verifican esquema, permisos y conflictos de versión en Postgres local. Aplicada en el proyecto compartido con autorización expresa de Álvaro. La consulta posterior confirma RLS, ausencia de permisos públicos y acceso de servidor; las seis modalidades de `/api/continuacion` y `/api/tendencias` responden HTTP 200 desde preprod. No se migran datos de prueba locales.
 
 ## Panel de amigos
 

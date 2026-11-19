@@ -1,4 +1,4 @@
-# 0100. Portada de Faraday con avatar y panel de amigos
+# 0102. Portada de Faraday con avatar y panel de amigos
 
 - **Estado:** implementada y comprobada en local. La migración social queda pendiente de aplicación.
 - **Fecha:** 2026-11-19.

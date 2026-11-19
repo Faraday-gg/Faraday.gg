@@ -1,7 +1,7 @@
 // Continuación común: cada anuncio desbloquea una partida; el servidor lleva el contador diario.
 (()=>{
   const handlers=new Map(),states=new Map(),loading=new Set();
-  const labels={daily:'otro reto de tres preguntas',trends:'otras tres gráficas',duel:'otro duelo',duel3:'otro duelo de tres',ranked:'otra clasificatoria',practice:'otra partida de práctica'};
+  const labels={daily:'otro reto de tres preguntas',trends:'otras tres gráficas',duel:'otro duelo',duel3:'otro duelo de tres',ranked:'otra clasificatoria',practice:'otra partida de práctica',ascension:'otra ascensión'};
   let busy=false;
   const text=value=>escapeHtml(String(value));
   async function request(action,mode,extra={}){

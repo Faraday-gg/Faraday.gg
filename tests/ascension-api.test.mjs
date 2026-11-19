@@ -98,6 +98,14 @@ try{
   assert(await store.ascension.get('preview',day,hash(accountPlayer),0));
   assert.equal((await store.ascension.get('preview',day,hash(guest),0)).score,10,'No mezcla el progreso anónimo con el de la cuenta');
   assert(!JSON.stringify(signed.body).includes(accountPlayer));
+  await store.community.setSubscription(hash(accountPlayer),clock+60000);
+  const subscriber=await post({action:'estado',plus:false},{cookie:guestCookie,headers:{'x-test-account':'signed'}});
+  assert.equal(subscriber.body.continuation.plus,true,'La suscripción se consulta desde la identidad de la cuenta');
+  assert.equal(subscriber.body.continuation.requiresAd,false);
+  const spoof=await post({action:'estado',plus:true},{cookie:guestCookie});
+  assert.equal(spoof.body.continuation.plus,false,'La declaración del navegador no evita los anuncios');
+  await store.community.setSubscription(hash(accountPlayer),clock-1);
+  assert.equal((await post({action:'estado'},{headers:{'x-test-account':'signed'}})).body.continuation.plus,false,'La siguiente respuesta reconoce un plan caducado');
   const replaced=await post({action:'estado',player:spoofPlayer},{cookie:`${PLAYER_COOKIE}=no-valida`});
   assert.equal(replaced.status,200);assert(playerCookie(replaced));assert.notEqual(playerCookie(replaced),`${PLAYER_COOKIE}=${spoofPlayer}`);
 
@@ -114,6 +122,24 @@ try{
   const unavailable=createApi({store:{...store,ascension:{get:async()=>{throw Error('detalle interno secreto')}}},ascensionBank:fixture,now:()=>clock,log:()=>{}});
   const unavailableResponse=await unavailable.handle(new Request('https://prueba.test/api/ascension',{method:'POST',headers:{'Content-Type':'application/json'},body:'{"action":"estado"}'}));
   assert.equal(unavailableResponse.status,503);assert(!JSON.stringify(await unavailableResponse.json()).includes('detalle interno'));
+
+  // La ruta común usa los recibos del JSON de Ascensión aunque no exista la tabla
+  // de anuncios de otras modalidades: no necesita una migración nueva para funcionar.
+  const daily=await store.ascension.get('preview',day,hash(guest),0);
+  const finishedState={...daily.state,phase:'finished',round:6,finishedAt:clock,results:Array.from({length:7},(_,round)=>daily.state.results[round]||{round,points:0,answer:null,height:0,sources:[]})};
+  await store.ascension.put({...daily,version:daily.version+1,state:finishedState,finished_at:new Date(clock).toISOString()},daily.version);
+  const isolatedApi=createApi({store:{...store,continuations:{get:async()=>{throw Error('tabla general pendiente')}}},ascensionBank:fixture,now:()=>clock,trendScope:'preview',log:()=>{}});
+  const isolated=async(route,data)=>{
+    const response=await isolatedApi.handle(new Request(origin+'/api/'+route,{method:'POST',headers:{'Content-Type':'application/json',Cookie:guestCookie,Origin:origin},body:JSON.stringify(data)}));
+    return {status:response.status,body:await response.json()};
+  };
+  const adState=await isolated('continuacion',{action:'estado',mode:'ascension'});assert.equal(adState.status,200);assert.equal(adState.body.seconds,15);
+  const ad=await isolated('ascension',{action:'preparar-practica',date:day,game:0});assert.equal(ad.body.watch,true);
+  assert.equal((await isolated('continuacion',{action:'completar',mode:'ascension',date:day,ticket:ad.body.ticket})).status,409);
+  clock+=15000;
+  assert.equal((await isolated('continuacion',{action:'completar',mode:'ascension',date:day,ticket:ad.body.ticket})).status,200);
+  const next=await isolated('ascension',{action:'practica',date:day,game:0,ticket:ad.body.ticket});assert.equal(next.body.game,1);
+  assert.equal((await isolated('continuacion',{action:'estado',mode:'ascension'})).body.id,'1');
 
   await stop();await start('publico');
   const production=await post({action:'estado'},{cookie:guestCookie});

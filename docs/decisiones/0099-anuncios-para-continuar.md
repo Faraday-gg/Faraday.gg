@@ -1,6 +1,6 @@
 # 0099. Anuncios ilimitados para continuar por modalidad
 
-- **Estado:** implementada; migración preparada, pendiente de autorización para la base compartida.
+- **Estado:** implementada y activada en preprod; migración aplicada con autorización expresa de Álvaro el 19 de noviembre de 2026.
 - **Fecha:** 2026-11-19.
 - **Quién:** Álvaro, con Codex.
 - **Amplía:** [0097](0097-modulo-plus-por-modalidad.md) y [0091](0091-reanudar-trazos-y-partidas-extra.md).
@@ -17,7 +17,7 @@ El reto diario oficial conserva sus tres preguntas y su único resultado. La con
 
 Plus abre directamente las partidas extra y los duelos sin anuncios. Sus límites económicos son los mismos: un anuncio o una suscripción no elimina topes de emisión, premios, cofres o desbloqueos. No se fija precio nuevo ni se activa contratación.
 
-El servidor identifica al jugador mediante cuenta o cookie HttpOnly, calcula la fecha y mide el tiempo mínimo. Los recibos son idempotentes y las actualizaciones filtran la versión anterior para resolver concurrencia. Un recibo usado no desbloquea otra partida; una respuesta perdida o un fallo al guardar permiten recuperar el desbloqueo. La tabla privada `continuation_states` separa entornos y solo permite acceso al servidor. La migración es nueva y aditiva; no se aplica por el merge de Vercel.
+El servidor identifica al jugador mediante cuenta o cookie HttpOnly, calcula la fecha y mide el tiempo mínimo. Los recibos son idempotentes y las actualizaciones filtran la versión anterior para resolver concurrencia. Un recibo usado no desbloquea otra partida; una respuesta perdida o un fallo al guardar permiten recuperar el desbloqueo. La tabla privada `continuation_states` separa entornos y solo permite acceso al servidor. La migración es nueva y aditiva; se aplicó por el conector de Supabase tras autorización expresa de Álvaro, junto a las cuatro históricas de Traza. No se ejecuta por el merge de Vercel.
 
 Las modalidades futuras con cupo deben registrar el modo en el servidor y conectar su continuación al componente compartido. Los modos sin límite mantienen su acceso gratuito y una invitación general a Plus; no necesitan un anuncio artificial.
 
@@ -34,4 +34,4 @@ La interfaz identifica los anuncios como simulados. El temporizador del servidor
 
 ## Comprobaciones y pendientes
 
-Pruebas de reglas y API: duración mínima, cancelación, aislamiento por jugador/modalidad/día, más de 25 anuncios, concurrencia, persistencia, recuperación, cuotas compartidas, Plus y prácticas sin premios. Prueba del diálogo con reloj simulado y revisión real en escritorio y 375 px. Postgres local verifica esquema, RLS, permisos privados y actualización por versión. La migración compartida y el proveedor real quedan pendientes; no se insertan jugadores de prueba en Supabase.
+Pruebas de reglas y API: duración mínima, cancelación, aislamiento por jugador/modalidad/día, más de 25 anuncios, concurrencia, persistencia, recuperación, cuotas compartidas, Plus y prácticas sin premios. Prueba del diálogo con reloj simulado y revisión real en escritorio y 375 px. Postgres local verifica esquema, RLS, permisos privados y actualización por versión. La migración compartida está aplicada como `20261119111409_anuncios_continuacion`. Catálogo y permisos verificados; las seis modalidades de continuación y Traza responden HTTP 200 en preprod. La revisión de avisos de seguridad no introduce WARN ni ERROR nuevos: las tres tablas privadas muestran el aviso informativo esperado de RLS sin políticas públicas. El proveedor real queda pendiente; no se insertan jugadores de prueba en Supabase.

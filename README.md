@@ -40,11 +40,13 @@ node tests/celebraciones.test.mjs
 node tests/ascension.test.mjs
 node tests/ascension-api.test.mjs
 node tests/ascension-banco.test.mjs
+node tests/ascension-anuncios.test.mjs
+node tests/ascension-chart.test.mjs
 ```
 
 ## Amigos y ligas
 
-Abre el icono de personas en la cabecera. Desde el panel puedes entrar en tus ligas y al Circuito de amigos. Con tu cuenta puedes activar un apodo social, copiar tu enlace de amistad y aceptar invitaciones. Tus amigos pueden ver tu presencia y la fecha en que jugaste recientemente si compartes actividad. El chat directo funciona entre amistades activas y conserva hasta 60 mensajes por conversación. El modo local con sesión simulada se prueba con `node tests/social.test.mjs`. Consulta la [decisión 0100](docs/decisiones/0100-portada-avatar-y-amigos.md).
+Abre el icono de personas en la cabecera. Desde el panel puedes entrar en tus ligas y al Circuito de amigos. Con tu cuenta puedes activar un apodo social, copiar tu enlace de amistad y aceptar invitaciones. Tus amigos pueden ver tu presencia y la fecha en que jugaste recientemente si compartes actividad. El chat directo funciona entre amistades activas y conserva hasta 60 mensajes por conversación. El modo local con sesión simulada se prueba con `node tests/social.test.mjs`. Consulta la [decisión 0102](docs/decisiones/0102-portada-avatar-y-amigos.md).
 
 ## Probar las celebraciones del avatar
 
@@ -56,9 +58,9 @@ Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y 
 
 Con `node preview-server.mjs`, abre «Ascensión» en la portada o en «Juega» del menú. Son siete categorías y 25 segundos por respuesta. La rareza editorial suma 10, 30, 60, 85 o 100 puntos y el avatar escala diez metros por punto, hasta 7.000 m. Un nombre desconocido permite reintentar sin reiniciar el reloj; una errata inequívoca propone una corrección que debes confirmar. Después de cada respuesta puedes descubrir ejemplos de otros niveles y consultar las fuentes.
 
-La edición diaria cambia a medianoche de Madrid: termina antes. La clasificación usa solo primeras partidas diarias terminadas de la misma edición y entorno; las prácticas son ilimitadas al terminar y quedan fuera. Cerrar o recargar conserva el progreso en el servidor y el tiempo sigue corriendo. «Personalizar» abre el armario en Ascensión para elegir un gesto por nivel de puntuación. La ropa y los emotes no cambian los puntos.
+La edición diaria cambia a medianoche de Madrid: termina antes. La clasificación usa solo primeras partidas diarias terminadas de la misma edición y entorno; las prácticas quedan fuera y se desbloquean al terminar: una por anuncio de prueba (primero de 15 segundos, siguientes de 60), sin límite diario, o sin anuncios con Plus. Retomar una práctica abierta no exige otro anuncio. El gráfico incluye barras reales, curva normal ajustada desde dos resultados ajenos distintos y marca de tu puntuación. Cerrar o recargar conserva el progreso en el servidor y el tiempo sigue corriendo. «Personalizar» abre el armario en Ascensión para elegir un gesto por nivel de puntuación. La ropa y los emotes no cambian los puntos.
 
-El banco propio contiene 2.637 respuestas en 28 categorías. Se distribuye únicamente en la función del servidor, fuera de `dist/`. Fuentes, licencias y reproducción editorial en [research/ascension-fuentes.md](research/ascension-fuentes.md). Las tres pruebas `ascension`, `ascension-api` y `ascension-banco` cubren reglas, reloj, concurrencia, HTTP, persistencia y catálogo. En local se guarda en `ascension.json` junto a `ANSWERS_FILE`; Vercel usa la tabla privada `ascension_runs`, cuya [migración](docs/base-de-datos.md#ascension) ya está aplicada con autorización de Álvaro. No requiere nuevas variables ni dependencias.
+El banco propio contiene 2.637 respuestas en 28 categorías. Se distribuye únicamente en la función del servidor, fuera de `dist/`. Fuentes, licencias y reproducción editorial en [research/ascension-fuentes.md](research/ascension-fuentes.md). Las pruebas `ascension`, `ascension-api`, `ascension-banco`, `ascension-anuncios` y `ascension-chart` cubren reglas, reloj, concurrencia, HTTP, persistencia, catálogo, desbloqueo con anuncios y curva. En local se guarda en `ascension.json` junto a `ANSWERS_FILE`; Vercel usa la tabla privada `ascension_runs`, cuya [migración](docs/base-de-datos.md#ascension) ya está aplicada con autorización de Álvaro. No requiere nuevas variables ni dependencias.
 
 ## Probar las ofertas de Plus
 
@@ -70,13 +72,13 @@ El portal y el resumen de los duelos muestran el módulo común con el cupo real
 
 Al agotar el cupo de duelos o terminar la diaria de Traza o del reto de estimación aparece «También puedes seguir gratis», junto a Plus. El primer anuncio de prueba de cada modalidad y día de Madrid dura 15 s; los siguientes, 60 s, sin límite de repeticiones. Cierra uno a medias: no desbloquea una partida ni incrementa el contador. Complétalo y continúa. Recarga una práctica pendiente: debe ofrecer retomarla sin otro anuncio. Plus permite acceder directamente. Las variantes de duelo comparten cupo y créditos, pero tienen contadores de duración independientes.
 
-El reto extra conserva el avatar, preguntas y explicaciones; no modifica el resultado oficial, faradios, experiencia, racha o misiones. Archivo y prácticas de Ascensión siguen gratuitos sin anuncios. Ejecuta `node tests/anuncios.test.mjs` y `node tests/continuaciones.test.mjs`. Vercel necesita la nueva [migración de continuación](supabase/migrations/20261119061307_anuncios_continuacion.sql), pendiente de autorización para la base compartida. Los anuncios son simulados: el proveedor real aún no está integrado.
+El reto extra conserva el avatar, preguntas y explicaciones; no modifica el resultado oficial, faradios, experiencia, racha o misiones. Archivo y prácticas de Ascensión siguen gratuitos sin anuncios. Ejecuta `node tests/anuncios.test.mjs` y `node tests/continuaciones.test.mjs`. La [migración de continuación](supabase/migrations/20261119111409_anuncios_continuacion.sql) ya está aplicada en el Supabase compartido con autorización de Álvaro; las API de preprod están verificadas. Los anuncios son simulados: el proveedor real aún no está integrado.
 
 ## Probar Traza la tendencia
 
 Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. El aviso «Dibuja el resto» marca el tramo pendiente. Arrastra el punto amarillo para empezar o reanudar el dibujo. Las guías muestran el periodo y la estimación en los ejes. Agarra la línea para ajustarla o usa el editor por fecha. Al revelar se dibuja primero el dato real y luego todos los trazos de los demás a la vez. Si todavía no hay otras respuestas se muestran 200 ejemplos marcados como simulados. Al terminar la diaria o cualquier partida extra, «Ver anuncio de prueba y jugar» desbloquea otras tres gráficas. La oferta de Faraday Plus destaca las partidas sin anuncios y mantiene visible la alternativa gratuita. Con cuenta, el resumen recoge entre 10 y 35 faradios por la diaria y, desde 2.700 puntos, un cofre Chispa como máximo por semana.
 
-Ejecuta `node tests/premios-traza.test.mjs` para comprobar los premios y sus reintentos. `node scripts/simular-traza.mjs` compara su efecto en la economía con escenarios sintéticos. Ejecuta `node tests/tendencias.test.mjs` para verificar las 108 gráficas de la rotación, los límites de pendiente, las partidas extra y las comparaciones. En Vercel hacen falta las migraciones de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia).
+Ejecuta `node tests/premios-traza.test.mjs` para comprobar los premios y sus reintentos. `node scripts/simular-traza.mjs` compara su efecto en la economía con escenarios sintéticos. Ejecuta `node tests/tendencias.test.mjs` para verificar las 108 gráficas de la rotación, los límites de pendiente, las partidas extra y las comparaciones. Las cuatro migraciones de [Traza la tendencia](docs/base-de-datos.md#traza-la-tendencia) están aplicadas y su API de Vercel responde correctamente.
 
 ## Despliegue: Vercel y Supabase
 

@@ -101,7 +101,11 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0097](0097-modulo-plus-por-modalidad.md) | Módulo común de Plus adaptado a las modalidades limitadas y reutilizable en las futuras | Implementada | 2026-11-19 |
 | [0098](0098-ascension-respuestas-raras.md) | Ascensión: respuestas raras, montaña con avatar, clasificación diaria y prácticas | Implementada | 2026-11-19 |
 
-| [0099](0099-anuncios-para-continuar.md) | Anuncios ilimitados por modalidad, primero de 15 s y siguientes de 60 s en pruebas; prácticas sin alterar premios | Implementada; migración pendiente | 2026-11-19 |
+| [0099](0099-anuncios-para-continuar.md) | Anuncios ilimitados por modalidad, primero de 15 s y siguientes de 60 s en pruebas; prácticas sin alterar premios | Implementada y migración aplicada | 2026-11-19 |
+| [0100](0100-ascension-anuncios-y-curva.md) | Anuncios de continuación y curva normal ajustada en Ascensión | Implementada | 2026-11-19 |
+
+| [0101](0101-curva-con-muestra-pequena.md) | Curva normal de Ascensión desde dos resultados distintos | Implementada | 2026-11-19 |
+| [0102](0102-portada-avatar-y-amigos.md) | Portada con accesos a modos, avatar y panel de amistades con actividad y chat | Implementada; migración pendiente | 2026-11-19 |
 
 ## Plantilla
 
@@ -124,4 +128,3 @@ Qué otras opciones había y por qué no.
 ## Consecuencias
 Qué implica, riesgos y cuándo revisarla.
 ```
-| [0100](0100-portada-avatar-y-amigos.md) | Portada con accesos a modos, avatar y panel de amistades con actividad y chat | Implementada; migración pendiente | 2026-11-19 |
