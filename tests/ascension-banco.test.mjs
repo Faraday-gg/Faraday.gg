@@ -5,9 +5,9 @@ import {validateAscensionBank,ascensionAnswer,ascensionNormalize,ascensionEditio
 
 const raw=JSON.parse(fs.readFileSync(new URL('../content/ascension.json',import.meta.url),'utf8'));
 const bank=validateAscensionBank(raw);
-assert.equal(bank.categories.length,28,'El banco inicial tiene 28 categorías con cobertura documentada');
+assert.equal(bank.categories.length,49,'El banco editorial actual amplía a 49 categorías');
 const total=bank.categories.reduce((sum,category)=>sum+category.answers.length,0);
-assert.ok(total>=2000,`Hay ${total} respuestas canónicas, sin contar aliases`);
+assert.ok(total>=3400,`Hay ${total} respuestas canónicas, sin contar aliases`);
 assert.equal(raw.rarity,'editorial','No se presenta la clasificación como probabilidad real');
 const category=id=>{const one=bank.categories.find(c=>c.id===id);assert.ok(one,`Existe ${id}`);return one};
 const match=(id,value)=>ascensionAnswer(category(id),value).answer;
@@ -62,19 +62,52 @@ assert.equal(match('constelaciones','Triángulo de Verano'),null,'Un asterismo n
 assert.equal(match('monedas','bitcoin'),null,'El conjunto de curso legal a fecha fija no incluye cualquier activo');
 assert.equal(match('emoji-comida','animal'),null,'No se usan las palabras clave genéricas de CLDR como respuestas');
 
-// Con el banco de producción, cada diaria tiene siete categorías, una selección estable y una cima posible.
-for(let day=1;day<=30;day++){
-  const date=`2026-11-${String(day).padStart(2,'0')}`;
-  const first=ascensionEdition(date,bank),again=ascensionEdition(date,bank);
-  assert.deepEqual(first,again,'La edición no depende de las respuestas de otros jugadores');
-  assert.equal(first.length,ASCENSION_ROUNDS);
-  assert.equal(new Set(first.map(entry=>entry.id)).size,ASCENSION_ROUNDS,'Las categorías del día no se repiten');
-  const themes=new Map();
-  for(const entry of first){
-    assert.ok(entry.answers.some(answer=>answer.points===100),'Toda ronda de la diaria admite una respuesta de cumbre');
-    themes.set(entry.theme,(themes.get(entry.theme)||0)+1);
-  }
-  assert.ok([...themes.values()].every(count=>count<=2),'No concentra la diaria en un solo dominio');
+// Entradas conocidas, regionales y erratas reales de las nuevas preguntas.
+accepted('pixar','Intensamente','Del revés');
+accepted('pixar','Cooc','Coco');
+accepted('oscar-animacion','Shre','Shrek');
+accepted('pixar','ratatuile','Ratatouille');
+accepted('pixar','toy stroy 2','Toy Story 2');
+accepted('pixar','toy stori','Toy Story');
+accepted('pixar','wall e','WALL·E');
+accepted('disney-animacion','Moana','Vaiana');
+accepted('deportes-paris','basquetbol','Baloncesto');
+accepted('mundial-catar','Arabia Saudita','Arabia Saudí');
+accepted('mundial-femenino-2023','colmobia','Colombia');
+accepted('hierbas-y-especias','pimienta gorda','Pimienta de Jamaica');
+accepted('legumbres-secas','los garbanzos','Garbanzo');
+accepted('legumbres-secas','poroto','Judía seca');
+accepted('instrumentos-orquesta','corno francés','Trompa');
+accepted('capitales-ue','Lisboa','Lisboa');
+accepted('pokemon-kanto','charizrad','Charizard');
+assert.equal(match('pokemon-kanto','Nidoran'),null,'Un nombre compartido no elige la especie al azar');
+assert.equal(match('pixar','Toy Story 9'),null,'El número de una secuela no se corrige a otro');
+assert.equal(match('pixar','Frozen'),null,'Se conserva la frontera Pixar/Disney');
+assert.equal(match('mundial-femenino-2023','México'),null);
+assert.equal(match('deportes-paris','Béisbol'),null);
+assert.equal(match('legumbres-secas','cacahuate'),null);
+const twins={id:'ambiguas',answers:[{name:'Martes',aliases:[],points:10},{name:'Martas',aliases:[],points:100}]};
+assert.equal(ascensionAnswer(twins,'Martis').answer,null,'Una errata equidistante se rechaza, también con puntuaciones distintas');
+assert.equal(ascensionAnswer(twins,'Martes').answer.points,10,'La coincidencia exacta tiene prioridad');
+
+for(const entry of bank.categories){
+  assert.ok(entry.audience);
+  if(entry.audience==='familiar')assert.ok(entry.answers.filter(answer=>answer.points<=30).length>=5,entry.id);
 }
+const seen=new Set();
+for(let day=0;day<120;day++){
+  const date=new Date(Date.UTC(2026,10,19+day)).toISOString().slice(0,10);
+  const edition=ascensionEdition(date,bank),practice=ascensionEdition(date,bank,1);
+  if(day===0)assert.deepEqual(edition,ascensionEdition(date,bank),'La edición es reproducible');
+  for(const rounds of [edition,practice]){
+    assert.equal(rounds.length,ASCENSION_ROUNDS);
+    assert.equal(new Set(rounds.map(entry=>entry.theme)).size,7,'Siete temas diferentes');
+    assert.ok(rounds.filter(entry=>['ciencia','cuerpo','espacio','naturaleza'].includes(entry.theme)).length<=2,'Se limita la concentración de preguntas de ciencia');
+    assert.deepEqual(rounds.map(entry=>entry.audience),['familiar','familiar','discovery','familiar','discovery','challenge','familiar']);
+    for(const entry of rounds)seen.add(entry.id);
+  }
+  assert.ok(!practice.some(entry=>edition.some(other=>entry.id===other.id)),'La primera práctica no repite la diaria');
+}
+assert.equal(seen.size,bank.categories.length,'Se aprovecha todo el banco a lo largo de la rotación');
 assert.ok(fs.readFileSync(new URL('../research/licenses/unicode-license.txt',import.meta.url),'utf8').includes('UNICODE LICENSE V3'),'La atribución de datos tiene su licencia completa');
 console.log(`Ascensión banco: OK (${bank.categories.length} categorías, ${total} respuestas; fuentes, aliases, cobertura y cima)`);

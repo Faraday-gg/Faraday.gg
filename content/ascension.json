@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-19-1",
+  "version": "2026-11-19-2",
   "date": "2026-11-19",
   "rarity": "editorial",
   "rarityNote": "Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.",
@@ -1617,7 +1617,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "territorios-europa",
@@ -1969,7 +1970,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "territorios-asia",
@@ -2310,7 +2312,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "territorios-africa",
@@ -2716,7 +2719,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "territorios-america",
@@ -3086,7 +3090,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "territorios-oceania",
@@ -3315,13 +3320,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "emoji-animales",
       "title": "Nombra un animal que tenga emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-animales",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -4028,13 +4034,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "emoji-comida",
       "title": "Nombra un alimento o bebida con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-comida",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -4875,13 +4882,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "emoji-transportes",
       "title": "Nombra un vehículo o medio de transporte con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-transporte",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -5212,13 +5220,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "emoji-ropa",
       "title": "Nombra una prenda o accesorio con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-ropa",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -5563,13 +5572,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "emoji-musica",
       "title": "Nombra un instrumento musical con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-musica",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -5666,13 +5676,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "emoji-deportes",
       "title": "Nombra un deporte o material deportivo con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-deporte",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -5894,13 +5905,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "emoji-oficina",
       "title": "Nombra un objeto de papelería, correo u oficina con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-oficina",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -6240,13 +6252,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "emoji-herramientas",
       "title": "Nombra una herramienta u objeto del grupo de herramientas de emoji",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-herramientas",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -6427,13 +6440,14 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "emoji-casa",
       "title": "Nombra un objeto doméstico con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-casa",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -6630,13 +6644,14 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "emoji-tecnologia",
       "title": "Nombra un aparato u objeto de tecnología con emoji oficial",
       "description": "Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.",
-      "theme": "emoji-tecnologia",
+      "theme": "emojis",
       "sources": [
         {
           "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
@@ -6848,7 +6863,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "nobel-physics",
@@ -8750,7 +8766,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "nobel-chemistry",
@@ -10403,7 +10420,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "nobel-medicine",
@@ -12360,7 +12378,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "nobel-literature",
@@ -13350,7 +13369,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "nobel-peace",
@@ -14495,7 +14515,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "nobel-economics",
@@ -15354,7 +15375,8 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "elementos",
@@ -16331,13 +16353,14 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "constelaciones",
       "title": "Nombra una de las 88 constelaciones oficiales",
       "description": "Se aceptan nombres latinos de la Unión Astronómica Internacional y las traducciones españolas registradas. No se aceptan asterismos como el Carro o el Triángulo de Verano como constelaciones independientes.",
-      "theme": "astronomia",
+      "theme": "espacio",
       "sources": [
         {
           "title": "IAU: las 88 constelaciones",
@@ -17044,13 +17067,14 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
     },
     {
       "id": "provincias-espana",
       "title": "Nombra una provincia de España",
       "description": "Se aceptan las 50 provincias y sus nombres oficiales o tradicionales registrados. Ceuta y Melilla son ciudades autónomas, no provincias.",
-      "theme": "geografia-espana",
+      "theme": "geografia",
       "sources": [
         {
           "title": "Instituto Nacional de Estadística: provincias por comunidad autónoma",
@@ -17382,13 +17406,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "entidades-mexico",
       "title": "Nombra una entidad federativa de México",
       "description": "Se aceptan los 31 estados y la Ciudad de México, con sus nombres completos o habituales. No se aceptan ciudades como Cancún o Guadalajara como si fueran estados.",
-      "theme": "geografia-latam",
+      "theme": "geografia",
       "sources": [
         {
           "title": "INEGI: división estatal y nombres de las 32 entidades",
@@ -17601,13 +17626,14 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "discovery"
     },
     {
       "id": "idiomas",
       "title": "Nombra una lengua con código ISO 639-1",
       "description": "Se aceptan las lenguas con código ISO 639-1 de dos letras de la lista consultada, incluidos latín, esperanto y otras lenguas históricas o construidas presentes. Escribe su nombre, no hace falta conocer el código.",
-      "theme": "lenguas",
+      "theme": "lengua",
       "sources": [
         {
           "title": "Library of Congress: códigos ISO 639-1 y 639-2",
@@ -19016,7 +19042,8 @@
           "aliases": [],
           "points": 100
         }
-      ]
+      ],
+      "audience": "familiar"
     },
     {
       "id": "monedas",
@@ -20289,7 +20316,5688 @@
           ],
           "points": 100
         }
-      ]
+      ],
+      "audience": "challenge"
+    },
+    {
+      "id": "pixar",
+      "title": "¿Qué película de Pixar pondrías en una noche de cine?",
+      "description": "Cuentan los largometrajes estrenados hasta 2025. Puedes usar el título original o el de tu región.",
+      "theme": "cine",
+      "sources": [
+        {
+          "title": "Filmografía oficial de Pixar",
+          "url": "https://www.pixar.com/feature-films/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "buscandoanemo",
+          "name": "Buscando a Nemo",
+          "aliases": [
+            "Finding Nemo"
+          ],
+          "points": 10
+        },
+        {
+          "id": "cars",
+          "name": "Cars",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "coco",
+          "name": "Coco",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "losincreibles",
+          "name": "Los Increíbles",
+          "aliases": [
+            "The Incredibles"
+          ],
+          "points": 10
+        },
+        {
+          "id": "ratatouille",
+          "name": "Ratatouille",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "toystory",
+          "name": "Toy Story",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "up",
+          "name": "Up",
+          "aliases": [
+            "Up Una aventura de altura"
+          ],
+          "points": 10
+        },
+        {
+          "id": "buscandoadory",
+          "name": "Buscando a Dory",
+          "aliases": [
+            "Finding Dory"
+          ],
+          "points": 30
+        },
+        {
+          "id": "delreves",
+          "name": "Del revés",
+          "aliases": [
+            "Intensamente",
+            "Inside Out"
+          ],
+          "points": 30
+        },
+        {
+          "id": "luca",
+          "name": "Luca",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "monstruossa",
+          "name": "Monstruos S. A.",
+          "aliases": [
+            "Monsters Inc",
+            "Monsters Incorporated"
+          ],
+          "points": 30
+        },
+        {
+          "id": "soul",
+          "name": "Soul",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "toystory2",
+          "name": "Toy Story 2",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "toystory3",
+          "name": "Toy Story 3",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "toystory4",
+          "name": "Toy Story 4",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "valiente",
+          "name": "Valiente",
+          "aliases": [
+            "Brave",
+            "Indomable"
+          ],
+          "points": 30
+        },
+        {
+          "id": "walle",
+          "name": "WALL·E",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "bichos",
+          "name": "Bichos",
+          "aliases": [
+            "A Bug's Life",
+            "Bichos una aventura en miniatura"
+          ],
+          "points": 60
+        },
+        {
+          "id": "cars2",
+          "name": "Cars 2",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cars3",
+          "name": "Cars 3",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "delreves2",
+          "name": "Del revés 2",
+          "aliases": [
+            "Intensamente 2",
+            "Inside Out 2"
+          ],
+          "points": 60
+        },
+        {
+          "id": "elemental",
+          "name": "Elemental",
+          "aliases": [
+            "Elementos"
+          ],
+          "points": 60
+        },
+        {
+          "id": "losincreibles2",
+          "name": "Los Increíbles 2",
+          "aliases": [
+            "Incredibles 2"
+          ],
+          "points": 60
+        },
+        {
+          "id": "monstruosuniversity",
+          "name": "Monstruos University",
+          "aliases": [
+            "Monsters University"
+          ],
+          "points": 60
+        },
+        {
+          "id": "red",
+          "name": "Red",
+          "aliases": [
+            "Turning Red"
+          ],
+          "points": 60
+        },
+        {
+          "id": "elio",
+          "name": "Elio",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "lightyear",
+          "name": "Lightyear",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "onward",
+          "name": "Onward",
+          "aliases": [
+            "Unidos"
+          ],
+          "points": 85
+        },
+        {
+          "id": "elviajedearlo",
+          "name": "El viaje de Arlo",
+          "aliases": [
+            "Un gran dinosaurio",
+            "The Good Dinosaur"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "disney-animacion",
+      "title": "¿Qué película animada de Disney recordarías de memoria?",
+      "description": "Cuentan las películas de Walt Disney Animation Studios hasta Vaiana 2. Puedes usar el título de tu región.",
+      "theme": "cine",
+      "sources": [
+        {
+          "title": "Filmografía de Walt Disney Animation Studios",
+          "url": "https://disneyanimation.com/films/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "aladdin",
+          "name": "Aladdín",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "blancanievesylossieteenanitos",
+          "name": "Blancanieves y los siete enanitos",
+          "aliases": [
+            "Blancanieves",
+            "Snow White and the Seven Dwarfs"
+          ],
+          "points": 10
+        },
+        {
+          "id": "cenicienta",
+          "name": "Cenicienta",
+          "aliases": [
+            "La Cenicienta",
+            "Cinderella"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elreyleon",
+          "name": "El rey león",
+          "aliases": [
+            "The Lion King"
+          ],
+          "points": 10
+        },
+        {
+          "id": "encanto",
+          "name": "Encanto",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "frozen",
+          "name": "Frozen",
+          "aliases": [
+            "Frozen El reino del hielo",
+            "Frozen Una aventura congelada"
+          ],
+          "points": 10
+        },
+        {
+          "id": "labellaylabestia",
+          "name": "La bella y la bestia",
+          "aliases": [
+            "Beauty and the Beast"
+          ],
+          "points": 10
+        },
+        {
+          "id": "lasirenita",
+          "name": "La sirenita",
+          "aliases": [
+            "The Little Mermaid"
+          ],
+          "points": 10
+        },
+        {
+          "id": "mulan",
+          "name": "Mulán",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "vaiana",
+          "name": "Vaiana",
+          "aliases": [
+            "Moana"
+          ],
+          "points": 10
+        },
+        {
+          "id": "101dalmatas",
+          "name": "101 dálmatas",
+          "aliases": [
+            "One Hundred and One Dalmatians",
+            "Ciento un dálmatas"
+          ],
+          "points": 30
+        },
+        {
+          "id": "aliciaenelpaisdelasmaravillas",
+          "name": "Alicia en el país de las maravillas",
+          "aliases": [
+            "Alice in Wonderland"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bambi",
+          "name": "Bambi",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "dumbo",
+          "name": "Dumbo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ellibrodelaselva",
+          "name": "El libro de la selva",
+          "aliases": [
+            "The Jungle Book"
+          ],
+          "points": 30
+        },
+        {
+          "id": "enredados",
+          "name": "Enredados",
+          "aliases": [
+            "Tangled"
+          ],
+          "points": 30
+        },
+        {
+          "id": "hercules",
+          "name": "Hércules",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "labelladurmiente",
+          "name": "La bella durmiente",
+          "aliases": [
+            "Sleeping Beauty"
+          ],
+          "points": 30
+        },
+        {
+          "id": "liloystitch",
+          "name": "Lilo y Stitch",
+          "aliases": [
+            "Lilo and Stitch"
+          ],
+          "points": 30
+        },
+        {
+          "id": "peterpan",
+          "name": "Peter Pan",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pinocho",
+          "name": "Pinocho",
+          "aliases": [
+            "Pinocchio"
+          ],
+          "points": 30
+        },
+        {
+          "id": "pocahontas",
+          "name": "Pocahontas",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "tarzan",
+          "name": "Tarzán",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "zootropolis",
+          "name": "Zootrópolis",
+          "aliases": [
+            "Zootopia"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bighero6",
+          "name": "Big Hero 6",
+          "aliases": [
+            "Grandes héroes"
+          ],
+          "points": 60
+        },
+        {
+          "id": "bolt",
+          "name": "Bolt",
+          "aliases": [
+            "Volt"
+          ],
+          "points": 60
+        },
+        {
+          "id": "eljorobadodenotredame",
+          "name": "El jorobado de Notre Dame",
+          "aliases": [
+            "The Hunchback of Notre Dame"
+          ],
+          "points": 60
+        },
+        {
+          "id": "frozen2",
+          "name": "Frozen 2",
+          "aliases": [
+            "Frozen II"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ladamayelvagabundo",
+          "name": "La dama y el vagabundo",
+          "aliases": [
+            "Lady and the Tramp"
+          ],
+          "points": 60
+        },
+        {
+          "id": "laespadaenlapiedra",
+          "name": "La espada en la piedra",
+          "aliases": [
+            "Merlín el encantador",
+            "The Sword in the Stone"
+          ],
+          "points": 60
+        },
+        {
+          "id": "losaristogatos",
+          "name": "Los aristogatos",
+          "aliases": [
+            "The Aristocats"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ralphrompeinternet",
+          "name": "Ralph rompe Internet",
+          "aliases": [
+            "Wifi Ralph",
+            "Ralph Breaks the Internet"
+          ],
+          "points": 60
+        },
+        {
+          "id": "rayayelultimodragon",
+          "name": "Raya y el último dragón",
+          "aliases": [
+            "Raya and the Last Dragon"
+          ],
+          "points": 60
+        },
+        {
+          "id": "robinhood",
+          "name": "Robin Hood",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "romperalph",
+          "name": "¡Rompe Ralph!",
+          "aliases": [
+            "Ralph el demoledor",
+            "Wreck-It Ralph"
+          ],
+          "points": 60
+        },
+        {
+          "id": "tianayelsapo",
+          "name": "Tiana y el sapo",
+          "aliases": [
+            "La princesa y el sapo",
+            "The Princess and the Frog"
+          ],
+          "points": 60
+        },
+        {
+          "id": "todytoby",
+          "name": "Tod y Toby",
+          "aliases": [
+            "El zorro y el sabueso",
+            "The Fox and the Hound"
+          ],
+          "points": 60
+        },
+        {
+          "id": "vaiana2",
+          "name": "Vaiana 2",
+          "aliases": [
+            "Moana 2"
+          ],
+          "points": 60
+        },
+        {
+          "id": "atlantiselimperioperdido",
+          "name": "Atlantis El imperio perdido",
+          "aliases": [
+            "Atlantis The Lost Empire"
+          ],
+          "points": 85
+        },
+        {
+          "id": "basilelratonsuperdetective",
+          "name": "Basil el ratón superdetective",
+          "aliases": [
+            "Policías y ratones",
+            "The Great Mouse Detective"
+          ],
+          "points": 85
+        },
+        {
+          "id": "bernardoybianca",
+          "name": "Bernardo y Bianca",
+          "aliases": [
+            "Los rescatadores",
+            "The Rescuers"
+          ],
+          "points": 85
+        },
+        {
+          "id": "bernardoybiancaencangurolandia",
+          "name": "Bernardo y Bianca en Cangurolandia",
+          "aliases": [
+            "Los rescatadores en Cangurolandia",
+            "The Rescuers Down Under"
+          ],
+          "points": 85
+        },
+        {
+          "id": "chickenlittle",
+          "name": "Chicken Little",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "descubriendoalosrobinson",
+          "name": "Descubriendo a los Robinson",
+          "aliases": [
+            "Descubriendo a los Robinsons",
+            "La familia del futuro",
+            "Meet the Robinsons"
+          ],
+          "points": 85
+        },
+        {
+          "id": "dinosaurio",
+          "name": "Dinosaurio",
+          "aliases": [
+            "Dinosaur"
+          ],
+          "points": 85
+        },
+        {
+          "id": "elemperadorysuslocuras",
+          "name": "El emperador y sus locuras",
+          "aliases": [
+            "Las locuras del emperador",
+            "The Emperor's New Groove"
+          ],
+          "points": 85
+        },
+        {
+          "id": "elplanetadeltesoro",
+          "name": "El planeta del tesoro",
+          "aliases": [
+            "Treasure Planet"
+          ],
+          "points": 85
+        },
+        {
+          "id": "fantasia",
+          "name": "Fantasía",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "fantasia2000",
+          "name": "Fantasía 2000",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "hermanooso",
+          "name": "Hermano oso",
+          "aliases": [
+            "Tierra de osos",
+            "Brother Bear"
+          ],
+          "points": 85
+        },
+        {
+          "id": "mundoextrano",
+          "name": "Mundo extraño",
+          "aliases": [
+            "Un mundo extraño",
+            "Strange World"
+          ],
+          "points": 85
+        },
+        {
+          "id": "oliverysupandilla",
+          "name": "Oliver y su pandilla",
+          "aliases": [
+            "Oliver y compañía",
+            "Oliver & Company"
+          ],
+          "points": 85
+        },
+        {
+          "id": "vacasvaqueras",
+          "name": "Vacas vaqueras",
+          "aliases": [
+            "Zafarrancho en el rancho",
+            "Home on the Range"
+          ],
+          "points": 85
+        },
+        {
+          "id": "winniethepooh",
+          "name": "Winnie the Pooh",
+          "aliases": [
+            "El regreso de Winnie the Pooh"
+          ],
+          "points": 85
+        },
+        {
+          "id": "wish",
+          "name": "Wish",
+          "aliases": [
+            "Wish El poder de los deseos"
+          ],
+          "points": 85
+        },
+        {
+          "id": "lasaventurasdebongomickeyylasjudiasmagicas",
+          "name": "Las aventuras de Bongo Mickey y las judías mágicas",
+          "aliases": [
+            "Fun and Fancy Free"
+          ],
+          "points": 100
+        },
+        {
+          "id": "lasaventurasdeichabodyelsenorsapo",
+          "name": "Las aventuras de Ichabod y el señor Sapo",
+          "aliases": [
+            "The Adventures of Ichabod and Mr. Toad",
+            "Dos personajes fabulosos"
+          ],
+          "points": 100
+        },
+        {
+          "id": "lomejordewinniethepooh",
+          "name": "Lo mejor de Winnie the Pooh",
+          "aliases": [
+            "The Many Adventures of Winnie the Pooh"
+          ],
+          "points": 100
+        },
+        {
+          "id": "lostrescaballeros",
+          "name": "Los tres caballeros",
+          "aliases": [
+            "The Three Caballeros"
+          ],
+          "points": 100
+        },
+        {
+          "id": "musicamaestro",
+          "name": "Música maestro",
+          "aliases": [
+            "Make Mine Music"
+          ],
+          "points": 100
+        },
+        {
+          "id": "saludosamigos",
+          "name": "Saludos amigos",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "taronyelcalderomagico",
+          "name": "Taron y el caldero mágico",
+          "aliases": [
+            "El caldero mágico",
+            "The Black Cauldron"
+          ],
+          "points": 100
+        },
+        {
+          "id": "tiempodemelodia",
+          "name": "Tiempo de melodía",
+          "aliases": [
+            "Melody Time"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "oscar-animacion",
+      "title": "¿Qué película ha ganado el Óscar a mejor animación?",
+      "description": "Busca ganadoras del premio a largometraje animado en las ceremonias de 2002 a 2025. Valen títulos originales y traducidos.",
+      "theme": "cine",
+      "sources": [
+        {
+          "title": "Base de datos oficial de los Óscar",
+          "url": "https://awardsdatabase.oscars.org/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "buscandoanemo",
+          "name": "Buscando a Nemo",
+          "aliases": [
+            "Finding Nemo"
+          ],
+          "points": 10
+        },
+        {
+          "id": "coco",
+          "name": "Coco",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "frozen",
+          "name": "Frozen",
+          "aliases": [
+            "Frozen El reino del hielo",
+            "Frozen Una aventura congelada"
+          ],
+          "points": 10
+        },
+        {
+          "id": "ratatouille",
+          "name": "Ratatouille",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "shrek",
+          "name": "Shrek",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "delreves",
+          "name": "Del revés",
+          "aliases": [
+            "Intensamente",
+            "Inside Out"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elviajedechihiro",
+          "name": "El viaje de Chihiro",
+          "aliases": [
+            "Spirited Away"
+          ],
+          "points": 30
+        },
+        {
+          "id": "losincreibles",
+          "name": "Los Increíbles",
+          "aliases": [
+            "The Incredibles"
+          ],
+          "points": 30
+        },
+        {
+          "id": "toystory3",
+          "name": "Toy Story 3",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "toystory4",
+          "name": "Toy Story 4",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "up",
+          "name": "Up",
+          "aliases": [
+            "Up Una aventura de altura"
+          ],
+          "points": 30
+        },
+        {
+          "id": "walle",
+          "name": "WALL·E",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "zootropolis",
+          "name": "Zootrópolis",
+          "aliases": [
+            "Zootopia"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bighero6",
+          "name": "Big Hero 6",
+          "aliases": [
+            "Grandes héroes"
+          ],
+          "points": 60
+        },
+        {
+          "id": "brave",
+          "name": "Brave",
+          "aliases": [
+            "Valiente",
+            "Indomable"
+          ],
+          "points": 60
+        },
+        {
+          "id": "encanto",
+          "name": "Encanto",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "happyfeet",
+          "name": "Happy Feet",
+          "aliases": [
+            "Happy Feet Rompiendo el hielo"
+          ],
+          "points": 60
+        },
+        {
+          "id": "pinochodeguillermodeltoro",
+          "name": "Pinocho de Guillermo del Toro",
+          "aliases": [
+            "Guillermo del Toro's Pinocchio"
+          ],
+          "points": 60
+        },
+        {
+          "id": "soul",
+          "name": "Soul",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "spidermanunnuevouniverso",
+          "name": "Spider-Man Un nuevo universo",
+          "aliases": [
+            "Spider-Man Into the Spider-Verse"
+          ],
+          "points": 60
+        },
+        {
+          "id": "elninoylagarza",
+          "name": "El niño y la garza",
+          "aliases": [
+            "The Boy and the Heron"
+          ],
+          "points": 85
+        },
+        {
+          "id": "rango",
+          "name": "Rango",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "wallaceygromitlamaldiciondelasverduras",
+          "name": "Wallace y Gromit La maldición de las verduras",
+          "aliases": [
+            "Wallace y Gromit La batalla de los vegetales",
+            "Wallace & Gromit The Curse of the Were-Rabbit"
+          ],
+          "points": 85
+        },
+        {
+          "id": "flow",
+          "name": "Flow",
+          "aliases": [
+            "Flow Un mundo que salvar"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "pokemon-kanto",
+      "title": "¿Recuerdas algún Pokémon de los 151 originales?",
+      "description": "Vale cualquier especie de la Pokédex de Kanto, del número 1 al 151. Escribe el nombre de la especie.",
+      "theme": "videojuegos",
+      "sources": [
+        {
+          "title": "Pokédex oficial y repertorio original de Kanto",
+          "url": "https://www.pokemon.com/el/pokedex"
+        }
+      ],
+      "answers": [
+        {
+          "id": "bulbasaur",
+          "name": "Bulbasaur",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "charizard",
+          "name": "Charizard",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "charmander",
+          "name": "Charmander",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "eevee",
+          "name": "Eevee",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "mew",
+          "name": "Mew",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "mewtwo",
+          "name": "Mewtwo",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pikachu",
+          "name": "Pikachu",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "snorlax",
+          "name": "Snorlax",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "squirtle",
+          "name": "Squirtle",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "abra",
+          "name": "Abra",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "arcanine",
+          "name": "Arcanine",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "articuno",
+          "name": "Articuno",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "blastoise",
+          "name": "Blastoise",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "butterfree",
+          "name": "Butterfree",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "caterpie",
+          "name": "Caterpie",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "charmeleon",
+          "name": "Charmeleon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ditto",
+          "name": "Ditto",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "dragonite",
+          "name": "Dragonite",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "flareon",
+          "name": "Flareon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "gastly",
+          "name": "Gastly",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "gengar",
+          "name": "Gengar",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "geodude",
+          "name": "Geodude",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "growlithe",
+          "name": "Growlithe",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "gyarados",
+          "name": "Gyarados",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ivysaur",
+          "name": "Ivysaur",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "jigglypuff",
+          "name": "Jigglypuff",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "jolteon",
+          "name": "Jolteon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "lapras",
+          "name": "Lapras",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "machamp",
+          "name": "Machamp",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "magikarp",
+          "name": "Magikarp",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "meowth",
+          "name": "Meowth",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "moltres",
+          "name": "Moltres",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "onix",
+          "name": "Onix",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pidgey",
+          "name": "Pidgey",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "psyduck",
+          "name": "Psyduck",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "raichu",
+          "name": "Raichu",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "rattata",
+          "name": "Rattata",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "slowpoke",
+          "name": "Slowpoke",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "vaporeon",
+          "name": "Vaporeon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "venusaur",
+          "name": "Venusaur",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "wartortle",
+          "name": "Wartortle",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "zapdos",
+          "name": "Zapdos",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "aerodactyl",
+          "name": "Aerodactyl",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "alakazam",
+          "name": "Alakazam",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "arbok",
+          "name": "Arbok",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "beedrill",
+          "name": "Beedrill",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "bellsprout",
+          "name": "Bellsprout",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "chansey",
+          "name": "Chansey",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "clefairy",
+          "name": "Clefairy",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cloyster",
+          "name": "Cloyster",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cubone",
+          "name": "Cubone",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "diglett",
+          "name": "Diglett",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dragonair",
+          "name": "Dragonair",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dratini",
+          "name": "Dratini",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "drowzee",
+          "name": "Drowzee",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dugtrio",
+          "name": "Dugtrio",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ekans",
+          "name": "Ekans",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "electabuzz",
+          "name": "Electabuzz",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "exeggcute",
+          "name": "Exeggcute",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "farfetchd",
+          "name": "Farfetch’d",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "golbat",
+          "name": "Golbat",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "golduck",
+          "name": "Golduck",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "golem",
+          "name": "Golem",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "graveler",
+          "name": "Graveler",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "grimer",
+          "name": "Grimer",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "haunter",
+          "name": "Haunter",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "hitmonchan",
+          "name": "Hitmonchan",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "hitmonlee",
+          "name": "Hitmonlee",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "horsea",
+          "name": "Horsea",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "jynx",
+          "name": "Jynx",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kabuto",
+          "name": "Kabuto",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kadabra",
+          "name": "Kadabra",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kangaskhan",
+          "name": "Kangaskhan",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "koffing",
+          "name": "Koffing",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "krabby",
+          "name": "Krabby",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "lickitung",
+          "name": "Lickitung",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "machoke",
+          "name": "Machoke",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "machop",
+          "name": "Machop",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "magmar",
+          "name": "Magmar",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "magnemite",
+          "name": "Magnemite",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "magneton",
+          "name": "Magneton",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "mankey",
+          "name": "Mankey",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "marowak",
+          "name": "Marowak",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "metapod",
+          "name": "Metapod",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "mrmime",
+          "name": "Mr. Mime",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "muk",
+          "name": "Muk",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nidoking",
+          "name": "Nidoking",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nidoqueen",
+          "name": "Nidoqueen",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nidorina",
+          "name": "Nidorina",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nidorino",
+          "name": "Nidorino",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ninetales",
+          "name": "Ninetales",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "oddish",
+          "name": "Oddish",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "omanyte",
+          "name": "Omanyte",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "persian",
+          "name": "Persian",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pidgeot",
+          "name": "Pidgeot",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pidgeotto",
+          "name": "Pidgeotto",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pinsir",
+          "name": "Pinsir",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "poliwag",
+          "name": "Poliwag",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "poliwhirl",
+          "name": "Poliwhirl",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ponyta",
+          "name": "Ponyta",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "porygon",
+          "name": "Porygon",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "primeape",
+          "name": "Primeape",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "rapidash",
+          "name": "Rapidash",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "rhydon",
+          "name": "Rhydon",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "rhyhorn",
+          "name": "Rhyhorn",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "sandshrew",
+          "name": "Sandshrew",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "scyther",
+          "name": "Scyther",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "seel",
+          "name": "Seel",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "shellder",
+          "name": "Shellder",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "slowbro",
+          "name": "Slowbro",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "spearow",
+          "name": "Spearow",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "starmie",
+          "name": "Starmie",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "staryu",
+          "name": "Staryu",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tangela",
+          "name": "Tangela",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tauros",
+          "name": "Tauros",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tentacool",
+          "name": "Tentacool",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "voltorb",
+          "name": "Voltorb",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "vulpix",
+          "name": "Vulpix",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "weedle",
+          "name": "Weedle",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "weezing",
+          "name": "Weezing",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "zubat",
+          "name": "Zubat",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "clefable",
+          "name": "Clefable",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "dewgong",
+          "name": "Dewgong",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "dodrio",
+          "name": "Dodrio",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "doduo",
+          "name": "Doduo",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "electrode",
+          "name": "Electrode",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "exeggutor",
+          "name": "Exeggutor",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "fearow",
+          "name": "Fearow",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "gloom",
+          "name": "Gloom",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "goldeen",
+          "name": "Goldeen",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "hypno",
+          "name": "Hypno",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "kabutops",
+          "name": "Kabutops",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "kakuna",
+          "name": "Kakuna",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "kingler",
+          "name": "Kingler",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "nidoranhembra",
+          "name": "Nidoran hembra",
+          "aliases": [
+            "Nidoran female"
+          ],
+          "points": 85
+        },
+        {
+          "id": "nidoranmacho",
+          "name": "Nidoran macho",
+          "aliases": [
+            "Nidoran male"
+          ],
+          "points": 85
+        },
+        {
+          "id": "omastar",
+          "name": "Omastar",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "paras",
+          "name": "Paras",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "parasect",
+          "name": "Parasect",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "poliwrath",
+          "name": "Poliwrath",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "raticate",
+          "name": "Raticate",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "sandslash",
+          "name": "Sandslash",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "seadra",
+          "name": "Seadra",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "tentacruel",
+          "name": "Tentacruel",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "venomoth",
+          "name": "Venomoth",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "venonat",
+          "name": "Venonat",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "victreebel",
+          "name": "Victreebel",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "vileplume",
+          "name": "Vileplume",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "weepinbell",
+          "name": "Weepinbell",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "wigglytuff",
+          "name": "Wigglytuff",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "seaking",
+          "name": "Seaking",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "smash-luchadores",
+      "title": "Nombra un luchador de Super Smash Bros. Ultimate",
+      "description": "Cuenta el plantel de Nintendo Switch, incluidos los descargables y sus variantes jugables.",
+      "theme": "videojuegos",
+      "sources": [
+        {
+          "title": "Nintendo, plantel oficial de Super Smash Bros. Ultimate",
+          "url": "https://www.smashbros.com/es_ES/fighter/index.html"
+        }
+      ],
+      "answers": [
+        {
+          "id": "donkeykong",
+          "name": "Donkey Kong",
+          "aliases": [
+            "Donkey"
+          ],
+          "points": 10
+        },
+        {
+          "id": "kirby",
+          "name": "Kirby",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "link",
+          "name": "Link",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "luigi",
+          "name": "Luigi",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "mario",
+          "name": "Mario",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pikachu",
+          "name": "Pikachu",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "sonic",
+          "name": "Sonic",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "bowser",
+          "name": "Bowser",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "captainfalcon",
+          "name": "Captain Falcon",
+          "aliases": [
+            "Capitán Falcon"
+          ],
+          "points": 30
+        },
+        {
+          "id": "cloud",
+          "name": "Cloud",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "diddykong",
+          "name": "Diddy Kong",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "fox",
+          "name": "Fox",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "mewtwo",
+          "name": "Mewtwo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ness",
+          "name": "Ness",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pacman",
+          "name": "Pac-Man",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "peach",
+          "name": "Peach",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ryu",
+          "name": "Ryu",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "samus",
+          "name": "Samus",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "steve",
+          "name": "Steve",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "wario",
+          "name": "Wario",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "yoshi",
+          "name": "Yoshi",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "zelda",
+          "name": "Zelda",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "aldeano",
+          "name": "Aldeano",
+          "aliases": [
+            "Villager"
+          ],
+          "points": 60
+        },
+        {
+          "id": "alex",
+          "name": "Alex",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "banjoykazooie",
+          "name": "Banjo y Kazooie",
+          "aliases": [
+            "Banjo & Kazooie"
+          ],
+          "points": 60
+        },
+        {
+          "id": "bayonetta",
+          "name": "Bayonetta",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "bowserjr",
+          "name": "Bowser Jr.",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "byleth",
+          "name": "Byleth",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "canela",
+          "name": "Canela",
+          "aliases": [
+            "Isabelle"
+          ],
+          "points": 60
+        },
+        {
+          "id": "charizard",
+          "name": "Charizard",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "chrom",
+          "name": "Chrom",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "corrin",
+          "name": "Corrin",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "daisy",
+          "name": "Daisy",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "darkpit",
+          "name": "Dark Pit",
+          "aliases": [
+            "Pit Sombrío"
+          ],
+          "points": 60
+        },
+        {
+          "id": "darksamus",
+          "name": "Dark Samus",
+          "aliases": [
+            "Samus Oscura"
+          ],
+          "points": 60
+        },
+        {
+          "id": "drmario",
+          "name": "Dr. Mario",
+          "aliases": [
+            "Doctor Mario"
+          ],
+          "points": 60
+        },
+        {
+          "id": "duoduckhunt",
+          "name": "Dúo Duck Hunt",
+          "aliases": [
+            "Duck Hunt"
+          ],
+          "points": 60
+        },
+        {
+          "id": "enderman",
+          "name": "Enderman",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "entrenadorpokemon",
+          "name": "Entrenador Pokémon",
+          "aliases": [
+            "Pokémon Trainer"
+          ],
+          "points": 60
+        },
+        {
+          "id": "falco",
+          "name": "Falco",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ganondorf",
+          "name": "Ganondorf",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "greninja",
+          "name": "Greninja",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "heroe",
+          "name": "Héroe",
+          "aliases": [
+            "Hero"
+          ],
+          "points": 60
+        },
+        {
+          "id": "iceclimbers",
+          "name": "Ice Climbers",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ike",
+          "name": "Ike",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "incineroar",
+          "name": "Incineroar",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "inkling",
+          "name": "Inkling",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ivysaur",
+          "name": "Ivysaur",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "joker",
+          "name": "Joker",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kazuya",
+          "name": "Kazuya",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ken",
+          "name": "Ken",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kingdedede",
+          "name": "King Dedede",
+          "aliases": [
+            "Rey Dedede",
+            "Dedede"
+          ],
+          "points": 60
+        },
+        {
+          "id": "kingkrool",
+          "name": "King K. Rool",
+          "aliases": [
+            "Rey K Rool"
+          ],
+          "points": 60
+        },
+        {
+          "id": "littlemac",
+          "name": "Little Mac",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "lucario",
+          "name": "Lucario",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "lucas",
+          "name": "Lucas",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "lucina",
+          "name": "Lucina",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "marth",
+          "name": "Marth",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "megaman",
+          "name": "Mega Man",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "metaknight",
+          "name": "Meta Knight",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "minmin",
+          "name": "Min Min",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "mrgamewatch",
+          "name": "Mr. Game & Watch",
+          "aliases": [
+            "Mr Game and Watch",
+            "Game and Watch"
+          ],
+          "points": 60
+        },
+        {
+          "id": "mythra",
+          "name": "Mythra",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "olimar",
+          "name": "Olimar",
+          "aliases": [
+            "Alph"
+          ],
+          "points": 60
+        },
+        {
+          "id": "palutena",
+          "name": "Palutena",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pichu",
+          "name": "Pichu",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pit",
+          "name": "Pit",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pyra",
+          "name": "Pyra",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "richterbelmont",
+          "name": "Richter Belmont",
+          "aliases": [
+            "Richter"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ridley",
+          "name": "Ridley",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "rob",
+          "name": "R.O.B.",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "robin",
+          "name": "Robin",
+          "aliases": [
+            "Dara"
+          ],
+          "points": 60
+        },
+        {
+          "id": "rosalinaydestello",
+          "name": "Rosalina y Destello",
+          "aliases": [
+            "Estela y Destello",
+            "Rosalina and Luma"
+          ],
+          "points": 60
+        },
+        {
+          "id": "roy",
+          "name": "Roy",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "sephiroth",
+          "name": "Sephiroth",
+          "aliases": [
+            "Sefirot"
+          ],
+          "points": 60
+        },
+        {
+          "id": "sheik",
+          "name": "Sheik",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "shulk",
+          "name": "Shulk",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "simonbelmont",
+          "name": "Simon Belmont",
+          "aliases": [
+            "Simon"
+          ],
+          "points": 60
+        },
+        {
+          "id": "snake",
+          "name": "Snake",
+          "aliases": [
+            "Solid Snake"
+          ],
+          "points": 60
+        },
+        {
+          "id": "sora",
+          "name": "Sora",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "squirtle",
+          "name": "Squirtle",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "terrybogard",
+          "name": "Terry Bogard",
+          "aliases": [
+            "Terry"
+          ],
+          "points": 60
+        },
+        {
+          "id": "toonlink",
+          "name": "Toon Link",
+          "aliases": [
+            "Link caricatura"
+          ],
+          "points": 60
+        },
+        {
+          "id": "wolf",
+          "name": "Wolf",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "younglink",
+          "name": "Young Link",
+          "aliases": [
+            "Link niño"
+          ],
+          "points": 60
+        },
+        {
+          "id": "zerosuitsamus",
+          "name": "Zero Suit Samus",
+          "aliases": [
+            "Samus Zero"
+          ],
+          "points": 60
+        },
+        {
+          "id": "zombie",
+          "name": "Zombie",
+          "aliases": [
+            "Zombi"
+          ],
+          "points": 60
+        },
+        {
+          "id": "entrenadoradewiifit",
+          "name": "Entrenadora de Wii Fit",
+          "aliases": [
+            "Entrenador de Wii Fit",
+            "Wii Fit Trainer"
+          ],
+          "points": 85
+        },
+        {
+          "id": "luchadormii",
+          "name": "Luchador Mii",
+          "aliases": [
+            "Mii Brawler"
+          ],
+          "points": 85
+        },
+        {
+          "id": "plantapirana",
+          "name": "Planta Piraña",
+          "aliases": [
+            "Piranha Plant"
+          ],
+          "points": 85
+        },
+        {
+          "id": "tiradormii",
+          "name": "Tirador Mii",
+          "aliases": [
+            "Mii Gunner"
+          ],
+          "points": 85
+        },
+        {
+          "id": "espadachinmii",
+          "name": "Espadachín Mii",
+          "aliases": [
+            "Mii Swordfighter"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "deportes-paris",
+      "title": "¿En qué deporte competirías en París 2024?",
+      "description": "Cuenta cualquiera de los 32 deportes del programa. Puedes nombrar una disciplina y se agrupa con su deporte.",
+      "theme": "deporte",
+      "sources": [
+        {
+          "title": "Comité Olímpico Internacional, programa de París 2024",
+          "url": "https://library.olympics.com/digitalCollection/DigitalCollectionAttachmentDownloadHandler.ashx?documentId=3415338&parentDocumentId=3415336&skipCopyright=true&skipWatermark=true"
+        }
+      ],
+      "answers": [
+        {
+          "id": "atletismo",
+          "name": "Atletismo",
+          "aliases": [
+            "Maratón"
+          ],
+          "points": 10
+        },
+        {
+          "id": "baloncesto",
+          "name": "Baloncesto",
+          "aliases": [
+            "Básquet",
+            "Básquetbol",
+            "Basket",
+            "Basketball",
+            "Baloncesto 3x3"
+          ],
+          "points": 10
+        },
+        {
+          "id": "ciclismo",
+          "name": "Ciclismo",
+          "aliases": [
+            "BMX",
+            "Mountain bike",
+            "Ciclismo de montaña",
+            "Ciclismo en pista",
+            "Ciclismo en ruta"
+          ],
+          "points": 10
+        },
+        {
+          "id": "futbol",
+          "name": "Fútbol",
+          "aliases": [
+            "Balompié"
+          ],
+          "points": 10
+        },
+        {
+          "id": "natacionydeportesacuaticos",
+          "name": "Natación y deportes acuáticos",
+          "aliases": [
+            "Natación",
+            "Natación artística",
+            "Natación sincronizada",
+            "Waterpolo",
+            "Clavados",
+            "Saltos de trampolín",
+            "Aguas abiertas"
+          ],
+          "points": 10
+        },
+        {
+          "id": "tenis",
+          "name": "Tenis",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "balonmano",
+          "name": "Balonmano",
+          "aliases": [
+            "Handball"
+          ],
+          "points": 30
+        },
+        {
+          "id": "boxeo",
+          "name": "Boxeo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "gimnasia",
+          "name": "Gimnasia",
+          "aliases": [
+            "Gimnasia artística",
+            "Gimnasia rítmica",
+            "Gimnasia en trampolín"
+          ],
+          "points": 30
+        },
+        {
+          "id": "golf",
+          "name": "Golf",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "hockeysobrecesped",
+          "name": "Hockey sobre césped",
+          "aliases": [
+            "Hockey sobre hierba",
+            "Hockey"
+          ],
+          "points": 30
+        },
+        {
+          "id": "judo",
+          "name": "Judo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "rugby",
+          "name": "Rugby",
+          "aliases": [
+            "Rugby a siete",
+            "Rugby 7"
+          ],
+          "points": 30
+        },
+        {
+          "id": "surf",
+          "name": "Surf",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "voleibol",
+          "name": "Voleibol",
+          "aliases": [
+            "Vóley",
+            "Voleibol de playa",
+            "Vóley playa"
+          ],
+          "points": 30
+        },
+        {
+          "id": "badminton",
+          "name": "Bádminton",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "breaking",
+          "name": "Breaking",
+          "aliases": [
+            "Breakdance"
+          ],
+          "points": 60
+        },
+        {
+          "id": "escaladadeportiva",
+          "name": "Escalada deportiva",
+          "aliases": [
+            "Escalada"
+          ],
+          "points": 60
+        },
+        {
+          "id": "esgrima",
+          "name": "Esgrima",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "levantamientodepesas",
+          "name": "Levantamiento de pesas",
+          "aliases": [
+            "Halterofilia"
+          ],
+          "points": 60
+        },
+        {
+          "id": "patineta",
+          "name": "Patineta",
+          "aliases": [
+            "Skate",
+            "Skateboarding"
+          ],
+          "points": 60
+        },
+        {
+          "id": "remo",
+          "name": "Remo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "taekwondo",
+          "name": "Taekwondo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tenisdemesa",
+          "name": "Tenis de mesa",
+          "aliases": [
+            "Ping pong"
+          ],
+          "points": 60
+        },
+        {
+          "id": "tiroconarco",
+          "name": "Tiro con arco",
+          "aliases": [
+            "Arquería"
+          ],
+          "points": 60
+        },
+        {
+          "id": "tirodeportivo",
+          "name": "Tiro deportivo",
+          "aliases": [
+            "Tiro olímpico"
+          ],
+          "points": 60
+        },
+        {
+          "id": "triatlon",
+          "name": "Triatlón",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "vela",
+          "name": "Vela",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "hipica",
+          "name": "Hípica",
+          "aliases": [
+            "Equitación",
+            "Doma clásica",
+            "Salto ecuestre"
+          ],
+          "points": 85
+        },
+        {
+          "id": "lucha",
+          "name": "Lucha",
+          "aliases": [
+            "Lucha libre olímpica",
+            "Lucha grecorromana"
+          ],
+          "points": 85
+        },
+        {
+          "id": "piraguismo",
+          "name": "Piragüismo",
+          "aliases": [
+            "Canotaje",
+            "Canoa eslalon",
+            "Canoa sprint",
+            "Kayak"
+          ],
+          "points": 85
+        },
+        {
+          "id": "pentatlonmoderno",
+          "name": "Pentatlón moderno",
+          "aliases": [
+            "Pentatlón"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "mundial-catar",
+      "title": "Nombra una selección que jugó el Mundial de Catar 2022",
+      "description": "Son las 32 selecciones de la fase final masculina. Escribe el país o el nombre habitual de la selección.",
+      "theme": "deporte",
+      "sources": [
+        {
+          "title": "FIFA, selecciones y grupos de Catar 2022",
+          "url": "https://www.fifa.com/es/articles/qatar-2022-todo-lo-que-tienes-que-saber"
+        }
+      ],
+      "answers": [
+        {
+          "id": "alemania",
+          "name": "Alemania",
+          "aliases": [
+            "Germany"
+          ],
+          "points": 10
+        },
+        {
+          "id": "argentina",
+          "name": "Argentina",
+          "aliases": [
+            "La Albiceleste"
+          ],
+          "points": 10
+        },
+        {
+          "id": "brasil",
+          "name": "Brasil",
+          "aliases": [
+            "Brazil"
+          ],
+          "points": 10
+        },
+        {
+          "id": "espana",
+          "name": "España",
+          "aliases": [
+            "Spain"
+          ],
+          "points": 10
+        },
+        {
+          "id": "francia",
+          "name": "Francia",
+          "aliases": [
+            "France"
+          ],
+          "points": 10
+        },
+        {
+          "id": "inglaterra",
+          "name": "Inglaterra",
+          "aliases": [
+            "England"
+          ],
+          "points": 10
+        },
+        {
+          "id": "mexico",
+          "name": "México",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "portugal",
+          "name": "Portugal",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "belgica",
+          "name": "Bélgica",
+          "aliases": [
+            "Belgium"
+          ],
+          "points": 30
+        },
+        {
+          "id": "catar",
+          "name": "Catar",
+          "aliases": [
+            "Qatar"
+          ],
+          "points": 30
+        },
+        {
+          "id": "croacia",
+          "name": "Croacia",
+          "aliases": [
+            "Croatia"
+          ],
+          "points": 30
+        },
+        {
+          "id": "estadosunidos",
+          "name": "Estados Unidos",
+          "aliases": [
+            "USA",
+            "EEUU"
+          ],
+          "points": 30
+        },
+        {
+          "id": "japon",
+          "name": "Japón",
+          "aliases": [
+            "Japan"
+          ],
+          "points": 30
+        },
+        {
+          "id": "marruecos",
+          "name": "Marruecos",
+          "aliases": [
+            "Morocco"
+          ],
+          "points": 30
+        },
+        {
+          "id": "paisesbajos",
+          "name": "Países Bajos",
+          "aliases": [
+            "Holanda",
+            "Netherlands"
+          ],
+          "points": 30
+        },
+        {
+          "id": "uruguay",
+          "name": "Uruguay",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "arabiasaudi",
+          "name": "Arabia Saudí",
+          "aliases": [
+            "Arabia Saudita"
+          ],
+          "points": 60
+        },
+        {
+          "id": "australia",
+          "name": "Australia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "canada",
+          "name": "Canadá",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "coreadelsur",
+          "name": "Corea del Sur",
+          "aliases": [
+            "República de Corea"
+          ],
+          "points": 60
+        },
+        {
+          "id": "dinamarca",
+          "name": "Dinamarca",
+          "aliases": [
+            "Denmark"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ecuador",
+          "name": "Ecuador",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "iran",
+          "name": "Irán",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "polonia",
+          "name": "Polonia",
+          "aliases": [
+            "Poland"
+          ],
+          "points": 60
+        },
+        {
+          "id": "senegal",
+          "name": "Senegal",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "suiza",
+          "name": "Suiza",
+          "aliases": [
+            "Switzerland"
+          ],
+          "points": 60
+        },
+        {
+          "id": "camerun",
+          "name": "Camerún",
+          "aliases": [
+            "Cameroon"
+          ],
+          "points": 85
+        },
+        {
+          "id": "costarica",
+          "name": "Costa Rica",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "gales",
+          "name": "Gales",
+          "aliases": [
+            "Wales"
+          ],
+          "points": 85
+        },
+        {
+          "id": "ghana",
+          "name": "Ghana",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "serbia",
+          "name": "Serbia",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "tunez",
+          "name": "Túnez",
+          "aliases": [
+            "Tunisia"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "mundial-femenino-2023",
+      "title": "Nombra una selección del Mundial femenino de 2023",
+      "description": "Busca las 32 selecciones que jugaron la fase final en Australia y Nueva Zelanda.",
+      "theme": "deporte",
+      "sources": [
+        {
+          "title": "FIFA, selecciones clasificadas al Mundial femenino de 2023",
+          "url": "https://www.fifa.com/es/articles/los-equipos-clasificados-a-la-copa-mundial-femenina-de-la-fifa-2023"
+        }
+      ],
+      "answers": [
+        {
+          "id": "australia",
+          "name": "Australia",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "espana",
+          "name": "España",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "estadosunidos",
+          "name": "Estados Unidos",
+          "aliases": [
+            "EEUU",
+            "USA"
+          ],
+          "points": 10
+        },
+        {
+          "id": "inglaterra",
+          "name": "Inglaterra",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "nuevazelanda",
+          "name": "Nueva Zelanda",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "alemania",
+          "name": "Alemania",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "argentina",
+          "name": "Argentina",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "brasil",
+          "name": "Brasil",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "canada",
+          "name": "Canadá",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "colombia",
+          "name": "Colombia",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "francia",
+          "name": "Francia",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "japon",
+          "name": "Japón",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "paisesbajos",
+          "name": "Países Bajos",
+          "aliases": [
+            "Holanda"
+          ],
+          "points": 30
+        },
+        {
+          "id": "suecia",
+          "name": "Suecia",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "china",
+          "name": "China",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "coreadelsur",
+          "name": "Corea del Sur",
+          "aliases": [
+            "República de Corea"
+          ],
+          "points": 60
+        },
+        {
+          "id": "costarica",
+          "name": "Costa Rica",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dinamarca",
+          "name": "Dinamarca",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "irlanda",
+          "name": "Irlanda",
+          "aliases": [
+            "República de Irlanda"
+          ],
+          "points": 60
+        },
+        {
+          "id": "italia",
+          "name": "Italia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "marruecos",
+          "name": "Marruecos",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nigeria",
+          "name": "Nigeria",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "noruega",
+          "name": "Noruega",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "panama",
+          "name": "Panamá",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "portugal",
+          "name": "Portugal",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "sudafrica",
+          "name": "Sudáfrica",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "suiza",
+          "name": "Suiza",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "filipinas",
+          "name": "Filipinas",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "jamaica",
+          "name": "Jamaica",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "vietnam",
+          "name": "Vietnam",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "zambia",
+          "name": "Zambia",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "haiti",
+          "name": "Haití",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "deportes-invierno",
+      "title": "¿Qué deporte se disputó en los Juegos de Invierno de 2026?",
+      "description": "Cuentan los deportes y las disciplinas del programa de Milano Cortina.",
+      "theme": "deporte",
+      "sources": [
+        {
+          "title": "Comité Olímpico Internacional, programa de Milano Cortina 2026",
+          "url": "https://gstatic.olympics.com/s3/mc2026/documents/Education%20Programme/OVEP/English%20Toolkit/OVEP-Fundamentals-2023%20-%20English.pdf"
+        }
+      ],
+      "answers": [
+        {
+          "id": "esquialpino",
+          "name": "Esquí alpino",
+          "aliases": [
+            "Esquí",
+            "Slalom",
+            "Eslalon"
+          ],
+          "points": 10
+        },
+        {
+          "id": "hockeysobrehielo",
+          "name": "Hockey sobre hielo",
+          "aliases": [
+            "Hockey"
+          ],
+          "points": 10
+        },
+        {
+          "id": "patinajeartistico",
+          "name": "Patinaje artístico",
+          "aliases": [
+            "Patinaje sobre hielo"
+          ],
+          "points": 10
+        },
+        {
+          "id": "snowboard",
+          "name": "Snowboard",
+          "aliases": [
+            "Snowboarding"
+          ],
+          "points": 10
+        },
+        {
+          "id": "curling",
+          "name": "Curling",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "esquidefondo",
+          "name": "Esquí de fondo",
+          "aliases": [
+            "Esquí a campo traviesa"
+          ],
+          "points": 30
+        },
+        {
+          "id": "patinajedevelocidad",
+          "name": "Patinaje de velocidad",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "saltosdeesqui",
+          "name": "Saltos de esquí",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "biatlon",
+          "name": "Biatlón",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "bobsleigh",
+          "name": "Bobsleigh",
+          "aliases": [
+            "Bobsled"
+          ],
+          "points": 60
+        },
+        {
+          "id": "esquiacrobatico",
+          "name": "Esquí acrobático",
+          "aliases": [
+            "Esquí libre",
+            "Freestyle skiing"
+          ],
+          "points": 60
+        },
+        {
+          "id": "luge",
+          "name": "Luge",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "patinajedevelocidadenpistacorta",
+          "name": "Patinaje de velocidad en pista corta",
+          "aliases": [
+            "Short track"
+          ],
+          "points": 85
+        },
+        {
+          "id": "skeleton",
+          "name": "Skeleton",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "combinadanordica",
+          "name": "Combinada nórdica",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "esquidemontana",
+          "name": "Esquí de montaña",
+          "aliases": [
+            "Esquí de travesía",
+            "Skimo"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "hierbas-y-especias",
+      "title": "Abre el especiero: ¿qué hierba o especia sacarías?",
+      "description": "Busca un condimento aromático individual, como los que usas para cocinar. Valen nombres regionales.",
+      "theme": "cocina",
+      "sources": [
+        {
+          "title": "FDA, referencia para las denominaciones de hierbas y especias",
+          "url": "https://www.fda.gov/regulatory-information/search-fda-guidance-documents/cpg-sec-525750-spices-definitions"
+        }
+      ],
+      "answers": [
+        {
+          "id": "ajoenpolvo",
+          "name": "Ajo en polvo",
+          "aliases": [
+            "Ajo",
+            "Ajos"
+          ],
+          "points": 10
+        },
+        {
+          "id": "albahaca",
+          "name": "Albahaca",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "canela",
+          "name": "Canela",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "clavodeolor",
+          "name": "Clavo de olor",
+          "aliases": [
+            "Clavo"
+          ],
+          "points": 10
+        },
+        {
+          "id": "comino",
+          "name": "Comino",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "oregano",
+          "name": "Orégano",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "perejil",
+          "name": "Perejil",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pimenton",
+          "name": "Pimentón",
+          "aliases": [
+            "Paprika",
+            "Páprika"
+          ],
+          "points": 10
+        },
+        {
+          "id": "pimientanegra",
+          "name": "Pimienta negra",
+          "aliases": [
+            "Pimienta"
+          ],
+          "points": 10
+        },
+        {
+          "id": "romero",
+          "name": "Romero",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "azafran",
+          "name": "Azafrán",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "cayena",
+          "name": "Cayena",
+          "aliases": [
+            "Pimienta de cayena"
+          ],
+          "points": 30
+        },
+        {
+          "id": "cilantro",
+          "name": "Cilantro",
+          "aliases": [
+            "Culantro",
+            "Semillas de cilantro",
+            "Coriandro"
+          ],
+          "points": 30
+        },
+        {
+          "id": "curcuma",
+          "name": "Cúrcuma",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "jengibre",
+          "name": "Jengibre",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "laurel",
+          "name": "Laurel",
+          "aliases": [
+            "Hoja de laurel"
+          ],
+          "points": 30
+        },
+        {
+          "id": "menta",
+          "name": "Menta",
+          "aliases": [
+            "Hierbabuena"
+          ],
+          "points": 30
+        },
+        {
+          "id": "mostaza",
+          "name": "Mostaza",
+          "aliases": [
+            "Semillas de mostaza"
+          ],
+          "points": 30
+        },
+        {
+          "id": "nuezmoscada",
+          "name": "Nuez moscada",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pimientablanca",
+          "name": "Pimienta blanca",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "tomillo",
+          "name": "Tomillo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "vainilla",
+          "name": "Vainilla",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "ajedrea",
+          "name": "Ajedrea",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "anis",
+          "name": "Anís",
+          "aliases": [
+            "Anís verde"
+          ],
+          "points": 60
+        },
+        {
+          "id": "anisestrellado",
+          "name": "Anís estrellado",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cardamomo",
+          "name": "Cardamomo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cebollaenpolvo",
+          "name": "Cebolla en polvo",
+          "aliases": [
+            "Cebolla deshidratada"
+          ],
+          "points": 60
+        },
+        {
+          "id": "cebollino",
+          "name": "Cebollino",
+          "aliases": [
+            "Cebollín"
+          ],
+          "points": 60
+        },
+        {
+          "id": "eneldo",
+          "name": "Eneldo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "estragon",
+          "name": "Estragón",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "hinojo",
+          "name": "Hinojo",
+          "aliases": [
+            "Semilla de hinojo"
+          ],
+          "points": 60
+        },
+        {
+          "id": "mejorana",
+          "name": "Mejorana",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pimientadejamaica",
+          "name": "Pimienta de Jamaica",
+          "aliases": [
+            "Pimienta gorda",
+            "Pimienta dulce",
+            "Allspice"
+          ],
+          "points": 60
+        },
+        {
+          "id": "salvia",
+          "name": "Salvia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "semilladeapio",
+          "name": "Semilla de apio",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "achiote",
+          "name": "Achiote",
+          "aliases": [
+            "Annatto",
+            "Onoto"
+          ],
+          "points": 85
+        },
+        {
+          "id": "alcaravea",
+          "name": "Alcaravea",
+          "aliases": [
+            "Comino de prado"
+          ],
+          "points": 85
+        },
+        {
+          "id": "macis",
+          "name": "Macis",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "perifollo",
+          "name": "Perifollo",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "semillasdeamapola",
+          "name": "Semillas de amapola",
+          "aliases": [
+            "Amapola"
+          ],
+          "points": 85
+        },
+        {
+          "id": "sumac",
+          "name": "Sumac",
+          "aliases": [
+            "Zumaque"
+          ],
+          "points": 85
+        },
+        {
+          "id": "asafetida",
+          "name": "Asafétida",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "legumbres-secas",
+      "title": "¿Qué legumbre seca echarías en una olla?",
+      "description": "Busca las clases de semillas secas de la FAO. Se agrupan los nombres regionales y las variedades del mismo tipo.",
+      "theme": "cocina",
+      "sources": [
+        {
+          "title": "FAO, definición y clases de legumbres secas",
+          "url": "https://www.fao.org/fileadmin/user_upload/pulses-2016/Exhibit/totem1_B_roll-up_v1.pdf"
+        }
+      ],
+      "answers": [
+        {
+          "id": "garbanzo",
+          "name": "Garbanzo",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "judiaseca",
+          "name": "Judía seca",
+          "aliases": [
+            "Alubia",
+            "Frijol",
+            "Fréjol",
+            "Poroto",
+            "Habichuela",
+            "Frijol negro",
+            "Frijol pinto",
+            "Frijol mungo",
+            "Judía mungo",
+            "Mungo",
+            "Frijol azuki",
+            "Azuki"
+          ],
+          "points": 10
+        },
+        {
+          "id": "lenteja",
+          "name": "Lenteja",
+          "aliases": [
+            "Lentejas"
+          ],
+          "points": 10
+        },
+        {
+          "id": "guisanteseco",
+          "name": "Guisante seco",
+          "aliases": [
+            "Guisante",
+            "Arveja",
+            "Chícharo",
+            "Arveja seca"
+          ],
+          "points": 30
+        },
+        {
+          "id": "habaseca",
+          "name": "Haba seca",
+          "aliases": [
+            "Haba",
+            "Habas"
+          ],
+          "points": 30
+        },
+        {
+          "id": "altramuz",
+          "name": "Altramuz",
+          "aliases": [
+            "Altramuz seco",
+            "Chochos",
+            "Tarwi",
+            "Lupino"
+          ],
+          "points": 60
+        },
+        {
+          "id": "caupi",
+          "name": "Caupí",
+          "aliases": [
+            "Frijol de ojo negro",
+            "Carilla",
+            "Frijol carita",
+            "Frijol de carita",
+            "Chícharo de vaca"
+          ],
+          "points": 60
+        },
+        {
+          "id": "guandu",
+          "name": "Guandú",
+          "aliases": [
+            "Gandul",
+            "Guandul"
+          ],
+          "points": 85
+        },
+        {
+          "id": "veza",
+          "name": "Veza",
+          "aliases": [
+            "Vicia"
+          ],
+          "points": 85
+        },
+        {
+          "id": "frijolalado",
+          "name": "Frijol alado",
+          "aliases": [
+            "Judía alada"
+          ],
+          "points": 100
+        },
+        {
+          "id": "frijolbambara",
+          "name": "Frijol bambara",
+          "aliases": [
+            "Maní bambara",
+            "Voandzeia"
+          ],
+          "points": 100
+        },
+        {
+          "id": "frijolespada",
+          "name": "Frijol espada",
+          "aliases": [
+            "Judía espada"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "instrumentos-orquesta",
+      "title": "Nombra un instrumento que suene en una orquesta sinfónica",
+      "description": "Valen instrumentos de cuerda, viento, percusión o teclado del catálogo de la orquesta y sus variantes habituales.",
+      "theme": "musica",
+      "sources": [
+        {
+          "title": "Philharmonia, familias e instrumentos orquestales",
+          "url": "https://philharmonia.co.uk/resources/instruments/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "arpa",
+          "name": "Arpa",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "flautatravesera",
+          "name": "Flauta travesera",
+          "aliases": [
+            "Flauta",
+            "Flauta transversal"
+          ],
+          "points": 10
+        },
+        {
+          "id": "piano",
+          "name": "Piano",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "trompeta",
+          "name": "Trompeta",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "violin",
+          "name": "Violín",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "clarinete",
+          "name": "Clarinete",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "contrabajo",
+          "name": "Contrabajo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "saxofon",
+          "name": "Saxofón",
+          "aliases": [
+            "Saxo"
+          ],
+          "points": 30
+        },
+        {
+          "id": "trombon",
+          "name": "Trombón",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "tuba",
+          "name": "Tuba",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "viola",
+          "name": "Viola",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "violonchelo",
+          "name": "Violonchelo",
+          "aliases": [
+            "Chelo",
+            "Cello"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bombo",
+          "name": "Bombo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "fagot",
+          "name": "Fagot",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "flautin",
+          "name": "Flautín",
+          "aliases": [
+            "Piccolo"
+          ],
+          "points": 60
+        },
+        {
+          "id": "gong",
+          "name": "Gong",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "oboe",
+          "name": "Oboe",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pandereta",
+          "name": "Pandereta",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "platillos",
+          "name": "Platillos",
+          "aliases": [
+            "Platos"
+          ],
+          "points": 60
+        },
+        {
+          "id": "tambordecaja",
+          "name": "Tambor de caja",
+          "aliases": [
+            "Caja",
+            "Redoblante"
+          ],
+          "points": 60
+        },
+        {
+          "id": "timbalesorquestales",
+          "name": "Timbales orquestales",
+          "aliases": [
+            "Timbales",
+            "Timbal"
+          ],
+          "points": 60
+        },
+        {
+          "id": "triangulo",
+          "name": "Triángulo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "trompa",
+          "name": "Trompa",
+          "aliases": [
+            "Corno francés",
+            "Corno"
+          ],
+          "points": 60
+        },
+        {
+          "id": "xilofono",
+          "name": "Xilófono",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "campanastubulares",
+          "name": "Campanas tubulares",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "carillonorquestal",
+          "name": "Carillón orquestal",
+          "aliases": [
+            "Glockenspiel"
+          ],
+          "points": 85
+        },
+        {
+          "id": "castanuelas",
+          "name": "Castañuelas",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "clarinetebajo",
+          "name": "Clarinete bajo",
+          "aliases": [
+            "Clarón"
+          ],
+          "points": 85
+        },
+        {
+          "id": "clarinetecontrabajo",
+          "name": "Clarinete contrabajo",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "clarineteenmibemol",
+          "name": "Clarinete en mi bemol",
+          "aliases": [
+            "Requinto"
+          ],
+          "points": 85
+        },
+        {
+          "id": "clave",
+          "name": "Clave",
+          "aliases": [
+            "Clavecín"
+          ],
+          "points": 85
+        },
+        {
+          "id": "contrafagot",
+          "name": "Contrafagot",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "cornoingles",
+          "name": "Corno inglés",
+          "aliases": [
+            "Trompa inglesa"
+          ],
+          "points": 85
+        },
+        {
+          "id": "marimba",
+          "name": "Marimba",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "organo",
+          "name": "Órgano",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "trombonbajo",
+          "name": "Trombón bajo",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "vibrafono",
+          "name": "Vibráfono",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "celesta",
+          "name": "Celesta",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "planetas-y-enanos",
+      "title": "En el sistema solar, ¿qué planeta visitarías?",
+      "description": "Valen los ocho planetas y los cinco planetas enanos de la lista de la NASA.",
+      "theme": "espacio",
+      "sources": [
+        {
+          "title": "NASA, planetas del sistema solar",
+          "url": "https://science.nasa.gov/solar-system/planets/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "jupiter",
+          "name": "Júpiter",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "marte",
+          "name": "Marte",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "saturno",
+          "name": "Saturno",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "tierra",
+          "name": "Tierra",
+          "aliases": [
+            "La Tierra"
+          ],
+          "points": 10
+        },
+        {
+          "id": "mercurio",
+          "name": "Mercurio",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "neptuno",
+          "name": "Neptuno",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "urano",
+          "name": "Urano",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "venus",
+          "name": "Venus",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pluton",
+          "name": "Plutón",
+          "aliases": [
+            "Pluto"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ceres",
+          "name": "Ceres",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "eris",
+          "name": "Eris",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "haumea",
+          "name": "Haumea",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "makemake",
+          "name": "Makemake",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "huesos-largos",
+      "title": "Nombra un hueso largo del cuerpo humano",
+      "description": "Busca los huesos largos del esqueleto adulto. Los dedos y los huesos largos numerados cuentan por su tipo.",
+      "theme": "cuerpo",
+      "sources": [
+        {
+          "title": "OpenStax, esqueleto apendicular y sus huesos",
+          "url": "https://openstax.org/books/anatomy-and-physiology-2e/pages/8-introduction"
+        }
+      ],
+      "answers": [
+        {
+          "id": "femur",
+          "name": "Fémur",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "humero",
+          "name": "Húmero",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "tibia",
+          "name": "Tibia",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "clavicula",
+          "name": "Clavícula",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "cubito",
+          "name": "Cúbito",
+          "aliases": [
+            "Ulna"
+          ],
+          "points": 30
+        },
+        {
+          "id": "perone",
+          "name": "Peroné",
+          "aliases": [
+            "Fíbula"
+          ],
+          "points": 30
+        },
+        {
+          "id": "radio",
+          "name": "Radio",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "falange",
+          "name": "Falange",
+          "aliases": [
+            "Falanges"
+          ],
+          "points": 60
+        },
+        {
+          "id": "metacarpiano",
+          "name": "Metacarpiano",
+          "aliases": [
+            "Metacarpo",
+            "Metacarpianos"
+          ],
+          "points": 60
+        },
+        {
+          "id": "metatarsiano",
+          "name": "Metatarsiano",
+          "aliases": [
+            "Metatarso",
+            "Metatarsianos"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "capitales-ue",
+      "title": "Haz una escapada a una capital de la Unión Europea",
+      "description": "Nombra la capital de uno de los 27 países de la UE. Valen sus nombres habituales en español y en el idioma local.",
+      "theme": "geografia",
+      "sources": [
+        {
+          "title": "Unión Europea, fichas oficiales de los países miembros",
+          "url": "https://european-union.europa.eu/principles-countries-history/eu-countries_es"
+        }
+      ],
+      "answers": [
+        {
+          "id": "berlin",
+          "name": "Berlín",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "lisboa",
+          "name": "Lisboa",
+          "aliases": [
+            "Lisbon"
+          ],
+          "points": 10
+        },
+        {
+          "id": "madrid",
+          "name": "Madrid",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "paris",
+          "name": "París",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "roma",
+          "name": "Roma",
+          "aliases": [
+            "Rome"
+          ],
+          "points": 10
+        },
+        {
+          "id": "amsterdam",
+          "name": "Ámsterdam",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "atenas",
+          "name": "Atenas",
+          "aliases": [
+            "Athens"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bruselas",
+          "name": "Bruselas",
+          "aliases": [
+            "Bruxelles",
+            "Brussels"
+          ],
+          "points": 30
+        },
+        {
+          "id": "dublin",
+          "name": "Dublín",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "estocolmo",
+          "name": "Estocolmo",
+          "aliases": [
+            "Stockholm"
+          ],
+          "points": 30
+        },
+        {
+          "id": "praga",
+          "name": "Praga",
+          "aliases": [
+            "Praha"
+          ],
+          "points": 30
+        },
+        {
+          "id": "viena",
+          "name": "Viena",
+          "aliases": [
+            "Wien",
+            "Vienna"
+          ],
+          "points": 30
+        },
+        {
+          "id": "bucarest",
+          "name": "Bucarest",
+          "aliases": [
+            "București"
+          ],
+          "points": 60
+        },
+        {
+          "id": "budapest",
+          "name": "Budapest",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "copenhague",
+          "name": "Copenhague",
+          "aliases": [
+            "København",
+            "Copenhagen"
+          ],
+          "points": 60
+        },
+        {
+          "id": "helsinki",
+          "name": "Helsinki",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "sofia",
+          "name": "Sofía",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "varsovia",
+          "name": "Varsovia",
+          "aliases": [
+            "Warszawa",
+            "Warsaw"
+          ],
+          "points": 60
+        },
+        {
+          "id": "bratislava",
+          "name": "Bratislava",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "luxemburgo",
+          "name": "Luxemburgo",
+          "aliases": [
+            "Luxembourg"
+          ],
+          "points": 85
+        },
+        {
+          "id": "riga",
+          "name": "Riga",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "tallin",
+          "name": "Tallin",
+          "aliases": [
+            "Tallinn"
+          ],
+          "points": 85
+        },
+        {
+          "id": "vilna",
+          "name": "Vilna",
+          "aliases": [
+            "Vilnius"
+          ],
+          "points": 85
+        },
+        {
+          "id": "zagreb",
+          "name": "Zagreb",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "lavaleta",
+          "name": "La Valeta",
+          "aliases": [
+            "Valletta"
+          ],
+          "points": 100
+        },
+        {
+          "id": "liubliana",
+          "name": "Liubliana",
+          "aliases": [
+            "Ljubljana"
+          ],
+          "points": 100
+        },
+        {
+          "id": "nicosia",
+          "name": "Nicosia",
+          "aliases": [
+            "Lefkosia"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "estados-usa",
+      "title": "¿Qué estado de Estados Unidos visitarías?",
+      "description": "Cuenta cualquiera de los 50 estados. Escribe el nombre del estado, en español o en inglés.",
+      "theme": "geografia",
+      "sources": [
+        {
+          "title": "U.S. Mint, los 50 estados en el programa de monedas",
+          "url": "https://www.usmint.gov/learn/coins-and-medals/circulating-coins/quarter/50-state-quarters"
+        }
+      ],
+      "answers": [
+        {
+          "id": "alaska",
+          "name": "Alaska",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "california",
+          "name": "California",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "florida",
+          "name": "Florida",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "hawai",
+          "name": "Hawái",
+          "aliases": [
+            "Hawaii"
+          ],
+          "points": 10
+        },
+        {
+          "id": "nuevayork",
+          "name": "Nueva York",
+          "aliases": [
+            "New York"
+          ],
+          "points": 10
+        },
+        {
+          "id": "texas",
+          "name": "Texas",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "arizona",
+          "name": "Arizona",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "colorado",
+          "name": "Colorado",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "illinois",
+          "name": "Illinois",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "luisiana",
+          "name": "Luisiana",
+          "aliases": [
+            "Louisiana"
+          ],
+          "points": 30
+        },
+        {
+          "id": "massachusetts",
+          "name": "Massachusetts",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "nevada",
+          "name": "Nevada",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "nuevajersey",
+          "name": "Nueva Jersey",
+          "aliases": [
+            "New Jersey"
+          ],
+          "points": 30
+        },
+        {
+          "id": "oregon",
+          "name": "Oregón",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "pensilvania",
+          "name": "Pensilvania",
+          "aliases": [
+            "Pennsylvania"
+          ],
+          "points": 30
+        },
+        {
+          "id": "washington",
+          "name": "Washington",
+          "aliases": [
+            "Estado de Washington"
+          ],
+          "points": 30
+        },
+        {
+          "id": "alabama",
+          "name": "Alabama",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "arkansas",
+          "name": "Arkansas",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "carolinadelnorte",
+          "name": "Carolina del Norte",
+          "aliases": [
+            "North Carolina"
+          ],
+          "points": 60
+        },
+        {
+          "id": "carolinadelsur",
+          "name": "Carolina del Sur",
+          "aliases": [
+            "South Carolina"
+          ],
+          "points": 60
+        },
+        {
+          "id": "connecticut",
+          "name": "Connecticut",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "georgia",
+          "name": "Georgia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "idaho",
+          "name": "Idaho",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "indiana",
+          "name": "Indiana",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "iowa",
+          "name": "Iowa",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kansas",
+          "name": "Kansas",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kentucky",
+          "name": "Kentucky",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "maine",
+          "name": "Maine",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "maryland",
+          "name": "Maryland",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "michigan",
+          "name": "Míchigan",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "minnesota",
+          "name": "Minnesota",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "misisipi",
+          "name": "Misisipi",
+          "aliases": [
+            "Mississippi"
+          ],
+          "points": 60
+        },
+        {
+          "id": "misuri",
+          "name": "Misuri",
+          "aliases": [
+            "Missouri"
+          ],
+          "points": 60
+        },
+        {
+          "id": "montana",
+          "name": "Montana",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "nuevomexico",
+          "name": "Nuevo México",
+          "aliases": [
+            "New Mexico"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ohio",
+          "name": "Ohio",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "oklahoma",
+          "name": "Oklahoma",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tennessee",
+          "name": "Tennessee",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "utah",
+          "name": "Utah",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "virginia",
+          "name": "Virginia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "wisconsin",
+          "name": "Wisconsin",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "wyoming",
+          "name": "Wyoming",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dakotadelnorte",
+          "name": "Dakota del Norte",
+          "aliases": [
+            "North Dakota"
+          ],
+          "points": 85
+        },
+        {
+          "id": "dakotadelsur",
+          "name": "Dakota del Sur",
+          "aliases": [
+            "South Dakota"
+          ],
+          "points": 85
+        },
+        {
+          "id": "delaware",
+          "name": "Delaware",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "nebraska",
+          "name": "Nebraska",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "nuevohampshire",
+          "name": "Nuevo Hampshire",
+          "aliases": [
+            "New Hampshire"
+          ],
+          "points": 85
+        },
+        {
+          "id": "vermont",
+          "name": "Vermont",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "rhodeisland",
+          "name": "Rhode Island",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "virginiaoccidental",
+          "name": "Virginia Occidental",
+          "aliases": [
+            "West Virginia"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "letras-griegas",
+      "title": "¿Qué letra del alfabeto griego reconoces?",
+      "description": "Puedes escribir el nombre español o la transcripción habitual de una de sus 24 letras.",
+      "theme": "lengua",
+      "sources": [
+        {
+          "title": "Unicode, repertorio de letras griegas",
+          "url": "https://www.unicode.org/charts/PDF/U0370.pdf"
+        }
+      ],
+      "answers": [
+        {
+          "id": "alfa",
+          "name": "Alfa",
+          "aliases": [
+            "Alpha"
+          ],
+          "points": 10
+        },
+        {
+          "id": "beta",
+          "name": "Beta",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "delta",
+          "name": "Delta",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "omega",
+          "name": "Omega",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "epsilon",
+          "name": "Épsilon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "gamma",
+          "name": "Gamma",
+          "aliases": [
+            "Gama"
+          ],
+          "points": 30
+        },
+        {
+          "id": "pi",
+          "name": "Pi",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "sigma",
+          "name": "Sigma",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "zeta",
+          "name": "Zeta",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "eta",
+          "name": "Eta",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "iota",
+          "name": "Iota",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kappa",
+          "name": "Kappa",
+          "aliases": [
+            "Capa"
+          ],
+          "points": 60
+        },
+        {
+          "id": "lambda",
+          "name": "Lambda",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "omicron",
+          "name": "Ómicron",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "phi",
+          "name": "Phi",
+          "aliases": [
+            "Fi"
+          ],
+          "points": 60
+        },
+        {
+          "id": "psi",
+          "name": "Psi",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tau",
+          "name": "Tau",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "theta",
+          "name": "Theta",
+          "aliases": [
+            "Teta"
+          ],
+          "points": 60
+        },
+        {
+          "id": "chi",
+          "name": "Chi",
+          "aliases": [
+            "Ji"
+          ],
+          "points": 85
+        },
+        {
+          "id": "ipsilon",
+          "name": "Ípsilon",
+          "aliases": [
+            "Upsilon",
+            "Ypsilon"
+          ],
+          "points": 85
+        },
+        {
+          "id": "mu",
+          "name": "Mu",
+          "aliases": [
+            "Mi"
+          ],
+          "points": 85
+        },
+        {
+          "id": "nu",
+          "name": "Nu",
+          "aliases": [
+            "Ni"
+          ],
+          "points": 85
+        },
+        {
+          "id": "rho",
+          "name": "Rho",
+          "aliases": [
+            "Ro"
+          ],
+          "points": 85
+        },
+        {
+          "id": "xi",
+          "name": "Xi",
+          "aliases": [
+            "Ksi"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "shakespeare",
+      "title": "Si vas al teatro a ver a Shakespeare, ¿qué obra eliges?",
+      "description": "Cuentan las obras de teatro del catálogo Folger. Puedes usar el título original o uno de sus títulos habituales en español.",
+      "theme": "literatura",
+      "sources": [
+        {
+          "title": "Folger Shakespeare Library, catálogo de obras",
+          "url": "https://www.folger.edu/explore/shakespeares-works/all-works/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "hamlet",
+          "name": "Hamlet",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "macbeth",
+          "name": "Macbeth",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "otelo",
+          "name": "Otelo",
+          "aliases": [
+            "Othello"
+          ],
+          "points": 10
+        },
+        {
+          "id": "romeoyjulieta",
+          "name": "Romeo y Julieta",
+          "aliases": [
+            "Romeo and Juliet"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elmercaderdevenecia",
+          "name": "El mercader de Venecia",
+          "aliases": [
+            "The Merchant of Venice"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elreylear",
+          "name": "El rey Lear",
+          "aliases": [
+            "King Lear"
+          ],
+          "points": 30
+        },
+        {
+          "id": "juliocesar",
+          "name": "Julio César",
+          "aliases": [
+            "Julius Caesar"
+          ],
+          "points": 30
+        },
+        {
+          "id": "latempestad",
+          "name": "La tempestad",
+          "aliases": [
+            "The Tempest"
+          ],
+          "points": 30
+        },
+        {
+          "id": "suenodeunanochedeverano",
+          "name": "Sueño de una noche de verano",
+          "aliases": [
+            "El sueño de una noche de verano",
+            "A Midsummer Night's Dream"
+          ],
+          "points": 30
+        },
+        {
+          "id": "antonioycleopatra",
+          "name": "Antonio y Cleopatra",
+          "aliases": [
+            "Antony and Cleopatra"
+          ],
+          "points": 60
+        },
+        {
+          "id": "comogusteis",
+          "name": "Como gustéis",
+          "aliases": [
+            "As You Like It"
+          ],
+          "points": 60
+        },
+        {
+          "id": "enriquev",
+          "name": "Enrique V",
+          "aliases": [
+            "Henry V",
+            "Enrique 5"
+          ],
+          "points": 60
+        },
+        {
+          "id": "enriqueviii",
+          "name": "Enrique VIII",
+          "aliases": [
+            "Henry VIII",
+            "Enrique 8"
+          ],
+          "points": 60
+        },
+        {
+          "id": "lafierecilladomada",
+          "name": "La fierecilla domada",
+          "aliases": [
+            "La doma de la fiera",
+            "The Taming of the Shrew"
+          ],
+          "points": 60
+        },
+        {
+          "id": "lasalegrescomadresdewindsor",
+          "name": "Las alegres comadres de Windsor",
+          "aliases": [
+            "The Merry Wives of Windsor"
+          ],
+          "points": 60
+        },
+        {
+          "id": "muchoruidoypocasnueces",
+          "name": "Mucho ruido y pocas nueces",
+          "aliases": [
+            "Much Ado About Nothing"
+          ],
+          "points": 60
+        },
+        {
+          "id": "nochedereyes",
+          "name": "Noche de reyes",
+          "aliases": [
+            "Twelfth Night"
+          ],
+          "points": 60
+        },
+        {
+          "id": "ricardoiii",
+          "name": "Ricardo III",
+          "aliases": [
+            "Richard III",
+            "Ricardo 3"
+          ],
+          "points": 60
+        },
+        {
+          "id": "bienestaloquebienacaba",
+          "name": "Bien está lo que bien acaba",
+          "aliases": [
+            "All's Well That Ends Well"
+          ],
+          "points": 85
+        },
+        {
+          "id": "cimbelino",
+          "name": "Cimbelino",
+          "aliases": [
+            "Cymbeline"
+          ],
+          "points": 85
+        },
+        {
+          "id": "coriolano",
+          "name": "Coriolano",
+          "aliases": [
+            "Coriolanus"
+          ],
+          "points": 85
+        },
+        {
+          "id": "cuentodeinvierno",
+          "name": "Cuento de invierno",
+          "aliases": [
+            "The Winter's Tale"
+          ],
+          "points": 85
+        },
+        {
+          "id": "elreyjuan",
+          "name": "El rey Juan",
+          "aliases": [
+            "King John"
+          ],
+          "points": 85
+        },
+        {
+          "id": "enriqueivparte1",
+          "name": "Enrique IV parte 1",
+          "aliases": [
+            "Henry IV Part 1"
+          ],
+          "points": 85
+        },
+        {
+          "id": "enriqueivparte2",
+          "name": "Enrique IV parte 2",
+          "aliases": [
+            "Henry IV Part 2"
+          ],
+          "points": 85
+        },
+        {
+          "id": "enriqueviparte1",
+          "name": "Enrique VI parte 1",
+          "aliases": [
+            "Henry VI Part 1"
+          ],
+          "points": 85
+        },
+        {
+          "id": "enriqueviparte2",
+          "name": "Enrique VI parte 2",
+          "aliases": [
+            "Henry VI Part 2"
+          ],
+          "points": 85
+        },
+        {
+          "id": "enriqueviparte3",
+          "name": "Enrique VI parte 3",
+          "aliases": [
+            "Henry VI Part 3"
+          ],
+          "points": 85
+        },
+        {
+          "id": "lacomediadelasequivocaciones",
+          "name": "La comedia de las equivocaciones",
+          "aliases": [
+            "The Comedy of Errors"
+          ],
+          "points": 85
+        },
+        {
+          "id": "losdoshidalgosdeverona",
+          "name": "Los dos hidalgos de Verona",
+          "aliases": [
+            "The Two Gentlemen of Verona"
+          ],
+          "points": 85
+        },
+        {
+          "id": "medidapormedida",
+          "name": "Medida por medida",
+          "aliases": [
+            "Measure for Measure"
+          ],
+          "points": 85
+        },
+        {
+          "id": "pericles",
+          "name": "Pericles",
+          "aliases": [
+            "Pericles Prince of Tyre"
+          ],
+          "points": 85
+        },
+        {
+          "id": "ricardoii",
+          "name": "Ricardo II",
+          "aliases": [
+            "Richard II",
+            "Ricardo 2"
+          ],
+          "points": 85
+        },
+        {
+          "id": "timondeatenas",
+          "name": "Timón de Atenas",
+          "aliases": [
+            "Timon of Athens"
+          ],
+          "points": 85
+        },
+        {
+          "id": "titoandronico",
+          "name": "Tito Andrónico",
+          "aliases": [
+            "Titus Andronicus"
+          ],
+          "points": 85
+        },
+        {
+          "id": "trabajosdeamorperdidos",
+          "name": "Trabajos de amor perdidos",
+          "aliases": [
+            "Love's Labor's Lost"
+          ],
+          "points": 85
+        },
+        {
+          "id": "troiloycresida",
+          "name": "Troilo y Crésida",
+          "aliases": [
+            "Troilus and Cressida"
+          ],
+          "points": 85
+        },
+        {
+          "id": "losdosnoblescaballeros",
+          "name": "Los dos nobles caballeros",
+          "aliases": [
+            "The Two Noble Kinsmen"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery"
+    },
+    {
+      "id": "grammy-album",
+      "title": "¿Qué disco ganó el Grammy a álbum del año?",
+      "description": "Cuenta cualquier álbum ganador en las ceremonias de 2000 a 2025. Escribe el título del disco.",
+      "theme": "musica",
+      "sources": [
+        {
+          "title": "Recording Academy, ganadores de álbum del año",
+          "url": "https://www.grammy.com/awards/categories/album-of-the-year/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "1989",
+          "name": "1989",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "21",
+          "name": "21",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "25",
+          "name": "25",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "cowboycarter",
+          "name": "Cowboy Carter",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "midnights",
+          "name": "Midnights",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "24kmagic",
+          "name": "24K Magic",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "fearless",
+          "name": "Fearless",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "folklore",
+          "name": "Folklore",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "randomaccessmemories",
+          "name": "Random Access Memories",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "supernatural",
+          "name": "Supernatural",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "whenweallfallasleepwheredowego",
+          "name": "When We All Fall Asleep, Where Do We Go?",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "babel",
+          "name": "Babel",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "goldenhour",
+          "name": "Golden Hour",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "harryshouse",
+          "name": "Harry's House",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "morningphase",
+          "name": "Morning Phase",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "takingthelongway",
+          "name": "Taking the Long Way",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "thesuburbs",
+          "name": "The Suburbs",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "weare",
+          "name": "We Are",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "comeawaywithme",
+          "name": "Come Away with Me",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "geniuslovescompany",
+          "name": "Genius Loves Company",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "howtodismantleanatomicbomb",
+          "name": "How to Dismantle an Atomic Bomb",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "obrotherwhereartthou",
+          "name": "O Brother, Where Art Thou?",
+          "aliases": [
+            "O Brother Where Art Thou soundtrack"
+          ],
+          "points": 85
+        },
+        {
+          "id": "raisingsand",
+          "name": "Raising Sand",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "speakerboxxxthelovebelow",
+          "name": "Speakerboxxx/The Love Below",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "twoagainstnature",
+          "name": "Two Against Nature",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "riverthejoniletters",
+          "name": "River The Joni Letters",
+          "aliases": [
+            "River The Joni Letters Herbie Hancock"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "challenge"
+    },
+    {
+      "id": "zodiaco-chino",
+      "title": "¿Qué animal elegirías del zodiaco chino?",
+      "description": "Hay doce animales en este ciclo tradicional. Se aceptan sus nombres habituales en español.",
+      "theme": "tradiciones",
+      "sources": [
+        {
+          "title": "Smithsonian, los doce animales del Año Nuevo lunar",
+          "url": "https://www.si.edu/events/lunar-new-year"
+        }
+      ],
+      "answers": [
+        {
+          "id": "dragon",
+          "name": "Dragón",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "perro",
+          "name": "Perro",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "tigre",
+          "name": "Tigre",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "conejo",
+          "name": "Conejo",
+          "aliases": [
+            "Liebre"
+          ],
+          "points": 30
+        },
+        {
+          "id": "mono",
+          "name": "Mono",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "serpiente",
+          "name": "Serpiente",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "caballo",
+          "name": "Caballo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "cerdo",
+          "name": "Cerdo",
+          "aliases": [
+            "Jabalí"
+          ],
+          "points": 60
+        },
+        {
+          "id": "gallo",
+          "name": "Gallo",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "rata",
+          "name": "Rata",
+          "aliases": [
+            "Ratón"
+          ],
+          "points": 60
+        },
+        {
+          "id": "buey",
+          "name": "Buey",
+          "aliases": [
+            "Búfalo",
+            "Vaca"
+          ],
+          "points": 85
+        },
+        {
+          "id": "cabra",
+          "name": "Cabra",
+          "aliases": [
+            "Oveja",
+            "Carnero"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "familiar"
+    },
+    {
+      "id": "escala-mohs",
+      "title": "Nombra un mineral de la escala de dureza de Mohs",
+      "description": "Busca uno de los diez minerales de referencia, desde el más blando hasta el más duro.",
+      "theme": "naturaleza",
+      "sources": [
+        {
+          "title": "National Park Service, escala de Mohs",
+          "url": "https://www.nps.gov/articles/mohs-hardness-scale.htm"
+        }
+      ],
+      "answers": [
+        {
+          "id": "cuarzo",
+          "name": "Cuarzo",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "diamante",
+          "name": "Diamante",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "talco",
+          "name": "Talco",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "yeso",
+          "name": "Yeso",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "calcita",
+          "name": "Calcita",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "topacio",
+          "name": "Topacio",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "corindon",
+          "name": "Corindón",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "fluorita",
+          "name": "Fluorita",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "ortoclasa",
+          "name": "Ortoclasa",
+          "aliases": [
+            "Ortosa",
+            "Feldespato ortoclasa"
+          ],
+          "points": 85
+        },
+        {
+          "id": "apatito",
+          "name": "Apatito",
+          "aliases": [
+            "Apatita"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "challenge"
     }
   ]
 }

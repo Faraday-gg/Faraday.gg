@@ -16,7 +16,8 @@ assert.equal(ASCENSION_ROUNDS,7);
 assert.equal(ascensionNormalize('  ÁGUILA—Real! '),'aguila real');
 assert.equal(ascensionNormalize('Côte d’Ivoire'),'cote d ivoire');
 assert.equal(ascensionAnswer(bank.categories[0],'AQUILA  CHRYSAETOS').answer.points,10);
-assert.equal(ascensionAnswer(bank.categories[0],'aguila rea').suggestion,'Águila real');
+assert.equal(ascensionAnswer(bank.categories[0],'aguila rea').answer.name,'Águila real');
+assert.equal(ascensionAnswer(bank.categories[0],'la aguila rael').corrected,true);
 assert.equal(ascensionAnswer(bank.categories[0],'inventada').answer,null);
 assert.throws(()=>validateAscensionBank({categories:bank.categories.slice(0,6)}),/siete/);
 assert.throws(()=>validateAscensionBank({...bank,categories:[{...bank.categories[0],answers:[{name:'A',aliases:['á'],points:10},{name:'B',aliases:['a'],points:60}]},...bank.categories.slice(1)]}),/ambiguo/);
@@ -61,14 +62,14 @@ try{
   assert.equal(invalid.body.deadline,started[0].body.deadline);
   const before=await store.get('preview',date,'jugador-a',0);
   assert(!JSON.stringify(before.state).includes('Mi dato privado'),'No persiste texto libre rechazado');
-  const suggested=await call('responder',{round:0,answer:'Aguila rea'});
-  assert.equal(suggested.status,422);assert.equal(suggested.body.suggestion,'Águila real');assert.equal(suggested.body.score,0);
   const accepted=await Promise.all([
-    call('responder',{round:0,answer:'AQUILA CHRYSAETOS',points:700}),
+    call('responder',{round:0,answer:'Aguila rael',points:700}),
     call('responder',{round:0,answer:'Quebrantahuesos'})
   ]);
   assert(accepted.every(result=>result.status===200));
   assert.equal(accepted[0].body.results.length,1);assert.deepEqual(accepted[1].body.results,accepted[0].body.results,'Solo una respuesta gana la carrera');
+  assert.equal(accepted[0].body.results[0].corrected,true,'Una errata inequívoca puntúa en el primer envío');
+  assert(!JSON.stringify(accepted[0].body).includes('Aguila rael'),'Solo se publica y conserva el nombre canónico');
   assert.equal(accepted[0].body.results[0].points,10,'Ignora los puntos del navegador');
   assert.equal(accepted[0].body.results[0].answer,'Águila real');assert.equal(accepted[0].body.height,100);
   assert.equal(accepted[0].body.phase,'result');assert(accepted[0].body.results[0].sources[0].url);

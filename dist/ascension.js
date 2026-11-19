@@ -47,7 +47,7 @@
       <div class="ascension-intro-stats"><div><b>7</b><span>categorías</span></div><div><b>25 s</b><span>por respuesta</span></div><div><b>7.000</b><span>metros de cima</span></div></div>
       ${scales()}<div class="ascension-actions">${button(first?'Empezar ascensión →':`Continuar · pregunta ${run.round+1} →`,'start')}</div>
       <p class="ascension-fine">${run.game?'Esta práctica no cuenta para la clasificación.':'La misma edición para todos. Un intento diario y prácticas al terminar: gratis con anuncio de prueba, o sin anuncios con Plus. La edición cambia a medianoche de Madrid; completa tu partida antes.'}</p>
-      <details class="ascension-fine"><summary>Cómo se eligen las respuestas y los puntos</summary><p>La rareza es editorial y queda fijada para la edición. No representa el porcentaje de jugadores que escribe cada respuesta. ${catalog.answers?`El banco inicial reúne ${fmt(catalog.answers)} respuestas en ${fmt(catalog.categories)} categorías.`:''} Aceptamos mayúsculas, tildes y los nombres alternativos del banco. Una respuesta desconocida permite reintentar mientras quede tiempo.</p><p>El reloj comienza al mostrar la categoría y continúa si sales de la partida. Si no conoces una respuesta, puedes pasar.</p></details></section>`;
+      <details class="ascension-fine"><summary>Cómo se eligen las respuestas y los puntos</summary><p>La rareza es editorial y queda fijada para la edición. No representa el porcentaje de jugadores que escribe cada respuesta. ${catalog.answers?`El banco inicial reúne ${fmt(catalog.answers)} respuestas en ${fmt(catalog.categories)} categorías.`:''} Aceptamos variantes regionales y corregimos automáticamente las erratas claras. Una respuesta desconocida permite reintentar mientras quede tiempo.</p><p>El reloj comienza al mostrar la categoría y continúa si sales de la partida. Si no conoces una respuesta, puedes pasar.</p></details></section>`;
     content.querySelector('h3').focus({preventScroll:true});
   }
   function question(){
@@ -55,8 +55,8 @@
     content.innerHTML=`<section class="ascension-card"><div class="ascension-clock" aria-label="Tiempo disponible"><strong id="ascension-seconds">25 s</strong><div class="ascension-clock-track" aria-hidden="true"><i></i></div></div>
       <p class="ascension-eyebrow">Busca una respuesta poco evidente</p><h3 class="ascension-question">${esc(run.current.title)}</h3><p class="ascension-lead">${esc(run.current.description)}</p>
       <form class="ascension-form" id="ascension-form"><label for="ascension-answer">Tu respuesta</label><input class="ascension-input" id="ascension-answer" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" maxlength="120" placeholder="Escribe una respuesta…" required>
-      <div id="ascension-suggestion"></div><div class="ascension-actions">${button('Confirmar y ascender →','answer',true,'id="ascension-submit"')}</div></form>
-      <button type="button" class="ascension-skip" data-ascension="pass">Pasar esta categoría</button><p class="ascension-fine">${fmt(run.current.count||0)} respuestas admitidas · la rareza se revela al confirmar</p></section>`;
+      <div class="ascension-actions">${button('Confirmar y ascender →','answer',true,'id="ascension-submit"')}</div></form>
+      <button type="button" class="ascension-skip" data-ascension="pass">Pasar esta categoría</button><p class="ascension-fine">${fmt(run.current.count||0)} respuestas admitidas · las erratas claras se corrigen solas</p></section>`;
     // El botón principal mantiene el comportamiento nativo de Enter y la validación de campo vacío.
     content.querySelector('#ascension-submit').type='submit';
     tick();ticker=setInterval(tick,150);if(!pending)content.querySelector('input').focus({preventScroll:true});
@@ -77,6 +77,7 @@
     const reaction=Progress.reaction('ascension',cue(last.points),{animate});
     content.innerHTML=`<section class="ascension-card ascension-result" data-tier="${esc(tier.id)}"><p class="ascension-eyebrow">${esc(tier.name)} · repisa ${last.round+1}</p>
       <h3 tabindex="-1">${last.points?'Buen hallazgo.':'La montaña sigue aquí.'}</h3><p class="ascension-result-answer">${last.points?esc(last.answer):last.reason==='timeout'?'Se acabó el tiempo':'Categoría pasada'}</p>
+      ${last.corrected?'<p class="ascension-corrected">Ortografía ajustada automáticamente</p>':''}
       <div class="ascension-result-points"><b>+${last.points}</b><span>puntos<br>+${fmt(last.height)} metros</span></div>
       <div class="ascension-actions">${button(run.results.length===run.rounds?'Ver mi ascensión →':'Siguiente categoría →','next',true,'id="ascension-next"')}</div>
       <p class="ascension-fine">${esc(last.title)}</p>${last.discoveries?.length?`<details class="ascension-discoveries"><summary>Otros caminos que podías tomar</summary><ul>${last.discoveries.map(answer=>`<li><span>${esc(answer.name)}</span><b>${answer.points} pts</b></li>`).join('')}</ul></details>`:''}<details class="ascension-source"><summary>La categoría y sus fuentes</summary><ul>${sources(last)}</ul><p>Los puntos son una valoración editorial fija. Tus cosméticos y emotes no cambian la puntuación.</p></details></section>`;
@@ -129,9 +130,7 @@
       if(stamp!==token)return;
       if(error.data?.phase){const wasQuestion=run.phase==='question';adopt(error.data);if(!wasQuestion||run.phase!=='question')render()}
       notice(error.status?error.message:'No hemos podido confirmar la respuesta. Reintenta o vuelve a cargar la partida.');
-      if(error.status===422&&error.data?.suggestion&&run.phase==='question'){
-        const box=content.querySelector('#ascension-suggestion');if(box)box.innerHTML=`<button class="ascension-suggestion" type="button" data-ascension="suggestion" data-answer="${esc(error.data.suggestion)}">¿Querías decir ${esc(error.data.suggestion)}?</button>`;
-      }else if(['date','edition'].includes(error.data?.code)){run=null;pending=false;load();return}
+      if(['date','edition'].includes(error.data?.code)){run=null;pending=false;load();return}
       if(!error.status){alert.innerHTML=`${esc(alert.textContent)} <button type="button" class="duel-link" data-ascension="refresh">Reconectar</button>`}
     }finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=climbing&&b.id==='ascension-next';content.querySelector('#ascension-answer')?.focus({preventScroll:true});tick()}}
   }
@@ -158,7 +157,7 @@
     const button=event.target.closest('button');if(!button)return;
     if(button.hasAttribute('data-close-ascension')){dialog.close();return}
     const action=button.dataset.ascension;
-    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='refresh')load();else if(action==='suggestion')submit(button.dataset.answer);else if(action==='share')share();
+    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='refresh')load();else if(action==='share')share();
     else if(action==='wardrobe'){dialog.close();Progress.open('celebraciones');const select=document.querySelector('[data-celebration-mode]');if(select){select.value='ascension';select.dispatchEvent(new Event('change',{bubbles:true}))}}
     else if(action==='sound'){Sound.toggle();button.setAttribute('aria-pressed',String(Sound.on))}
   });
