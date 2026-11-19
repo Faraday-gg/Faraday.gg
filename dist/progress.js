@@ -103,7 +103,7 @@
   const serialOf=item=>item.edition&&state.editions?state.editions[item.edition.id]||0:0;
   // plus = la cuenta tiene la suscripción activa (decisión 0076); lo dice el servidor. Las piezas de suscriptor solo se tienen con ella.
   // billing = si la suscripción se puede contratar, su precio y si el jugador ya es cliente de Stripe (decisión 0077).
-  let plus=false,plusUntil=null,billing=null;
+  let plus=false,plusUntil=null,billing=null,planKnown=false;
   // Piezas de rango y de medalla (decisión 0080). El rango más alto alcanzado lo dice el servidor (ranked.js lo recuerda
   // en este navegador, y de ahí se lee mientras ranked.js no ha cargado); las medallas están en state.medals.got.
   const RANK_IDS=Avatar.RANKS.map(([id])=>id),rankName=id=>(Avatar.RANKS.find(([rank])=>rank===id)||[])[1]||id;
@@ -513,7 +513,7 @@ ${chosen?medalDetail(chosen,stats):''}
   }
   const planPrice=()=>billing?.price&&Number.isFinite(billing.price.amount)
     ?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
-  const planOffer=()=>({plus,linked,enabled:!!billing?.enabled,price:planPrice()});
+  const planOffer=()=>({plus,pending:!planKnown&&!!link.owner,linked,enabled:!!billing?.enabled,price:planPrice()});
   function planCard(){
     const price=planPrice();
     const until=plus&&plusUntil?`<small>Activo hasta el ${dateText(madrid(new Date(plusUntil)))}</small>`:'';
@@ -837,9 +837,9 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     if(Number.isFinite(data.charge))state.charge=data.charge;
     // Si la cuenta tiene la suscripción activa (decisión 0076).
     if(typeof data.plus==='boolean'){
-      const before=JSON.stringify({plus,plusUntil,billing});
+      const before=JSON.stringify({plus,plusUntil,billing}),was=planKnown;planKnown=true;
       plus=data.plus;plusUntil=data.plusUntil||null;billing=data.billing||null;
-      if(before!==JSON.stringify({plus,plusUntil,billing}))document.dispatchEvent(new CustomEvent('faraday:plan'));
+      if(!was||before!==JSON.stringify({plus,plusUntil,billing}))document.dispatchEvent(new CustomEvent('faraday:plan'));
     }
     // La experiencia también es la del servidor (decisión 0065): así el nivel que se ve es el que cuenta.
     if(Number.isInteger(data.xp)&&data.xp>=0)state.xp=data.xp;
@@ -906,7 +906,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   }
   // Al cerrar sesión, este navegador empieza de cero: el progreso queda en la cuenta (como las respuestas, decisión 0022).
   function detach(){
-    const was=linked||link.owner;linked=false;plus=false;plusUntil=null;billing=null;clearTimeout(timer);
+    const was=linked||link.owner;linked=false;plus=false;plusUntil=null;billing=null;planKnown=true;clearTimeout(timer);
     if(!was)return;
     link={};keepLink();hydrate(null);state.welcome=true;state.cofres=true;store();refresh();
   }
@@ -920,6 +920,8 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       setTimeout(()=>{showToast('Pago recibido: activando tu suscripción…');check()},1500);
     }else setTimeout(()=>showToast('No se ha hecho ningún cobro.'),1500);
   }
+  // Si el servidor no contesta, la oferta de Plus no se queda oculta para siempre.
+  setTimeout(()=>{if(!planKnown){planKnown=true;document.dispatchEvent(new CustomEvent('faraday:plan'))}},8000);
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}

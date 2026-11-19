@@ -17,6 +17,8 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   justify-content: space-between;
   gap: 15px;
 }
+.home-lead { display: flex; align-items: center; gap: 8px; flex: none; }
+.home-lead .home-menu-toggle { margin-left: -6px; }
 .home-header .home-brand { font-size: 25px; flex: none; }
 .home-header .brand-mark { width: 36px; height: 36px; font-size: 27px; }
 .home-nav, .home-nav > div { display: flex; align-items: center; gap: 4px; }
@@ -324,6 +326,7 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   .home-header-inner, .home { width: calc(100% - 28px); }
   .home-header-inner { min-height: 58px; gap: 8px; }
   .home-nav { display: none; }
+  .home-lead { gap: 4px; }
   .home-header .home-brand { font-size: 21px; gap: 5px; }
   .home-header .brand-mark { width: 31px; height: 31px; font-size: 24px; }
   .home-header .home-actions { gap: 5px; }

@@ -255,14 +255,17 @@ async function shareResult(){if(window.ShareCard)return window.ShareCard.open(ac
 // Menú hamburguesa (decisión 0016): en el juego y en la portada. Reto de hoy, volver al inicio y el archivo para saltar a otro día.
 const menuArchive=createArchive($('#menu-archive'),{compact:true});
 window.openArchiveDay=(id)=>{toggleMenu(false);openDate(id)};
+const archiveLink=$('#home-archive-link');
+let menuOpener=null;
 function menuOpen(){return document.body.classList.contains('menu-open')}
-function toggleMenu(open=!menuOpen(),{archive=false}={}){
+function toggleMenu(open=!menuOpen(),{archive=false,opener=null}={}){
   if(open===menuOpen())return;
   const drawer=$('#menu-drawer'),inGame=!$('#game-shell').hidden,toggle=$(inGame?'#menu-toggle':'#home-menu-toggle');
   document.body.classList.toggle('menu-open',open);drawer.setAttribute('aria-hidden',String(!open));drawer.inert=!open;
   document.querySelectorAll('.menu-toggle').forEach(button=>{button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});
   $('#menu-home').hidden=!inGame;
   if(open){
+    menuOpener=opener;
     const played=currentDay?getGuesses(currentDay).length:0;
     $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
     $('#menu-today').classList.toggle('is-done',played===3);
@@ -271,15 +274,18 @@ function toggleMenu(open=!menuOpen(),{archive=false}={}){
     if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
     const target=archive?$('#menu-archive-title'):$('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])');
     setTimeout(()=>{if(menuOpen())target?.focus()},60);
-  }else toggle.focus();
+  }else{
+    (menuOpener||toggle).focus({preventScroll:true});
+    menuOpener=null;
+  }
 }
 renderWeek();
 document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
 $('#menu-toggle').addEventListener('click',()=>toggleMenu());
 $('#home-menu-toggle').addEventListener('click',()=>toggleMenu());
-$('#home-archive-link').addEventListener('click',event=>{
+archiveLink.addEventListener('click',event=>{
   if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-  event.preventDefault();toggleMenu(true,{archive:true});
+  event.preventDefault();toggleMenu(true,{archive:true,opener:archiveLink});
 });
 function openArchiveLink(){if(location.hash==='#archivo')toggleMenu(true,{archive:true})}
 window.addEventListener('hashchange',openArchiveLink);

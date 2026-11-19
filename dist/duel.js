@@ -210,11 +210,15 @@ ${window.Bets?Bets.picker():''}
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
 ${window.Ranked?Ranked.lobby():''}
 <div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
-<div class="duel-modes duel-three-modes"><span class="duel-three-label">Nuevo · 1 vs 1 vs 1</span><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
-<button class="duel-link" type="button" data-duel="practice">Practicar con Faraday-bot</button>
-<details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
+<section class="duel-trio" aria-label="Duelo de tres">
+  <div class="duel-trio-head"><span class="duel-trio-new">Nuevo</span><b>Duelo de tres</b><small>1 vs 1 vs 1</small></div>
+  <div class="duel-trio-actions"><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
+</section>
+<div class="duel-extras"><button class="duel-link" type="button" data-duel="practice">Practicar con Faraday-bot</button>
+<details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details></div>
 <div data-duel-plan></div>
-<p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada</p>`;
+<ul class="duel-rules" aria-label="Reglas del duelo"><li><b>${int(6000)}</b> de vida</li><li><b>3 min</b> por pregunta</li><li><b>30 s</b> si responde tu rival</li></ul>
+<p class="duel-rules-note">Contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada.</p>`;
     window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
     refreshQuota();
   }
