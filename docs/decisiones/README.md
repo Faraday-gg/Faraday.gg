@@ -101,6 +101,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0097](0097-modulo-plus-por-modalidad.md) | Módulo común de Plus adaptado a las modalidades limitadas y reutilizable en las futuras | Implementada | 2026-11-19 |
 | [0098](0098-ascension-respuestas-raras.md) | Ascensión: respuestas raras, montaña con avatar, clasificación diaria y prácticas | Implementada | 2026-11-19 |
 
+| [0100](0100-ascension-anuncios-y-curva.md) | Anuncios de continuación y curva normal ajustada en Ascensión | Implementada | 2026-11-19 |
+
 ## Plantilla
 
 ```markdown

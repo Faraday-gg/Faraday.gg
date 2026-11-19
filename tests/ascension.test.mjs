@@ -34,8 +34,8 @@ assert.notDeepEqual(ascensionEdition(date,bank).map(category=>category.id),ascen
 const directory=mkdtempSync(path.join(tmpdir(),'faraday-ascension-'));
 try{
   const file=path.join(directory,'runs.json');let clock=Date.parse(date+'T11:00:00Z');
-  const store=fileAscension(file),game=createAscension({store,bank,now:()=>clock,scope:'preview'});
-  const call=(action,extra={},player='jugador-a',on=game)=>on(player,{action,date,...extra});
+  const store=fileAscension(file),game=createAscension({store,bank,now:()=>clock,scope:'preview',planOf:async()=>({plus:true})});
+  const call=(action,extra={},player='jugador-a',on=game)=>on(player,{action,date,...extra},true);
   const initial=await Promise.all([call('estado'),call('estado')]);
   for(const result of initial){
     assert.equal(result.status,200);assert.equal(result.body.phase,'ready');assert.equal(result.body.current,null);
@@ -107,7 +107,7 @@ try{
   assert.equal(late.body.phase,'result');assert.equal(late.body.score,10);
 
   // Un proceso nuevo recupera el reloj y la referencia editorial guardados.
-  const reloaded=createAscension({store:fileAscension(file),bank:{...bank,version:'fixture-2',categories:bank.categories.map(category=>({...category,answers:category.answers.map(answer=>({...answer,points:100}))}))},now:()=>clock,scope:'preview'});
+  const reloaded=createAscension({store:fileAscension(file),bank:{...bank,version:'fixture-2',categories:bank.categories.map(category=>({...category,answers:category.answers.map(answer=>({...answer,points:100}))}))},now:()=>clock,scope:'preview',planOf:async()=>({plus:true})});
   assert.equal((await call('estado',{},'jugador-a',reloaded)).body.bankVersion,'fixture-1');
   await call('siguiente',{round:1},'jugador-a',reloaded);
   await call('empezar',{round:2},'jugador-a',reloaded);
@@ -123,7 +123,7 @@ try{
   }
   const finished=await call('siguiente',{round:6},'jugador-a',reloaded);
   assert.equal(finished.body.phase,'finished');assert.equal(finished.body.score,95);assert.equal(finished.body.height,950);
-  assert.deepEqual(finished.body.ranking,{total:1,others:0,position:1,tied:1,percentile:null,bins:Array(14).fill(0),top:[95]},'Sin otros jugadores no inventa percentil');
+  assert.deepEqual(finished.body.ranking,{total:1,others:0,position:1,tied:1,percentile:null,bins:Array(14).fill(0),top:[95],normal:null},'Sin otros jugadores no inventa percentil');
   const dailyRow=await fileAscension(file).get('preview',date,'jugador-a',0);
   assert.equal(dailyRow.score,95);assert(dailyRow.finished_at);assert.equal(dailyRow.edition,finished.body.edition);
 
@@ -171,7 +171,7 @@ try{
   await rankingStore.put({...dailyRow,player_hash:'practica',game:1,score:700},null);
   const rankings=createAscension({store:rankingStore,bank,now:()=>clock,scope:'preview'});
   const ranked=await call('estado',{},'a',rankings);
-  assert.deepEqual(ranked.body.ranking,{total:4,others:3,position:2,tied:2,percentile:33,bins:[1,1,0,0,1,...Array(9).fill(0)],top:[200,95,95,10]});
+  assert.deepEqual(ranked.body.ranking,{total:4,others:3,position:2,tied:2,percentile:33,bins:[1,1,0,0,1,...Array(9).fill(0)],top:[200,95,95,10],normal:null});
   assert(!JSON.stringify(ranked.body).includes('player_hash'),'La clasificación no expone identificadores');
 
   // Medianoche de Madrid: nueva diaria y se rechazan escrituras sobre la anterior.

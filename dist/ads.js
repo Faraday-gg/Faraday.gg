@@ -18,7 +18,7 @@
     document.body.append(dialog);
     dialog.addEventListener('keydown',e=>{if(e.key==='Escape')e.stopPropagation()}); // Que Escape cierre el anuncio, no el juego.
     dialog.addEventListener('cancel',()=>finish(false));
-    dialog.addEventListener('click',e=>{if(e.target.closest('[data-ad-close]'))finish(false);else if(e.target.closest('.ad-done'))finish(true)});
+    dialog.addEventListener('click',e=>{if(e.target.closest('[data-ad-close]'))finish(false);else if(e.target.closest('.ad-done')&&!dialog.querySelector('.ad-done').hidden)finish(true)});
     return dialog;
   }
 
@@ -37,7 +37,7 @@
     if(pending)return Promise.resolve(false);
     const d=build(),bar=d.querySelector('.ad-progress i'),status=d.querySelector('.ad-status'),done=d.querySelector('.ad-done');
     const total=(window.Ads.SECONDS||SECONDS)*1000,start=Date.now();
-    const challenge=kind==='tendencias';
+    const challenge=kind==='tendencias'||kind==='ascension';
     done.textContent=challenge?'Jugar la partida extra →':'Ver la pista →';
     done.hidden=true;bar.style.setProperty('--p','0');
     const tick=()=>{

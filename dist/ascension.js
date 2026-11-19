@@ -7,7 +7,7 @@
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.PlusOffers?.register('ascension',{
     title:'Tu próxima aventura empieza en Faraday.',
-    description:'Descubre las opciones de Faraday Plus y consulta sus ventajas actuales desde tu perfil.'
+    description:'Sigue ascendiendo sin anuncios con Faraday Plus. También puedes continuar gratis viendo un anuncio de prueba.'
   });
   const TIERS=[{points:10,name:'Conocida'},{points:30,name:'Ingeniosa'},{points:60,name:'Rara'},{points:85,name:'Extraordinaria'},{points:100,name:'De cumbre'}];
   let run=null,scene=null,opener=null,token=0,controller=null,pending=false,ticker=0,offset=0,timeoutSent=false,climbing=false;
@@ -46,7 +46,7 @@
       <p class="ascension-lead">Te damos una categoría. Tú encuentras una respuesta válida: cuanto menos evidente, más sube tu avatar. En cada repisa celebra a tu manera.</p>
       <div class="ascension-intro-stats"><div><b>7</b><span>categorías</span></div><div><b>25 s</b><span>por respuesta</span></div><div><b>7.000</b><span>metros de cima</span></div></div>
       ${scales()}<div class="ascension-actions">${button(first?'Empezar ascensión →':`Continuar · pregunta ${run.round+1} →`,'start')}</div>
-      <p class="ascension-fine">${run.game?'Esta práctica no cuenta para la clasificación.':'La misma edición para todos. Un intento diario, clasificación real y prácticas ilimitadas al terminar. La edición cambia a medianoche de Madrid; completa tu partida antes.'}</p>
+      <p class="ascension-fine">${run.game?'Esta práctica no cuenta para la clasificación.':'La misma edición para todos. Un intento diario y prácticas al terminar: gratis con anuncio de prueba, o sin anuncios con Plus. La edición cambia a medianoche de Madrid; completa tu partida antes.'}</p>
       <details class="ascension-fine"><summary>Cómo se eligen las respuestas y los puntos</summary><p>La rareza es editorial y queda fijada para la edición. No representa el porcentaje de jugadores que escribe cada respuesta. ${catalog.answers?`El banco inicial reúne ${fmt(catalog.answers)} respuestas en ${fmt(catalog.categories)} categorías.`:''} Aceptamos mayúsculas, tildes y los nombres alternativos del banco. Una respuesta desconocida permite reintentar mientras quede tiempo.</p><p>El reloj comienza al mostrar la categoría y continúa si sales de la partida. Si no conoces una respuesta, puedes pasar.</p></details></section>`;
     content.querySelector('h3').focus({preventScroll:true});
   }
@@ -89,13 +89,14 @@
   function summary(){
     const rank=run.ranking,total=run.score;
     scene.setHeight(run.height,{animate:false,reaction:Progress.reaction('ascension',cue(total/run.rounds),{animate:false})});
-    const histogram=rank?.others>0&&rank.bins?.length?`<div class="ascension-histogram" role="img" aria-label="Distribución de las puntuaciones reales de otros jugadores">${rank.bins.map((n,i)=>`<i class="${Math.min(13,Math.floor(total/50))===i?'own':''}" style="--bar:${n/Math.max(1,...rank.bins)}"></i>`).join('')}</div>`:'';
+    const histogram=window.AscensionChart?.render(rank,total)||'';
+    const access=run.continuation||{},continueLabel=access.resume?'Continuar mi práctica →':access.plus?'Otra ascensión sin anuncios →':'Ver anuncio de prueba y jugar →';
     const ranked=run.game?'<div class="ascension-rank"><strong>Un camino para practicar</strong><p>Esta ascensión no modifica tu resultado diario ni la clasificación.</p></div>':rank?`<div class="ascension-rank"><strong>${rank.others?`Puesto ${fmt(rank.position)} de ${fmt(rank.total)}${rank.tied>1?' · compartido':''}`:'Has abierto camino'}</strong><p>${rank.others?`Superas al ${rank.percentile} % de las otras ascensiones completadas de esta edición.`:'Todavía no hay otras partidas terminadas para comparar. Vuelve más tarde para ver cómo quedas.'}</p>${histogram}</div>`:'';
     content.innerHTML=`<section class="ascension-card"><p class="ascension-eyebrow">${run.game?'Práctica completada':'Tu ascensión de hoy'}</p><h3 tabindex="-1">Has llegado <em>hasta aquí.</em></h3>
       <div class="ascension-total"><b>${fmt(total)}</b><span>de 700 puntos<br>${fmt(run.height)} metros</span></div>${ranked}
       <div class="ascension-actions">${button('Compartir mi ascensión','share',false)}${button('Refrescar clasificación','refresh',false,!run.game?'':'hidden')}</div><p class="ascension-share-status" role="status"></p>
       <div class="ascension-log">${run.results.map((one,i)=>`<details><summary><i>${i+1}</i><span>${esc(one.answer|| (one.reason==='timeout'?'Sin tiempo':'Sin respuesta'))}</span><b>+${one.points}</b></summary><p>${esc(one.title)}<br>${esc(one.tier?.name||'')} · +${fmt(one.height)} m<br>${(one.sources||[]).map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`).join(' · ')}</p></details>`).join('')}</div>
-      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div class="ascension-actions">${button('Otra ascensión →','practice')}</div><p class="ascension-fine">La práctica es ilimitada y no cuenta para la clasificación del día. Mañana habrá una edición nueva.</p><div data-plus-slot="ascension"></div></section>`;
+      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div class="ascension-actions">${button(continueLabel,'practice')}</div><p class="ascension-fine">${access.resume?'Tu práctica está guardada; retomarla no requiere otro anuncio.':access.plus?'Plus activo · prácticas sin anuncios.':`${access.adSeconds||15} segundos · anuncio simulado · una práctica por anuncio, sin límite diario.`} Las prácticas no cuentan para la clasificación.</p><div data-plus-slot="ascension"></div></section>`;
     window.PlusOffers?.refresh(content);
     content.querySelector('h3').focus({preventScroll:true});
   }
@@ -135,6 +136,22 @@
     }finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=climbing&&b.id==='ascension-next';content.querySelector('#ascension-answer')?.focus({preventScroll:true});tick()}}
   }
   const submit=answer=>mutate('responder',{answer});
+  async function practice(){
+    if(pending||climbing||!run)return;
+    pending=true;notice();const stamp=token,origin={...refs(),game:run.continuation?.fromGame??run.game};
+    for(const b of content.querySelectorAll('button'))b.disabled=true;
+    try{
+      let data=await request('preparar-practica',origin);if(stamp!==token)return;
+      if(data.watch){
+        const complete=await window.Ads.rewarded({kind:'ascension'});
+        if(stamp!==token)return;
+        if(!complete){notice('Anuncio cerrado. Tu resultado sigue guardado; puedes volver a intentarlo.');return}
+        data=await request('practica',origin);if(stamp!==token)return;
+      }
+      adopt(data);pending=false;render();
+    }catch(error){if(stamp===token)notice(error.status?error.message:'No se pudo abrir la práctica. Reintenta cuando tengas conexión.')}
+    finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=false}}
+  }
   async function share(){
     const text=`Mi Ascensión en Faraday: ${fmt(run.score)}/700 puntos · ${fmt(run.height)} m\n${run.results.map(one=>one.points>=85?'🟪':one.points>=60?'🟦':one.points>=30?'🟨':one.points?'⬜':'⬛').join('')}${run.game?'\nPartida de práctica':''}`;
     const url=new URL(location.pathname,location.origin);url.searchParams.set('ascension','1');
@@ -147,7 +164,7 @@
     const button=event.target.closest('button');if(!button)return;
     if(button.hasAttribute('data-close-ascension')){dialog.close();return}
     const action=button.dataset.ascension;
-    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='practice')mutate('practica');else if(action==='refresh')load();else if(action==='suggestion')submit(button.dataset.answer);else if(action==='share')share();
+    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='practice')practice();else if(action==='refresh')load();else if(action==='suggestion')submit(button.dataset.answer);else if(action==='share')share();
     else if(action==='wardrobe'){dialog.close();Progress.open('celebraciones');const select=document.querySelector('[data-celebration-mode]');if(select){select.value='ascension';select.dispatchEvent(new Event('change',{bubbles:true}))}}
     else if(action==='sound'){Sound.toggle();button.setAttribute('aria-pressed',String(Sound.on))}
   });

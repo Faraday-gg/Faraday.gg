@@ -29,7 +29,7 @@ Los contextos existentes son `daily`, `trends`, `duel`, `duel3`, `ranked`, `prac
 
 | Modalidad | Acceso real | Momento y contexto de la oferta | Condiciones que conserva |
 | --- | --- | --- | --- |
-| Ascensión | Una edición diaria competitiva; prácticas ilimitadas después de completarla, iguales para cuentas gratuitas y Plus | Resumen terminado de la diaria y de cada práctica, contexto `ascension` registrado por `dist/ascension.js` | Invitación general a consultar Plus, sin cuotas ni promesa de más ascensiones. La acción gratuita «Otra ascensión» permanece visible. El módulo se oculta para Plus según el estado del perfil. |
+| Ascensión | Una edición diaria competitiva; prácticas después de completarla: una por anuncio simulado de 15 segundos sin límite diario, o sin anuncios con Plus; reanudación gratuita | Resumen terminado de la diaria y de cada práctica, contexto `ascension` registrado por `dist/ascension.js` | Ventaja real: prácticas sin anuncios. La acción gratuita «Ver anuncio de prueba y jugar» permanece visible para cuentas gratuitas, con duración confirmada por API. La suscripción y el tiempo de desbloqueo se comprueban en el servidor. Ver [0100](decisiones/0100-ascension-anuncios-y-curva.md). |
 
 La acción común abre `Progress.openPlan({mode})`. Antes emite `faraday:before-plan`, cancelable: el juego puede cerrar o suspender su contenedor, o impedir la apertura si hay una ronda en marcha. Traza cierra su diálogo y los duelos cierran únicamente portal o resumen. Ascensión solo permite abrir el plan desde el resumen terminado: cierra su diálogo antes de mostrar el perfil y bloquea la navegación durante las demás fases o peticiones. La navegación nunca debe abandonar una partida al pulsar una oferta.
 

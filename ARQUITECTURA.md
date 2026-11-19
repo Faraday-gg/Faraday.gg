@@ -89,6 +89,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
   ascension-scene.js, ascension-scene.css  Montaña, escalada, repisas y celebración del avatar
+  ascension-chart.js     Histograma, curva normal ajustada y marca del resultado propio
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
@@ -271,3 +272,7 @@ El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_F
 El banco se incluye expresamente en la función de `vercel.json`, fuera de los archivos públicos. No hay consultas a fuentes externas ni generación de respuestas durante el juego. La API revela solo la categoría activa, resultados resueltos y hasta cinco ejemplos posteriores. La clasificación compara únicamente diarias completadas de la misma fecha, edición y entorno; muestra empates, percentil y distribución de otros jugadores. Sin otros resultados, lo dice expresamente.
 
 La interfaz reutiliza avatar, ropa, sonido y selección de celebraciones del armario. `ascension-scene.js` mueve el paisaje y encadena escalar → llegar a repisa → emote elegido, respetando reducción de movimiento y cancelando recursos al cerrar. No añade faradios, premios ni derechos sobre futuros emotes de pago. La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro; tabla con RLS y acceso exclusivo del servidor. Detalle de fuentes en [research/ascension-fuentes.md](research/ascension-fuentes.md).
+
+Desde la [decisión 0100](docs/decisiones/0100-ascension-anuncios-y-curva.md), `preparar-practica` registra el inicio de un anuncio simulado en `state.practiceAd`, dentro del estado privado existente. `practica` exige 15 segundos transcurridos en el servidor para crear la siguiente partida. La versión optimista protege preparaciones simultáneas, reinicios y reintentos. Una práctica abierta se recupera sin otro anuncio. La cuenta Plus se confirma en el servidor y evita este paso; el navegador no puede declarar la suscripción.
+
+El resumen combina las barras de las puntuaciones ajenas con una curva normal aproximada, ajustada a su media y desviación típica exactas. La API añade esos dos estadísticos agregados solo desde cinco resultados ajenos y con dispersión positiva. `ascension-chart.js` comparte la escala vertical entre barras y curva, y marca la puntuación propia. No inventa jugadores ni presenta el ajuste como una prueba de normalidad.

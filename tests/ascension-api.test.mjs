@@ -98,6 +98,14 @@ try{
   assert(await store.ascension.get('preview',day,hash(accountPlayer),0));
   assert.equal((await store.ascension.get('preview',day,hash(guest),0)).score,10,'No mezcla el progreso anónimo con el de la cuenta');
   assert(!JSON.stringify(signed.body).includes(accountPlayer));
+  await store.community.setSubscription(hash(accountPlayer),clock+60000);
+  const subscriber=await post({action:'estado',plus:false},{cookie:guestCookie,headers:{'x-test-account':'signed'}});
+  assert.equal(subscriber.body.continuation.plus,true,'La suscripción se consulta desde la identidad de la cuenta');
+  assert.equal(subscriber.body.continuation.requiresAd,false);
+  const spoof=await post({action:'estado',plus:true},{cookie:guestCookie});
+  assert.equal(spoof.body.continuation.plus,false,'La declaración del navegador no evita los anuncios');
+  await store.community.setSubscription(hash(accountPlayer),clock-1);
+  assert.equal((await post({action:'estado'},{headers:{'x-test-account':'signed'}})).body.continuation.plus,false,'La siguiente respuesta reconoce un plan caducado');
   const replaced=await post({action:'estado',player:spoofPlayer},{cookie:`${PLAYER_COOKIE}=no-valida`});
   assert.equal(replaced.status,200);assert(playerCookie(replaced));assert.notEqual(playerCookie(replaced),`${PLAYER_COOKIE}=${spoofPlayer}`);
 
