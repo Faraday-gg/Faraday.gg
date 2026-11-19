@@ -29,8 +29,8 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-plot .trends-actual{stroke-width:4}
 .trends-plot .trends-guess{stroke:var(--trends-own-color)}
 .trends-plot clipPath rect{transform-box:fill-box;transform-origin:left center}
-.trends-peer-traces{opacity:.56;pointer-events:none}
-.trends-peer-traces polyline{stroke:var(--trends-peer-color);stroke-width:1.25;stroke-opacity:.58}
+.trends-peer-traces{opacity:.46;pointer-events:none}
+.trends-peer-traces polyline{stroke:var(--trends-peer-color);stroke-width:1;stroke-opacity:.46}
 .trends-end-own{color:var(--trends-own-color)}
 .trends-end-peers{color:var(--trends-peer-color)}
 .trends-end-label path{fill:none;stroke:currentColor;stroke-width:1.25;vector-effect:non-scaling-stroke}
