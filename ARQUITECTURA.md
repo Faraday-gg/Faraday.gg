@@ -85,6 +85,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
+  continuations.js, continuations.css  Continuación común con anuncios de prueba y acceso directo Plus
   plus-offers.js, plus-offers.css  Oferta común de Plus por modalidad y registro para futuros juegos
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
@@ -97,6 +98,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
 lib/ascension.mjs        Edición diaria, validación, reloj y clasificación de Ascensión
 lib/ascension-store.mjs  Persistencia local y Supabase con versión optimista
 content/ascension.json   Banco privado de 28 categorías y 2.637 respuestas, fuentes y rareza editorial
+lib/continuaciones.mjs   Recibos, contadores por modalidad/día y retos extra de práctica (POST /api/continuacion)
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
 content/tendencias*.json Banco vigente de 108 gráficas y bancos anteriores para partidas iniciadas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
@@ -146,6 +148,14 @@ El jugador completa el tramo oculto de tres series y puede repasar los resultado
 En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers`, `trend_traces` y `trend_replays` en Supabase, con ámbitos separados para Preview y producción. Las migraciones están pendientes de aplicación. Cada anuncio de prueba completado en el plan gratuito desbloquea otra partida de tres gráficas. Plus abre cada partida extra directamente. El servidor numera los desbloqueos por fecha y consulta la diaria y la última partida extra. Ver [decisión 0091](docs/decisiones/0091-reanudar-trazos-y-partidas-extra.md) y [decisión 0094](docs/decisiones/0094-revelacion-y-trazos-individuales.md).
 
 El resumen recoge el premio diario con `POST /api/progreso`, acción `premio-traza`. `createTrendPrizes` recalcula los puntos desde las tres respuestas persistidas; `lib/comunidad.mjs` paga una vez en el libro contable y concede el cofre con control de versión de estadísticas. Los extras no dan premios. Plus mantiene los mismos premios y ofrece partidas sin anuncios, con precio y disponibilidad del cobro existente. Ver [decisión 0095](docs/decisiones/0095-plus-y-premios-de-traza.md).
+
+## Continuación por modalidad
+
+`lib/continuaciones.mjs` atiende `POST /api/continuacion` con identidad de cuenta o cookie del servidor. Mantiene recibos y estado por entorno, jugador, día de Madrid y modalidad: primer anuncio completado de 15 s y siguientes de 60 s en la simulación, sin máximo. `dist/continuations.js` coordina preparación, diálogo común de `ads.js`, confirmación y apertura; cancelar no incrementa el contador. Plus accede directamente. Las actualizaciones filtran la versión anterior y los recibos permiten reintentar sin otro anuncio.
+
+Cada anuncio de una variante de duelo suma una partida al cupo compartido. Traza consume un recibo al desbloquear otras tres gráficas. El reto diario ofrece tres preguntas anteriores como práctica, conserva las respuestas en el servidor y reutiliza el juego y sus explicaciones; se excluye de respuestas oficiales, ranking y toda emisión de premios. Archivo y Ascensión conservan las prácticas libres. Los límites económicos y de nivel no cambian.
+
+En local se usa `runtime/continuaciones.json`. En Vercel se prepara `continuation_states`, tabla privada con RLS y permisos exclusivos de servidor, pendiente de autorización para aplicar en el único Supabase. Si falta, la cuota base de duelos sigue disponible y el componente informa que no puede cargar anuncios. El temporizador valida una simulación; un proveedor real debe confirmar la recompensa y fijar la duración de su creatividad. [Decisión 0099](docs/decisiones/0099-anuncios-para-continuar.md).
 
 ## Oferta de Plus por modalidad
 
@@ -273,6 +283,6 @@ El banco se incluye expresamente en la función de `vercel.json`, fuera de los a
 
 La interfaz reutiliza avatar, ropa, sonido y selección de celebraciones del armario. `ascension-scene.js` mueve el paisaje y encadena escalar → llegar a repisa → emote elegido, respetando reducción de movimiento y cancelando recursos al cerrar. No añade faradios, premios ni derechos sobre futuros emotes de pago. La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro; tabla con RLS y acceso exclusivo del servidor. Detalle de fuentes en [research/ascension-fuentes.md](research/ascension-fuentes.md).
 
-Desde la [decisión 0100](docs/decisiones/0100-ascension-anuncios-y-curva.md), `preparar-practica` registra el inicio de un anuncio simulado en `state.practiceAd`, dentro del estado privado existente. `practica` exige 15 segundos transcurridos en el servidor para crear la siguiente partida. La versión optimista protege preparaciones simultáneas, reinicios y reintentos. Una práctica abierta se recupera sin otro anuncio. La cuenta Plus se confirma en el servidor y evita este paso; el navegador no puede declarar la suscripción.
+Desde la [decisión 0100](docs/decisiones/0100-ascension-anuncios-y-curva.md), Ascensión registra su contexto en `dist/continuations.js` y usa el servicio común `lib/continuaciones.mjs`: primer anuncio completado de 15 segundos por día, siguientes de 60. `preparar-practica` prepara el recibo; `practica` lo consume para una única partida. Los recibos y contadores se guardan en `state.continuationAds`, dentro del JSON privado existente, mediante un adaptador con CAS; no depende de la migración pendiente del almacén de anuncios de otros modos. `/api/continuacion` enruta este contexto al adaptador privado. La versión optimista protege preparaciones simultáneas, reinicios y reintentos. Una práctica abierta se recupera sin otro anuncio. La cuenta Plus se confirma en el servidor y evita este paso; el navegador no puede declarar la suscripción.
 
 El resumen combina las barras de las puntuaciones ajenas con una curva normal aproximada, ajustada a su media y desviación típica exactas. La API añade esos dos estadísticos agregados solo desde cinco resultados ajenos y con dispersión positiva. `ascension-chart.js` comparte la escala vertical entre barras y curva, y marca la puntuación propia. No inventa jugadores ni presenta el ajuste como una prueba de normalidad.

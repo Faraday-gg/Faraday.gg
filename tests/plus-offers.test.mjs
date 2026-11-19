@@ -54,7 +54,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
 // No se confunde la práctica ilimitada de Ascensión con el cupo compartido de los duelos.
 {
   const handlers=new Map(),requests=[];
-  let activeSlot=null,openClick,openedMode=null,subscriber=false,html='',watched=false,adsCalls=0;
+  let activeSlot=null,openClick,openedMode=null,subscriber=false,html='',continuation=null;
   const replies={};
   const event=(type,detail)=>({type,detail,defaultPrevented:false,preventDefault(){this.defaultPrevented=true}});
   const dispatch=value=>{for(const listener of handlers.get(value.type)||[])listener(value);return !value.defaultPrevented};
@@ -83,7 +83,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
       planOffer:()=>({plus:subscriber,linked:true,enabled:false}),
       openPlan({mode}){if(dispatch(event('faraday:before-plan',{mode})))openedMode=mode}},
     AscensionScene:{mount:()=>scene},Sound:{on:false},escapeHtml:value=>String(value),
-    Ads:{rewarded:async()=>{adsCalls++;return watched}},
+    Continuations:{register(mode,play,prepare){assert.equal(mode,'ascension');continuation={play,prepare}},refresh(){}},
     playerReady:Promise.resolve(),fetch:async(_url,options)=>{const data=JSON.parse(options.body);requests.push(data);return {ok:true,json:async()=>structuredClone(replies[data.action]||response)}},
     AbortController,Date,URL,URLSearchParams,location:{search:'',pathname:'/',origin:'https://faraday.test'},navigator:{},
     setTimeout,clearTimeout,setInterval,clearInterval,addEventListener(){},matchMedia:()=>({matches:true})};
@@ -95,7 +95,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     assert.equal(dialog.open,true);assert(activeSlot);
     assert.match(activeSlot.innerHTML,/data-plus-mode="ascension"/);assert.match(activeSlot.innerHTML,/Tu próxima aventura empieza en Faraday/);
     assert.doesNotMatch(activeSlot.innerHTML,/plus-offer-quota|partidas gratuitas|más ascensiones|ascensiones ilimitadas/);
-    assert.match(content.innerHTML,/data-ascension="practice"/);assert.match(content.innerHTML,/una práctica por anuncio, sin límite diario/,'Conserva la continuación gratuita visible');
+    assert.match(content.innerHTML,/data-continue-slot="ascension"/,'Conserva la continuación gratuita común');
     subscriber=true;dispatch(event('faraday:plan'));assert.equal(activeSlot.innerHTML,'','La oferta desaparece al activar Plus');
     subscriber=false;dispatch(event('faraday:plan'));assert.match(activeSlot.innerHTML,/FARADAY PLUS/);
     dispatch({type:'click',target:{closest:()=>({dataset:{openPlus:'ascension'}})}});
@@ -103,17 +103,15 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     assert.deepEqual(requests.map(request=>request.action),['estado'],'Consultar Plus no abandona ni muta una partida');
     response={...fixture,game:1,continuation:{plus:false,resume:false,fromGame:3,adSeconds:15}};openClick();await flush();
     assert(activeSlot);assert.match(activeSlot.innerHTML,/data-plus-mode="ascension"/,'La práctica utiliza el mismo contexto general');
-    assert.match(content.innerHTML,/Práctica completada/);assert.match(content.innerHTML,/una práctica por anuncio, sin límite diario/);
-    assert.match(content.innerHTML,/Ver anuncio de prueba y jugar/);
-    replies['preparar-practica']={...response,watch:true};
-    const practiceButton={dataset:{ascension:'practice'},hasAttribute:()=>false};
-    dialogHandlers.get('click')({target:{closest:()=>practiceButton}});await flush();
-    assert.equal(adsCalls,1);assert.equal(requests.at(-1).action,'preparar-practica','Cerrar el anuncio no activa ninguna práctica');
+    assert.match(content.innerHTML,/Práctica completada/);assert.match(content.innerHTML,/data-continue-slot="ascension"/);
+    replies['preparar-practica']={...response,game:3,watch:true,activate:true,ticket:'recibo-de-prueba'};
+    const prepared=await continuation.prepare();
+    assert.equal(prepared.watch,true);assert.equal(requests.at(-1).action,'preparar-practica');
     assert.equal(requests.at(-1).game,3,'La continuación parte de la última práctica confirmada por el servidor');
-    assert.match(elements['ascension-alert'].textContent,/Anuncio cerrado/);
-    watched=true;replies.practica={...response,game:4,phase:'ready',round:0,results:[],score:0,height:0};
-    dialogHandlers.get('click')({target:{closest:()=>practiceButton}});await flush();
-    assert.equal(adsCalls,2);assert.equal(requests.at(-1).action,'practica');assert.equal(requests.at(-1).game,3);assert.match(content.innerHTML,/Empezar ascensión/);
+    assert(!requests.some(request=>request.action==='practica'),'Preparar sin completar el anuncio no consume el recibo');
+    replies.practica={...response,game:4,phase:'ready',round:0,results:[],score:0,height:0};
+    await continuation.play(prepared);await flush();
+    assert.equal(requests.at(-1).action,'practica');assert.equal(requests.at(-1).game,3);assert.equal(requests.at(-1).ticket,'recibo-de-prueba');assert.match(content.innerHTML,/Empezar ascensión/);
     delete replies['preparar-practica'];delete replies.practica;
     dialog.close();
     response={...fixture,phase:'question',round:0,results:[],score:0,height:0,now:Date.now(),deadline:Date.now()+25000,

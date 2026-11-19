@@ -90,14 +90,13 @@
     const rank=run.ranking,total=run.score;
     scene.setHeight(run.height,{animate:false,reaction:Progress.reaction('ascension',cue(total/run.rounds),{animate:false})});
     const histogram=window.AscensionChart?.render(rank,total)||'';
-    const access=run.continuation||{},continueLabel=access.resume?'Continuar mi práctica →':access.plus?'Otra ascensión sin anuncios →':'Ver anuncio de prueba y jugar →';
     const ranked=run.game?'<div class="ascension-rank"><strong>Un camino para practicar</strong><p>Esta ascensión no modifica tu resultado diario ni la clasificación.</p></div>':rank?`<div class="ascension-rank"><strong>${rank.others?`Puesto ${fmt(rank.position)} de ${fmt(rank.total)}${rank.tied>1?' · compartido':''}`:'Has abierto camino'}</strong><p>${rank.others?`Superas al ${rank.percentile} % de las otras ascensiones completadas de esta edición.`:'Todavía no hay otras partidas terminadas para comparar. Vuelve más tarde para ver cómo quedas.'}</p>${histogram}</div>`:'';
     content.innerHTML=`<section class="ascension-card"><p class="ascension-eyebrow">${run.game?'Práctica completada':'Tu ascensión de hoy'}</p><h3 tabindex="-1">Has llegado <em>hasta aquí.</em></h3>
       <div class="ascension-total"><b>${fmt(total)}</b><span>de 700 puntos<br>${fmt(run.height)} metros</span></div>${ranked}
       <div class="ascension-actions">${button('Compartir mi ascensión','share',false)}${button('Refrescar clasificación','refresh',false,!run.game?'':'hidden')}</div><p class="ascension-share-status" role="status"></p>
       <div class="ascension-log">${run.results.map((one,i)=>`<details><summary><i>${i+1}</i><span>${esc(one.answer|| (one.reason==='timeout'?'Sin tiempo':'Sin respuesta'))}</span><b>+${one.points}</b></summary><p>${esc(one.title)}<br>${esc(one.tier?.name||'')} · +${fmt(one.height)} m<br>${(one.sources||[]).map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`).join(' · ')}</p></details>`).join('')}</div>
-      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div class="ascension-actions">${button(continueLabel,'practice')}</div><p class="ascension-fine">${access.resume?'Tu práctica está guardada; retomarla no requiere otro anuncio.':access.plus?'Plus activo · prácticas sin anuncios.':`${access.adSeconds||15} segundos · anuncio simulado · una práctica por anuncio, sin límite diario.`} Las prácticas no cuentan para la clasificación.</p><div data-plus-slot="ascension"></div></section>`;
-    window.PlusOffers?.refresh(content);
+      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div data-continue-slot="ascension"></div><p class="ascension-fine">Las prácticas no cuentan para la clasificación. Retomar una partida abierta no requiere otro anuncio.</p><div data-plus-slot="ascension"></div></section>`;
+    window.PlusOffers?.refresh(content);window.Continuations?.refresh();
     content.querySelector('h3').focus({preventScroll:true});
   }
   async function load({silent=false}={}){
@@ -136,22 +135,16 @@
     }finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=climbing&&b.id==='ascension-next';content.querySelector('#ascension-answer')?.focus({preventScroll:true});tick()}}
   }
   const submit=answer=>mutate('responder',{answer});
-  async function practice(){
-    if(pending||climbing||!run)return;
-    pending=true;notice();const stamp=token,origin={...refs(),game:run.continuation?.fromGame??run.game};
-    for(const b of content.querySelectorAll('button'))b.disabled=true;
-    try{
-      let data=await request('preparar-practica',origin);if(stamp!==token)return;
-      if(data.watch){
-        const complete=await window.Ads.rewarded({kind:'ascension'});
-        if(stamp!==token)return;
-        if(!complete){notice('Anuncio cerrado. Tu resultado sigue guardado; puedes volver a intentarlo.');return}
-        data=await request('practica',origin);if(stamp!==token)return;
-      }
-      adopt(data);pending=false;render();
-    }catch(error){if(stamp===token)notice(error.status?error.message:'No se pudo abrir la práctica. Reintenta cuando tengas conexión.')}
-    finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=false}}
-  }
+  window.Continuations?.register('ascension',async offer=>{
+    if(!dialog.open)return;
+    const stamp=token;
+    const data=offer.activate?await request('practica',{date:offer.date,game:offer.game,ticket:offer.ticket}):offer;
+    if(stamp!==token||!dialog.open)return;
+    adopt(data);render();
+  },async()=>{
+    if(pending||climbing||run?.phase!=='finished')throw Error('Termina la partida antes de continuar.');
+    return request('preparar-practica',{...refs(),game:run.continuation?.fromGame??run.game});
+  });
   async function share(){
     const text=`Mi Ascensión en Faraday: ${fmt(run.score)}/700 puntos · ${fmt(run.height)} m\n${run.results.map(one=>one.points>=85?'🟪':one.points>=60?'🟦':one.points>=30?'🟨':one.points?'⬜':'⬛').join('')}${run.game?'\nPartida de práctica':''}`;
     const url=new URL(location.pathname,location.origin);url.searchParams.set('ascension','1');
@@ -164,7 +157,7 @@
     const button=event.target.closest('button');if(!button)return;
     if(button.hasAttribute('data-close-ascension')){dialog.close();return}
     const action=button.dataset.ascension;
-    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='practice')practice();else if(action==='refresh')load();else if(action==='suggestion')submit(button.dataset.answer);else if(action==='share')share();
+    if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='refresh')load();else if(action==='suggestion')submit(button.dataset.answer);else if(action==='share')share();
     else if(action==='wardrobe'){dialog.close();Progress.open('celebraciones');const select=document.querySelector('[data-celebration-mode]');if(select){select.value='ascension';select.dispatchEvent(new Event('change',{bubbles:true}))}}
     else if(action==='sound'){Sound.toggle();button.setAttribute('aria-pressed',String(Sound.on))}
   });

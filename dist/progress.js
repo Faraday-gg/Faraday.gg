@@ -523,6 +523,7 @@ ${chosen?medalDetail(chosen,stats):''}
       <p><b>FARADAY PLUS</b><span>${plus?'Activo':'Tu siguiente nivel'}</span></p>
       <h3>${plus?'Todo listo. Sigue jugando.':'Más juego. Menos pausas.'}</h3>
       <ul><li><b>Traza y Ascensión sin anuncios</b><span>Una partida tras otra, sin anuncios de continuación.</span></li>
+      <li><b>Retos extra sin anuncios</b><span>Sigue practicando después de la edición diaria.</span></li>
       <li><b>Duelos ilimitados</b><span>Que las ganas de revancha pongan el límite.</span></li>
       <li><b>Hazlo más tuyo</b><span>Piezas de suscriptor y anuncios sin tope en el mercado.</span></li></ul>
       ${action}<p class="profile-plan-note">${note}</p>${until}

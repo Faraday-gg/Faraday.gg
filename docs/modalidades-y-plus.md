@@ -29,9 +29,29 @@ Los contextos existentes son `daily`, `trends`, `duel`, `duel3`, `ranked`, `prac
 
 | Modalidad | Acceso real | Momento y contexto de la oferta | Condiciones que conserva |
 | --- | --- | --- | --- |
-| Ascensión | Una edición diaria competitiva; prácticas después de completarla: una por anuncio simulado de 15 segundos sin límite diario, o sin anuncios con Plus; reanudación gratuita | Resumen terminado de la diaria y de cada práctica, contexto `ascension` registrado por `dist/ascension.js` | Ventaja real: prácticas sin anuncios. La acción gratuita «Ver anuncio de prueba y jugar» permanece visible para cuentas gratuitas, con duración confirmada por API. La suscripción y el tiempo de desbloqueo se comprueban en el servidor. Ver [0100](decisiones/0100-ascension-anuncios-y-curva.md). |
+| Ascensión | Una edición diaria competitiva; prácticas después de completarla: una por anuncio simulado (primero de 15 s, siguientes de 60 s) sin límite diario, o sin anuncios con Plus; reanudación gratuita | Resumen terminado de la diaria y de cada práctica, contexto `ascension` registrado por `dist/ascension.js` | Ventaja real: prácticas sin anuncios. La acción gratuita «Ver anuncio de prueba y jugar» permanece visible para cuentas gratuitas, con duración confirmada por API. La suscripción y el tiempo de desbloqueo se comprueban en el servidor. Ver [0100](decisiones/0100-ascension-anuncios-y-curva.md). |
 
 La acción común abre `Progress.openPlan({mode})`. Antes emite `faraday:before-plan`, cancelable: el juego puede cerrar o suspender su contenedor, o impedir la apertura si hay una ronda en marcha. Traza cierra su diálogo y los duelos cierran únicamente portal o resumen. Ascensión solo permite abrir el plan desde el resumen terminado: cierra su diálogo antes de mostrar el perfil y bloquea la navegación durante las demás fases o peticiones. La navegación nunca debe abandonar una partida al pulsar una oferta.
+
+## Continuación con anuncios
+
+Los modos con cupo montan también el componente común, junto a Plus, cuando pueden ofrecer otra partida:
+
+```html
+<div data-continue-slot="nuevo-modo"></div>
+```
+
+```js
+Continuations.register('nuevo-modo', async offer => {
+  // La API de la modalidad valida y consume offer.ticket antes de abrir la partida.
+});
+```
+
+Antes hay que registrar el modo en `lib/continuaciones.mjs` y en las etiquetas del cliente. Si usa el almacén general, amplía la restricción de su tabla mediante una migración autorizada. Ascensión utiliza el mismo servicio y componente con un adaptador a su JSON privado existente; no amplía esa tabla. La política vigente es primer anuncio completado por modo/día de Madrid de 15 s y todos los siguientes de 60 s en pruebas, sin máximo. El servidor devuelve duración, recibo, plan y partida recuperable. Cancelar no avanza el contador. Un recibo no se reutiliza para otra partida; los reintentos recuperan el desbloqueo. El componente acepta un tercer argumento de preparación si la modalidad necesita validar su última partida antes del anuncio, como Traza.
+
+Las variantes de duelo comparten cinco partidas base y los créditos de sus anuncios, con contadores de duración independientes. El reto diario ofrece prácticas de tres preguntas después de terminar la oficial; no repite su resultado ni paga premios adicionales. Plus evita los anuncios. El archivo sigue libre. Por petición expresa de Álvaro, Ascensión añade esta continuación común después de su diaria; su contador y recibos viven en el JSON privado existente de la modalidad ([0100](decisiones/0100-ascension-anuncios-y-curva.md)). Nunca copies temporizadores o contadores por juego ni uses el contador del navegador como prueba de recompensa real.
+
+Prueba siempre primer anuncio, siguiente largo, cancelación, reintento sin duplicado, recarga y continuación, cambio de cuenta, cambio de día y acceso Plus. Ejecuta `node tests/anuncios.test.mjs`, `node tests/continuaciones.test.mjs` y las pruebas del modo. [Decisión 0099](decisiones/0099-anuncios-para-continuar.md).
 
 ## Estados que comprobar
 

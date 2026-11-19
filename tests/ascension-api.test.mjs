@@ -123,6 +123,24 @@ try{
   const unavailableResponse=await unavailable.handle(new Request('https://prueba.test/api/ascension',{method:'POST',headers:{'Content-Type':'application/json'},body:'{"action":"estado"}'}));
   assert.equal(unavailableResponse.status,503);assert(!JSON.stringify(await unavailableResponse.json()).includes('detalle interno'));
 
+  // La ruta común usa los recibos del JSON de Ascensión aunque no exista la tabla
+  // de anuncios de otras modalidades: no necesita una migración nueva para funcionar.
+  const daily=await store.ascension.get('preview',day,hash(guest),0);
+  const finishedState={...daily.state,phase:'finished',round:6,finishedAt:clock,results:Array.from({length:7},(_,round)=>daily.state.results[round]||{round,points:0,answer:null,height:0,sources:[]})};
+  await store.ascension.put({...daily,version:daily.version+1,state:finishedState,finished_at:new Date(clock).toISOString()},daily.version);
+  const isolatedApi=createApi({store:{...store,continuations:{get:async()=>{throw Error('tabla general pendiente')}}},ascensionBank:fixture,now:()=>clock,trendScope:'preview',log:()=>{}});
+  const isolated=async(route,data)=>{
+    const response=await isolatedApi.handle(new Request(origin+'/api/'+route,{method:'POST',headers:{'Content-Type':'application/json',Cookie:guestCookie,Origin:origin},body:JSON.stringify(data)}));
+    return {status:response.status,body:await response.json()};
+  };
+  const adState=await isolated('continuacion',{action:'estado',mode:'ascension'});assert.equal(adState.status,200);assert.equal(adState.body.seconds,15);
+  const ad=await isolated('ascension',{action:'preparar-practica',date:day,game:0});assert.equal(ad.body.watch,true);
+  assert.equal((await isolated('continuacion',{action:'completar',mode:'ascension',date:day,ticket:ad.body.ticket})).status,409);
+  clock+=15000;
+  assert.equal((await isolated('continuacion',{action:'completar',mode:'ascension',date:day,ticket:ad.body.ticket})).status,200);
+  const next=await isolated('ascension',{action:'practica',date:day,game:0,ticket:ad.body.ticket});assert.equal(next.body.game,1);
+  assert.equal((await isolated('continuacion',{action:'estado',mode:'ascension'})).body.id,'1');
+
   await stop();await start('publico');
   const production=await post({action:'estado'},{cookie:guestCookie});
   assert.equal(production.body.phase,'ready');assert.equal(production.body.score,0,'Preview y público no comparten partidas');
