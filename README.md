@@ -45,6 +45,12 @@ Abre el perfil → Armario → «Celebraciones y emotes». Elige un gesto para c
 
 Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y Dab en «Archivo / ¡Casi casi!»: el reto diario usa Robot y el archivo usa Dab. Los rivales de los duelos reciben la configuración al entrar en la partida. `node tests/celebraciones.test.mjs` comprueba los umbrales, la herencia, los datos inválidos y el catálogo. La venta de nuevos emotes y el juego de respuestas raras siguen pendientes; consulta la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md) y la [propuesta de Ascensión](docs/ideas/ascension-respuestas-raras.md).
 
+## Probar las ofertas de Plus
+
+El portal y el resumen de los duelos muestran el módulo común con el cupo real compartido entre 1v1, tres jugadores, clasificatorias y bot. Al agotarse, la oferta se destaca y permite abrir el plan desde el perfil. Traza reutiliza la tarjeta conservando el anuncio gratuito; el resumen del reto diario invita a explorar Plus sin prometer otra edición. El archivo sigue accesible gratis. No se cambian precios, cuotas ni recompensas.
+
+`node tests/plus-offers.test.mjs` comprueba el componente. Para una nueva modalidad limitada, sigue [Modalidades y Plus](docs/modalidades-y-plus.md).
+
 ## Probar Traza la tendencia
 
 Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. El aviso «Dibuja el resto» marca el tramo pendiente. Arrastra el punto amarillo para empezar o reanudar el dibujo. Las guías muestran el periodo y la estimación en los ejes. Agarra la línea para ajustarla o usa el editor por fecha. Al revelar se dibuja primero el dato real y luego todos los trazos de los demás a la vez. Si todavía no hay otras respuestas se muestran 200 ejemplos marcados como simulados. Al terminar la diaria o cualquier partida extra, «Ver anuncio de prueba y jugar» desbloquea otras tres gráficas. La oferta de Faraday Plus destaca las partidas sin anuncios y mantiene visible la alternativa gratuita. Con cuenta, el resumen recoge entre 10 y 35 faradios por la diaria y, desde 2.700 puntos, un cofre Chispa como máximo por semana.
