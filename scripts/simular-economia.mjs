@@ -10,6 +10,7 @@
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {pathToFileURL} from 'node:url';
+import {trendPrize} from '../lib/premios.mjs';
 
 const page={};page.window=page;vm.createContext(page);
 for(const file of ['dist/avatar.js','dist/chests.js'])vm.runInContext(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),page,{filename:file});
@@ -139,6 +140,14 @@ export function simulate({rules=HOY,profile=PERFILES.diario,days=180,seed=1,body
       earn('reto del día',rules.todayCoins+bonus+Math.min(s.streak,rules.streakCap)*rules.streakCoins);gain(rules.todayXp);
     }else if(rules.protector&&s.streak>=rules.protector.from&&pay('protector de racha',rules.protector.price)){/* la racha se conserva */}
     else s.streak=0;
+    // Escenario opcional de Traza: una diaria, puntuación sintética declarada por el escenario.
+    // No cambia los perfiles originales ni supone que las simulaciones sean usuarios reales.
+    if(rules.trends&&d.today){
+      const score=profile.trendScores[Math.floor(random()*profile.trendScores.length)],prize=trendPrize(score);
+      earn('traza',prize.amount);
+      const week=Math.floor((day-1)/7);
+      if(prize.chest&&s.trendChestWeek!==week){open(prize.chest);s.trendChestWeek=week}
+    }
     // Archivo.
     for(let n=times(profile.archive,random);n>0;n--){answer();answer();answer();d.archive++;charge(rules.charge.archive);earn('archivo',rules.archiveCoins);gain(rules.archiveXp)}
     // Duelos, con su tope diario, y apuestas.

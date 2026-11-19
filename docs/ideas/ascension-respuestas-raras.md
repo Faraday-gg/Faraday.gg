@@ -32,6 +32,6 @@ El cuerpo, la ropa y los complementos permanecen visibles. Al llegar a una repis
 - Rareza editorial versionada y fijada para toda la edición; popularidad real mostrada por separado y solo con muestra suficiente. Evita que la misma respuesta valga puntos distintos durante una clasificatoria.
 - Validación de respuestas, puntuación, reloj y clasificación en el servidor. Igualdad de preguntas y reglas dentro de cada competición.
 - Métricas para revisar rechazos injustificados, abandono y distribución de puntuaciones antes de vender nuevos cosméticos.
-- Nuevos emotes con propiedad comprobada por el servidor y asignación desde el armario de la decisión 0095. Los gestos actuales permanecen incluidos. Precios, distribución en cofres y venta/intercambio se deciden después.
+- Nuevos emotes con propiedad comprobada por el servidor y asignación desde el armario de la decisión 0096. Los gestos actuales permanecen incluidos. Precios, distribución en cofres y venta/intercambio se deciden después.
 
 La montaña es una recomendación de diseño, no una decisión de producto aprobada. Falta la elección de Álvaro antes de construir el modo.

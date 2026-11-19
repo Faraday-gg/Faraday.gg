@@ -1,4 +1,4 @@
-# 0095. Celebraciones elegidas por resultado y modalidad
+# 0096. Celebraciones elegidas por resultado y modalidad
 
 - **Estado** — Implementada.
 - **Fecha** — 2026-11-19.
@@ -27,4 +27,4 @@ Se descarta duplicar umbrales y reglas en cada juego: dificultaría aplicar una 
 
 ## Comprobaciones
 
-18 suites de Node, incluidas las 16 exigidas por AGENTS.md, tendencias y celebraciones. La nueva prueba comprueba fronteras de puntuación, herencia, restauración del original, preferencias inválidas, guardado y catálogo de animaciones. Duelos comprueba limpieza de los identificadores y transmisión al rival. Revisión visual local a 1280 y 375 px, vista previa, recarga, respuesta exacta y victoria con Disco elegido. Sin errores de consola en los recorridos revisados.
+40 suites de Node aprobadas tras incorporar la PR concurrente #141 de Plus y premios de Traza, incluidas todas las exigidas por AGENTS.md, tendencias y celebraciones. La nueva prueba comprueba fronteras de puntuación, herencia, restauración del original, preferencias inválidas, guardado y catálogo de animaciones. Duelos comprueba limpieza de los identificadores y transmisión al rival. Revisión visual local a 1280 y 375 px, vista previa, recarga, respuesta exacta y victoria con Disco elegido. Sin errores de consola en los recorridos revisados.

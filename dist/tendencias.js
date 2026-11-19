@@ -7,6 +7,7 @@
   const home=document.querySelector('.home-trends');
   const samplesPerPeriod=16;
   let box;
+  const prizes=new Map();
   const number=new Intl.NumberFormat('es-ES',{maximumFractionDigits:4,useGrouping:'always'});
   const axisNumber=new Intl.NumberFormat('es-ES',{notation:'compact',maximumFractionDigits:2});
   const fmt=value=>number.format(value);
@@ -214,6 +215,7 @@
         <button class="game-primary" type="button" data-trends-reveal disabled>Revelar</button>
       </div>
       <p class="trends-caption" data-trends-count aria-live="polite"></p>
+      <p class="trends-caption">${edition.game?'Partida extra de práctica · el premio se gana en la diaria.':'Hasta 35 ≈ al día. Cofre Chispa desde 2.700 puntos, una vez por semana.'}</p>
       </div>
     </section>`);
     bindPlot();
@@ -566,19 +568,52 @@
     mood((extra.length?extraTotal:total)/edition.rounds,false);
     const review=(results,offset)=>results.map((result,i)=>`<button class="game-secondary" type="button" data-trends-review="${i+offset}"><span>${text(result.title)}</span><b>${fmt(result.score)} pts</b></button>`).join('');
     const score=total=>`<div class="trends-points"><strong>${fmt(total)} pts</strong><span>de ${fmt(1000*edition.rounds)}</span></div>`;
-    const offer=`<section class="trends-replay"><h4>Juega otras tres gráficas</h4>
-      <button class="game-primary" type="button" data-trends-extra>${edition.plus?'Jugar partida extra':'Ver anuncio de prueba'}</button>
-      ${edition.plus?'':'<button class="game-secondary" type="button" data-trends-plan>Ver suscripción</button>'}
-    </section>`;
+    const plan=window.Progress?.planOffer?.();
+    const offer=edition.plus?`<section class="trends-replay"><h4>Tu próxima curva te espera</h4><p>Plus activo · partidas sin anuncios.</p>
+      <button class="game-primary" type="button" data-trends-extra>Jugar otras tres gráficas →</button></section>`:
+      `<section class="trends-plus" aria-label="Sigue jugando con Faraday Plus">
+        <span class="trends-plus-badge">FARADAY PLUS</span><h4>¿Y si la siguiente fuera tu mejor curva?</h4>
+        <p>Quédate con las ganas de jugar, sin las pausas.<br>Traza y duelos ilimitados, sin anuncios.</p>
+        <button class="game-primary" type="button" data-trends-plan>${plan?.enabled?'Quiero jugar sin anuncios':'Descubrir Plus'} <span aria-hidden="true">→</span></button>
+        <small>${plan?.enabled?(plan.price?`${text(plan.price)} · renovación automática · cancela cuando quieras`:'Consulta el precio y las condiciones antes de activar Plus.'):plan?.linked?'La contratación todavía no está disponible.':'Consulta las ventajas y la disponibilidad.'}</small>
+      </section><section class="trends-replay trends-free"><h4>También puedes seguir gratis</h4>
+        <button class="game-secondary" type="button" data-trends-extra>Ver anuncio de prueba y jugar</button><small>15 segundos · otras tres gráficas · sin límite de anuncios</small></section>`;
+    const reward=edition.reward;
+    const prize=reward?`<section class="trends-prize" aria-label="Tu recompensa diaria"><div><span class="section-kicker">TU PREMIO DE HOY</span>
+      <h4 data-trends-prize-value>${fmt(reward.amount)} ≈${reward.chest?' · nivel Chispa':''}</h4></div>
+      <p data-trends-prize-status role="status">${window.Progress?.linked?.()?'Guardando tu recompensa…':'Entra con tu cuenta para recogerlo y guardarlo en tu perfil.'}</p>
+      <button class="game-secondary" type="button" data-trends-claim ${window.Progress?.linked?.()?'hidden':''}>Entrar y recoger mi premio</button>
+      <details><summary>Cómo se gana</summary><p>0–1.799 puntos: 10 ≈ · 1.800–2.399: 15 ≈ · 2.400–2.699: 25 ≈ · 2.700–3.000: 35 ≈ y opción a cofre Chispa.</p>
+        <p>El cofre se gana como máximo una vez por semana (de lunes a domingo), en la partida diaria. Los faradios cuentan para el tope común de 400 ≈ al día. Las partidas extra son para practicar, con los mismos premios tengas Plus o no.</p></details></section>`:'';
     screen(`<section class="trends-card">
       <h3 tabindex="-1">${heading}</h3>
       ${extra.length?'<h4>Partida diaria</h4>':''}${score(total)}
       <div class="trends-review">${review(daily,0)}</div>
       ${extra.length?`<h4>Partida extra ${edition.game}</h4>${score(extraTotal)}<div class="trends-review">${review(extra,edition.rounds)}</div>`:''}
-      ${offer}
+      ${prize}${offer}
       <p class="trends-detail">Mañana tendrás tres gráficas nuevas.</p>
       <div class="trends-actions"><button class="game-secondary" data-close-trends type="button">Cerrar partida</button></div>
     </section>`);
+    if(reward&&window.Progress?.linked?.())collectPrize();
+  }
+
+  async function collectPrize(){
+    const status=element('[data-trends-prize-status]'),button=element('[data-trends-claim]');
+    if(!status)return;
+    const day=edition.date;
+    button.hidden=true;
+    let result=prizes.get(day);
+    if(!result){
+      status.textContent='Guardando tu recompensa…';
+      result=await window.Progress.collectTrendPrize(day);
+      if(result)prizes.set(day,result);
+    }
+    if(!status.isConnected)return;
+    if(!result){status.textContent='Tu resultado está guardado. Reintenta recoger el premio.';button.textContent='Recoger mi premio';button.hidden=false;return}
+    element('[data-trends-prize-value]').textContent=`${fmt(result.awarded)} ≈${result.chest?' + cofre Chispa':''}`;
+    status.textContent=result.capped?`${result.awarded?`${fmt(result.awarded)} ≈ guardados. `:''}Has alcanzado el tope diario de faradios.${result.chest?' Tu cofre Chispa está en el perfil.':''}`:
+      result.repeated?'Tu recompensa de hoy ya está guardada en tu perfil.':`+${fmt(result.amount)} ≈ guardados en tu perfil.${result.chest?' ¡Y un cofre Chispa para abrir!':''}`;
+    if(result.weeklyChestClaimed)status.textContent+=' El cofre de precisión de esta semana ya está recogido.';
   }
 
   async function startExtra(button){
@@ -639,6 +674,7 @@
     }
   }
 
+  document.addEventListener('faraday:cuenta',()=>prizes.clear());
   document.querySelectorAll('[data-open-trends]').forEach(button=>button.addEventListener('click',()=>{
     opener=button;
     if(menuOpen()){
@@ -657,6 +693,10 @@
     else if(button.hasAttribute('data-trends-set'))storePoint();
     else if(button.hasAttribute('data-trends-extra'))startExtra(button);
     else if(button.hasAttribute('data-trends-plan'))openPlan();
+    else if(button.hasAttribute('data-trends-claim')){
+      if(window.Progress?.linked?.())collectPrize();
+      else{dialog.close();document.getElementById('home-account')?.click()}
+    }
     else if(button.hasAttribute('data-trends-retry-traces')){
       loadPeerTraces(edition.results[Number(button.closest('[data-trends-result]').dataset.trendsResult)]);
     }

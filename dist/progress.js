@@ -30,7 +30,7 @@
     // Fundición (decisión 0071): reciclar devuelve `back` del precio; fundir `need` piezas de una rareza da una de la siguiente.
     foundry:{need:5,back:.2,max:30},
     daySet:40,dayCap:400};
-  const CAPPED=['reto','archivo','duelos','misiones'];
+  const CAPPED=['reto','archivo','duelos','misiones','traza'];
   // Lo que cabe hoy bajo el tope diario. Con cuenta lo lleva el servidor.
   function underCap(amount,reason){
     if(!(amount>0)||!CAPPED.includes(reason))return amount;
@@ -509,15 +509,23 @@ ${chosen?medalDetail(chosen,stats):''}
 <h3 class="mission-title">Medallas <small>bronce, plata, oro y diamante</small></h3><div class="medal-grid">${Medals.MEDALS.map(def=>medalTile(def,stats)).join('')}</div>
 <h3 class="mission-title">Insignias <small>se consiguen una vez</small></h3><div class="medal-grid">${Medals.BADGES.map(def=>medalTile(def,stats)).join('')}</div>`;
   }
-  // El plan del jugador (decisión 0076): qué da la suscripción y si la tiene. Todavía no se puede contratar.
+  const planPrice=()=>billing?.price&&Number.isFinite(billing.price.amount)
+    ?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
+  const planOffer=()=>({plus,linked,enabled:!!billing?.enabled,price:planPrice()});
   function planCard(){
-    const perks='duelos sin límite, una partida extra al día en Traza la tendencia, sin publicidad, anuncios sin tope en el mercado y piezas de suscriptor';
-    // El precio que dice Stripe («4,99 € al mes»), si se puede contratar.
-    const price=billing?.price&&Number.isFinite(billing.price.amount)?`${new Intl.NumberFormat('es-ES',{style:'currency',currency:(billing.price.currency||'eur').toUpperCase()}).format(billing.price.amount/100)}${{month:' al mes',year:' al año',week:' a la semana',day:' al día'}[billing.price.interval]||''}`:'';
-    const until=plus&&plusUntil?`<small>hasta el ${dateText(new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(new Date(plusUntil)))}</small>`:'';
-    const action=!linked?'<button type="button" class="game-secondary" data-plan-login>Entrar para ver el plan</button>':billing?.managed?'<button type="button" class="game-secondary" data-manage-plan>Gestionar la suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Suscribirme${price?` · ${price}`:''}</button>`:'';
-    const text=plus?`Tienes ${perks}.`:`${REWARD.freeDuels} duelos al día. Con la suscripción: ${perks}.${billing?.enabled?(linked?' Se renueva sola y se cancela cuando quieras.':' Entra con tu cuenta para suscribirte.'):' Todavía no se puede contratar.'}`;
-    return `<div class="profile-plan${plus?' is-plus':''}"><p><b>${plus?'Suscripción activa':'Plan gratuito'}</b>${until}</p><p>${text}</p>${action}</div>`;
+    const price=planPrice();
+    const until=plus&&plusUntil?`<small>Activo hasta el ${dateText(madrid(new Date(plusUntil)))}</small>`:'';
+    const action=!linked?'<button type="button" class="game-primary" data-plan-login>Entrar y descubrir Plus →</button>':billing?.managed?'<button type="button" class="game-primary" data-manage-plan>Gestionar mi suscripción</button>':!plus&&billing?.enabled?`<button type="button" class="game-primary" data-subscribe>Activar Plus${price?` · ${escapeHtml(price)}`:''} →</button>`:'';
+    const note=plus?'Tus ventajas ya están activas.':!linked?'Entra con tu cuenta para consultar el precio y la disponibilidad.':billing?.enabled?'Suscripción con renovación automática. Cancela cuando quieras desde tu perfil.':'Todavía no se puede contratar. Aquí verás el precio y podrás activarlo cuando esté disponible.';
+    return `<section class="profile-plan${plus?' is-plus':''}" aria-label="Faraday Plus">
+      <p><b>FARADAY PLUS</b><span>${plus?'Activo':'Tu siguiente nivel'}</span></p>
+      <h3>${plus?'Todo listo. Sigue jugando.':'Más curvas. Cero pausas.'}</h3>
+      <ul><li><b>Traza sin límite</b><span>Una partida tras otra, sin ver anuncios.</span></li>
+      <li><b>Duelos ilimitados</b><span>Que las ganas de revancha pongan el límite.</span></li>
+      <li><b>Hazlo más tuyo</b><span>Piezas de suscriptor y anuncios sin tope en el mercado.</span></li></ul>
+      ${action}<p class="profile-plan-note">${note}</p>${until}
+      <p class="profile-plan-fair">Los premios se ganan jugando. El mismo mérito y las mismas recompensas para todos.</p>
+    </section>`;
   }
   // Vitrina: las tres mejores, siempre a la vista bajo el nivel.
   function showcase(){
@@ -851,6 +859,14 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     const data=await serverAsk('pista',{question:ref},'No se pudo usar la pista. Inténtalo otra vez.');
     if(!data)return false;serverCoins(data.coins);return true;
   }
+  async function collectTrendPrize(day){
+    if(!linked)return null;
+    const owner=link.owner;
+    const data=await serverAsk('premio-traza',{day},'No se pudo guardar el premio de Traza. Puedes reintentarlo.');
+    if(!linked||link.owner!==owner)return null;
+    if(data){serverCoins(data.coins);applyServer(data,true)}
+    return data;
+  }
   // Saldo que devuelve el servidor tras cobrar algo (votos y propuestas de la comunidad).
   function serverCoins(coins){
     if(!Number.isInteger(coins))return;
@@ -891,7 +907,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,planOffer,collectTrendPrize,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
