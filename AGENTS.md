@@ -62,6 +62,12 @@ Reglas para agentes:
 - Conserva las atribuciones y licencias de las imágenes y las fuentes de cada pregunta.
 - Los cambios visuales se miran antes de entregarlos: arranca la app y comprueba la pantalla que has tocado.
 
+## Modalidades y suscripción
+
+- Toda modalidad nueva con cupo de partidas, edición diaria o continuación con anuncios debe integrar el módulo común `dist/plus-offers.js` y registrar su contexto; sigue [docs/modalidades-y-plus.md](docs/modalidades-y-plus.md). No copies tarjetas de suscripción por modalidad.
+- Toma el cupo y las ventajas de la respuesta del servidor. No prometas que Plus elimina un límite si no está decidido e implementado. El precio y el paquete definitivo se acuerdan aparte.
+- Mantén la oferta fuera de las rondas activas, ocúltala a suscriptores y conserva la alternativa gratuita disponible. Los límites económicos y desbloqueos por nivel no se presentan como ventajas de pago.
+
 ## Comprobaciones antes de abrir la PR
 
 - Siempre que cambies el servidor, el contenido diario, las preguntas o el flujo de respuestas:
@@ -75,6 +81,7 @@ Reglas para agentes:
   node tests/duelos.test.mjs
   node tests/duelos-tres.test.mjs
   node tests/celebraciones.test.mjs
+  node tests/plus-offers.test.mjs
   node tests/cofres.test.mjs
   node tests/casi.test.mjs
   node tests/auth.test.mjs

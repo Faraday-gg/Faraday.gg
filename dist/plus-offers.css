@@ -1,0 +1,16 @@
+.plus-offer{box-sizing:border-box;min-width:0;margin:22px 0 12px;padding:clamp(18px,4vw,28px);border:2px solid var(--ink);border-radius:22px;background:var(--yellow);color:var(--ink);box-shadow:0 4px 0 var(--ink);text-align:left;overflow-wrap:anywhere}
+.plus-offer[hidden]{display:none!important}
+.plus-offer .plus-offer-badge{display:inline-block;margin:0;padding:5px 9px;border:1px solid var(--ink);border-radius:30px;font:800 11px var(--font);letter-spacing:.1em;color:var(--ink)}
+.plus-offer h4{font:700 clamp(25px,4vw,34px)/1.06 var(--display);letter-spacing:-.04em;max-width:520px;margin:14px 0 10px;color:var(--ink);text-align:left}
+.plus-offer p{font:400 15px/1.5 var(--font);letter-spacing:normal;color:var(--ink);margin:0 0 12px;text-align:left}
+.plus-offer .plus-offer-quota{font-size:13px;font-weight:700}
+.plus-offer .plus-offer-benefits{font-size:13px;margin-bottom:18px}
+.plus-offer .plus-offer-action{box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;min-height:48px;padding:13px 20px;border:1.5px solid var(--ink);border-radius:999px;background:var(--ink);color:var(--paper);font:700 14px/1.35 var(--font);text-align:left;white-space:normal;cursor:pointer}
+.plus-offer .plus-offer-action:hover{background:#39424e}
+.plus-offer .plus-offer-action:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.plus-offer .plus-offer-note{display:block;margin-top:10px;font:400 12px/1.5 var(--font);color:var(--ink);letter-spacing:normal;text-align:left}
+.plus-offer.is-compact{padding:18px;border-radius:18px;margin-top:18px}
+.plus-offer.is-compact h4{font-size:23px;margin-block:10px}
+.plus-offer.is-compact .plus-offer-description{font-size:13px}
+@media(max-width:560px){.plus-offer{margin-top:18px;padding:18px}.plus-offer h4{font-size:27px}.plus-offer .plus-offer-action{padding-inline:16px}.plus-offer.is-compact h4{font-size:22px}}
+@media(prefers-reduced-motion:reduce){.plus-offer .plus-offer-action{transition:none;animation:none}}
