@@ -22,7 +22,8 @@
     const offer=plan(),copy=modes.get(mode)||generic;
     const limit=integer(options.limit),remaining=integer(options.remaining);
     const exhausted=options.exhausted===true||(limit!==null&&remaining===0);
-    const plus=typeof options.plus==='boolean'?options.plus:!!offer.plus;
+    // Con cuenta guardada, hasta que el servidor diga si es Plus no se pinta la oferta (evita que aparezca y se esconda).
+    const plus=typeof options.plus==='boolean'?options.plus:!!offer.plus||!!offer.pending;
     const quota=limit!==null&&remaining!==null
       ?exhausted?`Has usado los ${limit} duelos gratuitos de hoy.`:`Hoy te quedan ${Math.min(limit,remaining)} de ${limit} duelos gratuitos.`
       :exhausted?'Has llegado al límite gratuito de hoy.':'';

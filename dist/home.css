@@ -305,3 +305,8 @@
   .portal-mode, .daily-copy .home-play { transition: none; }
   .portal-mode:hover, .daily-copy .home-play:hover { transform: none; }
 }
+.footer-github { display: inline-flex; align-items: center; gap: 6px; font: 800 13px var(--font); color: var(--muted); }
+.footer-github svg { width: 20px; height: 20px; flex: none; }
+.footer-github:hover { text-decoration: underline; text-underline-offset: 3px; }
+.home-lead { display: flex; align-items: center; gap: 8px; flex: none; }
+.home-lead .home-menu-toggle { margin-left: -8px; }
