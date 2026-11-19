@@ -28,16 +28,8 @@
     window.Avatar3D?.react?.(actor);
   }
 
-  const tiers=[
-    {min:950,clip:'clavada',rest:'cheer'},
-    {min:800,clip:'salto',rest:'cheer'},
-    {min:600,clip:'puno',rest:''},
-    {min:350,clip:'encoger',rest:'meh'},
-    {min:0,clip:'facepalm',rest:'sad'},
-  ];
   function mood(score,animate){
-    const tier=tiers.find(item=>score>=item.min);
-    avatar(animate?{clip:tier.clip,mood:'',then:tier.rest}:{mood:tier.rest});
+    avatar(Progress.reaction('trends',Celebrations.trendTier(score).id,{animate}));
   }
 
   async function request(action,extra={}){

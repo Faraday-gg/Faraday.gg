@@ -79,7 +79,19 @@
   }
   // badge = la medalla destacada (decisión 0035): viaja con el avatar y el rival la ve junto al nombre.
   // bet = la apuesta elegida (decisión 0044, bets.js), o null.
-  const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level(),bet:window.Bets?.choice()||null});
+  const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level(),bet:window.Bets?.choice()||null,
+    gestures:Object.fromEntries(['duel','duel3','ranked'].map(mode=>[mode,Object.fromEntries(Object.entries(Progress.gestures(mode)).filter(([,value])=>value!=='default'))]))});
+  const reactionMode=()=>three()?'duel3':duel?.mode==='ranked'?'ranked':'duel';
+  function playerReaction(player,cue){
+    const mode=reactionMode();
+    if(player===me())return Progress.reaction(mode,cue);
+    return Celebrations.reaction(Celebrations.normalize(player.gestures),mode,cue);
+  }
+  function reactionOptions(player,cue){
+    const reaction=playerReaction(player,cue);
+    return {reaction,zoom:reaction.clip==='desmayo'?'stage':''};
+  }
+  const answerReaction=(player,guess,answer)=>reactionOptions(player,Celebrations.tierOf(guess==null?Infinity:Math.max(guess/answer,answer/guess)).id);
   const betChip=player=>window.Bets?Bets.chip(player):'';
   const badge=player=>player.bot?'':Medals.chip(player.avatar?.badge);
   // El bot tiene su propio aspecto de robot (piel de metal, cascos y gafas oscuras) y siempre se llama Faraday-bot.
@@ -283,7 +295,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     if(three())return renderRevealThree(final);
     const round=duel.round,q=round.question,mine=round.guesses[duel.you],theirs=round.guesses[1-duel.you],myPoints=round.points[duel.you],theirPoints=round.points[1-duel.you];
     setView('result');setRoundInfo();revealed=duel.id+':'+round.number;
-    const column=(player,guess,pointsWon,who)=>`<div class="duel-col${round.loser&&round.loser!==who?' is-best':''}">${figure(player,'col',{emote:round.loser===who?'hurt':round.loser?'cheer':''})}<span class="duel-col-name">${who==='you'?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${guess==null?'—':times(Math.max(guess/round.answer,round.answer/guess))}</span>${guess!=null&&window.CasiCasi?.is(Math.max(guess/round.answer,round.answer/guess))?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${pointsWon}">0</b><small>puntos</small></div>`;
+    const column=(player,guess,pointsWon,who)=>`<div class="duel-col${round.loser&&round.loser!==who?' is-best':''}">${figure(player,'col',answerReaction(player,guess,round.answer))}<span class="duel-col-name">${who==='you'?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${guess==null?'—':times(Math.max(guess/round.answer,round.answer/guess))}</span>${guess!=null&&window.CasiCasi?.is(Math.max(guess/round.answer,round.answer/guess))?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${pointsWon}">0</b><small>puntos</small></div>`;
     const outcome=round.loser===null?'Empate en esta ronda: nadie pierde vida.':round.loser==='rival'?`Le quitas <b>${int(round.damage)}</b> de vida a ${escapeHtml(rival().name)}.`:`Pierdes <b>${int(round.damage)}</b> de vida.`;
     const damageDetail=round.multipliers?`${int(Math.abs(myPoints-theirPoints))} ${times(round.multiplier)}`:`Daño ${times(round.multiplier)}`;
     content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Resultado · ronda ${round.number}</span><span class="duel-kicker" id="duel-countdown"></span></div>
@@ -303,7 +315,7 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     const seats=[duel.you,...others().map(one=>one.seat)];
     const column=seat=>{
       const player=duel.players[seat],guess=round.guesses[seat],ratio=guess==null?null:Math.max(guess/round.answer,round.answer/guess),hurt=round.damages[seat]>0,out=!round.alive.includes(seat);
-      return `<div class="duel-col${round.best.includes(seat)&&!out?' is-best':''}${out?' is-out':''}">${figure(player,'col',{emote:hurt?'hurt':round.best.includes(seat)?'cheer':''})}<span class="duel-col-name">${seat===duel.you?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${out?'Fuera':guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${ratio==null?'—':times(ratio)}</span>${ratio!=null&&window.CasiCasi?.is(ratio)?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${round.points[seat]}">0</b><small>puntos</small>${hurt?`<span class="duel-col-hit">−${int(round.damages[seat])}</span>`:'<span class="duel-col-hit is-safe">sin daño</span>'}</div>`;
+      return `<div class="duel-col${round.best.includes(seat)&&!out?' is-best':''}${out?' is-out':''}">${figure(player,'col',answerReaction(player,out?null:guess,round.answer))}<span class="duel-col-name">${seat===duel.you?'Tú':escapeHtml(player.name)}</span><strong class="duel-col-guess">${out?'Fuera':guess==null?'Sin respuesta':whole(guess)}</strong><span class="duel-col-x">${ratio==null?'—':times(ratio)}</span>${ratio!=null&&window.CasiCasi?.is(ratio)?'<em class="duel-casi">¡Casi casi!</em>':''}<b class="duel-col-points" data-points="${round.points[seat]}">0</b><small>puntos</small>${hurt?`<span class="duel-col-hit">−${int(round.damages[seat])}</span>`:'<span class="duel-col-hit is-safe">sin daño</span>'}</div>`;
     };
     const hit=seats.filter(seat=>round.damages[seat]>0);
     const outcome=hit.length?hit.map(seat=>seat===duel.you?`Pierdes <b>${int(round.damages[seat])}</b> de vida.`:`${joinNames([duel.players[seat].name])} pierde <b>${int(round.damages[seat])}</b>.`).join(' '):'Empate en esta ronda: nadie pierde vida.';
@@ -357,7 +369,7 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     const why=three()?(me().left?'Has abandonado el duelo.':duel.reason==='abandono'?(won?'Los demás han abandonado el duelo.':'Ha terminado: los demás han abandonado.'):duel.reason==='rondas'?(draw?'Diez rondas y la misma vida arriba: empatáis.':won?'Diez rondas: ganas con más vida.':'Diez rondas: gana quien conserva más vida.'):won?'Eres el último en pie.':me().hp<=0?'Te has quedado sin vida.':'Otro jugador ha ganado la partida.')
       :duel.reason==='abandono'?(won?`${name} ha abandonado el duelo.`:'Has abandonado el duelo.'):duel.reason==='rondas'?(draw?'Diez rondas y la misma vida. Nadie cede.':`Diez rondas: gana quien conserva más vida.`):won?`Has dejado a ${name} sin vida.`:`${name} te ha dejado sin vida.`;
     content.innerHTML=`<p class="duel-kicker">Duelo terminado</p>
-<div class="duel-final">${figure(me(),'end',{emote:won?'cheer':draw?'':'sad'})}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':three()?`${place}.º puesto`:'Derrota'}</h2></div>
+<div class="duel-final">${figure(me(),'end',reactionOptions(me(),won?'victory':draw?'draw':'defeat'))}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':three()?`${place}.º puesto`:'Derrota'}</h2></div>
 <p class="duel-note">${why}</p>
 ${three()?`<ol class="duel-podium">${duel.players.map((player,seat)=>({player,seat})).sort((a,b)=>duel.places[a.seat]-duel.places[b.seat]||a.seat-b.seat).map(one=>`<li class="${one.seat===duel.you?'is-you':''}"><b>${duel.places[one.seat]}.º</b><span>${one.seat===duel.you?'Tú':escapeHtml(one.player.name)}</span><small>${one.player.left?'abandonó':int(one.player.hp)+' de vida'}</small></li>`).join('')}</ol>`:''}
 ${window.Ranked?Ranked.result(duel):''}

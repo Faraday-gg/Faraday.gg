@@ -689,14 +689,14 @@ const CLIPS={
 };
 const DANCES=['robot','aspersor','disco','twist','balanceo','dab','correr'];
 const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso','robot','twist','balanceo'];
-const POOL={cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
+const POOL={still:[],cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
 function play(item,name,t){const clip=CLIPS[name];if(!clip)return;item.clip=clip;item.clipAt=t;item.lastClip=name;if(clip.start)clip.start(item)}
-function nextClip(item,t){let pool=POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(attentive(item))pool=pool.filter(name=>name!=='mirar'&&name!=='pensar')||pool;if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
+function nextClip(item,t){let pool=item.quiet?[]:item.repeat?[item.repeat]:POOL[item.mood]||(item.data.emote==='wave'?[...IDLE,'saludo','saludo2']:IDLE);if(attentive(item)&&!item.repeat)pool=pool.filter(name=>name!=='mirar'&&name!=='pensar')||pool;if(!pool.length){item.wait=t+1;return}let name=any(pool);while(pool.length>1&&name===item.lastClip)name=any(pool);play(item,name,t)}
 // Cambia el estado de un avatar animado desde fuera (reactions.js): mood = cómo se queda; clip = gesto que hace ahora;
 // then = estado al que pasa cuando el gesto termina.
-function apply(item,{mood='',clip='',then=null}={}){
-  const t=(performance.now()-item.born)/1000;item.clip=null;item.mood=mood;item.after=null;
+function apply(item,{mood='',clip='',then=null,repeat='',quiet=false}={}){
+  const t=(performance.now()-item.born)/1000;item.clip=null;item.mood=mood;item.after=null;item.repeat=CLIPS[repeat]?repeat:'';item.quiet=quiet;
   if(clip&&!reduced){item.after=then;play(item,clip,t)}else{if(then!==null)item.mood=then;item.wait=t+1.2+Math.random()*2}
 }
 // ---------- Sigue al ratón con la cabeza y la mirada. Se apunta la última posición del puntero; cada avatar calcula hacia
@@ -823,7 +823,7 @@ function hydrate(el){
     if(FIRST[emote])play(item,any(FIRST[emote]),0);
     // En la portada, al pasar el ratón por encima vuelve a saludar.
     if(emote==='wave')el.addEventListener('pointerenter',()=>{if(!item.clip)play(item,any(FIRST.wave),(performance.now()-item.born)/1000)});
-    if(el._react)apply(item,el._react);
+    if(el._react||data.reaction)apply(item,el._react||data.reaction);
     animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);locate(item);
     el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);if(!reduced)poke(item);
     if(!running){running=true;requestAnimationFrame(loop)}

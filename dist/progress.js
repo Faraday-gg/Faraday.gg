@@ -77,6 +77,7 @@
     if(!Number.isFinite(state.charge)||state.charge<0)state.charge=0;if(!Number.isInteger(state.pity)||state.pity<0)state.pity=0;
     if(!state.bought||typeof state.bought!=='object')state.bought={day:'',count:0};
     state.casi=CasiCasi.normalize(state.casi);
+    state.celebrations=Celebrations.normalize(state.celebrations);
     // Cifras de las medallas. Quien ya jugaba conserva lo que se puede saber: su racha y sus duelos ganados.
     if(!state.stats||typeof state.stats!=='object'){const duels=stored('casi-casi:duelo:progreso')||{};state.stats={streak:state.streak.count,wins:duels.wins,run:duels.streak,duelStreak:duels.best,pioneer:state.days.length&&madrid()<'2027-01-01'?1:0}}
     for(const key of STATS)if(!Number.isInteger(state.stats[key])||state.stats[key]<0)state.stats[key]=0;
@@ -111,6 +112,7 @@
   const owns=item=>item.plus?plus:(!item.price&&!Avatar.earned(item)&&!item.edition)||(item.rango&&reached(item))||(item.medalla&&medalled(item))||serialOf(item)>0||(item.circuito&&circuit(item))||(item.level&&levelOf(state.xp)>=item.level)||(item.casi&&state.casi.n>=item.casi)||state.owned.includes(item.slot+':'+item.id);
   // Lo que se lleva puesto siempre es algo que se tiene: si no, vuelve la pieza por defecto.
   function look(){const result=Avatar.normalize(state.look),base=Avatar.defaults(result.body);for(const [slot] of Avatar.SLOTS)if(!owns(Avatar.find(slot,result[slot])))result[slot]=base[slot];return result}
+  const reaction=(mode,cue,options)=>Celebrations.reaction(state.celebrations,mode,cue,options);
 
   function periods(){
     const today=madrid(),week=monday(today),m=state.missions;
@@ -262,12 +264,32 @@
     const best=Chests.TYPES.filter(type=>state.chests[type]).pop()||'chispa',art=window.ChestOpen?.art?.(best)||'';
     const alert=boxes?`<span class="home-chest-alert" aria-hidden="true"><span class="home-chest-halo"></span><span class="home-chest-rays"></span><span class="home-chest-bubble"><span class="home-chest-icon">${art}</span><b class="home-chest-count">${boxes>9?'9+':boxes}</b></span><i class="home-chest-spark s1"></i><i class="home-chest-spark s2"></i><i class="home-chest-spark s3"></i></span>`:'';
     // Encuadre «home»: más aire arriba y a los lados para que no se corten el pelo, el brazo del saludo ni la sombra.
-    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${alert}${Avatar.render(look(),{zoom:'home',live:true,emote:'wave'})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta${boxes?' has-chest':''}">${boxes?`Abrir ${boxes===1?'cofre':boxes+' cofres'}`:'Personalizar'} <span aria-hidden="true">→</span></span>`;
+    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${alert}${Avatar.render(look(),{zoom:'home',live:true,emote:'wave',reaction:reaction('all','welcome')})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta${boxes?' has-chest':''}">${boxes?`Abrir ${boxes===1?'cofre':boxes+' cofres'}`:'Personalizar'} <span aria-hidden="true">→</span></span>`;
     if(!shell.hidden)draw();
   }
 
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
   let tab='armario',slot='top',trying=null,show='todo',query='',grade='';
+  let celebrationMode='all',previewCue='clavada';
+  function celebrationTab(){
+    const {MODES,CUES,CLIPS}=Celebrations;
+    const isDuel=['duel','duel3','ranked'].includes(celebrationMode);
+    const rows=CUES.filter(({id})=>celebrationMode==='all'||(isDuel?!['welcome','reward'].includes(id):celebrationMode==='trends'?['clavada','acierto','cerca','lejos','fallo'].includes(id):!['victory','draw','defeat','welcome','reward'].includes(id)));
+    const ranges=['950–1.000 puntos','800–949 puntos','600–799 puntos','350–599 puntos','0–349 puntos'];
+    return `<div class="celebrations-head"><button type="button" class="duel-link" data-tab="armario">← Volver al armario</button><h3>Tu forma de celebrar</h3><p>Elige un gesto para cada resultado. Se guarda automáticamente. Los gestos actuales están incluidos para todos.</p></div>
+<label class="celebrations-mode">Dónde se aplica<select data-celebration-mode>${MODES.map(([id,name])=>`<option value="${id}"${id===celebrationMode?' selected':''}>${name}</option>`).join('')}</select></label>
+<div class="celebration-list">${rows.map((cue,i)=>{
+      const selected=state.celebrations[celebrationMode]?.[cue.id]||'';
+      const inherited=Celebrations.choice(state.celebrations,'all',cue.id),inheritedName=CLIPS.find(item=>item.id===inherited)?.name||(inherited==='none'?'Sin gesto':'Original del juego');
+      return `<div class="celebration-row"><label for="gesture-${cue.id}">${cue.name}<small>${celebrationMode==='trends'?ranges[i]:cue.range}</small></label><select id="gesture-${cue.id}" data-celebration-cue="${cue.id}"><option value="">${celebrationMode==='all'?'Original del juego':`General · ${inheritedName}`}</option>${celebrationMode==='all'?'':`<option value="default"${selected==='default'?' selected':''}>Original de este modo</option>`}<option value="none"${selected==='none'?' selected':''}>Sin gesto</option>${CLIPS.map(item=>`<option value="${item.id}"${selected===item.id?' selected':''}>${item.name}</option>`).join('')}</select><button type="button" data-preview-cue="${cue.id}" aria-label="Ver gesto de ${cue.name}">Ver</button></div>`;
+    }).join('')}</div><p class="celebration-status" role="status" aria-live="polite"></p><button type="button" class="duel-link celebrations-reset" data-reset-celebrations>Restablecer ${celebrationMode==='all'?'la selección general':'este modo'}</button>`;
+  }
+  function previewCelebration(cue){
+    previewCue=cue;
+    const actor=main.querySelector('.profile-figure .avatar-view');if(!actor)return;
+    actor._react=reaction(celebrationMode,cue);window.Avatar3D?.react?.(actor);
+    const note=main.querySelector('.celebration-status');if(note)note.textContent='Vista previa · '+Celebrations.CUES.find(item=>item.id===cue).name;
+  }
   // swapping = la misión que se está a punto de cambiar (pide confirmar); shield = la oferta de proteger la racha que
   // da el servidor a quien tiene cuenta ({days}); shieldTold = ya se avisó en esta visita.
   let swapping=null,shield=null,shieldTold=false;
@@ -390,7 +412,7 @@
       const key=reward.finish&&Avatar.find(...(reward.key+'--'+reward.finish).split(':'))?reward.key+'--'+reward.finish:reward.key;
       if(!state.owned.includes(key))state.owned.push(key);
       const [itemSlot,id]=key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
-      return {...reward,key,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,emote:'cheer'})};
+      return {...reward,key,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,reaction:reaction('all','reward')})};
     });
     save();refresh();
     ChestOpen.play(type,rewards,{more:chestTotal(),onClose:refresh,
@@ -516,16 +538,18 @@ ${chosen?medalDetail(chosen,stats):''}
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?marketDoor()+wardrobe(current)
+    const side=tab==='celebraciones'?celebrationTab():tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?`<button class="celebrations-door" type="button" data-tab="celebraciones"><span><b>Celebraciones y emotes</b><small>Tu gesto para cada resultado, en todos los modos</small></span><span aria-hidden="true">→</span></button>`+marketDoor()+wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
-    main.classList.toggle('is-wardrobe',tab==='armario');
-    main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true})}</div><p class="profile-hint">Arrastra para girarlo</p>
+    main.classList.toggle('is-wardrobe',tab==='armario'||tab==='celebraciones');
+    main.classList.toggle('is-celebrations',tab==='celebraciones');
+    main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true,zoom:tab==='celebraciones'?'stage':''})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.plus?'<p class="profile-try-note">Pieza de suscriptor: se puede llevar mientras la suscripción esté activa. Todavía no se puede contratar.</p>':trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.rango?`<p class="profile-try-note">Exclusiva de las clasificatorias: se desbloquea al llegar al rango ${rankName(trying.rango)}. Ni se compra ni sale en cofres, y no se pierde si luego bajas de rango.</p>`:trying.medalla?`<p class="profile-try-note">Exclusiva: se desbloquea con «${Medals.label(trying.medalla)}». ${medalText(trying.medalla)} Ni se compra ni sale en cofres.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}${planCard()}</section>
-<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
+<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'||tab==='celebraciones'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
+    if(tab==='celebraciones')previewCelebration(previewCue);
   }
   function open(which){
     syncEditions();
@@ -543,9 +567,21 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   shell.addEventListener('input',event=>{
     if(event.target.matches('[data-search]')){query=event.target.value;redrawResults()}
   });
-  shell.addEventListener('change',event=>{if(event.target.matches('[data-grade]')){grade=event.target.value;redrawResults()}});
+  shell.addEventListener('change',event=>{
+    const target=event.target;
+    if(target.matches('[data-grade]')){grade=target.value;redrawResults()}
+    if(target.matches('[data-celebration-mode]')){celebrationMode=target.value;previewCue='clavada';draw();main.querySelector('[data-celebration-mode]').focus()}
+    if(target.dataset.celebrationCue){
+      const cue=target.dataset.celebrationCue;
+      if(target.value)state.celebrations[celebrationMode][cue]=target.value;else delete state.celebrations[celebrationMode][cue];
+      state.celebrations=Celebrations.normalize(state.celebrations);save();previewCelebration(cue);
+      main.querySelector('.celebration-status').textContent='Guardado · '+Celebrations.CUES.find(item=>item.id===cue).name;
+    }
+  });
   shell.addEventListener('click',event=>{
     const target=event.target.closest('button');if(!target)return;
+    if(target.dataset.previewCue){previewCelebration(target.dataset.previewCue);return}
+    if(target.hasAttribute('data-reset-celebrations')){state.celebrations[celebrationMode]={};save();draw();main.querySelector('[data-reset-celebrations]').focus();main.querySelector('.celebration-status').textContent='Selección restablecida.';return}
     if(target.dataset.tab){tab=target.dataset.tab;trying=null;swapping=null;foundry=false;melt=[];melting='';picked=target.dataset.showMedal||'';draw();if(tab==='medallas')celebrateFresh();return}
     if(target.dataset.medal){picked=picked===target.dataset.medal?'':target.dataset.medal;draw();if(picked)main.querySelector('.medal-detail')?.scrollIntoView({block:'nearest',behavior:'smooth'});return}
     if(target.dataset.pin){state.medals.pin=target.dataset.pin;save();draw();document.dispatchEvent(new CustomEvent('faraday:look'));showToast('Destacada: la verán tus rivales en los duelos y tu grupo en las ligas.');return}
@@ -855,7 +891,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={plus:()=>plus,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.
