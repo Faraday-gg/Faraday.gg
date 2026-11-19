@@ -18,8 +18,8 @@ const sessionGuesses = new Map();
 const sessionWorkspaces = new Map();
 let workspaceData = {note:'',history:[]};
 
-function getGuesses(day){if(sessionGuesses.has(day.id))return sessionGuesses.get(day.id);try{const saved=JSON.parse(localStorage.getItem(`casi-casi:v2:${day.id}`)||'[]');return Array.isArray(saved)?saved:[]}catch{return []}}
-function saveGuesses(day,guesses){sessionGuesses.set(day.id,guesses);try{localStorage.setItem(`casi-casi:v2:${day.id}`,JSON.stringify(guesses))}catch{showToast('Las respuestas durarán solo hasta cerrar esta pestaña.')}}
+function getGuesses(day){if(day.practice)return day.guesses||[];if(sessionGuesses.has(day.id))return sessionGuesses.get(day.id);try{const saved=JSON.parse(localStorage.getItem(`casi-casi:v2:${day.id}`)||'[]');return Array.isArray(saved)?saved:[]}catch{return []}}
+function saveGuesses(day,guesses){if(day.practice){day.guesses=guesses;return;}sessionGuesses.set(day.id,guesses);try{localStorage.setItem(`casi-casi:v2:${day.id}`,JSON.stringify(guesses))}catch{showToast('Las respuestas durarán solo hasta cerrar esta pestaña.')}}
 function score(guess,answer){return Math.max(guess/answer,answer/guess)}
 function art(kind){
   const common='fill="none" stroke="#202630" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
@@ -64,7 +64,7 @@ function renderGame(){
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
   $('.game-card')?.classList.remove('explaining','is-casi','casi-fresh');
-  const detail={view,index:activeIndex,mode:activeDay.id===todayKey?'daily':'archive'};
+  const detail={view,index:activeIndex,mode:activeDay.practice||activeDay.id===todayKey?'daily':'archive'};
   if(view==='summary'){renderSummary();detail.average=activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}
   else if(view==='result')Object.assign(detail,renderResult(guesses));else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;justAnswered=false;announceView(detail);
@@ -75,7 +75,7 @@ function renderGame(){
 let justAnswered=false;
 function announceView(detail){document.dispatchEvent(new CustomEvent('faraday:view',{detail}))}
 function renderBar(guesses){
-  $('#game-edition').textContent='Nº '+editionNumber(activeDay.id);
+  $('#game-edition').textContent=activeDay.practice?'RETO EXTRA':'Nº '+editionNumber(activeDay.id);
   const steps=activeDay.questions.map((q,i)=>`<button type="button" class="game-step${i<guesses.length?' done':''}" data-step="${i}"${i>guesses.length?' disabled':''}${i===activeIndex?' aria-current="step"':''} aria-label="Pregunta ${i+1}${i<guesses.length?', respondida':''}">${window.categoryIcon?.(q.category,'cat-icon')||''}<span>${i+1}</span></button>`);
   steps.push(`<button type="button" class="game-step${guesses.length===3?' done':''}" data-step="3"${guesses.length<3?' disabled':''}${activeIndex===3?' aria-current="step"':''}><span>Total</span></button>`);
   $('#game-steps').innerHTML=steps.join('');
@@ -141,9 +141,9 @@ addEventListener('resize',()=>{if($('#explain-panel.open'))placeExplain()});
 // Degradado abajo mientras quede texto por leer dentro de la hoja.
 function markMore(panel){panel.classList.toggle('more',panel.scrollTop+panel.clientHeight<panel.scrollHeight-6)}
 document.addEventListener('scroll',event=>{if(event.target.id==='explain-panel')markMore(event.target)},true);
-function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions"><button class="game-primary" id="share-result" type="button">Compartir</button><button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${activeDay.id===todayKey?'<div data-plus-slot="daily"></div>':''}${moreDaysMarkup(activeDay)}`;loadDailyDistribution(activeDay,guesses)}
+function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.date||activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions">${activeDay.practice?'':'<button class="game-primary" id="share-result" type="button">Compartir</button>'}<button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${activeDay.practice||activeDay.id===todayKey?'<div data-plus-slot="daily"></div><div data-continue-slot="daily"></div>':''}${moreDaysMarkup(activeDay)}`;loadDailyDistribution(activeDay,guesses)}
 // «Otros días» (decisión 0021): el día anterior y el siguiente del archivo, con su estado, y el calendario completo en el menú.
-function moreDaysMarkup(day){
+function moreDaysMarkup(day){if(day.practice)return '<p class="daily-population-caption">Práctica extra: no cambia el reto oficial, la racha, las ligas ni los premios diarios.</p>';
   const days=archiveDays(),i=days.findIndex(d=>d.id===day.id),prev=i>0?days[i-1]:null,next=i>=0&&i<days.length-1?days[i+1]:null;
   const short=id=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',timeZone:'Europe/Madrid'}).format(new Date(id+'T12:00:00Z')).replace('.','');
   const state=d=>{const value=dayScore(d);return value==null?(getGuesses(d).length?'A medias':'Sin jugar'):format(value)+'×'};
@@ -160,11 +160,15 @@ function formatEstimateInput(input){
   let position=0,count=0;while(position<input.value.length&&count<meaningful){if(/[\d,]/.test(input.value[position]))count++;position++}
   input.setSelectionRange(position,position)
 }
-function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);justAnswered=true;renderGame()}
+async function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;
+if(activeDay.practice){const day=activeDay,button=event.submitter||$('#guess-form button[type=submit]');if(button.disabled)return;button.disabled=true;
+try{const result=await window.Continuations.answer(day.extraId,activeIndex,guess);if(activeDay!==day)return;day.guesses=result.guesses;justAnswered=true;renderGame()}
+catch(error){if(activeDay===day){$('#guess-help').textContent=error.message;button.disabled=false}}return}
+guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);justAnswered=true;renderGame()}
 // Pista de la pregunta (pistas.js, decisión 0039): al desbloquearla se coloca bajo el título sin borrar lo que se haya escrito.
 function askHint(){const q=activeDay.questions[activeIndex];window.Pistas?.open(q,(html,via)=>{if(activeDay.questions[activeIndex]?.id!==q.id||!$('#guess-form'))return;$('#game-title').insertAdjacentHTML('afterend',html);$('#hint-toggle')?.remove();$('#guess-input').focus();showToast(via==='coins'?`Pista desbloqueada: −${window.Pistas.COST} ≈`:'Pista desbloqueada')})}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
-function notifyProgress(guess,guesses){const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today,hint:!!window.Pistas?.used(activeDay.questions[activeIndex].id)};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
+function notifyProgress(guess,guesses){if(activeDay.practice)return;const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today,hint:!!window.Pistas?.used(activeDay.questions[activeIndex].id)};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
 function loadWorkspace(id){
   if(sessionWorkspaces.has(id))return sessionWorkspaces.get(id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
@@ -249,7 +253,7 @@ function showToast(message){const toast=$('#toast');toast.textContent=message;to
 // Compartir abre la tarjeta para stories (share-card.js, decisión 0032); si no ha cargado, se comparte solo el texto.
 // Enlace del juego con tu código del Circuito de amigos (?de=, circuito.js), para que compartir sea invitar.
 const inviteUrl=()=>window.Circuito?Circuito.link(location.origin+location.pathname):location.href;
-async function shareResult(){if(window.ShareCard)return window.ShareCard.open(activeDay,getGuesses(activeDay),editionNumber(activeDay.id));const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:inviteUrl()});return}await navigator.clipboard.writeText(`${text}\n${inviteUrl()}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
+async function shareResult(){if(window.ShareCard)return window.ShareCard.open(activeDay,getGuesses(activeDay),editionNumber(activeDay.id));const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3,text=`Faraday.gg · ${activeDay.name} ${prettyDate(activeDay.date||activeDay.id)}\nMi distancia media: ${format(average)}×\n${scores.map((s,i)=>`${i+1}. ${format(s)}×`).join(' · ')}\n¿Y tú qué tanto te acercas?`;try{if(navigator.share){await navigator.share({title:'Mi resultado en Faraday.gg',text,url:inviteUrl()});return}await navigator.clipboard.writeText(`${text}\n${inviteUrl()}`);showToast('Resultado copiado al portapapeles.')}catch{showToast('No se pudo compartir ahora mismo.')}}
 
 // Menú hamburguesa (decisión 0016): en el juego y en la portada. Reto de hoy, volver al inicio y el archivo para saltar a otro día.
 const menuArchive=createArchive($('#menu-archive'),{compact:true});

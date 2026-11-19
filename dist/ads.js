@@ -18,7 +18,7 @@
     document.body.append(dialog);
     dialog.addEventListener('keydown',e=>{if(e.key==='Escape')e.stopPropagation()}); // Que Escape cierre el anuncio, no el juego.
     dialog.addEventListener('cancel',()=>finish(false));
-    dialog.addEventListener('click',e=>{if(e.target.closest('[data-ad-close]'))finish(false);else if(e.target.closest('.ad-done'))finish(true)});
+    dialog.addEventListener('click',e=>{if(e.target.closest('[data-ad-close]'))finish(false);else if(e.target.closest('.ad-done')&&!dialog.querySelector('.ad-done').hidden)finish(true)});
     return dialog;
   }
 
@@ -29,16 +29,17 @@
   }
 
   // Muestra un anuncio y espera a que termine. Si ya hay uno abierto, no abre otro.
-  function rewarded({kind='pista'}={}){
+  function rewarded({kind='pista',seconds,doneLabel}={}){
     // Con la suscripción no hay publicidad (decisión 0076): el premio se da sin anuncio.
     if(kind==='pista'){
       if(window.Progress?.plus?.())return Promise.resolve(true);
     }
     if(pending)return Promise.resolve(false);
     const d=build(),bar=d.querySelector('.ad-progress i'),status=d.querySelector('.ad-status'),done=d.querySelector('.ad-done');
-    const total=(window.Ads.SECONDS||SECONDS)*1000,start=Date.now();
-    const challenge=kind==='tendencias';
-    done.textContent=challenge?'Jugar la partida extra →':'Ver la pista →';
+    const duration=Number.isFinite(seconds)&&seconds>0?seconds:(window.Ads.SECONDS||SECONDS);
+    const total=duration*1000,start=Date.now();
+    const challenge=kind==='tendencias'||kind==='continuation';
+    done.textContent=doneLabel||(challenge?'Jugar la partida extra →':'Ver la pista →');
     done.hidden=true;bar.style.setProperty('--p','0');
     const tick=()=>{
       const left=Math.max(0,total-(Date.now()-start));bar.style.setProperty('--p',String(1-left/total));

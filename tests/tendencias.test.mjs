@@ -132,7 +132,7 @@ try{
   const [extraFirst,extraSecond,extraThird]=trendReplay(state.date);
   assert.equal(completed.extra,'available');
   assert.equal((await call(reveal(extraFirst,actual(extraFirst),1))).status,409);
-  assert.deepEqual((await call(replay('preparar-extra'))).body,{watch:true});
+  const firstAd=(await call(replay('preparar-extra'))).body;assert.equal(firstAd.watch,true);assert.equal(firstAd.seconds,15);
   assert.equal((await call(replay('activar-extra'))).status,400);
   clock+=15000;
   const extra=(await call(replay('activar-extra'))).body;
@@ -150,9 +150,9 @@ try{
     const selected=trendReplay(state.date,undefined,undefined,game);
     assert.equal((await call(replay('activar-extra',game-1))).status,409);
     assert.equal((await call(replay('activar-extra',game))).status,400);
-    assert.deepEqual((await call(replay('preparar-extra',game))).body,{watch:true});
+    const nextAd=(await call(replay('preparar-extra',game))).body;assert.equal(nextAd.watch,true);assert.equal(nextAd.seconds,60);
     assert.equal((await call(replay('activar-extra',game))).status,400);
-    clock+=15000;
+    clock+=60000;
     const opened=(await call(replay('activar-extra',game))).body;
     assert.equal(opened.game,game);
     assert.equal(opened.current.id,selected[0].id);

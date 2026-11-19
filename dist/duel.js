@@ -15,7 +15,7 @@
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
 
   let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,chatWake=0,busy=false;
-  let quotaState=null,quotaRequest=0,lastOfferMode='duel';
+  let quotaState=null,quotaRequest=0,lastOfferMode='duel',lastAttempt=null;
   const serverNow=()=>Date.now()+offset;
   // Duelo de tres (decisión 0082): duel.size===3. rival() es el primero de los otros; others() son los demás con su asiento.
   const three=()=>duel?.size===3;
@@ -118,6 +118,7 @@
     const valid=Number.isInteger(data?.limit)&&data.limit>=0&&Number.isInteger(data?.played)&&data.played>=0;
     slot.innerHTML=window.PlusOffers?.render(mode,{...(typeof data?.plus==='boolean'?{plus:data.plus}:{}),
       ...(valid?{limit:data.limit,remaining:Math.max(0,data.limit-data.played),exhausted:data.played>=data.limit,compact:data.played<data.limit}:{compact:true})})||'';
+    if(valid&&data.played>=data.limit&&!data.plus)slot.insertAdjacentHTML('beforeend',`<div data-continue-slot="${mode}"></div>`);
     if(focus&&slot.firstElementChild){slot.tabIndex=-1;slot.focus();slot.scrollIntoView({block:'center',behavior:reduced()?'auto':'smooth'})}
   }
   async function refreshQuota(){
@@ -210,6 +211,7 @@ ${window.Bets?Bets.picker():''}
 ${window.Ranked?Ranked.lobby():''}
 <div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
 <div class="duel-modes duel-three-modes"><span class="duel-three-label">Nuevo · 1 vs 1 vs 1</span><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
+<button class="duel-link" type="button" data-duel="practice">Practicar con Faraday-bot</button>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
 <div data-duel-plan></div>
 <p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada</p>`;
@@ -494,11 +496,11 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   async function begin(action,extra={}){
     if(busy)return;busy=true;readProfile();shell.classList.add('is-busy');
     const origin=content.firstElementChild;
-    const mode=extra.size===3?'duel3':action==='bot'?'practice':duel?offerMode():extra.mode==='ranked'?'ranked':'duel';
-    lastOfferMode=mode;
+    const mode=extra.practice||action==='bot'?'practice':extra.size===3?'duel3':duel?offerMode():extra.mode==='ranked'?'ranked':'duel';
+    lastOfferMode=mode;lastAttempt={mode,action,extra};
     const response=await call(action,{...identity(),...extra});busy=false;shell.classList.remove('is-busy');
     if(shell.hidden||!origin?.isConnected)return;
-    if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data)}
+    if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data);if(extra.practice&&action==='crear')await begin('bot',{id:response.data.id})}
     else{
       const error=$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.');
       if(response.data.code==='limite'){quotaRequest++;quotaState=response.data;paintQuota(quotaState,mode,true)}
@@ -572,6 +574,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(action==='calc'){toggleCalc();return}
     if(action==='quick')begin('buscar',{mode:window.Ranked?.mode()||'normal'});
     if(action==='friend')begin('crear');
+    if(action==='practice')begin('crear',{practice:true});
     if(action==='accept')begin('unirse',{code:inviteCode});
     if(action==='bot')begin('bot',{id:duel.id});
     if(action==='rematch')begin('revancha',{id:duel.id});
@@ -599,6 +602,11 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   // El botón de sonido es el control de volumen de sound.js; aquí solo se para la música al silenciar.
   document.addEventListener('faraday:sonido',event=>{if(!event.detail.on)stopMusic()});
+  for(const mode of ['duel','duel3','ranked','practice'])window.Continuations?.register(mode,async()=>{
+    if(shell.hidden)return;
+    const attempt=lastAttempt?.mode===mode?lastAttempt:{action:'buscar',extra:mode==='duel3'?{size:3}:{mode:mode==='ranked'?'ranked':'normal'}};
+    await refreshQuota();await begin(attempt.action,attempt.extra);
+  });
   document.addEventListener('faraday:before-plan',event=>{
     // Las ofertas solo viven en el portal y en el resumen: nunca abandonan una ronda en marcha.
     if(shell.hidden)return;
@@ -615,7 +623,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(!shell.hidden&&(shown==='lobby'||shell.dataset.screen==='end'))refreshQuota();
   });
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
-  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden&&!document.querySelector('.ad-dialog[open]')){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
   window.DueloReconectar={open:id=>open('',id)};
