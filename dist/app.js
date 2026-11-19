@@ -39,7 +39,8 @@ function renderWeek(){
   $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
   $('.section-kicker').textContent=currentDay?'RETO Nº '+editionNumber(todayKey):'NUEVA EDICIÓN EN PREPARACIÓN';
   document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
-  if(!currentDay)$('#hero-play').textContent='Retos en preparación';
+  const played=currentDay?getGuesses(currentDay).length:0;
+  $('#hero-play').firstChild.textContent=!currentDay?'Retos en preparación ':played===3?'Ver mi resultado ':played?'Continuar reto ':'Jugar el reto de hoy ';
   const roundsList=$('#hero-rounds');
   roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
   roundsList.hidden=!roundsList.innerHTML;
@@ -293,7 +294,7 @@ async function goHome(){
   if(!duel.hidden){$('#duel-close').click();if(!await whenHidden(duel))return}
   if(!$('#game-shell').hidden){closeGame();await whenHidden($('#game-shell'),1000)}
   window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
-  $('#hero-play')?.closest('.home-hero')?.querySelector('[data-go-home]')?.focus({preventScroll:true});
+  $('.home-header [data-go-home]').focus({preventScroll:true});
 }
 document.addEventListener('click',event=>{const link=event.target.closest('[data-go-home]');if(!link||event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();goHome()});
 $('#workspace-close').addEventListener('click',()=>toggleWorkspace(false));

@@ -87,6 +87,8 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
   continuations.js, continuations.css  Continuación común con anuncios de prueba y acceso directo Plus
   plus-offers.js, plus-offers.css  Oferta común de Plus por modalidad y registro para futuros juegos
+  home.css               Portada con tarjetas de juego, escenario del avatar y panel social
+  social.js              Invitaciones de amistad, presencia, actividad reciente y chat directo
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
   ascension-scene.js, ascension-scene.css  Montaña, escalada, repisas y celebración del avatar
@@ -107,6 +109,8 @@ lib/duelos.mjs           Duelos 1 vs 1: reglas, reloj y estado de cada duelo (PO
 lib/ligas.mjs            Ligas de amigos: miembros, clasificación semanal y resumen (POST /api/liga)
 lib/comunidad.mjs        Preguntas de la comunidad y progreso en la cuenta (POST /api/comunidad y /api/progreso)
 lib/referidos.mjs        Circuito de amigos: códigos, vínculos, conexiones y premios cobrados una vez (POST /api/referido)
+lib/social.mjs           Panel de amigos, conexiones por enlace y chat privado (POST /api/social)
+lib/social-store.mjs     Almacén local y Supabase, con control de versiones en el chat
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs

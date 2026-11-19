@@ -728,17 +728,18 @@ function gaze(item,P,dt){
   let w=0,yaw=0,pitch=0;
   if(r?.width&&!reduced&&performance.now()-aim.at<ATTEND&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall){
     // Píxeles de la cabeza en pantalla y distancia imaginaria del espectador (más cerca en los avatares pequeños).
-    const x=r.left+(item.at.x+1)/2*r.width,y=r.top+(1-item.at.y)/2*r.height,far=Math.max(240,r.height*.9);
+    const x=r.left+(item.at.x+1)/2*r.width,y=r.top+(1-item.at.y)/2*r.height,far=item.home?Math.max(150,r.height*.48):Math.max(240,r.height*.9);
     yaw=wrap(Math.atan2(aim.x-x,far)-item.turn-(item.pose?.ry||0));pitch=Math.atan2(aim.y-y,far);
     // De espaldas no se gira a mirar.
     w=Math.abs(yaw)>1.5?0:1;yaw=clamp(yaw,-.9,.9);pitch=clamp(pitch,-.4,.5);
   }
-  const k=1-Math.exp(-dt*LOOK);look.w+=(w-look.w)*(1-Math.exp(-dt*2.4));look.y+=(yaw-look.y)*k;look.p+=(pitch-look.p)*k;
+  const k=1-Math.exp(-dt*(item.home?9:LOOK));look.w+=(w-look.w)*(1-Math.exp(-dt*(item.home?8:2.4)));look.y+=(yaw-look.y)*k;look.p+=(pitch-look.p)*k;
   if(look.w<.001)return;
-  const head=(item.clip&&!CALM.has(item.lastClip)?.25:1)*(item.mood==='wait'?.2:1)*look.w,eyes=look.w;
-  P.hy+=(look.y*.72-P.hy*.6)*head;P.sy+=look.y*.16*head;P.hx+=(look.p*.62-P.hx*.4)*head;P.hz*=1-.4*head;
+  const home=item.home,head=(item.clip&&!CALM.has(item.lastClip)?(home ? .55 : .25):1)*(item.mood==='wait'?.2:1)*look.w,eyes=look.w;
+  const headYaw=home?1.02:.72;
+  P.hy+=(look.y*headYaw-P.hy*.6)*head;P.sy+=look.y*(home ? .24 : .16)*head;P.hx+=(look.p*(home ? .85 : .62)-P.hx*.4)*head;P.hz*=1-.4*head;
   // Los ojos apuntan del todo, también lo que la cabeza aún no ha girado.
-  P.eye+=(clamp((yaw-look.y*.72*head)*2.4+look.y*.4,-2,2)-P.eye)*eyes;P.eyeY+=(clamp(-pitch*2.6,-1.4,1.4)-P.eyeY)*eyes;
+  P.eye+=(clamp((yaw-look.y*headYaw*head)*2.4+look.y*.4,-2,2)-P.eye)*eyes;P.eyeY+=(clamp(-pitch*2.6,-1.4,1.4)-P.eyeY)*eyes;
 }
 function animate(item,now){
   const R=item.entry.parts,t=(now-item.born)/1000,dt=Math.min(.1,Math.max(0,(now-item.last)/1000));item.last=now;
@@ -766,7 +767,8 @@ function animate(item,now){
   R.feet.forEach((shoe,i)=>{const [x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];shoe.position.set(x-cur.px,y-cur.py+tap*.05,z);shoe.rotation.x=toes-tap});
   const since=t-item.blinkFrom,lid=Math.min(1,Math.max(P.lid,since<.15?Math.sin(since/.15*Math.PI):0));
   const wide=Math.min(1,P.wide)*(1-lid);
-  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*.014;eye.position.y=eye.userData.y+cur.eyeY*.014});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
+  const eyeTravel=item.home ? .021 : .014;
+  R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*eyeTravel;eye.position.y=eye.userData.y+cur.eyeY*eyeTravel});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
   if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y}
   // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
   const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
@@ -790,8 +792,7 @@ function loop(now){
 const FACE=new THREE.Vector3();
 function locate(item){FACE.set(0,-.04,.5);item.entry.parts.head.localToWorld(FACE).project(camera);item.at={x:FACE.x,y:FACE.y}}
 // Un toque (clic o dedo, sin arrastrar) encima del personaje: «¡Ay!». Solo cuenta si cae sobre el dibujo, no en el aire
-// de alrededor. En la portada el avatar está dentro del botón del armario: el toque en el personaje no lo abre (el resto
-// de la tarjeta, sí); con el teclado el botón funciona como siempre.
+// de alrededor. El armario se abre con el botón de edición debajo del escenario.
 function poke(item){
   const el=item.el;let down=null;
   el.addEventListener('pointerdown',event=>{down={x:event.clientX,y:event.clientY,at:performance.now()}});

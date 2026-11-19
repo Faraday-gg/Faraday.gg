@@ -11,7 +11,7 @@
     const label=account?(account.name||account.email||'Tu cuenta'):'Entrar';
     const home=$id('home-account');home.classList.toggle('is-signed',Boolean(account));
     home.querySelector('.home-account-label').textContent=account?label.charAt(0).toUpperCase():'Entrar';
-    home.setAttribute('aria-label',account?`Tu cuenta: ${account.email||label}`:'Entrar o crear cuenta');home.title=account?account.email||label:'';
+    home.setAttribute('aria-label',account?'Mi cuenta':'Entrar o crear cuenta');home.title=account?'Mi cuenta':'';
     $id('menu-account-label').textContent=account?(account.email||label):'Entrar o crear cuenta';
     $id('menu-account-hint').textContent=account?'Sesión iniciada':'Guarda tu progreso';
   }

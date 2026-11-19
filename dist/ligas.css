@@ -1,7 +1,5 @@
 /* Ligas de amigos (decisión 0031): entrada discreta en la portada, lista de ligas, clasificación semanal y resumen del lunes.
    Reutiliza las piezas de los duelos (apodo, código, botones) con la paleta clara del juego. */
-.home-league{display:flex;width:fit-content;margin:10px auto 0;align-items:center;gap:8px;border:0;background:transparent;color:var(--ink);padding:8px 14px;font-size:14px;font-weight:700;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:4px;border-radius:30px;transition:background .15s}
-.home-league:hover{background:#20263014}
 
 .league-shell[hidden]{display:none}
 .league-shell{position:fixed;inset:0;z-index:104;

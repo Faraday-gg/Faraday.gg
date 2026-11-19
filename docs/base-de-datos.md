@@ -588,3 +588,14 @@ No se guardan los textos rechazados. Los resultados admitidos conservan el nombr
 Las filas `ad:` conservan un anuncio pendiente con plazo y los recibos completados. Las filas `daily:` guardan tres preguntas editoriales y las primeras estimaciones de la práctica. No contienen saldos ni premios. El contador y los recibos se actualizan con filtro de versión; las inserciones no sobrescriben conflictos. Las lecturas paginadas no introducen un máximo artificial de partidas.
 
 RLS activado y todos los permisos revocados a `public`, `anon` y `authenticated`; `service_role` recibe SELECT, INSERT y UPDATE. Solo la API devuelve el estado necesario al jugador identificado. Las pruebas verifican esquema, permisos y conflictos de versión en Postgres local. Aplicada en el proyecto compartido con autorización expresa de Álvaro. La consulta posterior confirma RLS, ausencia de permisos públicos y acceso de servidor; las seis modalidades de `/api/continuacion` y `/api/tendencias` responden HTTP 200 desde preprod. No se migran datos de prueba locales.
+
+## Panel de amigos
+
+La [migración 20261119111924](../supabase/migrations/20261119111924_amigos_y_chat.sql) añade dos tablas para `POST /api/social`. Pendiente de aplicar al proyecto compartido.
+
+| Tabla | Datos y restricciones |
+| --- | --- |
+| `social_profiles` | Clave `(scope, player_hash)`, apodo explícito, token de invitación único por ámbito, última presencia, última señal de juego y visibilidad de actividad. |
+| `social_contacts` | Una amistad por par ordenado y ámbito, con identificador UUID. Ambas referencias son al perfil del mismo ámbito. Guarda hasta 60 mensajes, la versión de escritura y quién bloqueó la relación si se bloqueó. |
+
+`scope` separa `publico` y `preview`. Las búsquedas de amistades usan la clave del par y un índice para el segundo integrante. Las tablas tienen RLS y permisos explícitos de lectura, inserción y actualización para `service_role`. La API verifica la sesión y la pertenencia a la conversación antes de enviar datos a los dos participantes.

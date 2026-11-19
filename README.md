@@ -1,6 +1,6 @@
 # Casi Casi
 
-Juego diario de estimaciones en español (Faraday.gg): tres preguntas al día, cada una con su categoría e icono. El archivo empieza el 9 de agosto de 2026 (reto Nº 1) y se puede jugar cualquier día anterior.
+«¿A cuánto te acercas?» es el lema de Faraday.gg, un juego de preguntas y estimaciones en español. Juega tres preguntas nuevas cada día, compite en Duelos, dibuja en Traza la tendencia o busca respuestas poco comunes en Ascensión. El archivo empieza el 9 de agosto de 2026 (reto Nº 1).
 
 ## Probar en local
 
@@ -43,6 +43,10 @@ node tests/ascension-banco.test.mjs
 node tests/ascension-anuncios.test.mjs
 node tests/ascension-chart.test.mjs
 ```
+
+## Amigos y ligas
+
+Abre el icono de personas en la cabecera. Desde el panel puedes entrar en tus ligas y al Circuito de amigos. Con tu cuenta puedes activar un apodo social, copiar tu enlace de amistad y aceptar invitaciones. Tus amigos pueden ver tu presencia y la fecha en que jugaste recientemente si compartes actividad. El chat directo funciona entre amistades activas y conserva hasta 60 mensajes por conversación. El modo local con sesión simulada se prueba con `node tests/social.test.mjs`. Consulta la [decisión 0102](docs/decisiones/0102-portada-avatar-y-amigos.md).
 
 ## Probar las celebraciones del avatar
 
