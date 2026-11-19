@@ -521,13 +521,22 @@ ${chosen?medalDetail(chosen,stats):''}
     const note=plus?'Tus ventajas ya están activas.':!linked?'Entra con tu cuenta para consultar el precio y la disponibilidad.':billing?.enabled?'Suscripción con renovación automática. Cancela cuando quieras desde tu perfil.':'Todavía no se puede contratar. Aquí verás el precio y podrás activarlo cuando esté disponible.';
     return `<section class="profile-plan${plus?' is-plus':''}" aria-label="Faraday Plus">
       <p><b>FARADAY PLUS</b><span>${plus?'Activo':'Tu siguiente nivel'}</span></p>
-      <h3>${plus?'Todo listo. Sigue jugando.':'Más curvas. Cero pausas.'}</h3>
+      <h3>${plus?'Todo listo. Sigue jugando.':'Más juego. Menos pausas.'}</h3>
       <ul><li><b>Traza sin límite</b><span>Una partida tras otra, sin ver anuncios.</span></li>
       <li><b>Duelos ilimitados</b><span>Que las ganas de revancha pongan el límite.</span></li>
       <li><b>Hazlo más tuyo</b><span>Piezas de suscriptor y anuncios sin tope en el mercado.</span></li></ul>
       ${action}<p class="profile-plan-note">${note}</p>${until}
       <p class="profile-plan-fair">Los premios se ganan jugando. El mismo mérito y las mismas recompensas para todos.</p>
     </section>`;
+  }
+  // Entrada común para las ofertas de todas las modalidades. Cada juego puede suspender su pantalla.
+  function openPlan({mode='general'}={}){
+    if(!document.dispatchEvent(new CustomEvent('faraday:before-plan',{detail:{mode},cancelable:true})))return;
+    setTimeout(()=>{
+      open();
+      const plan=main.querySelector('.profile-plan');
+      if(plan){plan.tabIndex=-1;plan.scrollIntoView({block:'center'});plan.focus({preventScroll:true})}
+    },0);
   }
   // Vitrina: las tres mejores, siempre a la vista bajo el nivel.
   function showcase(){
@@ -826,7 +835,11 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     for(const type of Chests.TYPES)state.chests[type]=Number.isInteger(data.chests[type])&&data.chests[type]>0?data.chests[type]:0;
     if(Number.isFinite(data.charge))state.charge=data.charge;
     // Si la cuenta tiene la suscripción activa (decisión 0076).
-    if(typeof data.plus==='boolean'){plus=data.plus;plusUntil=data.plusUntil||null;billing=data.billing||null}
+    if(typeof data.plus==='boolean'){
+      const before=JSON.stringify({plus,plusUntil,billing});
+      plus=data.plus;plusUntil=data.plusUntil||null;billing=data.billing||null;
+      if(before!==JSON.stringify({plus,plusUntil,billing}))document.dispatchEvent(new CustomEvent('faraday:plan'));
+    }
     // La experiencia también es la del servidor (decisión 0065): así el nivel que se ve es el que cuenta.
     if(Number.isInteger(data.xp)&&data.xp>=0)state.xp=data.xp;
     store();refresh();
@@ -909,7 +922,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   document.addEventListener('faraday:cuenta',({detail})=>{if(detail?.account)attach();else if(detail&&'account' in detail)detach()});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,planOffer,collectTrendPrize,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,planOffer,openPlan,collectTrendPrize,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

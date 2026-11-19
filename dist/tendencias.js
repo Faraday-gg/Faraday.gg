@@ -568,15 +568,9 @@
     mood((extra.length?extraTotal:total)/edition.rounds,false);
     const review=(results,offset)=>results.map((result,i)=>`<button class="game-secondary" type="button" data-trends-review="${i+offset}"><span>${text(result.title)}</span><b>${fmt(result.score)} pts</b></button>`).join('');
     const score=total=>`<div class="trends-points"><strong>${fmt(total)} pts</strong><span>de ${fmt(1000*edition.rounds)}</span></div>`;
-    const plan=window.Progress?.planOffer?.();
     const offer=edition.plus?`<section class="trends-replay"><h4>Tu próxima curva te espera</h4><p>Plus activo · partidas sin anuncios.</p>
       <button class="game-primary" type="button" data-trends-extra>Jugar otras tres gráficas →</button></section>`:
-      `<section class="trends-plus" aria-label="Sigue jugando con Faraday Plus">
-        <span class="trends-plus-badge">FARADAY PLUS</span><h4>¿Y si la siguiente fuera tu mejor curva?</h4>
-        <p>Quédate con las ganas de jugar, sin las pausas.<br>Traza y duelos ilimitados, sin anuncios.</p>
-        <button class="game-primary" type="button" data-trends-plan>${plan?.enabled?'Quiero jugar sin anuncios':'Descubrir Plus'} <span aria-hidden="true">→</span></button>
-        <small>${plan?.enabled?(plan.price?`${text(plan.price)} · renovación automática · cancela cuando quieras`:'Consulta el precio y las condiciones antes de activar Plus.'):plan?.linked?'La contratación todavía no está disponible.':'Consulta las ventajas y la disponibilidad.'}</small>
-      </section><section class="trends-replay trends-free"><h4>También puedes seguir gratis</h4>
+      `${window.PlusOffers?.render('trends')||''}<section class="trends-replay trends-free"><h4>También puedes seguir gratis</h4>
         <button class="game-secondary" type="button" data-trends-extra>Ver anuncio de prueba y jugar</button><small>15 segundos · otras tres gráficas · sin límite de anuncios</small></section>`;
     const reward=edition.reward;
     const prize=reward?`<section class="trends-prize" aria-label="Tu recompensa diaria"><div><span class="section-kicker">TU PREMIO DE HOY</span>
@@ -645,15 +639,7 @@
     }
   }
 
-  function openPlan(){
-    dialog.close();
-    setTimeout(()=>{
-      window.Progress.open();
-      const plan=document.querySelector('.profile-plan');
-      plan?.scrollIntoView({block:'center'});
-      if(plan){plan.tabIndex=-1;plan.focus({preventScroll:true})}
-    },0);
-  }
+  document.addEventListener('faraday:before-plan',()=>{if(dialog.open)dialog.close()});
 
   async function load(){
     const token=++view;
@@ -692,7 +678,6 @@
     else if(button.hasAttribute('data-trends-retry'))load();
     else if(button.hasAttribute('data-trends-set'))storePoint();
     else if(button.hasAttribute('data-trends-extra'))startExtra(button);
-    else if(button.hasAttribute('data-trends-plan'))openPlan();
     else if(button.hasAttribute('data-trends-claim')){
       if(window.Progress?.linked?.())collectPrize();
       else{dialog.close();document.getElementById('home-account')?.click()}

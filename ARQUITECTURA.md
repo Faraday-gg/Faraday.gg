@@ -85,6 +85,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   casi.js                Momento «¡Casi casi!» (< 1,1×): regla, contador sin repeticiones, dato social y adorno de la tarjeta (decisión 0030)
   casi.css               Estilos del momento «¡Casi casi!» (sello, destello e indicador del duelo)
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
+  plus-offers.js, plus-offers.css  Oferta común de Plus por modalidad y registro para futuros juegos
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
   ascension-scene.js, ascension-scene.css  Montaña, escalada, repisas y celebración del avatar
@@ -144,6 +145,10 @@ El jugador completa el tramo oculto de tres series y puede repasar los resultado
 En local se guarda en `runtime/tendencias.json`. Vercel usa `trend_answers`, `trend_traces` y `trend_replays` en Supabase, con ámbitos separados para Preview y producción. Las migraciones están pendientes de aplicación. Cada anuncio de prueba completado en el plan gratuito desbloquea otra partida de tres gráficas. Plus abre cada partida extra directamente. El servidor numera los desbloqueos por fecha y consulta la diaria y la última partida extra. Ver [decisión 0091](docs/decisiones/0091-reanudar-trazos-y-partidas-extra.md) y [decisión 0094](docs/decisiones/0094-revelacion-y-trazos-individuales.md).
 
 El resumen recoge el premio diario con `POST /api/progreso`, acción `premio-traza`. `createTrendPrizes` recalcula los puntos desde las tres respuestas persistidas; `lib/comunidad.mjs` paga una vez en el libro contable y concede el cofre con control de versión de estadísticas. Los extras no dan premios. Plus mantiene los mismos premios y ofrece partidas sin anuncios, con precio y disponibilidad del cobro existente. Ver [decisión 0095](docs/decisiones/0095-plus-y-premios-de-traza.md).
+
+## Oferta de Plus por modalidad
+
+`dist/plus-offers.js` reúne los contextos de reto diario, Traza y variantes de duelo y admite registros de nuevas modalidades. Renderiza tarjetas o contenedores declarativos, actualiza precio/disponibilidad desde `Progress.planOffer()` y abre el panel común mediante `Progress.openPlan()`. Los duelos consultan su cupo real con la acción `limite` de `/api/duelo`, tanto en portal como al finalizar; los rechazos estructurados actualizan el módulo sin insertarlo durante una ronda. El reto diario solo lo muestra en su resumen, conservando el archivo gratuito. El componente no cambia las reglas del servidor. [Guía de integración](docs/modalidades-y-plus.md) y [decisión 0097](docs/decisiones/0097-modulo-plus-por-modalidad.md).
 
 ## Duelos
 

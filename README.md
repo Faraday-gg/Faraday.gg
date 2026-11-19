@@ -56,6 +56,12 @@ La edición diaria cambia a medianoche de Madrid: termina antes. La clasificaci�
 
 El banco propio contiene 2.637 respuestas en 28 categorías. Se distribuye únicamente en la función del servidor, fuera de `dist/`. Fuentes, licencias y reproducción editorial en [research/ascension-fuentes.md](research/ascension-fuentes.md). Las tres pruebas `ascension`, `ascension-api` y `ascension-banco` cubren reglas, reloj, concurrencia, HTTP, persistencia y catálogo. En local se guarda en `ascension.json` junto a `ANSWERS_FILE`; Vercel usa la tabla privada `ascension_runs`, cuya [migración](docs/base-de-datos.md#ascension) ya está aplicada con autorización de Álvaro. No requiere nuevas variables ni dependencias.
 
+## Probar las ofertas de Plus
+
+El portal y el resumen de los duelos muestran el módulo común con el cupo real compartido entre 1v1, tres jugadores, clasificatorias y bot. Al agotarse, la oferta se destaca y permite abrir el plan desde el perfil. Traza reutiliza la tarjeta conservando el anuncio gratuito; el resumen del reto diario invita a explorar Plus sin prometer otra edición. El archivo sigue accesible gratis. No se cambian precios, cuotas ni recompensas.
+
+`node tests/plus-offers.test.mjs` comprueba el componente. Para cualquier nueva modalidad, tenga o no un límite, sigue [Modalidades y Plus](docs/modalidades-y-plus.md).
+
 ## Probar Traza la tendencia
 
 Con el mismo servidor local, abre «Traza la tendencia» en la portada o en «Juega» del menú lateral. El aviso «Dibuja el resto» marca el tramo pendiente. Arrastra el punto amarillo para empezar o reanudar el dibujo. Las guías muestran el periodo y la estimación en los ejes. Agarra la línea para ajustarla o usa el editor por fecha. Al revelar se dibuja primero el dato real y luego todos los trazos de los demás a la vez. Si todavía no hay otras respuestas se muestran 200 ejemplos marcados como simulados. Al terminar la diaria o cualquier partida extra, «Ver anuncio de prueba y jugar» desbloquea otras tres gráficas. La oferta de Faraday Plus destaca las partidas sin anuncios y mantiene visible la alternativa gratuita. Con cuenta, el resumen recoge entre 10 y 35 faradios por la diaria y, desde 2.700 puntos, un cofre Chispa como máximo por semana.
