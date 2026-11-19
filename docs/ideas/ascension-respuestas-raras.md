@@ -1,6 +1,6 @@
 # Ascensión: respuestas raras y un avatar que escala
 
-- **Estado** — Propuesta para Álvaro; el nuevo juego todavía no está integrado.
+- **Estado** — Aprobada por Álvaro e implementada en la [decisión 0098](../decisiones/0098-ascension-respuestas-raras.md).
 - **Fecha** — 2026-11-19.
 
 ## Referencia observada
@@ -24,6 +24,8 @@ La animación de revelación mostró una escala de seis categorías: Plankton (1
 Se observó cómo una respuesta de 85 puntos da lugar a una revelación por niveles y un descenso mayor, con nuevos hitos del escenario. El efecto depende del recorrido y del cambio de entorno además de la mascota. Es la referencia que sostiene la recomendación de separar avance, llegada a repisa y celebración en Faraday. La prueba de `Henneth Annun` confirma la normalización de ese acento concreto; no acredita por sí sola la calidad de todos los alias ni del autocorrector.
 
 La [FAQ oficial](https://krillion.io/faq) describe bancos reunidos de diccionarios, enciclopedias y otras fuentes, con limpieza y alias. La rareza puede venir de una base de familiaridad o de asistencia de IA más revisión manual. La respuesta especial también considera lo satisfactorio del hallazgo. No puede interpretarse toda puntuación como el porcentaje real de jugadores que escribió una respuesta.
+
+En la revisión posterior se abrió también la modalidad ilimitada clásica: una cadena inválida permitió reintentar manteniendo el plazo restante y `Ramen` dio 10 puntos en la categoría observada. El armario de la referencia desbloquea compañeros por rachas de 5, 14, 30, 45, 60, 75, 100 y 150 días. No se copiaron sus respuestas masivamente ni sus gráficos, mascotas o código.
 
 ## Actividad recomendada
 
@@ -50,4 +52,4 @@ El cuerpo, la ropa y los complementos permanecen visibles. Al llegar a una repis
 - Métricas para revisar rechazos injustificados, abandono y distribución de puntuaciones antes de vender nuevos cosméticos.
 - Nuevos emotes con propiedad comprobada por el servidor y asignación desde el armario de la decisión 0096. Los gestos actuales permanecen incluidos. Precios, distribución en cofres y venta/intercambio se deciden después.
 
-La montaña es una recomendación de diseño, no una decisión de producto aprobada. Falta la elección de Álvaro antes de construir el modo.
+Álvaro encargó la integración de esta modalidad manteniendo el diseño de Faraday y el protagonismo del avatar. La implementación y los límites del primer banco quedan fijados en la decisión 0098; las métricas editoriales ampliadas y la venta de nuevos emotes siguen como evolución futura.
