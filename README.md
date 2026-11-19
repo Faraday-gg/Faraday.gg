@@ -36,7 +36,14 @@ node tests/ligas.test.mjs
 node tests/comunidad.test.mjs
 node tests/medallas.test.mjs
 node tests/pistas.test.mjs
+node tests/celebraciones.test.mjs
 ```
+
+## Probar las celebraciones del avatar
+
+Abre el perfil → Armario → «Celebraciones y emotes». Elige un gesto para cada resultado en «Todos los modos» y usa «Ver» para probarlo con tu avatar. El selector de modalidad permite excepciones para reto diario, archivo, duelos de dos y tres, clasificatorias y Traza. Cada hueco puede heredar la elección general, recuperar el original o quedarse sin gesto. Se guarda automáticamente; al recargar conserva la configuración y, con cuenta, utiliza la sincronización del perfil.
+
+Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y Dab en «Archivo / ¡Casi casi!»: el reto diario usa Robot y el archivo usa Dab. Los rivales de los duelos reciben la configuración al entrar en la partida. `node tests/celebraciones.test.mjs` comprueba los umbrales, la herencia, los datos inválidos y el catálogo. La venta de nuevos emotes y el juego de respuestas raras siguen pendientes; consulta la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md) y la [propuesta de Ascensión](docs/ideas/ascension-respuestas-raras.md).
 
 ## Probar Traza la tendencia
 

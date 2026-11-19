@@ -96,8 +96,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0092](0092-graficas-con-pendientes-estables.md) | Auditoría de pendientes y nueva rotación con ciclos mensuales y series por bienios | Implementada | 2026-11-18 |
 | [0093](0093-guia-y-coordenadas-de-dibujo.md) | Aviso de inicio y coordenadas al dibujar en Traza | Implementada | 2026-11-18 |
 | [0094](0094-revelacion-y-trazos-individuales.md) | Revelación animada y trazos individuales de otros jugadores | Implementada | 2026-11-18 |
-
 | [0095](0095-plus-y-premios-de-traza.md) | Oferta de Plus con ventajas reales y premios de precisión de Traza dentro de la economía común | Implementada | 2026-11-19 |
+| [0096](0096-celebraciones-por-resultado.md) | Gestos elegidos por nivel de resultado, con selección general y excepciones por modalidad | Implementada; [PR #142](https://github.com/Faraday-gg/Faraday.gg/pull/142) | 2026-11-19 |
 
 ## Plantilla
 
