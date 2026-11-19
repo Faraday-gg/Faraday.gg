@@ -4,6 +4,8 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 
 | Mejora | Por qué | Estado |
 | --- | --- | --- |
+| Hacer atómico el tope común de ganancias | `earn` consulta lo emitido y luego llama a `wallet_move`: cobros simultáneos de fuentes distintas pueden superar los 400. Requiere comprobar el tope y mover saldo bajo el mismo bloqueo transaccional, con una migración autorizada. [0095](../decisiones/0095-plus-y-premios-de-traza.md). | Pendiente |
+| Medir conversión y economía de Traza con jugadores reales | La simulación no sustituye impresiones, altas pagadas, emisión observada y tiempo de colección. El estrés de acierto perfecto queda por debajo de la absorción deseada; revisar antes de ampliar premios. [0095](../decisiones/0095-plus-y-premios-de-traza.md). | Pendiente |
 | Pasar las respuestas de `runtime/` a Supabase | Los archivos locales solo funcionan con una instancia del servidor y no sirven en Vercel. El esquema ya existe ([base-de-datos.md](../base-de-datos.md)). | Hecha: PR #7 y #8 (probado contra el Supabase real por Luis) |
 | Cargar la semana piloto y el banco editorial en `days` y `questions` | Las tablas estaban vacías; el contenido sigue en `dist/questions.json` y `content-engine.mjs`. | Hecha: PR #10 (todo el contenido publicado en Supabase) y PR #12 (publicación automática en cada despliegue de producción) |
 | Borrar los datos de prueba de Supabase | Jornada `2000-01-01` y respuestas falsas de `2026-12-14`. | Hecha el 9 de noviembre en `feat/documentar-clave-y-previews` (ver [bitácora](../bitacora/2026-11.md)) |

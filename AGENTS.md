@@ -84,6 +84,7 @@ Reglas para agentes:
   node tests/pistas.test.mjs
   node tests/rangos.test.mjs
   node tests/apuestas.test.mjs
+  node tests/premios-traza.test.mjs
   node tests/economia.test.mjs
   node tests/premios.test.mjs
   node tests/misiones.test.mjs
