@@ -49,7 +49,7 @@ Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y 
 
 El portal y el resumen de los duelos muestran el módulo común con el cupo real compartido entre 1v1, tres jugadores, clasificatorias y bot. Al agotarse, la oferta se destaca y permite abrir el plan desde el perfil. Traza reutiliza la tarjeta conservando el anuncio gratuito; el resumen del reto diario invita a explorar Plus sin prometer otra edición. El archivo sigue accesible gratis. No se cambian precios, cuotas ni recompensas.
 
-`node tests/plus-offers.test.mjs` comprueba el componente. Para una nueva modalidad limitada, sigue [Modalidades y Plus](docs/modalidades-y-plus.md).
+`node tests/plus-offers.test.mjs` comprueba el componente. Para cualquier nueva modalidad, tenga o no un límite, sigue [Modalidades y Plus](docs/modalidades-y-plus.md).
 
 ## Probar Traza la tendencia
 

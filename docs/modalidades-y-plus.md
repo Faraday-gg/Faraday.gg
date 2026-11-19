@@ -1,6 +1,6 @@
 # Integrar Plus en una modalidad
 
-Este contrato aplica a las modalidades actuales y futuras. El precio y el paquete comercial definitivo se deciden por separado. La interfaz refleja lo que hace el servidor, sin añadir ventajas por su cuenta.
+Este contrato aplica a las modalidades actuales revisadas y a todas las modalidades futuras, también si no tienen cupo diario. Todo modo nuevo registra su contexto y monta la oferta en un momento adecuado, como el resumen; en modos sin límite, la invitación es general y no inventa bloqueos. El precio y el paquete comercial definitivo se deciden por separado. La interfaz refleja lo que hace el servidor, sin añadir ventajas por su cuenta.
 
 ## Antes de añadir la oferta
 
