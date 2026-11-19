@@ -639,6 +639,12 @@ const CLIPS={
   salto:{d:1.5,f:u=>{const crouch=u<.22?Math.sin(u/.22*Math.PI/2):u<.3?1-(u-.22)/.08:u>.82?Math.sin((1-u)/.18*Math.PI)*.6:0,fly=u>.26&&u<.82?Math.sin((u-.26)/.56*Math.PI):0,arms=ease((u-.18)/.14)*ease((1-u)/.2);return {py:-.08*crouch,air:.3*fly,...both({O:2.3*arms,E:.2*arms}),hx:-.15*fly}}},
   puno:{d:1.9,f:u=>{const k=hold(u,.15,.85),p=Math.max(0,Math.sin(u*Math.PI*5));return {bO:(1.7+p*.6)*k,bI:(1-p*.8)*k,bE:.15*k,air:p*.05*k,aO:.1*k,aE:-.9*k,hx:-.1*k,sz:-.06*k}}},
   giro:{d:1.5,end:item=>{item.pose.ry-=Math.PI*2},f:u=>{const k=hold(u,.2,.8);return {ry:ease(u)*Math.PI*2,air:Math.sin(u*Math.PI)*.12,...both({O:k,E:.2*k})}}},
+  // Ascensión: alterna una mano alta y el pie contrario, sosteniendo el peso cerca de la pared. El giro queda
+  // en tres cuartos para que el rostro y la ropa sigan visibles; no depende de accesorios ni del cuerpo elegido.
+  escalar:{d:1.8,f:(u,t)=>{const k=hold(u,.08,.94),w=u*Math.PI*4,s=Math.sin(w),left=(s+1)/2,right=1-left;return {ry:.62*k,sy:-.12*k,sx:.12*k,hx:-.13*k,hy:-.22*k,px:s*.035*k,py:(-.045-Math.abs(s)*.025)*k,
+    aO:(1.25+left*.75)*k,bO:(1.25+right*.75)*k,aS:-.28*k,bS:-.28*k,aE:(-.75+left*.55)*k,bE:(-.75+right*.55)*k,aI:.3*k,bI:.3*k,fa:right*.85*k,fb:left*.85*k,wide:.15*k}}},
+  // Apoyo en la nueva repisa: flexiona al llegar, recupera el equilibrio y se gira hacia el jugador.
+  coronar:{d:.7,f:u=>{const k=Math.sin(u*Math.PI),land=Math.sin(Math.min(1,u/.45)*Math.PI);return {py:-.085*land,sx:.08*land,air:.055*Math.sin(u*Math.PI),...both({O:.3*k,E:-.25*k}),hx:-.08*k,hz:.04*k}}},
   // Lamentarse
   suspiro:{d:2.8,f:u=>{const k=Math.sin(u*Math.PI)**2*(u<.5?1:-.4);return {...both({Y:.05*k}),sx:-.06*k,hx:-.1*k}}},
   negar:{d:2.2,f:u=>{const k=hold(u,.15,.85);return {hy:Math.sin(u*Math.PI*5)*.3*k,hx:.05*k,lid:.4*k}}},

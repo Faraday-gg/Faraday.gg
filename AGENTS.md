@@ -81,6 +81,10 @@ Reglas para agentes:
   node tests/duelos.test.mjs
   node tests/duelos-tres.test.mjs
   node tests/celebraciones.test.mjs
+  node tests/ascension.test.mjs
+  node tests/ascension-api.test.mjs
+  node tests/ascension-banco.test.mjs
+
   node tests/plus-offers.test.mjs
   node tests/cofres.test.mjs
   node tests/casi.test.mjs

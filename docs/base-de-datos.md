@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-17, se preparan las migraciones de Traza la tendencia, pendientes de aplicar. Ese mismo día Luis pidió aplicar la migración de las clasificatorias: **aplicada** como `20261116231953_rangos` (el archivo se llamaba `20261112200000_rangos`). Antes: 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
+- **Última actualización:** 2026-11-19, migración de Ascensión **aplicada** con autorización expresa de Álvaro como `20261119055720_ascension`. Se verifican RLS y permisos exclusivos de servidor. Antes: 2026-11-17, se preparan las migraciones de Traza la tendencia, pendientes de aplicar. Ese mismo día Luis pidió aplicar la migración de las clasificatorias: **aplicada** como `20261116231953_rangos` (el archivo se llamaba `20261112200000_rangos`). Antes: 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
 Este documento describe **cómo está la base de datos ahora mismo**. Se actualiza en la misma PR que cada migración nueva (la skill `/sincronizar` lo comprueba). Si algo de aquí no coincide con Supabase, manda Supabase y hay que corregir este archivo.
@@ -34,6 +34,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Origen editorial del contenido | Repositorio: `dist/questions.json`, `content-engine.mjs`, `research/` | Se revisa por PR y Vercel lo publica al desplegar producción. |
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
 | Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
+| Ascensión | `ascension_runs` | Partida diaria y prácticas por jugador, fecha y entorno; copia privada del banco, reloj, versión y clasificación. |
 | Traza la tendencia | `trend_answers`, `trend_traces`, `trend_replays` | Trazos diarios por ronda y consulta paginada de trazos ajenos por entorno. Migraciones pendientes de aplicación. |
 | Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
 | HTML, CSS y JavaScript de la web | Repositorio y Vercel | Es código, no datos. |
@@ -535,6 +536,7 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261117130000` | [repeticiones_tendencias](../supabase/migrations/20261117130000_repeticiones_tendencias.sql) | Amplía a seis rondas y registra el desbloqueo en `trend_replays`. | Pendiente de aplicación |
 | `20261118030040` | [partidas_ilimitadas_tendencias](../supabase/migrations/20261118030040_partidas_ilimitadas_tendencias.sql) | Elimina el límite de rondas y registra el desbloqueo por partida. | Pendiente de aplicación |
 | `20261118035240` | [trazos_individuales_tendencias](../supabase/migrations/20261118035240_trazos_individuales_tendencias.sql) | Añade el cursor de trazos y la función `trend_traces`. | Pendiente de aplicación |
+| `20261119055720` | [ascension](../supabase/migrations/20261119055720_ascension.sql) | Crea `ascension_runs`, índice parcial de diarias completadas, RLS y permisos de servidor. | 2026-11-19, por Álvaro con Codex y autorización expresa (generada inicialmente como `20261119054236`) |
 
 ## Pendiente
 
@@ -553,3 +555,25 @@ La migración `20261117130000_repeticiones_tendencias` añade las primeras tres 
 La migración `20261118030040_partidas_ilimitadas_tendencias` amplía `round` a entero y elimina el tope de seis rondas. `trend_replays` pasa a tener clave primaria `(scope, day, player_hash, game)` y conserva los desbloqueos anteriores como `game = 1`.
 
 La migración `20261118035240_trazos_individuales_tendencias` añade un cursor numérico indexado a las respuestas. `trend_traces` requiere que el solicitante haya revelado la gráfica y devuelve únicamente los vectores de estimaciones de los demás y el cursor de la siguiente página. Recupera hasta 200 por llamada, cuenta solo el primer trazo de cada jugador por gráfica y separa fecha y entorno. Solo `service_role` tiene permiso de ejecución.
+
+## Ascensión
+
+La migración `20261119055720_ascension` está aplicada en el único proyecto compartido. Crea `public.ascension_runs` sin modificar tablas ni datos anteriores.
+
+| Columna | Tipo | Uso |
+| --- | --- | --- |
+| `scope` | `text` | `publico` o `preview`; separa los resultados por entorno. |
+| `day` | `date` | Fecha de la edición en Madrid. |
+| `player_hash` | `text` | SHA-256 de la identidad del servidor, 64 caracteres hexadecimales. |
+| `game` | `integer` | 0 para la diaria; positivos para prácticas. |
+| `version` | `integer` | Versión creciente para actualización optimista. |
+| `edition` | `text` | Huella de la versión y de las siete categorías de la partida. |
+| `score` | `integer` | Puntuación acumulada entre 0 y 700, calculada por el servidor. |
+| `finished_at` | `timestamptz` | Se completa al resolver la séptima respuesta. |
+| `state` | `jsonb` | Estado privado: categorías con sus respuestas, fase, plazos y resultados. |
+
+La clave primaria es `(scope, day, player_hash, game)`. `ascension_daily_scores` indexa `(scope, day, edition, score DESC, player_hash)` solo para `game=0` y `finished_at IS NOT NULL`. Las inserciones ignoran conflictos sin sobreescribir y las actualizaciones filtran la versión anterior; el servidor reintenta tras un conflicto.
+
+RLS está activado; `public`, `anon` y `authenticated` no tienen permisos. Solo `service_role` tiene SELECT, INSERT y UPDATE. No hay políticas públicas: el aviso informativo «RLS enabled, no policy» es deliberado para esta tabla privada, igual que las demás tablas de servidor. La revisión posterior confirmó `anon_select=false`, `authenticated_select=false` y permisos de escritura del servidor. No se permite consultar el JSON desde el navegador; `/api/ascension` devuelve una vista limitada sin respuestas futuras ni identidades de rivales.
+
+No se guardan los textos rechazados. Los resultados admitidos conservan el nombre canónico, puntos y fuentes. La clasificación devuelve puntuaciones agregadas de diarias de la misma edición y excluye prácticas. El almacén local es `ascension.json`, al lado del archivo de respuestas configurado. Las pruebas usan datos temporales y Supabase simulado; no insertan jugadores de prueba en la base compartida.

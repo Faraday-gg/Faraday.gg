@@ -87,10 +87,15 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   reactions.js           Reto diario: el avatar junto a la tarjeta, sus gestos según el resultado, sonido y celebración al acertar (decisión 0033)
   plus-offers.js, plus-offers.css  Oferta común de Plus por modalidad y registro para futuros juegos
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
+  ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
+  ascension-scene.js, ascension-scene.css  Montaña, escalada, repisas y celebración del avatar
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
+lib/ascension.mjs        Edición diaria, validación, reloj y clasificación de Ascensión
+lib/ascension-store.mjs  Persistencia local y Supabase con versión optimista
+content/ascension.json   Banco privado de 28 categorías y 2.637 respuestas, fuentes y rareza editorial
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
 content/tendencias*.json Banco vigente de 108 gráficas y bancos anteriores para partidas iniciadas
 lib/api.mjs              Lógica de la API (Request → Response), compartida
@@ -189,11 +194,11 @@ Quien invita y quien es invitado ganan los dos ([decisión 0038](docs/decisiones
 
 ## Avatar, faradios y misiones
 
-Desde la [PR #142](https://github.com/Faraday-gg/Faraday.gg/pull/142), integrada en `preprod`, el armario permite elegir entre 22 gestos existentes para cada nivel de resultado. `dist/celebrations.js` centraliza el catálogo, los siete tramos de distancia del reto y los cinco niveles por puntos de Traza. Hay selección general y excepciones para reto diario, archivo, duelos de dos y tres, clasificatorias y Traza, además del saludo de portada y el premio de cofre. La vista previa utiliza el avatar vestido y respeta la preferencia de reducir movimiento. Detalle en la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md).
+Desde la [PR #142](https://github.com/Faraday-gg/Faraday.gg/pull/142), integrada en `preprod`, el armario permite elegir entre 22 gestos existentes para cada nivel de resultado. `dist/celebrations.js` centraliza el catálogo, los siete tramos de distancia del reto y los cinco niveles por puntos de Traza. Hay selección general y excepciones para reto diario, archivo, duelos de dos y tres, clasificatorias, Traza y Ascensión, además del saludo de portada y el premio de cofre. La vista previa utiliza el avatar vestido y respeta la preferencia de reducir movimiento. Detalle en la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md).
 
 `Progress.reaction(mode, cue, options)` resuelve el gesto. Las preferencias viven en `state.celebrations`, dentro de `casi-casi:progreso`, y viajan con la sincronización existente de la cuenta. `Avatar.render` admite una reacción inicial y `Avatar3D.react` actualiza un avatar ya montado. Los duelos envían `gestures` para sus tres modalidades; `lib/duelos.mjs` limita los campos y el navegador receptor los contrasta con el catálogo. Los rivales reciben la selección al entrar en la partida. No hay migración ni ruta nueva.
 
-Los gestos actuales siguen incluidos para todos. La selección cosmética no acredita la propiedad de futuros emotes de pago: la tienda, cofres y mercado de nuevos gestos requieren inventario comprobado en el servidor. El juego de respuestas raras está todavía en [propuesta](docs/ideas/ascension-respuestas-raras.md), sin integración.
+Los gestos actuales siguen incluidos para todos. La selección cosmética no acredita la propiedad de futuros emotes de pago: la tienda, cofres y mercado de nuevos gestos requieren inventario comprobado en el servidor. Ascensión incorpora seis niveles de celebración y una secuencia propia de escalada y llegada, descrita en la [decisión 0098](docs/decisiones/0098-ascension-respuestas-raras.md).
 
 Cada jugador tiene un avatar en 3D de estética de calle (`dist/avatar3d.js`, con Three.js cargado desde una CDN; catálogo en `dist/avatar.js`: ropa, pantalón, zapatillas, cabeza, peinado, gafas, cuello, extras, gesto y piel; [decisión 0025](docs/decisiones/0025-avatar-3d.md)). El avatar puede ser de hombre o de mujer, cada uno con su catálogo de piezas, y se anima con una postura base y un repertorio de gestos ([decisión 0028](docs/decisiones/0028-avatar-de-mujer-y-animaciones.md)). Parte de la ropa y las zapatillas son de marcas reales, con su logotipo (`dist/avatar-logos.js`), sin licencia de las marcas ([decisión 0026](docs/decisiones/0026-marcas-reales-en-la-tienda.md)). Cada jugador tiene también un progreso (`dist/progress.js`): nivel y experiencia, faradios (≈, la moneda del juego), racha diaria y misiones diarias y semanales ([decisión 0024](docs/decisiones/0024-avatar-faradios-y-misiones.md)). Los faradios se ganan jugando y se emplean en cosméticos y las funciones de la economía documentadas en `docs/decisiones/`.
 
@@ -256,3 +261,13 @@ node --env-file=.env scripts/publicar-contenido.mjs --prueba
 ```
 
 El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_FILE` permiten ajustar el entorno local. Con `SUPABASE_URL` y `SUPABASE_SECRET_KEY` (por ejemplo, `node --env-file=.env preview-server.mjs`, a partir de `.env.example`) usa Supabase en lugar del archivo. Las pruebas usan archivos temporales y un Supabase simulado: no modifican `runtime/answers.json` ni la base de datos. El flujo de colaboración y las ramas están definidos en `AGENTS.md`.
+
+## Ascensión
+
+`POST /api/ascension` obtiene la identidad desde la cuenta o la cookie HttpOnly existente, calcula su hash y ejecuta `lib/ascension.mjs`. El servidor determina categorías, plazos y puntos; ignora identidad y puntuación enviadas por el navegador. Una edición fija siete categorías distintas, con un máximo de dos por tema en el banco vigente. Cada partida guarda una copia privada de sus categorías y una huella de edición: una actualización editorial conserva los intentos abiertos y separa su clasificación.
+
+`lib/ascension-store.mjs` persiste en archivo local y en `public.ascension_runs` en Vercel. La clave `(scope, day, player_hash, game)` identifica la diaria (`game=0`) y prácticas sucesivas. Inserción única y actualización condicionada a `version` impiden que dos pestañas puntúen o avancen dos veces. Los plazos vencidos se resuelven en la siguiente petición, sin depender de memoria de una instancia. La fecha utiliza Madrid; una partida del día anterior da paso a la edición nueva. `scope=preview` separa los resultados de pruebas de `publico` dentro del único Supabase compartido.
+
+El banco se incluye expresamente en la función de `vercel.json`, fuera de los archivos públicos. No hay consultas a fuentes externas ni generación de respuestas durante el juego. La API revela solo la categoría activa, resultados resueltos y hasta cinco ejemplos posteriores. La clasificación compara únicamente diarias completadas de la misma fecha, edición y entorno; muestra empates, percentil y distribución de otros jugadores. Sin otros resultados, lo dice expresamente.
+
+La interfaz reutiliza avatar, ropa, sonido y selección de celebraciones del armario. `ascension-scene.js` mueve el paisaje y encadena escalar → llegar a repisa → emote elegido, respetando reducción de movimiento y cancelando recursos al cerrar. No añade faradios, premios ni derechos sobre futuros emotes de pago. La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro; tabla con RLS y acceso exclusivo del servidor. Detalle de fuentes en [research/ascension-fuentes.md](research/ascension-fuentes.md).

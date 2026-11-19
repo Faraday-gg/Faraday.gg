@@ -49,4 +49,65 @@ P.refresh();observer([]);await Promise.resolve();assert.equal(slot.writes,writes
 slot.dataset.plus='false';offer={plus:true};listeners.get('faraday:plan')();assert.equal(slot.innerHTML,'');assert.equal(slot.dataset.plus,undefined,'La activación descarta la instantánea anterior');
 offer={plus:false};listeners.get('faraday:cuenta')();assert.match(slot.innerHTML,/FARADAY PLUS/);
 listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});assert.equal(opened.mode,'daily');
+
+// La modalidad real registra su contexto y monta la invitación general en ambos resúmenes.
+// No se confunde la práctica ilimitada de Ascensión con el cupo compartido de los duelos.
+{
+  const handlers=new Map(),requests=[];
+  let activeSlot=null,openClick,openedMode=null,subscriber=false,html='';
+  const event=(type,detail)=>({type,detail,defaultPrevented:false,preventDefault(){this.defaultPrevented=true}});
+  const dispatch=value=>{for(const listener of handlers.get(value.type)||[])listener(value);return !value.defaultPrevented};
+  const add=(name,fn)=>handlers.set(name,[...(handlers.get(name)||[]),fn]);
+  const slotOf=()=>({dataset:{plusSlot:'ascension'},value:'',get innerHTML(){return this.value},set innerHTML(value){this.value=value},
+    querySelector(){const key=/data-plus-key="([^"]+)"/.exec(this.value)?.[1];return key?{dataset:{plusKey:key}}:null}});
+  const slotsFor=selector=>selector==='[data-plus-slot]'&&activeSlot?[activeSlot]:[];
+  const focus={focus(){}},input={...focus,value:''},submit={},seconds={};
+  const clock={classList:{toggle(){}},style:{setProperty(){}}};
+  const content={matches:()=>false,querySelectorAll:slotsFor,
+    get innerHTML(){return html},set innerHTML(value){html=value;activeSlot=value.includes('data-plus-slot="ascension"')?slotOf():null},
+    querySelector(selector){return {'h3':focus,'input':input,'#ascension-answer':input,'#ascension-submit':submit,'.ascension-clock':clock,'#ascension-seconds':seconds}[selector]||null}};
+  const button={focus(){},addEventListener(name,fn){if(name==='click')openClick=fn}};
+  const dialogHandlers=new Map();
+  const dialog={open:false,dataset:{},querySelector:()=>({setAttribute(){}}),
+    addEventListener(name,fn){dialogHandlers.set(name,fn)},showModal(){this.open=true},
+    close(){if(!this.open)return;this.open=false;dialogHandlers.get('close')?.()}};
+  const elements={'ascension-dialog':dialog,'ascension-content':content,'ascension-scene':{},'ascension-alert':{},'ascension-steps':{},'ascension-mode':{}};
+  const scene={setHeight:()=>Promise.resolve(),setState(){},refreshLook(){},destroy(){}};
+  const fixture={date:'2026-11-19',game:0,phase:'finished',round:6,rounds:7,score:70,height:700,now:Date.now(),ranking:null,
+    results:Array.from({length:7},(_,round)=>({round,answer:'Respuesta',title:'Categoría',points:10,height:100,tier:{name:'Conocida'},sources:[]}))};
+  let response=fixture;
+  const page={document:{documentElement:{},getElementById:id=>elements[id],querySelector:()=>button,
+    querySelectorAll:selector=>selector==='[data-open-ascension]'?[button]:slotsFor(selector),addEventListener:add,dispatchEvent:dispatch},
+    MutationObserver:class{observe(){}},Progress:{look:()=>({}),reaction:()=>({mood:'still'}),
+      planOffer:()=>({plus:subscriber,linked:true,enabled:false}),
+      openPlan({mode}){if(dispatch(event('faraday:before-plan',{mode})))openedMode=mode}},
+    AscensionScene:{mount:()=>scene},Sound:{on:false},escapeHtml:value=>String(value),
+    playerReady:Promise.resolve(),fetch:async(_url,options)=>{requests.push(JSON.parse(options.body));return {ok:true,json:async()=>structuredClone(response)}},
+    AbortController,Date,URL,URLSearchParams,location:{search:'',pathname:'/',origin:'https://faraday.test'},navigator:{},
+    setTimeout,clearTimeout,setInterval,clearInterval,addEventListener(){},matchMedia:()=>({matches:true})};
+  page.window=page;vm.createContext(page);vm.runInContext(source,page);
+  vm.runInContext(fs.readFileSync(new URL('../dist/ascension.js',import.meta.url),'utf8'),page);
+  const flush=()=>new Promise(resolve=>setImmediate(resolve));
+  try{
+    openClick();await flush();
+    assert.equal(dialog.open,true);assert(activeSlot);
+    assert.match(activeSlot.innerHTML,/data-plus-mode="ascension"/);assert.match(activeSlot.innerHTML,/Tu próxima aventura empieza en Faraday/);
+    assert.doesNotMatch(activeSlot.innerHTML,/plus-offer-quota|partidas gratuitas|más ascensiones|ascensiones ilimitadas/);
+    assert.match(content.innerHTML,/data-ascension="practice"/);assert.match(content.innerHTML,/La práctica es ilimitada/,'Conserva la continuación gratuita visible');
+    subscriber=true;dispatch(event('faraday:plan'));assert.equal(activeSlot.innerHTML,'','La oferta desaparece al activar Plus');
+    subscriber=false;dispatch(event('faraday:plan'));assert.match(activeSlot.innerHTML,/FARADAY PLUS/);
+    dispatch({type:'click',target:{closest:()=>({dataset:{openPlus:'ascension'}})}});
+    assert.equal(openedMode,'ascension');assert.equal(dialog.open,false,'Cierra el resumen antes de abrir el perfil');
+    assert.deepEqual(requests.map(request=>request.action),['estado'],'Consultar Plus no abandona ni muta una partida');
+    response={...fixture,game:1};openClick();await flush();
+    assert(activeSlot);assert.match(activeSlot.innerHTML,/data-plus-mode="ascension"/,'La práctica utiliza el mismo contexto general');
+    assert.match(content.innerHTML,/Práctica completada/);assert.match(content.innerHTML,/La práctica es ilimitada/);
+    dialog.close();
+    response={...fixture,phase:'question',round:0,results:[],score:0,height:0,now:Date.now(),deadline:Date.now()+25000,
+      current:{title:'Categoría activa',description:'Responde mientras corre el reloj',count:2}};
+    openClick();await flush();assert.equal(activeSlot,null,'La oferta no interrumpe las preguntas');
+    openedMode=null;dispatch({type:'click',target:{closest:()=>({dataset:{openPlus:'ascension'}})}});
+    assert.equal(openedMode,null);assert.equal(dialog.open,true,'La navegación al plan queda bloqueada con ronda activa');
+  }finally{dialog.close()}
+}
 console.log('plus-offers: oferta contextual, cuotas, precio dinámico, Plus, escape y ciclo declarativo correctos');
