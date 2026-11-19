@@ -12,10 +12,15 @@ for(const [factor,id] of [[1,'clavada'],[1.099,'clavada'],[1.1,'acierto'],[1.9,'
 for(const [score,id] of [[1000,'clavada'],[950,'clavada'],[949,'acierto'],[800,'acierto'],[799,'cerca'],[600,'cerca'],[350,'lejos'],[349,'fallo'],[0,'fallo']])assert.equal(C.trendTier(score).id,id);
 assert.equal(C.reaction(settings,'daily','ko').clip,'desmayo');
 assert.equal(C.reaction(settings,'trends','cerca').clip,'puno','Conserva el gesto original de Traza');
+assert.equal(C.reaction(settings,'ascension','cerca').clip,'puno','Una respuesta rara de Ascensión tiene celebración positiva');
+assert.equal(C.reaction(settings,'ascension','fallo').clip,'saludo','Una respuesta conocida sigue siendo válida');
 
 settings.all.clavada='robot';settings.archive.clavada='dab';settings.ranked.clavada='default';
 assert.equal(C.reaction(settings,'daily','clavada').clip,'robot');
 assert.equal(C.reaction(settings,'duel3','clavada').clip,'robot');
+assert.equal(C.reaction(settings,'ascension','clavada').clip,'robot','Ascensión hereda el emote general');
+settings.ascension.clavada='dab';
+assert.equal(C.reaction(settings,'ascension','clavada').clip,'dab','Ascensión permite elegir un emote propio');
 assert.equal(C.reaction(settings,'archive','clavada').clip,'dab');
 assert.equal(C.reaction(settings,'ranked','clavada').clip,'clavada','Un modo puede recuperar el original aunque haya selección general');
 settings.daily.ko='disco';

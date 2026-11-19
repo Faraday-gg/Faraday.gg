@@ -98,8 +98,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0094](0094-revelacion-y-trazos-individuales.md) | Revelación animada y trazos individuales de otros jugadores | Implementada | 2026-11-18 |
 | [0095](0095-plus-y-premios-de-traza.md) | Oferta de Plus con ventajas reales y premios de precisión de Traza dentro de la economía común | Implementada | 2026-11-19 |
 | [0096](0096-celebraciones-por-resultado.md) | Gestos elegidos por nivel de resultado, con selección general y excepciones por modalidad | Implementada; [PR #142](https://github.com/Faraday-gg/Faraday.gg/pull/142) | 2026-11-19 |
-
 | [0097](0097-modulo-plus-por-modalidad.md) | Módulo común de Plus adaptado a las modalidades limitadas y reutilizable en las futuras | Implementada | 2026-11-19 |
+| [0098](0098-ascension-respuestas-raras.md) | Ascensión: respuestas raras, montaña con avatar, clasificación diaria y prácticas | Implementada | 2026-11-19 |
 
 ## Plantilla
 

@@ -37,13 +37,24 @@ node tests/comunidad.test.mjs
 node tests/medallas.test.mjs
 node tests/pistas.test.mjs
 node tests/celebraciones.test.mjs
+node tests/ascension.test.mjs
+node tests/ascension-api.test.mjs
+node tests/ascension-banco.test.mjs
 ```
 
 ## Probar las celebraciones del avatar
 
-Abre el perfil → Armario → «Celebraciones y emotes». Elige un gesto para cada resultado en «Todos los modos» y usa «Ver» para probarlo con tu avatar. El selector de modalidad permite excepciones para reto diario, archivo, duelos de dos y tres, clasificatorias y Traza. Cada hueco puede heredar la elección general, recuperar el original o quedarse sin gesto. Se guarda automáticamente; al recargar conserva la configuración y, con cuenta, utiliza la sincronización del perfil.
+Abre el perfil → Armario → «Celebraciones y emotes». Elige un gesto para cada resultado en «Todos los modos» y usa «Ver» para probarlo con tu avatar. El selector de modalidad permite excepciones para reto diario, archivo, duelos de dos y tres, clasificatorias, Traza y Ascensión. Cada hueco puede heredar la elección general, recuperar el original o quedarse sin gesto. Se guarda automáticamente; al recargar conserva la configuración y, con cuenta, utiliza la sincronización del perfil.
 
-Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y Dab en «Archivo / ¡Casi casi!»: el reto diario usa Robot y el archivo usa Dab. Los rivales de los duelos reciben la configuración al entrar en la partida. `node tests/celebraciones.test.mjs` comprueba los umbrales, la herencia, los datos inválidos y el catálogo. La venta de nuevos emotes y el juego de respuestas raras siguen pendientes; consulta la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md) y la [propuesta de Ascensión](docs/ideas/ascension-respuestas-raras.md).
+Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y Dab en «Archivo / ¡Casi casi!»: el reto diario usa Robot y el archivo usa Dab. Los rivales de los duelos reciben la configuración al entrar en la partida. `node tests/celebraciones.test.mjs` comprueba los umbrales, la herencia, los datos inválidos y el catálogo. La venta de nuevos emotes sigue pendiente; consulta la [decisión 0096](docs/decisiones/0096-celebraciones-por-resultado.md). Ascensión utiliza esta misma selección con seis niveles propios.
+
+## Probar Ascensión
+
+Con `node preview-server.mjs`, abre «Ascensión» en la portada o en «Juega» del menú. Son siete categorías y 25 segundos por respuesta. La rareza editorial suma 10, 30, 60, 85 o 100 puntos y el avatar escala diez metros por punto, hasta 7.000 m. Un nombre desconocido permite reintentar sin reiniciar el reloj; una errata inequívoca propone una corrección que debes confirmar. Después de cada respuesta puedes descubrir ejemplos de otros niveles y consultar las fuentes.
+
+La edición diaria cambia a medianoche de Madrid: termina antes. La clasificación usa solo primeras partidas diarias terminadas de la misma edición y entorno; las prácticas son ilimitadas al terminar y quedan fuera. Cerrar o recargar conserva el progreso en el servidor y el tiempo sigue corriendo. «Personalizar» abre el armario en Ascensión para elegir un gesto por nivel de puntuación. La ropa y los emotes no cambian los puntos.
+
+El banco propio contiene 2.637 respuestas en 28 categorías. Se distribuye únicamente en la función del servidor, fuera de `dist/`. Fuentes, licencias y reproducción editorial en [research/ascension-fuentes.md](research/ascension-fuentes.md). Las tres pruebas `ascension`, `ascension-api` y `ascension-banco` cubren reglas, reloj, concurrencia, HTTP, persistencia y catálogo. En local se guarda en `ascension.json` junto a `ANSWERS_FILE`; Vercel usa la tabla privada `ascension_runs`, cuya [migración](docs/base-de-datos.md#ascension) ya está aplicada con autorización de Álvaro. No requiere nuevas variables ni dependencias.
 
 ## Probar las ofertas de Plus
 
