@@ -66,7 +66,13 @@ try{
   // El ajuste usa los valores exactos de los otros jugadores, sin agrupar ni incluir al propio.
   const store=fileAscension(file),row=await store.get('publico',date,'guest',0);
   const peers=[100,200,300,400,500];
-  for(const [i,score] of peers.entries())await store.put({...row,player_hash:`peer-${i}`,score},null);
+  for(const [i,score] of peers.entries()){
+    await store.put({...row,player_hash:`peer-${i}`,score},null);
+    if(i===1){
+      const two=await createAscension({store,bank,now:()=>clock})('guest',{action:'estado'});
+      assert.deepEqual(two.body.ranking.normal,{mean:150,deviation:50},'La muestra inicial de dos resultados distintos ya tiene curva');
+    }
+  }
   const ranking=createAscension({store,bank,now:()=>clock});
   const normal=(await ranking('guest',{action:'estado'})).body.ranking.normal;
   assert.deepEqual(normal,{mean:300,deviation:Math.sqrt(20000)});

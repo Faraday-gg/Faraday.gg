@@ -171,7 +171,7 @@ try{
   await rankingStore.put({...dailyRow,player_hash:'practica',game:1,score:700},null);
   const rankings=createAscension({store:rankingStore,bank,now:()=>clock,scope:'preview'});
   const ranked=await call('estado',{},'a',rankings);
-  assert.deepEqual(ranked.body.ranking,{total:4,others:3,position:2,tied:2,percentile:33,bins:[1,1,0,0,1,...Array(9).fill(0)],top:[200,95,95,10],normal:null});
+  assert.deepEqual(ranked.body.ranking,{total:4,others:3,position:2,tied:2,percentile:33,bins:[1,1,0,0,1,...Array(9).fill(0)],top:[200,95,95,10],normal:{mean:305/3,deviation:Math.sqrt([95,200,10].reduce((sum,n)=>sum+(n-305/3)**2,0)/3)}});
   assert(!JSON.stringify(ranked.body).includes('player_hash'),'La clasificación no expone identificadores');
 
   // Medianoche de Madrid: nueva diaria y se rechazan escrituras sobre la anterior.
