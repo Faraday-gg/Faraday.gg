@@ -91,6 +91,7 @@ function reasoningMarkup(q){
   return `<section class="reasoning"><h3>Cómo se calcula</h3><ol>${q.reasoning.steps.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}</ol><details class="reference-calculation"><summary>Ver el cálculo de referencia</summary><code>${escapeHtml(q.referenceExpression||'')}</code><p>= ${format(q.answer,6)} ${escapeHtml(q.unit)}</p><p>${escapeHtml(q.math)}</p></details></section>`;
 }
 async function loadDailyDistribution(day,guesses){
+  if(day.practice){const caption=document.getElementById('daily-score-caption');if(caption)caption.textContent='Reto extra de práctica · sin clasificación ni premios adicionales.';return}
   const chart=document.getElementById('daily-score-chart'),caption=document.getElementById('daily-score-caption');if(!chart||!caption)return;
   try{
     await playerReady;const player=playerId();
@@ -115,6 +116,7 @@ async function refreshDailyCalendar(){
 setInterval(refreshDailyCalendar,60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDailyCalendar()});
 async function loadDistribution(q,guess){
+  if(activeDay?.practice){const box=document.getElementById('population-'+q.id);if(box)box.innerHTML='<p class="population-status">Práctica extra: consulta el cálculo y sus fuentes. Tu respuesta no modifica las estadísticas del reto oficial.</p>';return}
   const target=document.getElementById(`population-${q.id}`);if(!target)return;
   const rank=document.getElementById(`rank-${q.id}`),factor=Math.max(guess/q.answer,q.answer/guess);
   let data=null;

@@ -66,6 +66,7 @@ Reglas para agentes:
 
 - Toda modalidad nueva debe integrar el módulo común `dist/plus-offers.js` en un momento adecuado, como el resumen, y registrar su contexto; sigue [docs/modalidades-y-plus.md](docs/modalidades-y-plus.md). No copies tarjetas de suscripción por modalidad.
 - Si tiene cupo de partidas, edición diaria o continuación con anuncios, toma el límite y las ventajas de la respuesta del servidor. Si no tiene límite, usa una invitación general sin inventar bloqueos. No prometas que Plus elimina un límite si no está decidido e implementado. El precio y el paquete definitivo se acuerdan aparte.
+- Toda modalidad con continuación mediante anuncios debe usar `dist/continuations.js` y registrar su política en el servidor: primer anuncio completado por modalidad/día de 15 s y siguientes de 60 s en pruebas, sin máximo; Plus omite anuncios. Valida recibos y conserva los límites económicos. No añadas anuncios a modos que ya sean gratuitos sin límite. Sigue la misma guía.
 - Mantén la oferta fuera de las rondas activas, ocúltala a suscriptores y conserva la alternativa gratuita disponible. Los límites económicos y desbloqueos por nivel no se presentan como ventajas de pago.
 
 ## Comprobaciones antes de abrir la PR
@@ -85,6 +86,8 @@ Reglas para agentes:
   node tests/ascension-api.test.mjs
   node tests/ascension-banco.test.mjs
 
+  node tests/anuncios.test.mjs
+  node tests/continuaciones.test.mjs
   node tests/plus-offers.test.mjs
   node tests/cofres.test.mjs
   node tests/casi.test.mjs

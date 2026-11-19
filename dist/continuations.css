@@ -1,0 +1,10 @@
+.continue-offer{margin:18px 0;padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:var(--cream);color:var(--ink);text-align:left;min-width:0}
+.continue-offer h4{font:700 17px/1.2 var(--display);margin:0 0 12px;color:var(--ink)}
+.continue-offer .game-secondary{max-width:100%;min-height:48px;white-space:normal;text-align:left;background:var(--paper);color:var(--ink);border-color:var(--ink);line-height:1.4}
+.continue-offer p,.continue-offer small,.continue-status{font:400 12px/1.5 var(--font);margin:10px 0 0;letter-spacing:normal;color:var(--ink);text-align:left}
+.continue-offer small{display:block;color:var(--muted)}
+.continue-offer button:disabled{opacity:.55;cursor:wait}
+.continue-offer button:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.continue-offer [hidden]{display:none!important}
+.ad-dialog .ad-done[hidden]{display:none!important}
+@media(max-width:560px){.continue-offer{padding:15px}.continue-offer .game-secondary{width:100%}}

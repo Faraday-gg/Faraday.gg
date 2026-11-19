@@ -41,7 +41,7 @@
       <span class="plus-offer-badge">FARADAY PLUS</span><h4>${escape(value.title)}</h4>
       <p class="plus-offer-description">${escape(value.description)}</p>
       ${value.quota?`<p class="plus-offer-quota">${escape(value.quota)}</p>`:''}
-      <p class="plus-offer-benefits">Duelos sin límite y Traza sin anuncios: consulta las ventajas actuales en tu perfil.</p>
+      <p class="plus-offer-benefits">Partidas extra sin anuncios con Plus. Consulta las ventajas actuales en tu perfil.</p>
       <button class="game-primary plus-offer-action" type="button" data-open-plus="${escape(mode)}"><span>${escape(value.cta)}</span><span aria-hidden="true">→</span></button>
       <small class="plus-offer-note">${escape(value.note)}</small>
     </section>`;

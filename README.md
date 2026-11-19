@@ -58,9 +58,15 @@ El banco propio contiene 2.637 respuestas en 28 categorías. Se distribuye únic
 
 ## Probar las ofertas de Plus
 
-El portal y el resumen de los duelos muestran el módulo común con el cupo real compartido entre 1v1, tres jugadores, clasificatorias y bot. Al agotarse, la oferta se destaca y permite abrir el plan desde el perfil. Traza reutiliza la tarjeta conservando el anuncio gratuito; el resumen del reto diario invita a explorar Plus sin prometer otra edición. El archivo sigue accesible gratis. No se cambian precios, cuotas ni recompensas.
+El portal y el resumen de los duelos muestran el módulo común con el cupo real compartido entre 1v1, tres jugadores, clasificatorias y bot. Al agotarse, la oferta se destaca y permite abrir el plan desde el perfil. Traza reutiliza la tarjeta conservando el anuncio gratuito; el resumen del reto diario invita a explorar Plus y ofrece retos extra de práctica. El archivo sigue accesible gratis. No se cambian precios ni límites económicos; cada anuncio completado añade una partida al cupo de duelos.
 
 `node tests/plus-offers.test.mjs` comprueba el componente. Para cualquier nueva modalidad, tenga o no un límite, sigue [Modalidades y Plus](docs/modalidades-y-plus.md).
+
+## Probar anuncios para continuar
+
+Al agotar el cupo de duelos o terminar la diaria de Traza o del reto de estimación aparece «También puedes seguir gratis», junto a Plus. El primer anuncio de prueba de cada modalidad y día de Madrid dura 15 s; los siguientes, 60 s, sin límite de repeticiones. Cierra uno a medias: no desbloquea una partida ni incrementa el contador. Complétalo y continúa. Recarga una práctica pendiente: debe ofrecer retomarla sin otro anuncio. Plus permite acceder directamente. Las variantes de duelo comparten cupo y créditos, pero tienen contadores de duración independientes.
+
+El reto extra conserva el avatar, preguntas y explicaciones; no modifica el resultado oficial, faradios, experiencia, racha o misiones. Archivo y prácticas de Ascensión siguen gratuitos sin anuncios. Ejecuta `node tests/anuncios.test.mjs` y `node tests/continuaciones.test.mjs`. Vercel necesita la nueva [migración de continuación](supabase/migrations/20261119061307_anuncios_continuacion.sql), pendiente de autorización para la base compartida. Los anuncios son simulados: el proveedor real aún no está integrado.
 
 ## Probar Traza la tendencia
 

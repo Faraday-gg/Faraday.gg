@@ -570,8 +570,7 @@
     const score=total=>`<div class="trends-points"><strong>${fmt(total)} pts</strong><span>de ${fmt(1000*edition.rounds)}</span></div>`;
     const offer=edition.plus?`<section class="trends-replay"><h4>Tu próxima curva te espera</h4><p>Plus activo · partidas sin anuncios.</p>
       <button class="game-primary" type="button" data-trends-extra>Jugar otras tres gráficas →</button></section>`:
-      `${window.PlusOffers?.render('trends')||''}<section class="trends-replay trends-free"><h4>También puedes seguir gratis</h4>
-        <button class="game-secondary" type="button" data-trends-extra>Ver anuncio de prueba y jugar</button><small>15 segundos · otras tres gráficas · sin límite de anuncios</small></section>`;
+      `${window.PlusOffers?.render('trends')||''}<div data-continue-slot="trends"></div>`;
     const reward=edition.reward;
     const prize=reward?`<section class="trends-prize" aria-label="Tu recompensa diaria"><div><span class="section-kicker">TU PREMIO DE HOY</span>
       <h4 data-trends-prize-value>${fmt(reward.amount)} ≈${reward.chest?' · nivel Chispa':''}</h4></div>
@@ -610,34 +609,13 @@
     if(result.weeklyChestClaimed)status.textContent+=' El cofre de precisión de esta semana ya está recogido.';
   }
 
-  async function startExtra(button){
-    if(pending)return;
-    pending=true;
-    button.disabled=true;
-    notice();
-    const token=view,{date,game}=edition;
-    const nextGame=game+1;
-    try{
-      let next=await request('preparar-extra',{date,game:nextGame});
-      if(token!==view)return;
-      if(next.watch){
-        const complete=await window.Ads.rewarded({kind:'tendencias'});
-        if(!complete||token!==view)return;
-        next=await request('activar-extra',{date,game:nextGame});
-      }
-      if(token!==view)return;
-      edition=next;
-      if(next.current)renderQuestion();
-      else summary();
-    }catch(error){
-      if(token===view){
-        if(error.status===409)await load();
-        else notice(error.status?error.message:'No se pudo abrir la partida extra. Inténtalo de nuevo.');
-      }
-    }finally{
-      if(token===view){pending=false;button.disabled=false}
-    }
-  }
+  async function startExtra(button){return window.Continuations?.play('trends',button)}
+  window.Continuations?.register('trends',async offer=>{
+    if(!dialog.open)return;
+    const next=offer.results?offer:await request('preparar-extra',{date:edition.date,game:edition.game+1});
+    if(next.watch)throw Error('No se pudo recuperar la partida desbloqueada. Inténtalo otra vez.');
+    edition=next;if(next.current)renderQuestion();else summary();
+  },()=>request('preparar-extra',{date:edition.date,game:edition.game+1}));
 
   document.addEventListener('faraday:before-plan',()=>{if(dialog.open)dialog.close()});
 
