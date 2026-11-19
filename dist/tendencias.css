@@ -90,7 +90,15 @@ body:has(.trends-dialog[open]){overflow:hidden}
   .trends-plot .trends-end-label text{font-size:11px}
   .trends-card{padding-inline:10px}
 }
-.trends-coordinate{display:block;min-height:1.25em;margin:0 0 4px;text-align:right;font:650 13px var(--num);color:var(--muted)}
+.trends-chart{position:relative}
+.trends-coordinate{position:absolute;z-index:1;display:grid;grid-template-columns:auto auto;align-items:baseline;gap:3px 12px;width:max-content;max-width:min(260px,calc(100% - 16px));padding:9px 12px;border:1.5px solid var(--trends-own-color);border-radius:12px;background:var(--paper);box-shadow:0 3px 0 #ca412e1c;color:var(--ink);font:650 13px/1.25 var(--num);pointer-events:none}
+.trends-coordinate[hidden]{display:none!important}
+.trends-coordinate-period{color:var(--trends-own-color);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+.trends-coordinate strong{font-weight:750;text-align:right}
+.trends-coordinate small{grid-column:1/-1;font:500 11px/1.3 var(--font);color:var(--muted);overflow-wrap:anywhere}
+.trends-period-band{pointer-events:none}
+.trends-period-band rect{fill:var(--trends-own-color);opacity:.1}
+.trends-period-band path{fill:none;stroke:var(--trends-own-color);stroke-width:3;stroke-opacity:.65;vector-effect:non-scaling-stroke}
 .trends-replay{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:12px 14px;margin:16px 0;border:1px solid var(--line);border-radius:14px;background:var(--blue)}
 .trends-replay h4{flex-basis:100%;margin:0 0 4px;font-family:var(--display)}
 .trends-replay .game-secondary{background:var(--paper)}
@@ -115,8 +123,6 @@ body:has(.trends-dialog[open]){overflow:hidden}
 .trends-start-ring{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.5;vector-effect:non-scaling-stroke}
 .trends-plot.is-resumable .trends-start-ring{stroke-opacity:.8}
 .trends-projection{fill:none;stroke:#ca412e;stroke-opacity:.62;stroke-dasharray:4 4;vector-effect:non-scaling-stroke}
-.trends-axis-value rect{fill:var(--ink)}
-.trends-plot .trends-axis-value text{fill:var(--paper);font-weight:700;font-variant-numeric:tabular-nums}
 @media(max-width:560px){
   .trends-plot .trends-hint-text{font-size:16px}
 }

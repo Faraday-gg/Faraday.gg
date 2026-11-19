@@ -1,6 +1,6 @@
 # 0093. Guía y coordenadas de dibujo
 
-- **Estado** — Implementada.
+- **Estado** — Implementada; la lectura de coordenadas se actualiza por la [decisión 0104](0104-trazo-suave-y-lectura-cercana.md). El aviso de inicio permanece.
 - **Fecha** — 2026-11-18.
 - **Quién** — Álvaro, con Codex.
 
