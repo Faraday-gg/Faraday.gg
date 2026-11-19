@@ -986,6 +986,17 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .profile-plan small{font-size:12px;color:var(--muted)}
 .profile-plan button{margin-top:10px;padding:10px 16px;font-size:13px}
 .profile-plan.is-plus{background:var(--yellow);color:var(--ink)}
+.profile-plan{grid-column:1/-1;padding:20px;background:var(--yellow);border:1.5px solid var(--ink);color:var(--ink);box-shadow:0 3px 0 var(--ink)}
+.profile-plan p:first-child{font-size:11px;letter-spacing:.04em;flex-wrap:wrap}
+.profile-plan h3{font:700 27px/1.05 var(--display);letter-spacing:-.04em;margin:12px 0 16px}
+.profile-plan ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.profile-plan li{display:grid;gap:2px;padding-left:14px;border-left:2px solid var(--ink)}
+.profile-plan li b{font-size:14px}
+.profile-plan li span{font-size:12px;line-height:1.4}
+.profile-plan .game-primary{width:100%;min-height:46px;margin-top:18px;background:var(--ink);color:var(--paper);white-space:normal}
+.profile-plan .game-primary:hover{background:#39424e}
+.profile-plan .profile-plan-note{font-size:12px;line-height:1.5;margin-top:10px}
+.profile-plan .profile-plan-fair{font-size:11px;line-height:1.45;margin-top:14px;padding-top:10px;border-top:1px solid var(--ink)}
 .profile-shield{margin-top:10px;padding-top:10px;border-top:1.5px dashed var(--line);display:grid;gap:8px}
 .profile-shield p{margin:0}
 .profile-shield .game-secondary{padding:10px 14px;font-size:13px}
