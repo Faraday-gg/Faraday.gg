@@ -1,4 +1,4 @@
--- Estado privado por jugador, día de Madrid y modalidad. Decisión 0098.
+-- Estado privado por jugador, día de Madrid y modalidad. Decisión 0099.
 -- Recibos de anuncios simulados y partidas extra de práctica; nunca saldos ni premios.
 create table public.continuation_states (
   scope text not null check (scope ~ '^[a-z0-9-]{1,32}$'),

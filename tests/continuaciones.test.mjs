@@ -41,6 +41,24 @@ try{
   assert.equal((await ads.status('player','duel')).watched,0,'Reinicio a medianoche de Madrid');
   await assert.rejects(ads.complete('player','ranked',oldTicket.ticket),{status:409});
 
+  // Un fallo después de consumir el recibo no obliga a ver otro anuncio.
+  clock=Date.parse('2026-11-19T10:00:00Z');
+  const recoveryStore=fileContinuations(),put=recoveryStore.put;
+  let failSave=true;
+  recoveryStore.put=async(scope,date,player,key,...rest)=>{
+    if(key.startsWith('daily:')&&failSave){failSave=false;throw Error('Fallo de persistencia simulado')}
+    return put(scope,date,player,key,...rest);
+  };
+  const recovery=createContinuations({store:recoveryStore,now:()=>clock,questions:()=>getDay('2026-11-18',{persist:false}).questions});
+  const recoveryAd=await recovery.prepare('learner','daily');clock+=15000;
+  await recovery.complete('learner','daily',recoveryAd.ticket);
+  await assert.rejects(recovery.handle('learner',{action:'reto-extra',ticket:recoveryAd.ticket}),/Fallo de persistencia/);
+  const recovered=await recovery.prepare('learner','daily');
+  assert.equal(recovered.watch,false);assert.equal(recovered.ticket,recoveryAd.ticket);
+  const recoveredGame=await recovery.handle('learner',{action:'reto-extra',ticket:recovered.ticket});
+  const sameGame=await recovery.handle('learner',{action:'reto-extra',ticket:recovered.ticket});
+  assert.equal(sameGame.id,recoveredGame.id);assert.equal((await recovery.status('learner','daily')).watched,1);
+
   clock=Date.parse('2026-11-19T10:00:00Z');
   const store=fileStore(path.join(directory,'api','answers.json')),duels=memoryDuels();
   const auth={async current(request,read){const player=read(request,'faraday_sesion');return player?{account:{id:'u-'+player,email:'prueba@example.test',player},cookies:[]}:null}};

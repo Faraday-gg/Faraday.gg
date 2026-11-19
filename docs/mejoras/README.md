@@ -78,3 +78,5 @@ Problemas y deuda técnica conocidos de lo que ya existe. Cuando una mejora se r
 | Condiciones de venta, IVA y facturas de la suscripción | Antes de cobrar hacen falta las condiciones, la política de devoluciones y decidir cómo se calcula el IVA (Stripe Tax o a mano). | Pendiente (Luis y Álvaro) |
 | Poner al día el nombre y el avatar de la vitrina | La vitrina ([decisión 0079](../decisiones/0079-vitrina-de-colecciones.md)) se presenta con el nombre y el avatar del momento en que se pulsó «Enseñar mi vitrina». Si el jugador los cambia, no se actualizan solos. | Pendiente |
 | Ajustar el aviso del rival en pantallas estrechas | En una pregunta 1v1 a 320 px, un apodo largo en el aviso «está pensando» puede quedar parcialmente tapado por «Confirmar». | Pendiente |
+
+| Integrar el proveedor de anuncios de continuación | El flujo 15/60 s es una simulación. Antes de monetizar, elegir proveedor web, confirmar recompensas mediante su integración y adaptar duración/inventario disponibles. Diseñar retención y limpieza del estado histórico privado. [Decisión 0099](../decisiones/0099-anuncios-para-continuar.md). | Pendiente |
