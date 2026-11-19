@@ -271,24 +271,26 @@
   // Perfil: el avatar a la izquierda y, a la derecha, el armario (con tienda), las misiones o los cofres.
   let tab='armario',slot='top',trying=null,show='todo',query='',grade='';
   let celebrationMode='all',previewCue='clavada';
+  const ascensionNames={clavada:'De cumbre',acierto:'Extraordinaria',cerca:'Rara',lejos:'Ingeniosa',fallo:'Conocida',ko:'Sin respuesta'};
   function celebrationTab(){
     const {MODES,CUES,CLIPS}=Celebrations;
     const isDuel=['duel','duel3','ranked'].includes(celebrationMode);
-    const rows=CUES.filter(({id})=>celebrationMode==='all'||(isDuel?!['welcome','reward'].includes(id):celebrationMode==='trends'?['clavada','acierto','cerca','lejos','fallo'].includes(id):!['victory','draw','defeat','welcome','reward'].includes(id)));
+    const rows=CUES.filter(({id})=>celebrationMode==='ascension'?['clavada','acierto','cerca','lejos','fallo','ko'].includes(id):celebrationMode==='all'||(isDuel?!['welcome','reward'].includes(id):celebrationMode==='trends'?['clavada','acierto','cerca','lejos','fallo'].includes(id):!['victory','draw','defeat','welcome','reward'].includes(id)));
+    const ascensionPoints={clavada:'100 puntos · +1.000 m',acierto:'85 puntos · +850 m',cerca:'60 puntos · +600 m',lejos:'30 puntos · +300 m',fallo:'10 puntos · +100 m',ko:'0 puntos'};
     const ranges=['950–1.000 puntos','800–949 puntos','600–799 puntos','350–599 puntos','0–349 puntos'];
     return `<div class="celebrations-head"><button type="button" class="duel-link" data-tab="armario">← Volver al armario</button><h3>Tu forma de celebrar</h3><p>Elige un gesto para cada resultado. Se guarda automáticamente. Los gestos actuales están incluidos para todos.</p></div>
 <label class="celebrations-mode">Dónde se aplica<select data-celebration-mode>${MODES.map(([id,name])=>`<option value="${id}"${id===celebrationMode?' selected':''}>${name}</option>`).join('')}</select></label>
 <div class="celebration-list">${rows.map((cue,i)=>{
       const selected=state.celebrations[celebrationMode]?.[cue.id]||'';
       const inherited=Celebrations.choice(state.celebrations,'all',cue.id),inheritedName=CLIPS.find(item=>item.id===inherited)?.name||(inherited==='none'?'Sin gesto':'Original del juego');
-      return `<div class="celebration-row"><label for="gesture-${cue.id}">${cue.name}<small>${celebrationMode==='trends'?ranges[i]:cue.range}</small></label><select id="gesture-${cue.id}" data-celebration-cue="${cue.id}"><option value="">${celebrationMode==='all'?'Original del juego':`General · ${inheritedName}`}</option>${celebrationMode==='all'?'':`<option value="default"${selected==='default'?' selected':''}>Original de este modo</option>`}<option value="none"${selected==='none'?' selected':''}>Sin gesto</option>${CLIPS.map(item=>`<option value="${item.id}"${selected===item.id?' selected':''}>${item.name}</option>`).join('')}</select><button type="button" data-preview-cue="${cue.id}" aria-label="Ver gesto de ${cue.name}">Ver</button></div>`;
+      return `<div class="celebration-row"><label for="gesture-${cue.id}">${celebrationMode==='ascension'?ascensionNames[cue.id]:cue.name}<small>${celebrationMode==='ascension'?ascensionPoints[cue.id]:celebrationMode==='trends'?ranges[i]:cue.range}</small></label><select id="gesture-${cue.id}" data-celebration-cue="${cue.id}"><option value="">${celebrationMode==='all'?'Original del juego':`General · ${inheritedName}`}</option>${celebrationMode==='all'?'':`<option value="default"${selected==='default'?' selected':''}>Original de este modo</option>`}<option value="none"${selected==='none'?' selected':''}>Sin gesto</option>${CLIPS.map(item=>`<option value="${item.id}"${selected===item.id?' selected':''}>${item.name}</option>`).join('')}</select><button type="button" data-preview-cue="${cue.id}" aria-label="Ver gesto de ${celebrationMode==='ascension'?ascensionNames[cue.id]:cue.name}">Ver</button></div>`;
     }).join('')}</div><p class="celebration-status" role="status" aria-live="polite"></p><button type="button" class="duel-link celebrations-reset" data-reset-celebrations>Restablecer ${celebrationMode==='all'?'la selección general':'este modo'}</button>`;
   }
   function previewCelebration(cue){
     previewCue=cue;
     const actor=main.querySelector('.profile-figure .avatar-view');if(!actor)return;
     actor._react=reaction(celebrationMode,cue);window.Avatar3D?.react?.(actor);
-    const note=main.querySelector('.celebration-status');if(note)note.textContent='Vista previa · '+Celebrations.CUES.find(item=>item.id===cue).name;
+    const note=main.querySelector('.celebration-status');if(note)note.textContent='Vista previa · '+(celebrationMode==='ascension'?ascensionNames[cue]:Celebrations.CUES.find(item=>item.id===cue).name);
   }
   // swapping = la misión que se está a punto de cambiar (pide confirmar); shield = la oferta de proteger la racha que
   // da el servidor a quien tiene cuenta ({days}); shieldTold = ya se avisó en esta visita.

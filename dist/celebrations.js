@@ -8,7 +8,7 @@
     ['horror','Manos a la cabeza','sad'],['desmayo','Desmayo','ko'],['suspiro','Suspiro','sad'],['negar','Negar','sad'],
     ['saludo','Saludo',''],['saludo2','Saludo corto',''],['pensar','Pensar','']
   ].map(([id,name,rest])=>({id,name,rest}));
-  const MODES=[['all','Todos los modos'],['daily','Reto diario'],['archive','Archivo'],['duel','Duelo 1 vs 1'],['duel3','Duelo de tres'],['ranked','Clasificatorias'],['trends','Traza la tendencia']];
+  const MODES=[['all','Todos los modos'],['daily','Reto diario'],['archive','Archivo'],['duel','Duelo 1 vs 1'],['duel3','Duelo de tres'],['ranked','Clasificatorias'],['trends','Traza la tendencia'],['ascension','Ascensión']];
   const TIERS=[
     {id:'clavada',max:window.CasiCasi?.LIMIT||1.1,clip:'clavada',rest:'cheer',name:'¡Casi casi!',range:'Menos de 1,1×'},
     {id:'acierto',max:1.9,clip:'salto',rest:'cheer',name:'Muy cerca',range:'1,1× a menos de 1,9×',label:'¡Muy cerca!'},
@@ -37,7 +37,9 @@
   const tierOf=factor=>TIERS.find(tier=>Number.isFinite(factor)&&factor>=1&&factor<tier.max)||TIERS.at(-1);
   const trendTier=score=>TIERS[score>=950?0:score>=800?1:score>=600?2:score>=350?3:4];
   // Un trazo de 600–799 puntos conserva su puño original, aunque comparte el nivel «Por poco».
-  function base(cue,mode){const row=CUES.find(item=>item.id===cue)||TIERS.at(-1);return mode==='trends'&&cue==='cerca'?{...row,clip:'puno'}:row}
+  function base(cue,mode){
+    if(mode==='ascension'){const preset={clavada:['clavada','cheer'],acierto:['giro','cheer'],cerca:['puno','cheer'],lejos:['salto','cheer'],fallo:['saludo',''],ko:['encoger','meh']}[cue];if(preset)return {clip:preset[0],rest:preset[1]}}
+    const row=CUES.find(item=>item.id===cue)||TIERS.at(-1);return mode==='trends'&&cue==='cerca'?{...row,clip:'puno'}:row}
   function choice(settings,mode,cue){return settings?.[mode]?.[cue]||settings?.all?.[cue]||'default'}
   function reaction(settings,mode,cue,{animate=true}={}){
     const original=base(cue,mode),picked=choice(settings,mode,cue),custom=CLIPS.find(item=>item.id===picked);
