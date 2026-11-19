@@ -23,7 +23,7 @@ La diaria es común para todos y cambia a medianoche de Madrid. La partida debe 
 
 La identidad proviene de cuenta o cookie HttpOnly. `ascension_runs` guarda diaria y prácticas con clave compuesta, versión optimista y reloj persistido: recargar, duplicar peticiones o abrir dos pestañas no reinicia el tiempo ni duplica puntos. `preview` y `publico` están separados dentro del Supabase compartido. La tabla tiene RLS, sin acceso de `anon` ni `authenticated`, y permisos exclusivos de servidor. Álvaro autorizó aplicar la migración, registrada como `20261119055720_ascension`.
 
-El armario incorpora Ascensión con seis huecos: 100, 85, 60, 30, 10 y 0 puntos. Cada uno hereda la selección general o permite una excepción, el original o ningún gesto. Los 22 gestos existentes siguen incluidos. Nuevos emotes de cofres, tienda o mercado requieren un catálogo de inventario validado por servidor; se mantiene esa evolución pendiente. Ningún cosmético modifica puntos o plazos.
+El armario incorpora Ascensión con seis huecos: 100, 85, 60, 30, 10 y 0 puntos. Cada uno hereda la selección general o permite una excepción, el original o ningún gesto. Los 22 gestos existentes siguen incluidos. Nuevos emotes de cofres, tienda o mercado requieren un catálogo de inventario validado por servidor; se mantiene esa evolución pendiente. Ningún cosmético modifica puntos o plazos. El resumen monta el módulo común de Plus con invitación general, oculta para suscriptores y sin alterar las prácticas gratuitas.
 
 ## Alternativas descartadas
 
@@ -35,6 +35,6 @@ El armario incorpora Ascensión con seis huecos: 100, 85, 60, 30, 10 y 0 puntos.
 
 ## Comprobaciones y evolución
 
-Las suites de reglas, banco y HTTP comprueban edición, aliases, reloj, reintentos, corrección confirmada, concurrencia, persistencia, clasificación, prácticas, identidad y adaptador Supabase. Las 43 suites del proyecto pasan. La migración se validó también en Postgres local y se comprobaron RLS y permisos tras aplicarla. La revisión visual cubre escritorio y móvil, partida y personalización.
+Las suites de reglas, banco y HTTP comprueban edición, aliases, reloj, reintentos, corrección confirmada, concurrencia, persistencia, clasificación, prácticas, identidad y adaptador Supabase. Las 44 suites del proyecto pasan tras integrar las PR #144 y #145 de Plus. La migración se validó también en Postgres local y se comprobaron RLS y permisos tras aplicarla. La revisión visual cubre escritorio y móvil, partida y personalización.
 
 El primer banco requiere seguir ampliando categorías y revisar calibración editorial antes de añadir recompensas o vender emotes. Su número de entradas y fuentes es público en el repositorio: no se promete protección frente a quien busque las respuestas fuera del juego. El ranking evita manipulación directa desde el navegador; no verifica que un jugador haya respondido sin ayuda externa.

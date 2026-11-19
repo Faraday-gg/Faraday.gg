@@ -5,6 +5,10 @@
   const alert=document.getElementById('ascension-alert'),steps=document.getElementById('ascension-steps'),modeLine=document.getElementById('ascension-mode');
   const fmt=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0}).format(n),esc=value=>escapeHtml(String(value??''));
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.PlusOffers?.register('ascension',{
+    title:'Tu próxima aventura empieza en Faraday.',
+    description:'Descubre las opciones de Faraday Plus y consulta sus ventajas actuales desde tu perfil.'
+  });
   const TIERS=[{points:10,name:'Conocida'},{points:30,name:'Ingeniosa'},{points:60,name:'Rara'},{points:85,name:'Extraordinaria'},{points:100,name:'De cumbre'}];
   let run=null,scene=null,opener=null,token=0,controller=null,pending=false,ticker=0,offset=0,timeoutSent=false,climbing=false;
   const refs=()=>({date:run.date,game:run.game,round:run.round});
@@ -91,7 +95,8 @@
       <div class="ascension-total"><b>${fmt(total)}</b><span>de 700 puntos<br>${fmt(run.height)} metros</span></div>${ranked}
       <div class="ascension-actions">${button('Compartir mi ascensión','share',false)}${button('Refrescar clasificación','refresh',false,!run.game?'':'hidden')}</div><p class="ascension-share-status" role="status"></p>
       <div class="ascension-log">${run.results.map((one,i)=>`<details><summary><i>${i+1}</i><span>${esc(one.answer|| (one.reason==='timeout'?'Sin tiempo':'Sin respuesta'))}</span><b>+${one.points}</b></summary><p>${esc(one.title)}<br>${esc(one.tier?.name||'')} · +${fmt(one.height)} m<br>${(one.sources||[]).map(source=>`<a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a>`).join(' · ')}</p></details>`).join('')}</div>
-      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div class="ascension-actions">${button('Otra ascensión →','practice')}</div><p class="ascension-fine">La práctica es ilimitada y no cuenta para la clasificación del día. Mañana habrá una edición nueva.</p></section>`;
+      <h3 style="font-size:23px">Hay más caminos por descubrir.</h3><p class="ascension-lead">Otras siete categorías, una montaña nueva. Sigue practicando con tu avatar.</p><div class="ascension-actions">${button('Otra ascensión →','practice')}</div><p class="ascension-fine">La práctica es ilimitada y no cuenta para la clasificación del día. Mañana habrá una edición nueva.</p><div data-plus-slot="ascension"></div></section>`;
+    window.PlusOffers?.refresh(content);
     content.querySelector('h3').focus({preventScroll:true});
   }
   async function load({silent=false}={}){
@@ -151,6 +156,11 @@
   dialog.addEventListener('close',()=>{token++;controller?.abort();controller=null;stopClock();pending=false;climbing=false;scene?.destroy();scene=null;opener?.focus({preventScroll:true})});
   document.addEventListener('visibilitychange',()=>{if(dialog.open&&!document.hidden)load({silent:true})});
   window.addEventListener('online',()=>{if(dialog.open)load({silent:true})});
+  document.addEventListener('faraday:before-plan',event=>{
+    if(!dialog.open)return;
+    if(run?.phase!=='finished'||pending||climbing){event.preventDefault();return}
+    dialog.close();
+  });
   document.addEventListener('faraday:sonido',()=>dialog.querySelector('[data-ascension=sound]').setAttribute('aria-pressed',String(Sound.on)));
   document.addEventListener('faraday:look',()=>{if(dialog.open)scene?.refreshLook(Progress.look())});
   document.addEventListener('faraday:cuenta',()=>{if(dialog.open){token++;controller?.abort();pending=false;climbing=false;run=null;stopClock();load()}});
