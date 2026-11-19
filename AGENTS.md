@@ -64,8 +64,8 @@ Reglas para agentes:
 
 ## Modalidades y suscripción
 
-- Toda modalidad nueva con cupo de partidas, edición diaria o continuación con anuncios debe integrar el módulo común `dist/plus-offers.js` y registrar su contexto; sigue [docs/modalidades-y-plus.md](docs/modalidades-y-plus.md). No copies tarjetas de suscripción por modalidad.
-- Toma el cupo y las ventajas de la respuesta del servidor. No prometas que Plus elimina un límite si no está decidido e implementado. El precio y el paquete definitivo se acuerdan aparte.
+- Toda modalidad nueva debe integrar el módulo común `dist/plus-offers.js` en un momento adecuado, como el resumen, y registrar su contexto; sigue [docs/modalidades-y-plus.md](docs/modalidades-y-plus.md). No copies tarjetas de suscripción por modalidad.
+- Si tiene cupo de partidas, edición diaria o continuación con anuncios, toma el límite y las ventajas de la respuesta del servidor. Si no tiene límite, usa una invitación general sin inventar bloqueos. No prometas que Plus elimina un límite si no está decidido e implementado. El precio y el paquete definitivo se acuerdan aparte.
 - Mantén la oferta fuera de las rondas activas, ocúltala a suscriptores y conserva la alternativa gratuita disponible. Los límites económicos y desbloqueos por nivel no se presentan como ventajas de pago.
 
 ## Comprobaciones antes de abrir la PR

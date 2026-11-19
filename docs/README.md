@@ -9,7 +9,7 @@ Aquí guardamos, en Markdown, todo lo que Luis y Álvaro (y los agentes de IA co
 | [ideas/](ideas/) | Propuestas sin decidir: funcionalidades, preguntas, cambios de juego. | Cuando se nos ocurre algo que aún no vamos a hacer. |
 | [mejoras/](mejoras/) | Problemas y deuda técnica conocidos de lo que ya existe. | Cuando detectamos algo que conviene arreglar más adelante. |
 
-Guía de desarrollo: [Modalidades y Plus](modalidades-y-plus.md), integración obligatoria del módulo común en futuros juegos con límites.
+Guía de desarrollo: [Modalidades y Plus](modalidades-y-plus.md), integración obligatoria del módulo común en todos los juegos futuros, tengan o no límites.
 
 Documento vivo de la base de datos: [base-de-datos.md](base-de-datos.md). Describe las tablas, funciones, seguridad y migraciones de Supabase tal y como están ahora; se actualiza con cada migración.
 

@@ -24,7 +24,7 @@ Los duelos consultan `POST /api/duelo`, acción `limite`; la interfaz no calcula
 
 Las ofertas desaparecen para quien tiene Plus y se actualizan si cambia el plan, la cuenta o el precio. Solo muestran el precio que devuelve la integración existente. Sin cobro configurado invitan a descubrir el plan y explican la disponibilidad. No se crean descuentos, contadores, urgencia ni nuevas promesas de partidas ilimitadas.
 
-El registro de una modalidad futura define su texto y política explícitamente; un modo desconocido usa texto genérico, sin prometer que Plus retire su límite. La guía [Modalidades y Plus](../modalidades-y-plus.md) y AGENTS.md hacen obligatorio reutilizar este componente al añadir un modo limitado.
+El registro de una modalidad futura define su texto y política explícitamente; un modo desconocido usa texto genérico, sin prometer que Plus retire su límite. La guía [Modalidades y Plus](../modalidades-y-plus.md) y AGENTS.md hacen obligatorio reutilizar este componente al añadir cualquier modalidad futura, tenga o no un límite. En las modalidades sin límite se invita a conocer Plus sin inventar bloqueos.
 
 ## Límites que se conservan
 
