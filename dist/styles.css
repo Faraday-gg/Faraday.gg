@@ -1,17 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Geist:wght@200;300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{--cream:#f7f3e9;--paper:#fffdf7;--ink:#202630;--muted:#666a6d;--coral:#ff6548;--yellow:#ffdb70;--blue:#b9d6e1;--line:#d8d2c6;--font:'DM Sans',Arial,sans-serif;--display:'Space Grotesk',Arial,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #5586a5;outline-offset:3px}.wrap{width:min(1180px,calc(100% - 64px));margin-inline:auto}
-/* Portada (decisión 0015): sencilla, como una tarjeta del juego. El reto de hoy arriba y los tres pasos con su tarjeta de ejemplo. */
+/* Marca, componentes compartidos y guía de juego en la portada. */
 .brand-mark{width:32px;height:32px;display:inline-grid;place-items:center;background:var(--coral);border-radius:50%;font-size:27px;line-height:1;color:var(--ink);letter-spacing:0;font-weight:500}.brand-dot{color:var(--coral)}
 .home{width:min(1040px,calc(100% - 32px));margin:0 auto;padding:40px 0 20px}
 .home-brand{display:inline-flex;align-items:center;gap:8px;font:700 20px var(--display);letter-spacing:-.06em}
 .home-brand .brand-mark{width:26px;height:26px;font-size:22px}
-.home-hero{width:min(640px,100%);margin:0 auto;background:var(--coral);color:var(--ink);border-radius:32px;padding:26px clamp(22px,5vw,40px) 44px;text-align:center;box-shadow:0 1px 2px #20263014,0 24px 48px -22px #20263066}
-.home-hero .brand-mark{background:var(--ink);color:var(--coral)}.home-hero .brand-dot{color:var(--paper)}
-.home-card-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .section-kicker{font-size:12px;font-weight:800;letter-spacing:.12em}
-.home-hero h1{font:700 clamp(44px,8vw,72px)/1 var(--display);letter-spacing:-.07em;margin:56px 0 26px}
-.home-hero h1 em{font-family:Georgia,serif;font-weight:400;letter-spacing:-.05em;color:var(--yellow)}
 .home-date{margin:0;font-size:13px;font-weight:800;letter-spacing:.1em}
 .hero-rounds{list-style:none;display:flex;justify-content:center;gap:20px;margin:16px 0 0;padding:0}
 .hero-rounds li{display:flex;align-items:center;gap:7px}
@@ -76,8 +71,6 @@
 .toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:11px 17px;border-radius:50px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:120}.toast.show{opacity:1;transform:translate(-50%,0)}body.modal-open{overflow:hidden}
 @media(max-width:760px){
   .home{padding-top:70px}
-  .home-hero{border-radius:26px;padding:20px 20px 34px}
-  .home-hero h1{margin:44px 0 22px}
   .home-play{width:100%;justify-content:center;padding:17px 20px}
   .home-title{margin-top:72px}
   .home-step,.home-step-flip{grid-template-columns:1fr;gap:28px;padding:36px 0}
@@ -696,9 +689,6 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 
 /* Duelos 1 vs 1 (decisión 0023): marcador con avatar y barra de vida, temporizador, avisos y pantallas del duelo.
    La tarjeta reutiliza las paletas del juego: pregunta = tono de la categoría, resultado = azul noche, victoria = amarillo. */
-.home-duel{display:flex;width:fit-content;margin:12px auto 0;align-items:center;gap:10px;border:2px solid var(--ink);border-radius:50px;background:transparent;color:var(--ink);padding:13px 24px;font-size:15px;font-weight:800;letter-spacing:.02em;transition:transform .15s,background .15s}
-.home-duel:hover{background:#20263014;transform:translateY(-2px)}
-.home-duel-tag{background:var(--ink);color:var(--yellow);border-radius:20px;padding:3px 8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
 .duel-shell{z-index:101}
 .duel-layout{display:flex;width:100%;height:100dvh;min-height:0}
 .duel-panel{flex:1;min-width:0;height:100%;overflow:auto;display:flex;flex-direction:column}
@@ -891,7 +881,6 @@ body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 .duel-review-guesses dd{margin:2px 0 0;font:500 14px var(--num);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .game-primary.is-offer{animation:duel-urge 1.3s ease-in-out infinite}
 @media(max-width:560px){
-  .home-duel{width:100%;justify-content:center}
   .duel-hud{gap:6px;width:calc(100% - 20px)}
   .duel-player{padding:8px 9px;column-gap:7px;border-radius:16px}
   .duel-player .duel-avatar{--size:34px}

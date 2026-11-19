@@ -1,6 +1,7 @@
 // Oferta común de Plus: las cuotas y el acceso siguen decidiéndose en el servidor.
 (()=>{
   const modes=new Map([
+    ['home',{title:'Una ronda más.',description:'Sigue jugando partidas extra sin anuncios y explora todas las ventajas de Plus.'}],
     ['daily',{title:'¿Te has quedado con ganas de más?',description:'El reto de hoy ya está completo. Mañana tendrás tres preguntas nuevas; mientras, sigue explorando Faraday.'}],
     ['trends',{title:'¿Y si la siguiente fuera tu mejor curva?',description:'Quédate con las ganas de jugar, sin las pausas. Descubre las opciones de Plus para Traza.'}],
     ['duel',{title:'Que la revancha no se quede para mañana.',description:'Descubre Plus y sigue buscando tu mejor duelo.'}],
@@ -41,7 +42,7 @@
       <span class="plus-offer-badge">FARADAY PLUS</span><h4>${escape(value.title)}</h4>
       <p class="plus-offer-description">${escape(value.description)}</p>
       ${value.quota?`<p class="plus-offer-quota">${escape(value.quota)}</p>`:''}
-      <p class="plus-offer-benefits">Partidas extra sin anuncios con Plus. Consulta las ventajas actuales en tu perfil.</p>
+      ${mode==='home'?'':'<p class="plus-offer-benefits">Partidas extra sin anuncios con Plus. Consulta las ventajas actuales en tu perfil.</p>'}
       <button class="game-primary plus-offer-action" type="button" data-open-plus="${escape(mode)}"><span>${escape(value.cta)}</span><span aria-hidden="true">→</span></button>
       <small class="plus-offer-note">${escape(value.note)}</small>
     </section>`;

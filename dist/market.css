@@ -163,7 +163,6 @@
 .mk-dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:4px}
 
 /* Entradas al mercado: portada y armario */
-.home-market{margin-top:8px}
 .tile-trade{position:absolute;top:30px;left:8px;z-index:1}
 .market-door{margin:0 0 14px;background:var(--ink)!important;color:var(--paper)}
 .market-door small{color:#ffffffb3!important}

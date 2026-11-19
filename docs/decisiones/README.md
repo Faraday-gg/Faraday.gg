@@ -124,3 +124,4 @@ Qué otras opciones había y por qué no.
 ## Consecuencias
 Qué implica, riesgos y cuándo revisarla.
 ```
+| [0100](0100-portada-avatar-y-amigos.md) | Portada con accesos a modos, avatar y panel de amistades con actividad y chat | Implementada; migración pendiente | 2026-11-19 |

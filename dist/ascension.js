@@ -122,6 +122,7 @@
     try{
       let data=await request(action,{...refs(),...extra});if(stamp!==token)return;
       adopt(data);
+      if(action==='responder'&&run.phase==='result')document.dispatchEvent(new Event('faraday:played'));
       if(action==='siguiente'&&run.phase==='ready'){data=await request('empezar',refs());if(stamp!==token)return;adopt(data)}
       pending=false;render({animate:action==='responder'});
     }catch(error){

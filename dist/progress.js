@@ -257,14 +257,14 @@
   function refresh(){
     checkMedals();
     const boxes=chestTotal();
-    if(chip){const waiting=pending()+boxes+state.medals.fresh.length;chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} avisos: misiones por recoger, cofres por abrir o medallas nuevas">${waiting}</i>`:''}`}
-    // Avatar de cuerpo entero en la portada: es la puerta al armario y a la tienda.
-    // Con cofres por abrir, un globo sobre la cabeza con el mismo cofre de la pestaña Cofres (el mejor que tengas),
-    // un halo dorado, el número y destellos (chest.css, «Aviso de cofres»).
-    const best=Chests.TYPES.filter(type=>state.chests[type]).pop()||'chispa',art=window.ChestOpen?.art?.(best)||'';
-    const alert=boxes?`<span class="home-chest-alert" aria-hidden="true"><span class="home-chest-halo"></span><span class="home-chest-rays"></span><span class="home-chest-bubble"><span class="home-chest-icon">${art}</span><b class="home-chest-count">${boxes>9?'9+':boxes}</b></span><i class="home-chest-spark s1"></i><i class="home-chest-spark s2"></i><i class="home-chest-spark s3"></i></span>`:'';
-    // Encuadre «home»: más aire arriba y a los lados para que no se corten el pelo, el brazo del saludo ni la sombra.
-    if(stage)stage.innerHTML=`<span class="home-avatar-stage">${alert}${Avatar.render(look(),{zoom:'home',live:true,emote:'wave',reaction:reaction('all','welcome')})}</span><span class="home-avatar-plate"><b>Nivel ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span><span class="home-avatar-cta${boxes?' has-chest':''}">${boxes?`Abrir ${boxes===1?'cofre':boxes+' cofres'}`:'Personalizar'} <span aria-hidden="true">→</span></span>`;
+    if(chip){chip.setAttribute('aria-label',`Tu perfil, nivel ${levelOf(state.xp)}, ${state.coins} faradios`);const waiting=pending()+boxes+state.medals.fresh.length;chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} avisos: misiones por recoger, cofres por abrir o medallas nuevas">${waiting}</i>`:''}`}
+    if(stage){
+      const avatar=Avatar.render(look(),{zoom:'home',live:true,emote:'wave',turn:0,reaction:reaction('all','welcome')});
+      if(stage.avatar!==avatar){stage.avatar=avatar;stage.innerHTML=avatar}
+      const chest=stage.closest('.portal-avatar').querySelector('.portal-chests');
+      chest.hidden=!boxes;
+      chest.textContent=boxes===1?'Abrir 1 cofre':`Abrir ${boxes} cofres`;
+    }
     if(!shell.hidden)draw();
   }
 

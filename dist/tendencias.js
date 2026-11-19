@@ -442,6 +442,7 @@
     avatar({mood:'wait'});
     try{
       const result=await request('revelar',{date:edition.date,game:edition.game,chart:chart.id,guess:draft});
+      document.dispatchEvent(new Event('faraday:played'));
       if(token!==view)return;
       edition=result;
       const index=result.results.findLastIndex(item=>item.id===chart.id);
