@@ -5,7 +5,7 @@ Python estándar, sin dependencias. Lee los archivos de --cache; --descargar
 obtiene únicamente esas fuentes públicas. El juego usa el JSON versionado,
 nunca consulta estas fuentes ni genera respuestas durante una partida.
 """
-import argparse, collections, hashlib, html, json, pathlib, re, unicodedata, urllib.request, xml.etree.ElementTree as ET
+import argparse, collections, hashlib, html, json, pathlib, re, runpy, unicodedata, urllib.request, xml.etree.ElementTree as ET
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 URLS={
@@ -357,7 +357,27 @@ for code in sorted(codes):
  rows.append(answer(currency_names[code],currency_extra.get(code,[])+[code],pts,'moneda-'+code.lower()))
 category('monedas','Nombra una moneda de curso legal el 1 de enero de 2024','Conjunto fijado a esa fecha con el historial de monedas de Unicode CLDR 46. Se aceptan nombres específicos y códigos ISO; «peso», «dólar» o «franco» sin país no identifican una moneda concreta. No incluye criptomonedas ni monedas ya retiradas en esa fecha.','economia',rows,[{'title':'Unicode CLDR 46: monedas por territorio e historial','url':URLS['territory.xml'],'license':'Unicode-3.0'},{'title':'Unicode CLDR 46: nombres españoles de monedas','url':URLS['es.xml'],'license':'Unicode-3.0'}])
 
-assert len(categories)==28,len(categories)
+# Etiquetas de rotación del banco inicial. Los diez temas de emojis comparten
+# familia para que una partida no tenga dos preguntas con la misma mecánica.
+for row in categories:
+ ident=row['id']
+ if ident.startswith('emoji-'):
+  row['theme']='emojis'
+  row['audience']='familiar' if ident in {'emoji-animales','emoji-comida','emoji-transportes','emoji-ropa','emoji-casa'} else 'discovery'
+ elif ident.startswith('nobel-'):
+  row['audience']='challenge'
+ elif ident in {'paises-territorios','idiomas'}:
+  row['audience']='familiar'
+  if ident=='idiomas':row['theme']='lengua'
+ elif ident in {'territorios-oceania','constelaciones','monedas'}:
+  row['audience']='challenge'
+  if ident=='constelaciones':row['theme']='espacio'
+ else:
+  row['audience']='discovery'
+  if ident in {'provincias-espana','entidades-mexico'}:row['theme']='geografia'
+
+runpy.run_path(str(ROOT/'research/ascension-cultura-general.py'))['add_sets'](category,answer,categories)
+assert len(categories)>=45
 assert sum(len(c['answers'])for c in categories)>=2000
 assert len({c['id']for c in categories})==len(categories)
 for c in categories:
@@ -367,7 +387,7 @@ for c in categories:
  # Alias vacíos o iguales a otros nombres se han retirado; evita números como alias sueltos.
  for a in c['answers']:a['aliases']=list(dict.fromkeys(s for s in a['aliases'] if s.strip()and not s.isdecimal()))
 
-out={'version':'2026-11-19-1','date':'2026-11-19','rarity':'editorial','rarityNote':'Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
+out={'version':'2026-11-19-2','date':'2026-11-19','rarity':'editorial','rarityNote':'Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
 (ROOT/'content/ascension.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
 manifest={name:{'url':url,'sha256':hashlib.sha256((args.cache/name).read_bytes()).hexdigest()}for name,url in URLS.items()}
 (ROOT/'research/ascension-manifest.json').write_text(json.dumps({'checked':'2026-11-19','files':manifest},ensure_ascii=False,indent=2)+'\n')

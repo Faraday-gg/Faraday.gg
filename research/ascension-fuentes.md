@@ -1,12 +1,12 @@
 # Banco editorial de Ascensión: fuentes, cobertura y licencia
 
-- **Estado:** banco inicial implementado y validable, versión `2026-11-19-1`.
+- **Estado:** banco ampliado y validable, versión `2026-11-19-2`.
 - **Fecha de preparación:** 19 de noviembre de 2026.
 - **Autoría editorial:** Álvaro, con Codex. Preguntas, selección de aliases y puntos propios de Faraday; no se ha descargado ni copiado el banco de Krillion.
 
 ## Qué contiene
 
-`content/ascension.json` contiene 28 categorías y 2.637 respuestas canónicas. Los aliases no se cuentan como respuestas adicionales. Las categorías `theme` permiten que el selector diario limite la concentración de un mismo dominio. El motor conserva su propia copia de las categorías de una partida empezada: cambiar el banco después no debe cambiar sus respuestas o puntuación.
+`content/ascension.json` contiene 49 categorías y 3.410 entradas canónicas. La tabla describe el contenido inicial. La ampliación añade 21 categorías y 773 entradas. Los aliases no se cuentan como respuestas adicionales. Las etiquetas `theme` y `audience` permiten repartir temas y dificultad. El motor conserva su propia copia de las categorías de una partida empezada: cambiar el banco después no debe cambiar sus respuestas o puntuación.
 
 | Conjunto | Categorías | Respuestas canónicas | Cobertura |
 | --- | ---: | ---: | --- |
@@ -21,6 +21,8 @@
 | Monedas | 1 | 154 | Monedas de curso legal el 1 de enero de 2024 según el historial de CLDR 46 |
 
 El total suma entradas por categoría, no entidades distintas en todo el juego. Los conjuntos geográficos se solapan y hay personas premiadas en más de una disciplina. La versión del JSON es la fuente de verdad sobre las cantidades.
+
+El fichero [ascension-cultura-general.py](ascension-cultura-general.py) recoge las nuevas preguntas, el alcance y una referencia por categoría. Incluye títulos habituales de España y Latinoamérica, nombres de disciplinas y equivalentes culinarios. El juego utiliza los nombres de entidades y los títulos como datos identificativos. Las preguntas, descripciones y niveles son editoriales de Faraday.
 
 ## Fuentes primarias consultadas
 
@@ -54,7 +56,7 @@ Esta calibración es una primera valoración editorial, no un estudio de familia
 - No se usa la lista genérica de palabras clave de CLDR como si cada palabra fuese una respuesta válida: «animal», «objeto» o «mascota» no deberían resolver nombres concretos.
 - Las presentaciones repetidas de un mismo concepto se agrupan, como las caras y los cuerpos de varios animales o los libros de distintos colores. No se inflan las cantidades contando tonos de piel ni selectores de presentación como entidades nuevas.
 - El propio carácter emoji no es un alias del banco inicial. La respuesta se escribe con palabras.
-- El motor sugiere una corrección de una sola edición cuando hay un único candidato; la sugerencia no concede puntos automáticamente. Los aliases de cada categoría se validan para impedir que el mismo texto resuelva dos respuestas distintas.
+- El motor prioriza una coincidencia exacta. Si no la encuentra, permite artículos, errores de separación y erratas inequívocas. Con cinco o más letras admite una edición y con diez o más admite dos. En cuatro letras solo admite una transposición adyacente. Un empate entre conceptos permite reintentar. Las cifras tienen que coincidir para distinguir títulos de secuelas.
 
 ## Límites deliberados
 
@@ -64,7 +66,7 @@ CLDR proporciona un catálogo geográfico, no un reconocimiento de soberanía. E
 
 Las categorías de Nobel tienen corte explícito en 2025. La de Economía corresponde al premio del Banco de Suecia en memoria de Alfred Nobel. Las categorías de lenguas incluyen entradas históricas y construidas con código de dos letras; no se anuncian como una lista de todas las lenguas vivas. La de monedas tiene fecha fija en enero de 2024 y no describe el curso legal actual ni contiene criptomonedas.
 
-El banco inicial favorece conjuntos cerrados y verificables. Todavía no cubre preguntas abiertas de cine, videojuegos, marcas, música popular o especies ilimitadas. Para ampliarlo sin rechazos injustos hay que preparar primero una fuente con cobertura suficiente, aliases revisados y reglas claras de pertenencia; no basta con añadir unas cuantas respuestas famosas.
+El banco usa conjuntos con límites verificables, como la filmografía de un estudio hasta un estreno, las selecciones de una edición o las especies de una generación de Pokémon. Los repertorios de cocina e instrumentos agrupan variantes de una misma familia y describen la referencia utilizada. Ampliar la cobertura requiere revisar pertenencia y alias para reducir rechazos de respuestas válidas.
 
 ## Reproducción y comprobación
 

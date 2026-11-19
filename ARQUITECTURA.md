@@ -99,7 +99,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/ascension.mjs        Edición diaria, validación, reloj y clasificación de Ascensión
 lib/ascension-store.mjs  Persistencia local y Supabase con versión optimista
-content/ascension.json   Banco privado de 28 categorías y 2.637 respuestas, fuentes y rareza editorial
+content/ascension.json   Banco privado de 49 categorías y 3.410 respuestas, fuentes y rareza editorial
 lib/continuaciones.mjs   Recibos, contadores por modalidad/día y retos extra de práctica (POST /api/continuacion)
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
 content/tendencias*.json Banco vigente de 108 gráficas y bancos anteriores para partidas iniciadas
@@ -279,7 +279,7 @@ El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_F
 
 ## Ascensión
 
-`POST /api/ascension` obtiene la identidad desde la cuenta o la cookie HttpOnly existente, calcula su hash y ejecuta `lib/ascension.mjs`. El servidor determina categorías, plazos y puntos; ignora identidad y puntuación enviadas por el navegador. Una edición fija siete categorías distintas, con un máximo de dos por tema en el banco vigente. Cada partida guarda una copia privada de sus categorías y una huella de edición: una actualización editorial conserva los intentos abiertos y separa su clasificación.
+`POST /api/ascension` obtiene la identidad desde la cuenta o la cookie HttpOnly existente, calcula su hash y ejecuta `lib/ascension.mjs`. El servidor determina categorías, plazos y puntos; ignora identidad y puntuación enviadas por el navegador. Una edición combina cuatro categorías familiares, dos de descubrimiento y una difícil, con siete temas distintos. Se priorizan preguntas que no salieron recientemente y las prácticas evitan las de ese día cuando hay alternativas. La API acepta automáticamente una errata si hay una única respuesta más cercana y dentro de la tolerancia. Cada partida guarda una copia privada de sus categorías y una huella de edición: una actualización editorial conserva los intentos abiertos y separa su clasificación.
 
 `lib/ascension-store.mjs` persiste en archivo local y en `public.ascension_runs` en Vercel. La clave `(scope, day, player_hash, game)` identifica la diaria (`game=0`) y prácticas sucesivas. Inserción única y actualización condicionada a `version` impiden que dos pestañas puntúen o avancen dos veces. Los plazos vencidos se resuelven en la siguiente petición, sin depender de memoria de una instancia. La fecha utiliza Madrid; una partida del día anterior da paso a la edición nueva. `scope=preview` separa los resultados de pruebas de `publico` dentro del único Supabase compartido.
 
