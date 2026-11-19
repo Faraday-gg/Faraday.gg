@@ -85,6 +85,8 @@ Reglas para agentes:
   node tests/ascension.test.mjs
   node tests/ascension-api.test.mjs
   node tests/ascension-banco.test.mjs
+  node tests/ascension-anuncios.test.mjs
+  node tests/ascension-chart.test.mjs
 
   node tests/anuncios.test.mjs
   node tests/continuaciones.test.mjs
