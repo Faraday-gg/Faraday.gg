@@ -5,15 +5,14 @@
   const stage=document.getElementById('trends-avatar');
   const alert=document.getElementById('trends-error');
   const home=document.querySelector('.home-trends');
-  const samplesPerPeriod=16;
+  const samplesPerPeriod=10;
   let box;
   const prizes=new Map();
   const number=new Intl.NumberFormat('es-ES',{maximumFractionDigits:4,useGrouping:'always'});
-  const axisNumber=new Intl.NumberFormat('es-ES',{notation:'compact',maximumFractionDigits:2});
   const fmt=value=>number.format(value);
   const text=value=>escapeHtml(String(value));
   const clamp=(value,min,max)=>Math.min(max,Math.max(min,value));
-  let edition,chart,draft,trace,stroke,opener,view=0,lookKey='',pending=false;
+  let edition,chart,draft,trace,stroke,opener,view=0,lookKey='',pending=false,coordinateIndex;
   const element=selector=>content.querySelector(selector);
 
   function avatar(state){
@@ -123,10 +122,6 @@
     const compact=box.width===360;
     const width=compact?154:232;
     const height=compact?34:46;
-    const badge=axis=>`<g class="trends-axis-value" data-trends-axis="${axis}">
-      <rect x="${-box.badge/2}" y="-11" width="${box.badge}" height="22" rx="5"/>
-      <text text-anchor="middle" dominant-baseline="central"></text>
-    </g>`;
     return `<path class="trends-drawn"/>
       <g class="trends-draw-hint" aria-hidden="true">
         <circle class="trends-start-ring" cx="${marker}" cy="${y(q,q.history.at(-1))}" r="13"/>
@@ -139,15 +134,14 @@
       <g class="trends-crosshair" visibility="hidden" aria-hidden="true">
         <path class="trends-projection"/>
         <circle class="trends-cursor" r="4"/>
-        ${badge('x')}${badge('y')}
       </g>`;
   }
 
   function plot(q,result,ownTrace){
     const compact=matchMedia('(max-width: 560px)').matches;
     box=compact
-      ?{width:360,height:334,left:52,right:290,top:34,bottom:300,badge:56,split:.32}
-      :{width:880,height:442,left:77,right:746,top:36,bottom:398,badge:70,split:.37};
+      ?{width:360,height:334,left:52,right:290,top:34,bottom:300,split:.32}
+      :{width:880,height:442,left:77,right:746,top:36,bottom:398,split:.37};
     const marker=x(q,q.cut),cutYear=q.start+q.cut;
     const years=[q.start,cutYear,cutYear+Math.round((q.end-cutYear)/2),q.end];
     const tick=q.tick;
@@ -172,6 +166,7 @@
       <rect class="trends-zone" x="${marker}" y="${box.top}" width="${box.right-marker}" height="${box.bottom-box.top}"/>
       <text class="trends-axis-title" x="${box.left}" y="${box.top-11}">${historyLabel}</text>
       ${result?`<text class="trends-axis-title" x="${marker+10}" y="${box.top-11}">Tramo revelado</text>`:''}
+      ${result?'':'<g class="trends-period-band" visibility="hidden" aria-hidden="true"><rect/><path/></g>'}
       ${minorTicks}${ticks}${guides}<line class="trends-cut" x1="${marker}" x2="${marker}" y1="${box.top}" y2="${box.bottom}"/>${dates}
       <polyline class="trends-history" points="${points(q,q.history)}"/>
       ${result?`<defs>${clip('real')}${clip('others')}</defs>
@@ -198,9 +193,15 @@
       <h3 tabindex="-1">${text(q.title)}</h3>
       <p class="trends-detail">${text(q.detail)}</p>
       <p class="trends-unit">${text(q.unit)}</p>
-      ${plot(q)}
+      <div class="trends-chart">
+        ${plot(q)}
+        <output class="trends-coordinate" data-trends-coordinate aria-live="off" hidden>
+          <span class="trends-coordinate-period" data-trends-period></span>
+          <strong data-trends-estimate></strong>
+          <small>${text(q.unit)}</small>
+        </output>
+      </div>
       <div class="trends-question-controls">
-      <output class="trends-coordinate" data-trends-coordinate aria-live="off"></output>
       <p class="trends-caption">Arrastra desde el punto amarillo hasta ${text(dateLabel(q,q.end))}. Agarra la línea para ajustarla.</p>
       <details class="trends-editor"><summary>Editar valores por ${unitOfTime(q)}</summary>
         <div class="trends-controls">
@@ -228,40 +229,48 @@
   }
 
   function updateCoordinates(index){
+    coordinateIndex=index;
+    const svg=element('.trends-plot');
     const crosshair=element('.trends-crosshair');
+    const band=element('.trends-period-band');
     const output=element('[data-trends-coordinate]');
-    const dateTicks=element('.trends-plot').querySelectorAll('.trends-date-tick');
     if(index===undefined){
       crosshair.setAttribute('visibility','hidden');
-      for(const tick of dateTicks)tick.removeAttribute('visibility');
-      output.textContent='';
+      band.setAttribute('visibility','hidden');
+      output.hidden=true;
       return;
     }
     const value=trace[index];
-    const date=chart.start+chart.cut+Math.round(index/samplesPerPeriod);
+    const period=clamp(Math.round(index/samplesPerPeriod),1,draft.length);
+    const date=chart.start+chart.cut+period;
     const px=x(chart,chart.cut+index/samplesPerPeriod),py=y(chart,value);
     crosshair.setAttribute('visibility','visible');
-    crosshair.querySelector('.trends-projection').setAttribute('d',`M${box.left} ${py}H${px}V${box.bottom}`);
+    crosshair.querySelector('.trends-projection').setAttribute('d',`M${px} ${py}V${box.bottom}`);
     const cursor=crosshair.querySelector('.trends-cursor');
     cursor.setAttribute('cx',px);
     cursor.setAttribute('cy',py);
-    const half=box.badge/2;
-    const xCenter=clamp(px,half+2,box.width-half-2);
-    for(const tick of dateTicks){
-      const distance=Math.abs(xCenter-Number(tick.getAttribute('x')));
-      tick.setAttribute('visibility',distance<half+20?'hidden':'visible');
-    }
-    const badges=[
-      ['x',dateLabel(chart,date,true),xCenter,box.bottom+18],
-      ['y',axisNumber.format(value),Math.max(half+2,box.left-half-6),py],
-    ];
-    for(const [axis,label,cx,cy] of badges){
-      const badge=crosshair.querySelector(`[data-trends-axis="${axis}"]`);
-      badge.setAttribute('transform',`translate(${cx} ${cy})`);
-      badge.querySelector('text').textContent=label;
-    }
-    output.textContent=`${dateLabel(chart,date)} · ${fmt(value)} ${chart.unit}`;
+    const from=Math.max(x(chart,chart.cut),x(chart,chart.cut+period-.5));
+    const to=Math.min(box.right,x(chart,chart.cut+period+.5));
+    band.setAttribute('visibility','visible');
+    const column=band.querySelector('rect');
+    for(const [name,value] of Object.entries({x:from,y:box.top,width:to-from,height:box.bottom-box.top}))column.setAttribute(name,value);
+    band.querySelector('path').setAttribute('d',`M${from} ${box.bottom-2}H${to}`);
+    output.querySelector('[data-trends-period]').textContent=dateLabel(chart,date);
+    output.querySelector('[data-trends-estimate]').textContent=fmt(value);
+    output.hidden=false;
+    // Se coloca en píxeles de pantalla para conservar legibilidad y margen al cambiar el ancho.
+    const point=new DOMPoint(px,py).matrixTransform(svg.getScreenCTM());
+    const frame=output.parentElement.getBoundingClientRect();
+    const width=output.offsetWidth,height=output.offsetHeight;
+    const gap=stroke?.type==='touch'?30:14;
+    const atX=point.x-frame.left,atY=point.y-frame.top;
+    const left=atX+gap+width>frame.width-8?atX-width-gap:atX+gap;
+    const top=atY-height-gap<8?atY+gap:atY-height-gap;
+    output.style.left=clamp(left,8,Math.max(8,frame.width-width-8))+'px';
+    output.style.top=clamp(top,8,Math.max(8,frame.height-height-8))+'px';
   }
+
+  addEventListener('resize',()=>{if(dialog.open&&element('.trends-crosshair'))updateCoordinates(coordinateIndex)});
 
   function updateDraft(index){
     element('.trends-drawn').setAttribute('d',tracePath(chart,trace));
@@ -355,12 +364,24 @@
       return target;
     }
 
+    function steady(point){
+      const previous=stroke.input;
+      if(point.x===stroke.originInput.x&&point.y===stroke.originInput.y){stroke.input=point;stroke.steadyY=point.y;return point}
+      if(previous.x===point.x&&previous.y===point.y)return {...point,y:stroke.steadyY};
+      // Amortigua el temblor con una distancia corta de 3 px CSS, sin perder los giros deliberados.
+      const distance=Math.hypot((point.x-previous.x)*point.scaleX,(point.y-stroke.steadyY)*point.scaleY);
+      const weight=1-Math.exp(-distance/3);
+      stroke.steadyY+=(point.y-stroke.steadyY)*weight;
+      stroke.input=point;
+      return {...point,y:stroke.steadyY};
+    }
+
     function update(event){
       let index;
-      if(stroke.edit)index=adjust(position(event));
+      if(stroke.edit)index=adjust(steady(position(event)));
       else{
         const events=event.getCoalescedEvents?.();
-        for(const sample of events?.length?events:[event])draw(position(sample));
+        for(const sample of events?.length?events:[event])draw(steady(position(sample)));
         index=stroke.point.index;
       }
       window.Avatar3D?.lookAt?.(stage.firstElementChild,event.clientX,event.clientY);
@@ -377,6 +398,10 @@
         startX:point.x,finishX:Math.max(box.right,point.x+1),
         offsetY:point.y-y(chart,trace[origin])
       };
+      stroke.input=point;
+      stroke.originInput=point;
+      stroke.steadyY=point.y;
+      stroke.type=event.pointerType;
       svg.classList.toggle('is-editing',Boolean(anchor));
       svg.setPointerCapture(event.pointerId);
     });
@@ -546,7 +571,7 @@
       <div class="trends-actions"><button class="game-primary" type="button" ${review?'data-trends-summary':'data-trends-next'}>${review?'Volver al resultado':edition.current?'Siguiente gráfica →':'Ver resultado →'}</button></div>
     </section>`;
     if(animate){
-      element('.trends-plot').outerHTML=plot(q,q,trace);
+      element('.trends-chart').outerHTML=plot(q,q,trace);
       element('.trends-question-controls').outerHTML=result;
       element('.trends-result').focus({preventScroll:true});
     }else{
