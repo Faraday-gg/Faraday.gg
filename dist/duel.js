@@ -15,6 +15,7 @@
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
 
   let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,chatWake=0,busy=false;
+  let quotaState=null,quotaRequest=0,lastOfferMode='duel';
   const serverNow=()=>Date.now()+offset;
   // Duelo de tres (decisión 0082): duel.size===3. rival() es el primero de los otros; others() son los demás con su asiento.
   const three=()=>duel?.size===3;
@@ -103,6 +104,31 @@
   const setView=(view,tone='')=>{shell.dataset.view=view;shell.dataset.tone=tone;shell.dataset.screen=duel?.phase||'lobby'};
   function alertBar(html,ms=4200){const bar=$('#duel-alert');bar.innerHTML=html;bar.classList.add('show');clearTimeout(alertBar.timer);alertBar.timer=setTimeout(()=>bar.classList.remove('show'),ms)}
 
+  function offerMode(){
+    if(duel?.players?.some(player=>player.bot))return 'practice';
+    if(three())return 'duel3';
+    return duel?.mode==='ranked'?'ranked':lastOfferMode;
+  }
+  function paintQuota(data,mode=offerMode(),focus=false){
+    if(shell.hidden||(shown!=='lobby'&&shell.dataset.screen!=='end'))return;
+    let slot=content.querySelector('[data-duel-plan]');
+    if(!slot&&focus){slot=document.createElement('div');slot.dataset.duelPlan='';content.append(slot)}
+    if(!slot)return;
+    if(data?.plus||data?.limit===null){slot.innerHTML='';return}
+    const valid=Number.isInteger(data?.limit)&&data.limit>=0&&Number.isInteger(data?.played)&&data.played>=0;
+    slot.innerHTML=window.PlusOffers?.render(mode,{...(typeof data?.plus==='boolean'?{plus:data.plus}:{}),
+      ...(valid?{limit:data.limit,remaining:Math.max(0,data.limit-data.played),exhausted:data.played>=data.limit,compact:data.played<data.limit}:{compact:true})})||'';
+    if(focus&&slot.firstElementChild){slot.tabIndex=-1;slot.focus();slot.scrollIntoView({block:'center',behavior:reduced()?'auto':'smooth'})}
+  }
+  async function refreshQuota(){
+    const slot=content.querySelector('[data-duel-plan]'),request=++quotaRequest;
+    if(!slot)return;
+    const response=await call('limite');
+    if(request!==quotaRequest||!slot.isConnected||shell.hidden)return;
+    quotaState=response.ok?response.data:null;
+    paintQuota(quotaState);
+  }
+
   // Marcador: avatar, nombre, nivel y barra de vida de cada jugador. La vida perdida se queda un momento
   // marcada en la barra antes de desaparecer, y la cifra del golpe sube flotando.
   function renderHud(){
@@ -167,6 +193,7 @@
   function renderLobby(message=''){
     duel=null;shown='lobby';hud.hidden=true;hideVersus(true);setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
     const progress=Progress.info();
+    lastOfferMode=window.Ranked?.mode()==='ranked'?'ranked':'duel';
     content.innerHTML=`<p class="duel-kicker">Duelo 1 vs 1</p>
 <h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
 ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo <span aria-hidden="true">→</span></button></div>`:''}
@@ -184,8 +211,10 @@ ${window.Ranked?Ranked.lobby():''}
 <div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
 <div class="duel-modes duel-three-modes"><span class="duel-three-label">Nuevo · 1 vs 1 vs 1</span><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
 <details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details>
+<div data-duel-plan></div>
 <p class="duel-rules">${int(6000)} de vida · 3 min por pregunta · 30 s cuando responde tu rival · contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada</p>`;
     window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
+    refreshQuota();
   }
   function renderWaitingThree(){
     hud.hidden=true;setView('result');
@@ -381,10 +410,11 @@ ${reviewMarkup()}
 ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
 <p class="form-error" id="duel-error" role="alert"></p>
 <div class="duel-modes"><button class="game-primary" type="button" data-duel="rematch" id="duel-rematch">Revancha <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="again">Nuevo rival</button></div>
-<button class="duel-link" type="button" data-duel="share-result">Compartir resultado</button>`;
+<button class="duel-link" type="button" data-duel="share-result">Compartir resultado</button>
+<div data-duel-plan></div>`;
     requestAnimationFrame(()=>requestAnimationFrame(()=>{const bar=content.querySelector('[data-xp]');if(bar)bar.style.setProperty('--xp',bar.dataset.xp)}));
     (won?sfx.win:draw?sfx.even:sfx.lose)();if(result?.levelUp)sfx.level();
-    window.Ranked?.animate();updateRematch();
+    window.Ranked?.animate();updateRematch();refreshQuota();
   }
   function updateRematch(){
     const button=$('#duel-rematch');if(!button||!duel?.next||button.dataset.offer)return;
@@ -398,6 +428,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(view.status!=='finished')saved.set('actual',view.id);
     const key=`${view.id}:${view.phase}:${view.round?.number||0}`;
     if(key!==shown){
+      quotaRequest++;
       shown=key;clearTimeout(endTimer);
       if(view.phase!=='intro')hideVersus();
       if(view.phase==='waiting')renderWaiting();
@@ -462,9 +493,16 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   function readProfile(){const input=$('#duel-name');if(input){profile.name=input.value.replace(/\s+/g,' ').trim().slice(0,16)||profile.name}saved.set('perfil',profile)}
   async function begin(action,extra={}){
     if(busy)return;busy=true;readProfile();shell.classList.add('is-busy');
+    const origin=content.firstElementChild;
+    const mode=extra.size===3?'duel3':action==='bot'?'practice':duel?offerMode():extra.mode==='ranked'?'ranked':'duel';
+    lastOfferMode=mode;
     const response=await call(action,{...identity(),...extra});busy=false;shell.classList.remove('is-busy');
+    if(shell.hidden||!origin?.isConnected)return;
     if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data)}
-    else{const error=$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.')}
+    else{
+      const error=$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.');
+      if(response.data.code==='limite'){quotaRequest++;quotaState=response.data;paintQuota(quotaState,mode,true)}
+    }
   }
   async function submit(event){
     event.preventDefault();if(busy||!duel||duel.phase!=='question')return;
@@ -518,6 +556,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     $('#duel-close').focus();
   }
   async function close(){
+    quotaRequest++;
     if(duel&&['intro','question','reveal'].includes(duel.phase)){
       if(!(three()&&me().hp<=0)&&!window.confirm(three()?'¿Abandonar el duelo? Quedarás eliminado y los otros dos seguirán jugando.':'¿Abandonar el duelo? Tu rival ganará la partida.'))return;
       const response=await call('salir',{id:duel.id});if(response.ok){duel=response.data;window.Bets?.track(duel);finishStats()}
@@ -560,6 +599,21 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   $('#workspace-close').addEventListener('click',()=>{if(!shell.hidden)toggleCalc(false)});
   // El botón de sonido es el control de volumen de sound.js; aquí solo se para la música al silenciar.
   document.addEventListener('faraday:sonido',event=>{if(!event.detail.on)stopMusic()});
+  document.addEventListener('faraday:before-plan',event=>{
+    // Las ofertas solo viven en el portal y en el resumen: nunca abandonan una ronda en marcha.
+    if(shell.hidden)return;
+    if(busy)event.preventDefault();
+    else if(!duel||duel.phase==='finished')close();
+    else event.preventDefault();
+  });
+  document.addEventListener('click',event=>{
+    if(event.target.closest('[data-ranked-mode]')&&shown==='lobby'&&!shell.hidden){
+      lastOfferMode=window.Ranked?.mode()==='ranked'?'ranked':'duel';paintQuota(quotaState);
+    }
+  });
+  for(const name of ['faraday:plan','faraday:cuenta'])document.addEventListener(name,()=>{
+    if(!shell.hidden&&(shown==='lobby'||shell.dataset.screen==='end'))refreshQuota();
+  });
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
