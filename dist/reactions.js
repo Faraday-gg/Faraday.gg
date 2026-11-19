@@ -18,16 +18,7 @@
   // Tramos del multiplicador, de mejor a peor. max = primer valor que ya no entra; clip = gesto al conocer el resultado;
   // rest = ánimo con el que se queda después; label = lo que dice la etiqueta en el acierto. La clavada no tiene etiqueta
   // propia: es el «¡Casi casi!» de casi.js, y empieza donde él dice.
-  const TIERS=[
-    {id:'clavada',max:window.CasiCasi?.LIMIT||1.1,clip:'clavada',rest:'cheer'},
-    {id:'acierto',max:1.9,clip:'salto',rest:'cheer',label:'¡Muy cerca!'},
-    {id:'cerca',max:5,clip:'casi',rest:''},
-    {id:'lejos',max:10,clip:'encoger',rest:'meh'},
-    {id:'fallo',max:20,clip:'facepalm',rest:'sad'},
-    {id:'desastre',max:100,clip:'horror',rest:'sad'},
-    {id:'ko',max:Infinity,clip:'desmayo',rest:'ko'}
-  ];
-  const tierOf=factor=>TIERS.find(tier=>factor<tier.max)||TIERS[TIERS.length-1];
+  const {TIERS,tierOf}=Celebrations;
   const isHit=tier=>tier.rest==='cheer';
 
   // ---------- Avatar: un solo hueco animado junto a la tarjeta, que se conserva de una pregunta a otra.
@@ -122,28 +113,29 @@
   let timers=[];
   const later=(ms,fn)=>timers.push(setTimeout(fn,ms));
   function reset(){timers.forEach(clearTimeout);timers=[];card()?.classList.remove(...FLAGS)}
-  function reveal(tier,streak){
-    if(tier.id==='ko'){
+  function reveal(tier,streak,mode){
+    const reaction=Progress.reaction(mode,tier.id);
+    if(tier.id==='ko'&&reaction.clip==='desmayo'){
       // El desmayo dura 3,4 s: el silbido acompaña a la vuelta y el golpe llega cuando toca el suelo.
-      act({mood:'',clip:'desmayo',then:'ko'});
+      act(reaction);
       if(reduced()){sfx.thud();return}
       sfx.swoon();later(2580,()=>{sfx.thud();buzz(70);card()?.classList.add('is-thud')});later(3150,sfx.birds);
       return;
     }
-    act(isHit(tier)?{mood:tier.rest,clip:tier.clip}:{mood:'',clip:tier.clip,then:tier.rest});
+    act(reaction);
     if(isHit(tier))celebrate(tier,streak);else FAIL_SOUND[tier.id]?.();
   }
   document.addEventListener('faraday:view',({detail})=>{
     reset();
     if(detail.view==='closed'){clearFx();return}
     if(detail.view==='question'){act({mood:'nervous'});return}
-    if(detail.view==='summary'){act({mood:tierOf(detail.average).rest});return}
+    if(detail.view==='summary'){act(Progress.reaction(detail.mode,tierOf(detail.average).id,{animate:false}));return}
     const tier=tierOf(detail.factor);
-    if(!detail.fresh){act({mood:tier.rest});crown(tier,false);return}
+    if(!detail.fresh){act(Progress.reaction(detail.mode,tier.id,{animate:false}));crown(tier,false);return}
     Sound.context();Sound.resume();
     act({mood:'wait'});
     if(detail.settle&&tier.id!=='clavada')sfx.count(detail.settle);
-    later(detail.settle||260,()=>reveal(tier,detail.streak||0));
+    later(detail.settle||260,()=>reveal(tier,detail.streak||0,detail.mode));
   });
 
 })();

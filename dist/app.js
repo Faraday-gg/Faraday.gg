@@ -64,7 +64,7 @@ function renderGame(){
   const view=activeIndex===3?'summary':activeIndex<guesses.length?'result':'question';
   $('#game-content').className='game-content is-'+view;$('#game-shell').dataset.view=view;$('#game-shell').dataset.tone=view==='question'?(window.CATEGORIES?.[activeDay.questions[activeIndex].category]?.tone||'coral'):'';
   $('.game-card')?.classList.remove('explaining','is-casi','casi-fresh');
-  const detail={view,index:activeIndex};
+  const detail={view,index:activeIndex,mode:activeDay.id===todayKey?'daily':'archive'};
   if(view==='summary'){renderSummary();detail.average=activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}
   else if(view==='result')Object.assign(detail,renderResult(guesses));else renderQuestion();
   renderBar(guesses);$('.game-panel').scrollTop=0;justAnswered=false;announceView(detail);

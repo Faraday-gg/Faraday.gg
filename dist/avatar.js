@@ -300,8 +300,8 @@
   }
   // bust: cabeza y hombros (marcador, avisos). zoom: 'legs', 'shoes' o 'torso' para la tienda, 'stage' = cuerpo entero con sitio a los lados (reto diario). live: animado, para las pantallas
   // grandes; drag: se puede girar arrastrando; emote: gesto ('wave', 'cheer', 'sad' o 'hurt'); turn: hacia dónde mira (radianes).
-  function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote='',turn}={}){
-    const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote,turn}));
+  function render(look,{bust=false,label='',zoom='',live=false,drag=false,emote='',turn,reaction}={}){
+    const raw=resolve(look),mode=bust?'bust':zoom||'full',data=encodeURIComponent(JSON.stringify({look:raw,mode,live,drag,emote,turn,reaction}));
     return `<span class="avatar-view" data-mode="${mode}" data-avatar="${data}" ${label?`role="img" aria-label="${label}"`:'aria-hidden="true"'}>${fallback(raw,mode)}</span>`;
   }
   // Ya no hay fondos: el avatar se enseña sobre un foco claro.

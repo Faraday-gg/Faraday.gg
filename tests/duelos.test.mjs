@@ -56,12 +56,14 @@ try{
   const ana=randomUUID(),luis=randomUUID(),otra=randomUUID();
 
   // Partida rápida: la primera persona espera y la segunda se empareja con ella.
-  let a=await duel('buscar',ana,{name:'Ana <b>',avatar:{body:'mujer',hat:'gorra',top:'<script>',otra:'x',badge:'racha-3'},level:4});
+  let a=await duel('buscar',ana,{name:'Ana <b>',avatar:{body:'mujer',hat:'gorra',top:'<script>',otra:'x',badge:'racha-3'},level:4,gestures:{duel:{clavada:'robot',victory:'dab',ko:'<script>',unknown:'disco'},duel3:{clavada:'disco'},ranked:{defeat:'none'},unknown:{victory:'robot'}}});
   assert.deepEqual(a.data.players[0].avatar,{body:'mujer',hat:'gorra',badge:'racha-3'},'Del avatar solo se guardan piezas con identificador válido');
   assert.equal(a.status,200);assert.equal(a.data.status,'waiting');assert.equal(a.data.players[0].name,'Ana b','El nombre se limpia');
+  assert.deepEqual(a.data.players[0].gestures,{duel:{clavada:'robot',victory:'dab'},duel3:{clavada:'disco'},ranked:{defeat:'none'}},'Solo transmite los gestos y modos permitidos');
   const id=a.data.id;
   let b=await duel('buscar',luis,{name:'Luis',avatar:99});
   assert.equal(b.data.id,id,'Se une al duelo que estaba esperando');assert.equal(b.data.phase,'intro');assert.equal(b.data.you,1);assert.deepEqual(b.data.players[1].avatar,{},'Un avatar no válido se queda en el de por defecto');
+  assert.equal(b.data.players[0].gestures.duel.victory,'dab','El rival recibe los gestos del otro jugador');
   assert.deepEqual(b.data.players.map(p=>p.hp),[RULES.maxHp,RULES.maxHp]);
   assert.deepEqual(b.data.round.multipliers,[1,1]);
   assert.equal((await duel('estado',otra,{id})).status,403,'Un tercero no puede mirar el duelo');
