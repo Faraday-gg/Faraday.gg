@@ -1,6 +1,6 @@
 # 0096. Celebraciones elegidas por resultado y modalidad
 
-- **Estado** — Implementada.
+- **Estado** — Implementada e integrada en `preprod` mediante la [PR #142](https://github.com/Faraday-gg/Faraday.gg/pull/142); Vercel aprobado. Sin promoción a `main` en esta tarea.
 - **Fecha** — 2026-11-19.
 - **Quién** — Álvaro, con Codex.
 - **Amplía** — [0033](0033-avatar-en-el-reto-y-recompensa.md), [0053](0053-bailes-del-avatar.md) y [0087](0087-graficas-y-partida-extra.md).

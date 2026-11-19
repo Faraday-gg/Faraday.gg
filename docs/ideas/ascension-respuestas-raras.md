@@ -5,7 +5,23 @@
 
 ## Referencia observada
 
-En la interfaz pública de [Krillion](https://krillion.io/) se observaron siete preguntas, 25 segundos por respuesta, un descenso ligado a los puntos y referencias de profundidad repartidas por el escenario. Sus reglas indican 10 metros por punto y un máximo diario de 700 puntos. Se abrió la primera pregunta, sobre comida o bebida ficticia. La revisión automática de permisos bloqueó el envío de la respuesta por el posible consumo del intento diario; se pidió autorización y no se enviaron respuestas. No se verificaron resultados de rarezas distintas ni la clasificación mediante una partida completa.
+La interfaz pública de [Krillion](https://krillion.io/) presenta siete preguntas, 25 segundos por respuesta y un descenso de 10 metros por punto. Después de autorizar Álvaro el consumo del intento diario, se completó la edición **Dive #127** el 19 de noviembre de 2026 sin iniciar sesión ni comprar nada. La primera exploración de la sesión había quedado detenida por la revisión automática de permisos; esta segunda prueba sí envió las siete respuestas.
+
+| Categoría (resumida) | Respuesta enviada | Resultado observado | Puntos | Descenso |
+| --- | --- | --- | ---: | ---: |
+| Animal mayor que una persona | Elephant | Plankton | 10 | 100 m |
+| Lugar ficticio | Henneth Annun | Deep Cut; normalizado a Henneth Annûn | 85 | 850 m |
+| Adhesivo para la piel | Kinesiology tape | Rare | 60 | 600 m |
+| Dirección de cine | Andrei Tarkovsky | Rare | 60 | 600 m |
+| Permiso de una aplicación | Body sensors | Deep Cut | 85 | 850 m |
+| País y deporte más visto | Australia | Plankton | 10 | 100 m |
+| Serie con cinco temporadas o más | Supernatural | Schooler | 30 | 300 m |
+
+Resultado de prueba: **340 puntos y 3.400 m**. El resumen mostraba que superaba al **69 %** de los jugadores de esa edición en ese momento. Es un percentil observado, no una posición ordinal ni una comprobación de un sistema competitivo persistente. Se vieron distribución, historial de las siete respuestas, registro de partidas, racha y opciones para compartir o seguir jugando.
+
+La animación de revelación mostró una escala de seis categorías: Plankton (10), Too Clever (15), Schooler (30), Rare (60), Deep Cut (85) y One in a Krillion (100). En la partida se obtuvieron cuatro de ellas; no se obtuvo una respuesta de 15 ni de 100 puntos. El resumen usa otra escala para el total de la partida: hasta 150, 151–250, 251–350, 351–449 y desde 450. Por eso el resultado total fue «Rare» aunque incluyese dos Deep Cut.
+
+Se observó cómo una respuesta de 85 puntos da lugar a una revelación por niveles y un descenso mayor, con nuevos hitos del escenario. El efecto depende del recorrido y del cambio de entorno además de la mascota. Es la referencia que sostiene la recomendación de separar avance, llegada a repisa y celebración en Faraday. La prueba de `Henneth Annun` confirma la normalización de ese acento concreto; no acredita por sí sola la calidad de todos los alias ni del autocorrector.
 
 La [FAQ oficial](https://krillion.io/faq) describe bancos reunidos de diccionarios, enciclopedias y otras fuentes, con limpieza y alias. La rareza puede venir de una base de familiaridad o de asistencia de IA más revisión manual. La respuesta especial también considera lo satisfactorio del hallazgo. No puede interpretarse toda puntuación como el porcentaje real de jugadores que escribió una respuesta.
 
