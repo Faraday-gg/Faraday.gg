@@ -237,7 +237,7 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
 .portal-section-head a { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; padding: 3px 5px; color: var(--portal-muted); font-size: 13px; font-weight: 800; }
 .portal-coop-title { min-height: 32px; }
 .portal-section-head a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.portal-mode-grid { display: grid; grid-template-rows: minmax(0,1.46fr) repeat(3,minmax(0,1fr)); gap: clamp(6px,1.2dvh,12px); min-height: 0; }
+.portal-mode-grid { display: grid; grid-template-rows: minmax(0,1.46fr) repeat(4,minmax(0,1fr)); gap: clamp(5px,1.05dvh,11px); min-height: 0; }
 .portal-mode {
   position: relative;
   isolation: isolate;
@@ -265,6 +265,8 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
 .mode-duels { --card-accent:#fba99f; }
 .mode-trends { --card-accent:#83dbb5; }
 .mode-ascent { --card-accent:#f7c874; }
+.mode-photo { --card-accent:#bed1ff; }
+.mode-photo .mode-art { inset: 0 0 0 auto; width: 52%; background: linear-gradient(90deg,#27293b,transparent), url("assets/archivo-vivo/01-foto.jpg") center 62%/cover; opacity: .8; }
 .mode-duels.is-reconnect { --card-accent:#ffdb70; background: linear-gradient(108deg,#534332,#392d42); }
 .mode-duels.is-reconnect .mode-copy b { color: #ffe2a5; }
 .mode-art {
@@ -423,7 +425,8 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   .home-portal::before { background-size: 21px 21px; mask-image: radial-gradient(ellipse at 50% 30%,black,transparent 73%); }
   .portal-modes { gap: 4px; }
   .portal-section-head h2 { font-size: 20px; }
-  .portal-mode-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(2,clamp(46px,8.5dvh,73px)); gap: 6px; }
+  .portal-mode-grid { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,clamp(43px,7.4dvh,67px)); gap: 6px; }
+  .mode-photo { grid-column: 1 / -1; }
   .portal-mode { padding-inline: 8px; border-radius: 9px; }
   .mode-copy b, .mode-daily .mode-copy b { font-size: clamp(14px,3.7vw,20px); }
   .mode-copy small, .portal-coop-title { display: none; }
@@ -488,7 +491,7 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
 
 @media (max-height: 430px) and (max-width: 619px) {
   .home-header-inner { min-height: 44px; }
-  .portal-mode-grid { grid-template-rows: repeat(2,38px); }
+  .portal-mode-grid { grid-template-rows: repeat(3,38px); }
   .portal-avatar { padding-block: 6px; }
   .portal-avatar h1 { font-size: 22px; }
   .daily-steps { font-size: 9px; }

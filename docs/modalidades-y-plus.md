@@ -25,11 +25,12 @@ PlusOffers.register('nuevo-modo', {
 
 El componente detecta también los contenedores añadidos después de cargar la página. Si la pantalla ya se construye con JavaScript, puede usar `PlusOffers.render('nuevo-modo', opciones)`. Las opciones admiten `limit`, `remaining`, `exhausted`, `compact` y `plus` cuando lo confirma el servidor. Un dato desconocido se omite; no se convierte en cero ni en falso. Tras modificar atributos de un contenedor se puede llamar a `PlusOffers.refresh()`.
 
-Los contextos existentes son `daily`, `trends`, `duel`, `duel3`, `ranked`, `practice` y `ascension`. El registro desconocido tiene un texto de respaldo sin beneficios inventados. No crees otra copia de la tarjeta ni un botón de pago directo en cada modo.
+Los contextos existentes son `daily`, `trends`, `duel`, `duel3`, `ranked`, `practice`, `ascension` y `archivo-vivo`. El registro desconocido tiene un texto de respaldo sin beneficios inventados. No crees otra copia de la tarjeta ni un botón de pago directo en cada modo.
 
 | Modalidad | Acceso real | Momento y contexto de la oferta | Condiciones que conserva |
 | --- | --- | --- | --- |
 | Ascensión | Una edición diaria competitiva; prácticas después de completarla: una por anuncio simulado (primero de 15 s, siguientes de 60 s) sin límite diario, o sin anuncios con Plus; reanudación gratuita | Resumen terminado de la diaria y de cada práctica, contexto `ascension` registrado por `dist/ascension.js` | Ventaja real: prácticas sin anuncios. La acción gratuita «Ver anuncio de prueba y jugar» permanece visible para cuentas gratuitas, con duración confirmada por API. La suscripción y el tiempo de desbloqueo se comprueban en el servidor. Ver [0100](decisiones/0100-ascension-anuncios-y-curva.md). |
+| Archivo Vivo | Colección fija de tres fotos, gratuita y repetible | Resumen, contexto `archivo-vivo` registrado por `dist/archivo-vivo.js` | Oferta general. La repetición es gratuita. |
 
 La acción común abre `Progress.openPlan({mode})`. Antes emite `faraday:before-plan`, cancelable: el juego puede cerrar o suspender su contenedor, o impedir la apertura si hay una ronda en marcha. Traza cierra su diálogo y los duelos cierran únicamente portal o resumen. Ascensión solo permite abrir el plan desde el resumen terminado: cierra su diálogo antes de mostrar el perfil y bloquea la navegación durante las demás fases o peticiones. La navegación nunca debe abandonar una partida al pulsar una oferta.
 
