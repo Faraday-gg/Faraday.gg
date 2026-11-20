@@ -39,7 +39,13 @@ function renderWeek(){
   $('#home-daily-number').textContent=currentDay?'Reto nº '+editionNumber(todayKey):'En preparación';
   document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
   const played=currentDay?getGuesses(currentDay).length:0;
+  $('#hero-play').classList.toggle('has-progress',played>0);
   $('#home-daily-action').textContent=!currentDay?'Próximamente':played===3?'Ver resultado':played?'Continuar reto':'Jugar reto';
+  const dailySteps=$('#home-daily-steps');
+  dailySteps.hidden=!currentDay;
+  dailySteps.querySelectorAll('i').forEach((step,index)=>step.classList.toggle('is-done',index<played));
+  $('#home-daily-count').textContent=played+'/3';
+  $('#home-daily-status').textContent=currentDay?`${played} de 3 preguntas respondidas`:'';
   renderArchives();
 }
 async function openDate(id){

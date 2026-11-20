@@ -548,7 +548,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     panel.hidden=true;$('#game-layout').append(panel);switchWorkspace();
   }
   // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0042); también se puede ver uno ya terminado.
-  async function open(code='',resume=''){
+  async function open({code='',resume='',friends=false}={}){
     attachWorkspace();
     inviteCode=/^[A-Za-z2-9]{6}$/.test(code)?code.toUpperCase():'';
     // renderLobby() borra «actual», así que se lee antes de pintarlo.
@@ -556,10 +556,14 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(Sound.on));
     if(typeof toggleMenu==='function')toggleMenu(false);
     renderLobby();
+    if(friends)content.querySelector('[data-duel=friend]')?.focus();
     // Si se recarga la página (o se vuelve más tarde) en mitad de un duelo, se vuelve a él. Si el navegador no lo recuerda, se le pregunta al servidor.
-    if(!current&&!inviteCode){const found=await call('activo');if(found.ok&&found.data.active&&found.data.active.status!=='finished')current=found.data.active.id}
+    if(!inviteCode&&!resume&&(!current||friends)){
+      const found=await call('activo');
+      if(found.ok)current=found.data.active?.status==='finished'?null:found.data.active?.id;
+    }
     if(current&&!inviteCode){const response=await call('estado',{id:current});if(response.ok&&(response.data.status!=='finished'||resume)&&!shell.hidden&&!duel)apply(response.data);else if(!response.ok||response.data.status==='finished')saved.remove('actual')}
-    $('#duel-close').focus();
+    if(!shell.hidden&&(!friends||duel))$('#duel-close').focus();
   }
   async function close(){
     quotaRequest++;
@@ -627,10 +631,11 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(!shell.hidden&&(shown==='lobby'||shell.dataset.screen==='end'))refreshQuota();
   });
   document.querySelectorAll('[data-open-duel]').forEach(button=>button.addEventListener('click',()=>open()));
+  document.querySelectorAll('[data-open-duel-friends]').forEach(button=>button.addEventListener('click',()=>open({friends:true})));
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!shell.hidden&&!document.querySelector('.ad-dialog[open]')){event.stopImmediatePropagation();if(window.DuelChat?.isOpen())DuelChat.close();else if(!panel.hidden)toggleCalc(false);else close()}},true);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
-  window.DueloReconectar={open:id=>open('',id)};
+  window.DueloReconectar={open:id=>open({resume:id})};
   const invited=new URLSearchParams(location.search).get('duelo');
-  if(invited){history.replaceState(history.state,'',location.pathname);open(invited)}
+  if(invited){history.replaceState(history.state,'',location.pathname);open({code:invited})}
 })();

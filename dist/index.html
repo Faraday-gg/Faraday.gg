@@ -108,6 +108,11 @@
             <div id="home-avatar" aria-hidden="true"></div>
           </div>
           <div class="portal-avatar-foot">
+            <button id="home-progress" type="button" data-open-profile-inline="misiones">
+              <span id="home-progress-level">Nivel 1</span>
+              <span id="home-progress-note">Misiones</span>
+              <span aria-hidden="true" class="home-progress-meter"><i id="home-progress-fill"></i></span>
+            </button>
             <button class="avatar-edit" type="button" data-open-profile-inline="armario">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 20 1-5L16 4a2.8 2.8 0 0 1 4 4L9 19l-5 1Zm10-14 4 4"/></svg> Editar avatar
             </button>
@@ -118,14 +123,20 @@
         <section class="portal-modes" aria-labelledby="home-modes-title">
           <div class="portal-section-head"><h2 id="home-modes-title">Jugar</h2><a id="home-archive-link" href="#archivo" aria-controls="menu-drawer">Archivo <span aria-hidden="true">↗</span></a></div>
           <div class="portal-mode-grid">
-            <button class="portal-mode mode-daily" id="hero-play" data-play type="button" aria-labelledby="home-daily-title home-daily-action">
+            <button class="portal-mode mode-daily" id="hero-play" data-play type="button" aria-labelledby="home-daily-title home-daily-action" aria-describedby="home-daily-status">
               <span class="mode-art" aria-hidden="true">≈</span>
-              <span class="mode-copy"><span id="home-daily-number">Reto de hoy</span><b id="home-daily-title">Reto diario</b><small>Tres preguntas de estimación.</small><span id="home-daily-action">Jugar reto</span></span>
+              <span class="mode-copy">
+                <span id="home-daily-number">Reto de hoy</span>
+                <b id="home-daily-title">Reto diario</b>
+                <span id="home-daily-steps" class="daily-steps" aria-hidden="true"><i></i><i></i><i></i><span id="home-daily-count"></span></span>
+                <span class="sr-only" id="home-daily-status"></span>
+                <span id="home-daily-action">Jugar reto</span>
+              </span>
               <span class="mode-arrow" aria-hidden="true">↗</span>
             </button>
-            <button class="portal-mode mode-duels" type="button" data-open-duel>
+            <button class="portal-mode mode-duels" id="home-duel-card" type="button" data-open-duel>
               <span class="mode-art" aria-hidden="true"><i>9</i><i>7</i></span>
-              <span class="mode-copy"><b>Duelos</b><small>Estima contra uno o dos rivales.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
+              <span class="mode-copy"><b id="home-duel-title">Duelos</b><small id="home-duel-description">Estima contra uno o dos rivales.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
             </button>
             <button class="portal-mode mode-trends" type="button" data-open-trends>
               <span class="mode-art" aria-hidden="true"><svg viewBox="0 0 180 82" fill="none"><path d="M1 67h178M36 3v78M72 3v78M108 3v78M144 3v78M1 25h178M1 46h178" stroke="currentColor" opacity=".16"/><path d="M0 66c32 5 40-39 71-30 12 4 18 6 27 2" stroke="currentColor" stroke-width="3"/><path d="M98 38c23-13 35 6 49-11l24-16" stroke="currentColor" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/><circle cx="98" cy="38" r="5" fill="currentColor"/><circle cx="171" cy="11" r="5" fill="currentColor"/></svg></span>
@@ -138,17 +149,19 @@
           </div>
         </section>
 
-        <aside class="portal-rail" aria-label="Plus y comunidad">
-          <div class="portal-plus" data-plus-slot="home"></div>
+        <aside class="portal-rail" aria-labelledby="home-friends-title">
+          <div class="portal-section-head portal-coop-title"><h2 id="home-friends-title">Con amigos</h2></div>
           <section class="portal-social" aria-label="Amigos y ligas">
             <button class="portal-social-open" type="button" data-open-social aria-haspopup="dialog">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3.2 3.2 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Amigos y ligas</span><span aria-hidden="true">↗</span>
             </button>
             <div class="portal-social-actions">
-              <button type="button" data-open-league>Mis ligas</button>
-              <button type="button" data-open-circuit>Invitar</button>
+              <button type="button" data-open-duel-friends>Retar a un amigo <span aria-hidden="true">›</span></button>
+              <button type="button" data-open-league>Ligas del reto diario <span aria-hidden="true">›</span></button>
+              <button type="button" data-open-circuit>Invitar amigos <span aria-hidden="true">›</span></button>
             </div>
           </section>
+          <div class="portal-plus" data-plus-slot="home"></div>
         </aside>
 
         <footer class="portal-links" aria-label="Enlaces de Faraday">
@@ -162,6 +175,7 @@
     <header class="social-head"><h2 id="social-title">Amigos y ligas</h2><button class="game-back" type="button" data-social-close aria-label="Cerrar amigos y ligas">×</button></header>
     <div class="social-content">
       <div class="social-shortcuts">
+        <button class="game-secondary" type="button" data-social-duel>Retar a un amigo <span aria-hidden="true">↗</span></button>
         <button class="game-secondary" type="button" data-social-league>Mis ligas <span aria-hidden="true">↗</span></button>
         <button class="game-secondary" type="button" data-social-circuit>Circuito de amigos <span aria-hidden="true">↗</span></button>
       </div>
