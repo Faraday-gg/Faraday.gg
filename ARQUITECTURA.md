@@ -93,6 +93,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
   ascension-route.js, ascension-scene.js, ascension-scene.css  Agarres, montaña y avatar de Ascensión
   ascension-chart.js     Histograma, curva normal ajustada y marca del resultado propio
+  archivo-vivo.js, archivo-vivo-rondas.js y archivo-vivo-visor.js  Fotografías históricas, puntuación local y visor 360° (decisión 0108)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador

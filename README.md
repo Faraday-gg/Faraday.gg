@@ -1,6 +1,6 @@
 # Casi Casi
 
-«Ponle cifra a tu intuición.» es el lema de Faraday.gg, un juego de preguntas y estimaciones en español. Juega tres preguntas nuevas cada día, compite en Duelos, dibuja en Traza la tendencia o busca respuestas poco comunes en Ascensión. El archivo empieza el 9 de agosto de 2026 (reto Nº 1).
+«Ponle cifra a tu intuición.» es el lema de Faraday.gg, un juego de preguntas y estimaciones en español. Juega tres preguntas nuevas cada día, compite en Duelos, dibuja en Traza la tendencia, busca respuestas poco comunes en Ascensión o adivina el año de una foto en [Archivo Vivo](docs/decisiones/0108-archivo-vivo.md). El archivo empieza el 9 de agosto de 2026 (reto Nº 1).
 
 ## Probar en local
 
