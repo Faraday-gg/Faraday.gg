@@ -91,7 +91,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   social.js              Invitaciones de amistad, presencia, actividad reciente y chat directo
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
-  ascension-scene.js, ascension-scene.css  Montaña, escalada, repisas y celebración del avatar
+  ascension-route.js, ascension-scene.js, ascension-scene.css  Agarres, montaña y avatar de Ascensión
   ascension-chart.js     Histograma, curva normal ajustada y marca del resultado propio
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
@@ -285,7 +285,9 @@ El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_F
 
 El banco se incluye expresamente en la función de `vercel.json`, fuera de los archivos públicos. No hay consultas a fuentes externas ni generación de respuestas durante el juego. La API revela solo la categoría activa, resultados resueltos y hasta cinco ejemplos posteriores. La clasificación compara únicamente diarias completadas de la misma fecha, edición y entorno; muestra empates, percentil y distribución de otros jugadores. Sin otros resultados, lo dice expresamente.
 
-La interfaz reutiliza avatar, ropa, sonido y selección de celebraciones del armario. `ascension-scene.js` mueve el paisaje y encadena escalar → llegar a repisa → emote elegido, respetando reducción de movimiento y cancelando recursos al cerrar. No añade faradios, premios ni derechos sobre futuros emotes de pago. La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro; tabla con RLS y acceso exclusivo del servidor. Detalle de fuentes en [research/ascension-fuentes.md](research/ascension-fuentes.md).
+La interfaz reutiliza avatar, ropa, sonido y selección de celebraciones del armario. `ascension-route.js` sitúa presas y repisas para Directa y Travesía. `ascension-scene.js` usa esas coordenadas para dibujar la pared y la cuerda, mover la cámara y orientar manos, codos, piernas y pies del avatar 3D. Cada tramo termina en la repisa, donde se ejecuta el emote elegido. Con movimiento reducido, se muestra la llegada inmediatamente. La vía, el salto de la animación y la repetición se resuelven localmente. [Decisión 0105](docs/decisiones/0105-escalada-con-agarres.md) · [investigación de escalada](research/ascension-escalada.md).
+
+La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro. La tabla usa RLS y acceso exclusivo del servidor. Las fuentes de las preguntas se documentan en [research/ascension-fuentes.md](research/ascension-fuentes.md).
 
 Desde la [decisión 0100](docs/decisiones/0100-ascension-anuncios-y-curva.md), Ascensión registra su contexto en `dist/continuations.js` y usa el servicio común `lib/continuaciones.mjs`: primer anuncio completado de 15 segundos por día, siguientes de 60. `preparar-practica` prepara el recibo; `practica` lo consume para una única partida. Los recibos y contadores se guardan en `state.continuationAds`, dentro del JSON privado existente, mediante un adaptador con CAS; no depende de el almacén de anuncios de otros modos. `/api/continuacion` enruta este contexto al adaptador privado. La versión optimista protege preparaciones simultáneas, reinicios y reintentos. Una práctica abierta se recupera sin otro anuncio. La cuenta Plus se confirma en el servidor y evita este paso; el navegador no puede declarar la suscripción.
 
