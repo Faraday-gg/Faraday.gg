@@ -1,6 +1,6 @@
 # Casi Casi
 
-«¿A cuánto te acercas?» es el lema de Faraday.gg, un juego de preguntas y estimaciones en español. Juega tres preguntas nuevas cada día, compite en Duelos, dibuja en Traza la tendencia o busca respuestas poco comunes en Ascensión. El archivo empieza el 9 de agosto de 2026 (reto Nº 1).
+«Ponle cifra a tu intuición.» es el lema de Faraday.gg, un juego de preguntas y estimaciones en español. Juega tres preguntas nuevas cada día, compite en Duelos, dibuja en Traza la tendencia o busca respuestas poco comunes en Ascensión. El archivo empieza el 9 de agosto de 2026 (reto Nº 1).
 
 ## Probar en local
 
