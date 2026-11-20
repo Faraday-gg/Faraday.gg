@@ -73,154 +73,90 @@
   <script type="module" src="avatar3d.js"></script>
 </head>
 <body>
-  <header class="home-header">
-    <div class="home-header-inner">
-      <div class="home-lead"><button class="menu-toggle home-menu-toggle" id="home-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button><a class="home-brand brand-link" href="/" data-go-home aria-label="Faraday.gg, inicio"><span class="brand-mark" aria-hidden="true">≈</span><span aria-hidden="true">Faraday<span class="brand-dot">.</span>gg</span></a></div>
-      <nav class="home-nav" aria-label="Navegación principal">
-        <div class="home-nav-games" role="group" aria-label="Modalidades">
-          <button type="button" data-play>Reto diario</button>
-          <button type="button" data-open-duel>Duelos</button>
-          <button type="button" data-open-trends>Traza</button>
-          <button type="button" data-open-ascension>Ascensión</button>
+  <div class="home-screen">
+    <header class="home-header">
+      <div class="home-header-inner">
+        <div class="home-lead">
+          <button class="menu-toggle home-menu-toggle" id="home-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-drawer"><span></span><span></span><span></span></button>
+          <a class="home-brand brand-link" href="/" data-go-home aria-label="Faraday.gg, inicio"><span class="brand-mark" aria-hidden="true">≈</span><span aria-hidden="true">Faraday<span class="brand-dot">.</span>gg</span></a>
         </div>
-        <div class="home-nav-community" role="group" aria-label="Comunidad y mercado">
-          <button type="button" data-open-market>Mercado</button>
-          <button type="button" data-open-community>Comunidad</button>
+        <nav class="home-nav" aria-label="Navegación principal">
+          <div class="home-nav-games" role="group" aria-label="Modalidades">
+            <button type="button" data-play>Reto diario</button>
+            <button type="button" data-open-duel>Duelos</button>
+            <button type="button" data-open-trends>Traza</button>
+            <button type="button" data-open-ascension>Ascensión</button>
+          </div>
+          <div class="home-nav-community" role="group" aria-label="Comunidad y mercado">
+            <button type="button" data-open-market>Mercado</button>
+            <button type="button" data-open-community>Comunidad</button>
+          </div>
+        </nav>
+        <div class="home-actions">
+          <button class="home-friends" type="button" data-open-social aria-haspopup="dialog" aria-label="Amigos y ligas" title="Amigos y ligas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3.2 3.2 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg></button>
+          <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel y faradios"></button>
+          <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
         </div>
-      </nav>
-      <div class="home-actions">
-        <button class="home-friends" type="button" data-open-social aria-haspopup="dialog" aria-label="Amigos y ligas" title="Amigos y ligas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3.2 3.2 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg></button>
-        <button class="home-profile" id="home-profile" type="button" data-open-profile aria-label="Tu avatar, nivel y faradios"></button>
-        <button class="home-account" id="home-account" type="button" data-auth-open aria-haspopup="dialog"><span class="home-account-label">Entrar</span></button>
       </div>
-    </div>
-  </header>
-  <main id="inicio" class="home">
-    <section class="home-portal" aria-labelledby="hero-title">
-      <div class="portal-intro">
-        <h1 id="hero-title">¿A cuánto te <em>acercas?</em></h1>
-        <p>Estima cifras, dibuja tendencias y compite con tus amigos.</p>
+    </header>
+    <main id="inicio" class="home">
+      <div class="home-portal">
+        <section class="portal-avatar" aria-labelledby="hero-title">
+          <h1 id="hero-title">¿A cuánto te <em>acercas?</em></h1>
+          <div class="portal-avatar-scene">
+            <div class="portal-orbit" aria-hidden="true"><b>≈</b><i></i><i></i></div>
+            <div id="home-avatar" aria-hidden="true"></div>
+          </div>
+          <div class="portal-avatar-foot">
+            <button class="avatar-edit" type="button" data-open-profile-inline="armario">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 20 1-5L16 4a2.8 2.8 0 0 1 4 4L9 19l-5 1Zm10-14 4 4"/></svg> Editar avatar
+            </button>
+            <button class="portal-chests" type="button" data-open-profile-inline="cofres" hidden></button>
+          </div>
+        </section>
+
+        <section class="portal-modes" aria-labelledby="home-modes-title">
+          <div class="portal-section-head"><h2 id="home-modes-title">Jugar</h2><a id="home-archive-link" href="#archivo" aria-controls="menu-drawer">Archivo <span aria-hidden="true">↗</span></a></div>
+          <div class="portal-mode-grid">
+            <button class="portal-mode mode-daily" id="hero-play" data-play type="button" aria-labelledby="home-daily-title home-daily-action">
+              <span class="mode-art" aria-hidden="true">≈</span>
+              <span class="mode-copy"><span id="home-daily-number">Reto de hoy</span><b id="home-daily-title">Reto diario</b><small>Tres preguntas de estimación.</small><span id="home-daily-action">Jugar reto</span></span>
+              <span class="mode-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="portal-mode mode-duels" type="button" data-open-duel>
+              <span class="mode-art" aria-hidden="true"><i>9</i><i>7</i></span>
+              <span class="mode-copy"><b>Duelos</b><small>Estima contra uno o dos rivales.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="portal-mode mode-trends" type="button" data-open-trends>
+              <span class="mode-art" aria-hidden="true"><svg viewBox="0 0 180 82" fill="none"><path d="M1 67h178M36 3v78M72 3v78M108 3v78M144 3v78M1 25h178M1 46h178" stroke="currentColor" opacity=".16"/><path d="M0 66c32 5 40-39 71-30 12 4 18 6 27 2" stroke="currentColor" stroke-width="3"/><path d="M98 38c23-13 35 6 49-11l24-16" stroke="currentColor" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/><circle cx="98" cy="38" r="5" fill="currentColor"/><circle cx="171" cy="11" r="5" fill="currentColor"/></svg></span>
+              <span class="mode-copy"><b>Traza la tendencia</b><small>Dibuja cómo siguió una gráfica real.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="portal-mode mode-ascent" type="button" data-open-ascension>
+              <span class="mode-art" aria-hidden="true"><svg viewBox="0 0 180 82" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m4 79 46-49 22 25 40-42 62 66Z" fill="#f0a82d"/><path d="m85 42 12 3 15-9 15 1 10 5-25-29-27 29Z" fill="#fff2ce"/><path d="M112 13V2h24l-5 4 5 4h-24M71 55l25 24M50 30l-1 20-13-4M112 40v19l19 20"/></svg></span>
+              <span class="mode-copy"><b>Ascensión</b><small>Encuentra respuestas raras y sube.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+        </section>
+
+        <aside class="portal-rail" aria-label="Plus y comunidad">
+          <div class="portal-plus" data-plus-slot="home"></div>
+          <section class="portal-social" aria-label="Amigos y ligas">
+            <button class="portal-social-open" type="button" data-open-social aria-haspopup="dialog">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3.2 3.2 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"/></svg><span>Amigos y ligas</span><span aria-hidden="true">↗</span>
+            </button>
+            <div class="portal-social-actions">
+              <button type="button" data-open-league>Mis ligas</button>
+              <button type="button" data-open-circuit>Invitar</button>
+            </div>
+          </section>
+        </aside>
+
+        <footer class="portal-links" aria-label="Enlaces de Faraday">
+          <a href="https://github.com/Faraday-gg/Faraday.gg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.5 21.65c.55.1.76-.24.76-.53l-.01-2.07c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1-.69.08-.67.08-.67 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.2 3.23.92.1-.72.39-1.2.7-1.48-2.47-.28-5.08-1.24-5.08-5.5 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.94 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.56 0c2.12-1.45 3.05-1.15 3.05-1.15.61 1.52.22 2.66.11 2.94.72.78 1.15 1.78 1.15 3 0 4.27-2.6 5.22-5.09 5.5.4.35.76 1.03.76 2.07l-.01 3.03c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>GitHub</a>
+        </footer>
       </div>
-
-      <article class="portal-daily" aria-labelledby="home-daily-title">
-        <div class="daily-art" aria-hidden="true"><span>≈</span></div>
-        <div class="daily-copy">
-          <div class="daily-edition"><span class="section-kicker">RETO DE HOY</span><span class="home-date" id="today-date"></span></div>
-          <h2 id="home-daily-title">Reto diario</h2>
-          <p>Tres preguntas. Haz tus cuentas y descubre lo cerca que estabas.</p>
-          <ol class="hero-rounds" id="hero-rounds" aria-label="Las tres preguntas de hoy"></ol>
-          <button class="home-play" id="hero-play" data-play type="button">Jugar el reto de hoy <span aria-hidden="true">→</span></button>
-        </div>
-      </article>
-
-      <section class="portal-avatar" aria-labelledby="home-avatar-title">
-        <div class="avatar-heading"><h2 id="home-avatar-title">Tu avatar</h2><button class="portal-chests" type="button" data-open-profile-inline="cofres" hidden></button></div>
-        <div class="portal-avatar-scene">
-          <div class="portal-orbit" aria-hidden="true"><i></i><i></i></div>
-          <div id="home-avatar" aria-hidden="true"></div>
-        </div>
-        <div class="portal-avatar-foot">
-          <button class="avatar-edit" type="button" data-open-profile-inline="armario">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 20 1-5L16 4a2.8 2.8 0 0 1 4 4L9 19l-5 1Zm10-14 4 4"/></svg> Editar avatar <span aria-hidden="true">→</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="portal-modes" aria-labelledby="home-modes-title">
-        <div class="portal-section-head"><h2 id="home-modes-title">Más formas de jugar</h2><a href="#archivo">Ver archivo <span aria-hidden="true">↗</span></a></div>
-        <div class="portal-mode-grid">
-          <button class="portal-mode mode-duels" type="button" data-open-duel>
-            <span class="mode-art" aria-hidden="true"><i>9</i><i>7</i></span>
-            <span class="mode-copy"><b>Duelos</b><small>Enfréntate a uno o dos rivales. Gana quien más se acerca.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
-          </button>
-          <button class="portal-mode mode-trends" type="button" data-open-trends>
-            <span class="mode-art" aria-hidden="true"><svg viewBox="0 0 180 82" fill="none"><path d="M1 67h178M36 3v78M72 3v78M108 3v78M144 3v78M1 25h178M1 46h178" stroke="currentColor" opacity=".16"/><path d="M0 66c32 5 40-39 71-30 12 4 18 6 27 2" stroke="currentColor" stroke-width="3"/><path d="M98 38c23-13 35 6 49-11l24-16" stroke="currentColor" stroke-width="3" stroke-dasharray="5 5" stroke-linecap="round"/><circle cx="98" cy="38" r="5" fill="currentColor"/><circle cx="171" cy="11" r="5" fill="currentColor"/></svg></span>
-            <span class="mode-copy"><b>Traza la tendencia</b><small>Dibuja cómo crees que siguió una gráfica real.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
-          </button>
-          <button class="portal-mode mode-ascent" type="button" data-open-ascension>
-            <span class="mode-art" aria-hidden="true"><svg viewBox="0 0 180 82" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m4 79 46-49 22 25 40-42 62 66Z" fill="#f0a82d"/><path d="m85 42 12 3 15-9 15 1 10 5-25-29-27 29Z" fill="#fff2ce"/><path d="M112 13V2h24l-5 4 5 4h-24M71 55l25 24M50 30l-1 20-13-4M112 40v19l19 20"/></svg></span>
-            <span class="mode-copy"><b>Ascensión</b><small>Encuentra respuestas poco comunes y escala con tu avatar.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
-          </button>
-        </div>
-      </section>
-
-      <div class="portal-plus" data-plus-slot="home"></div>
-      <nav class="portal-links" aria-label="Enlaces de Faraday">
-        <a href="#como-jugar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.4 9a2.7 2.7 0 1 1 3.7 2.5c-.9.4-1.1 1-1.1 2M12 16h.01"/></svg>Cómo se juega</a>
-        <a href="#faq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v12h-8l-5 4v-4H4zm4 4h8m-8 4h5"/></svg>Preguntas frecuentes</a>
-        <button type="button" data-open-league><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 4h8v6a4 4 0 0 1-8 0V4Zm0 2H4v3a4 4 0 0 0 4 4m8-7h4v3a4 4 0 0 1-4 4m-4 1v6m-4 0h8"/></svg>Ligas con amigos</button>
-      </nav>
-    </section>
-
-    <div class="wire wire-coil" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V22a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15a7.5 7.5 0 0 1 0 15V104"/><text class="wire-f" x="130" y="50">ε = −dΦ/dt</text><text class="wire-n" x="130" y="68">LEY DE FARADAY · 1831</text></svg></div>
-    <section class="home-how" id="como-jugar" aria-labelledby="how-title">
-      <h2 id="how-title" class="home-title"><mark>Cómo se juega</mark></h2>
-
-      <article class="home-step">
-        <div class="home-step-copy">
-          <h3><mark>01. Haz tu estimación</mark></h3>
-          <p>Sin buscar en internet. Solo intuición, cuentas de servilleta y una calculadora por si la necesitas.</p>
-        </div>
-        <div class="demo demo-question" aria-hidden="true">
-          <div class="demo-head"><span>P1 / 3</span><span>Faraday.gg</span></div>
-          <p class="demo-q">¿Cuántas toallas de playa harían falta para cubrir la Plaza de España de Sevilla?</p>
-          <div class="demo-guess"><span>Tu cifra</span><small>toallas</small></div>
-          <div class="demo-actions"><span class="demo-icon">▦</span><span class="demo-btn">Confirmar ✓</span></div>
-        </div>
-      </article>
-
-    <div class="wire wire-meter" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V32M100 72V104"/><circle class="wire-dial" cx="100" cy="52" r="20"/><path class="wire-needle" d="M100 62V39"/><circle class="wire-pivot" cx="100" cy="62" r="2"/><text class="wire-f" x="130" y="50">Q = I · t</text><text class="wire-n" x="130" y="68">GALVANÓMETRO</text></svg></div>
-      <article class="home-step home-step-flip">
-        <div class="home-step-copy">
-          <h3><mark>02. Mira cuánto te acercaste</mark></h3>
-          <p>Te enseñamos la respuesta y tu puntuación: cuántas veces te has alejado de la cifra real. Y una forma de calcularla.</p>
-        </div>
-        <div class="demo demo-result" aria-hidden="true">
-          <div class="demo-head"><span>P1 / 3</span><span>Faraday.gg</span></div>
-          <div class="demo-verdict"><strong>1,67×</strong><span>Te quedaste corto</span></div>
-          <div class="demo-ledger"><div><small>Tu cifra</small><b>20.000</b></div><div class="real"><small>La real</small><b>33.333</b></div></div>
-          <div class="demo-bars"><i style="height:18%"></i><i style="height:34%"></i><i style="height:58%"></i><i class="you" style="height:80%"></i><i style="height:100%"></i><i style="height:86%"></i><i style="height:62%"></i><i style="height:40%"></i><i style="height:24%"></i><i style="height:12%"></i></div>
-        </div>
-      </article>
-
-    <div class="wire wire-cap" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V46M80 46H120M80 58H120M100 58V104"/><text class="wire-f" x="130" y="50">1 F = 1 C/V</text><text class="wire-n" x="130" y="68">FARADIO</text></svg></div>
-      <article class="home-step">
-        <div class="home-step-copy">
-          <h3><mark>03. Compara tu día</mark></h3>
-          <p>Al terminar las tres preguntas verás tu puntuación del día y cómo quedas frente al resto de jugadores.</p>
-        </div>
-        <div class="demo demo-summary" aria-hidden="true">
-          <div class="demo-head"><span>Reto de hoy</span><span>Faraday.gg</span></div>
-          <strong class="demo-score">1,82×</strong>
-          <ul class="demo-rows"><li>Toallas en la Plaza de España <b>1,67×</b></li><li>Jamones como la Estación Espacial <b>2,10×</b></li><li>Pósits sobre La Última Cena <b>1,70×</b></li></ul>
-        </div>
-      </article>
-    </section>
-
-    <div class="wire wire-plain" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V104"/></svg></div>
-    <section class="home-archive" id="archivo" aria-labelledby="archive-title">
-      <h2 id="archive-title" class="home-title"><mark>El archivo</mark></h2>
-      <p class="home-archive-note">Todos los retos desde el Nº 1, para jugarlos cuando quieras. Tu progreso se guarda en este navegador.</p>
-      <div id="home-archive"></div>
-    </section>
-    <div class="wire wire-plain" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V104"/></svg></div>
-    <section class="home-faq" id="faq" aria-labelledby="faq-title">
-      <h2 id="faq-title" class="home-title"><mark>Preguntas frecuentes</mark></h2>
-      <div class="faq-list">
-        <details class="faq-item"><summary>¿Qué es Faraday.gg?</summary><p>Un juego de preguntas, estimaciones e intuición. En el reto diario hay tres cifras que aproximar. También puedes batirte en duelo, dibujar la continuación de una gráfica o buscar respuestas raras en Ascensión.</p></details>
-        <details class="faq-item"><summary>¿Puedo buscar la respuesta en internet?</summary><p>Poder, puedes, pero pierde la gracia. La idea es usar la intuición y hacer cuentas: para eso tienes el bloc de ideas con calculadora y notas dentro del juego.</p></details>
-        <details class="faq-item"><summary>¿Cómo se mide si me he acercado?</summary><p>Con tu distancia: cuántas veces te has pasado o te has quedado corto respecto a la referencia. 1× es exacto y 2× significa el doble o la mitad. Cuanto más cerca de 1×, mejor.</p></details>
-        <details class="faq-item"><summary>¿Cómo funcionan los duelos 1 vs 1?</summary><p>Tú y tu rival respondéis la misma pregunta a la vez. Cada uno empieza con 6.000 de vida y, en cada ronda, quien se aleja más de la cifra real pierde la diferencia de puntos multiplicada por el daño de la ronda, que empieza en ×0,2 y sube en cada pregunta hasta ×2 en la décima: las primeras rondas quitan poca vida y las últimas deciden. Hay 3 minutos por pregunta, pero en cuanto uno responde al otro le quedan 30 segundos. Puedes buscar rival o retar a un amigo con un código. Durante la partida podéis hablar por el chat con reacciones, frases rápidas o mensajes escritos, y ocultar los mensajes escritos del rival si no quieres verlos.</p></details>
-        <details class="faq-item"><summary>¿Cómo funcionan las ligas con amigos?</summary><p>Crea una liga, ponle nombre y comparte el enlace con tu grupo (hasta 15 personas). Cada semana, de lunes a domingo, gana quien tenga la distancia media más baja en el reto diario. Solo cuenta el reto jugado el mismo día, no el archivo. Un día sin jugar cuenta como la peor distancia de la liga ese día, y nunca menos de 10×. El lunes verás quién ganó la semana anterior.</p></details>
-        <details class="faq-item"><summary>¿Qué son los faradios y las misiones?</summary><p>Los faradios (≈) son la moneda del juego. Se ganan jugando: al completar el reto del día, en los duelos, al subir de nivel y con las misiones diarias y semanales. Sirven para vestir a tu avatar con ropa, gorras, zapatillas y accesorios, y para comprar cofres. No se compran con dinero y no dan ninguna ventaja al jugar.</p></details>
-        <details class="faq-item"><summary>¿Qué son los cofres?</summary><p>Cajas con premios al azar: faradios o piezas para tu avatar que todavía no tienes. Hay seis, de menos a más: Chispa, Imán (solo piezas), Rayo, Dinamo (el que más premios trae), Tormenta y Faraday (con una legendaria segura). Se ganan jugando (misiones, niveles, rachas y la batería) y también se pueden comprar con faradios, como mucho tres al día. Nunca con dinero. Las probabilidades de cada premio están a la vista en la pestaña Cofres de tu perfil, nunca sale una pieza repetida y los cofres no caducan.</p></details>
-        <details class="faq-item"><summary>¿Qué son las medallas y las insignias?</summary><p>Logros que se consiguen jugando y que se quedan en tu perfil para siempre. Las medallas tienen cuatro niveles (bronce, plata, oro y diamante) y premian la constancia, la puntería, los duelos, las ligas y tu colección. Las insignias se consiguen una sola vez, por una hazaña concreta. Puedes destacar una: tus rivales en los duelos y tu grupo en las ligas la verán junto a tu nombre.</p></details>
-        <details class="faq-item"><summary>¿Necesito una cuenta para jugar?</summary><p>No. Se juega sin registrarse. Tu progreso y tus notas se guardan en este navegador; si cambias de dispositivo o borras los datos del navegador, empiezas de cero.</p></details>
-        <details class="faq-item"><summary>¿Qué pasa si me pierdo un día?</summary><p>Nada: en el archivo están todos los retos anteriores y puedes jugarlos cuando quieras. Al responder verás también cómo calcularlo y de dónde salen los datos.</p></details>
-      </div>
-    </section>
-    <div class="wire wire-ground" aria-hidden="true"><svg viewBox="0 0 200 104" focusable="false"><circle class="wire-e" cx="100" cy="0" r="3"/><circle class="wire-e wire-e2" cx="100" cy="0" r="3"/><path d="M100 0V60M78 60H122M86 70H114M94 80H106"/></svg></div>
-  </main>
+    </main>
+  </div>
 
   <dialog class="social-drawer" id="social-drawer" aria-labelledby="social-title">
     <header class="social-head"><h2 id="social-title">Amigos y ligas</h2><button class="game-back" type="button" data-social-close aria-label="Cerrar amigos y ligas">×</button></header>
@@ -239,8 +175,6 @@
       </section>
     </div>
   </dialog>
-
-  <footer class="home-footer"><span class="home-brand"><span class="brand-mark">≈</span><span>Faraday<span class="brand-dot">.</span>gg</span></span><p>Preguntas, estimaciones y partidas con amigos.</p><a class="footer-github" href="https://github.com/Faraday-gg/Faraday.gg" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .9a11.1 11.1 0 0 0-3.5 21.65c.55.1.76-.24.76-.53l-.01-2.07c-3.1.68-3.76-1.32-3.76-1.32-.5-1.29-1.23-1.63-1.23-1.63-1-.69.08-.67.08-.67 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.2 3.23.92.1-.72.39-1.2.7-1.48-2.47-.28-5.08-1.24-5.08-5.5 0-1.22.44-2.22 1.15-3-.11-.28-.5-1.42.11-2.94 0 0 .94-.3 3.05 1.15a10.6 10.6 0 0 1 5.56 0c2.12-1.45 3.05-1.15 3.05-1.15.61 1.52.22 2.66.11 2.94.72.78 1.15 1.78 1.15 3 0 4.27-2.6 5.22-5.09 5.5.4.35.76 1.03.76 2.07l-.01 3.03c0 .29.2.64.77.53A11.1 11.1 0 0 0 12 .9Z"/></svg>GitHub</a></footer>
 
   <div class="game-shell" id="game-shell" hidden>
     <div class="game-layout" id="game-layout" role="dialog" aria-modal="true" aria-labelledby="game-title">
@@ -381,7 +315,7 @@
         <li><button type="button" class="menu-link" data-tone="yellow" data-open-profile><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="5"/><path d="M9 10.8 6.5 3h4l1.5 4 1.5-4h4L15 10.8"/><path d="M12 12.8v4.4M10 15h4"/></svg></span><span class="menu-text"><b>Avatar, misiones y medallas</b><small>Armario, cofres y logros</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
         <li><button type="button" class="menu-link menu-account" data-tone="ink" id="menu-account" data-auth-open aria-haspopup="dialog"><span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span class="menu-text"><b id="menu-account-label">Entrar o crear cuenta</b><small id="menu-account-hint">Guarda tu progreso</small></span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></button></li>
       </ul>
-      <h2 class="menu-title">El archivo</h2>
+      <h2 class="menu-title" id="menu-archive-title" tabindex="-1">El archivo</h2>
       <div id="menu-archive"></div>
     </nav>
   </div>

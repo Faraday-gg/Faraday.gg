@@ -136,7 +136,7 @@
     if(event.target.closest('[data-social-close]'))drawer.close();
     const league=event.target.closest('[data-social-league]'),circuit=event.target.closest('[data-social-circuit]');
     if(league||circuit){
-      drawer.addEventListener('close',()=>$(league?'.portal-links [data-open-league]':'#menu-drawer [data-open-circuit]').click(),{once:true});
+      drawer.addEventListener('close',()=>$(league?'#menu-drawer [data-open-league]':'#menu-drawer [data-open-circuit]').click(),{once:true});
       drawer.close();
     }
     if(event.target.closest('[data-social-back]'))back();

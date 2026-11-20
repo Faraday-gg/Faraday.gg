@@ -1,5 +1,5 @@
 // Archivo de retos (decisión 0016): un calendario por meses con la puntuación de cada día jugado y un «Reto sorpresa».
-// Se dibuja en la portada y en el menú del juego. Usa las variables globales de app.js (DAYS, todayKey, getGuesses…).
+// Se abre desde la portada y desde el menú del juego. Usa las variables globales de app.js (DAYS, todayKey, getGuesses…).
 const ARC_MONTH = new Intl.DateTimeFormat('es-ES',{month:'long',timeZone:'UTC'});
 const ARC_WEEKDAY = new Intl.DateTimeFormat('es-ES',{weekday:'long',timeZone:'UTC'});
 const ARC_DICE = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" fill="currentColor"/><g fill="var(--arc-pip,#202630)"><circle cx="10.5" cy="10.5" r="2.4"/><circle cx="21.5" cy="10.5" r="2.4"/><circle cx="16" cy="16" r="2.4"/><circle cx="10.5" cy="21.5" r="2.4"/><circle cx="21.5" cy="21.5" r="2.4"/></g></svg>';
