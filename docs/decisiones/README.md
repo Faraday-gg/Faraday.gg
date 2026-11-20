@@ -111,7 +111,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0103](0103-variedad-y-autocorreccion-ascension.md) | Ascensión combina dificultad y temas y acepta erratas claras automáticamente | Implementada | 2026-11-19 |
 
 | [0104](0104-trazo-suave-y-lectura-cercana.md) | Trazo con menor temblor y lectura flotante junto al punto, con periodo destacado | Implementada | 2026-11-19 |
-| [0105](0105-escalada-con-agarres.md) | Escalada con apoyos visibles, dos vías y llegada a repisa con el avatar del armario | Implementada | 2026-11-20 |
+| [0105](0105-vestibulo-con-progreso-y-amigos.md) | Vestíbulo integrado con continuidad de juego, progreso del avatar y retos con amigos | Implementada | 2026-11-20 |
+| [0106](0106-escalada-con-agarres.md) | Escalada con apoyos visibles, dos vías y llegada a repisa con el avatar del armario | Implementada | 2026-11-20 |
 
 ## Plantilla
 

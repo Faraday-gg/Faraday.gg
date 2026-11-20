@@ -134,10 +134,12 @@
   drawer.addEventListener('click',event=>{
     if(event.target===drawer&&(event.clientX<drawer.getBoundingClientRect().left))drawer.close();
     if(event.target.closest('[data-social-close]'))drawer.close();
-    const league=event.target.closest('[data-social-league]'),circuit=event.target.closest('[data-social-circuit]');
-    if(league||circuit){
-      drawer.addEventListener('close',()=>$(league?'#menu-drawer [data-open-league]':'#menu-drawer [data-open-circuit]').click(),{once:true});
+    const league=event.target.closest('[data-social-league]'),circuit=event.target.closest('[data-social-circuit]'),duel=event.target.closest('[data-social-duel]');
+    if(league||circuit||duel){
+      const shortcut=duel?'[data-open-duel-friends]':league?'#menu-drawer [data-open-league]':'#menu-drawer [data-open-circuit]';
+      drawer.addEventListener('close',()=>$(shortcut)?.click(),{once:true});
       drawer.close();
+      return;
     }
     if(event.target.closest('[data-social-back]'))back();
     if(event.target.closest('[data-social-login]')){

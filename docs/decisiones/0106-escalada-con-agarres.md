@@ -1,4 +1,4 @@
-# 0105. Escalada con agarres en Ascensión
+# 0106. Escalada con agarres en Ascensión
 
 - **Estado:** implementada.
 - **Fecha:** 2026-11-20.
