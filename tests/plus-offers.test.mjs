@@ -62,18 +62,35 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
   const slotOf=()=>({dataset:{plusSlot:'ascension'},value:'',get innerHTML(){return this.value},set innerHTML(value){this.value=value},
     querySelector(){const key=/data-plus-key="([^"]+)"/.exec(this.value)?.[1];return key?{dataset:{plusKey:key}}:null}});
   const slotsFor=selector=>selector==='[data-plus-slot]'&&activeSlot?[activeSlot]:[];
-  const focus={focus(){}},input={...focus,value:''},submit={},seconds={};
+  const focus={focus(){page.document.activeElement=this}},input={...focus,value:'',blur(){page.document.activeElement=null}},submit={},seconds={};
+  const next={...focus},controls={},status={},skip={...focus},replay={...focus};
   const clock={classList:{toggle(){}},style:{setProperty(){}}};
   const content={matches:()=>false,querySelectorAll:slotsFor,
     get innerHTML(){return html},set innerHTML(value){html=value;activeSlot=value.includes('data-plus-slot="ascension"')?slotOf():null},
-    querySelector(selector){return {'h3':focus,'input':input,'#ascension-answer':input,'#ascension-submit':submit,'.ascension-clock':clock,'#ascension-seconds':seconds}[selector]||null}};
+    querySelector(selector){
+      if(html.includes('id="ascension-answer"')){
+        const question={input,'#ascension-answer':input,'#ascension-submit':submit,'.ascension-clock':clock,'#ascension-seconds':seconds};
+        if(question[selector])return question[selector];
+      }
+      if(html.includes('id="ascension-climb-status"')){
+        const result={'#ascension-next':next,'.ascension-climb-controls':controls,'#ascension-climb-status':status,
+          '[data-ascension="skip-climb"]':skip,'[data-ascension="replay-climb"]':replay};
+        if(selector==='[data-ascension="skip-climb"]:not([hidden])')return skip.hidden?null:skip;
+        if(result[selector])return result[selector];
+      }
+      return selector==='h3'?focus:null;
+    }};
   const button={focus(){},addEventListener(name,fn){if(name==='click')openClick=fn}};
   const dialogHandlers=new Map();
   const dialog={open:false,dataset:{},querySelector:()=>({setAttribute(){}}),
     addEventListener(name,fn){dialogHandlers.set(name,fn)},showModal(){this.open=true},
     close(){if(!this.open)return;this.open=false;dialogHandlers.get('close')?.()}};
   const elements={'ascension-dialog':dialog,'ascension-content':content,'ascension-scene':{},'ascension-alert':{},'ascension-steps':{},'ascension-mode':{}};
-  const scene={setHeight:()=>Promise.resolve(),setState(){},refreshLook(){},destroy(){}};
+  let endClimb,reducedMotion=true;
+  const climbs=[];
+  const animate=options=>{climbs.push(options);return new Promise(resolve=>{endClimb=resolve})};
+  const scene={setHeight:(_height,options)=>options.animate?animate(options):Promise.resolve(),
+    replay:animate,finish(){endClimb?.(true)},setState(){},refreshLook(){},destroy(){endClimb?.(false)}};
   const fixture={date:'2026-11-19',game:0,phase:'finished',round:6,rounds:7,score:70,height:700,now:Date.now(),ranking:null,
     results:Array.from({length:7},(_,round)=>({round,answer:'Respuesta',title:'Categoría',points:10,height:100,tier:{name:'Conocida'},sources:[]}))};
   let response=fixture;
@@ -85,8 +102,8 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     AscensionScene:{mount:()=>scene},Sound:{on:false},escapeHtml:value=>String(value),
     Continuations:{register(mode,play,prepare){assert.equal(mode,'ascension');continuation={play,prepare}},refresh(){}},
     playerReady:Promise.resolve(),fetch:async(_url,options)=>{const data=JSON.parse(options.body);requests.push(data);return {ok:true,json:async()=>structuredClone(replies[data.action]||response)}},
-    AbortController,Date,URL,URLSearchParams,location:{search:'',pathname:'/',origin:'https://faraday.test'},navigator:{},
-    setTimeout,clearTimeout,setInterval,clearInterval,addEventListener(){},matchMedia:()=>({matches:true})};
+    AbortController,Event,Date,URL,URLSearchParams,location:{search:'',pathname:'/',origin:'https://faraday.test'},navigator:{},
+    setTimeout,clearTimeout,setInterval,clearInterval,addEventListener(){},matchMedia:()=>({get matches(){return reducedMotion}})};
   page.window=page;vm.createContext(page);vm.runInContext(source,page);
   vm.runInContext(fs.readFileSync(new URL('../dist/ascension.js',import.meta.url),'utf8'),page);
   const flush=()=>new Promise(resolve=>setImmediate(resolve));
@@ -119,6 +136,31 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     openClick();await flush();assert.equal(activeSlot,null,'La oferta no interrumpe las preguntas');
     openedMode=null;dispatch({type:'click',target:{closest:()=>({dataset:{openPlus:'ascension'}})}});
     assert.equal(openedMode,null);assert.equal(dialog.open,true,'La navegación al plan queda bloqueada con ronda activa');
+
+    const question=response;
+    reducedMotion=false;
+    replies.responder={...question,phase:'result',results:[fixture.results[0]],score:10,height:100};
+    dialog.scrollTop=200;input.value='Respuesta';
+    dialogHandlers.get('submit')({...event('submit'),target:{id:'ascension-form'}});
+    await flush();
+    assert.equal(dialog.scrollTop,0,'La revelación devuelve la vista a la escena');
+    assert.equal(climbs.length,1);assert.equal(climbs[0].points,10);assert.equal(typeof climbs[0].onCue,'function');
+    assert.equal(status.textContent,'Escalando…');assert.equal(skip.hidden,false);assert.equal(replay.hidden,true);assert.equal(next.disabled,true);
+    const activity=requests.length;
+    response=replies.responder;
+    dispatch(event('visibilitychange'));await flush();
+    assert.equal(requests.length,activity,'Recuperar la visibilidad no corta la escalada');
+    const click=action=>dialogHandlers.get('click')({target:{closest:()=>({dataset:{ascension:action},hasAttribute:()=>false})}});
+    skip.focus();click('skip-climb');await flush();
+    assert.equal(requests.at(-1).action,'estado');assert.equal(status.textContent,'Repisa alcanzada');
+    assert.equal(next.disabled,false);assert.equal(replay.hidden,false);assert.equal(page.document.activeElement,next);
+    replay.focus();click('replay-climb');await flush();
+    assert.equal(climbs.length,2);assert.equal(requests.length,activity+1,'La repetición solo afecta a la escena');
+    assert.equal(next.disabled,true);assert.equal(page.document.activeElement,skip);
+    scene.finish();await flush();
+    replies.siguiente={...question,round:1};
+    dialogHandlers.get('keydown')({...event('keydown'),key:'Enter',target:focus});await flush();
+    assert.equal(requests.at(-1).action,'siguiente');assert.equal(dialog.dataset.phase,'question');
   }finally{dialog.close()}
 }
-console.log('plus-offers: oferta contextual, cuotas, precio dinámico, Plus, escape y ciclo declarativo correctos');
+console.log('plus-offers: oferta contextual, cuotas, precio dinámico, Plus y flujo de escalada correctos');

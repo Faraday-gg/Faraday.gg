@@ -4,14 +4,16 @@
   if(!dialog||!window.AscensionScene)return;
   const alert=document.getElementById('ascension-alert'),steps=document.getElementById('ascension-steps'),modeLine=document.getElementById('ascension-mode');
   const fmt=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0}).format(n),esc=value=>escapeHtml(String(value??''));
-  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const motion=matchMedia('(prefers-reduced-motion: reduce)'),reduced=()=>motion.matches;
   window.PlusOffers?.register('ascension',{
     title:'Tu próxima aventura empieza en Faraday.',
     description:'Sigue ascendiendo sin anuncios con Faraday Plus. También puedes continuar gratis viendo un anuncio de prueba.'
   });
   const TIERS=[{points:10,name:'Conocida'},{points:30,name:'Ingeniosa'},{points:60,name:'Rara'},{points:85,name:'Extraordinaria'},{points:100,name:'De cumbre'}];
   let run=null,scene=null,opener=null,token=0,controller=null,pending=false,ticker=0,offset=0,timeoutSent=false,climbing=false;
+  let replayKey='',syncAfterClimb=false;
   const refs=()=>({date:run.date,game:run.game,round:run.round});
+  const viewKey=value=>value?`${value.date}:${value.game}:${value.round}:${value.phase}`:'';
   const notice=message=>{alert.textContent=message||''};
   function stopClock(){clearInterval(ticker);ticker=0}
   function mount(){if(!scene)scene=AscensionScene.mount(stage,Progress.look());else scene.refreshLook(Progress.look())}
@@ -19,7 +21,9 @@
   const cue=points=>points>=100?'clavada':points>=85?'acierto':points>=60?'cerca':points>=30?'lejos':points>0?'fallo':'ko';
   const sources=result=>(result.sources||[]).map(source=>`<li><a href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.title)}</a></li>`).join('');
   async function request(action,extra={}){
+    const stamp=token;
     await playerReady;
+    if(stamp!==token)throw Error('La ascensión cambió de sesión.');
     const activeController=new AbortController();controller=activeController;
     const timer=setTimeout(()=>activeController.abort(),12000);
     try{
@@ -35,6 +39,7 @@
   }
   function button(label,action,primary=true,extra=''){return `<button class="game-${primary?'primary':'secondary'}" type="button" data-ascension="${action}" ${extra}>${label}</button>`}
   function render({animate=false}={}){
+    if(run.phase==='result')content.querySelector('#ascension-answer')?.blur?.();
     stopClock();notice();paintTop();mount();dialog.scrollTop=0;
     if(run.phase==='ready')ready();else if(run.phase==='question')question();else if(run.phase==='result')result(animate);else summary();
   }
@@ -43,7 +48,7 @@
     const catalog=run.catalog||run.bank||{},first=run.round===0;
     content.innerHTML=`<section class="ascension-card"><p class="ascension-eyebrow">${run.game?'Explora a tu ritmo':'Tu avatar. Tu camino a la cima.'}</p>
       <h3 tabindex="-1">Una respuesta.<br><em>Un paso más arriba.</em></h3>
-      <p class="ascension-lead">Te damos una categoría. Tú encuentras una respuesta válida: cuanto menos evidente, más sube tu avatar. En cada repisa celebra a tu manera.</p>
+      <p class="ascension-lead">Elige la vía Directa o la Travesía. Cuanto menos evidente sea tu respuesta, más escala tu avatar antes de celebrar en la repisa.</p>
       <div class="ascension-intro-stats"><div><b>7</b><span>categorías</span></div><div><b>25 s</b><span>por respuesta</span></div><div><b>7.000</b><span>metros de cima</span></div></div>
       ${scales()}<div class="ascension-actions">${button(first?'Empezar ascensión →':`Continuar · pregunta ${run.round+1} →`,'start')}</div>
       <p class="ascension-fine">${run.game?'Esta práctica no cuenta para la clasificación.':'La misma edición para todos. Un intento diario y prácticas al terminar: gratis con anuncio de prueba, o sin anuncios con Plus. La edición cambia a medianoche de Madrid; completa tu partida antes.'}</p>
@@ -68,9 +73,58 @@
     if(seconds===0&&!pending&&!timeoutSent){timeoutSent=true;submit('')}
   }
   function sound(points){
-    if(!window.Sound||!Sound.on)return;
-    Sound.context();Sound.resume();const root=points>=85?659:points>=30?523:392;
+    if(!window.Sound?.on||document.hidden)return;
+    const root=points>=85?659:points>=30?523:392;
     (points?[1,1.25,1.5,2]:[1,.8]).forEach((ratio,i)=>Sound.tone(root*ratio,i*.075,.25,{type:'triangle',gain:.035}));
+  }
+  function climbSound(event,points){
+    if(!window.Sound?.on||document.hidden)return;
+    if(event==='grip'){
+      Sound.noise?.(0,.065,{gain:.034,from:900,to:510,q:1.25,attack:.006});
+    }else if(event==='land'){
+      Sound.noise?.(0,.105,{gain:.052,from:400,to:160,q:.8,attack:.006});
+      sound(points);
+    }
+  }
+  function climbControls(){
+    const next=content.querySelector('#ascension-next');
+    const controls=content.querySelector('.ascension-climb-controls');
+    const label=content.querySelector('#ascension-climb-status');
+    const skip=content.querySelector('[data-ascension="skip-climb"]');
+    const replay=content.querySelector('[data-ascension="replay-climb"]');
+    const canReplay=!climbing&&replayKey===viewKey(run)&&!reduced()&&scene?.canReplay?.()!==false&&typeof scene?.replay==='function';
+    if(next)next.disabled=pending||climbing;
+    if(controls)controls.hidden=!climbing&&!canReplay;
+    if(label)label.textContent=climbing?'Escalando…':'Repisa alcanzada';
+    if(skip)skip.hidden=!climbing||typeof scene?.finish!=='function';
+    if(replay)replay.hidden=!canReplay;
+  }
+  async function playClimb(play,{replaying=false}={}){
+    const stamp=token,key=viewKey(run);
+    const moveFocus=replaying&&document.activeElement===content.querySelector('[data-ascension="replay-climb"]');
+    climbing=true;
+    climbControls();
+    if(replaying)dialog.scrollTop=0;
+    if(moveFocus)content.querySelector('[data-ascension="skip-climb"]:not([hidden])')?.focus({preventScroll:true});
+    const finish=()=>{
+      if(stamp!==token||!dialog.open||key!==viewKey(run))return;
+      const skip=content.querySelector('[data-ascension="skip-climb"]');
+      const focusNext=skip&&document.activeElement===skip;
+      climbing=false;
+      climbControls();
+      if(focusNext)content.querySelector('#ascension-next')?.focus({preventScroll:true});
+      if(syncAfterClimb&&!document.hidden){
+        syncAfterClimb=false;
+        load({silent:true});
+      }
+    };
+    try{await play()}
+    catch{
+      if(stamp===token&&dialog.open&&key===viewKey(run)){
+        replayKey='';
+        scene?.setHeight(run.height,{animate:false});
+      }
+    }finally{finish()}
   }
   function result(animate){
     const last=run.results.at(-1),tier=last.tier||{id:'miss',name:'Otro intento'};
@@ -79,12 +133,21 @@
       <h3 tabindex="-1">${last.points?'Buen hallazgo.':'La montaña sigue aquí.'}</h3><p class="ascension-result-answer">${last.points?esc(last.answer):last.reason==='timeout'?'Se acabó el tiempo':'Categoría pasada'}</p>
       ${last.corrected?'<p class="ascension-corrected">Ortografía ajustada automáticamente</p>':''}
       <div class="ascension-result-points"><b>+${last.points}</b><span>puntos<br>+${fmt(last.height)} metros</span></div>
+      ${last.points>0?`<div class="ascension-climb-controls">
+        <span id="ascension-climb-status" role="status"></span>
+        <button class="ascension-climb-action" type="button" data-ascension="skip-climb" hidden>Saltar animación</button>
+        <button class="ascension-climb-action" type="button" data-ascension="replay-climb" hidden>Repetir escalada</button>
+      </div>`:''}
       <div class="ascension-actions">${button(run.results.length===run.rounds?'Ver mi ascensión →':'Siguiente categoría →','next',true,'id="ascension-next"')}</div>
       <p class="ascension-fine">${esc(last.title)}</p>${last.discoveries?.length?`<details class="ascension-discoveries"><summary>Otros caminos que podías tomar</summary><ul>${last.discoveries.map(answer=>`<li><span>${esc(answer.name)}</span><b>${answer.points} pts</b></li>`).join('')}</ul></details>`:''}<details class="ascension-source"><summary>La categoría y sus fuentes</summary><ul>${sources(last)}</ul><p>Los puntos son una valoración editorial fija. Tus cosméticos y emotes no cambian la puntuación.</p></details></section>`;
-    if(animate){
-      climbing=true;content.querySelector('#ascension-next').disabled=true;sound(last.points);
-      const stamp=token;scene.setHeight(run.height,{animate:true,points:last.points,reaction}).then(()=>{if(stamp!==token||!dialog.open)return;climbing=false;const next=content.querySelector('#ascension-next');if(next)next.disabled=false});
-    }else scene.setHeight(run.height,{animate:false,reaction});
+    if(animate&&last.points>0&&!reduced()){
+      replayKey=viewKey(run);
+      playClimb(()=>scene.setHeight(run.height,{animate:true,points:last.points,reaction,onCue:event=>climbSound(event,last.points)}));
+    }else{
+      scene.setHeight(run.height,{animate,points:last.points,reaction});
+      if(animate)sound(last.points);
+      climbControls();
+    }
     content.querySelector('h3').focus({preventScroll:true});
   }
   function summary(){
@@ -101,13 +164,15 @@
     content.querySelector('h3').focus({preventScroll:true});
   }
   async function load({silent=false}={}){
+    if(climbing){syncAfterClimb=true;return}
     if(pending)return;
-    const stamp=token,key=run?`${run.date}:${run.game}:${run.round}:${run.phase}`:'';
+    syncAfterClimb=false;
+    const stamp=token,key=viewKey(run);
     pending=true;if(!silent)content.innerHTML='<p class="ascension-loading">Preparando tu expedición…</p>';
     try{
       const data=await request('estado',run?{date:run.date,game:run.game}:{});if(stamp!==token)return;
       adopt(data);pending=false;
-      if(silent&&key===`${run.date}:${run.game}:${run.round}:${run.phase}`&&run.phase==='question'){tick();return}
+      if(silent&&key===viewKey(run)&&run.phase!=='finished'){tick();return}
       render();
     }catch(error){
       if(stamp!==token)return;
@@ -132,7 +197,7 @@
       notice(error.status?error.message:'No hemos podido confirmar la respuesta. Reintenta o vuelve a cargar la partida.');
       if(['date','edition'].includes(error.data?.code)){run=null;pending=false;load();return}
       if(!error.status){alert.innerHTML=`${esc(alert.textContent)} <button type="button" class="duel-link" data-ascension="refresh">Reconectar</button>`}
-    }finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=climbing&&b.id==='ascension-next';content.querySelector('#ascension-answer')?.focus({preventScroll:true});tick()}}
+    }finally{if(stamp===token){pending=false;for(const b of content.querySelectorAll('button'))b.disabled=false;climbControls();content.querySelector('#ascension-answer')?.focus({preventScroll:true});tick()}}
   }
   const submit=answer=>mutate('responder',{answer});
   window.Continuations?.register('ascension',async offer=>{
@@ -158,12 +223,28 @@
     if(button.hasAttribute('data-close-ascension')){dialog.close();return}
     const action=button.dataset.ascension;
     if(action==='start')mutate('empezar');else if(action==='pass')submit('');else if(action==='next')mutate('siguiente');else if(action==='refresh')load();else if(action==='share')share();
+    else if(action==='skip-climb'&&climbing)scene?.finish?.();
+    else if(action==='replay-climb'&&!pending&&!climbing&&!reduced()&&run?.phase==='result'&&replayKey===viewKey(run)&&typeof scene?.replay==='function'){
+      const {points}=run.results.at(-1);
+      playClimb(()=>scene.replay({onCue:event=>climbSound(event,points)}),{replaying:true});
+    }
     else if(action==='wardrobe'){dialog.close();Progress.open('celebraciones');const select=document.querySelector('[data-celebration-mode]');if(select){select.value='ascension';select.dispatchEvent(new Event('change',{bubbles:true}))}}
     else if(action==='sound'){Sound.toggle();button.setAttribute('aria-pressed',String(Sound.on))}
   });
   dialog.addEventListener('submit',event=>{if(event.target.id!=='ascension-form')return;event.preventDefault();const input=content.querySelector('#ascension-answer');if(input?.value.trim())submit(input.value.trim())});
-  dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.stopPropagation();event.preventDefault();dialog.close()}});
-  dialog.addEventListener('close',()=>{token++;controller?.abort();controller=null;stopClock();pending=false;climbing=false;scene?.destroy();scene=null;opener?.focus({preventScroll:true})});
+  dialog.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){event.stopPropagation();event.preventDefault();dialog.close()}
+    else if(event.key==='Enter'&&run?.phase==='result'&&!pending&&!climbing&&event.target===content.querySelector('h3')){
+      event.preventDefault();mutate('siguiente');
+    }
+  });
+  function clearScene(){
+    token++;controller?.abort();controller=null;stopClock();
+    pending=false;climbing=false;replayKey='';syncAfterClimb=false;
+    scene?.destroy();scene=null;
+  }
+  dialog.addEventListener('close',()=>{clearScene();opener?.focus({preventScroll:true})});
+  motion.addEventListener?.('change',climbControls);
   document.addEventListener('visibilitychange',()=>{if(dialog.open&&!document.hidden)load({silent:true})});
   window.addEventListener('online',()=>{if(dialog.open)load({silent:true})});
   document.addEventListener('faraday:before-plan',event=>{
@@ -172,7 +253,7 @@
     dialog.close();
   });
   document.addEventListener('faraday:sonido',()=>dialog.querySelector('[data-ascension=sound]').setAttribute('aria-pressed',String(Sound.on)));
-  document.addEventListener('faraday:look',()=>{if(dialog.open)scene?.refreshLook(Progress.look())});
-  document.addEventListener('faraday:cuenta',()=>{if(dialog.open){token++;controller?.abort();pending=false;climbing=false;run=null;stopClock();load()}});
+  for(const name of ['faraday:look','faraday:progreso'])document.addEventListener(name,()=>{if(dialog.open)scene?.refreshLook(Progress.look())});
+  document.addEventListener('faraday:cuenta',()=>{if(dialog.open){clearScene();run=null;mount();load()}});
   if(new URLSearchParams(location.search).has('ascension'))setTimeout(()=>open(document.querySelector('[data-open-ascension]')),0);
 })();

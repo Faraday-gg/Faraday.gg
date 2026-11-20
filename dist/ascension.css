@@ -11,7 +11,7 @@
 .ascension-result{background:#283756;color:#fff8ea;border-color:#283756}.ascension-result .ascension-eyebrow{color:#ded9cd}.ascension-result h3{font-size:24px;margin-bottom:11px}.ascension-result-answer{font:700 clamp(30px,4vw,45px)/1.12 var(--display,sans-serif);letter-spacing:-.04em;overflow-wrap:anywhere;margin:0 0 26px}.ascension-result-points{display:flex;align-items:baseline;gap:12px;border-top:1px solid #fff8ea25;padding-top:22px}.ascension-result-points b{font:700 52px var(--num,var(--display,sans-serif));letter-spacing:-.06em;color:#f8df80}.ascension-result-points span{font-size:13px;color:#e5dece}.ascension-result .ascension-fine{color:#d9d4c8}.ascension-source{border-top:1px solid #fff8ea25;margin-top:22px;padding-top:16px;font-size:12px;line-height:1.65}.ascension-source summary{cursor:pointer;font-weight:600}.ascension-source a{color:#f8df80}.ascension-source ul{padding-left:19px}.ascension-result[data-tier="summit"] .ascension-result-points b{color:#ffb88f}.ascension-result[data-tier="deep"] .ascension-result-points b{color:#d5b6ff}
 .ascension-total{display:flex;gap:20px;align-items:end;margin:15px 0 25px}.ascension-total b{font:700 clamp(58px,7vw,80px)/.95 var(--num,var(--display,sans-serif));letter-spacing:-.07em}.ascension-total span{font-size:13px;color:#716e63;line-height:1.6}.ascension-rank{padding:20px;border-radius:15px;background:#f4e6b2;margin-bottom:24px}.ascension-rank strong{display:block;font-size:18px;margin-bottom:6px}.ascension-rank p{font-size:12px;margin:0;line-height:1.55;color:#625c48}
 .ascension-log{display:grid;gap:8px;margin:25px 0}.ascension-log details{border:1px solid #e9e3d8;border-radius:12px;background:#fffdf8;overflow:hidden}.ascension-log summary{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center;padding:13px;cursor:pointer;list-style:none}.ascension-log summary::-webkit-details-marker{display:none}.ascension-log summary>i{font-style:normal;font-size:11px;color:#7f7a6c}.ascension-log summary span{font-size:12px;line-height:1.4}.ascension-log summary b{font-size:13px}.ascension-log p{font-size:12px;line-height:1.6;padding:0 14px 14px;margin:0;color:#6c675b}.ascension-log a{color:#6c675b}.ascension-share-status{font-size:12px;min-height:1em;color:#6c675b}.ascension-loading{padding:70px 20px;text-align:center;font-size:15px;color:#79756a}
-@media(max-width:760px){.ascension-header{padding:12px 15px;gap:10px}.ascension-heading h2{font-size:18px}.ascension-header .game-back{font-size:24px}.ascension-body{display:flex;flex-direction:column;gap:15px;margin:14px auto 35px;padding:0 14px}.ascension-expedition{position:relative;top:auto;width:100%}.ascension-play{width:100%}.ascension-wardrobe{position:absolute;right:12px;bottom:11px;z-index:9;background:#fffdf7ed;padding:8px;border:1px solid #242c3814;border-radius:20px;margin:0;font-size:10px}.ascension-wardrobe span{display:none}.ascension-card{padding:23px 20px;border-radius:21px}.ascension-card h3{font-size:29px}.ascension-lead{font-size:14px}.ascension-mode-line{font-size:9px}.ascension-question{min-height:0}.ascension-input{font-size:19px;padding:14px}.ascension-clock{margin-bottom:16px}.ascension-steps{margin-bottom:11px}.ascension-result-answer{font-size:34px}.ascension-result-points b{font-size:45px}.ascension-result h3{font-size:20px}.ascension-result .ascension-actions{position:sticky;bottom:10px}.ascension-dialog[data-phase="question"] .ascension-expedition .ascension-scene{height:190px}.ascension-dialog[data-phase="question"] .ascene-actor{width:195px}.ascension-tier-scale{gap:5px}.ascension-tier-scale span{padding:6px;font-size:9px}.ascension-connection{align-items:start}}
+@media(max-width:760px){.ascension-header{padding:12px 15px;gap:10px}.ascension-heading h2{font-size:18px}.ascension-header .game-back{font-size:24px}.ascension-body{display:flex;flex-direction:column;gap:15px;margin:14px auto 35px;padding:0 14px}.ascension-expedition{position:relative;top:auto;width:100%}.ascension-play{width:100%}.ascension-wardrobe{margin:5px 0 0 auto;padding:7px 10px;font-size:12px}.ascension-wardrobe span{display:none}.ascension-card{padding:23px 20px;border-radius:21px}.ascension-card h3{font-size:29px}.ascension-lead{font-size:14px}.ascension-mode-line{font-size:9px}.ascension-question{min-height:0}.ascension-input{font-size:19px;padding:14px}.ascension-clock{margin-bottom:16px}.ascension-steps{margin-bottom:11px}.ascension-result-answer{font-size:34px}.ascension-result-points b{font-size:45px}.ascension-result h3{font-size:20px}.ascension-tier-scale{gap:5px}.ascension-tier-scale span{padding:6px;font-size:9px}.ascension-connection{align-items:start}}
 @media(prefers-reduced-motion:reduce){.ascension-clock-track i{transition:none}}
 .ascension-discoveries{border-top:1px solid #fff8ea25;margin-top:22px;padding-top:16px;font-size:12px;line-height:1.65}.ascension-discoveries summary{cursor:pointer;font-weight:600}.ascension-discoveries ul{list-style:none;padding:0;margin:13px 0 0}.ascension-discoveries li{display:flex;justify-content:space-between;gap:15px;padding:6px 0;color:#e5dece}.ascension-discoveries b{flex:none;color:#f8df80}
 
@@ -19,3 +19,34 @@
 @media(max-width:760px){.ascension-chart-label,.ascension-chart-own{font-size:22px}}
 
 .ascension-corrected{margin:-15px 0 20px;color:#e5dece;font-size:12px}
+
+
+.ascension-climb-controls{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:4px 12px;
+  min-height:44px;
+  margin-top:12px;
+  padding:0 12px;
+  border:1px solid #fff8ea30;
+  border-radius:12px;
+  background:#fff8ea0d;
+  font-size:13px;
+}
+#ascension-climb-status{color:#fff8ea;font-weight:700}
+.ascension-climb-action{
+  min-height:44px;
+  padding:0 3px;
+  border:0;
+  background:none;
+  color:#f8df80;
+  font:600 13px var(--body,sans-serif);
+  text-decoration:underline;
+  text-underline-offset:3px;
+  cursor:pointer;
+}
+.ascension-climb-controls[hidden],.ascension-climb-action[hidden]{display:none}
+.ascension-climb-action:focus-visible{outline:2px solid #f8df80;outline-offset:3px;border-radius:3px}
+@media(max-width:760px){.ascension-result .ascension-actions{margin-top:14px}}
