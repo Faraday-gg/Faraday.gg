@@ -10,6 +10,7 @@
 // la pestaña «Medallas» y la vitrina del perfil. El catálogo, la regla y el dibujo están en medals.js.
 (()=>{
   const KEY='casi-casi:progreso',shell=$('#profile-shell'),main=$('#profile-main'),chip=$('#home-profile'),stage=$('#home-avatar');
+  const homeProgress=$('#home-progress'),homeProgressLevel=$('#home-progress-level'),homeProgressNote=$('#home-progress-note'),homeProgressFill=$('#home-progress-fill');
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const COIN='<span class="coin" aria-hidden="true">≈</span>',coins=n=>`${int(n)} ${COIN}<span class="sr-only"> faradios</span>`;
   const madrid=(date=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid'}).format(date);
@@ -256,8 +257,17 @@
   // Chapa de la portada: avatar, nivel, faradios y un punto si hay misiones por recoger o cofres por abrir.
   function refresh(){
     checkMedals();
-    const boxes=chestTotal();
-    if(chip){chip.setAttribute('aria-label',`Tu perfil, nivel ${levelOf(state.xp)}, ${state.coins} faradios`);const waiting=pending()+boxes+state.medals.fresh.length;chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${levelOf(state.xp)}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} avisos: misiones por recoger, cofres por abrir o medallas nuevas">${waiting}</i>`:''}`}
+    const boxes=chestTotal(),missions=pending(),level=info();
+    if(chip){chip.setAttribute('aria-label',`Tu perfil, nivel ${level.level}, ${state.coins} faradios`);const waiting=missions+boxes+state.medals.fresh.length;chip.innerHTML=`<span class="duel-avatar small">${Avatar.render(look(),{bust:true})}</span><span class="home-profile-text"><b>Nv. ${level.level}</b><span>${coins(state.coins)}</span></span>${waiting?`<i class="profile-dot" aria-label="${waiting} avisos: misiones por recoger, cofres por abrir o medallas nuevas">${waiting}</i>`:''}`}
+    if(homeProgress){
+      const remaining=int(level.need-level.done),next=int(level.level+1);
+      const ready=missions===1?'1 misión lista':`${int(missions)} misiones listas`;
+      homeProgressLevel.textContent=`Nivel ${int(level.level)}`;
+      homeProgressNote.textContent=missions?`${ready} · ${remaining} XP`:`${remaining} XP para subir`;
+      homeProgressFill.style.width=`${level.ratio*100}%`;
+      homeProgress.classList.toggle('has-missions',missions>0);
+      homeProgress.setAttribute('aria-label',`Ver misiones. Nivel ${int(level.level)}. Para subir al nivel ${next} necesitas ${remaining} XP.${missions?` ${ready} para recoger.`:''}`);
+    }
     if(stage){
       const avatar=Avatar.render(look(),{zoom:'home',live:true,emote:'wave',turn:0,reaction:reaction('all','welcome')});
       if(stage.avatar!==avatar){stage.avatar=avatar;stage.innerHTML=avatar}

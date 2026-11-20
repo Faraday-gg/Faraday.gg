@@ -1,8 +1,12 @@
 // Reconectar a la partida (decisión 0042). Si sales de un duelo sin rendirte (cierras la pestaña, recargas, vuelves a
 // la portada o se cae la conexión), el servidor sigue teniéndolo en marcha. Al volver, esto le pregunta si tienes uno
-// y enseña «Reconectar a la partida» en la portada y en el menú. El duelo en sí lo pinta duel.js (DueloReconectar.open).
+// y actualiza la tarjeta Duelos y el menú. El duelo en sí lo pinta duel.js (DueloReconectar.open).
 (()=>{
   const shell=$('#duel-shell'),COUNTED='casi-casi:duelo:contados';
+  const card=$('#home-duel-card'),cardTitle=$('#home-duel-title'),cardDescription=$('#home-duel-description');
+  const hasCard=!!(card&&cardTitle&&cardDescription);
+  const defaultTitle=cardTitle?.textContent,defaultDescription=cardDescription?.textContent;
+  const canReconnect=()=>typeof window.DueloReconectar?.open==='function';
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const esc=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let active=null,checking=false;
@@ -30,12 +34,21 @@
   }
   function render(){
     const show=!!active&&shell.hidden;
-    pill.hidden=!show;
+    const onCard=show&&hasCard&&canReconnect()&&!card.hidden;
+    if(hasCard){
+      card.classList.toggle('is-reconnect',onCard);
+      cardTitle.textContent=onCard?(active.status==='finished'?'Ver resultado':'Reanudar duelo'):defaultTitle;
+      cardDescription.textContent=!onCard?defaultDescription:active.status==='finished'?'Duelo terminado':
+        active.status==='waiting'?'Sala en espera':active.round?`Ronda ${active.round} de ${active.maxRounds}`:'Partida en curso';
+    }
+    pill.hidden=!show||onCard;
     const link=ensureMenuLink();if(link)link.hidden=!show;
     if(!show)return;
     const {title,note}=describe(active),finished=active.status==='finished';
-    pill.classList.toggle('is-finished',finished);
-    pill.innerHTML=`<span class="duel-reconnect-dot" aria-hidden="true"></span><span class="duel-reconnect-text"><b>${title}</b>${note?`<small>${note}</small>`:''}</span><span aria-hidden="true">→</span>`;
+    if(!onCard){
+      pill.classList.toggle('is-finished',finished);
+      pill.innerHTML=`<span class="duel-reconnect-dot" aria-hidden="true"></span><span class="duel-reconnect-text"><b>${title}</b>${note?`<small>${note}</small>`:''}</span><span aria-hidden="true">→</span>`;
+    }
     if(link)link.firstChild.innerHTML=`<span class="menu-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${finished?'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>':'<path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"/>'}</svg></span><span class="menu-text"><b>${title}</b>${note?`<small>${note}</small>`:''}</span><svg class="menu-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>`;
   }
   async function check(){
@@ -51,10 +64,15 @@
   }
   function go(){
     if(!active)return;
-    if(window.DueloReconectar)window.DueloReconectar.open(active.id);
+    if(canReconnect())window.DueloReconectar.open(active.id);
     else document.querySelector('[data-open-duel]')?.click();
   }
   pill.addEventListener('click',go);
+  if(hasCard)card.addEventListener('click',event=>{
+    if(!active||!shell.hidden||!canReconnect())return;
+    // La tarjeta conserva el acceso al vestíbulo cuando el servidor no ofrece una partida.
+    event.preventDefault();event.stopImmediatePropagation();go();
+  },true);
 
   // Cuándo volver a preguntar: al cargar, al volver a la pestaña, al cerrar el duelo y cada 20 s mientras se mira la portada.
   new MutationObserver(()=>{if(shell.hidden)check();else render()}).observe(shell,{attributes:true,attributeFilter:['hidden']});

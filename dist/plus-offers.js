@@ -1,7 +1,7 @@
 // Oferta común de Plus: las cuotas y el acceso siguen decidiéndose en el servidor.
 (()=>{
   const modes=new Map([
-    ['home',{title:'Una ronda más.',description:'Sigue jugando partidas extra sin anuncios y explora todas las ventajas de Plus.'}],
+    ['home',{title:'Una ronda más.',description:'Partidas extra sin anuncios.'}],
     ['daily',{title:'¿Te has quedado con ganas de más?',description:'El reto de hoy ya está completo. Mañana tendrás tres preguntas nuevas; mientras, sigue explorando Faraday.'}],
     ['trends',{title:'¿Y si la siguiente fuera tu mejor curva?',description:'Quédate con las ganas de jugar, sin las pausas. Descubre las opciones de Plus para Traza.'}],
     ['duel',{title:'Que la revancha no se quede para mañana.',description:'Descubre Plus y sigue buscando tu mejor duelo.'}],
