@@ -106,6 +106,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 
 | [0101](0101-curva-con-muestra-pequena.md) | Curva normal de Ascensión desde dos resultados distintos | Implementada | 2026-11-19 |
 | [0102](0102-portada-avatar-y-amigos.md) | Portada con accesos a modos, avatar y panel de amistades con actividad y chat | Implementada; migración pendiente | 2026-11-19 |
+| [0103](0103-portada-en-una-pantalla.md) | Vestíbulo de una pantalla con el avatar centrado y el archivo accesible desde el menú | Implementada | 2026-11-19 |
 
 | [0103](0103-variedad-y-autocorreccion-ascension.md) | Ascensión combina dificultad y temas y acepta erratas claras automáticamente | Implementada | 2026-11-19 |
 

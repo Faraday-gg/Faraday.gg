@@ -1,84 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Geist:wght@200;300;400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 :root{--cream:#f7f3e9;--paper:#fffdf7;--ink:#202630;--muted:#666a6d;--coral:#ff6548;--yellow:#ffdb70;--blue:#b9d6e1;--line:#d8d2c6;--font:'DM Sans',Arial,sans-serif;--display:'Space Grotesk',Arial,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #5586a5;outline-offset:3px}.wrap{width:min(1180px,calc(100% - 64px));margin-inline:auto}
-/* Marca, componentes compartidos y guía de juego en la portada. */
+/* Marca y componentes compartidos. */
 .brand-mark{width:32px;height:32px;display:inline-grid;place-items:center;background:var(--coral);border-radius:50%;font-size:27px;line-height:1;color:var(--ink);letter-spacing:0;font-weight:500}.brand-dot{color:var(--coral)}
-.home{width:min(1040px,calc(100% - 32px));margin:0 auto;padding:40px 0 20px}
 .home-brand{display:inline-flex;align-items:center;gap:8px;font:700 20px var(--display);letter-spacing:-.06em}
 .home-brand .brand-mark{width:26px;height:26px;font-size:22px}
 .section-kicker{font-size:12px;font-weight:800;letter-spacing:.12em}
-.home-date{margin:0;font-size:13px;font-weight:800;letter-spacing:.1em}
-.hero-rounds{list-style:none;display:flex;justify-content:center;gap:20px;margin:16px 0 0;padding:0}
-.hero-rounds li{display:flex;align-items:center;gap:7px}
-.round-number{font-size:12px;font-weight:800;opacity:.75}
-.cat-icon-hero{width:36px;height:36px;background:transparent;border-color:var(--ink)}
-.cat-icon-hero svg{width:20px;height:20px}
-.home-play{margin-top:34px;border:0;border-radius:50px;background:var(--paper);color:var(--ink);padding:18px 34px;font-size:16px;font-weight:800;letter-spacing:.02em;display:inline-flex;align-items:center;gap:14px;box-shadow:0 10px 24px -12px #20263099;transition:transform .15s,box-shadow .15s}
-.home-play:hover{transform:translateY(-2px);box-shadow:0 14px 28px -12px #202630aa}
-.home-play:disabled{cursor:default;opacity:.7;transform:none}
-.home-title{text-align:center;font:700 clamp(32px,4.4vw,44px) var(--display);letter-spacing:-.05em;margin:110px 0 20px}
-.home-title mark,.home-step h3 mark{background:linear-gradient(transparent 55%,var(--yellow) 55%,var(--yellow) 92%,transparent 92%);color:inherit;padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-/* El circuito de la portada: un cable une las secciones, con una bobina, un galvanómetro y un condensador (el experimento de inducción de Faraday) y electrones que bajan por él. */
-.wire{width:200px;height:104px;margin:34px auto 0;pointer-events:none}
-.wire svg{display:block;width:200px;height:104px;overflow:visible}
-.wire path{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.wire-dial{fill:var(--paper);stroke:var(--ink);stroke-width:1.6}
-.wire-pivot{fill:var(--ink)}
-.wire-needle{stroke:var(--coral)!important;stroke-width:2!important;transform-origin:100px 62px;animation:wire-needle 3.4s ease-in-out infinite alternate}
-.wire-e{fill:var(--coral);animation:wire-flow 2.2s linear infinite}
-.wire-e2{animation-delay:-1.1s}
-.wire-f{font:italic 400 17px Georgia,serif;fill:var(--ink)}
-.wire-n{font:800 8.5px var(--font);letter-spacing:.14em;fill:var(--muted)}
-.wire+section>.home-title{margin-top:26px}
-.home-how .wire{margin:-30px auto}
-.wire-ground{height:84px;margin-top:10px}
-@keyframes wire-flow{from{transform:translateY(0);opacity:0}12%,88%{opacity:1}to{transform:translateY(104px);opacity:0}}
-@keyframes wire-needle{from{transform:rotate(-42deg)}to{transform:rotate(38deg)}}
-@media(prefers-reduced-motion:reduce){.wire-e{animation:none;opacity:0}.wire-needle{animation:none;transform:rotate(24deg)}}
-.home-step{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(32px,7vw,96px);padding:56px 0}
-.home-step-flip .home-step-copy{order:2}
-.home-step h3{font:700 clamp(24px,3vw,30px)/1.25 var(--display);letter-spacing:-.04em;margin:0 0 16px}
-.home-step p{margin:0;font-size:17px;line-height:1.6;color:#4d5359;max-width:420px}
-.demo{border-radius:26px;padding:20px 24px 24px;box-shadow:0 1px 2px #20263014,0 24px 44px -22px #20263066;transform:rotate(2deg);max-width:420px;width:100%;justify-self:center}
-.home-step-flip .demo{transform:rotate(-2deg)}
-.demo-head{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.1em;opacity:.8;margin-bottom:20px}
-.demo-question{background:var(--coral);color:var(--ink)}
-.demo-q{font:700 21px/1.2 var(--display);letter-spacing:-.03em;margin:0 0 30px}
-.demo-guess{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:8px;font:700 20px var(--display);color:#20263066}
-.demo-guess small{font:600 12px var(--font);color:#202630aa}
-.demo-actions{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
-.demo-icon{width:40px;height:40px;border-radius:50%;border:1.5px solid #20263066;display:grid;place-items:center;font-size:16px}
-.demo-btn{background:#23395b;color:#fff8ec;border-radius:40px;padding:11px 20px;font-size:13px;font-weight:800}
-.demo-result{background:#23395b;color:#fff8ec}
-.demo-verdict{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.demo-verdict strong{font:300 60px/1 var(--num);color:var(--yellow);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
-.demo-verdict span{background:#fff8ec;color:#23395b;border-radius:30px;padding:5px 11px;font-size:12px;font-weight:800}
-.demo-ledger{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}
-.demo-ledger div{background:#fff8ec17;border-radius:14px;padding:10px 12px}.demo-ledger .real{background:#fff8ec;color:#23395b}
-.demo-ledger small{display:block;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
-.demo-ledger b{font:400 22px var(--num);font-variant-numeric:tabular-nums}
-.demo-bars{display:flex;align-items:flex-end;gap:4px;height:64px}
-.demo-bars i{flex:1;background:#fff8ec4d;border-radius:3px 3px 0 0}.demo-bars .you{background:var(--yellow)}
-.demo-summary{background:var(--yellow);color:var(--ink)}
-.demo-score{display:block;font:300 72px/1 var(--num);letter-spacing:-.03em;font-variant-numeric:tabular-nums;margin:4px 0 18px}
-.demo-rows{list-style:none;margin:0;padding:0;border-top:1px solid #20263033}
-.demo-rows li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #20263033;font-size:13px}
-.demo-rows b{font-family:var(--num);font-weight:500}
-.home-archive{width:min(720px,100%);margin:0 auto;padding-bottom:40px}
-.home-archive-note{text-align:center;color:#4d5359;margin:0 0 30px;font-size:16px;line-height:1.6}
-.home-footer{width:min(1040px,calc(100% - 32px));margin:0 auto;padding:40px 0 56px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.home-footer p{margin:0;font-size:13px;color:var(--muted)}
 .toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,20px);background:var(--ink);color:white;padding:11px 17px;border-radius:50px;font-size:12px;font-weight:800;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:120}.toast.show{opacity:1;transform:translate(-50%,0)}body.modal-open{overflow:hidden}
-@media(max-width:760px){
-  .home{padding-top:70px}
-  .home-play{width:100%;justify-content:center;padding:17px 20px}
-  .home-title{margin-top:72px}
-  .home-step,.home-step-flip{grid-template-columns:1fr;gap:28px;padding:36px 0}
-  .home-step-flip .home-step-copy{order:0}
-  .home-step p{font-size:16px}
-  .demo,.home-step-flip .demo{transform:none}
-  .home-how .wire{margin:-16px auto}
-}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* Juego a pantalla completa: solo la pregunta y la respuesta. Sin marcos, sombras ni etiquetas de color. */
@@ -461,7 +389,6 @@
 
 /* Archivo (decisión 0016): calendario por meses con la puntuación de cada día jugado, una ficha del día y un «Reto sorpresa». */
 .arc{--arc-tile:var(--cream);background:var(--paper);border-radius:32px;padding:28px clamp(18px,4vw,34px) 26px;box-shadow:0 1px 2px #20263014,0 24px 48px -22px #20263066}
-.home-archive .arc{margin-top:8px}
 .arc-top{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
 .arc-progress{flex:1;min-width:200px}
 .arc-progress p{margin:0 0 10px;font-size:15px;font-weight:600;color:var(--muted)}
@@ -646,46 +573,6 @@ body.menu-open .menu-panel>:nth-child(6),body.menu-open .menu-panel>:nth-child(7
 body.menu-open .menu-panel>:nth-child(n+8){animation-delay:.2s}
 @media(prefers-reduced-motion:reduce){.menu-panel,.menu-scrim{transition:none}body.menu-open .menu-panel>*{animation:none}}
 @media(prefers-reduced-motion:reduce){.arc-tile,.arc-today,.arc-picked,.arc-peek-card,.arc.is-rolling .arc-dice svg{animation:none!important}.arc:not(.is-visible) .arc-tile{opacity:1}}
-
-/* Preguntas frecuentes: al final de la portada, desplegables con el estilo de la portada sencilla. */
-.home-faq{width:min(720px,100%);margin:0 auto;padding-bottom:40px}
-.faq-list{display:grid;gap:10px}
-.faq-item{background:var(--paper);border:1.5px solid var(--line);border-radius:20px;transition:border-color .2s,box-shadow .2s}
-.faq-item:hover,.faq-item[open]{border-color:var(--ink)}
-.faq-item[open]{box-shadow:0 14px 28px -20px #20263080}
-.faq-item summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 22px;font:700 20px var(--display);letter-spacing:-.03em}
-.faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary:after{content:'+';flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font:500 22px/1 var(--font);background:var(--cream);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
-.faq-item:hover summary:after{background:var(--yellow)}
-.faq-item[open] summary:after{transform:rotate(45deg);background:var(--coral)}
-.faq-item p{margin:0;padding:0 64px 22px 22px;color:#4d5359;font-size:16px;line-height:1.7}
-.faq-item[open] p{animation:faq-open .3s cubic-bezier(.22,1,.36,1)}
-@keyframes faq-open{from{opacity:0;transform:translateY(-6px)}}
-@media(max-width:760px){.faq-item summary{font-size:17px;padding:16px 16px}.faq-item summary:after{width:30px;height:30px;font-size:19px}.faq-item p{padding:0 16px 18px;font-size:15px}}
-@media(prefers-reduced-motion:reduce){.faq-item[open] p{animation:none}}
-
-/* Portada: las tarjetas de ejemplo se animan al pasar el ratón. Se enderezan y suben, las cifras cuentan
-   hasta su valor (app.js) y la gráfica crece barra a barra. Curvas suaves, sin rebotes. */
-.demo{transition:transform .6s cubic-bezier(.22,1,.36,1),box-shadow .6s cubic-bezier(.22,1,.36,1)}
-.demo:hover,.home-step-flip .demo:hover{transform:translateY(-8px) rotate(0) scale(1.025);box-shadow:0 1px 2px #20263014,0 36px 60px -28px #20263080}
-.demo-guess,.demo-btn,.demo-icon{transition:border-color .4s,color .4s,transform .5s cubic-bezier(.22,1,.36,1)}
-.demo-question:hover .demo-guess{border-bottom-color:#23395b;color:#202630aa}
-.demo-question:hover .demo-btn{transform:translateX(-4px)}
-.demo-question:hover .demo-icon{transform:rotate(-8deg)}
-.demo-verdict strong,.demo-ledger b,.demo-score,.demo-rows b{font-variant-numeric:tabular-nums}
-.demo-bars i{transform-origin:bottom}
-.demo-result:hover .demo-bars i{animation:demo-rise .8s cubic-bezier(.22,1,.36,1) both}
-.demo-bars i:nth-child(2){animation-delay:35ms}.demo-bars i:nth-child(3){animation-delay:70ms}.demo-bars i:nth-child(4){animation-delay:105ms}.demo-bars i:nth-child(5){animation-delay:140ms}
-.demo-bars i:nth-child(6){animation-delay:175ms}.demo-bars i:nth-child(7){animation-delay:210ms}.demo-bars i:nth-child(8){animation-delay:245ms}.demo-bars i:nth-child(9){animation-delay:280ms}.demo-bars i:nth-child(10){animation-delay:315ms}
-.demo-result:hover .demo-bars .you{animation:demo-rise .8s cubic-bezier(.22,1,.36,1) 105ms both,demo-glow 1.2s ease-out .7s}
-.demo-result:hover .demo-verdict span{animation:demo-pop .6s cubic-bezier(.22,1,.36,1) .5s both}
-.demo-summary:hover .demo-rows li{animation:demo-slide .6s cubic-bezier(.22,1,.36,1) both}
-.demo-rows li:nth-child(2){animation-delay:90ms}.demo-rows li:nth-child(3){animation-delay:180ms}
-@keyframes demo-rise{from{transform:scaleY(.08)}}
-@keyframes demo-glow{40%{box-shadow:0 0 16px 2px #ffdb70b3}}
-@keyframes demo-pop{from{transform:scale(.85);opacity:.4}}
-@keyframes demo-slide{from{transform:translateX(-12px);opacity:.25}}
-@media(prefers-reduced-motion:reduce){.demo *{animation:none!important}}
 
 /* Duelos 1 vs 1 (decisión 0023): marcador con avatar y barra de vida, temporizador, avisos y pantallas del duelo.
    La tarjeta reutiliza las paletas del juego: pregunta = tono de la categoría, resultado = azul noche, victoria = amarillo. */
@@ -1096,21 +983,6 @@ body.lightbox-open{overflow:hidden}
 @keyframes ws-scrim{from{opacity:0}}
 @keyframes ws-sheet{from{opacity:0;transform:translateY(16px) scale(.96)}}
 @media(prefers-reduced-motion:reduce){.workspace-panel,.workspace-sheet{animation:none}}
-
-/* Portada en móvil: las demos de «Cómo se juega» son ejemplos pequeños, no otra tarjeta de juego. */
-@media(max-width:760px){
-  .demo,.home-step-flip .demo{width:84%;padding:14px 16px 16px;border-radius:18px;transform:rotate(1.5deg);box-shadow:0 1px 2px #20263014,0 14px 26px -16px #20263066}
-  .home-step-flip .demo{transform:rotate(-1.5deg)}
-  .demo-head{margin-bottom:12px;font-size:10px}
-  .demo-q{font-size:16px;margin-bottom:18px}
-  .demo-guess{font-size:16px}
-  .demo-icon{width:32px;height:32px;font-size:13px}
-  .demo-btn{padding:9px 16px;font-size:12px}
-  .demo-verdict strong{font-size:44px}
-  .demo-ledger{margin:12px 0}.demo-ledger b{font-size:18px}
-  .demo-bars{height:44px}
-  .demo-score{font-size:52px;margin:2px 0 12px}
-}
 
 /* Portada del duelo en el móvil: «Partida rápida» y «Retar a un amigo» siempre a la vista, en una barra fija abajo,
    sin tener que bajar; y la apuesta bloqueada se queda en una sola línea. */

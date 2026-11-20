@@ -36,14 +36,10 @@ function art(kind){
   };return paths[kind]?`<div class="question-visual" aria-hidden="true"><svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">${paths[kind]}</svg></div>`:'';
 }
 function renderWeek(){
-  $('#today-date').textContent=prettyDate(todayKey).toUpperCase();
-  $('.section-kicker').textContent=currentDay?'RETO Nº '+editionNumber(todayKey):'NUEVA EDICIÓN EN PREPARACIÓN';
+  $('#home-daily-number').textContent=currentDay?'Reto nº '+editionNumber(todayKey):'En preparación';
   document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
   const played=currentDay?getGuesses(currentDay).length:0;
-  $('#hero-play').firstChild.textContent=!currentDay?'Retos en preparación ':played===3?'Ver mi resultado ':played?'Continuar reto ':'Jugar el reto de hoy ';
-  const roundsList=$('#hero-rounds');
-  roundsList.innerHTML=currentDay?currentDay.questions.map((q,i)=>{const category=window.CATEGORIES?.[q.category];return category?`<li><span class="round-number">P${i+1}</span>${window.categoryIcon(q.category,'cat-icon cat-icon-hero')}<span class="sr-only">${category.label}</span></li>`:''}).join(''):'';
-  roundsList.hidden=!roundsList.innerHTML;
+  $('#home-daily-action').textContent=!currentDay?'Próximamente':played===3?'Ver resultado':played?'Continuar reto':'Jugar reto';
   renderArchives();
 }
 async function openDate(id){
@@ -259,28 +255,41 @@ async function shareResult(){if(window.ShareCard)return window.ShareCard.open(ac
 // Menú hamburguesa (decisión 0016): en el juego y en la portada. Reto de hoy, volver al inicio y el archivo para saltar a otro día.
 const menuArchive=createArchive($('#menu-archive'),{compact:true});
 window.openArchiveDay=(id)=>{toggleMenu(false);openDate(id)};
+const archiveLink=$('#home-archive-link');
+let menuOpener=null;
 function menuOpen(){return document.body.classList.contains('menu-open')}
-function toggleMenu(open=!menuOpen()){
+function toggleMenu(open=!menuOpen(),{archive=false,opener=null}={}){
   if(open===menuOpen())return;
   const drawer=$('#menu-drawer'),inGame=!$('#game-shell').hidden,toggle=$(inGame?'#menu-toggle':'#home-menu-toggle');
   document.body.classList.toggle('menu-open',open);drawer.setAttribute('aria-hidden',String(!open));drawer.inert=!open;
   document.querySelectorAll('.menu-toggle').forEach(button=>{button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});
   $('#menu-home').hidden=!inGame;
   if(open){
+    menuOpener=opener;
     const played=currentDay?getGuesses(currentDay).length:0;
     $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
     $('#menu-today').classList.toggle('is-done',played===3);
     $('#menu-today-title').textContent=!currentDay?'En preparación':played===3?'Reto completado':played===2?'Te queda 1 pregunta':played?'Te quedan 2 preguntas':'Tres preguntas nuevas';
     $('#menu-today-sub').textContent=played===3?'Mira tu resultado':prettyDate(todayKey);
     if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
-    setTimeout(()=>($('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])'))?.focus(),60);
-  }else toggle.focus();
+    const target=archive?$('#menu-archive-title'):$('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])');
+    setTimeout(()=>{if(menuOpen())target?.focus()},60);
+  }else{
+    (menuOpener||toggle).focus({preventScroll:true});
+    menuOpener=null;
+  }
 }
-createArchive($('#home-archive'));
 renderWeek();
 document.querySelectorAll('[data-play]').forEach(button=>button.addEventListener('click',()=>{if(currentDay)openDay(currentDay)}));
 $('#menu-toggle').addEventListener('click',()=>toggleMenu());
 $('#home-menu-toggle').addEventListener('click',()=>toggleMenu());
+archiveLink.addEventListener('click',event=>{
+  if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  event.preventDefault();toggleMenu(true,{archive:true,opener:archiveLink});
+});
+function openArchiveLink(){if(location.hash==='#archivo')toggleMenu(true,{archive:true})}
+window.addEventListener('hashchange',openArchiveLink);
+openArchiveLink();
 document.querySelectorAll('[data-menu-close]').forEach(el=>el.addEventListener('click',()=>toggleMenu(false)));
 $('#menu-today').addEventListener('click',()=>{toggleMenu(false);if(currentDay)openDay(currentDay)});
 $('#menu-home').addEventListener('click',goHome);
@@ -293,7 +302,6 @@ async function goHome(){
   const duel=$('#duel-shell');
   if(!duel.hidden){$('#duel-close').click();if(!await whenHidden(duel))return}
   if(!$('#game-shell').hidden){closeGame();await whenHidden($('#game-shell'),1000)}
-  window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
   $('.home-header [data-go-home]').focus({preventScroll:true});
 }
 document.addEventListener('click',event=>{const link=event.target.closest('[data-go-home]');if(!link||event.button||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();goHome()});
@@ -323,28 +331,3 @@ $('#game-content').addEventListener('click',event=>{if($('.game-card.explaining'
 $('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
 $('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});
-
-// Portada: al pasar el ratón por una tarjeta de ejemplo, sus cifras cuentan desde cero hasta su valor.
-(() => {
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const format=(n,decimals)=>new Intl.NumberFormat('es-ES',{minimumFractionDigits:decimals,maximumFractionDigits:decimals,useGrouping:'always'}).format(n);
-  document.querySelectorAll('.demo').forEach(card=>{
-    const numbers=[...card.querySelectorAll('.demo-verdict strong,.demo-ledger b,.demo-score,.demo-rows b')].map(el=>{
-      const text=el.textContent.trim(),match=text.match(/^([\d.,]+)(.*)$/);
-      if(!match) return null;
-      const decimals=(match[1].split(',')[1]||'').length;
-      return {el,text,suffix:match[2],decimals,value:parseFloat(match[1].replace(/\./g,'').replace(',','.'))};
-    }).filter(Boolean);
-    if(!numbers.length) return;
-    let frame=0;
-    card.addEventListener('pointerenter',()=>{
-      cancelAnimationFrame(frame);const start=performance.now(),duration=900;
-      const tick=(now)=>{
-        const t=Math.max(0,Math.min(1,(now-start)/duration)),eased=1-Math.pow(1-t,3);
-        numbers.forEach(n=>{n.el.textContent=t<1?format(n.value*eased,n.decimals)+n.suffix:n.text});
-        if(t<1) frame=requestAnimationFrame(tick);
-      };
-      frame=requestAnimationFrame(tick);
-    });
-  });
-})();
