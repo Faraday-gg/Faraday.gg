@@ -353,7 +353,7 @@ function buildModel(look){
   }
   const arms=[];
   for(const side of [-1,1]){
-    const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(bare?(fem?.335:.385):fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);arms.push({arm,fore,side});
+    const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(bare?(fem?.335:.385):fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);
     const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'&&(!brandKey||brandKey==='adidas')?mat(main,sleeveTexture(main,brandKey?trim:PAPER,!!brandKey)):mat(sleeveC);
     const thick=bare?1.1:1;add(arm,limb(.1*K*thick,.09*K*thick,ELBOW),skin,[],[],[],O);add(fore,limb(.09*K*thick,.078*K*thick,.2),skin,[],[],[],O);
     if(sleeved){
@@ -362,7 +362,7 @@ function buildModel(look){
       if(type!=='plumas')add(fore,new THREE.CylinderGeometry(.125*K,.118*K,.085,24),cuff,[0,-.12,0],[],[],O);
       else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
-    const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);
+    const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);arms.push({arm,fore,hand,side});
     add(hand,box(3),skin,[0,-.04,0],[.056,.07,.086],[],.045);
     // Los dedos salen en abanico y un poco curvados hacia la palma; el contorno de cada uno dibuja la línea entre dedos.
     for(const [z,length] of [[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]])add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3);
@@ -553,15 +553,26 @@ const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.match
 // para el pelo más alto (afro, moño, corona), los saltos y la sombra, que no deben cortarse con el borde del lienzo.
 const VIEWS={full:{ratio:2/3,frame:3.45,width:2.3,target:1.55},bust:{ratio:1,frame:2.2,target:2},legs:{ratio:1,frame:1.5,target:.46},shoes:{ratio:1,frame:1.05,target:.24,x:-.08},torso:{ratio:1,frame:1.75,target:1},stage:{ratio:1,frame:3.5,target:1.58},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
-function shoot(context,width,height,entry,mode,turn){
+function shoot(context,width,height,entry,mode,turn,climbPose){
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
-  const x=view.x||0;camera.aspect=aspect;camera.position.set(x,view.target+distance*.03,distance);camera.lookAt(x,view.target,0);camera.updateProjectionMatrix();
+  const x=view.x||0;camera.aspect=aspect;camera.position.set(x,view.target+distance*.03,distance);camera.lookAt(x,view.target,0);camera.updateProjectionMatrix();camera.updateMatrixWorld(true);
   entry.group.rotation.y=turn;scene.add(entry.group);
+  if(climbPose||entry.climbing)climbingPose(entry,climbPose,turn);
+  floor.visible=!climbPose||(climbPose.mix??1)<.5;
   renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,camera);
-  scene.remove(entry.group);
+  scene.remove(entry.group);floor.visible=true;
   context.clearRect(0,0,width,height);context.drawImage(renderer.domElement,0,BUF_H-height,width,height,0,0,width,height);
 }
-const dispose=entry=>entry.group.traverse(o=>{if(o.material===lineMat)return;o.geometry?.dispose();o.material?.map?.dispose();o.material?.dispose()});
+function dispose(entry){
+  const geometry=new Set(),materials=new Set();
+  entry.group.traverse(part=>{
+    if(part.geometry)geometry.add(part.geometry);
+    if(part.material&&part.material!==lineMat)materials.add(part.material);
+  });
+  for(const item of geometry)item.dispose();
+  for(const item of materials){item.map?.dispose();item.dispose()}
+  for(const rig of entry.climbRigs||[])rig.skeleton.dispose();
+}
 const sizeOf=(el,mode)=>{const view=VIEWS[mode]||VIEWS.full,width=Math.min(BUF_W,Math.ceil(el.clientWidth*SCALE/16)*16,Math.floor(BUF_H*view.ratio));return [width,Math.round(width/view.ratio)]};
 // Imágenes fijas (marcador, avisos, tienda): se dibujan una vez y se guardan.
 const shots=new Map();
@@ -639,12 +650,6 @@ const CLIPS={
   salto:{d:1.5,f:u=>{const crouch=u<.22?Math.sin(u/.22*Math.PI/2):u<.3?1-(u-.22)/.08:u>.82?Math.sin((1-u)/.18*Math.PI)*.6:0,fly=u>.26&&u<.82?Math.sin((u-.26)/.56*Math.PI):0,arms=ease((u-.18)/.14)*ease((1-u)/.2);return {py:-.08*crouch,air:.3*fly,...both({O:2.3*arms,E:.2*arms}),hx:-.15*fly}}},
   puno:{d:1.9,f:u=>{const k=hold(u,.15,.85),p=Math.max(0,Math.sin(u*Math.PI*5));return {bO:(1.7+p*.6)*k,bI:(1-p*.8)*k,bE:.15*k,air:p*.05*k,aO:.1*k,aE:-.9*k,hx:-.1*k,sz:-.06*k}}},
   giro:{d:1.5,end:item=>{item.pose.ry-=Math.PI*2},f:u=>{const k=hold(u,.2,.8);return {ry:ease(u)*Math.PI*2,air:Math.sin(u*Math.PI)*.12,...both({O:k,E:.2*k})}}},
-  // Ascensión: alterna una mano alta y el pie contrario, sosteniendo el peso cerca de la pared. El giro queda
-  // en tres cuartos para que el rostro y la ropa sigan visibles; no depende de accesorios ni del cuerpo elegido.
-  escalar:{d:1.8,f:(u,t)=>{const k=hold(u,.08,.94),w=u*Math.PI*4,s=Math.sin(w),left=(s+1)/2,right=1-left;return {ry:.62*k,sy:-.12*k,sx:.12*k,hx:-.13*k,hy:-.22*k,px:s*.035*k,py:(-.045-Math.abs(s)*.025)*k,
-    aO:(1.25+left*.75)*k,bO:(1.25+right*.75)*k,aS:-.28*k,bS:-.28*k,aE:(-.75+left*.55)*k,bE:(-.75+right*.55)*k,aI:.3*k,bI:.3*k,fa:right*.85*k,fb:left*.85*k,wide:.15*k}}},
-  // Apoyo en la nueva repisa: flexiona al llegar, recupera el equilibrio y se gira hacia el jugador.
-  coronar:{d:.7,f:u=>{const k=Math.sin(u*Math.PI),land=Math.sin(Math.min(1,u/.45)*Math.PI);return {py:-.085*land,sx:.08*land,air:.055*Math.sin(u*Math.PI),...both({O:.3*k,E:-.25*k}),hx:-.08*k,hz:.04*k}}},
   // Lamentarse
   suspiro:{d:2.8,f:u=>{const k=Math.sin(u*Math.PI)**2*(u<.5?1:-.4);return {...both({Y:.05*k}),sx:-.06*k,hx:-.1*k}}},
   negar:{d:2.2,f:u=>{const k=hold(u,.15,.85);return {hy:Math.sin(u*Math.PI*5)*.3*k,hx:.05*k,lid:.4*k}}},
@@ -759,7 +764,7 @@ function animate(item,now){
   // Caída: gira el personaje entero alrededor de los pies, en el plano de la pantalla (después del giro sobre sí mismo).
   const whole=item.entry.group;whole.rotation.order='ZYX';whole.rotation.z=cur.fall;whole.position.set(cur.gx,cur.gy,0);
   R.upper.rotation.set(cur.sx,cur.sy,cur.sz);R.torso.scale.y=1+P.br*.012;
-  R.neck.position.y=NECK+P.br*.007;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
+  R.neck.position.x=0;R.neck.position.y=NECK+P.br*.007;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
   R.arms.forEach(({arm,fore,side},i)=>{const p=i?'b':'a';arm.position.y=SHOULDER+P.br*.008+cur[p+'Y'];arm.rotation.set(cur[p+'S'],0,side*cur[p+'O']);fore.rotation.set(cur[p+'E'],0,side*cur[p+'I'])});
   // Los pies se quedan en el suelo: la pierna se inclina y se encoge para seguir a la cadera. En el aire, las punteras caen.
   const tilt=-Math.atan(cur.px/.55),stretch=1+cur.py/.55,toes=Math.min(.5,cur.air*3);
@@ -775,6 +780,167 @@ function animate(item,now){
   if(item.lagRoll===undefined){item.lagRoll=roll;item.lagNod=nod}item.lagRoll+=(roll-item.lagRoll)*lag;item.lagNod+=(nod-item.lagNod)*lag;
   for(const group of R.sway){group.rotation.z=-roll*.7+(item.lagRoll-roll)*1.2;group.rotation.x=-nod*.7+(item.lagNod-nod)*1.2}
 }
+// La escena da objetivos en coordenadas normalizadas del lienzo. La misma
+// cámara que dibuja al avatar calcula el rayo de cada presa.
+const DOWN=new THREE.Vector3(0,-1,0);
+const THIGH=.28,SHIN=.28,HAND=.08;
+const SOLE=new THREE.Vector3(0,.014,.065);
+const climbPoses=new WeakMap(),animatedItems=new WeakMap();
+function atDepth([x,y],z){
+  const point=new THREE.Vector3(x*2-1,1-y*2,0).unproject(camera);
+  const ray=point.sub(camera.position);
+  return ray.multiplyScalar((z-camera.position.z)/ray.z).add(camera.position);
+}
+function twoBone(start,target,upper,lower,pole){
+  const direction=target.clone().sub(start),length=direction.length();
+  if(length<.0001)direction.copy(DOWN);
+  else direction.divideScalar(length);
+  const distance=Math.max(Math.abs(upper-lower)+.001,Math.min(upper+lower-.001,length));
+  const along=(upper*upper-lower*lower+distance*distance)/(2*distance);
+  const bend=pole.addScaledVector(direction,-pole.dot(direction));
+  if(bend.lengthSq()<.0001){
+    if(Math.abs(direction.z)<.9)bend.set(0,0,1).addScaledVector(direction,-direction.z);
+    else bend.set(1,0,0).addScaledVector(direction,-direction.x);
+  }
+  bend.normalize().multiplyScalar(Math.sqrt(Math.max(0,upper*upper-along*along)));
+  return {
+    joint:start.clone().addScaledVector(direction,along).add(bend),
+    end:start.clone().addScaledVector(direction,distance)
+  };
+}
+const alongBone=(start,end)=>new THREE.Quaternion().setFromUnitVectors(DOWN,end.clone().sub(start).normalize());
+const palmTarget=(point,shoulder)=>atDepth(point,shoulder.z+.16);
+const foreReach=hand=>.2+HAND*hand.scale.y;
+const anklePosition=(shoe,base)=>shoe.localToWorld(new THREE.Vector3(0,.158+base,-.035));
+const ankleTarget=(point,hip,shoe,ankle)=>atDepth(point,hip.z+.025)
+  .sub(shoe.localToWorld(SOLE.clone())).add(ankle);
+
+function gripHand({arm,fore,hand,side},point,mix){
+  const shoulder=arm.getWorldPosition(new THREE.Vector3());
+  // Cada mano alcanza un plano próximo a la altura de su propio hombro.
+  const target=palmTarget(point,shoulder);
+  const {joint,end}=twoBone(shoulder,target,ELBOW,foreReach(hand),
+    new THREE.Vector3(side*.52,-.33,.56));
+  const upper=alongBone(shoulder,joint),lower=alongBone(joint,end);
+  const worldToParent=arm.parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+  arm.quaternion.slerp(worldToParent.multiply(upper),mix);
+  fore.quaternion.slerp(upper.clone().invert().multiply(lower),mix);
+}
+
+// El pantalón original se usa para generar una variante de dos huesos. Se
+// conservan texturas, pespuntes, materiales y trazos. Las mallas originales
+// vuelven a ser visibles al soltar la pared y no se alteran en los otros modos.
+function rigLeg(leg){
+  const rest=[...leg.children],meshes=[],thigh=new THREE.Bone(),shin=new THREE.Bone();
+  shin.position.y=-THIGH;thigh.add(shin);thigh.updateMatrixWorld(true);
+  const skeleton=new THREE.Skeleton([thigh,shin]);
+  const make=(source,matrix)=>{
+    const geometry=source.geometry.clone().applyMatrix4(matrix),positions=geometry.getAttribute('position');
+    const indices=new Uint16Array(positions.count*4),weights=new Float32Array(positions.count*4);
+    for(let vertex=0;vertex<positions.count;vertex++){
+      const t=THREE.MathUtils.clamp((-positions.getY(vertex)-THIGH+.09)/.18,0,1);
+      const weight=t*t*(3-2*t),address=vertex*4;
+      indices[address+1]=1;
+      weights[address]=1-weight;weights[address+1]=weight;
+    }
+    geometry.setAttribute('skinIndex',new THREE.BufferAttribute(indices,4));
+    geometry.setAttribute('skinWeight',new THREE.BufferAttribute(weights,4));
+    const mesh=new THREE.SkinnedMesh(geometry,source.material);
+    mesh.bindMode=THREE.DetachedBindMode;
+    mesh.bind(skeleton,new THREE.Matrix4());
+    mesh.castShadow=source.castShadow;
+    mesh.frustumCulled=false;
+    leg.add(mesh);meshes.push(mesh);
+  };
+  for(const source of rest){
+    source.updateMatrix();
+    make(source,source.matrix);
+    for(const edge of source.children){
+      edge.updateMatrix();
+      make(edge,source.matrix.clone().multiply(edge.matrix));
+    }
+  }
+  return {rest,meshes,thigh,shin,skeleton};
+}
+function showRig(rig,climbing){
+  for(const piece of rig.rest)piece.visible=!climbing;
+  for(const piece of rig.meshes)piece.visible=climbing;
+}
+function gripFoot(leg,shoe,rig,base,point,side,mix){
+  const hip=leg.getWorldPosition(new THREE.Vector3()),original=shoe.getWorldPosition(new THREE.Vector3());
+  const ankle=anklePosition(shoe,base),target=ankleTarget(point,hip,shoe,ankle);
+  const {joint,end}=twoBone(hip,target,THIGH,SHIN,new THREE.Vector3(side*.75,-.05,.72));
+  const origin=original.addScaledVector(end.clone().sub(ankle),mix);
+  shoe.position.copy(shoe.parent.worldToLocal(origin));
+  const knee=leg.worldToLocal(joint),foot=leg.worldToLocal(end);
+  const upper=alongBone(new THREE.Vector3(),knee),lower=alongBone(knee,foot);
+  rig.thigh.quaternion.identity().slerp(upper,mix);
+  rig.shin.quaternion.identity().slerp(upper.clone().invert().multiply(lower),mix);
+  rig.thigh.updateMatrixWorld(true);
+}
+
+// Ajusta la altura de la cadera dentro del alcance común de los cuatro apoyos.
+// Ayuda a conservar los contactos cuando el peso pasa de un pie al otro.
+function weightShift({arms,legs,feet},base,pose){
+  let low=-Infinity,high=Infinity;
+  function include(origin,target,reach){
+    const {x,y,z}=target.sub(origin);
+    const vertical=Math.sqrt(Math.max(0,reach*reach-x*x-z*z));
+    low=Math.max(low,y-vertical);high=Math.min(high,y+vertical);
+  }
+  for(let i=0;i<2;i++){
+    if(pose.hands?.[i]){
+      const {arm,hand}=arms[i],shoulder=arm.getWorldPosition(new THREE.Vector3());
+      include(shoulder,palmTarget(pose.hands[i],shoulder),ELBOW+foreReach(hand)-.019);
+    }
+    if(pose.feet?.[i]){
+      const hip=legs[i].getWorldPosition(new THREE.Vector3());
+      include(hip,ankleTarget(pose.feet[i],hip,feet[i],anklePosition(feet[i],base)),THIGH+SHIN-.015);
+    }
+  }
+  const shift=low<=high?THREE.MathUtils.clamp(0,low,high):(low+high)/2;
+  return THREE.MathUtils.clamp(shift,-.13,.13);
+}
+
+function climbingPose(entry,pose,neutralTurn){
+  const {parts,group}=entry;
+  if(!pose||pose.mix===0){
+    if(entry.climbing){for(const rig of entry.climbRigs)showRig(rig,false);entry.climbing=false}
+    return;
+  }
+  const mix=THREE.MathUtils.clamp(pose.mix??1,0,1);
+  const lean=THREE.MathUtils.clamp(pose.lean||0,-1,1),crouch=THREE.MathUtils.clamp(pose.crouch||0,0,1);
+  const turn=pose.turn??.65;
+  group.rotation.y=neutralTurn+(turn-neutralTurn)*mix;
+  group.rotation.z*=1-mix;group.position.multiplyScalar(1-mix);
+  const {body,upper,neck,arms,legs,feet}=parts;
+  body.position.x=THREE.MathUtils.lerp(body.position.x,lean*.06,mix);
+  body.position.y=THREE.MathUtils.lerp(body.position.y,entry.base-.025-crouch*.15,mix);
+  body.rotation.y*=1-mix;body.rotation.z=THREE.MathUtils.lerp(body.rotation.z,-lean*.09,mix);
+  upper.rotation.x=THREE.MathUtils.lerp(upper.rotation.x,.12+crouch*.16,mix);
+  upper.rotation.y*=1-mix;upper.rotation.z*=1-mix;
+  neck.rotation.x=THREE.MathUtils.lerp(neck.rotation.x,-.16-crouch*.16,mix);
+  neck.rotation.y=THREE.MathUtils.lerp(neck.rotation.y,.21,mix);
+  // Despeja la mano que se estira sin tapar el rostro ni cambiar el encuadre.
+  neck.position.x=-lean*.19*mix;
+  neck.rotation.z=THREE.MathUtils.lerp(neck.rotation.z,lean*.27,mix);
+  for(const leg of legs){
+    leg.rotation.z*=1-mix;
+    leg.scale.y=THREE.MathUtils.lerp(leg.scale.y,1,mix);
+  }
+  group.updateMatrixWorld(true);
+  const shift=weightShift(parts,entry.base,pose)*mix;
+  if(Math.abs(shift)>.001){body.position.y+=shift;group.updateMatrixWorld(true)}
+  entry.climbRigs??=legs.map(rigLeg);
+  entry.climbing=true;
+  for(let i=0;i<2;i++){
+    const rig=entry.climbRigs[i];
+    showRig(rig,Boolean(pose.feet?.[i]));
+    if(pose.hands?.[i])gripHand(arms[i],pose.hands[i],mix);
+    if(pose.feet?.[i])gripFoot(legs[i],feet[i],rig,entry.base,pose.feet[i],i?1:-1,mix);
+  }
+}
+
 let running=false,last=0;
 function loop(now){
   if(!live.size){running=false;return}
@@ -783,10 +949,38 @@ function loop(now){
   for(const item of live){
     if(!item.el.isConnected){dispose(item.entry);live.delete(item);continue}
     if(!item.el.clientWidth||(covered&&item.home))continue;
-    const [width,height]=sizeOf(item.el,item.data.mode);
-    if(item.canvas.width!==width||item.canvas.height!==height){item.canvas.width=width;item.canvas.height=height}
-    animate(item,now);shoot(item.context,width,height,item.entry,item.data.mode,item.turn);locate(item);
+    if(now-item.climbFrame<24)continue;
+    drawAvatar(item,now);
   }
+}
+function drawAvatar(item,now){
+  const [width,height]=sizeOf(item.el,item.data.mode);
+  if(item.canvas.width!==width||item.canvas.height!==height){item.canvas.width=width;item.canvas.height=height}
+  let pose=climbPoses.get(item.el);
+  const release=item.climbRelease;
+  if(!pose&&release){
+    const amount=1-Math.max(0,now-release.at)/150;
+    if(amount>0)pose={...release.pose,mix:(release.pose.mix??1)*amount};
+    else item.climbRelease=null;
+  }
+  animate(item,now);
+  shoot(item.context,width,height,item.entry,item.data.mode,item.turn,pose);
+  locate(item);
+}
+function climb(el,pose){
+  if(!el?.isConnected)return;
+  const item=animatedItems.get(el);
+  if(!pose){
+    const last=climbPoses.get(el);
+    climbPoses.delete(el);
+    if(last&&item)item.climbRelease={pose:last,at:performance.now()};
+    return;
+  }
+  climbPoses.set(el,pose);
+  if(!item||!el.clientWidth||document.hidden)return;
+  item.climbRelease=null;
+  item.climbFrame=performance.now();
+  drawAvatar(item,item.climbFrame);
 }
 // Dónde queda la cara en el lienzo (de -1 a 1), con la cámara tal como acaba de dibujarlo: de ahí sale la mirada.
 const FACE=new THREE.Vector3();
@@ -798,7 +992,7 @@ function poke(item){
   el.addEventListener('pointerdown',event=>{down={x:event.clientX,y:event.clientY,at:performance.now()}});
   el.addEventListener('click',event=>{
     const start=down;down=null;
-    if(!start||!event.detail||Math.hypot(event.clientX-start.x,event.clientY-start.y)>8||performance.now()-start.at>600||!touches(item,event))return;
+    if(climbPoses.has(el)||!start||!event.detail||Math.hypot(event.clientX-start.x,event.clientY-start.y)>8||performance.now()-start.at>600||!touches(item,event))return;
     event.preventDefault();event.stopPropagation();
     const t=(performance.now()-item.born)/1000;
     if(item.mood==='ko'||item.clip===CLIPS.desmayo||(item.lastClip?.startsWith('ay')&&item.clip&&t-item.clipAt<.35))return;
@@ -831,8 +1025,8 @@ function hydrate(el){
     // En la portada, al pasar el ratón por encima vuelve a saludar.
     if(emote==='wave')el.addEventListener('pointerenter',()=>{if(!item.clip)play(item,any(FIRST.wave),(performance.now()-item.born)/1000)});
     if(el._react||data.reaction)apply(item,el._react||data.reaction);
-    animate(item,item.born);shoot(item.context,width,height,item.entry,data.mode,item.turn);locate(item);
-    el.replaceChildren(canvas);live.add(item);if(data.drag)grab(item);if(!reduced)poke(item);
+    drawAvatar(item,item.born);
+    el.replaceChildren(canvas);live.add(item);animatedItems.set(el,item);if(data.drag)grab(item);if(!reduced)poke(item);
     if(!running){running=true;requestAnimationFrame(loop)}
   }else{canvas.getContext('2d').drawImage(snapshot(data.look,data.mode,width,height),0,0);el.replaceChildren(canvas)}
 }
@@ -857,4 +1051,4 @@ enqueue(document.body);
 // Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
 // (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
 const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
-window.Avatar3D={ready:true,shot,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+window.Avatar3D={ready:true,shot,climb,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
