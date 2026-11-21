@@ -6,7 +6,7 @@
 // medalla = al conseguir esa medalla o insignia (decisión 0080). Además de las marcas propias (≈, FRDY) hay piezas de marcas reales
 // (decisión 0026), con su logotipo y los colores de sus modelos. Los logotipos están en avatar-logos.js y avatar3d.js.
 // Hay dos cuerpos, hombre y mujer (decisión 0028), cada uno con su colección: las mismas piezas por hueco y a los mismos
-// precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel y «Nada»).
+// precios. for = cuerpo al que pertenece la pieza; sin for vale para los dos (color de pelo, piel, skins completas y «Nada»).
 (()=>{
   const PAPER='#fffdf7';
   const PALETTE={
@@ -15,7 +15,7 @@
     CLOTH:{negro:'#262b35',blanco:PAPER,crema:'#efe7d4',gris:'#9aa0ab',marino:'#23395b',burdeos:'#7d1f2e',rojo:'#e5383b',coral:'#ff6548',amarillo:'#ffc93c',verde:'#2f7d55',menta:'#b9ecd6',azul:'#3fa9f5',morado:'#5b3fa0',lila:'#cdbcff',rosa:'#ff9dbd',oliva:'#6b7a4c',marron:'#8a5a33',trigo:'#d9a441'},
     DENIM:{lavado:'#a9c3e3',vaquero:'#5b7fb5',indigo:'#2f4674',negro:'#262b35',gris:'#9aa0ab',crema:'#efe7d4',arena:'#d9b98a',oliva:'#6b7a4c',burdeos:'#7d1f2e',morado:'#5b3fa0',rojo:'#e5383b',rosa:'#ff9dbd',lila:'#cdbcff'}
   };
-  const SLOTS=[['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
+  const SLOTS=[['costume','Skins'],['top','Ropa'],['bottom','Pantalón'],['shoes','Zapatillas'],['hat','Cabeza'],['hair','Peinado'],['hairColor','Color de pelo'],['glasses','Gafas'],['neck','Cuello'],['extra','Extras'],['face','Gesto'],['skin','Piel']];
   // set = lo que la pieza cambia en el dibujo; extras = accesorios que se suman.
   const item=(slot,id,name,price=0,more={})=>({slot,id,name,price,...more});
   const top=(id,name,price,type,color,trim,print='',more={})=>item('top',id,name,price,{set:{top:type,topColor:color,trimColor:trim,print},...more});
@@ -242,14 +242,21 @@
     item('face','chula','Chula',0,{set:{face:'chulo'}}),item('face','seria','Seria',0,{set:{face:'serio'}}),item('face','feliz','Feliz',0,{set:{face:'feliz'}})
   ];
   const SHARED=[
+    // Skins completas (decisión 0112): un personaje entero que sustituye al muñeco (cuerpo, cabeza y cara) mientras se
+    // lleva puesto; lo dibuja avatar-skins.js. Valen para los dos cuerpos. tones = colores de la silueta de reserva
+    // (cabeza, cuerpo, piernas y pies).
+    item('costume','','Ninguna'),
+    ...[['sulley','Sulley',2500,['#2bb6c9','#2bb6c9','#2bb6c9','#2bb6c9']],['stitch','Stitch',2500,['#4a8be0','#a9d6f6','#4a8be0','#4a8be0']],
+      ['spiderman','Spider-Man',3000,['#d8212c','#d8212c','#2557c9','#d8212c']],['ironman','Iron Man',3500,['#c2161f','#c2161f','#f2b632','#c2161f']]
+    ].map(([id,name,price,tones])=>item('costume',id,name,price,{set:{costume:id,tones}})),
     item('hat','','Nada'),item('glasses','','Nada'),item('neck','','Nada'),item('extra','','Nada'),
     ...[['negro','Negro'],['castano','Castaño'],['rubio','Rubio'],['pelirrojo','Pelirrojo'],['gris','Gris'],['azul','Azul',60],['rosa','Rosa',60],['verde','Verde',60],['violeta','Violeta',60],['platino','Platino',80],['naranja','Naranja',80],['turquesa','Turquesa',80]].map(([id,name,price])=>item('hairColor',id,name,price,{color:PALETTE.HAIR[id]})),
     ...[['clara','Clara'],['miel','Miel'],['tostada','Tostada'],['canela','Canela'],['cacao','Cacao'],['ebano','Ébano']].map(([id,name])=>item('skin',id,name,0,{color:PALETTE.SKIN[id]}))
   ];
   // Las piezas de mujer llevan el prefijo «mj-» en el identificador, para que no choquen con las de hombre.
   const CATALOG=[...SHARED,...MEN.map(entry=>({...entry,for:'hombre'})),...WOMEN.map(entry=>({...entry,id:'mj-'+entry.id,for:'mujer'}))];
-  const DEFAULT={top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
-  const DEFAULTS={hombre:DEFAULT,mujer:{top:'mj-top-blanco',bottom:'mj-ancho-lavado',shoes:'mj-skate-blanco',hat:'',hair:'mj-liso',hairColor:'castano',glasses:'',neck:'',extra:'',face:'mj-chula',skin:'miel'}};
+  const DEFAULT={costume:'',top:'cam-blanca',bottom:'ancho-lavado',shoes:'skate-blanco',hat:'',hair:'puntas',hairColor:'negro',glasses:'',neck:'',extra:'',face:'chulo',skin:'miel'};
+  const DEFAULTS={hombre:DEFAULT,mujer:{costume:'',top:'mj-top-blanco',bottom:'mj-ancho-lavado',shoes:'mj-skate-blanco',hat:'',hair:'mj-liso',hairColor:'castano',glasses:'',neck:'',extra:'',face:'mj-chula',skin:'miel'}};
   const bodyOf=look=>look&&look.body==='mujer'?'mujer':'hombre',defaults=body=>DEFAULTS[body]||DEFAULT;
   // Acabados (decisión 0072): versiones cromada, holográfica y dorada de las piezas de pago de ropa, pantalón,
   // zapatillas y cabeza. No están en el catálogo: salen de la pieza normal, con el acabado detrás de «--» en el
@@ -294,9 +301,9 @@
   const rarity=entry=>earned(entry)||entry.edition||entry.plus?'nivel':entry.price>=1400?'legendaria':entry.price>=600?'epica':entry.price>=250?'rara':entry.price>=100?'especial':'comun';
   // Silueta plana de reserva: es lo que se ve hasta que carga el 3D, o si el navegador no puede con él.
   function fallback(raw,mode){
-    const skin=PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=PALETTE.CLOTH[raw.topColor]||PAPER,legs=PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=PALETTE.CLOTH[raw.shoesColor]||PAPER;
+    const T=raw.costume&&raw.tones,skin=T?T[0]:PALETTE.SKIN[raw.skin]||PALETTE.SKIN.miel,hair=PALETTE.HAIR[raw.hairColor]||PALETTE.HAIR.negro,body=T?T[1]:PALETTE.CLOTH[raw.topColor]||PAPER,legs=T?T[2]:PALETTE.DENIM[raw.bottomColor]||PALETTE.DENIM.lavado,feet=T?T[3]:PALETTE.CLOTH[raw.shoesColor]||PAPER;
     const view={bust:'10 0 100 100',legs:'20 118 80 80',shoes:'30 128 60 60',torso:'15 78 90 90'}[mode]||'0 0 120 180';
-    return `<svg class="avatar-fallback" viewBox="${view}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#1b1f27" stroke-width="3" stroke-linejoin="round"><rect x="44" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="62" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="39" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="61" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="34" y="90" width="52" height="46" rx="14" fill="${body}"/><rect x="24" y="16" width="72" height="68" rx="26" fill="${skin}"/>${raw.hair==='calvo'?'':`<path d="M24 46Q24 14 60 14Q96 14 96 46Q78 30 60 34Q42 30 24 46Z" fill="${hair}"/>`}</g><ellipse cx="46" cy="54" rx="4" ry="7" fill="#1b1f27"/><ellipse cx="74" cy="54" rx="4" ry="7" fill="#1b1f27"/></svg>`;
+    return `<svg class="avatar-fallback" viewBox="${view}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#1b1f27" stroke-width="3" stroke-linejoin="round"><rect x="44" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="62" y="128" width="14" height="40" rx="6" fill="${legs}"/><rect x="39" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="61" y="162" width="20" height="12" rx="5" fill="${feet}"/><rect x="34" y="90" width="52" height="46" rx="14" fill="${body}"/><rect x="24" y="16" width="72" height="68" rx="26" fill="${skin}"/>${T||raw.hair==='calvo'?'':`<path d="M24 46Q24 14 60 14Q96 14 96 46Q78 30 60 34Q42 30 24 46Z" fill="${hair}"/>`}</g><ellipse cx="46" cy="54" rx="4" ry="7" fill="#1b1f27"/><ellipse cx="74" cy="54" rx="4" ry="7" fill="#1b1f27"/></svg>`;
   }
   // bust: cabeza y hombros (marcador, avisos). zoom: 'legs', 'shoes' o 'torso' para la tienda, 'stage' = cuerpo entero con sitio a los lados (reto diario). live: animado, para las pantallas
   // grandes; drag: se puede girar arrastrando; emote: gesto ('wave', 'cheer', 'sad' o 'hurt'); turn: hacia dónde mira (radianes).

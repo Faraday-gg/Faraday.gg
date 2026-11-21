@@ -115,6 +115,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0106](0106-escalada-con-agarres.md) | Escalada con apoyos visibles, dos vías y llegada a repisa con el avatar del armario | Implementada | 2026-11-20 |
 | [0107](0107-lema-de-portada.md) | Lema de portada «Ponle cifra a tu intuición.» | Implementada | 2026-11-20 |
 | [0110](0110-pie-y-paginas-legales.md) | Pie de página con privacidad, términos y cookies en `dist/legal/` | Aceptada; faltan los datos del titular | 2026-11-21 |
+| [0112](0112-skins-de-personajes.md) | Skins completas de personajes (Sulley, Stitch, Spider-Man, Iron Man) en un hueco nuevo del avatar | Propuesta; riesgo legal por confirmar | 2026-11-21 |
 
 ## Plantilla
 

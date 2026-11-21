@@ -7,6 +7,7 @@
 // PENDIENTE: Three.js se carga desde una CDN; hay que traer la librería al repositorio (docs/mejoras).
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 import {LOGOS} from './avatar-logos.js';
+import {createSkins} from './avatar-skins.js';
 
 const INK='#1b1f27',PAPER='#fffdf7',GOLD='#ffc93c';
 const {SKIN,HAIR:HAIR_COLORS,CLOTH,DENIM}=window.Avatar.PALETTE;
@@ -44,6 +45,8 @@ function matcap(kind){
     const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture})();
 }
 const mat=(color,map=null)=>finish?new THREE.MeshMatcapMaterial({color:map?'#ffffff':color,map,matcap:matcap(finish)}):new THREE.MeshToonMaterial({color:map?'#ffffff':color,map,gradientMap:ramp});
+// Metal pulido para las skins de armadura (decisión 0112): el mismo brillo de los acabados, teñido del color de la pieza.
+const metal=(color,kind='cr',map=null)=>new THREE.MeshMatcapMaterial({color:map?'#ffffff':color,map,matcap:matcap(kind)});
 const flat=(color,opacity=1)=>new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity});
 const lineMat=new THREE.MeshBasicMaterial({color:INK,side:THREE.BackSide});
 const shade=(hex,k)=>'#'+new THREE.Color(hex).multiplyScalar(k).getHexString();
@@ -278,8 +281,11 @@ const FEM_HAIR={calva:{bald:1},liso:{skirt:1,back:.42,sides:.4,fringe:'cortina'}
 // Esqueleto: body (cadera) → upper (gira por la cintura: torso y brazos) → neck (cuello) → head. Cada brazo dobla por el codo
 // (fore) y las zapatillas van aparte de las piernas para que se queden en el suelo cuando la cadera se mueve.
 const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3;
+// Skins completas (decisión 0112): personajes enteros, en avatar-skins.js, montados sobre este mismo esqueleto.
+const SKINS=createSkins({THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW});
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
 function buildModel(look){
+  if(look.costume&&Object.hasOwn(SKINS,look.costume)){finish='';return SKINS[look.costume]()}
   const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
   // Con acabado, la prenda pierde su color: queda clara (y su segundo color, gris) y el brillo lo pone el material.
