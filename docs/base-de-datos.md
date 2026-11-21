@@ -593,7 +593,7 @@ RLS activado y todos los permisos revocados a `public`, `anon` y `authenticated`
 
 ## Panel de amigos
 
-La [migración 20261119111924](../supabase/migrations/20261119111924_amigos_y_chat.sql) añade dos tablas para `POST /api/social`. Pendiente de aplicar al proyecto compartido.
+La [migración 20261119111924](../supabase/migrations/20261119111924_amigos_y_chat.sql) añade dos tablas para `POST /api/social`. Luis ejecutó el SQL en el proyecto compartido el 21 de noviembre de 2026 desde el editor SQL.
 
 | Tabla | Datos y restricciones |
 | --- | --- |
@@ -604,4 +604,4 @@ La [migración 20261119111924](../supabase/migrations/20261119111924_amigos_y_ch
 
 ## Salón multijugador
 
-La [migración 20261121120000](../supabase/migrations/20261121120000_salon_multijugador.sql) crea `casino_rooms`, pendiente de aplicación. Cada ámbito (`preview`, `publico`) tiene una fila con presencia temporal, mesas y el saldo ficticio por cuenta. La versión permite guardar en una misma escritura el reparto, el cobro y la liquidación de cada mano. RLS está activado y solo `service_role` puede leer, insertar o actualizar. `POST /api/casino` valida la sesión, consulta las amistades y devuelve a cada jugador solo su mano hasta el resultado. En local se guarda en `runtime/casino.json`.
+La [migración 20261121120000](../supabase/migrations/20261121120000_salon_multijugador.sql) crea `casino_rooms`. Luis ejecutó el SQL en el proyecto compartido el 21 de noviembre de 2026 desde el editor SQL. Cada ámbito (`preview`, `publico`) tiene una fila con presencia temporal, mesas y el saldo ficticio por cuenta. La versión permite guardar en una misma escritura el reparto, el cobro y la liquidación de cada mano. RLS está activado y solo `service_role` puede leer, insertar o actualizar. `POST /api/casino` valida la sesión, consulta las amistades y devuelve a cada jugador solo su mano hasta el resultado. En local se guarda en `runtime/casino.json`.
