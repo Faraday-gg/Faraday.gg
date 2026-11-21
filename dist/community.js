@@ -158,6 +158,16 @@ function distributionSvg(q,guess,{bins,low,high,count,simulated}){
 }
 document.addEventListener('click',event=>{const button=event.target.closest('[data-refresh-distribution]');if(!button)return;const index=activeDay.questions.findIndex(q=>q.id===button.dataset.refreshDistribution);if(index>=0)loadDistribution(activeDay.questions[index],getGuesses(activeDay)[index])});
 
+// Si la foto de una pregunta no carga (una jornada publicada con una foto que ya no existe, un despliegue sin el
+// fichero…), se quita el recuadro entero: mejor sin foto que con un hueco y el crédito de una imagen que no se ve.
+// El evento error no burbujea, por eso se escucha en captura.
+document.addEventListener('error',event=>{
+  const img=event.target;
+  if(!(img instanceof HTMLImageElement))return;
+  const figure=img.closest('.question-photo');
+  if(figure)(figure.closest('.hint-photo')||figure).hidden=true;
+},true);
+
 // Ampliar fotografía: al pulsar la imagen se abre encima de todo; se cierra pulsando fuera o con Escape.
 (()=>{
   let box=null,opener=null;
