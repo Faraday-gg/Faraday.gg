@@ -400,6 +400,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <dialog class="casino is-flat" id="casino" aria-labelledby="casino-title">
     <canvas id="casino-canvas" tabindex="0" aria-label="Salón en 3D. Usa WASD o las flechas para caminar y arrastra para mirar."></canvas>
+    <section id="casino-stage" class="casino-stage" aria-label="Mesa de juego" hidden></section>
     <header class="casino-hud">
       <button class="casino-exit" type="button" data-casino-close aria-label="Salir del Salón">← <span>Vestíbulo</span></button>
       <div class="casino-identity"><h2 id="casino-title">Salón <span aria-hidden="true">≈</span></h2></div>
@@ -413,12 +414,11 @@
       <p class="casino-keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> para moverte · Arrastra para mirar</p>
     </div>
     <nav class="casino-tables" aria-label="Mesas del Salón">
-      <button type="button" data-casino-game="roulette" aria-controls="casino-panel"><span aria-hidden="true">●</span> Ruleta</button>
-      <button type="button" data-casino-game="slots" aria-controls="casino-panel"><span aria-hidden="true">7</span> Tragaperras</button>
-      <button type="button" data-casino-game="poker" aria-controls="casino-panel"><span aria-hidden="true">♠</span> Póker</button>
-      <button type="button" data-casino-game="friends" aria-controls="casino-panel"><span aria-hidden="true">●</span> Amigos</button>
+      <button type="button" data-casino-game="roulette" aria-controls="casino-stage"><span aria-hidden="true">●</span> Ruleta</button>
+      <button type="button" data-casino-game="slots" aria-controls="casino-stage"><span aria-hidden="true">7</span> Tragaperras</button>
+      <button type="button" data-casino-game="poker" aria-controls="casino-stage"><span aria-hidden="true">♠</span> Póker</button>
+      <button type="button" data-casino-game="friends" aria-controls="casino-stage"><span aria-hidden="true">●</span> Amigos</button>
     </nav>
-    <section id="casino-panel" class="casino-panel" aria-label="Mesa de juego" hidden></section>
   </dialog>
 
   <dialog class="archivo-vivo" id="archivo-vivo" aria-labelledby="archivo-vivo-title">

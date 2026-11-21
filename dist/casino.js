@@ -1,11 +1,13 @@
 // Salón (prototipo): un mundo en 3D por el que el jugador pasea con su avatar, en tercera persona, y se acerca a la
-// ruleta, las tragaperras y la mesa de póker para jugarse faradios de prueba. Las reglas y las cuentas están en
-// casino-rules.js; el personaje lo construye avatar3d.js (Avatar3D.build) y aquí solo se le hace andar.
+// ruleta, las tragaperras y la mesa de póker para jugarse faradios de prueba. Al sentarse a una mesa se ve la mesa
+// a pantalla completa (casino-tables.js la dibuja). Las reglas y las cuentas están en casino-rules.js; el personaje
+// lo construye avatar3d.js (Avatar3D.build) y aquí solo se le hace andar.
 //
 // Los faradios de prueba viven en este navegador (localStorage) y no tocan el saldo real ni el servidor: el saldo real
 // de quien tiene cuenta lo lleva el servidor (decisión 0057) y un prototipo no debe escribir en él.
 // Usa la misma copia de Three.js que avatar3d.js (misma dirección, así que el navegador la carga una sola vez).
 import {casinoFriends} from './casino-friends.js';
+import {dealer,rouletteLayout,createWheel,pokerTable,pokerActions} from './casino-tables.js';
 
 let THREE, ramp, inkLine;
 let opening = false;
@@ -274,7 +276,8 @@ function tick(now){
   const prompt=$('casino-prompt'),seated=mySeat!==null&&!game;
   const label=seated?'Volver a la mesa':near?`Jugar a ${near.name} <kbd>E</kbd>`:'';
   if(prompt.dataset.label!==label){prompt.dataset.label=label;prompt.hidden=!label;prompt.innerHTML=label}
-  renderer.render(scene,camera);
+  // Sentado a una mesa el salón queda tapado: no hace falta pintarlo.
+  if(!game)renderer.render(scene,camera);
 }
 
 // ---------- Controles ----------
@@ -306,56 +309,263 @@ $('casino-prompt').addEventListener('click',()=>{
 });
 
 // ---------- Juegos ----------
-const panel=$('casino-panel');
+// Sentarse a una mesa cambia la pantalla entera: se ve la mesa, con su crupier, y no un cuadro encima del salón.
+const stage=$('casino-stage'),H=R.HOLDEM;
+const shell=(title,note,body,bar,after='')=>`<header class="stage-head"><button class="casino-exit" type="button" data-casino-leave aria-label="Volver al salón">← <span>Salón</span></button>
+  <div><h3>${title}</h3><p>${note}</p></div></header><div class="stage-body">${body}${after}</div><footer class="stage-bar">${bar}</footer>`;
 const friends=casinoFriends({
-  panel,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close()
+  panel:stage,shell,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close()
 });
 let bet=R.CHIPS[1],busy=false;
-const state={roulette:{pick:{type:'red'},last:null},slots:{reels:[0,1,2],last:null},poker:{stage:'bet',cards:[],held:[],rest:[],stake:0,last:null}};
-const chips=()=>`<div class="casino-chips" role="group" aria-label="Apuesta">${R.CHIPS.map(n=>`<button type="button" class="casino-chip${n===bet?' is-on':''}" data-bet="${n}" aria-pressed="${n===bet}">${n}</button>`).join('')}</div>`;
+const state={slots:{reels:[0,1,2],last:null}};
+const chips=(values=R.CHIPS,on=bet)=>`<div class="casino-chips" role="group" aria-label="Valor de la ficha">${values.map(n=>`<button type="button" class="casino-chip is-${n}${n===on?' is-on':''}" data-bet="${n}" aria-pressed="${n===on}">${n}</button>`).join('')}</div>`;
 const outcome=last=>!last?'<p class="casino-result" aria-live="polite"></p>':`<p class="casino-result ${last.delta>0?'is-win':last.delta<0?'is-loss':''}" aria-live="polite">${last.text} <b>${last.delta>0?'+':last.delta<0?'−':''}${coins(Math.abs(last.delta))}</b></p>`;
-const blocked=()=>{const status=R.check(wallet,bet);return status.ok?'':WHY[status.reason]};
-const shell=(title,note,body,finished)=>`<header class="casino-panel-head"><div><h3>${title}</h3><p>${note}</p></div><button class="game-back" type="button" data-casino-leave aria-label="Volver al salón">×</button></header>${body}${finished?'<div data-plus-slot="casino" data-compact="true"></div>':''}`;
-const playButton=(label,attr)=>{const why=blocked();return `<button class="casino-play" type="button" ${attr}${why||busy?' disabled':''}>${label}</button>${why?`<p class="casino-why">${why}</p>`:''}`};
+const plus='<div data-plus-slot="casino" data-compact="true"></div>';
 function refreshWallet(){wallet=loadWallet();showWallet()}
-function canPlay(){refreshWallet();if(R.check(wallet,bet).ok)return true;render();return false}
-function pay(multiplier,text,amount=bet){const result=R.settle(wallet,amount,multiplier);wallet=result.wallet;keep();showWallet();return {delta:result.delta,text}}
+const say=text=>{const bubble=stage.querySelector('[data-dealer-say]');if(bubble)bubble.textContent=text};
 
-const VIEWS={
-  roulette(){
-    const s=state.roulette,n=s.last?.n,isNumber=s.pick.type==='number';
-    return shell('Ruleta','Un solo cero. Pleno 36 por 1, docena 3 por 1, el resto 2 por 1.',`
-      <div class="casino-number ${n==null?'':`is-${R.color(n)}`}" id="casino-number">${n??'–'}</div>
-      <div class="casino-bets" role="group" aria-label="A qué apuestas">${Object.entries(R.ROULETTE).map(([id,kind])=>`<button type="button" class="casino-option is-${id}${s.pick.type===id?' is-on':''}" data-pick="${id}" aria-pressed="${s.pick.type===id}">${kind.name}</button>`).join('')}
-        <label class="casino-option casino-pleno${isNumber?' is-on':''}">Pleno al <input type="number" id="casino-pleno" min="0" max="36" inputmode="numeric" value="${isNumber?s.pick.n:''}" placeholder="0–36" aria-label="Número del pleno"></label></div>
-      ${chips()}${playButton('Girar','data-spin')}${outcome(s.last)}`,!!s.last);
-  },
-  slots(){
-    const s=state.slots;
-    return shell('Tragaperras','Tres iguales, o los dos primeros iguales.',`
-      <div class="casino-reels" id="casino-reels">${s.reels.map(i=>`<span>${R.SYMBOLS[i].glyph}</span>`).join('')}</div>
-      <ul class="casino-pays">${R.SYMBOLS.map(sym=>`<li><span>${sym.glyph}${sym.glyph}${sym.glyph}</span><b>×${sym.pays}</b></li>`).join('')}<li><span>dos primeros</span><b>×${R.PAIR}</b></li></ul>
-      ${chips()}${playButton('Tirar','data-pull')}${outcome(s.last)}`,!!s.last);
-  },
-  poker(){
-    const s=state.poker,dealt=s.stage==='draw',name=s.cards.length?R.HANDS[R.hand(s.cards)].name:'';
-    return shell('Póker','Jotas o mejor. Guarda las cartas que quieras y cambia el resto una vez.',`
-      ${dealt?'':'<button type="button" class="casino-option" data-casino-friends>Jugar al póker con amigos</button>'}
-      <div class="casino-cards">${(s.cards.length?s.cards:Array(5).fill(null)).map((card,i)=>card?`<button type="button" class="casino-card${card.s===1||card.s===2?' is-red':''}${s.held[i]?' is-held':''}" data-hold="${i}" aria-pressed="${!!s.held[i]}"${dealt?'':' disabled'}><b>${R.label(card).slice(0,-1)}</b><i>${R.SUITS[card.s]}</i><small>${s.held[i]?'Guardada':''}</small></button>`:'<span class="casino-card is-back"></span>').join('')}</div>
-      <p class="casino-hand">${dealt?`Ahora mismo: ${name}`:s.last?'':'Elige apuesta y reparte.'}</p>
-      ${dealt?`<button class="casino-play" type="button" data-draw>Cambiar cartas</button>`:`${chips()}${playButton('Repartir','data-deal')}`}${outcome(dealt?null:s.last)}
-      <ul class="casino-pays is-wide">${Object.values(R.HANDS).filter(h=>h.pays).map(h=>`<li><span>${h.name}</span><b>×${h.pays}</b></li>`).join('')}</ul>`,!dealt&&!!s.last);
+// ---- Ruleta: se dejan fichas por el tapete y la bola decide.
+const rt={bets:{},moves:[],previous:null,history:[],chip:5,wheel:null,note:''};
+const rtTotal=()=>Object.values(rt.bets).reduce((sum,n)=>sum+n,0);
+function rouletteView(){
+  return shell('Ruleta','Europea, un solo cero. Pleno 35 a 1, caballo 17 a 1, transversal 11 a 1, cuadro 8 a 1, seisena 5 a 1.',`
+    <div class="rt">
+      <div class="rt-wheel"><canvas id="rt-canvas" aria-hidden="true"></canvas><output class="rt-number" id="rt-number" aria-label="Número que ha salido"></output></div>
+      <div class="rt-dealer">${dealer('Hagan juego')}<ol class="rt-history" id="rt-history" aria-label="Últimos números"></ol></div>
+      <div class="rt-felt">
+        <div class="rt-layout" id="rt-layout" role="group" aria-label="Tapete de apuestas">${rouletteLayout(R)}</div>
+        <div class="rt-calls" role="group" aria-label="Apuestas anunciadas">${Object.entries(R.CALLS).map(([id,call])=>`<button type="button" class="casino-option" data-call="${id}">${call.name} <small>${call.chips.reduce((sum,[,n])=>sum+n,0)} fichas</small></button>`).join('')}</div>
+      </div>
+    </div>`,`
+    ${chips(R.TABLE_CHIPS,rt.chip)}
+    <p class="rt-total" id="rt-total"></p>
+    <div class="stage-actions">
+      <button type="button" class="casino-option" data-rt="undo">Deshacer</button>
+      <button type="button" class="casino-option" data-rt="clear">Borrar</button>
+      <button type="button" class="casino-option" data-rt="repeat">Repetir</button>
+      <button type="button" class="casino-play" data-spin>Girar</button>
+    </div>
+    <p class="casino-result" id="rt-result" aria-live="polite"></p>`,'<div id="rt-plus"></div>');
+}
+function updateRoulette(){
+  const total=rtTotal();
+  for(const button of stage.querySelectorAll('[data-spot]')){
+    const amount=rt.bets[button.dataset.spot]||0;let chip=button.querySelector('.rt-chip');
+    if(!amount){chip?.remove();continue}
+    if(!chip){chip=document.createElement('i');chip.className='rt-chip';button.append(chip)}
+    chip.textContent=amount;chip.dataset.tone=R.TABLE_CHIPS.findLast(n=>n<=amount);
   }
-};
+  for(const button of stage.querySelectorAll('[data-bet]')){const on=Number(button.dataset.bet)===rt.chip;button.classList.toggle('is-on',on);button.setAttribute('aria-pressed',on)}
+  $('rt-total').innerHTML=`Sobre la mesa <b>${coins(total)}</b><small>De ${R.MIN_BET} a ${R.MAX_BET} por giro</small>`;
+  stage.querySelector('[data-rt="undo"]').disabled=stage.querySelector('[data-rt="clear"]').disabled=busy||!total;
+  stage.querySelector('[data-rt="repeat"]').disabled=busy||!!total||!rt.previous;
+  stage.querySelector('[data-spin]').disabled=busy||total<R.MIN_BET;
+  $('rt-history').innerHTML=rt.history.map(n=>`<li class="is-${R.color(n)}">${n}</li>`).join('');
+  if(rt.note!==null){const result=$('rt-result');result.className='casino-result is-loss';result.textContent=rt.note}
+}
+// Deja fichas en una o varias casillas de una vez (las anunciadas cubren varias). No pasa del máximo por giro.
+function placeChips(list){
+  if(busy)return;
+  if(rtTotal()+list.reduce((sum,[,n])=>sum+n,0)>R.MAX_BET)rt.note=`El máximo por giro son ${R.MAX_BET} faradios de prueba.`;
+  else{for(const [id,n] of list)rt.bets[id]=(rt.bets[id]||0)+n;rt.moves.push(list);rt.note=''}
+  updateRoulette();
+}
+function editRoulette(action){
+  if(busy)return;
+  if(action==='clear'){rt.bets={};rt.moves=[]}
+  else if(action==='undo')for(const [id,n] of rt.moves.pop()||[]){rt.bets[id]-=n;if(!rt.bets[id])delete rt.bets[id]}
+  else if(action==='repeat'&&rt.previous&&!rtTotal()){rt.bets={...rt.previous};rt.moves=[Object.entries(rt.bets)]}
+  rt.note='';updateRoulette();
+}
+async function spinRoulette(){
+  const total=R.rouletteStake(rt.bets);
+  if(busy||!(total>=R.MIN_BET))return;
+  refreshWallet();
+  const status=R.check(wallet,total);
+  if(!status.ok){rt.note=WHY[status.reason];return updateRoulette()}
+  busy=true;rt.note=null;
+  const n=R.spin(),back=R.rouletteReturn(rt.bets,n),result=R.settle(wallet,total,back/total);
+  // Se cobra al lanzar la bola: cerrar la pestaña no deshace el giro. El monedero se enseña al acabar.
+  wallet=result.wallet;keep();
+  stage.classList.add('is-rolling');$('rt-result').textContent='';$('rt-plus').innerHTML='';
+  $('rt-number').textContent='';$('rt-number').className='rt-number';
+  stage.querySelectorAll('.is-hit,.is-won,.is-lost').forEach(el=>el.classList.remove('is-hit','is-won','is-lost'));
+  updateRoulette();say('No va más');
+  wheelSpin=9;
+  await rt.wheel.spin(n);
+  showWallet();
+  rt.history=[n,...rt.history].slice(0,12);
+  const tone={green:'verde',red:'rojo',black:'negro'}[R.color(n)];
+  say(`¡${n}, ${tone}${n?n%2?', impar':', par':''}!`);
+  $('rt-number').textContent=n;$('rt-number').className=`rt-number is-${R.color(n)}`;
+  for(const button of stage.querySelectorAll('[data-spot]')){
+    const id=button.dataset.spot;
+    if(id==='n'+n)button.classList.add('is-hit');
+    if(rt.bets[id])button.classList.add(R.roulette(id,n)?'is-won':'is-lost');
+  }
+  const text=$('rt-result');
+  text.className=`casino-result ${result.delta>0?'is-win':result.delta<0?'is-loss':''}`;
+  text.innerHTML=`Sale el ${n}, ${tone}. ${back?`Cobras ${coins(back)}`:'Pierdes'} <b>${result.delta>0?'+':result.delta<0?'−':''}${coins(Math.abs(result.delta))}</b>`;
+  $('rt-history').innerHTML=rt.history.map(k=>`<li class="is-${R.color(k)}">${k}</li>`).join('');
+  await wait(2600);
+  rt.previous=rt.bets;rt.bets={};rt.moves=[];busy=false;
+  stage.classList.remove('is-rolling');
+  if(game!=='roulette')return;
+  stage.querySelectorAll('.is-won,.is-lost').forEach(el=>el.classList.remove('is-won','is-lost'));
+  say('Hagan juego');updateRoulette();$('rt-plus').innerHTML=plus;
+}
+
+// ---- Tragaperras.
+function slotsView(){
+  const s=state.slots,status=R.check(wallet,bet),why=status.ok?'':WHY[status.reason];
+  return shell('Tragaperras','Tres iguales, o los dos primeros iguales.',`
+    <div class="sl">
+      <div class="sl-machine"><p class="sl-sign">≈ Faraday ≈</p>
+        <div class="casino-reels" id="casino-reels">${s.reels.map(i=>`<span>${R.SYMBOLS[i].glyph}</span>`).join('')}</div>
+        <span class="sl-lever" aria-hidden="true"></span></div>
+      <ul class="casino-pays">${R.SYMBOLS.map(sym=>`<li><span>${sym.glyph}${sym.glyph}${sym.glyph}</span><b>×${sym.pays}</b></li>`).join('')}<li><span>dos primeros</span><b>×${R.PAIR}</b></li></ul>
+    </div>`,`
+    ${chips()}
+    <div class="stage-actions"><button class="casino-play" type="button" data-pull${why||busy?' disabled':''}>Tirar</button></div>
+    ${why?`<p class="casino-result is-loss">${why}</p>`:outcome(s.last)}`,s.last&&!busy?plus:'');
+}
+async function pullSlots(){
+  const s=state.slots;
+  refreshWallet();
+  if(busy||!R.check(wallet,bet).ok)return render();
+  busy=true;s.last=null;render();
+  const final=R.pull(),cells=[...$('casino-reels').children],rolling=[true,true,true];
+  const multiplier=R.slots(final),result=R.settle(wallet,bet,multiplier);
+  wallet=result.wallet;keep();
+  stage.querySelector('.sl-machine').classList.add('is-pulled');
+  const roll=reduced?0:setInterval(()=>cells.forEach((cell,i)=>{if(rolling[i])cell.textContent=R.SYMBOLS[Math.floor(Math.random()*R.SYMBOLS.length)].glyph}),60);
+  for(let i=0;i<3;i++){await wait(i?420:900);rolling[i]=false;cells[i].textContent=R.SYMBOLS[final[i]].glyph;cells[i].classList.add('is-set')}
+  clearInterval(roll);showWallet();
+  s.reels=final;s.last={delta:result.delta,text:multiplier?(final[1]===final[2]?'¡Trío! Ganas':'Pareja. Ganas'):'Nada. Pierdes'};busy=false;render();
+}
+
+// ---- Póker: Texas Hold'em contra cuatro jugadores de la casa. Te sientas con 100 faradios de prueba y, al
+// levantarte, vuelven al monedero las fichas que te queden. Las fichas de la mesa se apuntan aparte para que no
+// se pierdan si se cierra la pestaña con una mano a medias (lo que ya esté en el bote, sí).
+const BUYIN=R.MAX_BET,BLINDS=[1,2],SEAT_KEY='casi-casi:casino-mesa';
+const RIVALS=[
+  {name:'Volta',look:{body:'mujer',hairColor:'rubio',top:'mj-top-blanco'}},{name:'Ohm',look:{hairColor:'castano',skin:'canela'}},
+  {name:'Curie',look:{body:'mujer',hairColor:'negro',skin:'cacao'}},{name:'Tesla',look:{hairColor:'rojo',skin:'claro'}}
+];
+const pk={seated:false,hand:null,stacks:[0,BUYIN,BUYIN,BUYIN,BUYIN],button:0,notes:[],run:0,raise:0,cards:0,message:'',say:'¿Te sientas?'};
+function credit(amount){
+  if(amount>0){wallet=loadWallet();wallet.coins+=amount;wallet.net-=amount;keep();showWallet()}
+  try{localStorage.removeItem(SEAT_KEY)}catch{}
+}
+const keepSeat=()=>{try{localStorage.setItem(SEAT_KEY,String(pk.hand?pk.hand.seats[0].stack:pk.stacks[0]))}catch{}};
+// Fichas que quedaron en la mesa en una visita anterior.
+function recoverSeat(){
+  if(pk.seated)return;
+  let left=0;try{left=Math.floor(Number(localStorage.getItem(SEAT_KEY)))||0}catch{}
+  if(left>0)credit(Math.min(left,100000));
+}
+function sitPoker(){
+  refreshWallet();
+  const status=R.check(wallet,BUYIN);
+  if(pk.seated||!status.ok){pk.message=status.ok?'':WHY[status.reason];return render()}
+  wallet=R.settle(wallet,BUYIN,0).wallet;keep();showWallet();
+  Object.assign(pk,{seated:true,message:''});pk.stacks[0]=BUYIN;
+  dealPoker();
+}
+function standPoker(){
+  if(!pk.seated)return;
+  pk.run++;
+  if(pk.hand&&pk.hand.stage!=='done')H.leave(pk.hand,0);
+  credit(pk.hand?pk.hand.seats[0].stack:pk.stacks[0]);
+  Object.assign(pk,{seated:false,hand:null,message:'',say:'¿Te sientas?'});pk.stacks[0]=0;
+}
+function dealPoker(){
+  if(!pk.seated||(pk.hand&&pk.hand.stage!=='done'))return;
+  pk.stacks=pk.stacks.map((stack,i)=>i&&stack<BLINDS[1]*10?BUYIN:stack);
+  pk.button=(pk.button+1)%pk.stacks.length;
+  pk.hand=H.start({stacks:[...pk.stacks],button:pk.button,small:BLINDS[0],big:BLINDS[1],deck:R.deck()});
+  Object.assign(pk,{notes:[],raise:0,cards:0,message:'',say:'Cartas repartidas'});
+  keepSeat();playPoker();
+}
+// Los de la casa juegan con una idea aproximada de lo que llevan: suben con mano fuerte, igualan si sale barato.
+function rivalMove(s,i){
+  const rules=H.legal(s),p=s.seats[i],pot=H.pot(s);
+  let strength;
+  if(!s.board.length){
+    const [a,b]=p.cards.map(card=>card.r).sort((x,y)=>y-x);
+    strength=(a+b)/40+(a===b?.35:0)+(p.cards[0].s===p.cards[1].s?.06:0)+(a-b===1?.04:0);
+  }else{
+    const mine=H.best([...p.cards,...s.board]).score,shared=H.best(s.board).score;
+    // Lo que ya está en las cartas comunes lo tiene todo el mundo: no cuenta como mano propia.
+    strength=H.compare(mine,shared)>0&&mine[0]>shared[0]?[.2,.56,.78,.86,.92,.95,.98,1,1][mine[0]]:.12+mine[1]/90;
+  }
+  strength+=(Math.random()-.5)*.22;
+  const price=rules.toCall/(pot+rules.toCall||1);
+  if(rules.canRaise&&strength>.76&&Math.random()<.75)
+    return {type:'raise',to:Math.min(rules.maxTo,Math.max(rules.minTo,s.current+Math.round(pot*(.5+Math.random()*.5))))};
+  if(rules.canCheck)return rules.canRaise&&Math.random()<.07?{type:'raise',to:rules.minTo}:{type:'check'};
+  return strength>price+.24||(strength>.44&&rules.toCall<=s.big*2)?{type:'call'}:{type:'fold'};
+}
+const moveNote=(move,s,before)=>move.type==='fold'?'':move.type==='check'?'Pasa':move.type==='call'?'Iguala':before?`Sube a ${int(move.to)}`:`Apuesta ${int(move.to)}`;
+async function playPoker(){
+  const run=++pk.run,s=pk.hand;
+  for(;;){
+    if(s.board.length!==pk.cards){pk.cards=s.board.length;pk.notes=[];pk.say=['','','','El flop','El turn','El river'][pk.cards]||''}
+    if(s.turn===null)break;
+    if(game==='poker')render();
+    if(s.turn===0){pk.say='Tú hablas';if(game==='poker')render();return}
+    await new Promise(resolve=>setTimeout(resolve,reduced?250:700+Math.random()*700));
+    if(run!==pk.run)return;
+    const i=s.turn,before=s.current,move=rivalMove(s,i);
+    H.act(s,i,move);pk.notes[i]=moveNote(move,s,before);
+  }
+  pk.stacks=s.seats.map(p=>p.stack);
+  const names=s.result.winners.map(i=>i?RIVALS[i-1].name:'Tú');
+  pk.say=names.length?`${names.join(' y ')} ${names.length>1||!names.includes('Tú')?names.length>1?'se reparten':'se lleva':'te llevas'} el bote`:'Bote devuelto';
+  pk.notes=[];
+  if(pk.stacks[0]<BLINDS[1]){credit(pk.stacks[0]);pk.stacks[0]=0;pk.seated=false;pk.message='Te has quedado sin fichas en la mesa.'}
+  else keepSeat();
+  if(game==='poker')render();
+}
+function pokerMove(type){
+  const s=pk.hand;
+  if(!s||s.turn!==0)return;
+  const rules=H.legal(s),before=s.current,move={type,to:Math.min(rules.maxTo,Math.max(rules.minTo,pk.raise||rules.minTo))};
+  if(!H.act(s,0,move))return;
+  pk.notes[0]=moveNote(move,s,before);pk.raise=0;keepSeat();playPoker();
+}
+function pokerView(){
+  const s=pk.hand,done=s?.stage==='done',rules=s&&s.turn===0?H.legal(s):null;
+  const seats=[{name:'Tú',look:window.Progress?.look?.()},...RIVALS].map((player,i)=>{
+    const p=s?.seats[i];
+    return {...player,stack:p?p.stack:i?pk.stacks[i]:pk.seated?pk.stacks[0]:undefined,bet:p?.bet,folded:p?.folded,allin:p?.allin&&!done,
+      cards:!p?.cards?undefined:!i||(done&&s.result.showdown&&!p.folded)?p.cards:null,
+      button:!!s&&s.button===i,turn:s?.turn===i,note:pk.notes[i],won:done?s.result.won[i]>p.total?s.result.won[i]:0:0,hand:done&&s.result.hands[i]||''};
+  });
+  const mine=s&&!s.seats[0].folded&&s.board.length?`Llevas <b>${H.best([...s.seats[0].cards,...s.board]).name}</b>`:'';
+  const center=pk.seated?'':`<p>${pk.message||`Texas Hold'em sin límite. Ciegas ${BLINDS.join(' y ')}.`}</p>`;
+  const why=pk.seated?'':(status=>status.ok?'':WHY[status.reason])(R.check(wallet,BUYIN));
+  const bar=rules?pokerActions(rules,pk.raise,BLINDS[1])
+    :!pk.seated?`<div class="stage-actions"><button type="button" class="casino-play" data-poker="sit"${why?' disabled':''}>Sentarme con ${int(BUYIN)} ≈</button>
+        <button type="button" class="casino-option" data-casino-friends>Jugar con amigos</button></div>${why?`<p class="casino-result is-loss">${why}</p>`:''}`
+    :done?`<div class="stage-actions"><button type="button" class="casino-play" data-poker="deal">Repartir otra mano</button>
+        <button type="button" class="casino-option" data-poker="stand">Levantarme y cobrar ${int(pk.stacks[0])} ≈</button></div>`
+    :`<div class="stage-actions"><p class="pk-wait">Juega ${RIVALS[s.turn-1]?.name||'la mesa'}…</p><button type="button" class="casino-option" data-poker="stand">Levantarme</button></div>`;
+  return shell('Póker',`Texas Hold'em · ciegas ${BLINDS.join('/')} · dos cartas para ti y cinco en la mesa.`,
+    pokerTable({seats,board:s?.board,pot:s&&!done?H.pot(s):0,say:pk.say,center,mine}),bar,done?plus:'');
+}
+
+const VIEWS={roulette:rouletteView,slots:slotsView,poker:pokerView};
 function render(){
   if(!game||game==='friends')return;
+  if(game==='roulette')return updateRoulette();
   const focused=document.activeElement;
-  const action=panel.contains(focused)?Object.entries(focused.dataset)[0]:null;
-  panel.innerHTML=VIEWS[game]();
+  const action=stage.contains(focused)?Object.entries(focused.dataset)[0]:null;
+  stage.innerHTML=VIEWS[game]();
   if(action){
     const [key,value]=action;
-    const next=[...panel.querySelectorAll('button:not(:disabled)')].find(button=>button.dataset[key]===value);
-    (next||panel.querySelector('.casino-play:not(:disabled), [data-casino-leave]'))?.focus();
+    const next=[...stage.querySelectorAll('button:not(:disabled)')].find(button=>button.dataset[key]===value);
+    (next||stage.querySelector('.casino-play:not(:disabled), [data-casino-leave]'))?.focus();
   }
 }
 function openGame(id){
@@ -363,81 +573,55 @@ function openGame(id){
   refreshWallet();
   game=id;
   for(const key in keys)keys[key]=0;
-  panel.hidden=false;$('casino-prompt').hidden=true;near=null;
+  stage.hidden=false;$('casino-prompt').hidden=true;near=null;
   dialog.classList.add('is-playing');
   if(game==='friends'){dialog.classList.add('is-social');friends.open()}
-  else render();
-  panel.querySelector('.casino-play,[data-casino-leave]')?.focus();
+  else if(game==='roulette'){
+    stage.innerHTML=rouletteView();rt.note='';
+    rt.wheel=createWheel($('rt-canvas'),R,reduced);rt.wheel.start();updateRoulette();
+  }else render();
+  stage.querySelector('.casino-play:not(:disabled),[data-casino-leave]')?.focus();
 }
 function leaveGame(){
   if(busy)return;
   if(game==='friends'){friends.hide();dialog.classList.remove('is-social')}
-  // Levantarse con una mano de póker repartida la da por jugada tal como está.
-  if(game==='poker'&&state.poker.stage==='draw')finishPoker(false);
-  game=null;panel.hidden=true;panel.innerHTML='';dialog.classList.remove('is-playing');if(dialog.open)(running?$('casino-canvas'):dialog.querySelector('[data-casino-game]')).focus();
+  // Levantarse de la mesa de póker con una mano a medias es retirarse de ella.
+  if(game==='poker')standPoker();
+  if(game==='roulette'){rt.wheel?.stop();rt.wheel=null}
+  game=null;stage.hidden=true;stage.innerHTML='';dialog.classList.remove('is-playing');last=performance.now();
+  if(dialog.open)(running?$('casino-canvas'):dialog.querySelector('[data-casino-game]')).focus();
 }
-
-async function spinRoulette(){
-  const s=state.roulette;if(busy||!canPlay())return;
-  if(s.pick.type==='number'&&!(Number.isInteger(s.pick.n)&&s.pick.n>=0&&s.pick.n<=36)){s.last={delta:0,text:'Escribe un número del 0 al 36.'};render();return}
-  busy=true;s.last=null;render();
-  const n=R.spin(),view=$('casino-number');wheelSpin=9;
-  const multiplier=R.roulette(s.pick,n),result=pay(multiplier,multiplier?`Sale el ${n}. ${multiplier>1?'Ganas':'Recuperas la apuesta'}`:`Sale el ${n}. Pierdes`);
-  const roll=reduced?0:setInterval(()=>{const k=R.spin();view.textContent=k;view.className=`casino-number is-${R.color(k)}`},70);
-  await wait(2200);clearInterval(roll);
-  s.last={...result,n};busy=false;render();
-}
-async function pullSlots(){
-  const s=state.slots;if(busy||!canPlay())return;
-  busy=true;s.last=null;render();
-  const final=R.pull(),cells=[...$('casino-reels').children],rolling=[true,true,true];
-  const multiplier=R.slots(final);
-  const result=pay(multiplier,multiplier?(final[1]===final[2]?'¡Trío! Ganas':'Pareja. Ganas'):'Nada. Pierdes');
-  const roll=reduced?0:setInterval(()=>cells.forEach((cell,i)=>{if(rolling[i])cell.textContent=R.SYMBOLS[Math.floor(Math.random()*R.SYMBOLS.length)].glyph}),60);
-  for(let i=0;i<3;i++){await wait(i?420:900);rolling[i]=false;cells[i].textContent=R.SYMBOLS[final[i]].glyph;cells[i].classList.add('is-set')}
-  clearInterval(roll);
-  s.reels=final;s.last=result;busy=false;render();
-}
-function dealPoker(){
-  const s=state.poker;if(busy||s.stage!=='bet'||!canPlay())return;
-  const pack=R.deck();pay(0,'',bet);Object.assign(s,{stage:'draw',cards:pack.slice(0,5),rest:pack.slice(5,10),held:[false,false,false,false,false],stake:bet,last:null});render();
-}
-function finishPoker(exchange=true){
-  const s=state.poker;if(s.stage!=='draw')return;
-  if(exchange)s.cards=R.draw(s.cards,s.held,s.rest);
-  const kind=R.hand(s.cards),multiplier=R.HANDS[kind].pays;
-  const prize=multiplier*s.stake;
-  wallet=loadWallet();
-  wallet.coins+=prize;
-  // El premio pertenece al día en que se cobra la mano.
-  wallet.net-=prize;
-  keep();showWallet();
-  s.last={delta:prize-s.stake,text:multiplier?`${R.HANDS[kind].name}. ${multiplier>1?'Ganas':'Recuperas la apuesta'}`:'Nada. Pierdes'};
-  s.stage='bet';s.held=[];
-}
-panel.addEventListener('click',event=>{
-  const el=event.target.closest('button');if(!el||busy&&!el.dataset.casinoLeave)return;
+stage.addEventListener('click',event=>{
+  const el=event.target.closest('button');if(!el||busy&&!('casinoLeave' in el.dataset))return;
   if('casinoLeave' in el.dataset)return leaveGame();
   if(game==='friends')return friends.click(event);
   if('casinoFriends' in el.dataset){leaveGame();return openGame('friends')}
-  if(el.dataset.bet){bet=Number(el.dataset.bet);return render()}
-  if(el.dataset.pick){state.roulette.pick={type:el.dataset.pick};return render()}
+  if(el.dataset.bet){
+    if(game==='roulette'){rt.chip=Number(el.dataset.bet);return updateRoulette()}
+    bet=Number(el.dataset.bet);return render();
+  }
+  if(el.dataset.spot)return placeChips([[el.dataset.spot,rt.chip]]);
+  if(el.dataset.call)return placeChips(R.CALLS[el.dataset.call].chips.map(([id,n])=>[id,n*rt.chip]));
+  if(el.dataset.rt)return editRoulette(el.dataset.rt);
   if('spin' in el.dataset)return spinRoulette();
   if('pull' in el.dataset)return pullSlots();
-  if('deal' in el.dataset)return dealPoker();
-  if(el.dataset.hold){const s=state.poker;s.held[el.dataset.hold]=!s.held[el.dataset.hold];render();return panel.querySelector(`[data-hold="${el.dataset.hold}"]`)?.focus()}
-  if('draw' in el.dataset){finishPoker();render()}
+  const move=el.dataset.poker;
+  if(move==='sit')return sitPoker();
+  if(move==='deal')return dealPoker();
+  if(move==='stand'){standPoker();return render()}
+  if(move)return pokerMove(move);
 });
-panel.addEventListener('input',event=>{
-  if(event.target.id!=='casino-pleno')return;
-  const text=event.target.value.trim(),n=text===''?NaN:Number(text);state.roulette.pick={type:'number',n};
-  panel.querySelectorAll('[data-pick]').forEach(button=>{button.classList.remove('is-on');button.setAttribute('aria-pressed','false')});event.target.parentElement.classList.add('is-on');
+stage.addEventListener('input',event=>{
+  if(!('pokerRaise' in event.target.dataset))return;
+  const to=Number(event.target.value);
+  if(game==='friends')friends.raise(to);else pk.raise=to;
+  stage.querySelector('[data-poker-to]').textContent=int(to);
 });
 
 // ---------- Abrir y cerrar ----------
 async function open(){
   if(dialog.open||opening)return;
-  refreshWallet();keep();
+  refreshWallet();recoverSeat();keep();
   dialog.showModal();document.body.classList.add('modal-open');
   const status=$('casino-fallback');
   status.textContent='Cargando el salón 3D… Puedes elegir una mesa mientras tanto.';
@@ -474,7 +658,7 @@ window.PlusOffers?.register('casino',{
 });
 document.addEventListener('faraday:before-plan',event=>{
   if(!dialog.open||event.detail?.mode!=='casino')return;
-  if(busy||state.poker.stage==='draw')event.preventDefault();
+  if(busy||(pk.hand&&pk.hand.stage!=='done'))event.preventDefault();
   else dialog.close();
 });
 window.Casino={open};

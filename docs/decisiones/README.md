@@ -121,6 +121,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0115](0115-archivo-vivo-postura-y-apoyo.md) | Postura, escala, apoyo y referencias de las recreaciones de Archivo Vivo | Implementada | 2026-11-21 |
 
 | [0116](0116-salon-casino-de-prueba.md) | Salón 3D con ruleta, tragaperras y póker y un monedero local de prueba | Prototipo | 2026-11-21 |
+| [0117](0117-salon-mesas-a-pantalla-completa-y-holdem.md) | Mesas del Salón a pantalla completa: tapete de ruleta con rueda animada, Texas Hold'em y crupier | Prototipo | 2026-11-21 |
 
 ## Plantilla
 
