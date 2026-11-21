@@ -502,3 +502,6 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   .portal-mode { transition: none; }
   .portal-mode:hover:not(:disabled) { transform: none; }
 }
+
+/* Con sesión iniciada, la cuenta se abre desde el personaje (botón «Perfil» de su panel): fuera la inicial. */
+.home-header .home-account.is-signed { display: none; }
