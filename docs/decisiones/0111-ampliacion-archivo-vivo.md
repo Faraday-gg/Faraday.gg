@@ -12,7 +12,7 @@ Tras terminar la partida aparece la continuación común. En el plan gratuito se
 
 ## Visor
 
-La [decisión 0114](0114-archivo-vivo-postura-y-apoyo.md) actualiza la postura, el apoyo y la selección de panoramas para partidas nuevas.
+La [decisión 0115](0115-archivo-vivo-postura-y-apoyo.md) actualiza la postura, el apoyo y la selección de panoramas para partidas nuevas.
 
 Ambos antebrazos y sus manos aparecen elevados en los lados del encuadre, con la piel y las prendas equipadas. El centro queda disponible para inspeccionar la escena. Los brazos bajan suavemente en función de la inclinación al mirar a los pies. El zoom de la foto mantiene la escala del avatar. [Renderizado en primera persona](https://dev.epicgames.com/documentation/en-us/unreal-engine/first-person-rendering)
 

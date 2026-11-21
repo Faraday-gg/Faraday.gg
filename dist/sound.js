@@ -164,6 +164,91 @@
     else if(pick<.8)voice(['a','o','u'],{duration:.5,pitch:[600,760,420],gain:.11});
     else{voice(['a','i'],{duration:.22,pitch:[620,700,560],gain:.14});voice(['a','a','i'],{at:.24,duration:.34,pitch:[660,780,440],gain:.14})}
   }
+  // Golpes con gracia (decisión 0114): el sonido de cada reacción larga del avatar al toque. Todo sale de las mismas
+  // piezas (tonos, ruido filtrado y la voz por formantes) y se programa de una vez, con los tiempos del gesto de
+  // avatar3d.js: el golpe contra el suelo suena cuando cae, cada «¡ia!» con su puñetazo y cada sollozo con su hipo.
+  // Piezas que se repiten: bofetada, porrazo, pajaritos del mareo, muelle y soplido de un movimiento rápido.
+  const slap=(at=0,gain=.11)=>{noise(at,.07,{gain,from:2600,to:900,q:.9});tone(190,at,.1,{to:90,gain:gain*.9})};
+  const thud=(at,gain=.2)=>{tone(120,at,.34,{to:42,gain});noise(at,.16,{from:380,gain:gain*.4,filter:'lowpass'})};
+  const birds=at=>{for(let i=0;i<6;i++){const when=at+i*.17+(i%2)*.05;tone(2300+(i%3)*260,when,.07,{gain:.018,to:2900+(i%3)*260})}};
+  const boing=(at,frequency=170,gain=.08,count=5)=>{for(let i=0;i<count;i++)tone(frequency*(i%2?1.45:1),at+i*.11,.13,{to:frequency*(i%2?1:1.45),gain:gain*(1-i/count)})};
+  const whoosh=(at,duration=.14,gain=.06)=>noise(at,duration,{gain,from:700,to:2600,q:1.4,attack:duration*.4});
+  const GAGS={
+    // Grito, silbido que sube y cae con la vuelta, porrazo, pajaritos, un quejido al incorporarse y el esfuerzo de levantarse.
+    voltereta(){
+      slap();voice(['a','a','i'],{gain:.19,pitch:[600,800,520]});tone(480,.2,.5,{to:1500,gain:.04});tone(1500,.7,.5,{to:240,gain:.04});thud(1.2,.22);birds(1.45);birds(2.5);
+      voice(['o','u'],{at:3.05,duration:.6,pitch:[420,450,330],gain:.08});voice(['e','e'],{at:4,duration:.45,pitch:[430,520,470],gain:.07});noise(5,.3,{gain:.03,from:1800,to:700,q:.8,attack:.08});
+    },
+    culetazo(){
+      slap();voice(['a','a'],{duration:.3,pitch:[620,820,700],gain:.15});tone(320,.1,.3,{to:900,gain:.04});thud(.5,.2);boing(.52,95,.07,4);
+      voice(['a','u'],{at:.75,duration:.55,pitch:[600,700,400],gain:.13});voice(['e','e'],{at:2.55,duration:.4,pitch:[430,500,450],gain:.06});
+    },
+    // Un «¡ay!» en el aire y un bote al caer, siete veces.
+    cojo(){slap();for(let i=0;i<7;i++){const at=i*.385;if(i)tone(260,at,.1,{to:520,gain:.05});if(i<6)voice(['a','i'],{at:at+.06,duration:.2,pitch:[640+i%2*60,740+i%2*60,560],gain:.12})}},
+    // Zumbido que se va frenando con las vueltas, y un «uooo» mareado.
+    trompo(){
+      slap();voice(['a','a'],{duration:.25,gain:.14});noise(.05,1.75,{gain:.05,from:2600,to:320,q:4});tone(950,.05,1.75,{to:150,type:'triangle',gain:.03});
+      birds(1.8);voice(['u','o','u','o'],{at:1.85,duration:1,pitch:[520,600,400],gain:.09});
+    },
+    // Mecha, silbido de subida, silencio mientras está fuera de la vista, silbido de bajada y porrazo con muelle.
+    cohete(){
+      slap();voice(['u','i'],{duration:.4,pitch:[450,600,900],gain:.1});noise(.05,.42,{gain:.04,from:5000,to:9000,filter:'highpass'});tone(280,.45,.55,{to:2600,gain:.05});noise(.45,.5,{gain:.07,from:900,to:3000,q:.8});
+      tone(2600,1.55,.5,{to:180,gain:.05});thud(2.05,.24);boing(2.08,120,.07,5);voice(['a','u'],{at:2.2,duration:.5,pitch:[600,720,420],gain:.12});
+    },
+    gelatina(){slap(0,.08);boing(.02,150,.09,10);voice(['o','u','o','u','o'],{at:.05,duration:1.1,pitch:[480,560,380],gain:.1})},
+    // La cabeza se hunde, dos tics mientras mira a los lados y un «pop» con muelle al salir.
+    tortuga(){
+      slap();tone(440,.03,.15,{to:110,type:'triangle',gain:.1});for(const at of [.75,1.25]){tone(990,at,.035,{gain:.03});tone(1320,at+.07,.035,{gain:.03})}
+      tone(280,1.72,.08,{to:1500,gain:.12});noise(1.72,.05,{gain:.07,from:4000,filter:'highpass'});boing(1.8,330,.05,5);voice(['u','i'],{at:1.78,duration:.3,pitch:[560,760,640],gain:.1});
+    },
+    // Voz grave de enfado, un pisotón por patada y un bufido al darse la vuelta.
+    berrinche(){
+      slap();voice(['a','e'],{at:.05,duration:.35,pitch:[400,460,360],gain:.14});
+      for(let i=0;i<6;i++){tone(130,.14+i*.2856,.09,{to:55,gain:.13});if(i%2)voice(['u','u'],{at:.2+i*.2856,duration:.2,pitch:[330,360,300],gain:.09})}
+      noise(1.95,.16,{gain:.05,from:900,to:400,q:1});voice(['u','u'],{at:1.95,duration:.22,pitch:[380,420,330],gain:.08});tone(880,2.5,.04,{gain:.025});
+    },
+    // Puchero, tres «¡buaaa!» y dos sorbidos.
+    llorera(){
+      slap();voice(['u','u'],{at:.04,duration:.24,pitch:[480,540,620],gain:.07});
+      for(let i=0;i<3;i++)voice(['u','a','a'],{at:.3+i*.9,duration:.8,pitch:[620+i*20,780,460],gain:.15-i*.02});
+      for(const at of [3.1,3.4])noise(at,.16,{gain:.045,from:1200,to:3200,q:2,attack:.08});
+    },
+    karate(){
+      slap();for(const at of [.6,.95]){whoosh(at);voice(['i','a'],{at,duration:.17,pitch:[700,820,720],gain:.14})}
+      whoosh(1.38,.25,.08);voice(['i','a','a'],{at:1.4,duration:.45,pitch:[740,900,640],gain:.16});bell(196,2.2,1.4,{gain:.035});
+    },
+    // Traga saliva, cruje al caer, porrazo, grillos mientras se hace el muerto, cruje al subir y cimbrea.
+    tronco(){
+      slap();tone(330,.12,.12,{to:200,gain:.05});tone(190,.6,.75,{to:55,type:'sawtooth',gain:.028});thud(1.35,.24);
+      for(const at of [2.25,2.55])for(let i=0;i<3;i++)tone(4300,at+i*.05,.03,{gain:.012});
+      tone(60,3.4,.9,{to:230,type:'sawtooth',gain:.028});boing(4.3,200,.07,6);
+    },
+    // Se le va el aire con un pitido que sube, protesta con voz de pito y se hincha en tres bombeos, cada uno más agudo.
+    desinflar(){
+      slap();noise(.15,.95,{gain:.07,from:5200,to:700,q:2});tone(700,.15,.95,{to:1900,type:'triangle',gain:.03});
+      for(let i=0;i<4;i++)voice(['i','i'],{at:1.3+i*.27,duration:.14,pitch:[1150,1300,1100],gain:.06});
+      [2.45,2.8,3.15].forEach((at,i)=>{tone(200*1.26**i,at,.14,{to:330*1.26**i,gain:.09});noise(at,.12,{gain:.05,from:600,to:1800,q:1})});bell(784,3.3,.8,{gain:.035});
+    },
+    // Zumbido de corriente (grave continuo y pulsos), chasquidos, un «aaa» largo, el humo y dos toses.
+    calambre(){
+      slap();tone(55,.03,1.22,{type:'square',gain:.035});for(let i=0;i<26;i++)tone(110+(i%3)*4,.03+i*.047,.04,{type:'sawtooth',gain:.05});
+      for(let i=0;i<9;i++)noise(.06+i*.13+Math.random()*.05,.04,{gain:.06,from:5000,filter:'highpass',attack:.004});
+      voice(['a','a','a'],{at:.05,duration:1.15,pitch:[720,780,700],gain:.1});noise(1.3,.35,{gain:.04,from:1500,to:500,q:.8,attack:.05});
+      for(const at of [1.62,1.92])voice(['o','u'],{at,duration:.13,pitch:[420,460,380],gain:.08});
+    },
+    // «Ji, ji, ji…» que va bajando y un suspiro al acabar.
+    cosquillas(){
+      noise(0,.05,{gain:.04,from:3000,q:1});
+      for(let i=0;i<10;i++){const lift=(i%2)*70-i*12;voice(['i','i'],{at:.1+i*.2,duration:.12,pitch:[780+lift,860+lift,720+lift],gain:.11})}
+      voice(['a','i'],{at:2.3,duration:.4,pitch:[520,560,420],gain:.07});
+    },
+    // Cámara lenta (soplo y tono grave que caen), el latigazo de vuelta y un «ña, ña, ña, ña» de burla.
+    matrix(){
+      noise(.03,1.4,{gain:.06,from:260,to:1500,q:3,attack:.3});tone(150,.03,1.4,{to:65,gain:.08});tone(220,1.5,.12,{to:760,type:'triangle',gain:.06});
+      for(let i=0;i<4;i++)voice(['e','a'],{at:1.9+i*.22,duration:.17,pitch:i%2?[560,580,540]:[680,700,660],gain:.1});
+    }
+  };
+  const gag=name=>{if(on&&context())GAGS[name]?.()};
   const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch{}};
   const announce=()=>document.dispatchEvent(new CustomEvent('faraday:sonido',{detail:{on,volume}}));
   // Al activar el sonido (siempre desde un botón, dentro del gesto) se desbloquea en ese mismo momento. Si el volumen
@@ -243,5 +328,5 @@
   },true);
   // Los botones de sonido de la partida y del duelo ya están en la página; el del cofre lo añade chest-open.js.
   document.querySelectorAll('.duel-sound').forEach(control);
-  window.Sound={tone,noise,bell,bed,casi,voice,ay,context,set,setVolume,control,toggle:()=>{set(!on);return on},resume,get on(){return on},get volume(){return volume}};
+  window.Sound={tone,noise,bell,bed,casi,voice,ay,gag,gags:Object.keys(GAGS),context,set,setVolume,control,toggle:()=>{set(!on);return on},resume,get on(){return on},get volume(){return volume}};
 })();
