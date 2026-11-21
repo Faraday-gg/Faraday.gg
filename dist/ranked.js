@@ -78,7 +78,9 @@
   }
   function paint(){
     const slot=document.getElementById('ranked-card-slot');if(slot)slot.innerHTML=card();
-    const quick=document.querySelector('#duel-content [data-duel="quick"]');if(quick)quick.innerHTML=`${mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span>`;
+    // Portal de duelos (decisión 0112): el botón grande y su título cambian con el modo elegido.
+    const on=mode()==='ranked',quick=document.querySelector('#duel-content [data-duel="quick"]');if(quick)quick.textContent=on?'Buscar rival':'Jugar';
+    const hero=document.querySelector('#duel-content .lobby-hero');if(hero){hero.classList.toggle('is-ranked',on);const title=hero.querySelector('h3');if(title)title.textContent=on?'Clasificatoria':'Partida rápida'}
     injectProfile();
   }
   document.addEventListener('click',event=>{

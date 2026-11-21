@@ -1,0 +1,102 @@
+/* Portal de duelos (decisión 0112): perfil compacto, un botón grande para jugar ya y los demás modos como fichas
+   de color. Los botones tienen «labio» inferior y se hunden al pulsarlos, como en los juegos de móvil. */
+.lobby-me,.lobby-hero,.lobby-modes,.lobby-rules,.lobby-how,.lobby-soon{--lip:0 4px 0 color-mix(in srgb,var(--tile,#000) 62%,#000)}
+
+/* Perfil compacto: avatar en círculo, apodo, nivel con barra y marcador de victorias, derrotas y racha. */
+.lobby-me{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"avatar info" "avatar record";column-gap:12px;row-gap:4px;align-items:center;text-align:left}
+.lobby-me-avatar{grid-area:avatar;position:relative;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 50% 36%,#fffdf7 0,#efe7d4 70%);box-shadow:0 0 0 3px var(--g-accent)}
+.lobby-me-avatar .duel-avatar{display:block;width:100%;height:100%;border-radius:50%;overflow:hidden}
+.lobby-me-avatar .duel-avatar svg,.lobby-me-avatar .duel-avatar img{width:100%;height:100%}
+.lobby-me-avatar .duel-edit{width:26px;height:26px;right:-6px;bottom:-4px;box-shadow:0 0 0 2.5px var(--g-bg)}
+.lobby-me-avatar .duel-edit svg{width:13px;height:13px}
+.lobby-me-info{grid-area:info;min-width:0;display:grid;gap:4px}
+.lobby-name input{width:100%;min-width:0;border:0;border-bottom:2px solid transparent;background:transparent;color:var(--g-fg);font:700 20px/1.1 var(--display);letter-spacing:-.02em;padding:0 0 2px;outline:0}
+.lobby-name input:hover{border-bottom-color:var(--g-line)}
+.lobby-name input:focus{border-bottom-color:var(--g-accent)}
+.lobby-level{display:flex;align-items:center;gap:8px}
+.lobby-level-num{flex:none;display:grid;place-items:center;min-width:26px;height:26px;padding:0 6px;border-radius:9px;background:var(--g-accent);color:var(--g-on-accent);font:800 14px var(--display);transform:rotate(-4deg)}
+.lobby-xpbar{flex:1;height:10px;border-radius:10px;background:var(--g-line);overflow:hidden}
+.lobby-xpbar i{display:block;height:100%;width:max(8px,calc(var(--xp,0)*100%));border-radius:inherit;background:var(--g-accent)}
+.lobby-level small{flex:none;font-size:11px;font-weight:700;color:var(--g-muted);font-variant-numeric:tabular-nums}
+.lobby-record{grid-area:record;display:flex;gap:6px;margin:2px 0 0;padding:0;list-style:none}
+.lobby-record li{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:50px;background:var(--g-hover);font-size:12px}
+.lobby-record b{font:800 13px var(--display);font-variant-numeric:tabular-nums}
+.lobby-record .is-new{color:var(--g-muted);font-weight:700}
+.lobby-dot{width:8px;height:8px;border-radius:50%}
+.lobby-dot.is-win{background:#2fd67b}.lobby-dot.is-loss{background:#ff6548}
+
+/* Partida rápida: el escenario «tú contra ?» y el botón grande. */
+.lobby-hero{--tile:#ff6548;position:relative;display:grid;gap:10px;margin-top:16px;padding:14px 16px 16px;border-radius:26px;background:var(--tile);color:#202630;text-align:center;overflow:hidden;box-shadow:var(--lip)}
+.lobby-hero.is-ranked{--tile:#ffb627}
+.lobby-hero:before{content:"";position:absolute;inset:auto -20% 46% -20%;height:120px;background:repeating-linear-gradient(-55deg,#ffffff14 0 14px,transparent 14px 28px);pointer-events:none}
+.lobby-vs{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:6px;height:118px}
+.lobby-vs .duel-figure{width:96px;height:118px;display:block}
+.lobby-vs .duel-figure>*{width:100%;height:100%}
+.lobby-vs-mark{align-self:center;margin:0 4px;padding:4px 10px;border-radius:12px;background:#202630;color:#ffdb70;font:800 22px var(--display);letter-spacing:-.03em;transform:rotate(-6deg);box-shadow:0 3px 0 #0008}
+.lobby-ghost{display:grid;place-items:center;width:76px;height:96px;margin-bottom:6px;border-radius:38px 38px 18px 18px;background:#20263026;color:#20263099;font:800 42px var(--display);border:2.5px dashed #20263055}
+.lobby-hero-text h3{margin:0;font:800 24px/1.05 var(--display);letter-spacing:-.03em}
+.lobby-hero-text p{margin:4px auto 0;max-width:30ch;font-size:13px;line-height:1.35;font-weight:600;color:#202630cc}
+.lobby-play{--tile:#ffdb70;width:100%;border:0;border-radius:18px;padding:16px 20px;background:var(--tile);color:#202630;font:800 22px var(--display);letter-spacing:-.01em;box-shadow:0 5px 0 #c99a1f,0 8px 18px -6px #0006;transition:transform .08s,box-shadow .08s;cursor:pointer}
+.lobby-play:hover{filter:brightness(1.04)}
+.lobby-play:active{transform:translateY(4px);box-shadow:0 1px 0 #c99a1f}
+
+/* Los demás modos: fichas de color con su icono, en rejilla de dos. */
+.lobby-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.lobby-tile,.lobby-option{--tile:#3fc5f0;position:relative;display:grid;justify-items:start;align-content:end;gap:2px;min-height:112px;padding:12px 12px 12px;border:0;border-radius:20px;background:var(--tile);color:#202630;text-align:left;box-shadow:var(--lip);transition:transform .08s,box-shadow .08s;cursor:pointer;overflow:hidden}
+.lobby-tile:active,.lobby-option:active{transform:translateY(4px);box-shadow:0 0 0 transparent}
+[data-tone=cian]{--tile:#3fc5f0}[data-tone=violeta]{--tile:#b49bff}[data-tone=verde]{--tile:#2fd67b}[data-tone=mostaza]{--tile:#ffb627}[data-tone=rosa]{--tile:#ff7aa8}
+.lobby-tile-art{display:grid;place-items:center;width:44px;height:44px;margin-bottom:auto;border-radius:14px;background:#ffffff59}
+.lobby-tile-art svg{width:28px;height:28px}
+.lobby-tile b,.lobby-option b{font:800 16px/1.1 var(--display);letter-spacing:-.02em}
+.lobby-tile small,.lobby-option small{font-size:12px;font-weight:600;color:#202630b3}
+.lobby-tile-flag{position:absolute;top:12px;right:-30px;padding:3px 34px;background:#202630;color:#ffdb70;font:800 10px var(--display);letter-spacing:.06em;transform:rotate(35deg)}
+.lobby-tile.is-locked{background:color-mix(in srgb,var(--tile) 38%,var(--g-bg));color:var(--g-fg);cursor:not-allowed}
+.lobby-tile.is-locked small{color:var(--g-muted)}
+.lobby-tile.is-locked .lobby-tile-art{background:#ffffff1f;opacity:.7}
+.lobby-tile-lock{position:absolute;top:10px;right:10px;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--g-bg);color:var(--g-fg)}
+.lobby-tile-lock svg{width:15px;height:15px}
+.lobby-tile-meter{width:100%;height:6px;margin-top:6px;border-radius:6px;background:#00000033;overflow:hidden}
+.lobby-tile-meter i{display:block;height:100%;width:calc(var(--p,0)*100%);border-radius:inherit;background:var(--tile)}
+.lobby-soon{display:flex;align-items:center;justify-content:center;gap:6px;margin:12px 0 0;font-size:12px;font-weight:700;color:var(--g-muted)}
+.lobby-soon svg{width:13px;height:13px}
+
+/* Reglas como iconos y el detalle, plegado. */
+.lobby-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.lobby-rules li{display:grid;justify-items:center;gap:1px;padding:10px 6px;border-radius:16px;background:var(--g-hover);text-align:center}
+.lobby-rules svg{width:20px;height:20px;color:var(--g-accent);margin-bottom:3px}
+.lobby-rules b{font:800 16px var(--display);font-variant-numeric:tabular-nums}
+.lobby-rules small{font-size:11px;line-height:1.25;color:var(--g-muted)}
+.lobby-how{margin-top:10px;text-align:center}
+.lobby-how summary{display:inline-block;padding:8px 12px;cursor:pointer;list-style:none;font-size:13px;font-weight:700;color:var(--g-fg);opacity:.8}
+.lobby-how summary::-webkit-details-marker{display:none}
+.lobby-how summary:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+.lobby-how ol{margin:4px 0 0;padding:12px 14px 12px 32px;border-radius:16px;background:var(--g-hover);text-align:left;font-size:13px;line-height:1.5}
+.lobby-how li+li{margin-top:4px}
+
+/* Hoja de «Con amigos»: sube desde abajo en móvil y aparece centrada en pantallas grandes. */
+.lobby-sheet{width:min(440px,100vw);max-width:100vw;margin:auto auto 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));border:0;border-radius:26px 26px 0 0;background:#23395b;color:#fff8ec;--g-bg:#23395b;--g-fg:#fff8ec;--g-muted:#fff8ecad;--g-line:#fff8ec38;--g-accent:#ffdb70}
+.lobby-sheet[open]{animation:lobby-sheet-in .22s cubic-bezier(.22,1,.36,1)}
+.lobby-sheet::backdrop{background:#0d1626a6}
+@keyframes lobby-sheet-in{from{transform:translateY(40px);opacity:0}}
+.lobby-sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.lobby-sheet-head h3{margin:0;font:800 20px var(--display);letter-spacing:-.02em}
+.lobby-sheet-close{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:#fff8ec1f;color:inherit;cursor:pointer}
+.lobby-sheet-close svg{width:16px;height:16px}
+.lobby-sheet-options{display:grid;gap:10px}
+.lobby-option{grid-template-columns:auto 1fr;align-items:center;justify-items:stretch;min-height:0;gap:12px;padding:12px 14px;width:100%}
+.lobby-option .lobby-tile-art{margin:0}
+.lobby-option>span:last-child{display:grid;gap:2px}
+.lobby-join{display:grid;gap:8px;max-width:none;margin:18px 0 0;padding-top:16px;border-top:1px solid var(--g-line);text-align:left}
+.lobby-join label{font-size:13px;font-weight:700;color:var(--g-muted)}
+.lobby-join>div{display:flex;gap:10px;align-items:center}
+.lobby-join input{flex:1;min-width:0;border:2px solid var(--g-line);border-radius:14px;background:#0000002e;color:var(--g-fg);font:800 20px var(--display);letter-spacing:.16em;padding:10px 12px;outline:0}
+.lobby-join input:focus{border-color:var(--g-accent)}
+.lobby-join input::placeholder{letter-spacing:.16em;color:#fff8ec55}
+.lobby-join .game-primary{background:#ffdb70;color:#202630;border-color:#ffdb70;padding:13px 20px}
+.lobby-join .form-error{margin:0;min-height:0}
+
+@media(min-width:600px){
+  .lobby-sheet{margin:auto;border-radius:26px}
+  .lobby-modes{grid-template-columns:repeat(4,1fr)}
+}
+@media(prefers-reduced-motion:reduce){.lobby-sheet[open]{animation:none}.lobby-play,.lobby-tile,.lobby-option{transition:none}}
