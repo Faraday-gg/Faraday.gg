@@ -18,6 +18,8 @@ uniform vec2 field;
 uniform vec2 cameraPitch;
 uniform float yaw;
 uniform float heightSpan;
+uniform float horizon;
+uniform float seamWidth;
 const float PI = 3.14159265;
 
 void main() {
@@ -25,11 +27,22 @@ void main() {
   vec3 direction = vec3(ray.x, ray.y * cameraPitch.x + ray.z * cameraPitch.y,
                        ray.z * cameraPitch.x - ray.y * cameraPitch.y);
   float u = fract(0.5 + (atan(direction.x, direction.z) + yaw) / (2.0 * PI));
-  float v = 0.5 - asin(direction.y) / heightSpan;
+  float elevation = asin(direction.y);
+  // Ancla el horizonte de la textura sin perder ni el cenit ni el suelo.
+  float hemisphere = elevation >= 0.0 ? horizon : 1.0 - horizon;
+  float v = horizon - 2.0 * elevation * hemisphere / heightSpan;
   if (v < 0.0 || v > 1.0) {
     gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
   } else {
-    gl_FragColor = texture2D(panorama, vec2(u, v));
+    float offset = u < 0.5 ? u : u - 1.0;
+    if (abs(offset) < seamWidth) {
+      // Suaviza únicamente la unión trasera de las recreaciones. El original de archivo se muestra entero.
+      vec4 end = texture2D(panorama, vec2(1.0 - abs(offset), v));
+      vec4 start = texture2D(panorama, vec2(abs(offset), v));
+      gl_FragColor = mix(end, start, smoothstep(-seamWidth, seamWidth, offset));
+    } else {
+      gl_FragColor = texture2D(panorama, vec2(u, v));
+    }
   }
 }`;
 
@@ -40,10 +53,11 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
 export function photographPitch(scene, pitch) {
   if (scene.type !== 'archive') return pitch;
-  if (pitch >= scene.pitch) return Math.min(pitch, ARCHIVE_PITCH_LIMIT);
-  // El avatar puede bajar la mirada más que el panorama histórico. Su límite inferior sigue siendo el de la toma.
+  const archiveLimit = scene.archivePitchLimit ?? ARCHIVE_PITCH_LIMIT;
+  if (pitch >= scene.pitch) return Math.min(pitch, archiveLimit);
+  // La toma histórica limita la vista a la altura de sus placas.
   const progress = (scene.pitch - pitch) / (scene.pitch + PITCH_LIMIT);
-  return Math.max(-ARCHIVE_PITCH_LIMIT, scene.pitch - progress * (scene.pitch + ARCHIVE_PITCH_LIMIT));
+  return Math.max(-archiveLimit, scene.pitch - progress * (scene.pitch + archiveLimit));
 }
 
 export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
@@ -71,7 +85,7 @@ export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
 
   gl.useProgram(program);
   const vertex = gl.getAttribLocation(program, 'vertex');
-  const uniforms = Object.fromEntries(['field', 'cameraPitch', 'yaw', 'heightSpan']
+  const uniforms = Object.fromEntries(['field', 'cameraPitch', 'yaw', 'heightSpan', 'horizon', 'seamWidth']
     .map(name => [name, gl.getUniformLocation(program, name)]));
   const buffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -89,8 +103,10 @@ export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
   const listeners = new AbortController();
   const options = { signal: listeners.signal };
   const archival = scene.type === 'archive';
-  const upperPitchLimit = archival ? ARCHIVE_PITCH_LIMIT : PITCH_LIMIT;
+  const upperPitchLimit = archival ? (scene.archivePitchLimit ?? ARCHIVE_PITCH_LIMIT) : PITCH_LIMIT;
   const baseField = archival ? 0.65 : 1.18;
+  gl.uniform1f(uniforms.horizon, scene.ground?.horizon ?? 0.5);
+  gl.uniform1f(uniforms.seamWidth, archival ? 0 : 0.012);
   let yaw = scene.yaw;
   let pitch = scene.pitch;
   let zoom = 1;
@@ -113,12 +129,15 @@ export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
     }
     gl.viewport(0, 0, canvas.width, canvas.height);
     const aspect = width / height;
-    gl.uniform2f(uniforms.field, baseField * Math.min(1, aspect) / zoom, baseField * Math.min(1, 1 / aspect) / zoom);
+    // Las placas históricas pueden limitar la apertura vertical sin estrechar el recorrido horizontal en escritorio.
+    const fieldX = Math.min(baseField * Math.min(1, aspect), (scene.archiveField ?? Infinity) * aspect);
+    const fieldY = fieldX / aspect / zoom;
+    gl.uniform2f(uniforms.field, fieldX / zoom, fieldY);
     const backgroundPitch = photographPitch(scene, pitch);
     gl.uniform2f(uniforms.cameraPitch, Math.cos(backgroundPitch), Math.sin(backgroundPitch));
     gl.uniform1f(uniforms.yaw, yaw);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    onView?.({ pitch, width, height });
+    onView?.({ pitch: backgroundPitch, field: fieldY, width, height });
   }
 
   function requestDraw() {
@@ -177,7 +196,15 @@ export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
   image.addEventListener('error', unavailable, options);
   image.addEventListener('load', () => {
     try {
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+      let textureSource = image;
+      const scale = gl.getParameter(gl.MAX_TEXTURE_SIZE) / Math.max(image.width, image.height);
+      if (scale < 1) {
+        textureSource = document.createElement('canvas');
+        textureSource.width = Math.max(1, Math.round(image.width * scale));
+        textureSource.height = Math.max(1, Math.round(image.height * scale));
+        textureSource.getContext('2d').drawImage(image, 0, 0, textureSource.width, textureSource.height);
+      }
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureSource);
       if (gl.getError() !== gl.NO_ERROR) {
         unavailable();
         return;
@@ -198,6 +225,7 @@ export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
     reset,
     lookAtFeet() {
       pitch = -1.34;
+      zoom = 1;
       requestDraw();
     },
     destroy() {

@@ -75,6 +75,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   celebrations.css      Selector de celebraciones y emotes dentro del armario
   progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi», cifras de las medallas y perfil con armario, tienda y vitrina (decisiones 0024, 0027, 0030 y 0035)
   medals.js              Medallas e insignias: catálogo, regla, dibujo, aviso y ceremonia (decisión 0035)
+  stats.js               Estadísticas por juego del perfil: cuentas, comparación de metros y pestaña «Stats» (decisión 0113)
   medals.css             Estilos de las medallas (dibujo en CSS), la vitrina, la pestaña «Medallas», el aviso y la ceremonia
   pistas.js, pistas.css  Pistas: una por pregunta del reto, pagando faradios o viendo un anuncio; entre qué potencias de 10 está la respuesta y por dónde empezar (decisión 0039)
   ads.js                 Anuncios con recompensa: de momento un anuncio simulado con cuenta atrás; aquí se integrarán los reales (decisión 0039)
@@ -93,12 +94,13 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
   ascension-route.js, ascension-scene.js, ascension-scene.css  Agarres, montaña y avatar de Ascensión
   ascension-chart.js     Histograma, curva normal ajustada y marca del resultado propio
-  archivo-vivo.js, archivo-vivo-rondas.js y archivo-vivo-visor.js  Fotografías históricas, puntuación local y visor 360° con el avatar en primera persona (decisiones 0108 y 0109)
+  archivo-vivo.js, archivo-vivo-rondas.js y archivo-vivo-visor.js  Fotografías históricas, puntuación local y visor 360° con el avatar en primera persona (decisiones 0108, 0109 y 0111)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
   questions.json         Preguntas piloto (origen editorial, se publica en Supabase)
   questions.js           Copia de respaldo de las preguntas piloto para el navegador
   assets/                Fotografías (origen; la web usa las de Supabase Storage) e icono
 lib/ascension.mjs        Edición diaria, validación, reloj y clasificación de Ascensión
+lib/archivo-vivo.mjs     Partida fotográfica, rotación, continuación y reanudación en el almacén privado de anuncios
 lib/ascension-store.mjs  Persistencia local y Supabase con versión optimista
 content/ascension.json   Banco privado de 49 categorías y 3.410 respuestas, fuentes y rareza editorial
 lib/continuaciones.mjs   Recibos, contadores por modalidad/día y retos extra de práctica (POST /api/continuacion)

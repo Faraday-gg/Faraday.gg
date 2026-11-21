@@ -192,38 +192,73 @@
     return 'Prepárate para la siguiente pregunta.';
   }
 
+  // Iconos del portal: trazos sencillos que heredan el color del texto.
+  const svg=(body,width=2)=>`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+  const LOBBY_ICON={
+    pencil:svg('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',2.2),
+    friends:svg('<circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14.6c2.3.2 3.9 1.7 4.4 4.4"/>'),
+    three:svg('<circle cx="12" cy="5.5" r="2.6"/><circle cx="5" cy="17" r="2.6"/><circle cx="19" cy="17" r="2.6"/><path d="m10.6 8-3.9 6.6M13.4 8l3.9 6.6M7.8 17h8.4" stroke-dasharray="2 2.4"/>'),
+    bot:svg('<rect x="4.5" y="8" width="15" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9.5 16.2h5"/><circle cx="12" cy="3.5" r="1"/><path d="M2.5 12.5v3M21.5 12.5v3"/>'),
+    shield:svg('<path d="M12 3 4.5 6v5.5c0 4.6 3.1 8 7.5 9.5 4.4-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.2-4.4"/>'),
+    code:svg('<rect x="3" y="6.5" width="18" height="11" rx="2.5"/><path d="M7 12h.01M10.3 12h.01M13.7 12h.01M17 12h.01"/>',2.4),
+    lock:svg('<rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/>',2.4),
+    heart:svg('<path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/>'),
+    clock:svg('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/>'),
+    bolt:svg('<path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12z"/>'),
+    close:svg('<path d="M6 6l12 12M18 6 6 18"/>',2.4)
+  };
   // Pantallas
   function renderLobby(message=''){
     duel=null;shown='lobby';hud.hidden=true;hideVersus(true);setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
     const progress=Progress.info();
     lastOfferMode=window.Ranked?.mode()==='ranked'?'ranked':'duel';
-    content.innerHTML=`<p class="duel-kicker">Duelo 1 vs 1</p>
-<h2 id="duel-title">La misma pregunta para los dos. <em>Quien más se aleja pierde vida.</em></h2>
-${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo <span aria-hidden="true">→</span></button></div>`:''}
-<div class="duel-profile">
-  <div class="duel-stage">${figure({avatar:Progress.look()},'',{drag:true})}<button type="button" class="duel-edit" data-open-profile-inline="armario" aria-label="Personalizar avatar" title="Personalizar avatar"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/></svg></button></div>
-  <div class="duel-me-info">
-    <label class="duel-name-field"><span class="sr-only">Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
-    <div class="duel-xp"><span><b>Nivel ${progress.level}</b><small>${int(progress.done)} / ${int(progress.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${progress.ratio}"></i></div></div>
-    <p class="duel-record">${stats.wins+stats.losses?`${stats.wins} ${stats.wins===1?'victoria':'victorias'} · ${stats.losses} ${stats.losses===1?'derrota':'derrotas'}${stats.streak?` · 🔥 racha de ${stats.streak}`:''}`:'Aún no has jugado ningún duelo'}</p>
+    // Portal de duelos (decisión 0112): un botón grande para jugar ya, los demás modos como fichas de color con su
+    // icono, y los bloqueos con candado y nivel en vez de párrafos. Las reglas van como iconos y el detalle, plegado.
+    const ranked=window.Ranked?.unlocked()?Ranked.mode()==='ranked':false,rankedLevel=window.Ranked?.MIN_LEVEL||10;
+    const bets=window.Bets?Bets.picker():'',betsLocked=bets.includes('is-locked');
+    const record=stats.wins+stats.losses+stats.draws;
+    content.innerHTML=`<h2 id="duel-title" class="sr-only">Duelos</h2>
+${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo</button></div>`:''}
+<div class="lobby-me">
+  <div class="lobby-me-avatar">${avatar({avatar:Progress.look()})}<button type="button" class="duel-edit" data-open-profile-inline="armario" aria-label="Personalizar avatar" title="Personalizar avatar">${LOBBY_ICON.pencil}</button></div>
+  <div class="lobby-me-info">
+    <label class="lobby-name"><span class="sr-only">Tu apodo</span><input id="duel-name" type="text" maxlength="16" autocomplete="nickname" value="${escapeHtml(profile.name)}"></label>
+    <div class="lobby-level"><span class="lobby-level-num" aria-label="Nivel ${progress.level}">${progress.level}</span><div class="lobby-xpbar" role="img" aria-label="${int(progress.done)} de ${int(progress.need)} XP"><i style="--xp:${progress.ratio}"></i></div><small>${int(progress.done)}/${int(progress.need)}</small></div>
   </div>
+  <ul class="lobby-record" aria-label="Tu historial">${record?`<li title="Victorias"><span class="lobby-dot is-win" aria-hidden="true"></span><b>${stats.wins}</b><span class="sr-only"> victorias</span></li><li title="Derrotas"><span class="lobby-dot is-loss" aria-hidden="true"></span><b>${stats.losses}</b><span class="sr-only"> derrotas</span></li>${stats.streak?`<li class="is-streak" title="Racha de victorias"><span aria-hidden="true">🔥</span><b>${stats.streak}</b><span class="sr-only"> de racha</span></li>`:''}`:'<li class="is-new">Sin duelos aún</li>'}</ul>
 </div>
-${window.Bets?Bets.picker():''}
-<p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
-${window.Ranked?Ranked.lobby():''}
-<div class="duel-modes duel-cta"><button class="game-primary" type="button" data-duel="quick">${window.Ranked?.mode()==='ranked'?'Buscar clasificatoria':'Partida rápida'} <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="friend">Retar a un amigo</button></div>
-<section class="duel-trio" aria-label="Duelo de tres">
-  <div class="duel-trio-head"><span class="duel-trio-new">Nuevo</span><b>Duelo de tres</b><small>1 vs 1 vs 1</small></div>
-  <div class="duel-trio-actions"><button class="game-secondary" type="button" data-duel="quick3">Partida de tres</button><button class="game-secondary" type="button" data-duel="friend3">Retar a dos amigos</button></div>
+${window.Ranked?.unlocked()?Ranked.lobby():''}
+<section class="lobby-hero${ranked?' is-ranked':''}" aria-labelledby="lobby-hero-title">
+  <div class="lobby-vs" aria-hidden="true">${figure({avatar:Progress.look()},'lobby-you')}<span class="lobby-vs-mark">VS</span><span class="lobby-ghost">?</span></div>
+  <div class="lobby-hero-text"><h3 id="lobby-hero-title">${ranked?'Clasificatoria':'Partida rápida'}</h3><p>Misma pregunta para los dos. Quien más se aleja, pierde vida.</p></div>
+  <button class="lobby-play" type="button" data-duel="quick">${ranked?'Buscar rival':'Jugar'}</button>
 </section>
-<div class="duel-extras"><button class="duel-link" type="button" data-duel="practice">Practicar con Faraday-bot</button>
-<details class="duel-join-box"${message?' open':''}><summary>¿Tienes un código de duelo?</summary><form class="duel-join" id="duel-join"><label class="sr-only" for="duel-code">Código de duelo</label><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-secondary" type="submit">Unirme</button></form></details></div>
+${betsLocked?'':bets}
+<p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
+<div class="lobby-modes">
+  <button type="button" class="lobby-tile" data-tone="cian" data-duel="friends" aria-haspopup="dialog"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.friends}</span><b>Con amigos</b><small>Enlace o código</small></button>
+  <button type="button" class="lobby-tile" data-tone="violeta" data-duel="quick3"><span class="lobby-tile-flag">Nuevo</span><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.three}</span><b>Duelo de tres</b><small>1 vs 1 vs 1</small></button>
+  <button type="button" class="lobby-tile" data-tone="verde" data-duel="practice"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.bot}</span><b>Práctica</b><small>Contra Faraday-bot</small></button>
+  ${window.Ranked&&!Ranked.unlocked()?`<button type="button" class="lobby-tile is-locked" data-tone="mostaza" data-ranked-mode="ranked" aria-disabled="true"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.shield}</span><span class="lobby-tile-lock" aria-hidden="true">${LOBBY_ICON.lock}</span><b>Clasificatoria</b><small>Nivel ${rankedLevel}</small><span class="lobby-tile-meter" role="img" aria-label="Nivel ${progress.level} de ${rankedLevel}"><i style="--p:${Math.min(1,progress.level/rankedLevel)}"></i></span></button>`
+    :`<button type="button" class="lobby-tile" data-tone="rosa" data-duel="friends" data-focus="code" aria-haspopup="dialog"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.code}</span><b>Tengo un código</b><small>Únete a un duelo</small></button>`}
+</div>
+${betsLocked?`<p class="lobby-soon">${LOBBY_ICON.lock}<span>Apuestas en el nivel ${rankedLevel}</span></p>`:''}
 <div data-duel-plan></div>
-<ul class="duel-rules" aria-label="Reglas del duelo"><li><b>${int(6000)}</b> de vida</li><li><b>3 min</b> por pregunta</li><li><b>30 s</b> si responde tu rival</li></ul>
-<p class="duel-rules-note">Contra otros jugadores, tu daño empieza en ×1 y sube +0,5 por cada ronda ganada.</p>`;
+<ul class="lobby-rules" aria-label="Reglas del duelo"><li>${LOBBY_ICON.heart}<b>${int(6000)}</b><small>de vida</small></li><li>${LOBBY_ICON.clock}<b>3 min</b><small>por pregunta</small></li><li>${LOBBY_ICON.bolt}<b>30 s</b><small>si responde tu rival</small></li></ul>
+<details class="lobby-how"><summary>¿Cómo se juega?</summary><ol><li>Los dos recibís la misma pregunta con una cifra por respuesta.</li><li>Quien más se aleja de la cifra real pierde vida.</li><li>Tu daño empieza en ×1 y sube +0,5 por cada ronda que ganas.</li><li>Gana quien deja al otro sin vida o tiene más tras diez rondas.</li></ol></details>
+<dialog class="lobby-sheet" id="duel-friends" aria-labelledby="duel-friends-title">
+  <div class="lobby-sheet-head"><h3 id="duel-friends-title">Jugar con amigos</h3><button type="button" class="lobby-sheet-close" data-duel="friends-close" aria-label="Cerrar">${LOBBY_ICON.close}</button></div>
+  <div class="lobby-sheet-options">
+    <button type="button" class="lobby-option" data-tone="cian" data-duel="friend"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.friends}</span><span><b>Retar a un amigo</b><small>1 vs 1 · te damos un enlace</small></span></button>
+    <button type="button" class="lobby-option" data-tone="violeta" data-duel="friend3"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.three}</span><span><b>Retar a dos amigos</b><small>1 vs 1 vs 1 · te damos un enlace</small></span></button>
+  </div>
+  <form class="duel-join lobby-join" id="duel-join"><label for="duel-code">¿Te han pasado un código?</label><div><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-primary" type="submit">Unirme</button></div><p class="form-error" id="duel-join-error" role="alert"></p></form>
+</dialog>`;
     window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
     refreshQuota();
   }
+  function openFriends(code=false){const sheet=$('#duel-friends');if(sheet&&!sheet.open){sheet.showModal();sheet.querySelector(code?'#duel-code':'[data-duel=friend]')?.focus()}}
+  function closeFriends(){const sheet=$('#duel-friends');if(sheet?.open)sheet.close()}
   function renderWaitingThree(){
     hud.hidden=true;setView('result');
     const friend=!duel.public,link=`${location.origin}${location.pathname}?duelo=${duel.code}`,missing=3-duel.players.length;
@@ -393,7 +428,7 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     // Con cuenta, los faradios del duelo los calcula y los paga el servidor (decisión 0059): aquí solo se piden.
     const online=Progress.linked(),outcome=Progress.reward({xp:gained,coins:online?0:coins,reason:'duelos'});if(online&&coins)Progress.claim('duelo:'+duel.id);
     // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
-    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,mode:reactionMode(),rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){
@@ -508,8 +543,8 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     if(shell.hidden||!origin?.isConnected)return;
     if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data);if(extra.practice&&action==='crear')await begin('bot',{id:response.data.id})}
     else{
-      const error=$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.');
-      if(response.data.code==='limite'){quotaRequest++;quotaState=response.data;paintQuota(quotaState,mode,true)}
+      const error=$('#duel-friends')?.open?$('#duel-join-error'):$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.');
+      if(response.data.code==='limite'){closeFriends();quotaRequest++;quotaState=response.data;paintQuota(quotaState,mode,true)}
     }
   }
   async function submit(event){
@@ -558,7 +593,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(Sound.on));
     if(typeof toggleMenu==='function')toggleMenu(false);
     renderLobby();
-    if(friends)content.querySelector('[data-duel=friend]')?.focus();
+    if(friends)openFriends();
     // Si se recarga la página (o se vuelve más tarde) en mitad de un duelo, se vuelve a él. Si el navegador no lo recuerda, se le pregunta al servidor.
     if(!inviteCode&&!resume&&(!current||friends)){
       const found=await call('activo');
@@ -582,6 +617,8 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
     if(action==='calc'){toggleCalc();return}
+    if(action==='friends'){openFriends(event.target.closest('[data-duel]').dataset.focus==='code');return}
+    if(action==='friends-close'){closeFriends();return}
     if(action==='quick')begin('buscar',{mode:window.Ranked?.mode()||'normal'});
     if(action==='friend')begin('crear');
     if(action==='practice')begin('crear',{practice:true});
