@@ -34,9 +34,19 @@ void main() {
 }`;
 
 const TAU = Math.PI * 2;
+const PITCH_LIMIT = 1.46;
+const ARCHIVE_PITCH_LIMIT = 0.20;
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
-export function mountPanorama(canvas, scene, { ready, unavailable }) {
+export function photographPitch(scene, pitch) {
+  if (scene.type !== 'archive') return pitch;
+  if (pitch >= scene.pitch) return Math.min(pitch, ARCHIVE_PITCH_LIMIT);
+  // El avatar puede bajar la mirada más que el panorama histórico. Su límite inferior sigue siendo el de la toma.
+  const progress = (scene.pitch - pitch) / (scene.pitch + PITCH_LIMIT);
+  return Math.max(-ARCHIVE_PITCH_LIMIT, scene.pitch - progress * (scene.pitch + ARCHIVE_PITCH_LIMIT));
+}
+
+export function mountPanorama(canvas, scene, { ready, unavailable, onView }) {
   const gl = canvas.getContext('webgl', { alpha: false, antialias: false });
   if (!gl) {
     unavailable();
@@ -79,7 +89,7 @@ export function mountPanorama(canvas, scene, { ready, unavailable }) {
   const listeners = new AbortController();
   const options = { signal: listeners.signal };
   const archival = scene.type === 'archive';
-  const pitchLimit = archival ? 0.20 : 1.46;
+  const upperPitchLimit = archival ? ARCHIVE_PITCH_LIMIT : PITCH_LIMIT;
   const baseField = archival ? 0.65 : 1.18;
   let yaw = scene.yaw;
   let pitch = scene.pitch;
@@ -104,9 +114,11 @@ export function mountPanorama(canvas, scene, { ready, unavailable }) {
     gl.viewport(0, 0, canvas.width, canvas.height);
     const aspect = width / height;
     gl.uniform2f(uniforms.field, baseField * Math.min(1, aspect) / zoom, baseField * Math.min(1, 1 / aspect) / zoom);
-    gl.uniform2f(uniforms.cameraPitch, Math.cos(pitch), Math.sin(pitch));
+    const backgroundPitch = photographPitch(scene, pitch);
+    gl.uniform2f(uniforms.cameraPitch, Math.cos(backgroundPitch), Math.sin(backgroundPitch));
     gl.uniform1f(uniforms.yaw, yaw);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    onView?.({ pitch, width, height });
   }
 
   function requestDraw() {
@@ -115,7 +127,7 @@ export function mountPanorama(canvas, scene, { ready, unavailable }) {
 
   function move(horizontal, vertical) {
     yaw = (yaw + horizontal) % TAU;
-    pitch = clamp(pitch + vertical, -pitchLimit, pitchLimit);
+    pitch = clamp(pitch + vertical, -PITCH_LIMIT, upperPitchLimit);
     requestDraw();
   }
 
@@ -184,6 +196,10 @@ export function mountPanorama(canvas, scene, { ready, unavailable }) {
   return {
     magnify,
     reset,
+    lookAtFeet() {
+      pitch = -1.34;
+      requestDraw();
+    },
     destroy() {
       listeners.abort();
       resize.disconnect();

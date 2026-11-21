@@ -49,35 +49,68 @@
 .av-photo img, .av-viewer img { object-fit: contain; }
 .av-photo img { transition: transform .23s ease; }
 .av-photo:hover img { transform: scale(1.025); }
-.av-enter, .av-viewer-label, .av-viewer-controls {
+.av-enter {
   position: absolute;
+  inset: auto auto clamp(9px, 2vw, 16px) clamp(9px, 2vw, 16px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 1px solid #fff6cd;
   border-radius: 9px;
+  background: #ffdda2;
+  color: #222738;
+  box-shadow: 0 4px 20px #0008;
+  font: 800 clamp(15px, 2.2vw, 18px)/1.1 var(--font);
+}
+.av-photo:hover .av-enter { background: #ffe9bd; }
+.av-enter svg { width: 23px; height: 23px; flex: none; }
+.av-enter-degrees { padding: 4px 6px; border: 1px solid #776140; border-radius: 5px; font-size: 12px; }
+.av-photo-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 3px 12px; color: var(--av-accent); font-size: 14px; }
+.av-photo-caption p { margin: 0; }
+.av-photo-caption p:last-child { color: var(--av-paper); font-weight: 750; }
+.av-panorama, .av-avatar { position: absolute; inset: 0; }
+.av-avatar { pointer-events: none; }
+.av-panorama { cursor: grab; touch-action: none; }
+.av-panorama:active { cursor: grabbing; }
+.av-panorama:focus-visible { outline-offset: -3px; }
+.av-viewer-meta {
+  position: absolute;
+  z-index: 2;
+  inset: 10px max(10px, env(safe-area-inset-right)) auto max(10px, env(safe-area-inset-left));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  pointer-events: none;
+}
+.av-viewer-meta p, .av-viewer-controls {
+  border-radius: 8px;
   background: #181d2bf2;
   color: white;
 }
-.av-enter { display: inline-flex; align-items: center; gap: 9px; inset: auto auto 12px 12px; padding: 9px 12px; box-shadow: 0 3px 18px #0007; font-size: 15px; font-weight: 800; }
-.av-enter svg { width: 21px; height: 21px; }
-.av-viewer canvas { position: absolute; inset: 0; cursor: grab; touch-action: none; }
-.av-viewer canvas:active { cursor: grabbing; }
-.av-viewer canvas:focus-visible { outline-offset: -3px; }
-.av-viewer-label { inset: 10px 10px auto auto; margin: 0; max-width: calc(100% - 20px); padding: 6px 9px; font-size: 13px; font-weight: 750; pointer-events: none; }
-.av-viewer-controls { inset: auto 10px 10px auto; display: flex; gap: 3px; padding: 3px; }
-.av-viewer-controls button, .av-return {
+.av-viewer-meta p { margin: 0; padding: 6px 9px; font-size: 13px; font-weight: 750; }
+.av-viewer-controls {
+  position: absolute;
+  z-index: 2;
+  inset: auto auto max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+}
+.av-viewer-controls button {
+  min-width: 44px;
   min-height: 44px;
-  padding: 5px 10px;
+  padding: 5px 8px;
   border: 0;
   border-radius: 6px;
   background: transparent;
   color: inherit;
-  font: 750 14px/1 var(--font);
+  font: 750 20px/1 var(--font);
 }
-.av-viewer-controls button { min-width: 44px; font-size: 20px; }
-.av-viewer-controls button svg { display: block; width: 20px; height: 20px; margin: auto; }
-.av-viewer-controls button[aria-pressed="true"] { background: #424c6a; }
-.av-viewer-controls button:hover, .av-return:hover { background: #424c6a; }
-.av-stage-tools { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 35px; color: var(--av-accent); font-size: 14px; }
-.av-stage-tools p { margin: 0; }
-.av-return { padding-inline: 7px; flex-shrink: 0; }
+.av-viewer-controls .av-feet { color: #ffdda2; font-size: 14px; }
+.av-viewer-controls button:hover { background: #424c6a; }
 .av-panel {
   padding: clamp(15px, 2.1vw, 26px);
   border-radius: 13px;
@@ -85,6 +118,7 @@
   color: #222738;
 }
 .av-panel h3, .av-summary h3 { margin: 0 0 8px; font: 700 clamp(25px, 3.5vw, 42px)/1 var(--display); letter-spacing: -.055em; }
+.av-panel h3, #av-year { scroll-margin-block: 72px 10px; }
 .av-panel p { margin: 0 0 14px; line-height: 1.42; }
 .av-year-form { display: grid; gap: 8px; }
 .av-year-form label { font-size: 14px; font-weight: 800; }
@@ -139,7 +173,6 @@
   .archivo-vivo-header { padding-block-start: max(8px, env(safe-area-inset-top)); }
   .archivo-vivo-body { padding-bottom: max(16px, env(safe-area-inset-bottom)); }
   .av-round { grid-template-columns: minmax(0, 1fr); }
-  .av-viewer { aspect-ratio: auto; height: clamp(240px, 43dvh, 390px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .av-photo img { transition: none; }
@@ -149,17 +182,34 @@
 .archivo-vivo.av-immersive[open] {
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  width: 100%;
-  height: 100dvh;
+  width: calc(100% - 20px);
+  height: calc(100dvh - 20px);
   max-height: none;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
+  border-radius: 13px;
+  overflow: hidden;
 }
+.av-immersive .archivo-vivo-header { padding-block: max(4px, env(safe-area-inset-top)) 4px; }
+.av-immersive .archivo-vivo-header .game-back {
+  width: auto;
+  padding-inline: 12px;
+  border-radius: 8px;
+  background: #ffdda2;
+  color: #222738;
+  font: 800 15px/1.2 var(--font);
+}
+.av-immersive .archivo-vivo-header .game-back:hover { background: #ffe9bd; }
 .av-immersive .archivo-vivo-body { min-height: 0; padding: 0; }
 .av-immersive .av-round, .av-immersive .av-stage { height: 100%; }
 .av-immersive .av-round { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
-.av-immersive .av-stage { grid-template-rows: minmax(0, 1fr) auto; gap: 0; }
+.av-immersive .av-stage { display: block; }
 .av-immersive .av-viewer { height: 100%; aspect-ratio: auto; border: 0; border-radius: 0; }
 .av-immersive .av-panel { display: none; }
-.av-immersive .av-stage-tools { padding: 4px 12px max(4px, env(safe-area-inset-bottom)); }
+
+@media (max-width: 720px) {
+  .archivo-vivo.av-immersive[open] { width: 100%; height: 100dvh; border-radius: 0; }
+  .av-immersive .archivo-vivo-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding-inline: max(10px, env(safe-area-inset-left)) max(10px, env(safe-area-inset-right));
+  }
+  .av-immersive .archivo-vivo-header h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}

@@ -4,18 +4,18 @@ import { mountPanorama } from './archivo-vivo-visor.js';
 const dialog = document.getElementById('archivo-vivo');
 const body = document.getElementById('archivo-vivo-body');
 const progress = document.getElementById('archivo-vivo-progress');
+const close = dialog.querySelector('[data-av-close]');
 const storageKey = 'faraday.archivo-vivo.v1';
 const format = new Intl.NumberFormat('es-ES');
 const newRun = () => ({ index: 0, guesses: [], draft: '' });
 const validYear = year => Number.isInteger(year) && year >= MIN_YEAR && year <= MAX_YEAR;
 const photoUrl = scene => `assets/archivo-vivo/${scene.id}-foto.jpg`;
 const yearError = `Escribe un año entre ${MIN_YEAR} y ${MAX_YEAR}.`;
-const expandIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>';
 const panoramaIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4H4v3m13-3h3v3M4 17v3h3m13-3v3h-3"/><ellipse cx="12" cy="12" rx="7" ry="3.5"/><path d="M12 8.5c3 0 3 7 0 7s-3-7 0-7Z"/></svg>';
 
 let run = readRun();
 let opener;
-let viewer;
+let immersion;
 
 function readRun() {
   try {
@@ -38,68 +38,119 @@ function saveRun() {
 }
 
 function stopViewer() {
-  viewer?.destroy();
-  viewer = null;
+  if (!immersion) return;
+  const viewing = immersion;
+  immersion = null;
+  viewing.viewer?.destroy();
+  stopAvatar(viewing);
   dialog.classList.remove('av-immersive');
+  close.textContent = '×';
+  close.setAttribute('aria-label', 'Cerrar Archivo Vivo');
+}
+
+function stopAvatar(viewing) {
+  viewing.avatar?.destroy();
+  viewing.avatar = null;
+  viewing.avatarCanvas.hidden = true;
+  viewing.feetButton.hidden = true;
+}
+
+function drawAvatar(viewing) {
+  if (!viewing.view || viewing.avatarFailed || !window.Avatar3D?.firstPerson) return;
+  try {
+    if (!viewing.avatar) {
+      const look = window.Avatar.resolve(window.Progress?.look?.());
+      viewing.avatar = window.Avatar3D.firstPerson(viewing.avatarCanvas, look);
+    }
+    if (viewing.avatar) {
+      viewing.avatarCanvas.hidden = false;
+      viewing.avatar.draw(viewing.view);
+      viewing.feetButton.hidden = !viewing.viewer?.lookAtFeet;
+    } else {
+      viewing.avatarFailed = true;
+    }
+  } catch {
+    viewing.avatarFailed = true;
+    stopAvatar(viewing);
+  }
 }
 
 function photo(scene) {
-  return `<button class="av-photo" type="button" data-av="enter" aria-label="Entrar en la foto en 360 grados" aria-describedby="av-photo-description">
+  return `<button class="av-photo" type="button" data-av="enter" aria-label="Entrar en el año en 360 grados" aria-describedby="av-photo-description">
     <img id="av-photo-description" src="${photoUrl(scene)}" alt="${scene.alt}">
-    <span class="av-enter">${panoramaIcon} Entrar en 360°</span>
+    <span class="av-enter">${panoramaIcon} Entrar en el año <span class="av-enter-degrees">360°</span></span>
   </button>
-  <div class="av-stage-tools"><p>Fotografía de archivo</p></div>`;
+  <div class="av-photo-caption"><p>Fotografía de archivo</p><p>Toca o haz clic en la foto para explorarla.</p></div>`;
 }
 
-function showPhoto(scene, focus = false) {
+function showPhoto(scene, focusAnswer) {
   stopViewer();
   body.querySelector('.av-stage').innerHTML = photo(scene);
-  if (focus) body.querySelector('[data-av="enter"]').focus({ preventScroll: true });
+  const target = (focusAnswer && body.querySelector('#av-year')) || body.querySelector('.av-panel h3');
+  target.focus({ preventScroll: true });
+  target.scrollIntoView({ block: 'nearest' });
 }
 
-function enterPhoto(scene) {
+function enterPhoto(scene, fromKeyboard) {
   const stage = body.querySelector('.av-stage');
   stage.innerHTML = `<div class="av-viewer">
     <img src="${photoUrl(scene)}" alt="${scene.alt}">
-    <canvas hidden tabindex="0" aria-label="Panorama interactivo. Usa las flechas para girar y + o − para acercar o alejar."></canvas>
-    <p class="av-viewer-label">${scene.type === 'archive' ? 'Panorama de archivo · 360° horizontal' : 'Recreación con IA'}</p>
+    <canvas class="av-panorama" hidden tabindex="0" aria-label="Panorama interactivo. Usa las flechas para girar y + o − para acercar o alejar."></canvas>
+    <canvas class="av-avatar" aria-hidden="true" hidden></canvas>
+    <div class="av-viewer-meta">
+      <p class="av-viewer-status" role="status">Cargando panorama…</p>
+      <p class="av-viewer-label">${scene.type === 'archive' ? 'Panorama de archivo · 360° horizontal' : 'Recreación con IA'}</p>
+    </div>
     <div class="av-viewer-controls" aria-label="Controles del panorama" role="group" hidden>
+      <button class="av-feet" type="button" data-av="feet" hidden>Mirar a mis pies</button>
       <button type="button" data-av="zoom-out" aria-label="Alejar">−</button>
       <button type="button" data-av="zoom-in" aria-label="Acercar">+</button>
       <button type="button" data-av="reset-view" aria-label="Volver al encuadre inicial">⟲</button>
-      <button type="button" data-av="expand" aria-label="Vista inmersiva" aria-pressed="false">${expandIcon}</button>
     </div>
-  </div>
-  <div class="av-stage-tools">
-    <p role="status">Cargando panorama…</p>
-    <button class="av-return" type="button" data-av="leave">Volver a la foto</button>
   </div>`;
-  const canvas = stage.querySelector('canvas');
+  const canvas = stage.querySelector('.av-panorama');
   const controls = stage.querySelector('.av-viewer-controls');
   const image = stage.querySelector('img');
   const label = stage.querySelector('.av-viewer-label');
   const status = stage.querySelector('[role="status"]');
-  const back = stage.querySelector('[data-av="leave"]');
-  back.focus({ preventScroll: true });
-  viewer = mountPanorama(canvas, scene, {
+  const viewing = {
+    avatarCanvas: stage.querySelector('.av-avatar'),
+    feetButton: stage.querySelector('[data-av="feet"]')
+  };
+  immersion = viewing;
+  dialog.classList.add('av-immersive');
+  dialog.scrollTop = 0;
+  close.textContent = run.guesses.length === run.index ? 'Volver a responder' : 'Volver al resultado';
+  close.removeAttribute('aria-label');
+  close.focus({ preventScroll: true });
+  viewing.viewer = mountPanorama(canvas, scene, {
     ready() {
       canvas.hidden = false;
       controls.hidden = false;
       image.hidden = true;
-      status.textContent = 'Arrastra para mirar alrededor.';
-      if (document.activeElement === back && matchMedia('(pointer: fine)').matches) {
+      status.textContent = matchMedia('(pointer: coarse)').matches
+        ? 'Arrastra para mirar alrededor.'
+        : 'Arrastra o usa las flechas para mirar alrededor.';
+      if (fromKeyboard && document.activeElement === close) {
         canvas.focus({ preventScroll: true });
       }
     },
+    onView(view) {
+      viewing.view = view;
+      drawAvatar(viewing);
+    },
     unavailable() {
       const focusInViewer = canvas === document.activeElement || controls.contains(document.activeElement);
-      stopViewer();
+      viewing.viewer?.destroy();
+      viewing.viewer = null;
+      viewing.view = null;
+      stopAvatar(viewing);
       canvas.hidden = true;
       controls.hidden = true;
       label.hidden = true;
       image.hidden = false;
       status.textContent = 'El visor 360° no está disponible. Puedes responder mirando la foto.';
-      if (focusInViewer) back.focus({ preventScroll: true });
+      if (focusInViewer) close.focus({ preventScroll: true });
     }
   });
 }
@@ -108,7 +159,6 @@ function renderRound(scene, guess) {
   progress.textContent = `Foto ${run.index + 1} de ${scenes.length}`;
   const content = guess === undefined
     ? `<h3 tabindex="-1">¿De qué año es esta foto?</h3>
-       <p>Observa la imagen o entra en ella para mirar alrededor.</p>
        <form class="av-year-form" novalidate>
          <label for="av-year">Año de la foto</label>
          <div class="av-year-controls">
@@ -185,19 +235,18 @@ dialog.addEventListener('click', event => {
   const button = event.target.closest('button');
   if (!button) return;
   if (button.hasAttribute('data-av-close')) {
-    dialog.close();
+    const focusAnswer = event.detail === 0 || event.pointerType === 'mouse' ||
+      (!event.pointerType && matchMedia('(pointer: fine)').matches);
+    if (!backFromViewer(focusAnswer)) dialog.close();
     return;
   }
   const scene = scenes[run.index];
   switch (button.dataset.av) {
-    case 'enter': enterPhoto(scene); break;
-    case 'leave': showPhoto(scene, true); break;
-    case 'zoom-in': viewer?.magnify(1.25); break;
-    case 'zoom-out': viewer?.magnify(0.8); break;
-    case 'reset-view': viewer?.reset(); break;
-    case 'expand':
-      button.setAttribute('aria-pressed', String(dialog.classList.toggle('av-immersive')));
-      break;
+    case 'enter': enterPhoto(scene, event.detail === 0); break;
+    case 'zoom-in': immersion?.viewer?.magnify(1.25); break;
+    case 'zoom-out': immersion?.viewer?.magnify(0.8); break;
+    case 'reset-view': immersion?.viewer?.reset(); break;
+    case 'feet': immersion?.viewer?.lookAtFeet?.(); break;
     case 'year-down':
     case 'year-up': {
       const input = body.querySelector('#av-year');
@@ -243,14 +292,9 @@ body.addEventListener('submit', event => {
   render(true);
 });
 
-function backFromViewer() {
-  const expand = body.querySelector('[data-av="expand"]');
-  if (!expand) return false;
-  if (dialog.classList.contains('av-immersive')) {
-    expand.click();
-  } else {
-    showPhoto(scenes[run.index], true);
-  }
+function backFromViewer(focusAnswer = false) {
+  if (!immersion) return false;
+  showPhoto(scenes[run.index], focusAnswer);
   return true;
 }
 
@@ -258,7 +302,7 @@ dialog.addEventListener('keydown', event => {
   if (event.key !== 'Escape') return;
   event.preventDefault();
   event.stopPropagation();
-  if (!backFromViewer()) dialog.close();
+  if (!backFromViewer(true)) dialog.close();
 });
 dialog.addEventListener('cancel', event => {
   if (backFromViewer()) event.preventDefault();
@@ -266,6 +310,9 @@ dialog.addEventListener('cancel', event => {
 dialog.addEventListener('close', () => {
   stopViewer();
   opener?.focus({ preventScroll: true });
+});
+document.addEventListener('faraday:avatar3d-ready', () => {
+  if (immersion) drawAvatar(immersion);
 });
 document.addEventListener('faraday:before-plan', event => {
   if (!dialog.open) return;

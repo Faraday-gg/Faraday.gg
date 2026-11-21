@@ -553,16 +553,20 @@ const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.match
 // para el pelo más alto (afro, moño, corona), los saltos y la sombra, que no deben cortarse con el borde del lienzo.
 const VIEWS={full:{ratio:2/3,frame:3.45,width:2.3,target:1.55},bust:{ratio:1,frame:2.2,target:2},legs:{ratio:1,frame:1.5,target:.46},shoes:{ratio:1,frame:1.05,target:.24,x:-.08},torso:{ratio:1,frame:1.75,target:1},stage:{ratio:1,frame:3.5,target:1.58},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
+function renderAvatarFrame(context,width,height,viewCamera){
+  renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,viewCamera);
+  context.clearRect(0,0,width,height);context.drawImage(renderer.domElement,0,BUF_H-height,width,height,0,0,width,height);
+}
 function shoot(context,width,height,entry,mode,turn,climbPose){
   const view=VIEWS[mode]||VIEWS.full,aspect=width/height,distance=Math.max(view.frame/2/TAN,(view.width||view.frame)/2/TAN/aspect);
   const x=view.x||0;camera.aspect=aspect;camera.position.set(x,view.target+distance*.03,distance);camera.lookAt(x,view.target,0);camera.updateProjectionMatrix();camera.updateMatrixWorld(true);
   entry.group.rotation.y=turn;scene.add(entry.group);
   if(climbPose||entry.climbing)climbingPose(entry,climbPose,turn);
   floor.visible=!climbPose||(climbPose.mix??1)<.5;
-  renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,camera);
+  renderAvatarFrame(context,width,height,camera);
   scene.remove(entry.group);floor.visible=true;
-  context.clearRect(0,0,width,height);context.drawImage(renderer.domElement,0,BUF_H-height,width,height,0,0,width,height);
 }
+
 function dispose(entry){
   const geometry=new Set(),materials=new Set();
   entry.group.traverse(part=>{
@@ -573,6 +577,83 @@ function dispose(entry){
   for(const item of materials){item.map?.dispose();item.dispose()}
   for(const rig of entry.climbRigs||[])rig.skeleton.dispose();
 }
+// El cuerpo se proyecta desde los ojos. La mano cercana se mantiene en el borde de la vista, incluso al girar.
+function firstPerson(canvas, look) {
+  const context = canvas.getContext('2d');
+  if (!context) return null;
+  const entry = buildModel(look);
+  const { body, neck, arms, legs, feet } = entry.parts;
+  const handAnchor = new THREE.Group();
+  const { arm, fore, hand } = arms[0];
+  const eye = new THREE.PerspectiveCamera(75, 1, 0.07, 8);
+  const target = new THREE.Vector3();
+  eye.position.set(0, 1.62 + entry.base, 0.58);
+  neck.visible = false;
+  handAnchor.add(arm);
+  entry.group.add(handAnchor);
+  arm.scale.setScalar(0.83);
+  arm.rotation.set(1.49, 0, -0.50, 'ZXY');
+  fore.rotation.set(0.63, 0, -0.40, 'ZXY');
+  hand.rotation.set(-0.12, -0.36, -0.16);
+  // Un pie adelantado abre la vista entre la ropa del torso, las perneras y las punteras.
+  for (const [index, leg] of legs.entries()) {
+    leg.position.z += 0.13;
+    leg.rotation.x = -0.16 - index * 0.09;
+    feet[index].position.z += 0.20 + index * 0.07;
+  }
+  let lastPitch;
+
+  return {
+    draw({ pitch, width, height }) {
+      if (renderer.getContext().isContextLost()) {
+        lastPitch = undefined;
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        return false;
+      }
+      const scale = Math.min(SCALE, BUF_W / width, BUF_H / height);
+      const pixelsWide = Math.max(1, Math.round(width * scale));
+      const pixelsHigh = Math.max(1, Math.round(height * scale));
+      if (pitch === lastPitch && canvas.width === pixelsWide && canvas.height === pixelsHigh) return true;
+      lastPitch = pitch;
+      if (canvas.width !== pixelsWide || canvas.height !== pixelsHigh) {
+        canvas.width = pixelsWide;
+        canvas.height = pixelsHigh;
+      }
+      eye.aspect = width / height;
+      const halfHeight = THREE.MathUtils.clamp(0.90 / Math.sqrt(eye.aspect), 0.63, 1.12);
+      eye.position.z = eye.aspect < 0.75 ? 0.63 : 0.58;
+      eye.fov = THREE.MathUtils.radToDeg(2 * Math.atan(halfHeight));
+      eye.updateProjectionMatrix();
+      target.copy(eye.position);
+      target.y += Math.sin(pitch);
+      target.z += Math.cos(pitch);
+      eye.lookAt(target);
+
+      body.visible = pitch < -0.33;
+      handAnchor.position.copy(eye.position);
+      handAnchor.quaternion.copy(eye.quaternion);
+      arm.position.set(0.78 * halfHeight * eye.aspect, -1.12 * halfHeight, -0.72);
+
+      const shadows = renderer.shadowMap.enabled;
+      scene.add(entry.group);
+      floor.visible = false;
+      renderer.shadowMap.enabled = false;
+      try {
+        renderAvatarFrame(context, pixelsWide, pixelsHigh, eye);
+      } finally {
+        scene.remove(entry.group);
+        floor.visible = true;
+        renderer.shadowMap.enabled = shadows;
+      }
+      return true;
+    },
+    destroy() {
+      dispose(entry);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  };
+}
+
 const sizeOf=(el,mode)=>{const view=VIEWS[mode]||VIEWS.full,width=Math.min(BUF_W,Math.ceil(el.clientWidth*SCALE/16)*16,Math.floor(BUF_H*view.ratio));return [width,Math.round(width/view.ratio)]};
 // Imágenes fijas (marcador, avisos, tienda): se dibujan una vez y se guardan.
 const shots=new Map();
@@ -1051,4 +1132,5 @@ enqueue(document.body);
 // Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
 // (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
 const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
-window.Avatar3D={ready:true,shot,climb,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+window.Avatar3D={ready:true,shot,climb,firstPerson,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+document.dispatchEvent(new Event('faraday:avatar3d-ready'));

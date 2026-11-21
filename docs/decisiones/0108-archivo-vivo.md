@@ -1,7 +1,7 @@
 # 0108. Archivo Vivo, adivinar el año desde una foto histórica
 
 - **Fecha:** 2026-11-20.
-- **Estado:** implementada como primera colección de tres fotos.
+- **Estado:** implementada como primera colección de tres fotos. La [decisión 0109](0109-archivo-vivo-primera-persona.md) amplía la vista inmersiva.
 - **Origen:** Álvaro propuso una modalidad de fotografía histórica con exploración inmersiva.
 
 ## Partida
