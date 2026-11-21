@@ -80,3 +80,18 @@
 @keyframes hit-ring{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(3.4)}}
 @keyframes hit-card{30%{transform:scale(1.018)}}
 @media(prefers-reduced-motion:reduce){.verdict-chip.pop,.verdict-x.is-hit,.verdict-x.is-hit::after,.game-card.is-hit,.game-card.is-thud{animation:none}}
+
+/* Perfil y cuenta junto al personaje: sustituye al botón con la inicial de la portada. */
+.profile-card{position:relative}
+.profile-edit{position:absolute;top:12px;right:12px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 10px;border:0;border-radius:40px;background:var(--paper);color:var(--ink);font:800 13px var(--font);box-shadow:0 1px 2px #20263014,0 6px 14px -8px #20263066;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.profile-edit:hover{transform:translateY(-1px);box-shadow:0 1px 2px #20263014,0 10px 18px -8px #20263080}
+.profile-edit[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.profile-edit svg{width:18px;height:18px}
+.profile-account{display:grid;gap:10px;padding:4px 2px}
+.profile-account .mission-title{margin-top:8px}
+.profile-name-field input{border-bottom-color:var(--line);color:var(--ink);text-transform:none}
+.profile-name-field input:focus{border-bottom-color:var(--ink)}
+.profile-account-note{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.profile-account-note b{color:var(--ink);word-break:break-all}
+.profile-account button{justify-self:start}
+@media(max-width:760px){.profile-edit{top:8px;right:8px;height:32px;padding:0 10px 0 8px}}

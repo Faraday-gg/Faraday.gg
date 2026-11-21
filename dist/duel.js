@@ -10,6 +10,8 @@
 
   let profile=saved.get('perfil',null);
   if(!profile||typeof profile.name!=='string')profile={name:'Jugador '+(100+Math.floor(Math.random()*900))};
+  // El apodo también se cambia desde el perfil del personaje (progress.js).
+  document.addEventListener('faraday:apodo',event=>{profile.name=event.detail.name;const input=document.getElementById('duel-name');if(input)input.value=profile.name});
   const DAILY_FULL=3,CAPPED_FACTOR=.25,BOT_FACTOR=.5;
   let stats={xp:0,wins:0,losses:0,draws:0,streak:0,best:0,lastWin:'',...saved.get('progreso',{})};
   // El nivel, la experiencia, los faradios y el aspecto del avatar viven en progress.js.
