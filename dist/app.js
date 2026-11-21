@@ -279,7 +279,14 @@ function toggleMenu(open=!menuOpen(),{archive=false,opener=null}={}){
     $('#menu-today-sub').textContent=played===3?'Mira tu resultado':prettyDate(todayKey);
     if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
     const target=archive?$('#menu-archive-title'):$('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])');
-    setTimeout(()=>{if(menuOpen())target?.focus()},60);
+    // Desde el enlace «Archivo» el menú baja hasta el final, donde está el calendario para jugar otros días.
+    const panel=drawer.querySelector('.menu-panel');
+    if(archive)panel.scrollTop=0;
+    setTimeout(()=>{
+      if(!menuOpen())return;
+      target?.focus({preventScroll:archive});
+      if(archive)panel.scrollTo({top:panel.scrollHeight,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+    },archive?220:60);
   }else{
     (menuOpener||toggle).focus({preventScroll:true});
     menuOpener=null;
