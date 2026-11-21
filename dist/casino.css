@@ -89,6 +89,49 @@
 .casino-tables button span { color: #ff826d; }
 .casino-tables button:nth-child(2) span { color: #ffdb70; }
 .casino-tables button:nth-child(3) span { color: #b9d6e1; }
+.casino-tables button:nth-child(4) span { color: #9bddb0; }
+.casino-presence {
+  position: absolute;
+  top: max(84px, calc(env(safe-area-inset-top) + 74px));
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 9px;
+  background: #202436ea;
+  color: #def4e4;
+  font-size: .76rem;
+  pointer-events: none;
+}
+.casino.is-playing .casino-presence { visibility: hidden; }
+.casino.is-social .casino-wallet { visibility: hidden; }
+.casino.is-seated :is(.casino-keys, #casino-stick) { visibility: hidden; }
+.casino-shared-error { color: #9b3424; }
+.casino-shared-error:empty { display: none; }
+.casino-shared-balance {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f4e5ba;
+}
+.casino-shared-balance strong { float: right; white-space: nowrap; }
+.casino-table-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-block: 8px; }
+.casino-panel .casino-option:disabled { opacity: .5; }
+.casino-seats { list-style: none; padding: 0; margin-block: 10px; }
+.casino-seats li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border-bottom: 1px solid #d9ceb9;
+  overflow-wrap: anywhere;
+}
+.casino-seats small, .casino-seats strong { white-space: nowrap; }
+.casino-panel [data-casino-friends] { margin-bottom: 8px; }
 .casino-keys, #casino-prompt {
   position: absolute;
   left: 50%;

@@ -5,6 +5,8 @@
 // Los faradios de prueba viven en este navegador (localStorage) y no tocan el saldo real ni el servidor: el saldo real
 // de quien tiene cuenta lo lleva el servidor (decisión 0057) y un prototipo no debe escribir en él.
 // Usa la misma copia de Three.js que avatar3d.js (misma dirección, así que el navegador la carga una sola vez).
+import {casinoFriends} from './casino-friends.js';
+
 let THREE, ramp, inkLine;
 let opening = false;
 
@@ -33,7 +35,11 @@ const ROOM={w:26,d:20},STATIONS=[
   {id:'slots',name:'las tragaperras',x:0,z:-8.2,r:2.6,box:[3.4,1]},
   {id:'poker',name:'el póker',x:7,z:-3,r:2.3}
 ];
+const pokerSeats=[{x:7,z:-.7,heading:Math.PI},{x:4.6,z:-3,heading:Math.PI/2},
+  {x:9.4,z:-3,heading:-Math.PI/2},{x:7,z:-5.3,heading:0}];
 let renderer,scene,camera,hero,wheel,running=false,frame=0,last=0,built=false,near=null,game=null;
+const peers=new Map();
+let presence=[],mySeat=null;
 const pos={x:0,z:6},keys={up:0,down:0,left:0,right:0},stick={x:0,y:0};
 let yaw=0,pitch=.32,heading=Math.PI,stride=0,pace=0,wheelSpin=0;
 
@@ -123,6 +129,10 @@ function buildPoker({x,z}){
     const mesh=new THREE.Mesh(new THREE.PlaneGeometry(.34,.48),new THREE.MeshBasicMaterial({map:card}));mesh.rotation.x=-Math.PI/2;mesh.rotation.z=(2-i)*.16;mesh.position.set((i-2)*.36,1.08+i*.002,.1-Math.abs(i-2)*.05);group.add(mesh);
   }
   for(const [dx,dz,color] of [[-1.1,-.5,CORAL],[-.95,-.62,YELLOW],[1.05,-.5,BLUE]])drum(.11,.12,color,[dx,1.13,dz],group,20);
+  for(const seat of pokerSeats){
+    drum(.16,.36,INK,[seat.x,.18,seat.z],scene,16);
+    drum(.4,.16,BLUE,[seat.x,.41,seat.z],scene,20);
+  }
   sign('PÓKER',BLUE,[0,3,0],3,group).userData.face=true;
 }
 
@@ -145,6 +155,7 @@ function poseHero(dt,now){
     const home=hero.feet[i];feet[i].position.set(home.x,home.y+Math.max(0,(i?-1:1)*Math.cos(stride))*.11*walk,home.z-Math.sin(s)*.62);feet[i].rotation.x=s*.5;
   });
   arms.forEach(({arm,fore,side},i)=>{const s=(i?1:-1)*swing*.85;arm.rotation.set(.02+s,0,side*(.34+breath*.012));fore.rotation.set(-.28-Math.abs(s)*.5+breath*.02,0,side*-.08)});
+  if(mySeat!==null)seatPose(hero.entry);
 }
 
 function build(){
@@ -171,6 +182,69 @@ function collide(){
     const dx=pos.x-s.x,dz=pos.z-s.z,d=Math.hypot(dx,dz)||.001,min=s.r-.25;if(d<min){pos.x=s.x+dx/d*min;pos.z=s.z+dz/d*min}
   }
 }
+function seatPose(model){
+  model.group.position.y=-.28;
+  for(const leg of model.parts.legs)leg.rotation.x=-1.12;
+}
+function showPeers(players,seat=null){
+  presence=players||[];
+  if(seat!==mySeat&&pokerSeats[seat]){
+    const target=pokerSeats[seat];
+    pos.x=target.x;
+    pos.z=target.z;
+    heading=target.heading;
+    yaw=Math.PI-heading;
+  }
+  mySeat=seat;
+  dialog.classList.toggle('is-seated',mySeat!==null);
+  const status=$('casino-presence');
+  status.hidden=!players;
+  status.textContent=presence.length?`Con amigos · ${presence.map(peer=>peer.name).join(', ')}`:'Salón compartido · Esperando a tus amigos';
+  const ids=new Set(presence.map(peer=>peer.id));
+  for(const [id,peer] of peers){
+    if(ids.has(id))continue;
+    scene.remove(peer.model.group);
+    peer.model.group.remove(peer.tag);
+    peer.tag.material.map.dispose();
+    peer.tag.material.dispose();
+    window.Avatar3D.dispose(peer.model);
+    peers.delete(id);
+  }
+}
+function movePeers(dt){
+  for(const friend of presence){
+    const target=pokerSeats[friend.seat]??friend;
+    let peer=peers.get(friend.id);
+    if(!peer){
+      const model=window.Avatar3D.build(window.Avatar.resolve(friend.look));
+      const texture=paint(512,92,(context,w,h)=>{
+        context.fillStyle='#202436';context.beginPath();context.roundRect(0,0,w,h,30);context.fill();
+        context.fillStyle=PAPER;context.font='bold 48px Arial';context.textAlign='center';context.textBaseline='middle';
+        context.fillText(friend.name,w/2,h/2,w-32);
+      });
+      const tag=new THREE.Sprite(new THREE.SpriteMaterial({map:texture}));
+      tag.position.y=3;tag.scale.set(2.4,.43,1);
+      model.group.add(tag);model.group.position.set(friend.x,0,friend.z);
+      model.group.rotation.y=friend.heading;
+      scene.add(model.group);
+      peer={model,tag,stride:0};
+      peers.set(friend.id,peer);
+    }
+    const {group,parts}=peer.model;
+    const speed=Math.min(1,dt*5);
+    const distance=Math.hypot(target.x-group.position.x,target.z-group.position.z);
+    group.position.x+=(target.x-group.position.x)*speed;
+    group.position.z+=(target.z-group.position.z)*speed;
+    const turn=target.heading-group.rotation.y;
+    group.rotation.y+=Math.atan2(Math.sin(turn),Math.cos(turn))*speed;
+    peer.stride+=dt*9;
+    const swing=reduced?0:Math.sin(peer.stride)*Math.min(.45,distance);
+    parts.legs.forEach((leg,i)=>{leg.rotation.x=i?swing:-swing});
+    parts.arms.forEach(({arm},i)=>{arm.rotation.x=i?-swing:swing});
+    group.position.y=0;
+    if(pokerSeats[friend.seat])seatPose(peer.model);
+  }
+}
 function nearest(){
   let best=null,dist=Infinity;
   for(const s of STATIONS){const d=Math.hypot(pos.x-s.x,pos.z-s.z)-(s.box?s.box[1]:s.r);if(d<1.5&&d<dist){best=s;dist=d}}
@@ -179,7 +253,7 @@ function nearest(){
 function tick(now){
   if(!running)return;frame=requestAnimationFrame(tick);
   const dt=Math.min(.05,(now-last)/1000);last=now;
-  let ix=keys.right-keys.left+stick.x,iz=keys.down-keys.up+stick.y;const len=Math.hypot(ix,iz),moving=len>.08&&!game;
+  let ix=keys.right-keys.left+stick.x,iz=keys.down-keys.up+stick.y;const len=Math.hypot(ix,iz),moving=len>.08&&!game&&mySeat===null;
   if(moving){
     if(len>1){ix/=len;iz/=len}
     const dx=ix*Math.cos(yaw)+iz*Math.sin(yaw),dz=-ix*Math.sin(yaw)+iz*Math.cos(yaw),speed=4.6;
@@ -189,13 +263,17 @@ function tick(now){
   }
   pace+=((moving?1:0)-pace)*Math.min(1,dt*10);if(reduced)pace=0;
   poseHero(dt,now);
+  movePeers(dt);
   if(wheel){wheel.rotation.y+=dt*(.25+wheelSpin);wheelSpin*=Math.exp(-dt*1.1)}
   const dist=camera.aspect<1?7.4:6.4,cx=Math.sin(yaw)*Math.cos(pitch)*dist,cz=Math.cos(yaw)*Math.cos(pitch)*dist;
   const W=ROOM.w/2-.5,D=ROOM.d/2-.5;
   camera.position.set(Math.max(-W,Math.min(W,pos.x+cx)),1.5+Math.sin(pitch)*dist,Math.max(-D,Math.min(D,pos.z+cz)));camera.lookAt(pos.x,1.35,pos.z);
   scene.traverse(node=>{if(node.userData.face)node.rotation.y=Math.atan2(camera.position.x-node.parent.position.x,camera.position.z-node.parent.position.z)});
-  const next=game?null:nearest();
-  if(next!==near){near=next;const prompt=$('casino-prompt');prompt.hidden=!near;if(near)prompt.innerHTML=`Jugar a ${near.name} <kbd>E</kbd>`}
+  const next=game||mySeat!==null?null:nearest();
+  near=next;
+  const prompt=$('casino-prompt'),seated=mySeat!==null&&!game;
+  const label=seated?'Volver a la mesa':near?`Jugar a ${near.name} <kbd>E</kbd>`:'';
+  if(prompt.dataset.label!==label){prompt.dataset.label=label;prompt.hidden=!label;prompt.innerHTML=label}
   renderer.render(scene,camera);
 }
 
@@ -222,10 +300,16 @@ window.addEventListener('blur',()=>{for(const key in keys)keys[key]=0});
   pad.addEventListener('pointermove',event=>{if(hold===event.pointerId)move(event)});
   const release=event=>{if(hold!==event.pointerId)return;hold=null;stick.x=stick.y=0;knob.style.transform=''};pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);
 }
-$('casino-prompt').addEventListener('click',()=>{if(near)openGame(near.id)});
+$('casino-prompt').addEventListener('click',()=>{
+  if(mySeat!==null)openGame('friends');
+  else if(near)openGame(near.id);
+});
 
 // ---------- Juegos ----------
 const panel=$('casino-panel');
+const friends=casinoFriends({
+  panel,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close()
+});
 let bet=R.CHIPS[1],busy=false;
 const state={roulette:{pick:{type:'red'},last:null},slots:{reels:[0,1,2],last:null},poker:{stage:'bet',cards:[],held:[],rest:[],stake:0,last:null}};
 const chips=()=>`<div class="casino-chips" role="group" aria-label="Apuesta">${R.CHIPS.map(n=>`<button type="button" class="casino-chip${n===bet?' is-on':''}" data-bet="${n}" aria-pressed="${n===bet}">${n}</button>`).join('')}</div>`;
@@ -256,6 +340,7 @@ const VIEWS={
   poker(){
     const s=state.poker,dealt=s.stage==='draw',name=s.cards.length?R.HANDS[R.hand(s.cards)].name:'';
     return shell('Póker','Jotas o mejor. Guarda las cartas que quieras y cambia el resto una vez.',`
+      ${dealt?'':'<button type="button" class="casino-option" data-casino-friends>Jugar al póker con amigos</button>'}
       <div class="casino-cards">${(s.cards.length?s.cards:Array(5).fill(null)).map((card,i)=>card?`<button type="button" class="casino-card${card.s===1||card.s===2?' is-red':''}${s.held[i]?' is-held':''}" data-hold="${i}" aria-pressed="${!!s.held[i]}"${dealt?'':' disabled'}><b>${R.label(card).slice(0,-1)}</b><i>${R.SUITS[card.s]}</i><small>${s.held[i]?'Guardada':''}</small></button>`:'<span class="casino-card is-back"></span>').join('')}</div>
       <p class="casino-hand">${dealt?`Ahora mismo: ${name}`:s.last?'':'Elige apuesta y reparte.'}</p>
       ${dealt?`<button class="casino-play" type="button" data-draw>Cambiar cartas</button>`:`${chips()}${playButton('Repartir','data-deal')}`}${outcome(dealt?null:s.last)}
@@ -263,7 +348,7 @@ const VIEWS={
   }
 };
 function render(){
-  if(!game)return;
+  if(!game||game==='friends')return;
   const focused=document.activeElement;
   const action=panel.contains(focused)?Object.entries(focused.dataset)[0]:null;
   panel.innerHTML=VIEWS[game]();
@@ -273,9 +358,20 @@ function render(){
     (next||panel.querySelector('.casino-play:not(:disabled), [data-casino-leave]'))?.focus();
   }
 }
-function openGame(id){if(game||!Object.hasOwn(VIEWS,id))return;refreshWallet();game=id;for(const key in keys)keys[key]=0;panel.hidden=false;$('casino-prompt').hidden=true;near=null;dialog.classList.add('is-playing');render();panel.querySelector('.casino-play,[data-casino-leave]')?.focus()}
+function openGame(id){
+  if(game||(id!=='friends'&&!Object.hasOwn(VIEWS,id)))return;
+  refreshWallet();
+  game=id;
+  for(const key in keys)keys[key]=0;
+  panel.hidden=false;$('casino-prompt').hidden=true;near=null;
+  dialog.classList.add('is-playing');
+  if(game==='friends'){dialog.classList.add('is-social');friends.open()}
+  else render();
+  panel.querySelector('.casino-play,[data-casino-leave]')?.focus();
+}
 function leaveGame(){
   if(busy)return;
+  if(game==='friends'){friends.hide();dialog.classList.remove('is-social')}
   // Levantarse con una mano de póker repartida la da por jugada tal como está.
   if(game==='poker'&&state.poker.stage==='draw')finishPoker(false);
   game=null;panel.hidden=true;panel.innerHTML='';dialog.classList.remove('is-playing');if(dialog.open)(running?$('casino-canvas'):dialog.querySelector('[data-casino-game]')).focus();
@@ -322,6 +418,8 @@ function finishPoker(exchange=true){
 panel.addEventListener('click',event=>{
   const el=event.target.closest('button');if(!el||busy&&!el.dataset.casinoLeave)return;
   if('casinoLeave' in el.dataset)return leaveGame();
+  if(game==='friends')return friends.click(event);
+  if('casinoFriends' in el.dataset){leaveGame();return openGame('friends')}
   if(el.dataset.bet){bet=Number(el.dataset.bet);return render()}
   if(el.dataset.pick){state.roulette.pick={type:el.dataset.pick};return render()}
   if('spin' in el.dataset)return spinRoulette();
@@ -349,7 +447,7 @@ async function open(){
     if(!dialog.open)return;
     if(!built)build();
     buildHero();
-    Object.assign(pos,{x:0,z:6});yaw=0;pitch=.32;heading=Math.PI;
+    Object.assign(pos,{x:(Math.random()-.5)*3,z:6});yaw=0;pitch=.32;heading=Math.PI;
     dialog.classList.remove('is-flat');
     status.textContent='';
     resize();running=true;last=performance.now();frame=requestAnimationFrame(tick);
@@ -363,10 +461,12 @@ document.querySelectorAll('[data-open-casino]').forEach(button=>button.addEventL
 dialog.querySelector('[data-casino-close]').addEventListener('click',()=>{if(!busy)dialog.close()});
 // Escape sale primero del juego y, si no hay ninguno abierto, del salón.
 dialog.addEventListener('cancel',event=>{if(game||busy){event.preventDefault();leaveGame()}});
-dialog.addEventListener('close',()=>{running=false;cancelAnimationFrame(frame);leaveGame();stick.x=stick.y=0;for(const key in keys)keys[key]=0;document.body.classList.remove('modal-open')});
+dialog.addEventListener('close',()=>{running=false;cancelAnimationFrame(frame);leaveGame();friends.stop();stick.x=stick.y=0;for(const key in keys)keys[key]=0;document.body.classList.remove('modal-open')});
 // Sin 3D (is-flat) no hay mundo por el que andar: los juegos se abren desde una lista.
 dialog.querySelectorAll('[data-casino-game]').forEach(button=>button.addEventListener('click',()=>openGame(button.dataset.casinoGame)));
 window.addEventListener('resize',resize);
+window.addEventListener('pagehide',()=>friends.stop());
+document.addEventListener('faraday:cuenta',event=>{if(event.detail&&'account' in event.detail)friends.stop()});
 window.PlusOffers?.register('casino',{
   title:'Descubre Faraday Plus',
   description:'Consulta el plan desde tu perfil.',
