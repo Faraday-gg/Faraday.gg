@@ -117,6 +117,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0110](0110-pie-y-paginas-legales.md) | Pie de página con privacidad, términos y cookies en `dist/legal/` | Aceptada; faltan los datos del titular | 2026-11-21 |
 | [0112](0112-skins-de-personajes.md) | Skins completas de personajes (Sulley, Stitch, Spider-Man, Iron Man) en un hueco nuevo del avatar | Propuesta; riesgo legal por confirmar | 2026-11-21 |
 | [0113](0113-estadisticas-en-el-perfil.md) | Pestaña «Stats» del perfil: partidas, victorias, «Casi casi» y metros de Ascensión por juego, con comparaciones | Implementada | 2026-11-21 |
+| [0114](0114-archivo-vivo-postura-y-apoyo.md) | Postura, escala, apoyo y referencias de las recreaciones de Archivo Vivo | Implementada | 2026-11-21 |
 
 ## Plantilla
 

@@ -140,7 +140,7 @@ function drawAvatar(viewing) {
   try {
     if (!viewing.avatar) {
       const look = window.Avatar.resolve(window.Progress?.look?.());
-      viewing.avatar = window.Avatar3D.firstPerson(viewing.avatarCanvas, look);
+      viewing.avatar = window.Avatar3D.firstPerson(viewing.avatarCanvas, look, viewing.ground);
     }
     if (viewing.avatar) {
       viewing.avatarCanvas.hidden = false;
@@ -156,6 +156,8 @@ function drawAvatar(viewing) {
 }
 
 function photo(scene) {
+  if (!scene.ground) return `<div class="av-photo"><img src="${photoUrl(scene)}" alt="${scene.alt}"></div>
+    <div class="av-photo-caption"><p>Fotografía de archivo</p></div>`;
   return `<button class="av-photo" type="button" data-av="enter" aria-label="Entrar en el año en 360 grados" aria-describedby="av-photo-description">
     <img id="av-photo-description" src="${photoUrl(scene)}" alt="${scene.alt}">
     <span class="av-enter">${panoramaIcon} Entrar en el año <span class="av-enter-degrees">360°</span></span>
@@ -172,6 +174,7 @@ function showPhoto(scene, focusAnswer) {
 }
 
 function enterPhoto(scene, fromKeyboard) {
+  if (!scene.ground) return;
   const stage = body.querySelector('.av-stage');
   stage.innerHTML = `<div class="av-viewer">
     <img src="${photoUrl(scene)}" alt="${scene.alt}">
@@ -179,7 +182,7 @@ function enterPhoto(scene, fromKeyboard) {
     <canvas class="av-avatar" aria-hidden="true" hidden></canvas>
     <div class="av-viewer-meta">
       <p class="av-viewer-status" role="status">Cargando panorama…</p>
-      <p class="av-viewer-label">${scene.type === 'archive' ? 'Panorama de archivo · 360° horizontal' : 'Recreación con IA'}</p>
+      <p class="av-viewer-label">Recreación con IA</p>
     </div>
     <div class="av-viewer-controls" aria-label="Controles del panorama" role="group" hidden>
       <button class="av-feet" type="button" data-av="feet" hidden>Mirar a mis pies</button>
@@ -194,6 +197,7 @@ function enterPhoto(scene, fromKeyboard) {
   const label = stage.querySelector('.av-viewer-label');
   const status = stage.querySelector('[role="status"]');
   const viewing = {
+    ground: scene.ground,
     avatarCanvas: stage.querySelector('.av-avatar'),
     feetButton: stage.querySelector('[data-av="feet"]')
   };
@@ -256,7 +260,8 @@ function renderRound(scene, guess) {
        <p>${guess === scene.year ? '¡Año exacto!' : `Tu respuesta: ${guess} · Diferencia: ${Math.abs(scene.year - guess)} ${Math.abs(scene.year - guess) === 1 ? 'año' : 'años'}`}</p>
        <p><strong>${scene.title}</strong><br>${scene.place}</p>
        <p>${scene.story}</p>
-       <p class="av-credit">${scene.credit} · ${scene.rights}. <a href="${scene.source}" target="_blank" rel="noopener">Ver ficha de archivo</a></p>
+       <p class="av-credit">${scene.credit} · ${scene.rights}. <a href="${scene.source}" target="_blank" rel="noopener">Ver ficha de archivo</a>
+         ${scene.ground && scene.ground.reference !== scene.source ? ` · <a href="${scene.ground.reference}" target="_blank" rel="noopener">Referencia de la recreación</a>` : ''}</p>
        <p role="status" data-av-error hidden></p>
        <button class="av-primary" type="button" data-av="next">${run.index === run.scenes.length - 1 ? 'Ver resultado' : 'Siguiente foto'}</button>`;
   body.innerHTML = `<div class="av-round">

@@ -3,6 +3,7 @@ import {randomUUID,createHash} from 'node:crypto';
 import {createArchivoVivo} from '../lib/archivo-vivo.mjs';
 import {createContinuations,fileContinuations} from '../lib/continuaciones.mjs';
 import {createApi} from '../lib/api.mjs';
+import {activeSceneIds,initialSceneIdsForDay} from '../dist/archivo-vivo-rondas.js';
 
 const mode='archivo-vivo';
 const database=fileContinuations();
@@ -172,5 +173,17 @@ const reconnect=()=>flakyApi.handle(new Request('http://faraday.test/api/continu
 }));
 assert.equal((await reconnect()).status,503);
 assert.equal((await (await reconnect()).json()).id,localRun.id,'Después de un fallo de conexión, el mismo inicio recupera la partida');
+
+archive=createArchivoVivo({store,scope:'curacion',now:()=>time,planOf:async()=>({plus:true})});
+const curatedOpening=await post('archivo-estado',{},'curacion',true);
+assert.deepEqual(curatedOpening.scenes,initialSceneIdsForDay(curatedOpening.date));
+const curatedDone=await finish(curatedOpening,'curacion',true);
+const curatedExtra=await post('archivo-extra',{from:curatedDone.id},'curacion',true);
+assert.ok(curatedExtra.scenes.every(id=>activeSceneIds.includes(id)));
+assert.equal(new Set([...curatedOpening.scenes,...curatedExtra.scenes]).size,6);
+assert.ok(!activeSceneIds.includes('02'));
+const legacyPhoto=await post('archivo-estado',{legacy:{index:1,guesses:[1940]}},'historial');
+assert.deepEqual(legacyPhoto.scenes,['01','02','03']);
+assert.deepEqual((await post('archivo-responder',{...ref(legacyPhoto),guess:1972},'historial')).guesses,[1940,1972]);
 
 console.log('Archivo Vivo: anuncios 15/60, reanudación, catálogo, aislamiento, versión anterior y Plus correctos');

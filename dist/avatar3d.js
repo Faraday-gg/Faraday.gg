@@ -368,11 +368,13 @@ function buildModel(look){
       if(type!=='plumas')add(fore,new THREE.CylinderGeometry(.125*K,.118*K,.085,24),cuff,[0,-.12,0],[],[],O);
       else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
-    const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);arms.push({arm,fore,hand,side});
+    const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);
     add(hand,box(3),skin,[0,-.04,0],[.056,.07,.086],[],.045);
     // Los dedos salen en abanico y un poco curvados hacia la palma; el contorno de cada uno dibuja la línea entre dedos.
-    for(const [z,length] of [[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]])add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3);
-    add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);
+    const fingers=[[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]].map(([z,length])=>
+      add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3));
+    const thumb=add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);
+    arms.push({arm,fore,hand,fingers,thumb,side});
   }
   if(type==='sudadera'||type==='plumas'){
     // Capucha caída: un rollo alrededor del cuello, con el centro relleno para que por detrás no se vea el hueco.
@@ -583,8 +585,8 @@ function dispose(entry){
   for(const item of materials){item.map?.dispose();item.dispose()}
   for(const rig of entry.climbRigs||[])rig.skeleton.dispose();
 }
-// El cuerpo se proyecta desde los ojos. Los dos antebrazos enmarcan la vista y dejan libre el centro del panorama.
-function firstPerson(canvas, look) {
+// El cuerpo comparte la perspectiva del panorama. Los brazos descansan a distinta altura, con las muñecas hacia dentro.
+function firstPerson(canvas, look, ground) {
   const context = canvas.getContext('2d');
   if (!context) return null;
   const entry = buildModel(look);
@@ -592,26 +594,53 @@ function firstPerson(canvas, look) {
   const armAnchor = new THREE.Group();
   const eye = new THREE.PerspectiveCamera(75, 1, 0.07, 8);
   const target = new THREE.Vector3();
-  eye.position.set(0, 1.62 + entry.base, 0.58);
+  eye.position.set(0, ground.eyeHeight + entry.base, 0.52);
   neck.visible = false;
   entry.group.add(armAnchor);
-  for (const { arm, fore, hand, side } of arms) {
+  for (const [index, { arm, fore, hand, fingers = [], thumb, side }] of arms.entries()) {
     armAnchor.add(arm);
-    arm.scale.setScalar(0.96);
-    arm.rotation.set(1.54, 0, side * 0.28, 'ZXY');
-    fore.rotation.set(1.02, -side * 0.08, side * 0.20, 'ZXY');
-    hand.rotation.set(-0.18, side * 0.36, side * 0.11);
+    arm.rotation.set(1.45 + index * 0.11, 0, side * 0.40, 'ZXY');
+    fore.rotation.set(0.36 + index * 0.11, -side * 0.14, side * 0.28, 'ZXY');
+    hand.rotation.set(-0.30, side * (0.37 + index * 0.16), -side * 0.16);
+    // Dedos semicerrados y pulgar recogido en lugar de una palma plana.
+    for (const [digit, finger] of fingers.entries()) {
+      finger.rotation.z = -side * (0.78 + digit * 0.12);
+      finger.position.x -= side * 0.034;
+      finger.position.y += 0.028;
+    }
+    if (thumb) {
+      thumb.rotation.z = -side * 0.5;
+      thumb.position.y -= 0.044;
+      thumb.position.z -= 0.012;
+    }
   }
+  const shade = paint((ctx, size) => {
+    const center = size / 2;
+    const gradient = ctx.createRadialGradient(center, center, size * 0.23, center, center, center);
+    gradient.addColorStop(0, 'rgba(22, 17, 13, 1)');
+    gradient.addColorStop(1, 'rgba(22, 17, 13, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, size, size);
+  }, 64);
+  const contact = new THREE.MeshBasicMaterial({ map: shade, transparent: true, depthWrite: false, opacity: ground.shadow });
+  const footprint = new THREE.PlaneGeometry(0.69, 0.87);
+  const shadows = new THREE.Group();
+  entry.group.add(shadows);
   // Un pie adelantado abre la vista entre la ropa del torso, las perneras y las punteras.
   for (const [index, leg] of legs.entries()) {
     leg.position.z += 0.13;
     leg.rotation.x = -0.16 - index * 0.09;
-    feet[index].position.z += 0.20 + index * 0.07;
+    const shoe = feet[index];
+    shoe.position.z += 0.14 + index * 0.09;
+    const shadow = new THREE.Mesh(footprint, contact);
+    shadow.rotation.x = -Math.PI / 2;
+    shadow.position.set(shoe.position.x, -0.012, shoe.position.z + 0.075);
+    shadows.add(shadow);
   }
-  let lastPitch;
+  let lastPitch, lastField;
 
   return {
-    draw({ pitch, width, height }) {
+    draw({ pitch, field, width, height }) {
       if (renderer.getContext().isContextLost()) {
         lastPitch = undefined;
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -620,16 +649,15 @@ function firstPerson(canvas, look) {
       const scale = Math.min(SCALE, BUF_W / width, BUF_H / height);
       const pixelsWide = Math.max(1, Math.round(width * scale));
       const pixelsHigh = Math.max(1, Math.round(height * scale));
-      if (pitch === lastPitch && canvas.width === pixelsWide && canvas.height === pixelsHigh) return true;
+      if (pitch === lastPitch && field === lastField && canvas.width === pixelsWide && canvas.height === pixelsHigh) return true;
       lastPitch = pitch;
+      lastField = field;
       if (canvas.width !== pixelsWide || canvas.height !== pixelsHigh) {
         canvas.width = pixelsWide;
         canvas.height = pixelsHigh;
       }
       eye.aspect = width / height;
-      const halfHeight = THREE.MathUtils.clamp(0.90 / Math.sqrt(eye.aspect), 0.63, 1.12);
-      eye.position.z = eye.aspect < 0.75 ? 0.63 : 0.58;
-      eye.fov = THREE.MathUtils.radToDeg(2 * Math.atan(halfHeight));
+      eye.fov = THREE.MathUtils.radToDeg(2 * Math.atan(field));
       eye.updateProjectionMatrix();
       target.copy(eye.position);
       target.y += Math.sin(pitch);
@@ -637,15 +665,20 @@ function firstPerson(canvas, look) {
       eye.lookAt(target);
 
       body.visible = pitch < -0.33;
+      shadows.visible = body.visible;
       armAnchor.position.copy(eye.position);
       armAnchor.quaternion.copy(eye.quaternion);
       // Al mirar los pies, los brazos ceden el centro de la imagen sin saltos de postura.
       const feetView = THREE.MathUtils.smoothstep(-pitch, 0.55, 1.25);
-      const shoulderX = (0.78 + 0.29 * feetView) * halfHeight * eye.aspect;
-      const shoulderY = -(0.70 + 0.36 * feetView) * halfHeight;
-      for (const { arm, side } of arms) arm.position.set(-side * shoulderX, shoulderY, -0.72);
+      const armScale = 0.87 * field / Math.max(0.72, Math.min(1.18, 1.18 / eye.aspect));
+      for (const [index, { arm, side }] of arms.entries()) {
+        const shoulderX = (0.78 + index * 0.03 + 0.25 * feetView) * field * eye.aspect;
+        const shoulderY = -(0.67 + index * 0.245 + 0.53 * feetView) * field;
+        arm.position.set(-side * shoulderX, shoulderY, -0.64);
+        arm.scale.setScalar(armScale);
+      }
 
-      const shadows = renderer.shadowMap.enabled;
+      const castShadows = renderer.shadowMap.enabled;
       scene.add(entry.group);
       floor.visible = false;
       renderer.shadowMap.enabled = false;
@@ -654,7 +687,7 @@ function firstPerson(canvas, look) {
       } finally {
         scene.remove(entry.group);
         floor.visible = true;
-        renderer.shadowMap.enabled = shadows;
+        renderer.shadowMap.enabled = castShadows;
       }
       return true;
     },
