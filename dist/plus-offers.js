@@ -31,7 +31,7 @@
       !duelModes.has(mode)&&limit!==null&&remaining!==null?`Hoy te quedan ${Math.min(limit,remaining)} de ${limit} partidas gratuitas.`:'';
     const note=offer.enabled?(offer.price?`${offer.price} · renovación automática · cancela cuando quieras`:'Consulta el precio y las condiciones en tu perfil.'):
       offer.linked?'La contratación todavía no está disponible. Consulta las ventajas en tu perfil.':'Entra con tu cuenta para consultar las ventajas y la disponibilidad.';
-    const value={mode,plus,title:copy.title,description:copy.description,cta:offer.enabled?(copy.cta||'Ver opciones de Plus'):'Descubrir Plus',note,quota:quotaText,
+    const value={mode,plus,title:copy.title,description:copy.description,benefits:copy.benefits??(mode==='home'?'':'Partidas extra sin anuncios con Plus. Consulta las ventajas actuales en tu perfil.'),cta:offer.enabled?(copy.cta||'Ver opciones de Plus'):'Descubrir Plus',note,quota:quotaText,
       compact:options.compact===true,limit,remaining,exhausted,snapshot:typeof options.plus==='boolean'?options.plus:null};
     value.key=fingerprint(value);return value;
   }
@@ -43,14 +43,14 @@
       <span class="plus-offer-badge">FARADAY PLUS</span><h4>${escape(value.title)}</h4>
       <p class="plus-offer-description">${escape(value.description)}</p>
       ${value.quota?`<p class="plus-offer-quota">${escape(value.quota)}</p>`:''}
-      ${mode==='home'?'':'<p class="plus-offer-benefits">Partidas extra sin anuncios con Plus. Consulta las ventajas actuales en tu perfil.</p>'}
+      ${value.benefits?`<p class="plus-offer-benefits">${escape(value.benefits)}</p>`:''}
       <button class="game-primary plus-offer-action" type="button" data-open-plus="${escape(mode)}"><span>${escape(value.cta)}</span><span aria-hidden="true">→</span></button>
       <small class="plus-offer-note">${escape(value.note)}</small>
     </section>`;
   }
   function register(id,config){
     if(!validMode(id)||!config||typeof config.title!=='string'||typeof config.description!=='string')throw new TypeError('Modalidad de Plus no válida');
-    modes.set(id,{title:config.title.slice(0,160),description:config.description.slice(0,600),...(typeof config.cta==='string'?{cta:config.cta.slice(0,100)}:{})});
+    modes.set(id,{title:config.title.slice(0,160),description:config.description.slice(0,600),...(typeof config.benefits==='string'?{benefits:config.benefits.slice(0,600)}:{}),...(typeof config.cta==='string'?{cta:config.cta.slice(0,100)}:{})});
     if(typeof document!=='undefined')refresh();
   }
   const find=(root,selector)=>[...(root.matches?.(selector)?[root]:[]),...root.querySelectorAll(selector)];
