@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
+import {comprobarFotos} from '../lib/fotos.mjs';
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-community-'));
 let server;
 async function start(){server=spawn(process.execPath,['preview-server.mjs'],{env:{...process.env,PORT:'4174',ANSWERS_FILE:path.join(directory,'answers.json'),DAYS_DIRECTORY:path.join(directory,'days')},stdio:['ignore','pipe','inherit']});await once(server.stdout,'data')}
@@ -19,6 +20,10 @@ try{
   assert.equal((await post(first,100,'desconocida')).status,400);
   assert.equal((await fetch('http://127.0.0.1:4174/runtime/answers.json')).status,404);
   assert.equal((await fetch('http://127.0.0.1:4174/assets/las-canteras.jpg')).headers.get('content-type'),'image/jpeg');
+  // Todas las fotos de ayuda que sirve la API, archivo incluido, existen.
+  const fotos=await comprobarFotos({base:'http://127.0.0.1:4174'});
+  assert(fotos.dias>90&&fotos.fotos>40,`Recorre el archivo y sus fotos (${fotos.dias} jornadas, ${fotos.fotos} fotos)`);
+  assert.deepEqual(fotos.rotas,[],'Ninguna foto de ayuda rota');
   const daily=async player=>{const r=await fetch('http://127.0.0.1:4174/api/daily-scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({date:'2026-11-09',player})});return {status:r.status,data:await r.json()}};
   assert.equal((await daily(first)).status,409,'Un día incompleto no participa');
   await post(first,60000,'piloto-v2-2');await post(first,4700,'piloto-v3-2026-11-09-3');
