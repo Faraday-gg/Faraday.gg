@@ -1,10 +1,13 @@
-// Presencia y mesa compartida. El servidor decide de quién son las cartas y cuánto cobra cada mano.
-export function casinoFriends({panel,onPresence,position,closeSalon}){
-  let enabled=false,active=false,working=false,state=null,error='',held=[],roundId,signature='',epoch=0,timer,flight;
+// Presencia y mesa compartida de Texas Hold'em. El servidor reparte, guarda las cartas de cada uno, lleva los
+// turnos y liquida el bote; aquí solo se enseña la mesa y se envían las jugadas.
+import {pokerTable,pokerActions} from './casino-tables.js';
+
+export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
+  let enabled=false,active=false,working=false,state=null,error='',raise=0,turnKey='',signature='',epoch=0,timer,flight,receivedAt=0;
   const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const money=n=>new Intl.NumberFormat('es-ES').format(n)+' ≈';
-  const card=({r,s})=>escape(({11:'J',12:'Q',13:'K',14:'A'}[r]||r)+['♠','♥','♦','♣'][s]);
-  const button=(action,label,disabled=false)=>`<button type="button" class="casino-option" data-casino-action="${action}" ${disabled?'disabled':''}>${label}</button>`;
+  const button=(action,label,disabled=false,kind='casino-option')=>`<button type="button" class="${kind}" data-casino-action="${action}" ${disabled?'disabled':''}>${label}</button>`;
+  const actions=(...buttons)=>`<div class="stage-actions">${buttons.join('')}</div>`;
   async function request(action,extra={}){
     const response=await fetch('/api/casino',{
       method:'POST',headers:{'Content-Type':'application/json'},
@@ -12,38 +15,48 @@ export function casinoFriends({panel,onPresence,position,closeSalon}){
     });
     return {ok:response.ok,status:response.status,...await response.json()};
   }
-  function markup(){
-    if(!enabled)return `<p>Comparte tu avatar y tu posición con tus amigos mientras estés en el Salón. Aquí podéis sentaros a jugar juntos.</p>
-      ${button('enable','Entrar con amigos',working)} ${button('profile','Abrir el panel de amigos')}`;
-    if(!state)return `<p>Conectando con el Salón…</p>${button('exit','Cancelar')}`;
-    const {table,tables,players,coins,ante}=state;
-    const balance=`<p class="casino-shared-balance">Monedero de póker compartido <strong>${money(coins)}</strong></p>`;
-    if(!table)return `${balance}<p>${players.length?'En el Salón: '+players.map(peer=>escape(peer.name)).join(', ')+'.':'Tus amigos aparecerán aquí cuando entren en el Salón compartido.'}</p>
-      <p>Póker de descarte para 2 a 4 amigos. Cada mano cuesta ${money(ante)} por persona. La mejor mano gana el bote.</p>
-      <div class="casino-table-actions">${button('create','Abrir mi mesa')}${button('exit','Dejar de compartir')}</div>
-      ${tables.length?`<ul class="casino-seats">${tables.map(room=>`<li><span>Mesa de ${escape(room.name)} · ${room.seats}/4</span><button class="casino-option" type="button" data-casino-action="join" data-room="${escape(room.id)}">Sentarme</button></li>`).join('')}</ul>`:''}`;
-    const {round,seats,host}=table,me=seats.find(seat=>seat.mine);
-    const cards=(round?.cards||[]).map((value,i)=>`<button type="button" class="casino-card${held[i]?' is-held':''}${value.s===1||value.s===2?' is-red':''}"
-      data-casino-hold="${i}" aria-pressed="${!!held[i]}" ${round.waiting?'disabled':''}><b>${card(value)}</b><small>${held[i]?'Guardada':''}</small></button>`).join('');
-    return `${balance}<ul class="casino-seats">${seats.map(seat=>`<li><span>${escape(seat.name)}${seat.mine?' (tú)':''}</span><small>${round?.cards?'Sentado':seat.ready?'Listo':'Esperando'}</small></li>`).join('')}</ul>
-      ${round?.cards?`<div class="casino-cards">${cards}</div>
-        <p>${round.waiting?'Esperando a los demás.':'Marca las cartas que quieres guardar. Puedes cambiar una vez. Si se acaba el tiempo, conservas tu mano.'}</p>
-        <p class="casino-shared-clock">Tiempo restante <strong data-casino-clock></strong></p>
-        ${round.waiting?'':button('draw',held.every(Boolean)?'Plantarse':'Cambiar cartas')}`:
-        `${round?.results?`<div class="casino-showdown"><h4>Resultado</h4><ul class="casino-seats">${round.results.map(entry=>`<li><span><b>${escape(entry.name)}</b><br>${entry.cards.map(card).join(' ')} · ${escape(entry.label)}</span>${entry.prize?`<strong>+${money(entry.prize)}</strong>`:''}</li>`).join('')}</ul></div>`:''}
-        <p>Entrada por mano: ${money(ante)}. El bote se reparte si hay empate.</p>
-        <div class="casino-table-actions">${button('ready',me?.ready?'Cancelar listo':'Listo para apostar',!me?.ready&&coins<ante)}
-        ${host?button('deal','Repartir',seats.length<2||seats.some(seat=>!seat.ready)):''}</div>`}
-      <div class="casino-table-actions">${button('stand','Levantarme')}</div>`;
+  // Lo que se ve: la mesa (para pokerTable) y la barra de abajo.
+  function view(){
+    const alone={seats:[{name:'Tú',look:window.Progress?.look?.()}],say:'Mesa de amigos'};
+    if(!enabled)return {...alone,center:'<p>Comparte tu avatar y tu posición con tus amigos mientras estés en el Salón y sentaos a jugar juntos.</p>',
+      bar:actions(button('enable','Entrar con amigos',working,'casino-play'),button('profile','Abrir el panel de amigos'))};
+    if(!state)return {...alone,center:'<p>Conectando con el Salón…</p>',bar:actions(button('exit','Cancelar'))};
+    const {table,tables,players,coins,small,big,cap}=state;
+    const balance=`<p class="casino-shared-balance">Monedero compartido <strong>${money(coins)}</strong></p>`;
+    if(!table)return {...alone,
+      center:`<p>${players.length?'En el Salón: '+players.map(peer=>escape(peer.name)).join(', ')+'.':'Tus amigos aparecerán aquí cuando entren en el Salón compartido.'}</p>
+        <p>Texas Hold'em para 2 a 4 amigos. Ciegas ${small} y ${big}. Cada uno juega la mano con lo que tenga, hasta ${money(cap)}.</p>
+        ${tables.length?`<ul class="casino-seats">${tables.map(room=>`<li><span>Mesa de ${escape(room.name)} · ${room.seats}/4</span><button class="casino-option" type="button" data-casino-action="join" data-room="${escape(room.id)}">Sentarme</button></li>`).join('')}</ul>`:''}`,
+      bar:balance+actions(button('create','Abrir mi mesa',false,'casino-play'),button('exit','Dejar de compartir'))};
+    const {round,seats,host}=table,me=seats.find(seat=>seat.mine),live=!!round&&round.stage!=='done';
+    const mine=round?round.seats.findIndex(seat=>seat.mine):-1;
+    const stand=button('stand','Levantarme');
+    // La última mano se sigue viendo hasta que se reparte la siguiente; quien acaba de llegar ve los asientos.
+    if(round&&(live||mine>=0)){
+      const list=round.seats.map((seat,i)=>({...seat,button:i===round.button,turn:i===round.turn,allin:seat.allin&&live,
+        cards:seat.cards||(seat.folded&&!live?undefined:null)}));
+      const at=Math.max(0,mine),turn=round.seats[round.turn];
+      return {seats:[...list.slice(at),...list.slice(0,at)],board:round.board,pot:live?round.pot:0,
+        say:!live?'Mano terminada':round.turn===mine?'Tú hablas':`Habla ${turn?.name||''}`,
+        mine:live?`Tiempo para jugar <strong data-casino-clock></strong>`:'',
+        bar:round.legal?pokerActions(round.legal,raise,big)
+          :live?`<div class="stage-actions"><p class="pk-wait">${mine>=0&&!round.seats[mine].folded?`Habla ${escape(turn?.name||'')}…`:'Esperando a la siguiente mano.'}</p>${stand}</div>`
+          :balance+actions(button('ready',me?.ready?'Cancelar listo':'Listo para otra mano',!me?.ready&&coins<big,'casino-play'),
+            host?button('deal','Repartir',seats.length<2||seats.some(seat=>!seat.ready)):'',stand)};
+    }
+    const at=Math.max(0,seats.indexOf(me)),list=seats.map(seat=>({...seat,note:seat.ready?'Listo':'Esperando'}));
+    return {seats:[...list.slice(at),...list.slice(0,at)],say:'Hagan juego',
+      center:`<p>${seats.length<2?'Esperando a que se siente algún amigo.':`Ciegas ${small} y ${big}. Cuando estéis todos listos, quien abrió la mesa reparte.`}</p>`,
+      bar:balance+actions(button('ready',me?.ready?'Cancelar listo':'Listo para jugar',!me?.ready&&coins<big,'casino-play'),
+        host?button('deal','Repartir',seats.length<2||seats.some(seat=>!seat.ready)):'',stand)};
   }
   function render(){
     if(!active)return;
-    const html=`<header class="casino-panel-head"><div><h3>Póker con amigos</h3><p>Salón compartido</p></div>
-      <button class="game-back" type="button" data-casino-leave aria-label="Volver al salón">×</button></header>
-      <p class="casino-shared-error" role="status">${escape(error)}</p>${markup()}`;
+    const {bar,...table}=view();
+    const html=shell('Póker con amigos',"Salón compartido · Texas Hold'em",pokerTable(table),`<p class="casino-shared-error" role="status">${escape(error)}</p>${bar}`);
     if(html===signature)return;
     const focus=document.activeElement;
-    const field=panel.contains(focus)?[...focus.attributes].find(attr=>attr.name==='data-casino-hold'||attr.name==='data-casino-action'||attr.name==='data-casino-leave'):null;
+    const field=panel.contains(focus)?[...focus.attributes].find(attr=>attr.name==='data-poker'||attr.name==='data-casino-action'||attr.name==='data-casino-leave'):null;
     signature=html;
     panel.innerHTML=html;
     updateClock();
@@ -57,14 +70,12 @@ export function casinoFriends({panel,onPresence,position,closeSalon}){
     const clock=active&&panel.querySelector('[data-casino-clock]');
     if(clock)clock.textContent=Math.max(0,Math.ceil((state.table.round.ends-state.serverTime-(performance.now()-receivedAt))/1000))+' s';
   }
-  let receivedAt=0;
   function update(data){
     receivedAt=performance.now();
     state=data;
-    if(roundId!==data.table?.round?.id){
-      roundId=data.table?.round?.id;
-      held=Array(5).fill(false);
-    }
+    // La cantidad elegida para subir solo vale para el turno en que se eligió.
+    const round=data.table?.round,key=round?`${round.id}:${round.stage}:${round.turn}`:'';
+    if(key!==turnKey){turnKey=key;raise=0}
     onPresence(data.players,data.table?.seat??null);
     render();
   }
@@ -111,11 +122,11 @@ export function casinoFriends({panel,onPresence,position,closeSalon}){
   function click(event){
     const item=event.target.closest('button');
     if(!item||!active)return;
-    if(item.dataset.casinoHold!==undefined){
-      const i=Number(item.dataset.casinoHold);
-      held[i]=!held[i];
-      render();
-      return;
+    const move=item.dataset.poker,round=state?.table?.round;
+    if(move){
+      if(!round?.legal)return;
+      const {minTo,maxTo}=round.legal;
+      return send('act',{id:round.id,move,...(move==='raise'?{to:Math.min(maxTo,Math.max(minTo,raise||minTo))}:{})});
     }
     const action=item.dataset.casinoAction;
     if(action==='enable'){
@@ -129,8 +140,7 @@ export function casinoFriends({panel,onPresence,position,closeSalon}){
     }else if(action==='join')send(action,{id:item.dataset.room});
     else if(action==='ready')send(action,{ready:!state.table.seats.find(seat=>seat.mine).ready,previous:state.table.round?.id??null});
     else if(action==='deal')send(action,{id:state.table.id,previous:state.table.round?.id??null});
-    else if(action==='draw')send(action,{id:roundId,held});
     else if(action==='stand'||action==='create')send(action);
   }
-  return {open(){active=true;signature='';render()},hide(){active=false},stop,click};
+  return {open(){active=true;signature='';render()},hide(){active=false},stop,click,raise(to){raise=to}};
 }

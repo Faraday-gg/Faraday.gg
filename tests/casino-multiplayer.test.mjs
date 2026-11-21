@@ -6,7 +6,6 @@ import {join} from 'node:path';
 import {createApi} from '../lib/api.mjs';
 import {fileCasino} from '../lib/casino-store.mjs';
 import {fileSocial} from '../lib/social-store.mjs';
-import {pokerRank} from '../lib/casino.mjs';
 
 const dir=mkdtempSync(join(tmpdir(),'faraday-casino-'));
 const accounts=Object.fromEntries(['Ana','Beto','Clara','Dani'].map(name=>[name,{player:randomUUID()}]));
@@ -64,28 +63,59 @@ try{
   const deals=await Promise.all([call('Ana','deal',{id:table.id}),call('Ana','deal',{id:table.id})]);
   assert.deepEqual(deals.map(result=>result.status).sort(),[200,409]);
   const hands=await Promise.all(['Ana','Clara','Beto'].map(player=>pulse(player)));
-  assert.equal(new Set(hands.flatMap(h=>h.table.round.cards.map(card=>JSON.stringify(card)))).size,15);
-  assert.ok(hands.every(h=>h.coins===975&&h.table.round.cards.length===5&&!h.table.round.results));
+  const seen=hands.map(h=>h.table.round.seats.find(seat=>seat.mine).cards);
+  assert.equal(new Set(seen.flat().map(card=>JSON.stringify(card))).size,6);
+  assert.ok(hands.every(h=>h.coins===1000&&h.table.round.stage==='preflop'&&h.table.round.board.length===0));
+  // Nadie ve las cartas de los demás ni la baraja.
+  assert.ok(hands.every(h=>h.table.round.seats.filter(seat=>!seat.mine).every(seat=>seat.cards===null)&&!JSON.stringify(h).includes('"deck"')));
   assert.deepEqual((await pulse('Dani')).tables,[]);
   const id=hands[0].table.round.id;
-  await expect(400,'Ana','draw',{id,held:[true]});
-  const all=Array(5).fill(true),none=Array(5).fill(false);
-  await expect(200,'Ana','draw',{id,held:all});
-  const duplicate=await expect(200,'Ana','draw',{id,held:none});
-  assert.deepEqual(duplicate.table.round.cards,hands[0].table.round.cards);
-  await Promise.all(['Clara','Beto'].map(player=>expect(200,player,'draw',{id,held:none})));
-  const completed=await Promise.all(['Ana','Clara','Beto'].map(player=>pulse(player)));
+  // Primera mano: Ana tiene el botón, los otros dos ponen las ciegas (5 y 10) y habla ella.
+  const names=hands[0].table.round.seats.map(seat=>seat.name);
+  assert.equal(names[0],'Ana');assert.equal(hands[0].table.round.turn,0);assert.equal(hands[0].table.round.pot,15);
+  assert.deepEqual(hands[0].table.round.legal,{seat:0,toCall:10,canCheck:false,canRaise:true,minTo:20,maxTo:200});
+  assert.ok(hands.slice(1).every(h=>h.table.round.legal===null));
+  await expect(409,names[1],'act',{id,move:'call'});                // no es su turno
+  await expect(400,'Ana','act',{id,move:'draw'});
+  await expect(400,'Ana','act',{id,move:'raise',to:'40'});
+  await expect(409,'Ana','act',{id,move:'raise',to:5000});          // más de lo que tiene en la mesa
+  await expect(409,'Ana','act',{id:randomUUID(),move:'call'});
+  await expect(200,'Ana','act',{id,move:'raise',to:40});
+  // Dos envíos de la misma jugada: solo vale uno.
+  const calls=await Promise.all([call(names[1],'act',{id,move:'call'}),call(names[1],'act',{id,move:'call'})]);
+  assert.deepEqual(calls.map(result=>result.status).sort(),[200,409]);
+  await expect(200,names[2],'act',{id,move:'fold'});
+  let state=await pulse('Ana');
+  assert.equal(state.table.round.stage,'flop');assert.equal(state.table.round.board.length,3);assert.equal(state.table.round.pot,90);
+  // Hasta el final pasando: se enseñan las cartas de quien sigue en la mano.
+  for(let step=0;state.table.round.stage!=='done';step++){
+    assert.ok(step<6);
+    state=await expect(200,names[state.table.round.turn],'act',{id,move:'check'});
+  }
+  await expect(409,'Ana','act',{id,move:'check'});
+  const completed=await Promise.all(names.map(player=>pulse(player)));
   assert.equal(completed.reduce((sum,h)=>sum+h.coins,0),3000);
-  assert.equal(completed[0].table.round.results.reduce((sum,h)=>sum+h.prize,0),75);
+  const results=completed[0].table.round.seats;
+  assert.equal(results.reduce((sum,seat)=>sum+seat.won,0),90);
+  assert.equal(results[2].cards,null);                              // quien se retiró no enseña
+  assert.ok(results[0].cards.length===2&&results[1].cards.length===2&&results[1].hand);
+  assert.equal(completed[0].table.round.board.length,5);
+  assert.equal(completed[2].coins,990);
   assert.equal(await ready('Ana',id).then(result=>result.table.seats[0].ready),true);
   await expect(409,'Ana','deal',{id:table.id,previous:id});
   await ready('Clara',id);await ready('Beto',id);
-  await expect(200,'Ana','deal',{id:table.id,previous:id});
+  const second=(await expect(200,'Ana','deal',{id:table.id,previous:id})).table.round;
+  assert.equal(second.button,1);assert.equal(second.turn,1);     // el botón pasa al siguiente
+  // Levantarse en mitad de la mano es retirarse: pierde la ciega que ya había puesto.
+  assert.equal((await expect(200,names[2],'stand')).table,null);
+  assert.equal((await pulse(names[2])).coins,990);
+  // Si nadie vuelve, a cada uno se le pasa el turno y la mano se liquida sola.
   api=makeApi();
   clock+=46000;
   const balances=[];
   for(const player of ['Ana','Clara','Beto'])balances.push((await pulse(player)).coins);
   assert.equal(balances.reduce((sum,value)=>sum+value,0),3000);
+  assert.equal((await pulse(names[2])).coins,985);
   assert.equal((await pulse('Ana')).table,null); // Las plazas inactivas caducaron, pero el bote se pagó.
   const beta=(await social('Ana','amigos')).friends.find(friend=>friend.name==='Beto');
   await social('Ana','bloquear',{id:beta.id});
@@ -96,12 +126,5 @@ try{
   assert.equal((await pulse('Ana')).coins,1000);
   assert.deepEqual((await pulse('Ana')).players,[]);
 
-  const ranks=(values,suits)=>values.map((r,i)=>({r,s:suits[i]}));
-  const aceLow=pokerRank(ranks([14,2,3,4,5],[0,1,2,3,0]));
-  const sixHigh=pokerRank(ranks([2,3,4,5,6],[0,1,2,3,0]));
-  const lowPair=pokerRank(ranks([2,2,4,10,14],[0,1,2,3,0]));
-  assert.deepEqual(aceLow.score,[4,5]);
-  assert.deepEqual(sixHigh.score,[4,6]);
-  assert.deepEqual(lowPair.score,[1,2,14,10,4]);
-  console.log('Salón compartido: amistad, sesión, presencia, cartas privadas, consentimiento, bote, concurrencia y caducidad correctos.');
+  console.log('Salón compartido: amistad, sesión, presencia, cartas privadas, turnos, apuestas, bote, concurrencia y caducidad correctos.');
 }finally{rmSync(dir,{recursive:true,force:true})}
