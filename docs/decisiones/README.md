@@ -120,6 +120,8 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0114](0114-golpes-con-gracia-del-avatar.md) | Golpes con gracia: quince reacciones más del avatar al tocarlo (voltereta, culetazo, calambre…), cada una con su sonido | Aceptada | 2026-11-21 |
 | [0115](0115-archivo-vivo-postura-y-apoyo.md) | Postura, escala, apoyo y referencias de las recreaciones de Archivo Vivo | Implementada | 2026-11-21 |
 
+| [0116](0116-salon-casino-de-prueba.md) | Salón 3D con ruleta, tragaperras y póker y un monedero local de prueba | Prototipo | 2026-11-21 |
+
 ## Plantilla
 
 ```markdown

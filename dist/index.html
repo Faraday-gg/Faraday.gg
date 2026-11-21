@@ -36,6 +36,7 @@
   <link rel="stylesheet" href="continuations.css">
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="archivo-vivo.css">
+  <link rel="stylesheet" href="casino.css">
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -77,6 +78,8 @@
   <script src="social.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
   <script type="module" src="archivo-vivo.js"></script>
+  <script src="casino-rules.js" defer></script>
+  <script type="module" src="casino.js"></script>
 </head>
 <body>
   <div class="home-screen">
@@ -156,6 +159,10 @@
             <button class="portal-mode mode-photo" type="button" data-open-archivo-vivo aria-haspopup="dialog">
               <span class="mode-art" aria-hidden="true"></span>
               <span class="mode-copy"><b>Archivo Vivo</b><small>Entra en la foto y adivina el año.</small></span>
+            </button>
+            <button class="portal-mode mode-casino" type="button" data-open-casino aria-haspopup="dialog">
+              <span class="mode-art" aria-hidden="true">♠</span>
+              <span class="mode-copy"><b>Salón</b><small>Ruleta, tragaperras y póker.</small></span><span class="mode-arrow" aria-hidden="true">↗</span>
             </button>
           </div>
         </section>
@@ -391,6 +398,29 @@
     <p class="auth-fine">Solo usamos tu correo para identificar tu cuenta. Nada de publicidad ni boletines.</p>
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="casino is-flat" id="casino" aria-labelledby="casino-title">
+    <canvas id="casino-canvas" tabindex="0" aria-label="Salón en 3D. Usa WASD o las flechas para caminar y arrastra para mirar."></canvas>
+    <header class="casino-hud">
+      <button class="casino-exit" type="button" data-casino-close aria-label="Salir del Salón">← <span>Vestíbulo</span></button>
+      <div class="casino-identity"><h2 id="casino-title">Salón <span aria-hidden="true">≈</span></h2></div>
+      <div id="casino-wallet" class="casino-wallet" aria-label="Monedero de prueba"></div>
+    </header>
+    <p id="casino-fallback" class="casino-fallback" role="status"></p>
+    <p id="casino-presence" class="casino-presence" hidden></p>
+    <div class="casino-world-controls">
+      <div id="casino-stick" aria-hidden="true"><span></span></div>
+      <button type="button" id="casino-prompt" hidden></button>
+      <p class="casino-keys"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> para moverte · Arrastra para mirar</p>
+    </div>
+    <nav class="casino-tables" aria-label="Mesas del Salón">
+      <button type="button" data-casino-game="roulette" aria-controls="casino-panel"><span aria-hidden="true">●</span> Ruleta</button>
+      <button type="button" data-casino-game="slots" aria-controls="casino-panel"><span aria-hidden="true">7</span> Tragaperras</button>
+      <button type="button" data-casino-game="poker" aria-controls="casino-panel"><span aria-hidden="true">♠</span> Póker</button>
+      <button type="button" data-casino-game="friends" aria-controls="casino-panel"><span aria-hidden="true">●</span> Amigos</button>
+    </nav>
+    <section id="casino-panel" class="casino-panel" aria-label="Mesa de juego" hidden></section>
+  </dialog>
+
   <dialog class="archivo-vivo" id="archivo-vivo" aria-labelledby="archivo-vivo-title">
     <header class="archivo-vivo-header">
       <button class="game-back" type="button" data-av-close aria-label="Cerrar Archivo Vivo" autofocus>×</button>
