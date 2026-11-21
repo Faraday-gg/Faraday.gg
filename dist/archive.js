@@ -98,6 +98,13 @@ function renderPeek(state,id){
   const kicker=id?(today?'El de hoy':done?'Ya jugado':'Por jugar'):'Te espera';
   peek.innerHTML=`<button type="button" class="arc-peek-card" data-date="${day.id}"><span class="arc-peek-kicker">${kicker} · Nº ${editionNumber(day.id)}</span><strong>${titleCase(ARC_WEEKDAY.format(new Date(day.id+'T12:00:00Z')))} ${prettyDate(day.id).replace(/ de \d{4}$/,'')}</strong><span class="arc-peek-theme">${day.theme||''}</span><span class="arc-peek-icons" aria-hidden="true">${icons(day,'cat-icon')}</span><span class="arc-peek-go">${done?`${shortTimes(value)} · Repasar`:'Jugar'} <span aria-hidden="true">→</span></span></button>`;
 }
+// Sonido de la ruleta (sound.js, mismo silencio y volumen que el resto del juego): un soplo al arrancar, un clic seco en
+// cada salto, que baja un poco de tono según se frena, y una campanilla al caer en el día elegido.
+const rouletteSound={
+  start(){const s=window.Sound;s?.noise(0,.32,{gain:.035,from:700,to:2600,q:.7,attack:.05})},
+  tick(n){const s=window.Sound;if(!s)return;const pitch=1750-n*38+Math.random()*60;s.noise(0,.03,{gain:.08,from:3800,q:5,attack:.002});s.tone(pitch,0,.045,{type:'triangle',gain:.035})},
+  land(){const s=window.Sound;if(!s)return;s.noise(0,.04,{gain:.07,from:2600,q:4,attack:.002});s.bell(1047,.03,.9,{gain:.05});s.bell(1568,.12,1.1,{gain:.04})}
+};
 function changeMonth(state,delta){state.direction=delta;state.month=shiftMonth(state.month,delta);renderArchive(state)}
 // «Reto sorpresa»: elige un día sin jugar, va a su mes y hace una ruleta por los días pendientes antes de abrirlo.
 function surprise(state){
@@ -113,9 +120,9 @@ function surprise(state){
   let hops=0,delay=55,last;
   const hop=()=>{
     last?.classList.remove('arc-hit');
-    if(hops>=14&&target){target.classList.add('arc-hit','arc-picked');renderPeek(state,pick.id);setTimeout(()=>{state.rolling=false;state.container.classList.remove('is-rolling');target.classList.remove('arc-hit','arc-picked');window.openArchiveDay?.(pick.id)},650);return}
-    last=tiles[Math.floor(Math.random()*tiles.length)];last?.classList.add('arc-hit');hops++;delay*=1.13;setTimeout(hop,delay);
+    if(hops>=14&&target){target.classList.add('arc-hit','arc-picked');rouletteSound.land();renderPeek(state,pick.id);setTimeout(()=>{state.rolling=false;state.container.classList.remove('is-rolling');target.classList.remove('arc-hit','arc-picked');window.openArchiveDay?.(pick.id)},650);return}
+    last=tiles[Math.floor(Math.random()*tiles.length)];last?.classList.add('arc-hit');rouletteSound.tick(hops);hops++;delay*=1.13;setTimeout(hop,delay);
   };
-  setTimeout(hop,280);
+  rouletteSound.start();setTimeout(hop,280);
 }
 function renderArchives(){archives.forEach(state=>{if(state.container.isConnected)renderArchive(state)})}
