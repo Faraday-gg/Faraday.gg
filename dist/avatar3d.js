@@ -277,7 +277,7 @@ const FEM_HAIR={calva:{bald:1},liso:{skirt:1,back:.42,sides:.4,fringe:'cortina'}
   monos:{skirt:1,buns:1,fringe:'recto'},extra:{skirt:1,back:.62,sides:.62,fringe:'cortina'}};
 // Esqueleto: body (cadera) → upper (gira por la cintura: torso y brazos) → neck (cuello) → head. Cada brazo dobla por el codo
 // (fore) y las zapatillas van aparte de las piernas para que se queden en el suelo cuando la cadera se mueve.
-const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3;
+const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3,HIP=.64;
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
 function buildModel(look){
   const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
@@ -406,6 +406,8 @@ function buildModel(look){
   if(face==='serio')add(head,capsule(.016,.13),ink,mouth,[1,1,.6],[0,0,Math.PI/2+.04]).castShadow=false;
   let lips=null;
   if(face!=='serio'){lips=add(head,ring(.09,.017,Math.PI*(face==='chulo'?.62:1)),ink,mouth,[1,1,1],[.38,0,Math.PI+(face==='chulo'?.5:0)]);lips.castShadow=false;lips.userData={y:lips.position.y,rz:lips.rotation.z,frown:face==='chulo'?.6:0}}
+  // Boca abierta de grito o de risa: un óvalo de tinta que tapa la boca normal mientras dura (canal «open»).
+  const shout=add(head,sphere(.052),ink,[mouth[0],mouth[1]-.012,mouth[2]+.004],[1,1.2,.3]);shout.castShadow=false;shout.visible=false;
   if(has('oro')&&face!=='serio')add(head,new THREE.BoxGeometry(.035,.04,.02),gold,[mouth[0]+.03,mouth[1]-.045,mouth[2]+.004],[],[.38,0,0]);
   if(has('visor')||has('visor2')){
     const frame=flat(INK),[lens,band]=has('visor')?['#ff6548','#ffc93c']:['#ff9dbd','#cdbcff'];add(head,new THREE.BoxGeometry(.6,.03,.035),frame,[0,.035,.6]);add(head,new THREE.BoxGeometry(.58,.14,.02),flat(lens),[0,-.045,.6]);add(head,new THREE.BoxGeometry(.5,.035,.012),flat(band),[0,-.005,.612]);
@@ -543,7 +545,7 @@ function buildModel(look){
     const alt=has('cascos2');add(head,ring(.7,.04,Math.PI),mat(alt?PAPER:INK),[0,0,-.02],[1,1.03,1],[],.06);
     for(const side of [-1,1])add(head,box(3),mat(alt?CLOTH.lila:CLOTH.coral),[side*.7,-.06,-.02],[.08,.2,.17],[],O);
   }
-  return {group:model,parts:{body,upper,torso,neck,head,arms,legs,feet,eyes,lids,lips,sway},base:lift,fem};
+  return {group:model,parts:{body,upper,torso,neck,head,arms,legs,feet,eyes,lids,lips,shout,sway},base:lift,fem};
 }
 
 // ---------- Motor: un solo contexto 3D que dibuja cada avatar y lo copia a su lienzo
@@ -680,14 +682,25 @@ const live=new Set(),queue=new Set(),asleep=new Set();
 // en cada brazo (a = el de la izquierda de la pantalla, b = el de la derecha): S = adelante/atrás, O = abrir, E = doblar el
 // codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye, eyeY = mirada (lado, altura); fall, gx, gy = el personaje entero se
 // tumba en el plano de la pantalla y se desplaza (desmayo). Sin suavizar: lid = párpados, wide = ojos como platos,
-// frown = boca hacia abajo.
-const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye','eyeY','fall','gx','gy'];
-const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22,eyeY:22,fall:16,gx:16,gy:16};
+// frown = boca hacia abajo, open = boca abierta.
+// Para los golpes con gracia (decisión 0113): la, lb = cada pierna hacia delante (patada, sentarse); oa, ob = pierna hacia
+// fuera; sq = aplastarse (positivo) o estirarse (negativo), como un dibujo animado; zm = tamaño del personaje entero;
+// hd = la cabeza se hunde entre los hombros. Y sin suavizar, los adornos que se pintan encima del lienzo (effects):
+// stars = estrellas dando vueltas a la cabeza, tears = lágrimas a chorro, bolts = rayos, rage = marca de enfado,
+// dust = nube de polvo (de 0 a 1 según avanza) en el punto dustX, dustY.
+const KEYS=['px','py','air','ry','rz','sx','sy','sz','hx','hy','hz','aS','aO','aE','aI','aY','bS','bO','bE','bI','bY','fa','fb','eye','eyeY','fall','gx','gy','la','lb','oa','ob','sq','zm','hd'];
+const RATE={px:30,py:26,air:45,fa:40,fb:40,hx:10,hy:10,hz:10,aE:13,aI:13,bE:13,bI:13,eye:22,eyeY:22,fall:16,gx:16,gy:16,la:22,lb:22,oa:22,ob:22,sq:34,zm:14,hd:30};
 const ease=x=>x<=0?0:x>=1?1:x*x*(3-2*x),hold=(u,a=.2,b=.8)=>ease(u/a)*ease((1-u)/(1-b));
 // Deriva irregular: tres ondas de periodos que no casan, para que el vaivén no se note en bucle.
 const drift=(t,seed)=>Math.sin(t*1.13+seed)*.5+Math.sin(t*.71+seed*2.3)*.3+Math.sin(t*1.93+seed*.7)*.2;
 const both=values=>{const result={};for(const key in values){result['a'+key]=values[key];result['b'+key]=values[key]}return result};
 const scaled=(values,k)=>{const result={};for(const key in values)result[key]=values[key]*k;return result};
+// Para los gestos largos, que se escriben en segundos: tramo lineal, tramo suave, arco, ventana (entra y sale), muelle que
+// se apaga, rebote contra el suelo y avance de una nube de polvo.
+const seg=(x,a,b)=>x<=a?0:x>=b?1:(x-a)/(b-a),glide=(x,a,b)=>ease(seg(x,a,b)),arc=(x,a,b)=>Math.sin(seg(x,a,b)*Math.PI),win=(x,a,b,e=.15)=>glide(x,a,a+e)*(1-glide(x,b-e,b));
+const spring=(x,a,f,decay)=>x<a?0:Math.sin((x-a)*f)*Math.exp(-(x-a)*decay),thump=(x,a,f=14,decay=6)=>x<a?0:Math.abs(Math.sin((x-a)*f))*Math.exp(-(x-a)*decay),puff=(x,a,d=.5)=>x>a&&x<a+d?(x-a)/d:0;
+// Altura del centro del cuerpo (alrededor de él gira la voltereta) y altura a la que queda el eje del cuerpo tumbado.
+const CENTER=1.15,FLOOR=.3;
 // Tumbado tras el desmayo: lo que se suma a la postura normal. El giro (ry) depende de hacia dónde mira el avatar.
 const KO={fall:Math.PI/2,gx:1.35,gy:.74,sx:-.06,hx:-.2,aS:-.25,aO:1.25,aE:.2,bS:.15,bO:.55,bE:-.75,bI:-.5};
 const koTurn=item=>1.2-item.turn;
@@ -713,7 +726,7 @@ function neutralPose(item,t){
     hx:sad*.3+d(.45,3,.04),hy:d(.36,1,sad?.05:.15),hz:-lean*.05-.02+d(.3,7,.03),
     aS:.02+d(.6,11,.05),aO:.34-sad*.1+br*.012,aE:-.28+sad*.1+br*.02,aI:-.08,aY:br*.006-sad*.02,
     bS:.02+d(.55,12,.05),bO:.34-sad*.1+br*.012,bE:-.28+sad*.1-br*.015,bI:-.08,bY:br*.006-sad*.02,
-    fa:0,fb:0,eye:d(.8,13,.5),eyeY:0,lid:sad*.3};
+    fa:0,fb:0,eye:d(.8,13,.5),eyeY:0,lid:sad*.3,la:0,lb:0,oa:0,ob:0,sq:0,zm:0,hd:0,open:0,stars:0,tears:0,bolts:0,rage:0,dust:0,dustX:0,dustY:0};
 }
 // Gestos. d = duración en segundos; f(u, t, item) = lo que suma a la postura base (u va de 0 a 1).
 const CLIPS={
@@ -743,6 +756,91 @@ const CLIPS={
   // manos en la cabeza.
   ay:{d:1.25,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.6)/.4)),jolt=Math.sin(u*Math.PI*10)*(1-u)*ease(u/.04);return {air:Math.sin(Math.min(1,u/.28)*Math.PI)*.07,py:-.035*k,sx:-.12*k,hx:-.24*k+jolt*.05,hz:.2*k,sz:.07*k,px:jolt*.035,aO:1.75*k,aI:(1.45+Math.sin(t*17)*.14)*k,aE:.2*k,bO:.55*k,bE:-.7*k,bI:.3*k,eye:0,lid:u<.62?1:0,frown:1}}},
   ay2:{d:1.15,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.55)/.45)),jolt=Math.sin(u*Math.PI*12)*(1-u)*ease(u/.04);return {...both({O:1.8*k,I:1.5*k,E:.2*k,Y:.06*k}),air:Math.sin(Math.min(1,u/.25)*Math.PI)*.05,py:-.06*k,sx:.1*k,hx:.12*k+jolt*.05,px:jolt*.04,rz:-jolt*.03,lid:u<.55?1:0,frown:1}}},
+  // ---- Golpes con gracia (decisión 0113): quince reacciones más al toque, cada una con su sonido (Sound.gag). Las
+  // largas se escriben en segundos (s). wide = necesita sitio a los lados (se tumba); lock = segundos durante los que
+  // no se le puede volver a tocar; dodge = lo esquiva, así que no hay estallido de golpe.
+  // Voltereta: el golpe lo lanza por los aires dando una vuelta y cuarto hacia atrás, encogido; cae de espaldas, rebota,
+  // ve las estrellas, se incorpora frotándose la cabeza, se pone en pie haciendo palanca y vuelve a su sitio a saltitos.
+  voltereta:{d:5.8,wide:1,lock:5.2,end:item=>{item.pose.fall-=Math.PI*2},f:(u,t,item)=>{
+    const s=u*5.8,fly=seg(s,.18,1.2),up=glide(s,3.9,4.9),back=glide(s,4.9,5.6),turn=fly<1?Math.PI*2.5*(.45*fly+.55*ease(fly)):Math.PI*2+Math.PI/2*(1-up);
+    const jump=1.05*4*fly*(1-fly)-(CENTER-FLOOR)*fly*fly,tuck=win(s,.22,1.12,.2),down=glide(s,1.12,1.28)*(1-glide(s,2.9,3.4)),sit=glide(s,3,3.6)*(1-up),rub=win(s,3.3,4.6,.25);
+    return {fall:turn,gx:fly<1?CENTER*Math.sin(turn):CENTER*(1-back),gy:fly<1?CENTER*(1-Math.cos(turn))+jump:FLOOR*(1-up)+thump(s,1.2)*.14,
+      air:back<1?Math.abs(Math.sin(back*Math.PI*3))*.07:0,ry:koTurn(item)*glide(s,.2,1.1)*(1-glide(s,4,4.9)),sq:s>1.2?.16*Math.exp(-(s-1.2)*9):0,
+      px:spring(s,0,40,9)*.05+spring(s,4.9,9,2.6)*.05,la:.9*tuck,lb:.7*tuck,sx:.35*tuck+1.2*sit,hx:.35*tuck+KO.hx*down+.15*sit,hy:-.85*sit,hz:Math.sin(t*6)*.12*win(s,3.5,4.9,.3),
+      aS:-tuck,aE:-1.5*tuck+.2*down,aO:1.25*down+1.75*rub,aI:(1.45+Math.sin(t*15)*.13)*rub,bS:-tuck+.15*down,bE:-1.5*tuck-.75*down,bO:.55*down,bI:-.5*down,
+      fb:Math.max(0,Math.sin(s*20))*.5*win(s,1.9,2.6),wide:s<1.2?1:0,open:s<1.25?1:0,lid:s>1.2&&s<3.2?1:s>=3.2&&s<4.9?.5:0,frown:s<5.3?1:0,stars:win(s,1.3,4.6,.3),dust:puff(s,1.2)}}},
+  // Culetazo: se le van los pies hacia delante y cae sentado, con rebote; se queda un momento dolorido y se levanta.
+  culetazo:{d:3.6,lock:3,f:u=>{
+    const s=u*3.6,up=glide(s,2.5,3.2),sit=glide(s,.1,.4)*(1-up),land=.5;
+    return {la:(1.45+arc(s,.1,.55)*.25)*sit,lb:(1.45-arc(s,.1,.55)*.1)*sit,py:-.5*glide(s,.3,.5)*(1-up),air:arc(s,.06,.5)*.2+thump(s,land,13,7)*.07,sq:s>land?.2*Math.exp(-(s-land)*10):0,
+      sx:-.28*sit+.4*arc(s,2.5,3.3),hx:.2*sit,hz:.16*win(s,1.3,2.4),px:spring(s,3.2,10,4)*.04,...both({O:1.5*arc(s,.05,.6)+.3*sit,S:.55*sit*glide(s,.5,.8),E:.25*sit}),
+      wide:s<1.1?1:0,open:s<.75?1:0,lid:s>1.3&&s<2.4?1:0,frown:s<3.3?1:0,dust:puff(s,land)}}},
+  // A la pata coja: se agarra el dolor en un pie y da una vuelta entera a saltitos, braceando para no caerse.
+  cojo:{d:2.8,end:item=>{item.pose.ry-=Math.PI*2},f:(u,t)=>{
+    const s=u*2.8,k=win(s,.05,2.6,.2),hop=Math.abs(Math.sin(s*Math.PI*2.6)),w=Math.sin(t*14);
+    return {air:hop*.12*k,py:-.035*(1-hop)*k,lb:1.05*k,ob:.12*k,ry:glide(s,.25,2.45)*Math.PI*2,aO:(1.15+w*.45)*k,bO:(1.15-w*.45)*k,...both({E:.15*k}),hz:w*.08*k,sz:-.08*k,rz:.05*k,
+      open:hop>.55?k:0,lid:hop<.35?k:0,wide:.5*k,frown:1}}},
+  // Trompo: el toque lo pone a girar como una peonza, tres vueltas que se van frenando, y se queda mareado.
+  trompo:{d:3.4,end:item=>{item.pose.ry-=Math.PI*6},f:(u,t)=>{
+    const s=u*3.4,fast=win(s,.04,1.7,.2),dizzy=win(s,1.6,3.25,.3),a=t*7;
+    return {ry:(1-(1-seg(s,.04,1.8))**3)*Math.PI*6,...both({O:1.3*fast+.4*dizzy,E:.2*fast}),air:.04*fast,sq:-.06*fast,hz:Math.sin(a)*.24*dizzy,hx:Math.cos(a)*.12*dizzy,
+      px:Math.sin(a*.8)*.08*dizzy,rz:-Math.sin(a*.8)*.06*dizzy,sz:Math.sin(a*.8+1)*.07*dizzy,eye:Math.sin(t*9)*1.5*dizzy,eyeY:Math.cos(t*9)*1.2*dizzy,
+      stars:dizzy,wide:fast,open:fast>.5?1:0,lid:.35*dizzy,frown:dizzy>.3?1:0}}},
+  // Cohete: se encoge del susto, sale disparado hacia arriba hasta perderse de vista y vuelve a caer con un buen aplastón.
+  cohete:{d:3.5,lock:3,f:u=>{
+    const s=u*3.5,charge=win(s,.05,.5,.12),drop=seg(s,1.75,2.05),high=(1-(1-seg(s,.45,.8))**2)*(1-drop*drop),land=2.05;
+    return {air:5*high,py:-.06*charge,sq:.3*charge-.25*(arc(s,.45,.85)+arc(s,1.7,land))+(s>land?.32*Math.exp(-(s-land)*5.5)*Math.cos((s-land)*15):0),px:spring(s,2.5,9,3)*.04,
+      ...both({O:.5*charge+2.3*win(s,.45,1.9,.12)+.6*win(s,land,2.7,.1),E:-.6*charge}),wide:s<.5||(s>1.7&&s<land)?1:0,open:s>.3&&s<land?1:0,lid:s>land&&s<2.5?1:0,frown:s>.2&&s<3?1:0,dust:puff(s,land)}}},
+  // Gelatina: tiembla entero como un flan, aplastándose y estirándose cada vez menos.
+  gelatina:{d:2.2,f:u=>{
+    const s=u*2.2,k=Math.exp(-s*2.1),w=Math.sin(s*17)*k*ease(s/.05);
+    return {sq:.3*w,...both({O:(.45+w*.5)*k,E:-.2*k}),hz:w*.12,sz:w*.05,wide:s<1.2?.8:0,open:s<.9?.7:0,frown:s<1.4?1:0}}},
+  // Tortuga: esconde la cabeza entre los hombros, asoma los ojos a un lado y a otro y la saca de golpe, con muelle.
+  tortuga:{d:2.8,f:u=>{
+    const s=u*2.8,hide=glide(s,.03,.14)*(1-seg(s,1.7,1.76)),pop=s>1.76?Math.exp(-(s-1.76)*4.5)*Math.cos((s-1.76)*19):0,peek=win(s,.55,1.6,.12);
+    return {hd:.3*hide-.11*pop,...both({Y:.09*hide,E:-.9*hide,O:.12*hide,I:-.3*hide}),py:-.04*hide,eye:Math.sign(Math.sin(s*5.5))*1.3*peek,hz:pop*.16,
+      wide:peek+(s>1.7&&s<2.1?1:0),lid:s<.5?1:0,frown:s<1.7?1:0,open:s>1.72&&s<2?.8:0}}},
+  // Berrinche: patalea de rabia con los puños apretados, se da la vuelta con los brazos cruzados y mira de reojo.
+  berrinche:{d:3.7,lock:3.2,f:u=>{
+    const s=u*3.7,A=win(s,.1,1.75,.15),st=Math.sin(s*11),B=win(s,1.85,3.25,.2);
+    return {la:Math.max(0,st)*.85*A,lb:Math.max(0,-st)*.85*A,py:-Math.abs(st)*.03*A,air:(1-Math.abs(st))*.05*A,px:st*.05*A,rz:-st*.04*A,aS:st*.45*A-.55*B,bS:-st*.45*A-.55*B,...both({E:-1.2*A-1.5*B,I:-1.05*B,O:.1*A}),
+      hy:Math.sin(s*17)*.22*A+1.3*win(s,2.45,2.95,.14),sy:.45*win(s,2.45,2.95,.14),hx:.08*A-.16*B,sx:.06*A-.05*B,ry:Math.PI*(glide(s,1.75,2.05)-glide(s,3.15,3.5)),rage:A,lid:.35*A,frown:1,open:A>.5&&st>.6?1:0}}},
+  // Llorera: hace pucheros, se frota los ojos con los puños y llora a chorros; al final se sorbe los mocos y se seca.
+  llorera:{d:3.9,lock:3.2,f:(u,t)=>{
+    const s=u*3.9,C=win(s,.25,3.1,.22),sob=Math.abs(Math.sin(s*3.5)),wipe=win(s,3.05,3.8,.2),b=Math.max(C,wipe);
+    return {aS:-1.32*C,aE:-1.72*C,aI:-.6*C,aO:-.2*C,bS:-1.32*b,bE:-1.72*b,bI:(-.6+Math.sin(t*9)*.25*wipe)*b,bO:-.2*b,...both({Y:.06*sob*C}),py:-.025*sob*C,hx:.14*C-.1*sob*C,sx:.07*C,
+      px:s<.3?Math.sin(t*42)*.012:0,tears:C,lid:C>.3?1:.4*wipe,wide:s<.3?1:0,frown:s<3.7?1:0,open:C>.5&&sob>.55?1:0}}},
+  // Karate: se revuelve. Guardia de lado, dos puñetazos, una patada y un saludo final muy serio.
+  karate:{d:2.9,f:u=>{
+    const s=u*2.9,K=win(s,.06,2.15,.14),p1=arc(s,.6,.86),p2=arc(s,.95,1.21),kick=arc(s,1.38,1.85),bow=arc(s,2.15,2.9);
+    return {ry:.5*K,py:-.08*K,air:arc(s,.04,.3)*.1,aS:-K-.55*p2,aE:-1.6*K+1.5*p2,bS:-.85*K-.7*p1,bE:-1.7*K+1.6*p1,...both({O:.15*K}),sy:(.35*p2-.35*p1)*K,
+      la:1.45*kick,sx:-.28*kick+.6*bow,hx:.25*bow,open:p1>.5||p2>.5||kick>.4?1:0,frown:K>.3?1:0,lid:bow>.3?1:0}}},
+  // Tronco: se queda tieso del susto y se cae de lado como un árbol talado. Tumbado abre un ojo a ver si ya pasó, y se
+  // vuelve a levantar tal cual, rígido, cimbreando como un tope de puerta.
+  tronco:{d:5,wide:1,lock:4.4,f:u=>{
+    const s=u*5,lie=seg(s,.6,1.35)**2.4-glide(s,3.4,4.3),stiff=win(s,.05,4.5,.1),peek=s>2.2&&s<2.9;
+    return {fall:Math.PI/2*lie+spring(s,4.3,13,3)*.16,gx:.8*glide(s,.6,1.35)*(1-glide(s,4.3,4.9)),gy:.36*lie*lie+(s<3.4?thump(s,1.35)*.1:0),...both({O:-.3*stiff,E:.26*stiff}),
+      eye:s<.55?Math.sign(Math.sin(s*13))*1.2:peek?Math.sin(s*9)*1.2:0,wide:s<.6?1:peek?.6:0,lid:(s>1.35&&s<=2.2)||(s>=2.9&&s<3.4)?1:0,dust:puff(s,1.35),dustX:s>1.3&&s<2?-.4:0}}},
+  // Desinflar: se le escapa el aire y se queda pequeñito, protesta dando saltos y se vuelve a hinchar en tres bombeos.
+  desinflar:{d:4.3,lock:3.7,f:(u,t)=>{
+    const s=u*4.3,pump=(glide(s,2.45,2.55)+glide(s,2.8,2.9)+glide(s,3.15,3.25))/3,tiny=win(s,1.15,2.4,.12),leak=win(s,.15,1.1,.1);
+    return {zm:-.62*glide(s,.15,1.1)*(1-pump)+.13*arc(s,3.2,3.7),sq:.1*leak-.1*(arc(s,2.45,2.7)+arc(s,2.8,3.05)+arc(s,3.15,3.4)),rz:Math.sin(t*31)*.07*leak,px:Math.sin(t*23)*.05*leak,
+      air:Math.abs(Math.sin(s*11))*.12*tiny,...both({O:2*tiny+.5*leak,I:Math.sin(t*20)*.3*tiny,E:.2*tiny}),hx:-.3*tiny,wide:leak,open:leak>.4||tiny>.5?1:0,frown:s<3.3?1:0}}},
+  // Calambre: le da la corriente (para algo es Faraday). Se queda en estrella, vibrando entre rayos, y acaba echando humo.
+  calambre:{d:2.5,f:(u,t)=>{
+    const s=u*2.5,Z=win(s,.03,1.25,.06),after=win(s,1.3,2.3,.2),cough=arc(s,1.6,1.8)+arc(s,1.9,2.1);
+    return {...both({O:1.45*Z,E:.25*Z}),oa:.42*Z,ob:.42*Z,air:.07*Z,px:Math.sin(t*71)*.03*Z,sq:Math.sin(t*57)*.05*Z,hz:Math.sin(t*63)*.07*Z,sx:.16*after+.1*cough,hx:.22*after+.12*cough,py:-.04*after,
+      wide:Z,open:Z>.4||cough>.5?1:0,bolts:Z,lid:after*.5,frown:after>.3?1:0,dust:puff(s,1.28,.7),dustY:s>1.2?2.75:0}}},
+  // Cosquillas: no le duele, le hace gracia. Se retuerce de risa abrazándose la tripa y se seca una lágrima.
+  cosquillas:{d:2.9,f:(u,t)=>{
+    const s=u*2.9,L=win(s,.05,2.3,.2),w=Math.sin(t*16),ha=Math.abs(Math.sin(s*Math.PI*5)),wipe=arc(s,2.2,2.9);
+    return {sz:w*.12*L,rz:-w*.05*L,px:w*.03*L,aS:-.5*L,aE:-1.5*L,aI:-1.1*L,bS:-.5*L-1.32*wipe,bE:-1.5*L-1.72*wipe,bI:-1.1*L-.6*wipe,...both({Y:.05*ha*L}),hx:-.14*L,air:.03*ha*L,
+      lid:L>.2?1:.5*wipe,open:L>.4&&ha>.5?1:0}}},
+  // Matrix: lo ve venir y lo esquiva doblándose hacia atrás a cámara lenta; luego dice que no con el dedo, muy chulo.
+  matrix:{d:3,dodge:1,f:(u,t)=>{
+    const s=u*3,bend=win(s,.04,1.5,.22),w=Math.sin(t*6.5),wag=win(s,1.85,2.85,.15);
+    return {sx:-.95*bend+spring(s,1.5,16,5)*.12,hx:-.2*bend,py:-.12*bend,aO:(1.2+w*.9)*bend+.6*wag,bO:(1.2-w*.9)*bend+.9*wag,aS:.4*bend+.3*wag,bS:.4*bend-.2*wag,aI:-1.75*wag,
+      bI:(1.85+Math.sin(t*12)*.32)*wag,bE:.15*wag,hy:Math.sin(s*11)*.18*wag,hz:-.08*wag,wide:.6*bend,lid:.45*wag}}},
   // Encajar un golpe
   golpe:{d:.9,f:u=>{const k=(1-u)*ease(u/.08);return {px:Math.sin(u*30)*.07*k,sx:-.22*k,hx:-.25*k,...both({O:.5*k,E:-.5*k}),lid:u<.5?1:0}}},
   tambaleo:{d:1.5,f:u=>{const k=(1-u)*ease(u/.08),w=u*9.5;return {px:Math.sin(w)*.1*k,rz:-Math.sin(w)*.1*k,sz:Math.sin(w+1)*.1*k,hz:Math.sin(w+2)*.15*k,...both({O:.5*k}),lid:u<.4?1:0}}},
@@ -785,6 +883,8 @@ const CLIPS={
   correr:{d:3.4,f:(u,t)=>{const k=hold(u,.1,.9),w=t*9.5,s=Math.sin(w);return {py:-Math.abs(s)*.035*k,air:Math.max(0,Math.cos(w*2))*.025*k,fa:Math.max(0,s)*.6*k,fb:Math.max(0,-s)*.6*k,aS:s*.6*k,bS:-s*.6*k,...both({E:-1.35*k,O:.2*k}),sx:.05*k,hx:-.03*k,px:s*.015*k}}}
 };
 const DANCES=['robot','aspersor','disco','twist','balanceo','dab','correr'];
+// Lo que puede salir al tocarlo: el «¡Ay!» de siempre, los golpes cortos y los largos (más probables cuanto más se insiste).
+const POKES=['ay','ay2'],GAGS=['cojo','trompo','gelatina','tortuga','karate','calambre','cosquillas','matrix'],BIG=['voltereta','culetazo','cohete','berrinche','llorera','tronco','desinflar'];
 const IDLE=['mirar','peso','estirar','rascar','jarras','botar','pie','hombros','bailar','cuello','pensar','mirar','peso','robot','twist','balanceo'];
 const POOL={still:[],cheer:['salto','puno','giro','bailar',...DANCES],sad:['suspiro','negar','pie'],meh:['hombros','rascar','negar','suspiro'],nervous:['mirar','temblor','mirar','botar'],wait:[],ko:['espasmo']},FIRST={wave:['saludo','saludo2'],cheer:['salto','puno'],hurt:['golpe','tambaleo']};
 const any=list=>list[Math.random()*list.length|0];
@@ -817,7 +917,7 @@ function gaze(item,P,dt){
   const look=item.look||(item.look={w:0,y:0,p:0}),r=item.at&&item.canvas.getBoundingClientRect();
   const aim=aimFor(item);
   let w=0,yaw=0,pitch=0;
-  if(r?.width&&!reduced&&performance.now()-aim.at<ATTEND&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall){
+  if(r?.width&&!reduced&&performance.now()-aim.at<ATTEND&&!item.dragging&&item.mood!=='ko'&&!item.pose?.fall&&!(P.stars>.2)){
     // Píxeles de la cabeza en pantalla y distancia imaginaria del espectador (más cerca en los avatares pequeños).
     const x=r.left+(item.at.x+1)/2*r.width,y=r.top+(1-item.at.y)/2*r.height,far=item.home?Math.max(150,r.height*.48):Math.max(240,r.height*.9);
     yaw=wrap(Math.atan2(aim.x-x,far)-item.turn-(item.pose?.ry||0));pitch=Math.atan2(aim.y-y,far);
@@ -849,18 +949,28 @@ function animate(item,now){
   R.body.position.set(cur.px,item.entry.base+cur.py+cur.air,0);R.body.rotation.set(0,cur.ry,cur.rz);
   // Caída: gira el personaje entero alrededor de los pies, en el plano de la pantalla (después del giro sobre sí mismo).
   const whole=item.entry.group;whole.rotation.order='ZYX';whole.rotation.z=cur.fall;whole.position.set(cur.gx,cur.gy,0);
+  // Aplastarse y estirarse conservando el volumen (lo que pierde de alto lo gana de ancho), y tamaño del personaje entero.
+  const size=Math.max(.05,1+cur.zm),girth=size*(1+cur.sq*.5);whole.scale.set(girth,size*(1-cur.sq),girth);
   R.upper.rotation.set(cur.sx,cur.sy,cur.sz);R.torso.scale.y=1+P.br*.012;
-  R.neck.position.x=0;R.neck.position.y=NECK+P.br*.007;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
+  R.neck.position.x=0;R.neck.position.y=NECK+P.br*.007-cur.hd;R.neck.rotation.set(cur.hx,cur.hy,cur.hz);
   R.arms.forEach(({arm,fore,side},i)=>{const p=i?'b':'a';arm.position.y=SHOULDER+P.br*.008+cur[p+'Y'];arm.rotation.set(cur[p+'S'],0,side*cur[p+'O']);fore.rotation.set(cur[p+'E'],0,side*cur[p+'I'])});
   // Los pies se quedan en el suelo: la pierna se inclina y se encoge para seguir a la cadera. En el aire, las punteras caen.
   const tilt=-Math.atan(cur.px/.55),stretch=1+cur.py/.55,toes=Math.min(.5,cur.air*3);
-  R.legs.forEach(leg=>{leg.rotation.z=tilt;leg.scale.y=stretch});
-  R.feet.forEach((shoe,i)=>{const [x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];shoe.position.set(x-cur.px,y-cur.py+tap*.05,z);shoe.rotation.x=toes-tap});
+  // Una pierna levantada (la/lb hacia delante, oa/ob hacia fuera) deja de seguir al suelo: gira desde la cadera y la
+  // zapatilla va con ella, en la punta. free = cuánto se ha soltado del suelo.
+  R.legs.forEach((leg,i)=>{
+    const side=i?1:-1,lift=cur[i?'lb':'la'],out=side*cur[i?'ob':'oa'],free=Math.min(1,(Math.abs(lift)+Math.abs(out))*2.5),shoe=R.feet[i],[x,y,z]=shoe.userData.home,tap=cur[i?'fb':'fa'];
+    leg.rotation.set(-lift,0,tilt*(1-free)+out);leg.scale.y=stretch+(1-stretch)*free;
+    shoe.position.set(x-cur.px*(1-free)+HIP*Math.sin(out),y-cur.py*(1-free)+tap*.05+HIP*(1-Math.cos(out)*Math.cos(lift)),z+HIP*Math.cos(out)*Math.sin(lift));
+    shoe.rotation.x=toes-tap-lift;shoe.rotation.z=out;
+  });
   const since=t-item.blinkFrom,lid=Math.min(1,Math.max(P.lid,since<.15?Math.sin(since/.15*Math.PI):0));
-  const wide=Math.min(1,P.wide)*(1-lid);
+  const wide=Math.min(1,P.wide)*(1-lid),open=Math.min(1,P.open);
   const eyeTravel=item.home ? .021 : .014;
   R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*eyeTravel;eye.position.y=eye.userData.y+cur.eyeY*eyeTravel});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
-  if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y}
+  if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y;R.lips.visible=open<.3}
+  R.shout.visible=open>=.3;if(open>=.3)R.shout.scale.set(.7+.5*open,.5+.8*open,.3);
+  item.fx=P;item.fxT=t;
   // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
   const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
   if(item.lagRoll===undefined){item.lagRoll=roll;item.lagNod=nod}item.lagRoll+=(roll-item.lagRoll)*lag;item.lagNod+=(nod-item.lagNod)*lag;
@@ -1051,6 +1161,7 @@ function drawAvatar(item,now){
   }
   animate(item,now);
   shoot(item.context,width,height,item.entry,item.data.mode,item.turn,pose);
+  effects(item,width,height,now);
   locate(item);
 }
 function climb(el,pose){
@@ -1071,6 +1182,56 @@ function climb(el,pose){
 // Dónde queda la cara en el lienzo (de -1 a 1), con la cámara tal como acaba de dibujarlo: de ahí sale la mirada.
 const FACE=new THREE.Vector3();
 function locate(item){FACE.set(0,-.04,.5);item.entry.parts.head.localToWorld(FACE).project(camera);item.at={x:FACE.x,y:FACE.y}}
+// ---------- Adornos de cómic de los golpes con gracia (decisión 0113). Se pintan en 2D encima del avatar ya dibujado, con el
+// mismo contorno de tinta: estallido donde se le toca, estrellas del mareo, lágrimas, rayos, marca de enfado y polvo.
+const SPOT=new THREE.Vector3(),BLUE='#7fd6ff',RED='#ff4b3a';
+function effects(item,width,height,now){
+  const P=item.fx,hit=item.hit&&now-item.hit.at<280?item.hit:null;
+  if(!P||!(hit||P.stars>.02||P.tears>.02||P.bolts>.02||P.rage>.02||P.dust>0))return;
+  const c=item.context,t=item.fxT,at=(x,y)=>{SPOT.set(x,y,0).project(camera);return [(SPOT.x+1)/2*width,(1-SPOT.y)/2*height]};
+  const U=at(0,0)[1]-at(0,1)[1],line=Math.max(1.5,U*.024),head=item.entry.parts.head.getWorldPosition(SPOT).clone(),[hx,hy]=at(head.x,head.y);
+  const inked=(fill,alpha=1)=>{c.globalAlpha=alpha;c.lineWidth=line;c.lineJoin='round';c.strokeStyle=INK;c.stroke();c.fillStyle=fill;c.fill()};
+  const spiky=(x,y,r,n,inner,turn=0)=>{c.beginPath();for(let i=0;i<n*2;i++){const a=turn+i*Math.PI/n,k=i%2?r*inner:r;c.lineTo(x+Math.cos(a)*k,y+Math.sin(a)*k)}c.closePath()};
+  c.save();
+  if(P.dust>0){
+    // Polvo: cinco nubecillas que se abren hacia los lados y se deshacen.
+    const p=P.dust,[x,y]=at(P.dustX,P.dustY);
+    for(let i=0;i<5;i++){const d=(i-2)/2;c.beginPath();c.arc(x+d*(.25+.8*p**.6)*U,y-(.06+.26*Math.sin(p*Math.PI)*(1-Math.abs(d)*.5))*U,(.1+.13*p)*(1-.3*Math.abs(d))*U,0,7);inked(PAPER,1-p*p)}
+  }
+  if(P.bolts>.02){
+    // Rayos: zigzags alrededor del cuerpo que cambian de sitio muchas veces por segundo.
+    const [x,y]=at(head.x,head.y-.7),tick=Math.floor(t*15),rnd=n=>{const v=Math.sin(tick*91.7+n*47.3)*43758.5;return v-Math.floor(v)};
+    c.lineCap=c.lineJoin='round';
+    for(let i=0;i<8;i++){
+      if(rnd(i)<.3)continue;
+      const a=i*Math.PI/4+rnd(i+20)*.5,r0=(.75+rnd(i+40)*.2)*U,r1=r0+(.35+rnd(i+60)*.3)*U,nx=-Math.sin(a),ny=Math.cos(a);
+      c.beginPath();for(let j=0;j<=3;j++){const r=r0+(r1-r0)*j/3,off=(j%2?1:-1)*(j&&j<3?.09:0)*U;c.lineTo(x+Math.cos(a)*r+nx*off,y+Math.sin(a)*r+ny*off)}
+      c.globalAlpha=P.bolts;c.strokeStyle=INK;c.lineWidth=line*3;c.stroke();c.strokeStyle=GOLD;c.lineWidth=line*1.5;c.stroke();
+    }
+  }
+  if(P.tears>.02)for(const side of [-1,1])for(let j=0;j<4;j++){
+    // Lágrimas a chorro: gotas que salen de cada ojo en arco.
+    const ph=(t*1.5+j/4+(side>0?.12:0))%1;
+    c.beginPath();c.arc(hx+side*(.3+ph*.85)*U,hy-(.02+1.1*ph-2*ph*ph)*U,(.075-.025*ph)*U,0,7);inked(BLUE,P.tears*(1-ph**3));
+  }
+  if(P.stars>.02){
+    // Estrellas del mareo: tres, en una órbita achatada sobre la cabeza; las de delante se ven más grandes.
+    const [x,y]=at(head.x,head.y+.74),list=[0,1,2].map(i=>t*4.2+i*Math.PI*2/3).sort((a,b)=>Math.sin(a)-Math.sin(b));
+    for(const a of list){spiky(x+Math.cos(a)*.52*U,y+Math.sin(a)*.13*U,(.105+.03*Math.sin(a))*U*P.stars,5,.46,-Math.PI/2+t*2);inked(GOLD,Math.min(1,P.stars*1.5))}
+  }
+  if(P.rage>.02){
+    // Marca de enfado: cuatro trazos curvos en cruz, como en los tebeos, latiendo junto a la cabeza.
+    const [x,y]=at(head.x+.56,head.y+.5),r=.13*U*(1+.14*Math.sin(t*18))*P.rage;
+    c.lineCap='round';
+    for(const [color,width] of [[INK,line*2.6],[RED,line*1.4]]){c.globalAlpha=P.rage;c.strokeStyle=color;c.lineWidth=width;for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4,mx=x+Math.cos(a)*r*.45,my=y+Math.sin(a)*r*.45;c.beginPath();c.arc(mx+Math.cos(a)*r,my+Math.sin(a)*r,r,a+Math.PI-.75,a+Math.PI+.75);c.stroke()}}
+  }
+  if(hit){
+    // Estallido donde cae el toque.
+    const age=(now-hit.at)/280,x=hit.x*width,y=hit.y*height,r=(.14+.2*ease(age*1.6))*U;
+    spiky(x,y,r,9,.56,.3);inked(PAPER,1-age**3);spiky(x,y,r*.5,9,.56,.65);c.globalAlpha=1-age**3;c.fillStyle=GOLD;c.fill();
+  }
+  c.restore();
+}
 // Un toque (clic o dedo, sin arrastrar) encima del personaje: «¡Ay!». Solo cuenta si cae sobre el dibujo, no en el aire
 // de alrededor. El armario se abre con el botón de edición debajo del escenario.
 function poke(item){
@@ -1081,9 +1242,19 @@ function poke(item){
     if(climbPoses.has(el)||!start||!event.detail||Math.hypot(event.clientX-start.x,event.clientY-start.y)>8||performance.now()-start.at>600||!touches(item,event))return;
     event.preventDefault();event.stopPropagation();
     const t=(performance.now()-item.born)/1000;
-    if(item.mood==='ko'||item.clip===CLIPS.desmayo||(item.lastClip?.startsWith('ay')&&item.clip&&t-item.clipAt<.35))return;
-    item.after=null;play(item,Math.random()<.65?'ay':'ay2',t);item.wait=t+CLIPS.ay.d+1.5;
-    window.Sound?.ay?.();
+    if(item.mood==='ko'||item.clip===CLIPS.desmayo||(item.clip&&item.lastClip===item.poked&&t-item.clipAt<(item.clip.lock||.35)))return;
+    // Cuanto más se insiste (toques a menos de 7 s del anterior), más fácil es que salga una de las reacciones largas.
+    // Mientras responde o espera el resultado (manos en la boca) y en los encuadres que no son de cuerpo entero, solo
+    // el «¡Ay!» corto. Las que se tumban de lado necesitan un lienzo ancho.
+    item.combo=t-(item.pokedAt??-99)<7?(item.combo||0)+1:0;item.pokedAt=t;
+    const view=VIEWS[item.data.mode]||VIEWS.full,whole=['full','stage','home'].includes(item.data.mode)&&item.mood!=='nervous'&&item.mood!=='wait',roomy=(view.width||view.frame)>=3.4;
+    const big=Math.min(.8,.22+.18*item.combo),luck=Math.random(),pool=(!whole?POKES:luck<big?BIG:luck<big+(1-big)*.75?GAGS:POKES).filter(name=>roomy||!CLIPS[name].wide);
+    let name=any(pool);while(pool.length>1&&name===item.poked)name=any(pool);
+    // Si corta un gesto que daba vueltas, el giro pendiente se da por hecho para que no las deshaga.
+    if(item.pose)for(const key of ['ry','fall'])item.pose[key]=wrap(item.pose[key]);
+    item.after=null;item.poked=name;play(item,name,t);item.wait=t+CLIPS[name].d+1.5;
+    if(!CLIPS[name].dodge){const r=item.canvas.getBoundingClientRect();item.hit={x:(event.clientX-r.left)/r.width,y:(event.clientY-r.top)/r.height,at:performance.now()}}
+    if(POKES.includes(name))window.Sound?.ay?.();else window.Sound?.gag?.(name);
   });
 }
 function touches(item,event){
@@ -1137,5 +1308,5 @@ enqueue(document.body);
 // Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
 // (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
 const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
-window.Avatar3D={ready:true,shot,climb,firstPerson,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+window.Avatar3D={ready:true,shot,climb,firstPerson,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,gags:[...GAGS,...BIG],react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
 document.dispatchEvent(new Event('faraday:avatar3d-ready'));
