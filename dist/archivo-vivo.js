@@ -5,36 +5,114 @@ const dialog = document.getElementById('archivo-vivo');
 const body = document.getElementById('archivo-vivo-body');
 const progress = document.getElementById('archivo-vivo-progress');
 const close = dialog.querySelector('[data-av-close]');
-const storageKey = 'faraday.archivo-vivo.v1';
+const mode = 'archivo-vivo';
+const legacyKey = 'faraday.archivo-vivo.v1';
+const draftKey = 'faraday.archivo-vivo.v2.draft';
+const byId = new Map(scenes.map(scene => [scene.id, scene]));
 const format = new Intl.NumberFormat('es-ES');
-const newRun = () => ({ index: 0, guesses: [], draft: '' });
 const validYear = year => Number.isInteger(year) && year >= MIN_YEAR && year <= MAX_YEAR;
 const photoUrl = scene => `assets/archivo-vivo/${scene.id}-foto.jpg`;
 const yearError = `Escribe un año entre ${MIN_YEAR} y ${MAX_YEAR}.`;
 const panoramaIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4H4v3m13-3h3v3M4 17v3h3m13-3v3h-3"/><ellipse cx="12" cy="12" rx="7" ry="3.5"/><path d="M12 8.5c3 0 3 7 0 7s-3-7 0-7Z"/></svg>';
 
-let run = readRun();
+let run = null;
 let opener;
 let immersion;
+let pending = false;
+let viewVersion = 0;
 
-function readRun() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(storageKey));
-    if (Array.isArray(saved?.guesses) && saved.guesses.length <= scenes.length &&
-        saved.guesses.every(validYear) && Number.isInteger(saved.index) &&
-        saved.index >= 0 && saved.index <= scenes.length &&
-        (saved.index === saved.guesses.length || saved.index === saved.guesses.length - 1) &&
-        typeof saved.draft === 'string' && /^\d{0,4}$/.test(saved.draft)) return saved;
-  } catch {
-    // La partida sigue disponible durante la sesión si el navegador bloquea el almacenamiento.
-  }
-  return newRun();
+function localRead(key) {
+  try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
 }
 
-function saveRun() {
+function legacyRun() {
+  const saved = localRead(legacyKey);
+  if (!Array.isArray(saved?.guesses) || saved.guesses.length > 3 || !saved.guesses.every(validYear) ||
+      !Number.isInteger(saved.index) || saved.index < 0 || saved.index > 3 ||
+      (saved.index !== saved.guesses.length && saved.index !== saved.guesses.length - 1) ||
+      typeof saved.draft !== 'string' || !/^\d{0,4}$/.test(saved.draft)) return null;
+  return saved.guesses.length || saved.draft ? saved : null;
+}
+
+function saveDraft() {
+  const key = draftKey + '.' + run.id;
   try {
-    localStorage.setItem(storageKey, JSON.stringify(run));
+    if (run.draft) localStorage.setItem(key, JSON.stringify({ index: run.index, value: run.draft }));
+    else localStorage.removeItem(key);
   } catch {}
+}
+
+function adopt(data, legacy) {
+  if (!Array.isArray(data?.scenes) || !data.scenes.length || data.scenes.some(id => !byId.has(id))) {
+    throw Error('No se pudo recuperar la colección fotográfica.');
+  }
+  const local = localRead(draftKey + '.' + data.id);
+  const draft = local && local.index === data.index && /^\d{0,4}$/.test(local.value)
+    ? local.value
+    : data.kind === 'legacy' && legacy?.index === data.index ? legacy.draft : '';
+  run = { ...data, draft: data.index === data.guesses.length ? draft : '' };
+  saveDraft();
+  if (legacy) {
+    try { localStorage.removeItem(legacyKey); } catch {}
+  }
+}
+
+async function request(action, extra = {}) {
+  await playerReady;
+  const response = await fetch('/api/continuacion', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+    body: JSON.stringify({ mode, action, ...extra }), signal: AbortSignal.timeout(12000)
+  });
+  const data = await response.json();
+  if (!response.ok) throw Error(data.error || 'No se pudo guardar la partida.');
+  return data;
+}
+
+async function load() {
+  const visit = ++viewVersion;
+  stopViewer();
+  run = null;
+  pending = false;
+  progress.textContent = '';
+  body.innerHTML = '<section class="av-panel"><h3 tabindex="-1">Abriendo Archivo Vivo…</h3></section>';
+  const legacy = legacyRun();
+  try {
+    const data = await request('archivo-estado', legacy ? { legacy: { index: legacy.index, guesses: legacy.guesses } } : {});
+    if (visit !== viewVersion || !dialog.open) return;
+    adopt(data, legacy);
+    render(true);
+  } catch (error) {
+    if (visit !== viewVersion || !dialog.open) return;
+    body.innerHTML = '<section class="av-panel"><h3 tabindex="-1">No se pudo abrir Archivo Vivo</h3><p role="status"></p><button class="av-primary" type="button" data-av="retry">Reintentar</button></section>';
+    body.querySelector('[role="status"]').textContent = error.message;
+    body.querySelector('h3').focus({ preventScroll: true });
+  }
+}
+
+async function playAction(action, button, extra) {
+  if (!run || pending) return;
+  const visit = viewVersion;
+  pending = true;
+  if (button) button.disabled = true;
+  try {
+    const data = await request(action, { date: run.date, id: run.id, index: run.index, ...extra });
+    if (visit !== viewVersion || !dialog.open) return;
+    adopt(data);
+    render(true);
+  } catch (error) {
+    if (visit === viewVersion && dialog.open) {
+      const status = body.querySelector('[data-av-error],#av-year-feedback');
+      if (status) {
+        status.hidden = false;
+        status.textContent = error.message;
+      }
+    }
+  } finally {
+    if (visit === viewVersion) {
+      pending = false;
+      if (button?.isConnected) button.disabled = false;
+    }
+  }
 }
 
 function stopViewer() {
@@ -156,7 +234,7 @@ function enterPhoto(scene, fromKeyboard) {
 }
 
 function renderRound(scene, guess) {
-  progress.textContent = `Foto ${run.index + 1} de ${scenes.length}`;
+  progress.textContent = `Foto ${run.index + 1} de ${run.scenes.length}`;
   const content = guess === undefined
     ? `<h3 tabindex="-1">¿De qué año es esta foto?</h3>
        <form class="av-year-form" novalidate>
@@ -177,7 +255,8 @@ function renderRound(scene, guess) {
        <p><strong>${scene.title}</strong><br>${scene.place}</p>
        <p>${scene.story}</p>
        <p class="av-credit">${scene.credit} · ${scene.rights}. <a href="${scene.source}" target="_blank" rel="noopener">Ver ficha de archivo</a></p>
-       <button class="av-primary" type="button" data-av="next">${run.index === scenes.length - 1 ? 'Ver resultado' : 'Siguiente foto'}</button>`;
+       <p role="status" data-av-error hidden></p>
+       <button class="av-primary" type="button" data-av="next">${run.index === run.scenes.length - 1 ? 'Ver resultado' : 'Siguiente foto'}</button>`;
   body.innerHTML = `<div class="av-round">
     <div class="av-stage">${photo(scene)}</div>
     <section class="av-panel">${content}</section>
@@ -186,25 +265,26 @@ function renderRound(scene, guess) {
 
 function renderSummary() {
   progress.textContent = '';
-  const scores = run.guesses.map((year, index) => scoreYear(year, scenes[index].year));
+  const collection = run.scenes.map(id => byId.get(id));
+  const scores = run.guesses.map((year, index) => scoreYear(year, collection[index].year));
   const total = format.format(scores.reduce((sum, points) => sum + points, 0));
   body.innerHTML = `<section class="av-summary">
-    <h3 tabindex="-1"><span>${total}</span> de ${format.format(scenes.length * MAX_POINTS)} puntos</h3>
-    <ol>${scenes.map((scene, index) => `<li>
+    <h3 tabindex="-1"><span>${total}</span> de ${format.format(collection.length * MAX_POINTS)} puntos</h3>
+    <ol>${collection.map((scene, index) => `<li>
       <img src="${photoUrl(scene)}" alt="">
       <div><a href="${scene.source}" target="_blank" rel="noopener">${scene.title}</a>
         <small>${scene.year} · Tu respuesta: ${run.guesses[index]}</small></div>
       <strong>${format.format(scores[index])} pts</strong>
     </li>`).join('')}</ol>
-    <button class="av-primary" type="button" data-av="restart">Volver a jugar</button>
+    <div data-continue-slot="${mode}"></div>
     <div data-plus-slot="archivo-vivo" data-compact="true"></div>
   </section>`;
 }
 
 function render(focus = false) {
   stopViewer();
-  if (run.index === scenes.length) renderSummary();
-  else renderRound(scenes[run.index], run.guesses[run.index]);
+  if (run.index === run.scenes.length) renderSummary();
+  else renderRound(byId.get(run.scenes[run.index]), run.guesses[run.index]);
   dialog.scrollTop = 0;
   if (focus) body.querySelector('h3').focus({ preventScroll: true });
 }
@@ -213,12 +293,20 @@ function updateDraft(input) {
   run.draft = /^\d{0,4}$/.test(input.value) ? input.value : '';
   body.querySelector('#av-year-feedback').textContent = '';
   input.removeAttribute('aria-invalid');
-  saveRun();
+  saveDraft();
 }
 
-window.PlusOffers?.register('archivo-vivo', {
-  title: 'Descubre Faraday Plus',
-  description: 'Consulta las ventajas de Faraday Plus desde tu perfil.'
+window.PlusOffers?.register(mode, {
+  title: 'Sigue explorando con Faraday Plus',
+  description: 'Juega las partidas extra de Archivo Vivo sin anuncios.'
+});
+
+window.Continuations?.register(mode, async offer => {
+  const visit = viewVersion;
+  const data = await request('archivo-extra', { date: offer.date, ticket: offer.ticket, id: offer.id, from: run?.id });
+  if (visit !== viewVersion || !dialog.open) return;
+  adopt(data);
+  render(true);
 });
 
 document.querySelectorAll('[data-open-archivo-vivo]').forEach(button => button.addEventListener('click', () => {
@@ -227,8 +315,8 @@ document.querySelectorAll('[data-open-archivo-vivo]').forEach(button => button.a
     opener = document.getElementById(document.getElementById('game-shell').hidden ? 'home-menu-toggle' : 'menu-toggle');
     window.toggleMenu(false);
   }
-  render();
   dialog.showModal();
+  load();
 }));
 
 dialog.addEventListener('click', event => {
@@ -240,7 +328,12 @@ dialog.addEventListener('click', event => {
     if (!backFromViewer(focusAnswer)) dialog.close();
     return;
   }
-  const scene = scenes[run.index];
+  if (button.dataset.av === 'retry') {
+    load();
+    return;
+  }
+  if (!run || pending) return;
+  const scene = byId.get(run.scenes[run.index]);
   switch (button.dataset.av) {
     case 'enter': enterPhoto(scene, event.detail === 0); break;
     case 'zoom-in': immersion?.viewer?.magnify(1.25); break;
@@ -257,22 +350,12 @@ dialog.addEventListener('click', event => {
       updateDraft(input);
       break;
     }
-    case 'next':
-      if (run.guesses.length !== run.index + 1) return;
-      run.index += 1;
-      saveRun();
-      render(true);
-      break;
-    case 'restart':
-      run = newRun();
-      saveRun();
-      render(true);
-      break;
+    case 'next': playAction('archivo-siguiente', button); break;
   }
 });
 
 body.addEventListener('input', event => {
-  if (event.target.id === 'av-year') updateDraft(event.target);
+  if (run && event.target.id === 'av-year') updateDraft(event.target);
 });
 
 body.addEventListener('submit', event => {
@@ -285,16 +368,13 @@ body.addEventListener('submit', event => {
     input.focus({ preventScroll: true });
     return;
   }
-  if (run.guesses.length !== run.index) return;
-  run.guesses.push(input.valueAsNumber);
-  run.draft = '';
-  saveRun();
-  render(true);
+  if (!run || run.guesses.length !== run.index) return;
+  playAction('archivo-responder', event.submitter, { guess: input.valueAsNumber });
 });
 
 function backFromViewer(focusAnswer = false) {
   if (!immersion) return false;
-  showPhoto(scenes[run.index], focusAnswer);
+  showPhoto(byId.get(run.scenes[run.index]), focusAnswer);
   return true;
 }
 
@@ -308,6 +388,7 @@ dialog.addEventListener('cancel', event => {
   if (backFromViewer()) event.preventDefault();
 });
 dialog.addEventListener('close', () => {
+  viewVersion++;
   stopViewer();
   opener?.focus({ preventScroll: true });
 });
@@ -316,6 +397,9 @@ document.addEventListener('faraday:avatar3d-ready', () => {
 });
 document.addEventListener('faraday:before-plan', event => {
   if (!dialog.open) return;
-  if (run.index === scenes.length) dialog.close();
+  if (run && run.index === run.scenes.length) dialog.close();
   else event.preventDefault();
+});
+document.addEventListener('faraday:cuenta', () => {
+  if (dialog.open) load();
 });

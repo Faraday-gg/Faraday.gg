@@ -163,8 +163,9 @@
 .av-summary li { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid #51576e; }
 .av-summary img { width: 58px; height: 45px; object-fit: cover; border-radius: 5px; }
 .av-summary a { color: var(--av-accent); text-underline-offset: 3px; }
-.av-summary small { display: block; color: var(--av-accent); }
+.av-summary li small { display: block; color: var(--av-accent); }
 .av-summary .av-primary { justify-self: start; }
+.av-summary .continue-status { color: var(--av-paper); }
 .archivo-vivo [hidden] { display: none; }
 .archivo-vivo :focus-visible, .mode-photo:focus-visible { outline: 3px solid #7286c5; outline-offset: 2px; }
 
