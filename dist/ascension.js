@@ -31,7 +31,7 @@
       const data=await response.json();if(!response.ok)throw Object.assign(new Error(data.error||'No se pudo completar la acción.'),{status:response.status,data});return data;
     }finally{clearTimeout(timer);if(controller===activeController)controller=null}
   }
-  function adopt(data){run=data;offset=data.now-Date.now();timeoutSent=false;paintTop()}
+  function adopt(data){run=data;if(Array.isArray(data?.results))window.Progress?.tally?.('ascension',`${data.date}:${data.game}`,data.results.map(one=>one.height),data.rounds,data.results.map(one=>one.points===100));offset=data.now-Date.now();timeoutSent=false;paintTop()}
   function paintTop(){
     dialog.dataset.phase=run.phase;
     modeLine.innerHTML=`<strong>${run.game?`Práctica ${run.game}`:'La ascensión del día'}</strong><span>${run.phase==='finished'?`${fmt(run.score)} puntos`:`Repisa ${Math.min(run.round+1,run.rounds)} de ${run.rounds}`}</span>`;
