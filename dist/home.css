@@ -248,7 +248,6 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   min-height: 0;
   padding: 8px clamp(10px,1.18vw,18px);
   border: 1px solid var(--portal-border);
-  border-inline-start: 3px solid var(--card-accent);
   border-radius: 13px;
   background: linear-gradient(105deg,var(--portal-panel),#2a2c40);
   text-align: left;
@@ -343,7 +342,10 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
 .portal-social-actions button + button { border-top: 1px solid #4a4a61; }
 .portal-social-actions button:hover { background: #ffffff15; }
 .portal-social-actions button span { color: var(--portal-muted); }
-.portal-links { grid-area: links; display: flex; align-items: center; }
+.portal-links { grid-area: links; display: flex; flex-wrap: wrap; align-items: center; column-gap: 14px; }
+.portal-legal { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; column-gap: 12px; }
+.portal-links .portal-legal a { min-height: 22px; font-weight: 700; }
+.portal-copy { font: 700 11px var(--font); color: var(--portal-muted); opacity: .8; }
 .portal-links a { display: inline-flex; align-items: center; gap: 5px; min-height: 29px; padding: 2px; font: 800 12px var(--font); color: var(--portal-muted); }
 .portal-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
@@ -502,3 +504,6 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   .portal-mode { transition: none; }
   .portal-mode:hover:not(:disabled) { transform: none; }
 }
+
+/* Con sesión iniciada, la cuenta se abre desde el personaje (botón «Perfil» de su panel): fuera la inicial. */
+.home-header .home-account.is-signed { display: none; }

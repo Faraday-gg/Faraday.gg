@@ -58,7 +58,7 @@
     try{
       const r=await post('salir'),data=await r.json().catch(()=>({}));if(!r.ok)throw Error();
       leaveAccount(data.player);account=null;render();dialog.close();showToast('Has cerrado la sesión.');
-    }catch{say('No se pudo cerrar la sesión. Inténtalo de nuevo.')}finally{busy=false}
+    }catch{say('No se pudo cerrar la sesión. Inténtalo de nuevo.');if(!dialog.open)showToast('No se pudo cerrar la sesión. Inténtalo de nuevo.')}finally{busy=false}
   }
   document.querySelectorAll('[data-auth-open]').forEach(button=>button.addEventListener('click',open));
   $id('auth-close').addEventListener('click',()=>dialog.close());
@@ -76,5 +76,7 @@
     params.delete('sesion');history.replaceState(null,'',location.pathname+(params.size?'?'+params:'')+location.hash);
     playerReady.then(()=>showToast(result==='ok'&&currentAccount?'Sesión iniciada. Tu progreso ya se guarda en tu cuenta.':'No se pudo iniciar sesión. Inténtalo de nuevo.'));
   }
+  // El panel del personaje (progress.js) abre la cuenta y cierra la sesión desde su pestaña «Perfil».
+  window.Auth={open,logout};
   render();
 })();
