@@ -87,6 +87,8 @@
     state.medals.fresh=Array.isArray(state.medals.fresh)?state.medals.fresh.filter(id=>Medals.parse(id)):[];
     if(typeof state.medals.pin!=='string')state.medals.pin='';
     if(!state.trio||typeof state.trio!=='object')state.trio={day:'',n:0,ok:0};
+    // Estadísticas por juego (decisión 0113, stats.js). Quien ya jugaba parte de sus retos y de los duelos de este navegador.
+    {const duels=stored('casi-casi:duelo:progreso')||{};state.plays=Stats.normalize(state.plays,{days:state.days.length,wins:duels.wins,draws:duels.draws,losses:duels.losses})}
     // Circuito de amigos (decisión 0038, circuito.js): welcome = entró invitado y cobró la bienvenida; n = amigos conectados
     // (lo dice el servidor); storm = ya recibió el cofre Tormenta de las 3 conexiones; current = días de corriente ya cargados.
     {const c=state.circuito&&typeof state.circuito==='object'?state.circuito:{};state.circuito={welcome:c.welcome===true,n:Number.isInteger(c.n)&&c.n>0?c.n:0,storm:c.storm===true,current:c.current&&typeof c.current==='object'?c.current:{}}}
@@ -205,7 +207,7 @@
     return unlocked.length?` · ¡${n} «Casi casi»! Nuevo: ${unlocked.map(item=>item.name).join(', ')}`:'';
   }
   document.addEventListener('faraday:answer',({detail})=>{
-    const s=state.stats,factor=detail.factor;
+    const s=state.stats,factor=detail.factor;state.plays.answers++;
     if(factor<2)s.near++;if(factor>=1&&factor<1.01)s.exact=1;
     // Triplete: las tres respuestas de un mismo reto a menos de 2×.
     if(state.trio.day!==detail.day)state.trio={day:detail.day,n:0,ok:0};
@@ -238,7 +240,7 @@
     showToast(`Reto completado: +${gained} ≈ · +${xp} XP${extra}${storm}${chargeNote(full)}${levelNote(result)}${missionNote(done)}`);
   });
   document.addEventListener('faraday:duel',({detail})=>{
-    const s=state.stats;
+    const s=state.stats;Stats.duel(state.plays,detail);
     if(!detail.bot&&!detail.abandoned){
       if(detail.result==='win'){s.wins++;s.run++;s.duelStreak=Math.max(s.duelStreak,s.run);if(detail.flawless)s.flawless=1}
       else if(detail.result==='loss')s.run=0;
@@ -575,6 +577,13 @@ ${chosen?medalDetail(chosen,stats):''}
 ${account?`<p class="profile-account-note">Sesión iniciada con <b>${escapeHtml(account.email||account.name||'tu cuenta')}</b>. Tu progreso se guarda en tu cuenta.</p><button type="button" class="game-secondary profile-logout" data-auth-logout>Cerrar sesión</button>`
 :`<p class="profile-account-note">Juegas sin cuenta: tu progreso solo está en este navegador.</p><button type="button" class="game-primary" data-plan-login>Entrar o crear cuenta</button>`}</div>`;
   }
+  // Estadísticas (decisión 0113): las cifras de cada juego. El dibujo y las cuentas están en stats.js.
+  const statsTab=()=>{const m=medalStats();return Stats.render(state.plays,{days:m.days,casi:m.casi,near:m.near,round:m.round,streak:m.streak,duelStreak:m.duelStreak})};
+  // Lo llaman los juegos por rondas (Ascensión, Traza, Archivo Vivo) con lo conseguido hasta ahora en una partida.
+  function tally(game,key,values,per,tops){
+    if(!Stats.tally(state.plays,game,key,values,per,tops))return;
+    save();if(!shell.hidden&&tab==='stats')draw();
+  }
   function saveNickname(value){
     const name=value.replace(/\s+/g,' ').trim().slice(0,16);if(!name)return;
     let profile={};try{profile=JSON.parse(localStorage.getItem(NICK))||{}}catch{}
@@ -587,7 +596,7 @@ ${account?`<p class="profile-account-note">Sesión iniciada con <b>${escapeHtml(
     const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
-    const side=tab==='perfil'?profileTab():tab==='celebraciones'?celebrationTab():tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?`<button class="celebrations-door" type="button" data-tab="celebraciones"><span><b>Celebraciones y emotes</b><small>Tu gesto para cada resultado, en todos los modos</small></span><span aria-hidden="true">→</span></button>`+marketDoor()+wardrobe(current)
+    const side=tab==='perfil'?profileTab():tab==='stats'?statsTab():tab==='celebraciones'?celebrationTab():tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?`<button class="celebrations-door" type="button" data-tab="celebraciones"><span><b>Celebraciones y emotes</b><small>Tu gesto para cada resultado, en todos los modos</small></span><span aria-hidden="true">→</span></button>`+marketDoor()+wardrobe(current)
       :`<h3 class="mission-title">Hoy <small>cambian a medianoche</small></h3><ul class="mission-list">${day.ids.map(id=>missionRow(day,id)).join('')}</ul><p class="mission-chest${day.chest?' is-open':''}">${day.chest?`Las tres de hoy, recogidas: +${REWARD.daySet} ≈ ✓`:`Recoge las tres de hoy y llévate ${REWARD.daySet} ≈ más`}</p><h3 class="mission-title">Esta semana <small>cambian el lunes</small></h3><ul class="mission-list">${week.ids.map(id=>missionRow(week,id)).join('')}</ul><p class="mission-chest${week.chest?' is-open':''}">${week.chest?'Cofre Rayo de la semana conseguido ✓':'Recoge las tres de la semana y llévate un cofre Rayo'}</p>`;
     // En el armario, el avatar se queda a la vista mientras se mira el catálogo (en el móvil, fijo arriba como un probador).
     const slotsScroll=main.querySelector('.wardrobe-slots')?.scrollLeft||0;
@@ -596,7 +605,7 @@ ${account?`<p class="profile-account-note">Sesión iniciada con <b>${escapeHtml(
     main.innerHTML=`<section class="profile-card" style="background:${Avatar.background(preview)}"><h2 id="profile-title" class="sr-only">Tu avatar</h2><button type="button" class="profile-edit" data-tab="perfil" aria-pressed="${tab==='perfil'}" aria-label="Editar perfil y cuenta" title="Editar perfil y cuenta"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Perfil</span></button><div class="profile-figure">${Avatar.render(preview,{label:'Tu avatar',live:true,drag:true,zoom:tab==='celebraciones'?'stage':''})}</div><p class="profile-hint">Arrastra para girarlo</p>
 ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying.plus?'<p class="profile-try-note">Pieza de suscriptor: se puede llevar mientras la suscripción esté activa. Todavía no se puede contratar.</p>':trying.level?`<p class="profile-try-note">Se desbloquea gratis al llegar al nivel ${trying.level}.</p>`:trying.casi?`<p class="profile-try-note">Exclusiva: se desbloquea gratis al conseguir ${trying.casi} «Casi casi» (respuestas a menos de 1,1×). Llevas ${int(state.casi.n)}.</p>`:trying.rango?`<p class="profile-try-note">Exclusiva de las clasificatorias: se desbloquea al llegar al rango ${rankName(trying.rango)}. Ni se compra ni sale en cofres, y no se pierde si luego bajas de rango.</p>`:trying.medalla?`<p class="profile-try-note">Exclusiva: se desbloquea con «${Medals.label(trying.medalla)}». ${medalText(trying.medalla)} Ni se compra ni sale en cofres.</p>`:trying.circuito?`<p class="profile-try-note">Exclusiva del Circuito de amigos: ${trying.circuito==='bienvenida'?'para quien entra invitado por un amigo y juega su primer reto.':`se desbloquea cuando ${trying.circuito===1?'un amigo que invites juegue':trying.circuito+' amigos que invites jueguen'} 3 retos del día. Llevas ${int(state.circuito.n)}.`}</p><button type="button" class="game-secondary" data-open-circuit>Invitar amigos</button>`:trying.edition?editionTry(trying,missing):`<button type="button" class="game-primary" data-buy${missing>0?' disabled':''}>${missing>0?`Te faltan ${int(missing)} ${COIN}`:`Comprar · ${int(trying.price)} ${COIN}`}</button>`}<button type="button" class="duel-link" data-cancel>Quitar</button></div>`:''}
 <div class="profile-level"><span><b>Nivel ${level.level}</b><small>${int(level.done)} / ${int(level.need)} XP</small></span><div class="duel-xpbar"><i style="--xp:${level.ratio}"></i></div>${state.streak.count>1&&state.streak.last>=shift(madrid(),-1)?`<p>🔥 ${state.streak.count} días seguidos</p>`:''}${shieldOffer()?`<div class="profile-shield"><p>🔥 Ayer no jugaste: tu racha de ${shieldOffer().days} días está a punto de perderse.</p><button type="button" class="game-secondary" data-shield${state.coins<REWARD.shield.price?' disabled':''}>${state.coins<REWARD.shield.price?`Te faltan ${int(REWARD.shield.price-state.coins)} ${COIN}`:`Proteger la racha · ${REWARD.shield.price} ${COIN}`}</button></div>`:''}<p class="profile-casi" title="Respuestas a menos de 1,1× de la cifra real"><span aria-hidden="true">🎯</span> ${int(state.casi.n)} «Casi casi»${state.casi.n<CasiCasi.GOAL?` <small>· ${CasiCasi.GOAL-state.casi.n} más para la sudadera exclusiva</small>`:''}</p></div>${showcase()}${planCard()}</section>
-<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'||tab==='celebraciones'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button></div>${side}</section>`;
+<section class="profile-side"><div class="profile-tabs" role="tablist"><button type="button" role="tab" aria-selected="${tab==='armario'||tab==='celebraciones'}" data-tab="armario">Armario</button><button type="button" role="tab" aria-selected="${tab==='misiones'}" data-tab="misiones">Misiones${waiting?`<i class="profile-dot">${waiting}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='cofres'}" data-tab="cofres">Cofres${chestTotal()?`<i class="profile-dot">${chestTotal()}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='medallas'}" data-tab="medallas">Medallas${state.medals.fresh.length?`<i class="profile-dot">${state.medals.fresh.length}</i>`:''}</button><button type="button" role="tab" aria-selected="${tab==='stats'}" data-tab="stats">Stats</button></div>${side}</section>`;
     const slots=main.querySelector('.wardrobe-slots');if(slots)slots.scrollLeft=slotsScroll;
     if(tab==='celebraciones')previewCelebration(previewCue);
   }
@@ -957,7 +966,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
   shell.addEventListener('change',event=>{if(event.target.id==='profile-name')saveNickname(event.target.value)});
   // Gastar faradios fuera de la tienda (las pistas, decisión 0039). Devuelve false si no llegan.
   function spend(amount,reason='otros'){if(!(amount>0)||state.coins<amount)return false;move(-amount,reason);save();refresh();return true}
-  window.Progress={reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,planOffer,openPlan,collectTrendPrize,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
+  window.Progress={tally,reaction,gestures:mode=>Celebrations.loadout(state.celebrations,mode),plus:()=>plus,planOffer,openPlan,collectTrendPrize,look,spend,pay,serverCoins,cloud,ask:serverAsk,syncItems,claim,linked:()=>linked,circuit:()=>({...state.circuito}),circuitPrizes,circuitCurrent,level:()=>levelOf(state.xp),casi:()=>state.casi.n,info,coins:()=>state.coins,streak:()=>state.streak.count,reward,open,REWARD,chests:()=>({...state.chests}),openChest,
     // badge = la medalla destacada, que viaja con el avatar a los duelos y a las ligas; medals = todo lo conseguido.
     badge:()=>featured()[0]||'',medals:()=>gotMedals()};
   // Regalo de bienvenida: lo justo para estrenar el armario con una primera pieza.

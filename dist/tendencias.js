@@ -469,7 +469,7 @@
       const result=await request('revelar',{date:edition.date,game:edition.game,chart:chart.id,guess:draft});
       document.dispatchEvent(new Event('faraday:played'));
       if(token!==view)return;
-      edition=result;
+      edition=result;countStats();
       const index=result.results.findLastIndex(item=>item.id===chart.id);
       renderResult(index,{animate:true});
     }catch(error){
@@ -585,7 +585,10 @@
     loadPeerTraces(q,animate);
   }
 
+  // Estadísticas del perfil (stats.js): las partidas de un día comparten lista, así que la clave es la fecha.
+  function countStats(){if(Array.isArray(edition?.results))window.Progress?.tally?.('traza',String(edition.date),edition.results.map(result=>result.score),edition.rounds)}
   function summary(){
+    countStats();
     const daily=edition.results.slice(0,edition.rounds),extra=edition.results.slice(edition.rounds);
     const pointsOf=results=>results.reduce((sum,result)=>sum+result.score,0);
     const total=pointsOf(daily),extraTotal=pointsOf(extra);

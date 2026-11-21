@@ -100,6 +100,7 @@ Reglas para agentes:
   node tests/social.test.mjs
   node tests/referidos.test.mjs
   node tests/medallas.test.mjs
+  node tests/estadisticas.test.mjs
   node tests/pistas.test.mjs
   node tests/rangos.test.mjs
   node tests/apuestas.test.mjs
