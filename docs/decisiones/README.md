@@ -115,6 +115,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0106](0106-escalada-con-agarres.md) | Escalada con apoyos visibles, dos vías y llegada a repisa con el avatar del armario | Implementada | 2026-11-20 |
 | [0107](0107-lema-de-portada.md) | Lema de portada «Ponle cifra a tu intuición.» | Implementada | 2026-11-20 |
 | [0110](0110-pie-y-paginas-legales.md) | Pie de página con privacidad, términos y cookies en `dist/legal/` | Aceptada; faltan los datos del titular | 2026-11-21 |
+| [0113](0113-golpes-con-gracia-del-avatar.md) | Golpes con gracia: quince reacciones más del avatar al tocarlo (voltereta, culetazo, calambre…), cada una con su sonido | Aceptada | 2026-11-21 |
 
 ## Plantilla
 
