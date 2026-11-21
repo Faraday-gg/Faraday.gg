@@ -1,7 +1,7 @@
 # 0109. El avatar en primera persona en Archivo Vivo
 
 - **Fecha** · 2026-11-21.
-- **Estado** · Implementada.
+- **Estado** · Implementada. La [decisión 0111](0111-ampliacion-archivo-vivo.md) eleva ambos brazos.
 - **Amplía** · [Archivo Vivo](0108-archivo-vivo.md) y reutiliza el modelo del [avatar 3D](0025-avatar-3d.md).
 
 ## Entrada y vuelta a la ronda

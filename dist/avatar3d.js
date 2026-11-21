@@ -577,24 +577,25 @@ function dispose(entry){
   for(const item of materials){item.map?.dispose();item.dispose()}
   for(const rig of entry.climbRigs||[])rig.skeleton.dispose();
 }
-// El cuerpo se proyecta desde los ojos. La mano cercana se mantiene en el borde de la vista, incluso al girar.
+// El cuerpo se proyecta desde los ojos. Los dos antebrazos enmarcan la vista y dejan libre el centro del panorama.
 function firstPerson(canvas, look) {
   const context = canvas.getContext('2d');
   if (!context) return null;
   const entry = buildModel(look);
   const { body, neck, arms, legs, feet } = entry.parts;
-  const handAnchor = new THREE.Group();
-  const { arm, fore, hand } = arms[0];
+  const armAnchor = new THREE.Group();
   const eye = new THREE.PerspectiveCamera(75, 1, 0.07, 8);
   const target = new THREE.Vector3();
   eye.position.set(0, 1.62 + entry.base, 0.58);
   neck.visible = false;
-  handAnchor.add(arm);
-  entry.group.add(handAnchor);
-  arm.scale.setScalar(0.83);
-  arm.rotation.set(1.49, 0, -0.50, 'ZXY');
-  fore.rotation.set(0.63, 0, -0.40, 'ZXY');
-  hand.rotation.set(-0.12, -0.36, -0.16);
+  entry.group.add(armAnchor);
+  for (const { arm, fore, hand, side } of arms) {
+    armAnchor.add(arm);
+    arm.scale.setScalar(0.96);
+    arm.rotation.set(1.54, 0, side * 0.28, 'ZXY');
+    fore.rotation.set(1.02, -side * 0.08, side * 0.20, 'ZXY');
+    hand.rotation.set(-0.18, side * 0.36, side * 0.11);
+  }
   // Un pie adelantado abre la vista entre la ropa del torso, las perneras y las punteras.
   for (const [index, leg] of legs.entries()) {
     leg.position.z += 0.13;
@@ -630,9 +631,13 @@ function firstPerson(canvas, look) {
       eye.lookAt(target);
 
       body.visible = pitch < -0.33;
-      handAnchor.position.copy(eye.position);
-      handAnchor.quaternion.copy(eye.quaternion);
-      arm.position.set(0.78 * halfHeight * eye.aspect, -1.12 * halfHeight, -0.72);
+      armAnchor.position.copy(eye.position);
+      armAnchor.quaternion.copy(eye.quaternion);
+      // Al mirar los pies, los brazos ceden el centro de la imagen sin saltos de postura.
+      const feetView = THREE.MathUtils.smoothstep(-pitch, 0.55, 1.25);
+      const shoulderX = (0.78 + 0.29 * feetView) * halfHeight * eye.aspect;
+      const shoulderY = -(0.70 + 0.36 * feetView) * halfHeight;
+      for (const { arm, side } of arms) arm.position.set(-side * shoulderX, shoulderY, -0.72);
 
       const shadows = renderer.shadowMap.enabled;
       scene.add(entry.group);
