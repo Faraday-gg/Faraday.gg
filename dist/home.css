@@ -248,7 +248,6 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
   min-height: 0;
   padding: 8px clamp(10px,1.18vw,18px);
   border: 1px solid var(--portal-border);
-  border-inline-start: 3px solid var(--card-accent);
   border-radius: 13px;
   background: linear-gradient(105deg,var(--portal-panel),#2a2c40);
   text-align: left;
