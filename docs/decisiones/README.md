@@ -118,6 +118,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0112](0112-skins-de-personajes.md) | Skins completas de personajes (Sulley, Stitch, Spider-Man, Iron Man) en un hueco nuevo del avatar | Propuesta; riesgo legal por confirmar | 2026-11-21 |
 | [0113](0113-estadisticas-en-el-perfil.md) | Pestaña «Stats» del perfil: partidas, victorias, «Casi casi» y metros de Ascensión por juego, con comparaciones | Implementada | 2026-11-21 |
 | [0114](0114-golpes-con-gracia-del-avatar.md) | Golpes con gracia: quince reacciones más del avatar al tocarlo (voltereta, culetazo, calambre…), cada una con su sonido | Aceptada | 2026-11-21 |
+| [0115](0115-archivo-vivo-postura-y-apoyo.md) | Postura, escala, apoyo y referencias de las recreaciones de Archivo Vivo | Implementada | 2026-11-21 |
 
 ## Plantilla
 

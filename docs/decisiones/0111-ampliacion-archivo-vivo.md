@@ -12,6 +12,8 @@ Tras terminar la partida aparece la continuación común. En el plan gratuito se
 
 ## Visor
 
+La [decisión 0115](0115-archivo-vivo-postura-y-apoyo.md) actualiza la postura, el apoyo y la selección de panoramas para partidas nuevas.
+
 Ambos antebrazos y sus manos aparecen elevados en los lados del encuadre, con la piel y las prendas equipadas. El centro queda disponible para inspeccionar la escena. Los brazos bajan suavemente en función de la inclinación al mirar a los pies. El zoom de la foto mantiene la escala del avatar. [Renderizado en primera persona](https://dev.epicgames.com/documentation/en-us/unreal-engine/first-person-rendering)
 
 Los panoramas de Chicago y Ámsterdam se rehacen usando sus fotos como referencia frontal. En los ocho montajes generados, se busca mantener las proporciones, el ángulo, las sombras y los objetos documentados. El visor suaviza el cruce del meridiano trasero solo en las recreaciones. Los panoramas de San Francisco y de la Luna conservan la franja vertical que registraron las fotos. Las texturas se cargan cuando se entra y se ajustan al tamaño máximo que acepta el dispositivo. Las recreaciones se identifican dentro del visor y las pistas se redactan a partir de los originales. [Encuadre en panoramas equirectangulares parciales](https://pannellum.org/documentation/reference/#equirectangular-specific-options)
