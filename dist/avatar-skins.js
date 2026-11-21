@@ -95,7 +95,7 @@ export function createSkins(kit){
 
   // ---------- Sulley: monstruo peludo turquesa con manchas moradas, cuernos, cola y garras.
   function sulley(){
-    const FUR='#2bb6c9',SPOT='#8d5fc7',P=puppet({gap:.2,shoulder:.47,handSize:1.42});
+    const FUR='#2bb6c9',SPOT='#8d5fc7',P=puppet({gap:.2,shoulder:.44,handSize:1.25});
     const fur=mat(FUR),claw=mat('#eef1f3'),horn=mat('#efe5cb');
     const spotted=(seed,stretch=2)=>mat(null,furTex(FUR,{spot:SPOT,spots:8,size:[20,32],seed,stretch,ticks:36}));
     const limbs=spotted(11),thigh=spotted(31),tailFur=spotted(17,2);
