@@ -164,7 +164,7 @@
     else if(pick<.8)voice(['a','o','u'],{duration:.5,pitch:[600,760,420],gain:.11});
     else{voice(['a','i'],{duration:.22,pitch:[620,700,560],gain:.14});voice(['a','a','i'],{at:.24,duration:.34,pitch:[660,780,440],gain:.14})}
   }
-  // Golpes con gracia (decisión 0113): el sonido de cada reacción larga del avatar al toque. Todo sale de las mismas
+  // Golpes con gracia (decisión 0114): el sonido de cada reacción larga del avatar al toque. Todo sale de las mismas
   // piezas (tonos, ruido filtrado y la voz por formantes) y se programa de una vez, con los tiempos del gesto de
   // avatar3d.js: el golpe contra el suelo suena cuando cae, cada «¡ia!» con su puñetazo y cada sollozo con su hipo.
   // Piezas que se repiten: bofetada, porrazo, pajaritos del mareo, muelle y soplido de un movimiento rápido.

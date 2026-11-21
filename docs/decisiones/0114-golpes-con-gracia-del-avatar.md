@@ -1,4 +1,4 @@
-# 0113. Golpes con gracia: quince reacciones más del avatar al tocarlo
+# 0114. Golpes con gracia: quince reacciones más del avatar al tocarlo
 
 - **Estado:** aceptada (código en la rama `feat/avatar-golpes-graciosos`)
 - **Fecha:** 2026-11-21

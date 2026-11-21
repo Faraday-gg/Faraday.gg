@@ -7,6 +7,7 @@
 // PENDIENTE: Three.js se carga desde una CDN; hay que traer la librería al repositorio (docs/mejoras).
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
 import {LOGOS} from './avatar-logos.js';
+import {createSkins} from './avatar-skins.js';
 
 const INK='#1b1f27',PAPER='#fffdf7',GOLD='#ffc93c';
 const {SKIN,HAIR:HAIR_COLORS,CLOTH,DENIM}=window.Avatar.PALETTE;
@@ -44,6 +45,8 @@ function matcap(kind){
     const texture=new THREE.CanvasTexture(canvas);texture.colorSpace=THREE.SRGBColorSpace;return texture})();
 }
 const mat=(color,map=null)=>finish?new THREE.MeshMatcapMaterial({color:map?'#ffffff':color,map,matcap:matcap(finish)}):new THREE.MeshToonMaterial({color:map?'#ffffff':color,map,gradientMap:ramp});
+// Metal pulido para las skins de armadura (decisión 0112): el mismo brillo de los acabados, teñido del color de la pieza.
+const metal=(color,kind='cr',map=null)=>new THREE.MeshMatcapMaterial({color:map?'#ffffff':color,map,matcap:matcap(kind)});
 const flat=(color,opacity=1)=>new THREE.MeshBasicMaterial({color,transparent:opacity<1,opacity});
 const lineMat=new THREE.MeshBasicMaterial({color:INK,side:THREE.BackSide});
 const shade=(hex,k)=>'#'+new THREE.Color(hex).multiplyScalar(k).getHexString();
@@ -278,8 +281,11 @@ const FEM_HAIR={calva:{bald:1},liso:{skirt:1,back:.42,sides:.4,fringe:'cortina'}
 // Esqueleto: body (cadera) → upper (gira por la cintura: torso y brazos) → neck (cuello) → head. Cada brazo dobla por el codo
 // (fore) y las zapatillas van aparte de las piernas para que se queden en el suelo cuando la cadera se mueve.
 const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3,HIP=.64;
+// Skins completas (decisión 0112): personajes enteros, en avatar-skins.js, montados sobre este mismo esqueleto.
+const SKINS=createSkins({THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW});
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
 function buildModel(look){
+  if(look.costume&&Object.hasOwn(SKINS,look.costume)){finish='';return SKINS[look.costume]()}
   const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
   // Con acabado, la prenda pierde su color: queda clara (y su segundo color, gris) y el brillo lo pone el material.
@@ -683,7 +689,7 @@ const live=new Set(),queue=new Set(),asleep=new Set();
 // codo, I = antebrazo hacia dentro, Y = hombro; fa, fb = punteras; eye, eyeY = mirada (lado, altura); fall, gx, gy = el personaje entero se
 // tumba en el plano de la pantalla y se desplaza (desmayo). Sin suavizar: lid = párpados, wide = ojos como platos,
 // frown = boca hacia abajo, open = boca abierta.
-// Para los golpes con gracia (decisión 0113): la, lb = cada pierna hacia delante (patada, sentarse); oa, ob = pierna hacia
+// Para los golpes con gracia (decisión 0114): la, lb = cada pierna hacia delante (patada, sentarse); oa, ob = pierna hacia
 // fuera; sq = aplastarse (positivo) o estirarse (negativo), como un dibujo animado; zm = tamaño del personaje entero;
 // hd = la cabeza se hunde entre los hombros. Y sin suavizar, los adornos que se pintan encima del lienzo (effects):
 // stars = estrellas dando vueltas a la cabeza, tears = lágrimas a chorro, bolts = rayos, rage = marca de enfado,
@@ -756,7 +762,7 @@ const CLIPS={
   // manos en la cabeza.
   ay:{d:1.25,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.6)/.4)),jolt=Math.sin(u*Math.PI*10)*(1-u)*ease(u/.04);return {air:Math.sin(Math.min(1,u/.28)*Math.PI)*.07,py:-.035*k,sx:-.12*k,hx:-.24*k+jolt*.05,hz:.2*k,sz:.07*k,px:jolt*.035,aO:1.75*k,aI:(1.45+Math.sin(t*17)*.14)*k,aE:.2*k,bO:.55*k,bE:-.7*k,bI:.3*k,eye:0,lid:u<.62?1:0,frown:1}}},
   ay2:{d:1.15,f:(u,t)=>{const k=ease(u/.05)*(1-ease((u-.55)/.45)),jolt=Math.sin(u*Math.PI*12)*(1-u)*ease(u/.04);return {...both({O:1.8*k,I:1.5*k,E:.2*k,Y:.06*k}),air:Math.sin(Math.min(1,u/.25)*Math.PI)*.05,py:-.06*k,sx:.1*k,hx:.12*k+jolt*.05,px:jolt*.04,rz:-jolt*.03,lid:u<.55?1:0,frown:1}}},
-  // ---- Golpes con gracia (decisión 0113): quince reacciones más al toque, cada una con su sonido (Sound.gag). Las
+  // ---- Golpes con gracia (decisión 0114): quince reacciones más al toque, cada una con su sonido (Sound.gag). Las
   // largas se escriben en segundos (s). wide = necesita sitio a los lados (se tumba); lock = segundos durante los que
   // no se le puede volver a tocar; dodge = lo esquiva, así que no hay estallido de golpe.
   // Voltereta: el golpe lo lanza por los aires dando una vuelta y cuarto hacia atrás, encogido; cae de espaldas, rebota,
@@ -968,8 +974,9 @@ function animate(item,now){
   const wide=Math.min(1,P.wide)*(1-lid),open=Math.min(1,P.open);
   const eyeTravel=item.home ? .021 : .014;
   R.eyes.forEach(eye=>{eye.scale.y=1.55*(1-.9*lid)*(1+.28*wide);eye.scale.x=1+.2*wide;eye.position.x=eye.userData.x+cur.eye*eyeTravel;eye.position.y=eye.userData.y+cur.eyeY*eyeTravel});R.lids.forEach(part=>{part.visible=lid<.5&&wide<.25});
-  if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y;R.lips.visible=open<.3}
-  R.shout.visible=open>=.3;if(open>=.3)R.shout.scale.set(.7+.5*open,.5+.8*open,.3);
+  if(R.lips){const down=P.frown>.5,{y,rz,frown}=R.lips.userData;R.lips.rotation.z=down?frown:rz;R.lips.position.y=down?y-.075:y;R.lips.visible=open<.3||!R.shout}
+  // Las skins de personaje (decisión 0112) no tienen esta boca: conservan la suya.
+  if(R.shout){R.shout.visible=open>=.3;if(open>=.3)R.shout.scale.set(.7+.5*open,.5+.8*open,.3)}
   item.fx=P;item.fxT=t;
   // La melena, las coletas y las trenzas cuelgan: compensan en parte la inclinación de la cabeza y la siguen con retardo.
   const roll=cur.rz+cur.sz+cur.hz,nod=cur.sx+cur.hx,lag=1-Math.exp(-dt*5);
@@ -1182,7 +1189,7 @@ function climb(el,pose){
 // Dónde queda la cara en el lienzo (de -1 a 1), con la cámara tal como acaba de dibujarlo: de ahí sale la mirada.
 const FACE=new THREE.Vector3();
 function locate(item){FACE.set(0,-.04,.5);item.entry.parts.head.localToWorld(FACE).project(camera);item.at={x:FACE.x,y:FACE.y}}
-// ---------- Adornos de cómic de los golpes con gracia (decisión 0113). Se pintan en 2D encima del avatar ya dibujado, con el
+// ---------- Adornos de cómic de los golpes con gracia (decisión 0114). Se pintan en 2D encima del avatar ya dibujado, con el
 // mismo contorno de tinta: estallido donde se le toca, estrellas del mareo, lágrimas, rayos, marca de enfado y polvo.
 const SPOT=new THREE.Vector3(),BLUE='#7fd6ff',RED='#ff4b3a';
 function effects(item,width,height,now){

@@ -51,6 +51,8 @@ function adopt(data, legacy) {
     ? local.value
     : data.kind === 'legacy' && legacy?.index === data.index ? legacy.draft : '';
   run = { ...data, draft: data.index === data.guesses.length ? draft : '' };
+  // Estadísticas del perfil (stats.js): los puntos de cada foto respondida de esta partida.
+  window.Progress?.tally?.('archivo', `${run.date}:${run.id}`, run.guesses.map((year, index) => scoreYear(year, byId.get(run.scenes[index]).year)), run.scenes.length);
   saveDraft();
   if (legacy) {
     try { localStorage.removeItem(legacyKey); } catch {}

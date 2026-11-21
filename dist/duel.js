@@ -428,7 +428,7 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     // Con cuenta, los faradios del duelo los calcula y los paga el servidor (decisión 0059): aquí solo se piden.
     const online=Progress.linked(),outcome=Progress.reward({xp:gained,coins:online?0:coins,reason:'duelos'});if(online&&coins)Progress.claim('duelo:'+duel.id);
     // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
-    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,mode:reactionMode(),rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){
