@@ -315,9 +315,10 @@
   }
   const shieldNote=days=>`Ayer no jugaste: tu racha de ${days} días está a punto de perderse. Puedes protegerla en tu perfil.`;
   // Cada pieza se enseña sobre el muñeco por defecto, con el encuadre que mejor la muestra.
-  const ZOOM={top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria',nivel:'Exclusiva'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
+  const ZOOM={costume:'stage',top:'torso',neck:'torso',bottom:'legs',shoes:'shoes'},RARITY={especial:'Especial',rara:'Rara',epica:'Épica',legendaria:'Legendaria',nivel:'Exclusiva'},SLOT_NAME=Object.fromEntries(Avatar.SLOTS);
   // Iconos de línea de cada parte del avatar, para las pestañas del probador.
   const SLOT_ICON={
+    costume:'M12 3.5 14 8l4.5.6-3.3 3.2.8 4.7-4-2.2-4 2.2.8-4.7L5.5 8.6 10 8zM6 19.5h12',
     top:'M8.5 4 4 6.5l1.8 4 2.2-1V20h8V9.5l2.2 1 1.8-4L15.5 4c-.5 1.6-1.9 2.6-3.5 2.6S9 5.6 8.5 4z',
     bottom:'M7 3.5h10l1 17h-4.2L12 10l-1.8 10.5H6zM7 7h10',
     shoes:'M3 17.5V12c0-2 .8-4 2.3-4l3 3.2c1.8 1.2 5 2 8.7 2.3 2.3.2 4 1.3 4 3.2v.8zM3 17.5h18',
@@ -346,6 +347,8 @@
     const extra=state.owned.map(key=>{const [itemSlot,id]=String(key).split(':');return itemSlot===part&&id&&id.includes('--')?Avatar.find(itemSlot,id):null}).filter(item=>item&&(!item.for||item.for===body));
     return [...Avatar.pieces(part,body),...extra];
   }
+  // Ponerse una pieza. Una skin completa (decisión 0112) tapa todo lo demás, así que ponerse cualquier otra cosa la quita.
+  const wear=(base,part,id)=>({...base,...(part==='costume'?{}:{costume:''}),[part]:id});
   function tile(item,current){
     const own=owns(item),worn=current[item.slot]===item.id,zoom=ZOOM[item.slot]||'',rarity=Avatar.rarity(item);
     const gate=own||item.edition?'':item.plus?'Suscripción':item.level?`Nivel ${item.level}`:item.casi?`${item.casi} «Casi casi»`:item.rango?`Rango ${rankName(item.rango)}`:item.medalla?Medals.label(item.medalla):item.circuito?(item.circuito==='bienvenida'?'Invitados':item.circuito===1?'1 amigo':item.circuito+' amigos'):'';
@@ -424,7 +427,7 @@
       const key=reward.finish&&Avatar.find(...(reward.key+'--'+reward.finish).split(':'))?reward.key+'--'+reward.finish:reward.key;
       if(!state.owned.includes(key))state.owned.push(key);
       const [itemSlot,id]=key.split(':'),item=Avatar.find(itemSlot,id),zoom=ZOOM[itemSlot]||'';
-      return {...reward,key,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render({...current,[itemSlot]:id},{live:true,reaction:reaction('all','reward')})};
+      return {...reward,key,name:item.name,slot:SLOT_NAME[itemSlot],art:Avatar.render(Avatar.preview(item,current.body),{bust:!zoom,zoom}),figure:Avatar.render(wear(current,itemSlot,id),{live:true,reaction:reaction('all','reward')})};
     });
     save();refresh();
     ChestOpen.play(type,rewards,{more:chestTotal(),onClose:refresh,
@@ -584,7 +587,7 @@ ${account?`<p class="profile-account-note">Sesión iniciada con <b>${escapeHtml(
   }
   function draw(){
     if(trying&&owns(trying))trying=null; // Recién desbloqueada (nivel o «Casi casi»): ya no se está probando.
-    const current=look(),preview=trying?{...current,[trying.slot]:trying.id}:current,level=info(),[day,week]=periods(),waiting=pending();
+    const current=look(),preview=trying?wear(current,trying.slot,trying.id):current,level=info(),[day,week]=periods(),waiting=pending();
     $('#profile-coins').innerHTML=coins(coinShow??state.coins);
     const missing=trying?(trying.edition?trying.edition.price:trying.price)-state.coins:0;
     const side=tab==='perfil'?profileTab():tab==='celebraciones'?celebrationTab():tab==='medallas'?medalTab():tab==='cofres'?(foundry?foundryTab():chestTab()+foundryDoor()):tab==='armario'?`<button class="celebrations-door" type="button" data-tab="celebraciones"><span><b>Celebraciones y emotes</b><small>Tu gesto para cada resultado, en todos los modos</small></span><span aria-hidden="true">→</span></button>`+marketDoor()+wardrobe(current)
@@ -644,7 +647,7 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
     }
     if(target.dataset.item!==undefined){
       const [itemSlot,id]=target.dataset.item.split(':'),item=Avatar.find(itemSlot,id);
-      if(owns(item)){state.look={...look(),[itemSlot]:id};trying=null;save();refresh()}else{trying=trying===item?null:item;draw()}
+      if(owns(item)){state.look=wear(look(),itemSlot,id);trying=null;save();refresh()}else{trying=trying===item?null:item;draw()}
       return;
     }
     if(target.hasAttribute('data-cancel')){trying=null;draw();return}
@@ -652,13 +655,13 @@ ${trying?`<div class="profile-try"><p>Probando <b>${trying.name}</b></p>${trying
       const item=trying,edition=item.edition;if(target.disabled)return;target.disabled=true;
       serverAsk('comprar-edicion',{edition:edition.id},'No se pudo comprar la edición. Inténtalo otra vez.','No se puede comprar esta edición ahora mismo.').then(data=>{
         target.disabled=false;if(!data){syncEditions();return}
-        state.editions={...state.editions,[edition.id]:data.serial};state.look={...look(),[item.slot]:item.id};if(trying===item)trying=null;
+        state.editions={...state.editions,[edition.id]:data.serial};state.look=wear(look(),item.slot,item.id);if(trying===item)trying=null;
         showToast(`${item.name}: ¡tuya! N.º ${data.serial} de ${data.total}`);save();refresh();serverCoins(data.coins);syncEditions();
       });
       return;
     }
     if(target.hasAttribute('data-buy')&&trying&&state.coins>=trying.price){
-      const item=trying,own=()=>{state.owned.push(item.slot+':'+item.id);state.look={...look(),[item.slot]:item.id};showToast(`${item.name}: ¡ya es tuyo!`);if(trying===item)trying=null;save();refresh()};
+      const item=trying,own=()=>{state.owned.push(item.slot+':'+item.id);state.look=wear(look(),item.slot,item.id);showToast(`${item.name}: ¡ya es tuyo!`);if(trying===item)trying=null;save();refresh()};
       if(!linked){move(-item.price,'tienda');own();return}
       // Con cuenta, la compra la cobra el servidor al precio de su catálogo y apunta la pieza (decisión 0062).
       if(target.disabled)return;target.disabled=true;
