@@ -1,16 +1,17 @@
 .ascension-scene{
   --ascene-progress:0;position:relative;isolation:isolate;overflow:hidden;
   display:block;min-height:435px;height:min(68vh,630px);width:100%;border-radius:28px;
-  background:#b7d7d3;color:#202832;contain:layout paint;
+  background:#a6c5c0;color:#202832;contain:layout paint;
 }
 .ascension-scene *, .ascene-routes *{box-sizing:border-box}
 .ascene-terrain,.ascene-actor{position:absolute;left:0;top:0}
 .ascene-terrain{display:block;width:100%;height:100%;pointer-events:none}
-.ascene-actor{z-index:2;width:72%;transform:translate(18%,28%);will-change:transform}
-.ascene-actor.is-climbing{pointer-events:none}
+.ascene-actor{z-index:2;width:72%;transform:translate(18%,28%);transform-origin:0 0;will-change:transform}
+.ascension-scene:is([data-state=idle],[data-state=thinking],[data-state=climb]) .ascene-actor{pointer-events:none}
+.ascene-actor .avatar-view{filter:drop-shadow(3px 4px 3px #241d2547)}
 .ascene-actor .avatar-view{display:block;width:100%;height:auto;aspect-ratio:1}
 .ascene-actor canvas,.ascene-actor svg{display:block;width:100%;height:100%}
-.ascene-caption,.ascene-next,.ascene-movement{
+.ascene-caption,.ascene-next{
   position:absolute;z-index:3;display:grid;gap:3px;pointer-events:none;
 }
 .ascene-caption{
@@ -41,11 +42,6 @@
 }
 .ascene-next span{font-size:10px;color:#fff2d5c7}
 .ascene-next b{font-size:12px}
-.ascene-movement{
-  right:15px;bottom:15px;padding:8px 10px;border-radius:8px;background:#282e35e8;color:#fff8e6;
-  font-size:12px;font-weight:700;
-}
-.ascene-movement:empty{display:none}
 .ascene-routes{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:9px 0 0;color:#38403b}
 .ascene-routes>span{font-size:13px;font-weight:660;margin-right:auto}
 .ascene-routes button{
@@ -59,13 +55,13 @@
 .ascene-routes button:disabled{cursor:default;opacity:.65}
 .ascene-routes button:focus-visible{outline:2px solid #254d46;outline-offset:2px}
 @media(max-width:760px){
-  .ascension-scene{min-height:0;height:265px;border-radius:18px}
-  .ascension-dialog[data-phase=question] .ascension-scene{height:224px}
+  .ascension-scene{min-height:0;height:232px;border-radius:18px}
+  .ascension-dialog[data-phase=question] .ascension-wardrobe{display:none}
   .ascene-caption{top:10px;left:10px;padding:7px 9px;border-radius:10px}
   .ascene-meters{font-size:27px}.ascene-zone{font-size:11px}
   .ascene-altimeter{right:7px;top:12px;bottom:18%;gap:5px;font-size:9px}
   .ascene-next{bottom:10px;left:10px;padding:6px 8px;max-width:118px}
-  .ascene-next b{font-size:11px}.ascene-movement{font-size:11px;bottom:10px;right:10px;padding:6px 8px}
+  .ascene-next b{font-size:11px}
   .ascene-routes{gap:5px;margin-top:6px}
   .ascene-routes>span{font-size:12px}
   .ascene-routes button{font-size:12px;padding:5px 8px;min-height:32px}

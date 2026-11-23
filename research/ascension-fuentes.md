@@ -1,12 +1,12 @@
 # Banco editorial de Ascensión: fuentes, cobertura y licencia
 
-- **Estado:** banco ampliado y validable, versión `2026-11-19-2`.
-- **Fecha de preparación:** 19 de noviembre de 2026.
-- **Autoría editorial:** Álvaro, con Codex. Preguntas, selección de aliases y puntos propios de Faraday; no se ha descargado ni copiado el banco de Krillion.
+- **Estado:** banco ampliado y validable, versión `2026-11-21-3`.
+- **Última revisión editorial:** 21 de noviembre de 2026.
+- **Autoría editorial:** Álvaro, con Codex. Preguntas, selección de aliases y puntos propios de Faraday.
 
 ## Qué contiene
 
-`content/ascension.json` contiene 49 categorías y 3.410 entradas canónicas. La tabla describe el contenido inicial. La ampliación añade 21 categorías y 773 entradas. Los aliases no se cuentan como respuestas adicionales. Las etiquetas `theme` y `audience` permiten repartir temas y dificultad. El motor conserva su propia copia de las categorías de una partida empezada: cambiar el banco después no debe cambiar sus respuestas o puntuación.
+`content/ascension.json` contiene 57 categorías y 3.570 entradas canónicas. La tabla describe los repertorios de lanzamiento. La segunda versión añadió 21 categorías y la tercera incorpora ocho cruces con 160 entradas. Los aliases no se cuentan como respuestas adicionales. Las etiquetas `theme` y `audience` permiten repartir temas y dificultad. El motor conserva su propia copia de las categorías de una partida empezada, con sus respuestas y puntuaciones.
 
 | Conjunto | Categorías | Respuestas canónicas | Cobertura |
 | --- | ---: | ---: | --- |
@@ -22,7 +22,22 @@
 
 El total suma entradas por categoría, no entidades distintas en todo el juego. Los conjuntos geográficos se solapan y hay personas premiadas en más de una disciplina. La versión del JSON es la fuente de verdad sobre las cantidades.
 
-El fichero [ascension-cultura-general.py](ascension-cultura-general.py) recoge las nuevas preguntas, el alcance y una referencia por categoría. Incluye títulos habituales de España y Latinoamérica, nombres de disciplinas y equivalentes culinarios. El juego utiliza los nombres de entidades y los títulos como datos identificativos. Las preguntas, descripciones y niveles son editoriales de Faraday.
+El fichero [ascension-cultura-general.py](ascension-cultura-general.py) recoge los conjuntos de cultura general, los alcances y sus fuentes. Incluye títulos habituales de España y Latinoamérica, nombres de disciplinas y equivalentes culinarios. [ascension-cruces.py](ascension-cruces.py) prepara los cruces a partir de los mismos repertorios. El juego utiliza los nombres de entidades y los títulos como datos identificativos. Las preguntas, descripciones y niveles son editoriales de Faraday.
+
+## Qué hace jugable una pregunta
+
+- **Krillion** describe una curación que parte de listas legítimas, revisa manualmente las respuestas y valora la familiaridad dentro de cada pregunta. En las rondas observadas, una condición cotidiana daba un primer camino de recuerdo y dejaba espacio para opciones menos obvias. En Ascensión este criterio se traduce en varias respuestas de 10 y 30, una progresión con los cinco niveles y una respuesta de cumbre que se entiende al revelarla. [FAQ de Krillion](https://krillion.io/faq) · [Observaciones previas](../docs/ideas/ascension-respuestas-raras.md)
+- **Spaceillion** muestra cómo un instrumento muy conocido y uno menos inmediato pueden pertenecer al mismo repertorio. En Ascensión, la rareza depende de cuánto cuesta pensar en la respuesta dentro del enunciado. El arpa queda en 30 al preguntar por instrumentos con emoji, un conjunto menos inmediato que la orquesta, donde vale 10. El tamboril ocupa el nivel de cumbre de los emojis. [FAQ de Spaceillion](https://spaceillion.com/faq)
+- **Immaculate Grid** pide que una respuesta cumpla a la vez las condiciones de una fila y una columna. Esto permite partir de cualquiera de las dos pistas. Ascensión mantiene la respuesta libre y reserva al menos un turno de descubrimiento por partida para combinar criterios comprobables. [Reglas de Sports Reference](https://faq.sports-reference.com/portal/en/kb/articles/rules-for-immaculate-grid)
+
+| Banco anterior | Aplicación en el banco actual |
+| --- | --- |
+| Nombrar cualquier selección de Catar 2022. | Encontrar un país presente en las fases finales del Mundial masculino de 2022 y el femenino de 2023. Se puede empezar por cualquiera de los dos torneos. |
+| Nombrar cualquier elemento de la tabla. | Identificar un elemento con un símbolo de una sola letra. Se puede partir del elemento o de la letra y se aceptan las dos formas. |
+| Recordar de memoria una película «animada de Disney». | El título identifica Walt Disney Animation Studios y el texto breve fija el último estreno admitido. |
+| Elegir «qué planeta visitarías». | El enunciado avisa de que también cuentan planetas enanos, por ejemplo Plutón. |
+
+Los puntos siguen siendo editoriales y reproducibles. La distribución de resultados de la diaria se calcula aparte con partidas reales. Una categoría nueva entra tras comprobar el repertorio con fuentes y revisar respuestas previsibles, casos cercanos que quedan fuera, variantes de nombres y presencia de opciones en los cinco niveles.
 
 ## Fuentes primarias consultadas
 

@@ -4,7 +4,7 @@ import { runInNewContext } from 'node:vm';
 
 const window = {};
 runInNewContext(readFileSync(new URL('../dist/ascension-route.js', import.meta.url), 'utf8'), { window });
-const { plan } = window.AscensionRoute;
+const { plan, elevation } = window.AscensionRoute;
 const near = (actual, expected) => {
   for (let axis = 0; axis < expected.length; axis++) {
     assert.ok(Math.abs(actual[axis] - expected[axis]) < 1e-9, `${actual} debe coincidir con ${expected}`);
@@ -12,16 +12,25 @@ const near = (actual, expected) => {
 };
 const world = (point, center) => point.map((value, axis) => value + center[axis]);
 
+let lastBeat = Infinity, lastDuration = Infinity, lastSpeed = 0;
 for (const [points, transfers] of [[10, 2], [30, 3], [60, 4], [85, 5], [100, 6]]) {
-  const direct = plan(points, 'directa');
-  const traverse = plan(points, 'travesia');
+  const from = 1700, drift = .04;
+  const direct = plan(points, 'directa', drift);
+  const traverse = plan(points, 'travesia', drift);
   near(direct.finish, traverse.finish);
+  near(direct.finish, [drift, elevation(from + points * 10) - elevation(from)]);
   assert.equal(direct.duration, traverse.duration);
   assert.ok(traverse.steps[0].next[0] > direct.steps[0].next[0]);
+  const speed = points * 10 / direct.duration;
+  assert.ok(direct.beat < lastBeat, 'Los agarres se encadenan más rápido cuanto más rara es la respuesta');
+  assert.ok(direct.duration < lastDuration && speed > lastSpeed, 'Subir más metros lleva menos tiempo');
+  lastBeat = direct.beat;
+  lastDuration = direct.duration;
+  lastSpeed = speed;
 
   for (const route of [direct, traverse]) {
     assert.equal(route.steps.length, transfers);
-    assert.ok(route.duration < 3_100);
+    assert.ok(route.duration < 1_600);
     assert.ok(route.finish[1] < 0);
     const samples = Array.from({ length: route.duration + 1 }, (_, time) => route.sample(time));
     for (const [index, step] of route.steps.entries()) {
@@ -46,12 +55,15 @@ for (const [points, transfers] of [[10, 2], [30, 3], [60, 4], [85, 5], [100, 6]]
         assert.ok(x >= 0 && x <= 1 && y >= 0 && y <= 1, 'El apoyo queda dentro del encuadre del avatar');
       }
     }
-    const last = samples.at(-1);
+    const first = samples[0], last = samples.at(-1);
+    near(first.pose.hands[0], route.ready.hands[0]);
+    near(first.pose.feet[0], route.ready.feet[0]);
     near(last.center, route.finish);
     near(last.pose.feet[0], [.45, .94]);
     near(last.pose.feet[1], [.55, .94]);
-    assert.equal(last.follow, 1);
-    assert.equal(last.oldLedge, 0);
+    assert.equal(first.travel, 0);
+    assert.equal(last.travel, 1);
+    assert.ok(samples.every((sample, i) => !i || sample.travel >= samples[i - 1].travel));
     assert.equal(last.cue, 'land');
   }
 }
