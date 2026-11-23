@@ -1394,5 +1394,21 @@ enqueue(document.body);
 // Foto fija del avatar para dibujarla en otro lienzo (las tarjetas para compartir, decisión 0081): look ya traducido
 // (Avatar.resolve), en un encuadre de VIEWS y con el ancho pedido, sin pasar del tamaño del lienzo de trabajo.
 const shot=(look,mode='full',width=BUF_W)=>{const view=VIEWS[mode]||VIEWS.full,w=Math.max(16,Math.min(BUF_W,Math.round(width),Math.floor(BUF_H*view.ratio)));return snapshot(look,mode,w,Math.round(w/view.ratio))};
-window.Avatar3D={ready:true,shot,climb,firstPerson,build:buildModel,dispose,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,gags:[...GAGS,...BIG],react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
+// Un personaje que anima otro módulo dentro de su propia escena (el Salón 3D): no tiene lienzo ni hace gestos al
+// azar. Quien lo usa llama a step() en cada fotograma mientras el personaje está quieto, y a play() para un gesto.
+// Ojo: step() mueve el grupo del modelo (entry.group), así que para colocarlo en el mundo hay que meterlo en otro grupo.
+function actor(entry){
+  const born=performance.now();
+  const item={entry,data:{},turn:0,spin:0,dragging:false,born,last:born,home:false,after:null,seed:Math.random()*100,lean:1,mood:'',clip:null,wait:Infinity,quiet:true,repeat:'',blinkAt:.8+Math.random()*3,blinkFrom:-9};
+  return {
+    play(name){if(!CLIPS[name]||reduced)return false;play(item,name,(performance.now()-born)/1000);return true},
+    // Corta el gesto en curso.
+    stop(){item.clip=null;item.pose=null},
+    // Olvida la postura anterior: el siguiente step() coloca el cuerpo de golpe en lugar de llegar poco a poco.
+    reset(){item.pose=null;item.last=performance.now()},
+    get clip(){return item.clip?item.lastClip:''},
+    step(now=performance.now()){animate(item,now)}
+  };
+}
+window.Avatar3D={ready:true,shot,climb,firstPerson,build:buildModel,dispose,actor,lookAt:(el,x,y)=>{if(el?.isConnected)targets.set(el,{x,y,at:performance.now()})},views:live,clips:Object.keys(CLIPS),dances:DANCES,gags:[...GAGS,...BIG],react:el=>{for(const item of live)if(item.el===el)apply(item,el._react)},play:(name,index)=>{[...live].forEach((item,i)=>{if(index===undefined||index===i)play(item,name,(performance.now()-item.born)/1000)})}};
 document.dispatchEvent(new Event('faraday:avatar3d-ready'));

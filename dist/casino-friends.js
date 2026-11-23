@@ -1,9 +1,12 @@
 // Presencia y mesa compartida de Texas Hold'em. El servidor reparte, guarda las cartas de cada uno, lleva los
-// turnos y liquida el bote; aquí solo se enseña la mesa y se envían las jugadas.
+// turnos y liquida el bote; aquí solo se enseña la mesa y se envían las jugadas. Por el mismo camino van el chat
+// y los gestos: cada latido lleva el último gesto y trae los mensajes de los amigos.
 import {pokerTable,pokerActions} from './casino-tables.js';
 
-export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
+export function casinoFriends({panel,shell,onPresence,position,closeSalon,onChat,onNotice}){
   let enabled=false,active=false,working=false,state=null,error='',raise=0,turnKey='',signature='',epoch=0,timer,flight,receivedAt=0;
+  // Chat y gestos: el último gesto propio, el número del último mensaje ya enseñado y si es la primera respuesta.
+  let act=null,heard=0,first=true;
   const escape=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const money=n=>new Intl.NumberFormat('es-ES').format(n)+' ≈';
   const button=(action,label,disabled=false,kind='casino-option')=>`<button type="button" class="${kind}" data-casino-action="${action}" ${disabled?'disabled':''}>${label}</button>`;
@@ -77,6 +80,13 @@ export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
     const round=data.table?.round,key=round?`${round.id}:${round.stage}:${round.turn}`:'';
     if(key!==turnKey){turnKey=key;raise=0}
     onPresence(data.players,data.table?.seat??null);
+    // Mensajes nuevos de los amigos. Los que ya estaban al entrar, o los viejos, van al registro sin bocadillo.
+    for(const message of data.chat||[]){
+      if(message.n<=heard)continue;
+      heard=message.n;
+      if(!message.mine)onChat?.({...message,old:first||data.serverTime-message.at>8000});
+    }
+    first=false;
     render();
   }
   function send(action,extra={}){
@@ -94,6 +104,7 @@ export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
       const data=await request(action,extra);
       if(generation!==epoch)return;
       if(!data.ok){
+        if(action==='chat'){onNotice?.(data.error);return}
         error=data.error;
         if(data.status===401||(action==='pulse'&&data.status===409&&data.error.startsWith('Activa'))){
           enabled=false;state=null;onPresence(null);clearInterval(timer);
@@ -110,11 +121,11 @@ export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
   }
   const pulse=()=>{
     updateClock();
-    return send('pulse',{...position(),look:window.Progress?.look?.()});
+    return send('pulse',{...position(),look:window.Progress?.look?.(),...(act?{act}:{})});
   };
   function stop(){
     const wasEnabled=enabled;
-    epoch++;working=false;enabled=false;state=null;error='';clearInterval(timer);onPresence(null);render();
+    epoch++;working=false;enabled=false;state=null;error='';first=true;clearInterval(timer);onPresence(null);render();
     if(wasEnabled)Promise.resolve(flight).then(()=>{
       if(!enabled)fetch('/api/casino',{method:'POST',headers:{'Content-Type':'application/json'},body:'{"action":"exit"}',keepalive:true}).catch(()=>{});
     });
@@ -142,5 +153,11 @@ export function casinoFriends({panel,shell,onPresence,position,closeSalon}){
     else if(action==='deal')send(action,{id:state.table.id,previous:state.table.round?.id??null});
     else if(action==='stand'||action==='create')send(action);
   }
-  return {open(){active=true;signature='';render()},hide(){active=false},stop,click,raise(to){raise=to}};
+  return {
+    open(){active=true;signature='';render()},hide(){active=false},stop,click,raise(to){raise=to},
+    // Un gesto o un salto: sale con el siguiente latido, que se adelanta para que los amigos lo vean pronto.
+    act(value){act=value;if(enabled)pulse()},
+    // Un mensaje para los amigos. Devuelve false si el Salón compartido no está abierto.
+    say(text){if(!enabled)return false;send('chat',{text});return true}
+  };
 }

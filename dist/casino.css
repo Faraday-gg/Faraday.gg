@@ -154,6 +154,52 @@
 .casino.is-playing #casino-canvas { visibility: hidden; }
 .casino.is-live #casino-canvas { visibility: visible; }
 
+/* ---------- Chat, bocadillos, gestos y salto ---------- */
+.casino-social { position: absolute; inset: 0; pointer-events: none; }
+.casino-social > :not(.casino-bubbles) { pointer-events: auto; }
+.casino:is(.is-playing, .is-flat) .casino-social { display: none; }
+.casino-bubbles { position: absolute; inset: 0; z-index: 2; overflow: hidden; }
+.casino-bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: min(250px, 62vw);
+  margin: 0;
+  padding: 6px 12px;
+  border: 2px solid #1b1f27;
+  border-radius: 14px;
+  background: #fffdf7;
+  color: #1b1f27;
+  font-size: .86rem;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+  translate: -50% calc(-100% - 12px);
+  box-shadow: 0 4px 12px #0007;
+  transition: opacity .45s;
+  animation: casino-bubble .2s;
+}
+.casino-bubble::after { content: ""; position: absolute; left: 50%; top: 100%; width: 12px; height: 12px; margin: -7px 0 0 -6px; border: solid #1b1f27; border-width: 0 2px 2px 0; background: #fffdf7; rotate: 45deg; }
+.casino-bubble.is-fading { opacity: 0; }
+@keyframes casino-bubble { from { scale: .6; opacity: 0; } }
+.casino-chat { position: absolute; left: 12px; bottom: 108px; display: grid; gap: 6px; width: min(310px, calc(100% - 24px)); }
+.casino-chat-log { max-height: 148px; margin: 0; padding: 8px 10px; overflow: auto; border-radius: 12px; background: #151320b8; list-style: none; font-size: .8rem; line-height: 1.35; overflow-wrap: anywhere; scrollbar-width: thin; }
+.casino-chat-log:empty { display: none; }
+.casino-chat-log b { color: #ffdb70; }
+.casino-chat-log .is-mine b { color: #9bddb0; }
+.casino-chat-log .is-note { color: #cfc8dc; font-style: italic; }
+.casino-chat input { width: 100%; min-height: 38px; padding: 6px 12px; border: 1px solid #ffffff40; border-radius: 12px; background: #202436e0; color: #fffdf7; font: inherit; font-size: .86rem; }
+.casino-chat input::placeholder { color: #b9bccb; }
+.casino-chat input:focus-visible { outline: 3px solid #ff905f; outline-offset: 2px; background: #202436; }
+.casino-acts { position: absolute; right: 12px; bottom: 108px; display: flex; gap: 8px; }
+.casino-acts button { min-height: 44px; padding: 6px 14px; border: 2px solid #1b1f27; border-radius: 14px; background: #fffdf7; color: #1b1f27; font-weight: 700; box-shadow: 0 3px #0b0a12; }
+.casino-acts button[aria-expanded="true"] { background: #ffdb70; }
+.casino-emotes { position: absolute; right: 12px; bottom: 164px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px; border: 1px solid #ffffff32; border-radius: 16px; background: #202436f5; box-shadow: 0 5px 18px #11132080; }
+.casino-emotes button { position: relative; display: grid; justify-items: center; gap: 1px; width: 66px; padding: 7px 2px 5px; border: 0; border-radius: 10px; background: #343951; color: #fffdf7; font-size: .68rem; }
+.casino-emotes button:hover { background: #454c68; }
+.casino-emotes span { font-size: 1.5rem; line-height: 1.15; }
+.casino-emotes kbd { position: absolute; left: 4px; top: 2px; padding: 0; font-size: .62rem; opacity: .8; }
+
 /* ---------- Mesas: al sentarse, la mesa ocupa toda la pantalla ---------- */
 .casino-stage {
   position: absolute;
@@ -577,6 +623,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .dealer-eyes, .dealer svg > g:first-child, .rt-spot.is-hit, .st :is(.st-cell, .st-cell *, .st-cell::before, .st-frame, .st-frame::after, .st-meter, .st-banner *) { animation: none; }
+  .casino-bubble { animation: none; }
 }
 @media (max-width: 960px) and (min-height: 530px), (max-width: 619px) {
   .portal-mode-grid:has(.mode-casino) { grid-template-rows: repeat(3, clamp(43px, 7.4dvh, 67px)); }
@@ -590,6 +637,11 @@
   #casino-stick { display: grid; }
   .casino-keys { display: none; }
   #casino-prompt { bottom: 173px; }
+  .casino-chat { top: 116px; bottom: auto; left: 10px; width: min(250px, 62vw); }
+  .casino-chat-log { max-height: 82px; }
+  .casino-acts { bottom: 77px; }
+  .casino-emotes { bottom: 132px; }
+  .casino-emotes kbd { display: none; }
 }
 @media (max-width: 410px) {
   .casino-exit span { display: none; }
