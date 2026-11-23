@@ -273,15 +273,24 @@ export function createWorld({THREE,R,scene,screens,rivals=[]}){
     ['#d8402f',YELLOW,BLUE,'#9bddb0',CORAL].forEach((color,i)=>{
       const dx=(i-2)*2.2;
       box(1.5,2.5,1.1,color,[dx,1.25,0],group);box(1.62,.3,1.22,INK,[dx,.15,0],group);box(1.62,.4,1.22,PAPER,[dx,2.7,0],group);
-      const screen=paint(256,128,(c,w,h)=>{c.fillStyle=PAPER;c.fillRect(0,0,w,h);c.strokeStyle=INK;c.lineWidth=6;c.strokeRect(3,3,w-6,h-6);c.beginPath();c.moveTo(w/3,0);c.lineTo(w/3,h);c.moveTo(w*2/3,0);c.lineTo(w*2/3,h);c.stroke();
-        c.fillStyle=INK;c.font='700 70px "Space Grotesk",Arial';c.textAlign='center';c.textBaseline='middle';['≈','7','★'].forEach((g,k)=>c.fillText(['≈','7','★','♦','♣'][(k+i)%5],w/6+k*w/3,h/2+4))});
-      const face=new THREE.Mesh(new THREE.PlaneGeometry(1.2,.6),plain('#fff',screen));face.position.set(dx,1.75,.56);group.add(face);
+      // La pantalla enseña la rejilla de gemas de «Tormenta».
+      const screen=paint(240,200,(c,w,h)=>{
+        const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#2a2f6e');sky.addColorStop(1,'#0f1434');c.fillStyle=sky;c.fillRect(0,0,w,h);
+        const tones=['#58a8ff','#4fd08a','#b47bff','#ffb84a','#ff6a5a',YELLOW];
+        for(let x=0;x<6;x++)for(let y=0;y<5;y++){
+          const tone=tones[(x*7+y*3+i*2+(x*y)%4)%tones.length],px=20+x*40,py=20+y*40;
+          c.fillStyle=tone;c.beginPath();if((x+y+i)%3)c.arc(px,py,13,0,7);else{c.moveTo(px,py-15);c.lineTo(px+15,py);c.lineTo(px,py+15);c.lineTo(px-15,py)}c.fill();
+          c.fillStyle='#ffffff70';c.beginPath();c.arc(px-4,py-5,4,0,7);c.fill();
+        }
+        c.lineWidth=8;c.strokeStyle=GOLD;c.strokeRect(4,4,w-8,h-8);
+      });
+      const face=new THREE.Mesh(new THREE.PlaneGeometry(1.26,1.05),plain('#fff',screen));face.position.set(dx,1.82,.56);group.add(face);
       box(1.3,.12,.5,INK,[dx,1.12,.6],group);
       const lever=drum(.05,.9,INK,[dx+.86,1.6,.1],group,10);lever.rotation.z=-.25;ball(.14,toon(CORAL),[dx+.98,2.06,.1],group);
       ball(.16,plain('#fff3cf'),[dx,3.02,0],group).castShadow=false;glow(color,1.5,[dx,3.05,.2],group,.5);
       drum(.05,.6,GOLD,[dx,.3,1.5],group,10,false);drum(.3,.14,WINE,[dx,.66,1.5],group,24);
     });
-    sign('TRAGAPERRAS',YELLOW,[0,4.2,.2],4.6,group);
+    sign('TORMENTA ≈',YELLOW,[0,4.2,.2],4.6,group);
   }
 
   // ---------- Póker: mesa ovalada, la crupier al fondo y los cuatro jugadores de la casa sentados ----------

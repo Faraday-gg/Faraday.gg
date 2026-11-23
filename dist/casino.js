@@ -9,6 +9,7 @@
 // Usa la misma copia de Three.js que avatar3d.js (misma dirección, así que el navegador la carga una sola vez).
 import {casinoFriends} from './casino-friends.js';
 import {dealer,rouletteLayout,createWheel,pokerTable,pokerActions} from './casino-tables.js';
+import {slotBody,mountSlots} from './casino-slots.js';
 import {createWorld,ROOM,STATIONS,SOLIDS,CAMERAS,pokerSeats} from './casino-world.js';
 
 let THREE;
@@ -245,7 +246,6 @@ const friends=casinoFriends({
   panel:stage,shell,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close()
 });
 let bet=R.CHIPS[1],busy=false;
-const state={slots:{reels:[0,1,2],last:null}};
 const chips=(values=R.CHIPS,on=bet)=>`<div class="casino-chips" role="group" aria-label="Valor de la ficha">${values.map(n=>`<button type="button" class="casino-chip is-${n}${n===on?' is-on':''}" data-bet="${n}" aria-pressed="${n===on}">${n}</button>`).join('')}</div>`;
 const outcome=last=>!last?'<p class="casino-result" aria-live="polite"></p>':`<p class="casino-result ${last.delta>0?'is-win':last.delta<0?'is-loss':''}" aria-live="polite">${last.text} <b>${last.delta>0?'+':last.delta<0?'−':''}${coins(Math.abs(last.delta))}</b></p>`;
 const plus='<div data-plus-slot="casino" data-compact="true"></div>';
@@ -345,33 +345,48 @@ async function spinRoulette(){
   say('Hagan juego');updateRoulette();$('rt-plus').innerHTML=plus;
 }
 
-// ---- Tragaperras.
+// ---- Tragaperras «Tormenta»: rejilla de 6 × 5 sin líneas, con caídas, esferas y tiradas gratis (STORM en
+// casino-rules.js). La jugada se resuelve y se cobra al pulsar; casino-slots.js la reproduce en pantalla.
+const sl={ui:null,grid:null,fast:false,last:null,note:''};
 function slotsView(){
-  const s=state.slots,status=R.check(wallet,bet),why=status.ok?'':WHY[status.reason];
-  return shell('Tragaperras','Tres iguales, o los dos primeros iguales.',`
-    <div class="sl">
-      <div class="sl-machine"><p class="sl-sign">≈ Faraday ≈</p>
-        <div class="casino-reels" id="casino-reels">${s.reels.map(i=>`<span>${R.SYMBOLS[i].glyph}</span>`).join('')}</div>
-        <span class="sl-lever" aria-hidden="true"></span></div>
-      <ul class="casino-pays">${R.SYMBOLS.map(sym=>`<li><span>${sym.glyph}${sym.glyph}${sym.glyph}</span><b>×${sym.pays}</b></li>`).join('')}<li><span>dos primeros</span><b>×${R.PAIR}</b></li></ul>
-    </div>`,`
+  return shell('Tormenta','Sin líneas: 8 iguales o más pagan estén donde estén, caen y pueden volver a pagar. 4 chispas dan tiradas gratis.',slotBody(R),`
     ${chips()}
-    <div class="stage-actions"><button class="casino-play" type="button" data-pull${why||busy?' disabled':''}>Tirar</button></div>
-    ${why?`<p class="casino-result is-loss">${why}</p>`:outcome(s.last)}`,s.last&&!busy?plus:'');
+    <div class="stage-actions">
+      <button type="button" class="casino-option st-toggle" data-slot="fast" aria-pressed="false">Rápido</button>
+      <button type="button" class="casino-play st-spin" data-slot="spin"></button>
+      <button type="button" class="casino-option st-toggle" data-slot="sound" aria-pressed="false">Sonido</button>
+    </div>
+    <p class="casino-result" id="st-result" aria-live="polite"></p>`,'<div id="st-plus"></div>');
+}
+function updateSlots(){
+  const status=R.check(wallet,bet),spin=stage.querySelector('[data-slot="spin"]'),result=$('st-result');
+  for(const button of stage.querySelectorAll('[data-bet]')){const on=Number(button.dataset.bet)===bet;button.classList.toggle('is-on',on);button.setAttribute('aria-pressed',on);button.disabled=busy}
+  // Con la jugada en marcha, el botón sirve para saltarse lo que queda de animación.
+  spin.innerHTML=busy?'Saltar':`Girar <small>${int(bet)} ≈</small>`;spin.disabled=!busy&&!status.ok;
+  stage.querySelector('[data-slot="fast"]').setAttribute('aria-pressed',sl.fast);
+  stage.querySelector('[data-slot="sound"]').setAttribute('aria-pressed',window.Sound?.on??false);
+  if(busy){result.className='casino-result';result.textContent='';return}
+  const why=status.ok?'':WHY[status.reason],last=sl.last;
+  result.className=`casino-result ${why?'is-loss':last?.delta>0?'is-win':last?.delta<0?'is-loss':''}`;
+  result.innerHTML=why||(last?`${last.text} <b>${last.delta>0?'+':last.delta<0?'−':''}${coins(Math.abs(last.delta))}</b>`:'');
 }
 async function pullSlots(){
-  const s=state.slots;
   refreshWallet();
-  if(busy||!R.check(wallet,bet).ok)return render();
-  busy=true;s.last=null;render();
-  const final=R.pull(),cells=[...$('casino-reels').children],rolling=[true,true,true];
-  const multiplier=R.slots(final),result=R.settle(wallet,bet,multiplier);
+  if(busy||!sl.ui||!R.check(wallet,bet).ok)return updateSlots();
+  busy=true;$('st-plus').innerHTML='';
+  const stake=bet,round=R.STORM.play(),result=R.settle(wallet,stake,round.total),back=Math.round(stake*round.total);
+  // Se cobra y se paga al pulsar: cerrar la pestaña no cambia el resultado. Mientras gira, el monedero enseña solo
+  // la apuesta descontada; el premio aparece al acabar.
   wallet=result.wallet;keep();
-  stage.querySelector('.sl-machine').classList.add('is-pulled');
-  const roll=reduced?0:setInterval(()=>cells.forEach((cell,i)=>{if(rolling[i])cell.textContent=R.SYMBOLS[Math.floor(Math.random()*R.SYMBOLS.length)].glyph}),60);
-  for(let i=0;i<3;i++){await wait(i?420:900);rolling[i]=false;cells[i].textContent=R.SYMBOLS[final[i]].glyph;cells[i].classList.add('is-set')}
-  clearInterval(roll);showWallet();
-  s.reels=final;s.last={delta:result.delta,text:multiplier?(final[1]===final[2]?'¡Trío! Ganas':'Pareja. Ganas'):'Nada. Pierdes'};busy=false;render();
+  $('casino-wallet').querySelector('b').innerHTML=coins(wallet.coins-back);
+  updateSlots();
+  sl.grid=await sl.ui.play(round,stake);
+  showWallet();
+  const free=round.spins.length-1;
+  sl.last={delta:result.delta,text:back?`${free?`${free} tiradas gratis. `:''}${back>stake?'Ganas':back===stake?'Recuperas la apuesta':`Vuelven ${int(back)} de ${int(stake)}`}`:'Sin premio'};
+  busy=false;
+  if(game!=='slots')return;
+  updateSlots();$('st-plus').innerHTML=plus;
 }
 
 // ---- Póker: Texas Hold'em contra cuatro jugadores de la casa. Te sientas con 100 faradios de prueba y, al
@@ -620,6 +635,7 @@ const VIEWS={roulette:rouletteView,slots:slotsView,poker:pokerView,crash:crashVi
 function render(){
   if(!game||game==='friends')return;
   if(game==='roulette')return updateRoulette();
+  if(game==='slots')return updateSlots();
   const focused=document.activeElement;
   const action=stage.contains(focused)?Object.entries(focused.dataset)[0]:null;
   stage.innerHTML=VIEWS[game]();
@@ -646,6 +662,8 @@ function openGame(id){
   else if(game==='roulette'){
     stage.innerHTML=rouletteView();rt.note='';
     rt.wheel=live?null:createWheel($('rt-canvas'),R,reduced);rt.wheel?.start();updateRoulette();
+  }else if(game==='slots'){
+    stage.innerHTML=slotsView();sl.ui=mountSlots($('st'),{R,reduced,grid:sl.grid});sl.ui.fast(sl.fast);updateSlots();
   }else render();
   if(game==='crash'&&!running)requestAnimationFrame(crashFrame);
   stage.querySelector('.casino-play:not(:disabled),[data-casino-leave]')?.focus();
@@ -656,6 +674,7 @@ function leaveGame(){
   // Levantarse de la mesa de póker con una mano a medias es retirarse de ella.
   if(game==='poker')standPoker();
   if(game==='roulette'){rt.wheel?.stop();rt.wheel=null}
+  if(game==='slots'){sl.ui?.stop();sl.ui=null}
   // Irse de las pantallas de crash con la ronda en vuelo es retirarse; una apuesta aún sin cobrar se quita.
   if(game==='crash'){cashOut();cr.next=0}
   // Al levantarse de la silla se queda de pie junto a la mesa.
@@ -665,7 +684,9 @@ function leaveGame(){
   if(dialog.open)(running?$('casino-canvas'):dialog.querySelector('[data-casino-game]')).focus();
 }
 stage.addEventListener('click',event=>{
-  const el=event.target.closest('button');if(!el||busy&&!('casinoLeave' in el.dataset))return;
+  const el=event.target.closest('button');if(!el)return;
+  if(busy&&el.dataset.slot==='spin')return sl.ui?.hurry();
+  if(busy&&!('casinoLeave' in el.dataset))return;
   if('casinoLeave' in el.dataset)return leaveGame();
   if(game==='friends')return friends.click(event);
   if('casinoFriends' in el.dataset){leaveGame();return openGame('friends')}
@@ -677,7 +698,11 @@ stage.addEventListener('click',event=>{
   if(el.dataset.call)return placeChips(R.CALLS[el.dataset.call].chips.map(([id,n])=>[id,n*rt.chip]));
   if(el.dataset.rt)return editRoulette(el.dataset.rt);
   if('spin' in el.dataset)return spinRoulette();
-  if('pull' in el.dataset)return pullSlots();
+  if(el.dataset.slot==='spin')return pullSlots();
+  if(el.dataset.slot){
+    if(el.dataset.slot==='fast'){sl.fast=!sl.fast;sl.ui?.fast(sl.fast)}else window.Sound?.toggle();
+    return updateSlots();
+  }
   if(el.dataset.crash){
     if(el.dataset.crash==='cash')cashOut();
     else if(cr.phase!=='fly'){refreshWallet();cr.next=el.dataset.crash==='bet'&&R.check(wallet,bet).ok?bet:0}

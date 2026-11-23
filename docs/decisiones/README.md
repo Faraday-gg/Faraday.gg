@@ -124,6 +124,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0118](0118-manos-en-archivo-vivo.md) | Dedos, nudillos y muñeca del avatar al explorar Archivo Vivo | Implementada | 2026-11-23 |
 | [0119](0119-montana-y-preguntas-de-ascension.md) | Montaña continua, ritmo por rareza y preguntas de descubrimiento de Ascensión | Implementada | 2026-11-23 |
 | [0120](0120-salon-mesas-en-la-sala-y-crash.md) | Mesas del Salón dentro de la sala (la cámara se acerca con la E), sala de casino y juego de crash | Prototipo | 2026-11-23 |
+| [0121](0121-tragaperras-tormenta.md) | Tragaperras «Tormenta»: rejilla de 6 × 5 con caídas, esferas multiplicadoras y tiradas gratis | Prototipo | 2026-11-23 |
 
 ## Plantilla
 
