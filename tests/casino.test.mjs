@@ -45,16 +45,40 @@ assert.equal(R.rouletteReturn(bets,0),0);
 assert.ok(Number.isNaN(R.rouletteStake({n17:0})));assert.ok(Number.isNaN(R.rouletteStake({n99:5})));assert.ok(Number.isNaN(R.rouletteStake({red:2.5})));
 assert.equal(R.spin(()=>0),0);assert.equal(R.spin(()=>.9999),36);
 
-// Tragaperras: trío, pareja en los dos primeros rodillos y nada.
-assert.equal(R.slots([0,0,0]),150);
-assert.equal(R.slots([5,5,5]),5);
-assert.equal(R.slots([2,2,4]),R.PAIR);
-assert.equal(R.slots([2,4,4]),0);
-assert.equal(R.slots([1,2,1]),0);
-const back=R.slotsReturn();
-assert.ok(back>.9&&back<.95,`la tragaperras devuelve ${(back*100).toFixed(1)} %`);
-assert.deepEqual(R.pull(()=>0),[0,0,0]);
-assert.deepEqual(R.pull(()=>.9999),[5,5,5]);
+// Tragaperras «Tormenta»: paga 8 o más iguales en cualquier sitio, los premiados caen y las esferas multiplican.
+{
+  const S=R.STORM,grid=fill=>Array.from({length:S.COLS},(_,x)=>Array.from({length:S.ROWS},(_,y)=>fill(x,y)));
+  // Siete iguales no pagan; ocho, diez y doce pagan cada vez más.
+  const some=count=>grid((x,y)=>x*S.ROWS+y<count?0:1+(x*S.ROWS+y)%7);
+  assert.equal(S.wins(some(7)).list.length,0);
+  for(const [count,tier] of [[8,0],[10,1],[12,2]]){
+    const {list,hit}=S.wins(some(count));
+    assert.deepEqual(list,[{symbol:0,count,pay:S.SYMBOLS[0].pays[tier]}]);assert.equal(hit.length,count);
+  }
+  // Chispas y esferas no cuentan como símbolo ni desaparecen.
+  assert.equal(S.wins(grid((x,y)=>y?S.SCATTER:S.ORB+5)).list.length,0);
+  for(const symbol of S.SYMBOLS)assert.ok(symbol.pays[0]<symbol.pays[1]&&symbol.pays[1]<symbol.pays[2]);
+  // Miles de jugadas con una secuencia fija: las cuentas cuadran y el retorno queda donde se ajustó.
+  let seed=7919;const rand=()=>{seed=(seed*1664525+1013904223)>>>0;return seed/4294967296};
+  let back=0,bonus=0;const N=300000;
+  for(let i=0;i<N;i++){
+    const round=S.play(rand),[first,...free]=round.spins;
+    let sum=first.scatterPay||0;
+    for(const spin of round.spins){
+      assert.equal(spin.start.length,S.COLS);assert.ok(spin.start.every(column=>column.length===S.ROWS));
+      const base=spin.steps.reduce((total,step)=>total+step.pay,0);
+      assert.ok(Math.abs(base-spin.base)<1e-9&&Math.abs(spin.win-spin.base*spin.mult)<1e-9);
+      if(!spin.base||!spin.orbs.length)assert.equal(spin.mult,1,'sin premio o sin esferas no hay multiplicador');
+      sum+=spin.win;
+    }
+    assert.equal(free.length>0,first.scatters>=4,'las tiradas gratis salen con 4 chispas o más');
+    assert.ok(free.length<=30&&round.total<=S.MAX&&round.total>=0);
+    assert.ok(round.total===S.MAX||Math.abs(round.total-sum)<.006,'el total es la suma de las tiradas');
+    back+=round.total;if(free.length)bonus++;
+  }
+  assert.ok(back/N>.88&&back/N<.96,`la tragaperras devuelve ${(back/N*100).toFixed(1)} %`);
+  assert.ok(N/bonus>150&&N/bonus<350,'tiradas gratis cada 150–350 jugadas');
+}
 
 // Baraja.
 const cards=text=>text.split(' ').map(t=>({r:{J:11,Q:12,K:13,A:14}[t.slice(0,-1)]||Number(t.slice(0,-1)),s:R.SUITS.indexOf(t.slice(-1))}));

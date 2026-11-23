@@ -1,4 +1,4 @@
-// Salón (prototipo): reglas y cuentas de la ruleta, la tragaperras y el póker, sin pantalla ni almacenamiento, para
+// Salón (prototipo): reglas y cuentas de la ruleta, la tragaperras, el crash y el póker, sin pantalla ni almacenamiento, para
 // poder probarlas con Node (tests/casino.test.mjs). casino.js pone el mundo en 3D, las mesas y el monedero.
 //
 // Todo se juega con faradios de prueba: no tocan el saldo real. Cada juego de la casa devuelve un multiplicador
@@ -72,25 +72,94 @@
   }
   const rouletteReturn=(bets,n)=>Object.entries(bets).reduce((sum,[id,amount])=>sum+amount*roulette(id,n),0);
 
-  // Tragaperras de tres rodillos. Cada rodillo saca un símbolo según su peso. Paga el trío, o la pareja en los dos
-  // primeros rodillos. Con estos pesos y pagos devuelve el 92,4 % (slotsReturn lo calcula exacto).
-  const SYMBOLS=[
-    {id:'faradio',glyph:'≈',weight:1,pays:150},
-    {id:'siete',glyph:'7',weight:2,pays:60},
-    {id:'estrella',glyph:'★',weight:3,pays:25},
-    {id:'rombo',glyph:'♦',weight:4,pays:12},
-    {id:'trebol',glyph:'♣',weight:5,pays:8},
-    {id:'punto',glyph:'●',weight:6,pays:5}
-  ];
-  const PAIR=3,TOTAL=SYMBOLS.reduce((sum,s)=>sum+s.weight,0);
-  function reel(rand=Math.random){let at=rand()*TOTAL;for(let i=0;i<SYMBOLS.length;i++){at-=SYMBOLS[i].weight;if(at<0)return i}return SYMBOLS.length-1}
-  const pull=(rand=Math.random)=>[reel(rand),reel(rand),reel(rand)];
-  const slots=([a,b,c])=>a===b&&b===c?SYMBOLS[a].pays:a===b?PAIR:0;
-  function slotsReturn(){
-    let back=0;
-    SYMBOLS.forEach((a,i)=>SYMBOLS.forEach((b,j)=>SYMBOLS.forEach((c,k)=>{back+=a.weight*b.weight*c.weight*slots([i,j,k])})));
-    return back/TOTAL**3;
-  }
+  // Tragaperras «Tormenta»: rejilla de 6 columnas por 5 filas, sin líneas. Un símbolo paga si aparece 8 veces o más
+  // en cualquier sitio. Los símbolos premiados desaparecen, los de arriba caen y entran otros nuevos, y así mientras
+  // siga habiendo premio. Las esferas llevan un multiplicador: al acabar las caídas, si la tirada tiene premio, se
+  // suman y lo multiplican. Con 4 chispas o más se ganan tiradas gratis, donde el multiplicador se acumula de una
+  // tirada a otra. Todo se mide en apuestas: «win» 2,5 es dos veces y media lo apostado.
+  // Casilla: 0–8 = símbolo, SCATTER = chispa, ORB + n = esfera de ×n. Columna: de arriba abajo.
+  const STORM=(()=>{
+    const COLS=6,ROWS=5,NEED=8,SCATTER=9,ORB=100,MAX=500,FREE=10,MORE=5,FREE_CAP=30;
+    // pays = lo que paga por 8–9, 10–11 y 12 o más iguales.
+    const SYMBOLS=[
+      {id:'zafiro',name:'Zafiro',weight:20,pays:[.2,.65,1.8]},
+      {id:'esmeralda',name:'Esmeralda',weight:19,pays:[.35,.8,3.6]},
+      {id:'amatista',name:'Amatista',weight:18,pays:[.45,.9,4.5]},
+      {id:'topacio',name:'Topacio',weight:16,pays:[.65,1.1,7.5]},
+      {id:'rubi',name:'Rubí',weight:14,pays:[.9,1.35,9]},
+      {id:'iman',name:'Imán',weight:11,pays:[1.35,1.8,11]},
+      {id:'bombilla',name:'Bombilla',weight:10,pays:[1.8,4.5,13.5]},
+      {id:'bobina',name:'Bobina',weight:8,pays:[2.25,9,22.5]},
+      {id:'corona',name:'Corona',weight:6,pays:[9,22.5,45]}
+    ];
+    const TOTAL=SYMBOLS.reduce((sum,s)=>sum+s.weight,0);
+    // Esferas: [multiplicador, peso]. Probabilidad por casilla de chispa y de esfera (más esferas en las gratis).
+    const ORBS=[[2,40],[3,26],[5,16],[10,10],[25,5],[50,2],[100,1]],ORB_TOTAL=ORBS.reduce((sum,o)=>sum+o[1],0);
+    const P_SCATTER=.02,P_ORB=.012,P_ORB_FREE=.07;
+    // Lo que pagan las chispas por sí solas en la tirada que da las gratis.
+    const SCATTER_PAYS={4:3,5:5,6:100};
+    const tier=count=>count>=12?2:count>=10?1:0;
+    function cell(rand,free){
+      let at=rand();
+      if(at<P_SCATTER)return SCATTER;
+      at-=P_SCATTER;
+      const orb=free?P_ORB_FREE:P_ORB;
+      if(at<orb){let pick=at/orb*ORB_TOTAL;for(const [value,weight] of ORBS){pick-=weight;if(pick<0)return ORB+value}return ORB+ORBS[0][0]}
+      let pick=rand()*TOTAL;
+      for(let i=0;i<SYMBOLS.length;i++){pick-=SYMBOLS[i].weight;if(pick<0)return i}
+      return SYMBOLS.length-1;
+    }
+    // Premios de una rejilla: [{symbol, count, pay}] y las casillas que desaparecen (columna·ROWS + fila).
+    function wins(grid){
+      const counts=new Array(SYMBOLS.length).fill(0);
+      for(const column of grid)for(const c of column)if(c<SCATTER)counts[c]++;
+      const list=[],hit=[];
+      counts.forEach((count,symbol)=>{if(count>=NEED)list.push({symbol,count,pay:SYMBOLS[symbol].pays[tier(count)]})});
+      if(list.length)grid.forEach((column,x)=>column.forEach((c,y)=>{if(c<SCATTER&&counts[c]>=NEED)hit.push(x*ROWS+y)}));
+      return {list,hit};
+    }
+    // Una tirada entera, con todas sus caídas. «carry» es el multiplicador acumulado de las tiradas gratis.
+    function spin(rand=Math.random,free=false,carry=0){
+      let grid=Array.from({length:COLS},()=>Array.from({length:ROWS},()=>cell(rand,free)));
+      const start=grid.map(column=>[...column]),steps=[];
+      let base=0;
+      for(;;){
+        const {list,hit}=wins(grid);
+        if(!list.length)break;
+        const gone=new Set(hit);
+        grid=grid.map((column,x)=>{
+          const kept=column.filter((c,y)=>!gone.has(x*ROWS+y));
+          return [...Array.from({length:ROWS-kept.length},()=>cell(rand,free)),...kept];
+        });
+        const pay=list.reduce((sum,w)=>sum+w.pay,0);base+=pay;
+        steps.push({wins:list,hit,pay,grid:grid.map(column=>[...column])});
+      }
+      const orbs=[];let scatters=0;
+      for(const column of grid)for(const c of column){if(c===SCATTER)scatters++;else if(c>=ORB)orbs.push(c-ORB)}
+      let mult=1;
+      if(base>0&&orbs.length){
+        const sum=orbs.reduce((a,b)=>a+b,0);
+        if(free){carry+=sum;mult=carry}else mult=sum;
+      }
+      return {start,steps,orbs,scatters,base,mult,win:base*mult,carry,free};
+    }
+    // Una jugada: la tirada pagada y, si salen 4 chispas, sus tiradas gratis. total = lo que vuelve por 1 apostado.
+    function play(rand=Math.random){
+      const first=spin(rand),spins=[first];
+      let total=first.win,left=0,used=0,carry=0;
+      if(first.scatters>=4){
+        first.scatterPay=SCATTER_PAYS[Math.min(6,first.scatters)];total+=first.scatterPay;first.award=left=FREE;
+      }
+      while(left>0&&total<MAX){
+        left--;used++;
+        const next=spin(rand,true,carry);carry=next.carry;
+        if(next.scatters>=3&&used+left+MORE<=FREE_CAP){left+=MORE;next.award=MORE}
+        next.left=left;spins.push(next);total+=next.win;
+      }
+      return {spins,total:Math.min(MAX,Math.round(total*100)/100)};
+    }
+    return {COLS,ROWS,NEED,SCATTER,ORB,MAX,FREE,MORE,SYMBOLS,ORBS,SCATTER_PAYS,wins,spin,play};
+  })();
 
   // Baraja francesa. Carta = {r: 2–14, s: 0–3}.
   const SUITS=['♠','♥','♦','♣'],RANKS={11:'J',12:'Q',13:'K',14:'A'};
@@ -269,7 +338,8 @@
     // Lo que se cobra al retirarse con el multiplicador en m: se redondea hacia abajo a dos decimales.
     cash:m=>Math.floor(m*100)/100
   };
-  const EDGE={roulette:1/37,slots:1-slotsReturn(),crash:CRASH.EDGE};
+  // La de la tragaperras no sale de una fórmula: se mide con una simulación (tests/casino.test.mjs).
+  const EDGE={roulette:1/37,crash:CRASH.EDGE};
 
-  root.CasinoRules={CRASH,MIN_BET,MAX_BET,DAILY_LOSS,START,FLOOR,CHIPS,TABLE_CHIPS,RED,WHEEL,color,SPOTS,CALLS,spin,roulette,rouletteStake,rouletteReturn,SYMBOLS,PAIR,pull,slots,slotsReturn,SUITS,deck,label,HOLDEM,wallet,check,settle,EDGE};
+  root.CasinoRules={CRASH,MIN_BET,MAX_BET,DAILY_LOSS,START,FLOOR,CHIPS,TABLE_CHIPS,RED,WHEEL,color,SPOTS,CALLS,spin,roulette,rouletteStake,rouletteReturn,STORM,SUITS,deck,label,HOLDEM,wallet,check,settle,EDGE};
 })(typeof window!=='undefined'?window:globalThis);
