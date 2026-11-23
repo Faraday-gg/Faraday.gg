@@ -256,7 +256,20 @@
     const delta=Math.round(amount*multiplier)-amount;
     return {wallet:{...w,coins:Math.max(0,w.coins+delta),net:w.net-delta},delta};
   }
-  const EDGE={roulette:1/37,slots:1-slotsReturn()};
+  // Crash: el multiplicador sube desde 1 hasta que revienta. Quien se retira antes cobra su apuesta por el
+  // multiplicador de ese momento; quien no, la pierde. La probabilidad de llegar a m es (1 − ventaja)/m, así que
+  // retirarse en cualquier punto devuelve de media lo mismo: el 97 %.
+  const CRASH={
+    EDGE:.03,MAX:500,RATE:.16,
+    // Dónde revienta la ronda, con dos decimales. Un 1 es reventar nada más salir.
+    point:(rand=Math.random)=>Math.min(CRASH.MAX,Math.max(1,Math.floor(100*(1-CRASH.EDGE)/(1-rand()))/100)),
+    // Multiplicador a los «seconds» segundos de salir, y cuánto tarda en llegar a m.
+    at:seconds=>Math.exp(CRASH.RATE*Math.max(0,seconds)),
+    time:m=>Math.log(Math.max(1,m))/CRASH.RATE,
+    // Lo que se cobra al retirarse con el multiplicador en m: se redondea hacia abajo a dos decimales.
+    cash:m=>Math.floor(m*100)/100
+  };
+  const EDGE={roulette:1/37,slots:1-slotsReturn(),crash:CRASH.EDGE};
 
-  root.CasinoRules={MIN_BET,MAX_BET,DAILY_LOSS,START,FLOOR,CHIPS,TABLE_CHIPS,RED,WHEEL,color,SPOTS,CALLS,spin,roulette,rouletteStake,rouletteReturn,SYMBOLS,PAIR,pull,slots,slotsReturn,SUITS,deck,label,HOLDEM,wallet,check,settle,EDGE};
+  root.CasinoRules={CRASH,MIN_BET,MAX_BET,DAILY_LOSS,START,FLOOR,CHIPS,TABLE_CHIPS,RED,WHEEL,color,SPOTS,CALLS,spin,roulette,rouletteStake,rouletteReturn,SYMBOLS,PAIR,pull,slots,slotsReturn,SUITS,deck,label,HOLDEM,wallet,check,settle,EDGE};
 })(typeof window!=='undefined'?window:globalThis);
