@@ -122,6 +122,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 
 | [0116](0116-salon-casino-de-prueba.md) | Salón 3D con ruleta, tragaperras y póker y un monedero local de prueba | Prototipo | 2026-11-21 |
 | [0117](0117-salon-mesas-a-pantalla-completa-y-holdem.md) | Mesas del Salón a pantalla completa: tapete de ruleta con rueda animada, Texas Hold'em y crupier | Prototipo | 2026-11-21 |
+| [0118](0118-manos-en-archivo-vivo.md) | Dedos, nudillos y muñeca del avatar al explorar Archivo Vivo | Implementada | 2026-11-23 |
 
 ## Plantilla
 
