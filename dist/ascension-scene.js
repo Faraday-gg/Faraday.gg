@@ -229,7 +229,9 @@
         if(t===1)delete transitions[key];
       }
       if(flight){
-        const job=flight,elapsed=now-job.start;
+        const job=flight;
+        job.start??=now;
+        const elapsed=now-job.start;
         job.sample=job.plan.sample(elapsed);
         const {center,cue}=job.sample;
         paintHeight(mix(job.from,job.to,clamp(center[1]/job.plan.finish[1])));
@@ -285,7 +287,7 @@
       paintHeight(from);
       restPoseMix=1;
       return new Promise(resolve=>{
-        flight={from,to,reaction,plan:routePlan,via:data.via,resolve,onCue,start:performance.now(),sample:routePlan.sample(0)};
+        flight={from,to,reaction,plan:routePlan,via:data.via,resolve,onCue,start:null,sample:routePlan.sample(0)};
         paintState('climb');act(quiet());draw();requestDraw();
       });
     }
