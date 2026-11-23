@@ -6,7 +6,7 @@
 // sí son de terceros (ver los riesgos en la decisión 0112).
 // createSkins recibe de avatar3d.js sus utilidades de dibujo y devuelve {identificador: () => personaje}.
 export function createSkins(kit){
-  const {THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW}=kit;
+  const {THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,drawHand,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW}=kit;
   const O=.03,PI=Math.PI;
   // Azar con semilla: las manchas salen siempre en el mismo sitio.
   const rand=seed=>()=>(seed=seed*16807%2147483647)/2147483647;
@@ -34,15 +34,6 @@ export function createSkins(kit){
     const P={model,body,upper,up,neck,head,legs,feet,arms,eyes:[],sway:[],lips:null,torso:null};
     P.done=()=>({group:model,parts:{body,upper,torso:P.torso,neck,head,arms,legs,feet,eyes:P.eyes,lids:[],lips:P.lips,sway:P.sway},base:0,fem:false});
     return P;
-  }
-  // Mano: la del avatar normal. claw = material de las garras (una por dedo), si las lleva.
-  function hand(group,side,material,claw=null){
-    add(group,box(3),material,[0,-.04,0],[.056,.07,.086],[],.045);
-    for(const [z,length] of [[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]]){
-      const finger=add(group,capsule(.0245,length),material,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3);
-      if(claw)add(finger,cone(.021,.06,8),claw,[0,-length/2-.045,0],[],[PI,0,0]);
-    }
-    add(group,capsule(.028,.04),material,[side*-.02,-.055,.103],[],[-1,0,0],.3);
   }
   // Pie de monstruo: empeine, tres dedos gordos y una garra en cada uno.
   function paw(shoe,fur,claw,width=.19,toe=.075){
@@ -94,7 +85,7 @@ export function createSkins(kit){
   }
 
   // ---------- Sulley: monstruo peludo turquesa con manchas moradas, cuernos, cola y garras.
-  function sulley(){
+  function sulley(immersive){
     const FUR='#2bb6c9',SPOT='#8d5fc7',P=puppet({gap:.2,shoulder:.44,handSize:1.25});
     const fur=mat(FUR),claw=mat('#eef1f3'),horn=mat('#efe5cb');
     const spotted=(seed,stretch=2)=>mat(null,furTex(FUR,{spot:SPOT,spots:8,size:[20,32],seed,stretch,ticks:36}));
@@ -110,7 +101,7 @@ export function createSkins(kit){
       add(arm,tall(limb(.155,.135,ELBOW)),limbs,[],[],[],O);add(fore,tall(limb(.135,.115,.2)),limbs,[],[],[],O);
       for(const [y,turn,size] of [[.1,1,1.15],[.02,1.45,1]])add(arm,cone(.06*size,.17*size),fur,[side*.11,y,0],[1,1,.7],[0,0,-side*turn],.08);
       for(const [z,turn] of [[-.1,.75],[-.05,1.2]])add(fore,cone(.055,.16),fur,[0,-.02,z],[.7,1,1],[PI+turn,0,0],.08);
-      hand(group,side,fur,claw);
+      drawHand(group,side,fur,{immersive,claw});
     }
     // Cola gruesa que cae y se levanta en la punta; se balancea con retardo, como las coletas.
     const root=new THREE.Group(),tail=new THREE.Group();root.position.set(0,.62,-.26);root.add(tail);P.body.add(root);P.sway.push(tail);
@@ -132,7 +123,7 @@ export function createSkins(kit){
   }
 
   // ---------- Stitch: criatura azul de orejas enormes con muesca, barriga y contorno de ojos claros, y nariz grande.
-  function stitch(){
+  function stitch(immersive){
     const BLUE='#4a8be0',LIGHT='#a9d6f6',DARK='#27408f',NOSE='#1c2b68',PINK='#dd8fc4',P=puppet({gap:.19,shoulder:.42,handSize:1.3});
     const blue=mat(BLUE),claw=mat(DARK);
     add(P.body,sphere(),blue,[0,.64,0],[.4,.2,.33],[],O);
@@ -145,7 +136,7 @@ export function createSkins(kit){
       c.fillStyle=LIGHT;c.beginPath();c.ellipse(F(0),Y(.4),66,74,0,0,7);c.fill();
       c.fillStyle=DARK;c.beginPath();c.ellipse(B(0),Y(.66),46,30,0,0,7);c.fill();c.beginPath();c.ellipse(B(0),Y(.36),28,20,0,0,7);c.fill();
     })),[0,.94,0],[1.05,1,.9],[],O);
-    for(const {arm,fore,hand:group,side} of P.arms){add(arm,limb(.13,.115,ELBOW),blue,[],[],[],O);add(fore,limb(.115,.1,.2),blue,[],[],[],O);hand(group,side,blue,claw)}
+    for(const {arm,fore,hand:group,side} of P.arms){add(arm,limb(.13,.115,ELBOW),blue,[],[],[],O);add(fore,limb(.115,.1,.2),blue,[],[],[],O);drawHand(group,side,blue,{immersive,claw})}
     // Cabeza: antifaz claro alrededor de los ojos, barbilla clara y una marca oscura en la nuca.
     skull(P.head,headTex(c=>{
       c.fillStyle=BLUE;c.fillRect(-2,-1,7,2);
@@ -176,7 +167,7 @@ export function createSkins(kit){
   }
 
   // ---------- Iron Man: armadura roja y dorada de metal pulido, con el reactor del pecho y los ojos encendidos.
-  function ironman(){
+  function ironman(immersive){
     const RED='#c2161f',GOLD='#f2b632',GLOW='#e4fbff',P=puppet({gap:.18,shoulder:.44});
     const red=metal(RED),gold=metal('#f6f6f6','or'),glow=flat(GLOW),dark=mat('#2b2f3a'),seam=shade(RED,.5);
     add(P.body,sphere(),red,[0,.64,0],[.34,.17,.27],[],O);
@@ -211,7 +202,7 @@ export function createSkins(kit){
     for(const {arm,fore,hand:group,side} of P.arms){
       add(arm,limb(.118,.105,ELBOW),gold,[],[],[],O);add(arm,sphere(),red,[side*.02,.01,0],[.17,.15,.17],[],O);
       add(fore,sphere(.118,18,14),red,[],[],[],.05);add(fore,limb(.13,.115,.2),red,[],[],[],O);add(fore,ring(.118,.022),gold,[0,-.17,0],[],[PI/2,0,0],O);
-      hand(group,side,red);quiet(add(group,new THREE.CircleGeometry(.03,16),glow,[side*-.061,-.045,0],[],[0,-side*PI/2,0]));
+      drawHand(group,side,red,{immersive});quiet(add(group,new THREE.CircleGeometry(.03,16),glow,[side*-.061,-.045,0],[],[0,-side*PI/2,0]));
     }
     // Casco: la careta dorada, las ranuras de los ojos y las juntas van pintadas; los ojos llevan encima una pieza de luz.
     skull(P.head,null,metal(null,'cr',headTex(c=>{
@@ -237,7 +228,7 @@ export function createSkins(kit){
   }
 
   // ---------- Spider-Man: traje rojo y azul con la telaraña, la araña del pecho y los ojos blancos de la máscara.
-  function spiderman(){
+  function spiderman(immersive){
     const RED='#d8212c',BLUE='#2557c9',P=puppet({gap:.17,shoulder:.4});
     const red=mat(RED),blue=mat(BLUE);
     // Telaraña sobre una zona: hilos rectos y, entre ellos, tramos que cuelgan.
@@ -272,7 +263,7 @@ export function createSkins(kit){
       spider(c,F(0),Y(.6),36);spider(c,B(0),Y(.5),46,1.5);
     })),[0,.94,0],[1.06,1,.78],[],O);
     const sleeves=web();
-    for(const {arm,fore,hand:group,side} of P.arms){add(arm,tall(limb(.115,.1,ELBOW)),sleeves,[],[],[],O);add(arm,sphere(.125,18,14),sleeves,[0,.005,0],[],[],.05);add(fore,tall(limb(.1,.086,.2)),sleeves,[],[],[],O);hand(group,side,red)}
+    for(const {arm,fore,hand:group,side} of P.arms){add(arm,tall(limb(.115,.1,ELBOW)),sleeves,[],[],[],O);add(arm,sphere(.125,18,14),sleeves,[0,.005,0],[],[],.05);add(fore,tall(limb(.1,.086,.2)),sleeves,[],[],[],O);drawHand(group,side,red,{immersive})}
     // Máscara: la telaraña nace entre los ojos y da la vuelta a la cabeza.
     skull(P.head,headTex(c=>{
       c.fillStyle=RED;c.fillRect(-2,-1,7,2);c.lineWidth=.017;c.lineCap='round';c.strokeStyle=INK;
