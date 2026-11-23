@@ -78,6 +78,64 @@ function blob(geometry,n=4){
 }
 const box=(n=4)=>blob(sphere(1,32,24),n);
 const shell=(n,phi0,phi,theta0,theta)=>blob(new THREE.SphereGeometry(1,40,20,phi0,phi,theta0,theta),n);
+
+function drawHand(group, side, material, { immersive = false, claw, bare = false } = {}) {
+  if (!immersive) {
+    add(group, box(3), material, [0, -.04, 0], [.056, .07, .086], [], .045);
+    for (const [z, length] of [[.064, .05], [.022, .064], [-.021, .06], [-.063, .042]]) {
+      const finger = add(group, capsule(.0245, length), material,
+        [side * -.014, -.098 - length / 2 - Math.abs(z) * .25, z * 1.08], [], [-z * 3.2, 0, side * -.25], .3);
+      if (claw) add(finger, new THREE.ConeGeometry(.021, .06, 8), claw, [0, -length / 2 - .045, 0], [], [Math.PI, 0, 0]);
+    }
+    add(group, capsule(.028, .04), material, [side * -.02, -.055, .103], [], [-1, 0, 0], .3);
+    return;
+  }
+
+  const palm = lathe([[0, -.121], [.048, -.116], [.069, -.107], [.082, -.089],
+    [.084, -.068], [.076, -.042], [.063, -.016], [.060, .006], [.048, .025], [0, .033]], 20);
+  add(group, palm, material, [], [.66, 1, 1], [], .028);
+  const nailMaterial = bare ? material.clone() : null;
+  if (nailMaterial) nailMaterial.color.multiplyScalar(1.17);
+
+  // La malla se curva hacia la palma y conserva volumen en los nudillos. Las puntas se abren lo justo para distinguirlas de cerca.
+  const profile = [[0, -1], [.48, -.98], [.74, -.92], [.79, -.78], [.76, -.64],
+    [.91, -.53], [.88, -.43], [.86, -.30], [1, -.11], [.98, 0], [.7, .12], [0, .16]];
+  function digit(base, length, radius, curl, spread, tipMaterial) {
+    const geometry = new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(r * radius, y * length)), 12);
+    const points = geometry.attributes.position;
+    for (let i = 0; i < points.count; i++) {
+      const reach = Math.max(0, -points.getY(i) / length);
+      points.setX(i, points.getX(i) - side * curl * reach * reach);
+      points.setZ(i, points.getZ(i) + spread * reach);
+    }
+    geometry.computeVertexNormals();
+    add(group, geometry, material, base, [], [], .055);
+    if (tipMaterial) {
+      const direction = new THREE.Vector3(-side * 2 * curl, -length, spread).normalize();
+      const tip = new THREE.Vector3(...base).add(new THREE.Vector3(-side * curl, -length, spread));
+      tip.addScaledVector(direction, .013);
+      const nail = add(group, new THREE.ConeGeometry(radius * .74, .041, 8), tipMaterial, tip.toArray());
+      nail.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction);
+    } else if (nailMaterial) {
+      const reach = .85;
+      const nail = add(group, sphere(1, 12, 8), nailMaterial,
+        [base[0] + side * (radius * .78 - curl * reach ** 2), base[1] - length * reach, base[2] + spread * reach],
+        [.0038, length * .117, radius * .52]);
+      nail.rotation.z = Math.atan2(-side * 2 * curl * reach, length);
+    }
+  }
+
+  for (const [z, length, radius, curl, spread] of [
+    [.061, .128, .019, .020, .014],
+    [.020, .147, .020, .027, .003],
+    [-.023, .135, .019, .033, -.006],
+    [-.064, .105, .0165, .037, -.016]
+  ]) {
+    digit([0, -.082 + Math.abs(z) * .12, z], length, radius, curl, spread, claw);
+  }
+  digit([-side * .024, -.036, .061], .082, .026, .023, .049);
+}
+
 // Cabeza: cubo redondeado de radios A × B × C. onHead devuelve el punto de la superficie para ojos, cejas y boca.
 const HEAD={a:.64,b:.585,c:.6,n:2.7};
 const onHead=(x,y,out=1)=>[x*out,y*out,HEAD.c*Math.max(0,1-Math.abs(x/HEAD.a)**HEAD.n-Math.abs(y/HEAD.b)**HEAD.n)**(1/HEAD.n)*out];
@@ -282,10 +340,10 @@ const FEM_HAIR={calva:{bald:1},liso:{skirt:1,back:.42,sides:.4,fringe:'cortina'}
 // (fore) y las zapatillas van aparte de las piernas para que se queden en el suelo cuando la cadera se mueve.
 const WAIST=.7,NECK=1.3,SHOULDER=1.16,ELBOW=.3,HIP=.64;
 // Skins completas (decisión 0112): personajes enteros, en avatar-skins.js, montados sobre este mismo esqueleto.
-const SKINS=createSkins({THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW});
+const SKINS=createSkins({THREE,add,mat,flat,metal,shade,sphere,capsule,ring,limb,box,lathe,paint,drawHand,onHead,HEAD,INK,PAPER,WAIST,NECK,SHOULDER,ELBOW});
 // Construye el personaje de un look ya traducido (Avatar.resolve) y devuelve el grupo y las partes que se animan.
-function buildModel(look){
-  if(look.costume&&Object.hasOwn(SKINS,look.costume)){finish='';return SKINS[look.costume]()}
+function buildModel(look,{immersive=false}={}){
+  if(look.costume&&Object.hasOwn(SKINS,look.costume)){finish='';return SKINS[look.costume](immersive)}
   const model=new THREE.Group(),fem=look.body==='mujer',K=fem?.88:1; // K: la mujer es algo más fina de brazos y piernas
   const has=id=>(look.extras||[]).includes(id),skin=mat(SKIN[look.skin]||SKIN.miel),hairC=HAIR_COLORS[look.hairColor]||HAIR_COLORS.negro,hairM=mat(hairC);
   // Con acabado, la prenda pierde su color: queda clara (y su segundo color, gris) y el brillo lo pone el material.
@@ -361,7 +419,8 @@ function buildModel(look){
   for(const side of [-1,1]){
     const arm=new THREE.Group(),fore=new THREE.Group();arm.position.set(side*(bare?(fem?.335:.385):fem?.355:.41),SHOULDER,0);arm.rotation.z=side*.34;fore.position.y=-ELBOW;fore.rotation.set(-.28,0,side*-.08);arm.add(fore);up.add(arm);
     const sleeveC=type==='universitaria'?trim:main,sleeve=type==='chandal'&&(!brandKey||brandKey==='adidas')?mat(main,sleeveTexture(main,brandKey?trim:PAPER,!!brandKey)):mat(sleeveC);
-    const thick=bare?1.1:1;add(arm,limb(.1*K*thick,.09*K*thick,ELBOW),skin,[],[],[],O);add(fore,limb(.09*K*thick,.078*K*thick,.2),skin,[],[],[],O);
+    const thick=bare?1.1:1,wrist=immersive?.058:.078;
+    add(arm,limb(.1*K*thick,.09*K*thick,ELBOW),skin,[],[],[],O);add(fore,limb(.09*K*thick,wrist*K*thick,.2),skin,[],[],[],O);
     if(sleeved){
       add(arm,capsule(.145*K,.12),sleeve,[0,-.13,0],[],[],O);add(fore,capsule(.138*K,.02),sleeve,[0,-.03,0],[],[],O);
       const cuff=type==='universitaria'?mat(null,stripes([trim,PAPER,trim,PAPER,trim])):mat(shade(sleeveC,.78));
@@ -369,12 +428,8 @@ function buildModel(look){
       else for(const [part,y] of [[arm,-.1],[arm,-.24],[fore,-.08]])add(part,ring(.135*K,.05),brandKey&&part===arm&&y>-.2?mat(trim):sleeve,[0,y,0],[1,1,1],[Math.PI/2,0,0],O);
     }else if(!bare)add(arm,capsule(crop?.132:.165,crop?.07:.1),mat(main),[0,crop?-.07:-.09,0],[],[],O);
     const hand=new THREE.Group();hand.position.y=-.2;hand.rotation.y=side*-.7;hand.scale.setScalar(K*1.15);fore.add(hand);
-    add(hand,box(3),skin,[0,-.04,0],[.056,.07,.086],[],.045);
-    // Los dedos salen en abanico y un poco curvados hacia la palma; el contorno de cada uno dibuja la línea entre dedos.
-    const fingers=[[.064,.05],[.022,.064],[-.021,.06],[-.063,.042]].map(([z,length])=>
-      add(hand,capsule(.0245,length),skin,[side*-.014,-.098-length/2-Math.abs(z)*.25,z*1.08],[],[-z*3.2,0,side*-.25],.3));
-    const thumb=add(hand,capsule(.028,.04),skin,[side*-.02,-.055,.103],[],[-1,0,0],.3);
-    arms.push({arm,fore,hand,fingers,thumb,side});
+    drawHand(hand,side,skin,{immersive,bare:true});
+    arms.push({arm,fore,hand,side});
   }
   if(type==='sudadera'||type==='plumas'){
     // Capucha caída: un rollo alrededor del cuello, con el centro relleno para que por detrás no se vea el hueco.
@@ -591,7 +646,7 @@ function dispose(entry){
 function firstPerson(canvas, look, ground) {
   const context = canvas.getContext('2d');
   if (!context) return null;
-  const entry = buildModel(look);
+  const entry = buildModel(look, { immersive: true });
   const { body, neck, arms, legs, feet } = entry.parts;
   const armAnchor = new THREE.Group();
   const eye = new THREE.PerspectiveCamera(75, 1, 0.07, 8);
@@ -599,22 +654,11 @@ function firstPerson(canvas, look, ground) {
   eye.position.set(0, ground.eyeHeight + entry.base, 0.52);
   neck.visible = false;
   entry.group.add(armAnchor);
-  for (const [index, { arm, fore, hand, fingers = [], thumb, side }] of arms.entries()) {
+  for (const [index, { arm, fore, hand, side }] of arms.entries()) {
     armAnchor.add(arm);
     arm.rotation.set(1.45 + index * 0.11, 0, side * 0.40, 'ZXY');
     fore.rotation.set(0.36 + index * 0.11, -side * 0.14, side * 0.28, 'ZXY');
-    hand.rotation.set(-0.30, side * (0.37 + index * 0.16), -side * 0.16);
-    // Dedos semicerrados y pulgar recogido en lugar de una palma plana.
-    for (const [digit, finger] of fingers.entries()) {
-      finger.rotation.z = -side * (0.78 + digit * 0.12);
-      finger.position.x -= side * 0.034;
-      finger.position.y += 0.028;
-    }
-    if (thumb) {
-      thumb.rotation.z = -side * 0.5;
-      thumb.position.y -= 0.044;
-      thumb.position.z -= 0.012;
-    }
+    hand.rotation.set(-0.30, side * (0.37 + index * 0.16), side * 0.11);
   }
   const shade = paint((ctx, size) => {
     const center = size / 2;

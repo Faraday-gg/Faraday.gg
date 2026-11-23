@@ -1,4 +1,4 @@
-# 0118. Una montaña continua y preguntas de descubrimiento en Ascensión
+# 0119. Una montaña continua y preguntas de descubrimiento en Ascensión
 
 - **Estado** · Implementada.
 - **Fecha** · 2026-11-23.
