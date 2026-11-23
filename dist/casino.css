@@ -89,7 +89,9 @@
 .casino-tables button span { color: #ff826d; }
 .casino-tables button:nth-child(2) span { color: #ffdb70; }
 .casino-tables button:nth-child(3) span { color: #b9d6e1; }
-.casino-tables button:nth-child(4) span { color: #9bddb0; }
+.casino-tables button:nth-child(4) span { color: #ff8a75; }
+.casino-tables button:nth-child(5) span { color: #9bddb0; }
+.casino-tables { max-width: calc(100% - 16px); overflow-x: auto; }
 .casino-presence {
   position: absolute;
   top: max(84px, calc(env(safe-area-inset-top) + 74px));
@@ -150,6 +152,7 @@
 #casino-stick span { width: 36px; height: 36px; background: #ffdb70; border-radius: 50%; pointer-events: none; }
 .casino.is-playing :is(.casino-world-controls, .casino-tables, .casino-fallback, .casino-identity, .casino-hud > .casino-exit) { visibility: hidden; }
 .casino.is-playing #casino-canvas { visibility: hidden; }
+.casino.is-live #casino-canvas { visibility: visible; }
 
 /* ---------- Mesas: al sentarse, la mesa ocupa toda la pantalla ---------- */
 .casino-stage {
@@ -441,6 +444,33 @@
 .pk-raise { display: flex; align-items: center; }
 .pk-raise input { width: clamp(110px, 22vw, 240px); accent-color: #ff8a6c; }
 
+/* ---------- Mesas dentro de la sala: la cámara se acerca y encima van el tapete y los botones ---------- */
+.casino-stage.is-world { background: linear-gradient(#15131fc4 0, #15131f00 120px, #15131f00 40%, #15131fb8 72%, #15131ff0 100%); }
+.casino-stage.is-world[data-game="crash"] { background: linear-gradient(#15131fc4 0, #15131f00 120px, #15131f00 74%, #15131fd0 100%); }
+/* La crupier es la de la sala: aquí solo queda su bocadillo, que casino.js coloca sobre su cabeza. */
+.is-world .dealer { position: static; }
+.is-world .dealer svg { display: none; }
+.is-world .dealer-say { position: fixed; z-index: 4; left: var(--say-x, 50%); top: var(--say-y, 20%); translate: -50% calc(-100% - 6px); border-radius: 14px; box-shadow: 0 4px 14px #0009; }
+.is-world .rt { display: flex; flex-direction: column; align-items: center; }
+.is-world .rt-dealer { position: relative; flex: 1 1 auto; align-self: stretch; height: auto; min-height: 24dvh; margin: 0; }
+.is-world .rt-felt { flex: none; width: min(100%, 780px, 96dvh); }
+.is-world .rt-number { left: auto; right: 0; top: auto; bottom: 44px; translate: none; width: 62px; font-size: 1.7rem; }
+.is-world .rt-history { position: absolute; right: 0; bottom: 8px; max-width: 70%; }
+.is-world .pk-dealer { flex-basis: clamp(120px, 30dvh, 300px); margin: 0; }
+
+/* Crash */
+.cr { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 10px; }
+.cr-screen { width: min(100%, 860px, 130dvh); aspect-ratio: 2; margin-bottom: auto; border: 3px solid #1b1f27; border-radius: 16px; box-shadow: 0 16px 44px #000b; }
+.cr-now { margin: 0; padding: 4px 18px; border: 1px solid #ffffff32; border-radius: 99px; background: #0d1020e6; font-size: 1.3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cr-now.is-fly { color: #9bddb0; }
+.cr-now.is-crash { color: #ff8a75; }
+.cr-history { display: flex; gap: 5px; max-width: 100%; margin: 0; padding: 0; overflow: hidden; list-style: none; }
+.cr-history li { flex: none; padding: 2px 9px; border-radius: 99px; background: #0d1020e6; font-size: .78rem; font-weight: 800; }
+.cr-history .is-top { color: #ffdb70; }
+.cr-history .is-good { color: #9bddb0; }
+.cr-history .is-low { color: #ff8a75; }
+.casino .casino-play.is-cash { min-width: 230px; background: #9bddb0; }
+
 @media (max-width: 760px) {
   .stage-head p { display: none; }
   .stage-head { min-height: 84px; align-items: flex-start; }
@@ -450,6 +480,8 @@
   .rt-history { position: static; max-width: none; }
   .dealer-say { left: 62%; top: 4%; font-size: .74rem; }
   .rt-felt { border-width: 7px; }
+  .is-world .rt-dealer { flex: none; aspect-ratio: auto; height: 36dvh; margin: 0; }
+  .is-world .pk-dealer { flex-basis: 30dvh; }
   .rt-layout { flex: none; aspect-ratio: auto; height: max(56dvh, 540px); }
   .rt-spot {
     top: calc(var(--x) / 14 * 100%);

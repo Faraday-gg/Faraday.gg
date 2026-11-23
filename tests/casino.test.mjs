@@ -165,4 +165,21 @@ const next=R.wallet({coins:3,day:'2026-11-21',net:480},'2026-11-22');
 assert.deepEqual(next,{coins:R.FLOOR,day:'2026-11-22',net:0});
 assert.equal(R.wallet({coins:'x',day:1,net:'y'},'2026-11-22').coins,R.FLOOR);
 
+// Crash: nunca revienta por debajo de 1 ni por encima del máximo, y llegar a m tiene probabilidad (1 − ventaja)/m.
+{
+  const C=R.CRASH;
+  assert.equal(C.point(()=>0),1,'con la peor suerte revienta nada más salir');
+  assert.equal(C.point(()=>.5),1.94);
+  assert.equal(C.point(()=>.999999),C.MAX);
+  for(const m of [1.5,2,5,20]){
+    const edge=1-C.EDGE/1,reach=u=>C.point(()=>u)>=m;
+    // El u más pequeño que llega a m es 1 − (1 − ventaja)/m.
+    const limit=1-(1-C.EDGE)/m;
+    assert.ok(reach(limit+1e-9)&&!reach(limit-1e-6),`llegar a ${m} depende solo del corte`);
+    assert.ok(Math.abs((1-limit)*m-edge)<1e-9,'retirarse en m devuelve 1 − ventaja');
+  }
+  assert.equal(C.at(0),1);assert.ok(Math.abs(C.at(C.time(7.25))-7.25)<1e-9);
+  assert.equal(C.cash(2.349999),2.34);assert.equal(R.EDGE.crash,C.EDGE);
+}
+
 console.log('casino: todo correcto');
