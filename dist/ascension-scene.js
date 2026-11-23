@@ -1,308 +1,353 @@
-// La cuerda, las presas, el avatar y las repisas comparten coordenadas de montaje.
+// Cámara y apoyos proyectan las mismas coordenadas de la montaña en todos los planos.
 (()=>{
-  const mounted=new WeakMap(),MAX=7000;
+  const mounted=new WeakMap();
   const MILESTONES=[
-    {height:0,name:'Campo base',zone:'base',sky:'#b7d7d3',light:'#f4e1b8',rock:'#655241',face:'#987158'},
-    {height:1000,name:'El bosque',zone:'forest',sky:'#a2c9bc',light:'#dfdfb2',rock:'#464f42',face:'#7c7352'},
-    {height:2500,name:'Mar de nubes',zone:'clouds',sky:'#94bbc9',light:'#e2e8da',rock:'#475665',face:'#7f8a8c'},
-    {height:4000,name:'La arista',zone:'ridge',sky:'#77a6bf',light:'#dae2dc',rock:'#494e62',face:'#74869b'},
-    {height:5500,name:'Nieves eternas',zone:'snow',sky:'#576e9a',light:'#c5dce5',rock:'#455469',face:'#8c9da9'},
-    {height:7000,name:'La cima',zone:'summit',sky:'#546292',light:'#f5d7ad',rock:'#354557',face:'#8b9ba8'}
+    {height:0,name:'Campo base'},
+    {height:1000,name:'El bosque'},
+    {height:2500,name:'Mar de nubes'},
+    {height:4000,name:'La arista'},
+    {height:5500,name:'Nieves eternas'},
+    {height:7000,name:'La cima'}
   ];
   const format=new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'});
-  const clamp=value=>Math.max(0,Math.min(MAX,Number(value)||0));
+  const clamp=(value,min=0,max=1)=>Math.max(min,Math.min(max,value));
   const mix=(a,b,t)=>a+(b-a)*t;
-  const fog=(a,b,t)=>{
-    const c=[1,3,5].map(i=>Math.round(mix(parseInt(a.slice(i,i+2),16),parseInt(b.slice(i,i+2),16),t)));
-    return 'rgb('+c.join(',')+')';
-  };
-  const noise=n=>{const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+  const ease=t=>t*t*(3-2*t);
+  const feetY=.94;
 
   function mount(container,look){
-    if(!container||!window.Avatar||!window.AscensionRoute)return null;
+    if(!container||!window.Avatar||!window.AscensionRoute||!window.AscensionTerrain)return null;
     mounted.get(container)?.destroy();
+    const {plan,elevation,maxHeight}=window.AscensionRoute;
+    const {draw:drawTerrain,routeX}=window.AscensionTerrain;
+    const position=meters=>{
+      const y=elevation(meters);
+      return [routeX(y),y];
+    };
     container.innerHTML=`<div class="ascension-scene" data-state="idle" role="img" aria-label="Tu avatar en el campo base, a 0 metros">
       <canvas class="ascene-terrain" aria-hidden="true"></canvas>
       <div class="ascene-actor" aria-hidden="true"></div>
       <div class="ascene-caption" aria-hidden="true"><strong class="ascene-meters">0 <small>m</small></strong><span class="ascene-zone">Campo base</span></div>
       <div class="ascene-altimeter" aria-hidden="true"><span>7.000 m</span><div><i></i><b></b></div><span>0 m</span></div>
       <div class="ascene-next" aria-hidden="true"><span>Próximo hito</span><b>El bosque · 1.000 m</b></div>
-      <div class="ascene-movement" aria-hidden="true"></div>
     </div><div class="ascene-routes" role="group" aria-label="Vía para el próximo ascenso">
       <span>Vía de escalada</span>
       <button type="button" data-route="directa" aria-pressed="true"><i aria-hidden="true"></i>Directa</button>
       <button type="button" data-route="travesia" aria-pressed="false"><i aria-hidden="true"></i>Travesía</button>
     </div>`;
-    const root=container.querySelector('.ascension-scene'),actor=root.querySelector('.ascene-actor'),
-      canvas=root.querySelector('canvas'),ctx=canvas.getContext('2d'),controls=container.querySelector('.ascene-routes'),
-      meters=root.querySelector('.ascene-meters'),zoneName=root.querySelector('.ascene-zone'),
-      next=root.querySelector('.ascene-next'),movement=root.querySelector('.ascene-movement');
+    const root=container.querySelector('.ascension-scene'),actor=root.querySelector('.ascene-actor');
+    const canvas=root.querySelector('canvas'),ctx=canvas.getContext('2d'),controls=container.querySelector('.ascene-routes');
+    const meters=root.querySelector('.ascene-meters'),zoneName=root.querySelector('.ascene-zone'),next=root.querySelector('.ascene-next');
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
-    let route='directa',state='idle',height=0,reported=-1,reportedZone='',lookKey='',disposed=false;
-    let frame=0,flight=null,lastClimb=null,restReaction=null,currentSample=null,wallOffset=0;
-    let width=0,viewHeight=0,size=1,originX=0,originY=0,scale=1;
-    try{if(localStorage.getItem('faraday:ascension:via')==='travesia')route='travesia'}catch{}
+    let via='directa',state='idle',height=0,displayHeight=0,reported=-1,reportedZone='',lookKey='',disposed=false;
+    let frame=0,flight=null,lastClimb=null,restReaction=null,restPoseMix=1,restPoseStart=0;
+    let width=0,viewHeight=0,dpr=1,detail=1;
+    const camera={open:0,overview:0,round:0},target={...camera};
+    const transitions={};
+    try{if(localStorage.getItem('faraday:ascension:via')==='travesia')via='travesia'}catch{}
+    let preview=plan(60,via);
     const quiet=reaction=>({mood:reaction?.then??reaction?.mood??'',quiet:true,repeat:''});
-    let preview=AscensionRoute.plan(60,route);
 
     function act(reaction){
       restReaction=reaction||quiet();
-      const el=actor.firstElementChild;if(!el)return;
-      el._react=restReaction;window.Avatar3D?.react?.(el);
+      const el=actor.firstElementChild;
+      if(!el)return;
+      el._react=restReaction;
+      window.Avatar3D?.react?.(el);
     }
 
     function refreshLook(value){
       if(disposed)return;
-      const key=JSON.stringify(value||{});if(key===lookKey&&actor.firstElementChild)return;
-      lookKey=key;actor.innerHTML=Avatar.render(value,{zoom:'stage',live:true,turn:.2,reaction:restReaction||quiet()});
-      draw(currentSample);
+      const key=JSON.stringify(value||{});
+      if(key===lookKey&&actor.firstElementChild)return;
+      lookKey=key;
+      actor.innerHTML=Avatar.render(value,{zoom:'stage',live:true,turn:.2,reaction:restReaction||quiet()});
+      draw();
     }
 
-    function polygon(points,fill,stroke){
-      ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);
-      for(const point of points.slice(1))ctx.lineTo(point[0],point[1]);
-      ctx.closePath();ctx.fillStyle=fill;ctx.fill();
-      if(stroke){ctx.strokeStyle=stroke;ctx.stroke()}
+    function path(points,color,strokeWidth,fill){
+      if(!points.length)return;
+      ctx.beginPath();
+      ctx.moveTo(...points[0]);
+      for(let i=1;i<points.length;i++)ctx.lineTo(...points[i]);
+      if(fill){ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
+      if(color){ctx.strokeStyle=color;ctx.lineWidth=strokeWidth;ctx.stroke()}
     }
 
-    function line(points,color,width=1){
-      ctx.beginPath();ctx.moveTo(points[0][0],points[0][1]);
-      for(const point of points.slice(1))ctx.lineTo(point[0],point[1]);
-      ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();
+    function ledge(project,feet,unit){
+      const [x,y]=feet,halfWidth=mix(.245,.15,clamp((-y-3.58)/.62));
+      const ledgePoints=[
+        [x-halfWidth-.033,y+.009],[x-halfWidth+.012,y-.015],[x+halfWidth-.031,y-.012],
+        [x+halfWidth+.022,y+.014],[x+halfWidth-.009,y+.048],[x-halfWidth+.045,y+.054]
+      ].map(project);
+      path(ledgePoints,'#302d337f',Math.max(.65,unit*.003),'#4b4144');
+      path(ledgePoints.slice(0,4),null,0,'#cbb19a');
+      path(ledgePoints.slice(1,3),'#f6d8bcbf',Math.max(.7,unit*.006));
     }
 
-    function landscape(a,b,t,progress){
-      const w=width,h=viewHeight,sky=ctx.createLinearGradient(0,0,w*.3,h);
-      sky.addColorStop(0,fog(a.sky,b.sky,t));sky.addColorStop(1,fog(a.light,b.light,t));
-      ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
-      const sun=[w*.22,h*(.38+.26*progress)],radius=Math.min(w,h)*.12;
-      const halo=ctx.createRadialGradient(sun[0],sun[1],radius*.2,sun[0],sun[1],radius*1.55);
-      halo.addColorStop(0,'rgba(255,230,161,.6)');halo.addColorStop(1,'rgba(255,236,183,0)');
-      ctx.fillStyle=halo;ctx.fillRect(0,0,w,h);
-      ctx.beginPath();ctx.arc(sun[0],sun[1],radius*.55,0,Math.PI*2);ctx.fillStyle='#ffebae';ctx.fill();
-      const ranges=[
-        [[0,.66],[.1,.55],[.18,.58],[.27,.45],[.39,.57],[.51,.49],[.63,.65],[1,.61]],
-        [[0,.74],[.08,.62],[.2,.68],[.31,.56],[.43,.68],[.61,.54],[.7,.70],[1,.68]],
-        [[0,.85],[.1,.74],[.17,.78],[.25,.69],[.36,.76],[.44,.66],[.57,.78],[1,.8]]
-      ];
-      for(let i=0;i<ranges.length;i++){
-        const shift=progress*h*(i+1)*.07;
-        const ridge=ranges[i].map(([x,y])=>[x*w,y*h+shift]);
-        polygon([...ridge,[w,h],[0,h]],['#8ca8a0','#73938c','#54776e'][i]);
-        if(i===1)polygon([ridge[2],ridge[3],ridge[4],[w*.34,h*.65+shift],[w*.29,h*.63+shift]],'#cddbd1');
+    function trail(project,unit){
+      const trailPoints=(to)=>{
+        const segments=Math.max(1,Math.ceil(to/140));
+        return Array.from({length:segments+1},(_,i)=>project(position(to*i/segments)));
+      };
+      // El sendero guía la vista desde el campo base hasta la cumbre.
+      ctx.globalAlpha=camera.open*.66;
+      ctx.setLineDash([3,5]);
+      path(trailPoints(maxHeight),'#fff4cc',1.35);
+      ctx.setLineDash([]);
+      if(displayHeight>0)path(trailPoints(displayHeight),'#ffd487',Math.max(1.3,unit*.009));
+      for(const stop of MILESTONES){
+        const point=project(position(stop.height));
+        ctx.beginPath();ctx.arc(...point,stop.height===maxHeight?3.2:2.25,0,Math.PI*2);
+        ctx.fillStyle=displayHeight>=stop.height?'#ffd487':'#fff4c9';
+        ctx.fill();
       }
-      for(let row=0;row<3;row++){
-        const y=h*(.50+row*.14)+progress*h*.11;
-        ctx.fillStyle=row===0?'#fff9e27d':'#f5f3df53';
-        ctx.beginPath();ctx.ellipse(w*(.15+row*.06),y,w*(.29-row*.025),h*.017,0,0,Math.PI*2);ctx.fill();
-      }
-    }
-
-    function rockface(a,b,t,camera,base){
-      const contour=y=>.02+.095*Math.sin(y*2.4)+.041*Math.cos(y*7);
-      const top=Math.floor((-originY/size-camera-base)*4)/4;
-      const bottom=top+viewHeight/size+.5;
-      const edge=[],right=[],rock=fog(a.rock,b.rock,t),face=fog(a.face,b.face,t);
-      const xAt=(y,offset=0)=>originX+size*(contour(y)+offset);
-      const yAt=y=>originY+size*(y+base+camera);
-      for(let y=top;y<=bottom;y+=.125)edge.push([xAt(y),yAt(y)]);
-      polygon([...edge,[width,edge.at(-1)[1]],[width,edge[0][1]]],rock);
-      for(let y=top;y<bottom;y+=.25){
-        const n=Math.round(y*4),p0=[xAt(y),yAt(y)],p1=[xAt(y+.25),yAt(y+.25)],
-          ridge=[xAt(y+.11,.47+noise(n)*.37),yAt(y+.11)],far=[width,yAt(y+.14)];
-        polygon([p0,[width,yAt(y-.018)],far,ridge,p1],noise(n+3)>.45?face:rock);
-        polygon([p1,ridge,far,[width,yAt(y+.26)]],noise(n+21)>.49?'#fff1d018':'#18233922');
-        line([p0,ridge,far], '#f4dfb72d',1);
-        right.push(ridge);
-        const crackY=y+.12+noise(n+98)*.08,crack=xAt(crackY,.19+noise(n+7)*.74);
-        line([[crack-size*.05,yAt(crackY-.09)],[crack,yAt(crackY)],[crack+size*.025,yAt(crackY+.07)]],'#30292242',1);
-        for(let i=0;i<7;i++){
-          const yy=y+noise(n*11+i)*.24,x=xAt(yy,.09+noise(n*17+i)*.92);
-          line([[x,yAt(yy)],[x+size*(.03+noise(n+i)*.065),yAt(yy)-size*.025]],'#fff0c81d',1);
-        }
-      }
-      line(edge,'#ead8ad6e',1.3);line(right,'#24333c43',1.25);
-    }
-
-    function ledge(project,y,opacity=1){
-      const left=project([.20,y]),right=project([1.04,y]),depth=size*.055;
-      ctx.globalAlpha=opacity;
-      polygon([[left[0]-depth,left[1]+depth*.55],[left[0],left[1]],[right[0],right[1]],
-        [right[0]+depth,right[1]+depth*.44],[right[0]+depth*.5,right[1]+depth],[left[0]-depth,left[1]+depth]],'#c3a87a');
-      polygon([[left[0]-depth,left[1]+depth],[right[0]+depth*.5,right[1]+depth],
-        [right[0]-depth,right[1]+depth*2.25],[left[0]+depth*.7,left[1]+depth*1.9]],'#655641');
-      line([left,right],'#f1dcaa',2);
       ctx.globalAlpha=1;
     }
 
-    function paintRoute(plan,project,sample){
-      const accent=route==='travesia'?'#a3efe0':'#ffe193';
-      const handPath=plan.holds.filter(hold=>hold.kind==='hand').map(hold=>project(hold.point));
-      const ropeTop=project([plan.finish[0]+.55,plan.finish[1]+.32]);
-      const center=sample?.center||plan.start,ropeEnd=project([center[0]+.51,center[1]+.775]);
-      ctx.setLineDash([4,6]);line(handPath,'#fff2c86e',1.5);ctx.setLineDash([]);
+    function paintRoute(routePlan,project,unit,sample,key,destination,prepared){
+      const accent=key==='travesia'?'#b3eee0':'#fae2a2';
+      const holds=prepared?routePlan.holds.slice(0,5):routePlan.holds;
+      const boltOffset=mix(.28,.60,clamp((destination-6250)/750));
+      const ropeTop=project([routePlan.finish[0]+.52,routePlan.finish[1]+boltOffset]);
+      const [cx,cy]=sample?.center||routePlan.start,ropeEnd=project([cx+.52,cy+.77]);
       ctx.beginPath();ctx.moveTo(...ropeTop);
-      ctx.quadraticCurveTo(ropeEnd[0]+size*.16,ropeEnd[1]-size*.17,...ropeEnd);
-      ctx.strokeStyle='#283331b8';ctx.lineWidth=3.75;ctx.stroke();
-      ctx.strokeStyle='#dc8962';ctx.lineWidth=1.65;ctx.stroke();
-      for(const hold of plan.holds){
-        const [x,y]=project(hold.point),hand=hold.kind==='hand',r=size*(hand?.026:.022);
+      ctx.quadraticCurveTo(ropeEnd[0]+unit*.12,ropeEnd[1]-unit*.12,...ropeEnd);
+      ctx.strokeStyle='#2b2531b8';ctx.lineWidth=Math.max(1.1,unit*.013);ctx.stroke();
+      ctx.strokeStyle='#db9876';ctx.lineWidth=Math.max(.75,unit*.0055);ctx.stroke();
+      for(const hold of holds){
+        const point=project(hold.point),[x,y]=point,hand=hold.kind==='hand',r=Math.max(1.3,unit*(hand?.025:.018));
         const active=sample?.active===hold.point;
         if(active){
-          const dust=sample.contact;
-          ctx.globalAlpha=.32;
-          ctx.beginPath();ctx.arc(x,y,r+10,0,Math.PI*2);ctx.fillStyle=accent;ctx.fill();
-          ctx.globalAlpha=1;
-          ctx.beginPath();ctx.arc(x,y,r+5,0,Math.PI*2);ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.stroke();
-          if(dust>0){
-            ctx.globalAlpha=dust*.72;ctx.fillStyle='#fff0c3';
+          ctx.beginPath();ctx.arc(x,y,r+4.5,0,Math.PI*2);
+          ctx.strokeStyle=accent;ctx.lineWidth=1.7;ctx.stroke();
+          if(sample.contact>0){
+            ctx.globalAlpha=sample.contact*.75;ctx.fillStyle='#fff0c3';
             for(let i=0;i<5;i++){
-              const angle=i*2.4,spread=r+4+(1-dust)*13;
+              const angle=i*2.4,spread=r+3+(1-sample.contact)*12;
               ctx.fillRect(x+Math.cos(angle)*spread,y+Math.sin(angle)*spread,2,2);
             }
             ctx.globalAlpha=1;
           }
         }
-        polygon([[x-r*1.1,y+r*.28],[x-r*.7,y-r*.51],[x+r*.6,y-r*.66],
-          [x+r*1.15,y+r*.04],[x+r*.61,y+r*.48],[x-r*.75,y+r*.61]],hand?'#d5bc89':'#a99c7e');
-        line([[x-r*.7,y-r*.51],[x+r*.6,y-r*.66],[x+r*1.15,y+r*.04]],active?accent:'#f4e1a7a6',1.15);
+        const rock=[[x-r*1.1,y+r*.29],[x-r*.72,y-r*.47],[x+r*.48,y-r*.57],[x+r,y+r*.1],
+          [x+r*.54,y+r*.48],[x-r*.75,y+r*.58]];
+        path(rock,'#4439399c',.8,hand?'#c49e7e':'#9c8f7e');
+        path(rock.slice(1,4),active?accent:'#f4dec1ac',1);
       }
-      ctx.beginPath();ctx.arc(...ropeTop,3.5,0,Math.PI*2);ctx.fillStyle='#ead6a2';ctx.fill();
+      ctx.beginPath();ctx.arc(...ropeTop,Math.max(1.4,unit*.011),0,Math.PI*2);ctx.fillStyle=accent;ctx.fill();
     }
 
-    function draw(sample=currentSample){
+    function draw(){
       if(!width||!viewHeight)return;
-      const active=flight?.plan,plan=active||preview;
-      const center=sample?.center||[0,0];
-      const camera=active?-center[1]*(sample?.follow??.87):0;
-      const project=([x,y])=>[originX+x*size,originY+(y+camera)*size];
-      const ground=project(center);
-      actor.style.width=size+'px';
-      actor.style.transform='translate3d('+ground[0]+'px,'+ground[1]+'px,0)';
+      const job=flight,sample=job?.sample;
+      const [startX,startY]=position(job?.from??height);
+      const [bodyX,bodyY]=sample?.center||[0,0];
+      const aimHeight=job?mix(job.from,job.to,sample?.travel??0):height;
+      const [aimX,aimY]=position(aimHeight);
+      const distance=clamp(.38*camera.round/7+.62*aimHeight/maxHeight);
+      const overviewUnit=Math.min(width/4.42,viewHeight/5.77);
+      const playUnit=detail*mix(.57,.36,distance);
+      const unit=mix(mix(detail,Math.max(playUnit,overviewUnit),camera.open),overviewUnit,camera.overview);
+      const screenX=width*mix(mix(.55,.61,camera.open),.50,camera.overview);
+      const screenY=viewHeight*mix(mix(.83,.76,camera.open),.50,camera.overview);
+      const focusX=mix(aimX,0,camera.overview),focusY=mix(aimY,-2.2,camera.overview);
+      const project=([x,y])=>[screenX+(x-focusX)*unit,screenY+(y-focusY)*unit];
+      const routeProject=([x,y])=>project([startX-.5+x,startY-feetY+y]);
+      const [actorX,actorY]=routeProject([bodyX,bodyY]);
+      actor.style.transform=`translate3d(${actorX}px,${actorY}px,0) scale(${unit/detail})`;
       const el=actor.firstElementChild;
-      if(el)window.Avatar3D?.climb?.(el,sample?.pose||null);
+      const preparing=state==='idle'||state==='thinking';
+      if(el){
+        const pose=sample?.pose||(preparing?{...preview.ready,mix:restPoseMix}:null);
+        window.Avatar3D?.climb?.(el,pose);
+      }
       if(!ctx)return;
-      const reached=MILESTONES.findLastIndex(zone=>height>=zone.height),a=MILESTONES[reached],b=MILESTONES[reached+1]||a;
-      const t=a===b?0:(height-a.height)/(b.height-a.height);
-      ctx.setTransform(scale,0,0,scale,0,0);
-      landscape(a,b,t,height/MAX);
-      rockface(a,b,t,camera,flight?.wallStart??wallOffset);
-      ledge(project,.94,sample?.oldLedge??1);
-      if(active)ledge(project,plan.finish[1]+.94);
-      if(state!=='result'||flight)paintRoute(plan,project,sample);
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      drawTerrain(ctx,{width,height:viewHeight,project,unit,altitude:aimHeight});
+      if(camera.open>.03)trail(project,unit);
+      ledge(project,[startX,startY],unit);
+      if(job){
+        ledge(project,position(job.to),unit);
+        paintRoute(job.plan,routeProject,unit,sample,job.via,job.to,false);
+      }else if(preparing){
+        paintRoute(preview,routeProject,unit,null,via,height+600,true);
+      }
     }
 
     function layout(){
-      width=root.clientWidth;viewHeight=root.clientHeight;if(!width||!viewHeight)return;
-      scale=Math.min(2,window.devicePixelRatio||1);
-      canvas.width=Math.round(width*scale);canvas.height=Math.round(viewHeight*scale);
-      size=Math.min(width*.84,viewHeight*.98,354);
-      originX=width*.62-size*.5;originY=viewHeight*.86-size*.94;
+      width=root.clientWidth;viewHeight=root.clientHeight;
+      if(!width||!viewHeight)return;
+      dpr=Math.min(2,window.devicePixelRatio||1);
+      canvas.width=Math.round(width*dpr);canvas.height=Math.round(viewHeight*dpr);
+      detail=Math.min(width*1.055,viewHeight*1.21,500);
+      actor.style.width=detail+'px';
       draw();
     }
-    const resize=new ResizeObserver(layout);resize.observe(root);
+    const resize=new ResizeObserver(layout);
+    resize.observe(root);
 
     function paintHeight(value){
-      height=clamp(value);const rounded=Math.floor(height);
-      root.style.setProperty('--ascene-progress',String(height/MAX));
-      if(reported!==rounded){meters.innerHTML=format.format(rounded)+' <small>m</small>';reported=rounded}
-      const reached=MILESTONES.findLast(zone=>height>=zone.height);
-      if(reportedZone===reached.zone)return;
-      reportedZone=reached.zone;zoneName.textContent=reached.name;
-      const following=MILESTONES.find(zone=>height<zone.height);
+      displayHeight=value;
+      const rounded=Math.floor(value);
+      root.style.setProperty('--ascene-progress',String(value/maxHeight));
+      if(reported!==rounded){meters.firstChild.nodeValue=format.format(rounded)+' ';reported=rounded}
+      const reached=MILESTONES.findLast(zone=>value>=zone.height);
+      if(reportedZone===reached.name)return;
+      reportedZone=reached.name;zoneName.textContent=reached.name;
+      const following=MILESTONES.find(zone=>value<zone.height);
       next.querySelector('span').textContent=following?'Próximo hito':'Has llegado';
-      next.querySelector('b').textContent=following?following.name+' · '+format.format(following.height)+' m':'La cima';
+      next.querySelector('b').textContent=following?following.name+' · '+format.format(following.height)+'\u00a0m':'La cima';
     }
 
     function paintState(value){
       state=value;root.dataset.state=value;
-      root.setAttribute('aria-label','Tu avatar en '+zoneName.textContent.toLowerCase()+', a '+format.format(height)+' metros');
+      root.setAttribute('aria-label','Tu avatar en '+zoneName.textContent.toLowerCase()+', a '+format.format(displayHeight)+' metros');
       for(const button of controls.querySelectorAll('button')){
-        button.setAttribute('aria-pressed',String(button.dataset.route===route));button.disabled=!!flight;
+        button.setAttribute('aria-pressed',String(button.dataset.route===via));button.disabled=!!flight;
       }
+    }
+
+    function requestDraw(){
+      if(!frame&&!disposed)frame=requestAnimationFrame(advance);
+    }
+    function steer(key,value,duration,immediate){
+      if(immediate||motion.matches){
+        camera[key]=value;target[key]=value;delete transitions[key];
+      }else if(target[key]!==value){
+        target[key]=value;
+        transitions[key]={from:camera[key],start:performance.now(),duration};
+        requestDraw();
+      }
+    }
+
+    function advance(now){
+      frame=0;
+      for(const [key,{from,start,duration}] of Object.entries(transitions)){
+        const t=clamp((now-start)/duration);
+        camera[key]=mix(from,target[key],ease(t));
+        if(t===1)delete transitions[key];
+      }
+      if(flight){
+        const job=flight;
+        job.start??=now;
+        const elapsed=now-job.start;
+        job.sample=job.plan.sample(elapsed);
+        const {center,cue}=job.sample;
+        paintHeight(mix(job.from,job.to,clamp(center[1]/job.plan.finish[1])));
+        if(cue!==job.cue){
+          job.cue=cue;
+          if(cue.startsWith('grip-'))job.onCue?.('grip');
+          else if(cue==='land')job.onCue?.('land');
+        }
+        if(elapsed>=job.plan.duration){
+          draw();end(true,true);
+          if(Object.keys(transitions).length)requestDraw();
+          return;
+        }
+      }
+      if(restPoseMix<1){
+        restPoseMix=clamp((now-restPoseStart)/220);
+      }
+      draw();
+      if(flight||Object.keys(transitions).length||restPoseMix<1)requestDraw();
+    }
+    function refreshPreview(){
+      const [x]=position(height),[nextX]=position(Math.min(maxHeight,height+600));
+      preview=plan(60,via,nextX-x);
     }
     controls.addEventListener('click',event=>{
       const key=event.target.closest('[data-route]')?.dataset.route;
-      if(flight||!key||route===key)return;
-      route=key;preview=AscensionRoute.plan(60,route);
-      try{localStorage.setItem('faraday:ascension:via',route)}catch{}
+      if(flight||!key||via===key)return;
+      via=key;refreshPreview();
+      try{localStorage.setItem('faraday:ascension:via',via)}catch{}
       paintState(state);draw();
     });
 
     function end(reached,celebrate=false){
       if(!flight)return false;
-      const job=flight;flight=null;
-      cancelAnimationFrame(frame);frame=0;currentSample=null;
-      actor.classList.remove('is-climbing');
-      movement.textContent='';
+      const job=flight;
+      flight=null;
       if(reached){
-        wallOffset=job.wallStart-job.plan.finish[1];
-        paintHeight(job.to);paintState('result');draw();act(celebrate?job.reaction:quiet(job.reaction));
+        height=job.to;paintHeight(height);paintState('result');draw();
+        act(celebrate?job.reaction:quiet(job.reaction));
       }
-      job.resolve(reached);return true;
+      job.resolve(reached);
+      return true;
     }
 
-    function climb(climbData,onCue){
-      end(false);
-      const {from,to,points,reaction,via,wallStart}=climbData;
-      if(!canClimb()){
-        wallOffset=to/MAX*1.8;
-        paintHeight(to);paintState('result');draw();act(motion.matches?quiet(reaction):reaction);
-        onCue?.('land');return Promise.resolve(true);
-      }
-      const plan=AscensionRoute.plan(points,via);
+    function canClimb(){
+      return !!ctx&&!motion.matches&&typeof window.Avatar3D?.climb==='function'&&!!actor.querySelector('canvas');
+    }
+
+    function climb(data,onCue){
+      const {from,to,points,reaction}=data;
+      if(!canClimb())return settle(to,reaction,true,onCue);
+      const [x]=position(from),[nextX]=position(to),routePlan=plan(points,data.via,nextX-x);
       paintHeight(from);
+      restPoseMix=1;
       return new Promise(resolve=>{
-        const job=flight={from,to,reaction,plan,resolve,wallStart};
-        const start=performance.now();let lastCue='',lastCaption='';
-        paintState('climb');actor.classList.add('is-climbing');
-        function advance(now){
-          if(disposed||flight!==job)return;
-          const elapsed=now-start,sample=plan.sample(elapsed);
-          currentSample=sample;
-          paintHeight(mix(from,to,Math.max(0,Math.min(1,sample.center[1]/plan.finish[1]))));
-          draw(sample);
-          const caption=sample.transfer?'Agarre '+sample.transfer+' de '+plan.steps.length:
-            sample.cue==='start'?'Preparando agarres':'A la repisa';
-          if(caption!==lastCaption){movement.textContent=caption;lastCaption=caption}
-          if(sample.cue!==lastCue){
-            lastCue=sample.cue;
-            if(sample.cue.startsWith('grip-'))onCue?.('grip');
-            else if(sample.cue==='land')onCue?.('land');
-          }
-          if(elapsed<plan.duration)frame=requestAnimationFrame(advance);
-          else end(true,true);
-        }
-        frame=requestAnimationFrame(advance);
+        flight={from,to,reaction,plan:routePlan,via:data.via,resolve,onCue,start:null,sample:routePlan.sample(0)};
+        paintState('climb');act(quiet());draw();requestDraw();
       });
     }
 
-    function setHeight(value,{animate=true,points=0,reaction,onCue}={}){
-      if(disposed)return Promise.resolve(false);
-      end(false);const to=clamp(value);
-      if(animate&&to>height){
-        lastClimb={from:height,to,points,reaction,via:route,wallStart:wallOffset};
-        return climb(lastClimb,onCue);
-      }
-      if(to!==height){lastClimb=null;wallOffset=to/MAX*1.8}
-      paintHeight(to);paintState('result');draw();
-      act(!animate||motion.matches?quiet(reaction):reaction);
+    function settle(to,reaction,animate,onCue){
+      height=to;paintHeight(height);paintState('result');
+      draw();act(!animate||motion.matches?quiet(reaction):reaction);
       if(animate)onCue?.('land');
       return Promise.resolve(true);
     }
-    function setState(value){
-      if(disposed)return;
-      end(false);paintState(value);draw();
-      act(value==='thinking'?{mood:'wait',quiet:true}:quiet());
+
+    function setHeight(value,{animate=true,points=0,reaction,onCue,round}={}){
+      if(disposed)return Promise.resolve(false);
+      end(false);
+      const to=clamp(Number(value)||0,0,maxHeight);
+      steer('open',1,790,false);
+      steer('overview',0,850,false);
+      if(round!==undefined)steer('round',round,480,false);
+      if(animate&&points>0&&to>height){
+        lastClimb={from:height,to,points,reaction,via};
+        return climb(lastClimb,onCue);
+      }
+      if(to!==height)lastClimb=null;
+      return settle(to,reaction,animate,onCue);
     }
-    function motionChanged(){if(flight)end(true,false)}
+
+    function setState(value,{height:nextHeight=height,round=target.round,reaction}={}){
+      if(disposed)return;
+      end(false);
+      const wasResting=state==='result'||state==='overview';
+      const closeUp=value==='idle'&&round===0&&nextHeight===0;
+      if(closeUp||nextHeight!==height)lastClimb=null;
+      height=clamp(Number(nextHeight)||0,0,maxHeight);
+      steer('open',closeUp?0:1,900,closeUp);
+      steer('overview',value==='overview'?1:0,920,closeUp);
+      steer('round',round,530,closeUp);
+      if(value==='thinking'&&wasResting&&!motion.matches){
+        restPoseStart=performance.now();restPoseMix=0;requestDraw();
+      }else restPoseMix=1;
+      refreshPreview();paintHeight(height);paintState(value);draw();act(quiet(reaction));
+    }
+
+    function motionChanged(){
+      if(!motion.matches)return;
+      if(flight)end(true,false);
+      if(frame)cancelAnimationFrame(frame);
+      frame=0;
+      for(const key of Object.keys(transitions)){camera[key]=target[key];delete transitions[key]}
+      restPoseMix=1;
+      draw();
+    }
     motion.addEventListener?.('change',motionChanged);
+
     function destroy(){
-      if(disposed)return;end(false);disposed=true;
+      if(disposed)return;
+      end(false);disposed=true;
+      cancelAnimationFrame(frame);
       resize.disconnect();motion.removeEventListener?.('change',motionChanged);
       container.replaceChildren();mounted.delete(container);
     }
-    const canClimb=()=>!!ctx&&!motion.matches&&typeof window.Avatar3D?.climb==='function'&&!!actor.querySelector('canvas');
     const canReplay=()=>!!lastClimb&&canClimb();
     const api={setHeight,setState,refreshLook,destroy,canReplay,finish:()=>end(true,!motion.matches),
       replay:({onCue}={})=>canReplay()?climb(lastClimb,onCue):Promise.resolve(false)};
@@ -310,5 +355,5 @@
     refreshLook(look);paintHeight(0);paintState('idle');layout();
     return api;
   }
-  window.AscensionScene={mount,milestones:MILESTONES.map(item=>({...item})),maxHeight:MAX};
+  window.AscensionScene={mount};
 })();

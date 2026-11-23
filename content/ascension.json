@@ -1,6 +1,6 @@
 {
-  "version": "2026-11-19-2",
-  "date": "2026-11-19",
+  "version": "2026-11-21-3",
+  "date": "2026-11-21",
   "rarity": "editorial",
   "rarityNote": "Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.",
   "attribution": "Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.",
@@ -5609,6 +5609,12 @@
           "points": 10
         },
         {
+          "id": "arpa",
+          "name": "arpa",
+          "aliases": [],
+          "points": 30
+        },
+        {
           "id": "flauta",
           "name": "flauta",
           "aliases": [
@@ -5649,12 +5655,6 @@
           "points": 60
         },
         {
-          "id": "banjo",
-          "name": "banjo",
-          "aliases": [],
-          "points": 60
-        },
-        {
           "id": "maracas",
           "name": "maracas",
           "aliases": [
@@ -5663,17 +5663,17 @@
           "points": 60
         },
         {
+          "id": "banjo",
+          "name": "banjo",
+          "aliases": [],
+          "points": 85
+        },
+        {
           "id": "tamboril",
           "name": "tamboril",
           "aliases": [
             "djembe"
           ],
-          "points": 60
-        },
-        {
-          "id": "arpa",
-          "name": "arpa",
-          "aliases": [],
           "points": 100
         }
       ],
@@ -13059,7 +13059,7 @@
         },
         {
           "id": "nobel-641",
-          "name": "Miguel Angel Asturias",
+          "name": "Miguel Ángel Asturias",
           "aliases": [
             "Asturias"
           ],
@@ -20321,8 +20321,8 @@
     },
     {
       "id": "pixar",
-      "title": "¿Qué película de Pixar pondrías en una noche de cine?",
-      "description": "Cuentan los largometrajes estrenados hasta 2025. Puedes usar el título original o el de tu región.",
+      "title": "¿Qué largometraje estrenó Pixar hasta 2025?",
+      "description": "Cuenta la filmografía del estudio hasta 2025 inclusive. Puedes usar el título original o el de tu región.",
       "theme": "cine",
       "sources": [
         {
@@ -20546,8 +20546,8 @@
     },
     {
       "id": "disney-animacion",
-      "title": "¿Qué película animada de Disney recordarías de memoria?",
-      "description": "Cuentan las películas de Walt Disney Animation Studios hasta Vaiana 2. Puedes usar el título de tu región.",
+      "title": "¿Qué película estrenó Walt Disney Animation Studios?",
+      "description": "Cuenta la filmografía de ese estudio hasta Vaiana 2 (Moana 2), inclusive. Vale el título de tu región.",
       "theme": "cine",
       "sources": [
         {
@@ -21058,7 +21058,7 @@
     },
     {
       "id": "oscar-animacion",
-      "title": "¿Qué película ha ganado el Óscar a mejor animación?",
+      "title": "¿Qué película ganó el Óscar a mejor largometraje animado?",
       "description": "Busca ganadoras del premio a largometraje animado en las ceremonias de 2002 a 2025. Valen títulos originales y traducidos.",
       "theme": "cine",
       "sources": [
@@ -21251,7 +21251,7 @@
     },
     {
       "id": "pokemon-kanto",
-      "title": "¿Recuerdas algún Pokémon de los 151 originales?",
+      "title": "Nombra uno de los primeros 151 Pokémon",
       "description": "Vale cualquier especie de la Pokédex de Kanto, del número 1 al 151. Escribe el nombre de la especie.",
       "theme": "videojuegos",
       "sources": [
@@ -22809,7 +22809,7 @@
     },
     {
       "id": "deportes-paris",
-      "title": "¿En qué deporte competirías en París 2024?",
+      "title": "¿Qué deporte formó parte de los Juegos Olímpicos de París 2024?",
       "description": "Cuenta cualquiera de los 32 deportes del programa. Puedes nombrar una disciplina y se agrupa con su deporte.",
       "theme": "deporte",
       "sources": [
@@ -23085,7 +23085,7 @@
     },
     {
       "id": "mundial-catar",
-      "title": "Nombra una selección que jugó el Mundial de Catar 2022",
+      "title": "¿Qué selección jugó el Mundial masculino de Catar 2022?",
       "description": "Son las 32 selecciones de la fase final masculina. Escribe el país o el nombre habitual de la selección.",
       "theme": "deporte",
       "sources": [
@@ -23995,8 +23995,8 @@
     },
     {
       "id": "legumbres-secas",
-      "title": "¿Qué legumbre seca echarías en una olla?",
-      "description": "Busca las clases de semillas secas de la FAO. Se agrupan los nombres regionales y las variedades del mismo tipo.",
+      "title": "¿Qué legumbre se cosecha como semilla seca para comer?",
+      "description": "Usamos la clasificación de legumbres secas de la FAO. Las variedades y los nombres regionales cuentan por su tipo.",
       "theme": "cocina",
       "sources": [
         {
@@ -24402,7 +24402,7 @@
     },
     {
       "id": "planetas-y-enanos",
-      "title": "En el sistema solar, ¿qué planeta visitarías?",
+      "title": "¿Qué planeta o planeta enano del sistema solar visitarías?",
       "description": "Valen los ocho planetas y los cinco planetas enanos de la lista de la NASA.",
       "theme": "espacio",
       "sources": [
@@ -24586,7 +24586,7 @@
     },
     {
       "id": "capitales-ue",
-      "title": "Haz una escapada a una capital de la Unión Europea",
+      "title": "¿Qué ciudad es capital de un país de la Unión Europea?",
       "description": "Nombra la capital de uno de los 27 países de la UE. Valen sus nombres habituales en español y en el idioma local.",
       "theme": "geografia",
       "sources": [
@@ -25998,6 +25998,1334 @@
         }
       ],
       "audience": "challenge"
+    },
+    {
+      "id": "territorios-misma-letra",
+      "title": "¿Qué país o territorio empieza y acaba por la misma letra?",
+      "description": "Usamos los nombres de CLDR en español con variantes regionales. Las tildes no cambian la letra.",
+      "theme": "geografia",
+      "sources": [
+        {
+          "title": "Unicode CLDR 46: nombres y agrupaciones territoriales",
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-46/common/main/es.xml",
+          "license": "Unicode-3.0",
+          "attribution": "© Unicode, Inc.; licencia en research/ascension-fuentes.md."
+        },
+        {
+          "title": "CLDR 46: códigos geográficos regulares",
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-46/common/validity/region.xml",
+          "license": "Unicode-3.0"
+        },
+        {
+          "title": "FundéuRAE, Arabia Saudí y Arabia Saudita",
+          "url": "https://www.fundeu.es/recomendacion/arabia-saudiarabia-saudita/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "de",
+          "name": "Alemania",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "ar",
+          "name": "Argentina",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "au",
+          "name": "Australia",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "ad",
+          "name": "Andorra",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "aq",
+          "name": "Antártida",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "sa",
+          "name": "Arabia Saudita",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "dz",
+          "name": "Argelia",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "at",
+          "name": "Austria",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "al",
+          "name": "Albania",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ao",
+          "name": "Angola",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "ag",
+          "name": "Antigua y Barbuda",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "am",
+          "name": "Armenia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "aw",
+          "name": "Aruba",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "kn",
+          "name": "San Cristóbal y Nieves",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "vc",
+          "name": "San Vicente y las Granadinas",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "ai",
+          "name": "Anguila",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "sc",
+          "name": "Seychelles",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true,
+      "excludedGuesses": [
+        "Arabia Saudí"
+      ]
+    },
+    {
+      "id": "elementos-simbolo-una-letra",
+      "title": "¿Qué elemento químico tiene un símbolo de una sola letra?",
+      "description": "Vale escribir el nombre del elemento o su símbolo actual en la tabla periódica.",
+      "theme": "ciencia",
+      "sources": [
+        {
+          "title": "IUPAC: tabla periódica de los elementos",
+          "url": "https://iupac.org/what-we-do/periodic-table-of-elements/"
+        },
+        {
+          "title": "Real Sociedad Española de Química: nombres en español",
+          "url": "https://gehci.rseq.org/wp-content/uploads/2024/11/4a_El_Club_del_Alambique_Vol2_No1_Marzo_2024_corregido.pdf"
+        }
+      ],
+      "answers": [
+        {
+          "id": "elemento-16",
+          "name": "Azufre",
+          "aliases": [
+            "S"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elemento-6",
+          "name": "Carbono",
+          "aliases": [
+            "C"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elemento-1",
+          "name": "Hidrógeno",
+          "aliases": [
+            "H"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elemento-7",
+          "name": "Nitrógeno",
+          "aliases": [
+            "N"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elemento-8",
+          "name": "Oxígeno",
+          "aliases": [
+            "O"
+          ],
+          "points": 10
+        },
+        {
+          "id": "elemento-9",
+          "name": "Flúor",
+          "aliases": [
+            "F"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elemento-15",
+          "name": "Fósforo",
+          "aliases": [
+            "P"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elemento-19",
+          "name": "Potasio",
+          "aliases": [
+            "K"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elemento-92",
+          "name": "Uranio",
+          "aliases": [
+            "U"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elemento-53",
+          "name": "Yodo",
+          "aliases": [
+            "I",
+            "Iodo"
+          ],
+          "points": 30
+        },
+        {
+          "id": "elemento-5",
+          "name": "Boro",
+          "aliases": [
+            "B"
+          ],
+          "points": 60
+        },
+        {
+          "id": "elemento-74",
+          "name": "Wolframio",
+          "aliases": [
+            "W",
+            "Tungsteno",
+            "Volframio"
+          ],
+          "points": 60
+        },
+        {
+          "id": "elemento-23",
+          "name": "Vanadio",
+          "aliases": [
+            "V"
+          ],
+          "points": 85
+        },
+        {
+          "id": "elemento-39",
+          "name": "Itrio",
+          "aliases": [
+            "Y",
+            "Ytrio"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
+    },
+    {
+      "id": "mundiales-catar-australia",
+      "title": "¿Qué país jugó el Mundial masculino de 2022 y el femenino de 2023?",
+      "description": "La selección del país debe aparecer en la fase final de ambos Mundiales de fútbol.",
+      "theme": "deporte",
+      "sources": [
+        {
+          "title": "FIFA, selecciones y grupos de Catar 2022",
+          "url": "https://www.fifa.com/es/articles/qatar-2022-todo-lo-que-tienes-que-saber"
+        },
+        {
+          "title": "FIFA, selecciones clasificadas al Mundial femenino de 2023",
+          "url": "https://www.fifa.com/es/articles/los-equipos-clasificados-a-la-copa-mundial-femenina-de-la-fifa-2023"
+        }
+      ],
+      "answers": [
+        {
+          "id": "argentina",
+          "name": "Argentina",
+          "aliases": [
+            "La Albiceleste"
+          ],
+          "points": 10
+        },
+        {
+          "id": "brasil",
+          "name": "Brasil",
+          "aliases": [
+            "Brazil"
+          ],
+          "points": 10
+        },
+        {
+          "id": "espana",
+          "name": "España",
+          "aliases": [
+            "Spain"
+          ],
+          "points": 10
+        },
+        {
+          "id": "estadosunidos",
+          "name": "Estados Unidos",
+          "aliases": [
+            "USA",
+            "EEUU"
+          ],
+          "points": 10
+        },
+        {
+          "id": "inglaterra",
+          "name": "Inglaterra",
+          "aliases": [
+            "England"
+          ],
+          "points": 10
+        },
+        {
+          "id": "alemania",
+          "name": "Alemania",
+          "aliases": [
+            "Germany"
+          ],
+          "points": 30
+        },
+        {
+          "id": "francia",
+          "name": "Francia",
+          "aliases": [
+            "France"
+          ],
+          "points": 30
+        },
+        {
+          "id": "japon",
+          "name": "Japón",
+          "aliases": [
+            "Japan"
+          ],
+          "points": 30
+        },
+        {
+          "id": "paisesbajos",
+          "name": "Países Bajos",
+          "aliases": [
+            "Holanda",
+            "Netherlands"
+          ],
+          "points": 30
+        },
+        {
+          "id": "australia",
+          "name": "Australia",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "canada",
+          "name": "Canadá",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "coreadelsur",
+          "name": "Corea del Sur",
+          "aliases": [
+            "República de Corea"
+          ],
+          "points": 60
+        },
+        {
+          "id": "marruecos",
+          "name": "Marruecos",
+          "aliases": [
+            "Morocco"
+          ],
+          "points": 60
+        },
+        {
+          "id": "portugal",
+          "name": "Portugal",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dinamarca",
+          "name": "Dinamarca",
+          "aliases": [
+            "Denmark"
+          ],
+          "points": 85
+        },
+        {
+          "id": "suiza",
+          "name": "Suiza",
+          "aliases": [
+            "Switzerland"
+          ],
+          "points": 85
+        },
+        {
+          "id": "costarica",
+          "name": "Costa Rica",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
+    },
+    {
+      "id": "pixar-oscar-animacion",
+      "title": "¿Qué película de Pixar ganó el Óscar a mejor largometraje animado?",
+      "description": "Cuentan las ceremonias hasta 2025 inclusive. Vale el título original o el de tu región.",
+      "theme": "cine",
+      "sources": [
+        {
+          "title": "Filmografía oficial de Pixar",
+          "url": "https://www.pixar.com/feature-films/"
+        },
+        {
+          "title": "Base de datos oficial de los Óscar",
+          "url": "https://awardsdatabase.oscars.org/"
+        }
+      ],
+      "answers": [
+        {
+          "id": "buscandoanemo",
+          "name": "Buscando a Nemo",
+          "aliases": [
+            "Finding Nemo"
+          ],
+          "points": 10
+        },
+        {
+          "id": "coco",
+          "name": "Coco",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "ratatouille",
+          "name": "Ratatouille",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "delreves",
+          "name": "Del revés",
+          "aliases": [
+            "Intensamente",
+            "Inside Out"
+          ],
+          "points": 30
+        },
+        {
+          "id": "losincreibles",
+          "name": "Los Increíbles",
+          "aliases": [
+            "The Incredibles"
+          ],
+          "points": 30
+        },
+        {
+          "id": "up",
+          "name": "Up",
+          "aliases": [
+            "Up Una aventura de altura"
+          ],
+          "points": 30
+        },
+        {
+          "id": "walle",
+          "name": "WALL·E",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "toystory3",
+          "name": "Toy Story 3",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "toystory4",
+          "name": "Toy Story 4",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "valiente",
+          "name": "Valiente",
+          "aliases": [
+            "Brave",
+            "Indomable"
+          ],
+          "points": 85
+        },
+        {
+          "id": "soul",
+          "name": "Soul",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
+    },
+    {
+      "id": "kanto-tipo-agua",
+      "title": "¿Qué Pokémon de Kanto tiene el tipo Agua?",
+      "description": "Busca entre los 151 originales y piensa en su forma de Kanto. Las especies con un segundo tipo también cuentan.",
+      "theme": "videojuegos",
+      "sources": [
+        {
+          "title": "Pokédex oficial y repertorio original de Kanto",
+          "url": "https://www.pokemon.com/el/pokedex"
+        }
+      ],
+      "answers": [
+        {
+          "id": "blastoise",
+          "name": "Blastoise",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "gyarados",
+          "name": "Gyarados",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "magikarp",
+          "name": "Magikarp",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "psyduck",
+          "name": "Psyduck",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "squirtle",
+          "name": "Squirtle",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "lapras",
+          "name": "Lapras",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "poliwag",
+          "name": "Poliwag",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "slowpoke",
+          "name": "Slowpoke",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "staryu",
+          "name": "Staryu",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "vaporeon",
+          "name": "Vaporeon",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "cloyster",
+          "name": "Cloyster",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "dewgong",
+          "name": "Dewgong",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "golduck",
+          "name": "Golduck",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "horsea",
+          "name": "Horsea",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kabutops",
+          "name": "Kabutops",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "kingler",
+          "name": "Kingler",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "krabby",
+          "name": "Krabby",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "poliwhirl",
+          "name": "Poliwhirl",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "poliwrath",
+          "name": "Poliwrath",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "shellder",
+          "name": "Shellder",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "slowbro",
+          "name": "Slowbro",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "starmie",
+          "name": "Starmie",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tentacool",
+          "name": "Tentacool",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "tentacruel",
+          "name": "Tentacruel",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "wartortle",
+          "name": "Wartortle",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "goldeen",
+          "name": "Goldeen",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "kabuto",
+          "name": "Kabuto",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "omanyte",
+          "name": "Omanyte",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "seadra",
+          "name": "Seadra",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "seel",
+          "name": "Seel",
+          "aliases": [],
+          "points": 85
+        },
+        {
+          "id": "omastar",
+          "name": "Omastar",
+          "aliases": [],
+          "points": 100
+        },
+        {
+          "id": "seaking",
+          "name": "Seaking",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
+    },
+    {
+      "id": "aves-con-emoji",
+      "title": "¿Qué ave real tiene su propio emoji?",
+      "description": "Usamos Unicode Emoji 16.0. Las versiones de un mismo animal cuentan juntas, como las de un pollito.",
+      "theme": "emojis",
+      "sources": [
+        {
+          "title": "Unicode Emoji 16.0 y nombres españoles CLDR 46",
+          "url": "https://unicode.org/Public/emoji/16.0/emoji-test.txt",
+          "license": "Unicode-3.0",
+          "attribution": "© Unicode, Inc. Nombres y clasificación adaptados; licencia y fuentes en research/ascension-fuentes.md."
+        },
+        {
+          "title": "CLDR 46: nombres españoles de emoji",
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-46/common/annotations/es.xml",
+          "license": "Unicode-3.0"
+        }
+      ],
+      "answers": [
+        {
+          "id": "gallina",
+          "name": "gallina",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pajaro",
+          "name": "pájaro",
+          "aliases": [
+            "ave"
+          ],
+          "points": 10
+        },
+        {
+          "id": "pato",
+          "name": "pato",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pinguino",
+          "name": "pingüino",
+          "aliases": [],
+          "points": 10
+        },
+        {
+          "id": "pollito",
+          "name": "pollito",
+          "aliases": [
+            "pollito rompiendo el cascarón",
+            "pollito",
+            "pollito de frente"
+          ],
+          "points": 10
+        },
+        {
+          "id": "aguila",
+          "name": "águila",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "buho",
+          "name": "búho",
+          "aliases": [
+            "lechuza"
+          ],
+          "points": 30
+        },
+        {
+          "id": "gallo",
+          "name": "gallo",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "loro",
+          "name": "loro",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "paloma",
+          "name": "paloma",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "cisne",
+          "name": "cisne",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "flamenco",
+          "name": "flamenco",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "pavo",
+          "name": "pavo",
+          "aliases": [
+            "guajolote"
+          ],
+          "points": 60
+        },
+        {
+          "id": "pavoreal",
+          "name": "pavo real",
+          "aliases": [],
+          "points": 60
+        },
+        {
+          "id": "oca",
+          "name": "oca",
+          "aliases": [
+            "ganso"
+          ],
+          "points": 85
+        },
+        {
+          "id": "pajaronegro",
+          "name": "pájaro negro",
+          "aliases": [
+            "cuervo",
+            "grajo",
+            "mirlo"
+          ],
+          "points": 85
+        },
+        {
+          "id": "dodo",
+          "name": "dodo",
+          "aliases": [],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true,
+      "excludedGuesses": [
+        "ciervo"
+      ]
+    },
+    {
+      "id": "monedas-dolar-peso-franco",
+      "title": "¿Qué moneda de 2024 lleva «dólar», «peso» o «franco» en su nombre?",
+      "description": "Se toma el nombre en español y el curso legal el 1 de enero de 2024. Identifica la moneda concreta o escribe su código ISO.",
+      "theme": "economia",
+      "sources": [
+        {
+          "title": "Unicode CLDR 46: monedas por territorio e historial",
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-46/common/supplemental/supplementalData.xml",
+          "license": "Unicode-3.0"
+        },
+        {
+          "title": "Unicode CLDR 46: nombres españoles de monedas",
+          "url": "https://raw.githubusercontent.com/unicode-org/cldr/release-46/common/main/es.xml",
+          "license": "Unicode-3.0"
+        }
+      ],
+      "answers": [
+        {
+          "id": "moneda-usd",
+          "name": "dólar estadounidense",
+          "aliases": [
+            "dólar americano",
+            "dólar de Estados Unidos",
+            "USD"
+          ],
+          "points": 10
+        },
+        {
+          "id": "moneda-ars",
+          "name": "peso argentino",
+          "aliases": [
+            "ARS"
+          ],
+          "points": 10
+        },
+        {
+          "id": "moneda-clp",
+          "name": "peso chileno",
+          "aliases": [
+            "CLP"
+          ],
+          "points": 10
+        },
+        {
+          "id": "moneda-cop",
+          "name": "peso colombiano",
+          "aliases": [
+            "COP"
+          ],
+          "points": 10
+        },
+        {
+          "id": "moneda-mxn",
+          "name": "peso mexicano",
+          "aliases": [
+            "MXN"
+          ],
+          "points": 10
+        },
+        {
+          "id": "moneda-aud",
+          "name": "dólar australiano",
+          "aliases": [
+            "AUD"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-cad",
+          "name": "dólar canadiense",
+          "aliases": [
+            "CAD"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-chf",
+          "name": "franco suizo",
+          "aliases": [
+            "CHF"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-cup",
+          "name": "peso cubano",
+          "aliases": [
+            "CUP"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-dop",
+          "name": "peso dominicano",
+          "aliases": [
+            "DOP"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-uyu",
+          "name": "peso uruguayo",
+          "aliases": [
+            "UYU"
+          ],
+          "points": 30
+        },
+        {
+          "id": "moneda-bsd",
+          "name": "dólar bahameño",
+          "aliases": [
+            "BSD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-bbd",
+          "name": "dólar barbadense",
+          "aliases": [
+            "BBD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-bzd",
+          "name": "dólar beliceño",
+          "aliases": [
+            "BZD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-bmd",
+          "name": "dólar bermudeño",
+          "aliases": [
+            "BMD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-bnd",
+          "name": "dólar bruneano",
+          "aliases": [
+            "BND"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-kyd",
+          "name": "dólar de las Islas Caimán",
+          "aliases": [
+            "KYD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-xcd",
+          "name": "dólar del Caribe Oriental",
+          "aliases": [
+            "XCD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-ttd",
+          "name": "dólar de Trinidad y Tobago",
+          "aliases": [
+            "TTD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-gyd",
+          "name": "dólar guyanés",
+          "aliases": [
+            "GYD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-hkd",
+          "name": "dólar hongkonés",
+          "aliases": [
+            "HKD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-jmd",
+          "name": "dólar jamaicano",
+          "aliases": [
+            "JMD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-lrd",
+          "name": "dólar liberiano",
+          "aliases": [
+            "LRD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-nzd",
+          "name": "dólar neozelandés",
+          "aliases": [
+            "NZD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-sgd",
+          "name": "dólar singapurense",
+          "aliases": [
+            "SGD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-zwl",
+          "name": "dólar zimbabuense",
+          "aliases": [
+            "ZWL"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-xaf",
+          "name": "franco CFA de África Central",
+          "aliases": [
+            "XAF"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-xof",
+          "name": "franco CFA de África Occidental",
+          "aliases": [
+            "XOF"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-cdf",
+          "name": "franco congoleño",
+          "aliases": [
+            "CDF"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-gnf",
+          "name": "franco guineano",
+          "aliases": [
+            "GNF"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-rwf",
+          "name": "franco ruandés",
+          "aliases": [
+            "RWF"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-twd",
+          "name": "nuevo dólar taiwanés",
+          "aliases": [
+            "TWD"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-php",
+          "name": "peso filipino",
+          "aliases": [
+            "PHP"
+          ],
+          "points": 60
+        },
+        {
+          "id": "moneda-fjd",
+          "name": "dólar fiyiano",
+          "aliases": [
+            "FJD"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-nad",
+          "name": "dólar namibio",
+          "aliases": [
+            "NAD"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-sbd",
+          "name": "dólar salomonense",
+          "aliases": [
+            "SBD"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-srd",
+          "name": "dólar surinamés",
+          "aliases": [
+            "SRD"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-bif",
+          "name": "franco burundés",
+          "aliases": [
+            "BIF"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-xpf",
+          "name": "franco CFP",
+          "aliases": [
+            "XPF"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-djf",
+          "name": "franco yibutiano",
+          "aliases": [
+            "DJF"
+          ],
+          "points": 85
+        },
+        {
+          "id": "moneda-kmf",
+          "name": "franco comorense",
+          "aliases": [
+            "KMF"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
+    },
+    {
+      "id": "nobel-literatura-espanol",
+      "title": "¿Qué Nobel de Literatura escribió su obra en español?",
+      "description": "Cuenta cualquier autor o autora de lengua española que haya recibido el Nobel de Literatura hasta 2025.",
+      "theme": "nobel",
+      "sources": [
+        {
+          "title": "Nobel Prize API: laureados y categorías, corte 2025",
+          "url": "https://api.nobelprize.org/v1/laureate.json",
+          "license": "CC0-1.0",
+          "attribution": "Nobel Prize API, datos abiertos; solo nombres y pertenencia a categoría."
+        },
+        {
+          "title": "Instituto Cervantes, Premios Nobel de literatura en español",
+          "url": "https://londres.cervantes.es/FichasCultura/Ficha91118_22_1.htm"
+        }
+      ],
+      "answers": [
+        {
+          "id": "nobel-659",
+          "name": "Gabriel García Márquez",
+          "aliases": [
+            "García Márquez"
+          ],
+          "points": 10
+        },
+        {
+          "id": "nobel-854",
+          "name": "Mario Vargas Llosa",
+          "aliases": [
+            "Vargas Llosa"
+          ],
+          "points": 10
+        },
+        {
+          "id": "nobel-645",
+          "name": "Pablo Neruda",
+          "aliases": [
+            "Neruda"
+          ],
+          "points": 10
+        },
+        {
+          "id": "nobel-666",
+          "name": "Camilo José Cela",
+          "aliases": [
+            "Cela"
+          ],
+          "points": 30
+        },
+        {
+          "id": "nobel-615",
+          "name": "Gabriela Mistral",
+          "aliases": [],
+          "points": 30
+        },
+        {
+          "id": "nobel-667",
+          "name": "Octavio Paz",
+          "aliases": [
+            "Paz"
+          ],
+          "points": 30
+        },
+        {
+          "id": "nobel-627",
+          "name": "Juan Ramón Jiménez",
+          "aliases": [
+            "Jiménez"
+          ],
+          "points": 60
+        },
+        {
+          "id": "nobel-653",
+          "name": "Vicente Aleixandre",
+          "aliases": [
+            "Aleixandre"
+          ],
+          "points": 60
+        },
+        {
+          "id": "nobel-592",
+          "name": "Jacinto Benavente",
+          "aliases": [
+            "Benavente"
+          ],
+          "points": 85
+        },
+        {
+          "id": "nobel-641",
+          "name": "Miguel Ángel Asturias",
+          "aliases": [
+            "Asturias"
+          ],
+          "points": 85
+        },
+        {
+          "id": "nobel-574",
+          "name": "José Echegaray",
+          "aliases": [
+            "Echegaray"
+          ],
+          "points": 100
+        }
+      ],
+      "audience": "discovery",
+      "connection": true
     }
   ]
 }

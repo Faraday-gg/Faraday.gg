@@ -3,7 +3,7 @@
   const dialog=document.getElementById('ascension-dialog'),content=document.getElementById('ascension-content'),stage=document.getElementById('ascension-scene');
   if(!dialog||!window.AscensionScene)return;
   const alert=document.getElementById('ascension-alert'),steps=document.getElementById('ascension-steps'),modeLine=document.getElementById('ascension-mode');
-  const fmt=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0}).format(n),esc=value=>escapeHtml(String(value??''));
+  const fmt=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n),esc=value=>escapeHtml(String(value??''));
   const motion=matchMedia('(prefers-reduced-motion: reduce)'),reduced=()=>motion.matches;
   window.PlusOffers?.register('ascension',{
     title:'Tu próxima aventura empieza en Faraday.',
@@ -44,11 +44,11 @@
     if(run.phase==='ready')ready();else if(run.phase==='question')question();else if(run.phase==='result')result(animate);else summary();
   }
   function ready(){
-    scene.setHeight(run.height,{animate:false});scene.setState('idle');
+    scene.setState('idle',{height:run.height,round:run.results.length});
     const catalog=run.catalog||run.bank||{},first=run.round===0;
     content.innerHTML=`<section class="ascension-card"><p class="ascension-eyebrow">${run.game?'Explora a tu ritmo':'Tu avatar. Tu camino a la cima.'}</p>
       <h3 tabindex="-1">Una respuesta.<br><em>Un paso más arriba.</em></h3>
-      <p class="ascension-lead">Elige la vía Directa o la Travesía. Cuanto menos evidente sea tu respuesta, más escala tu avatar antes de celebrar en la repisa.</p>
+      <p class="ascension-lead">Elige la vía Directa o la Travesía. Con una respuesta más rara, tu avatar escala más deprisa y llega más alto.</p>
       <div class="ascension-intro-stats"><div><b>7</b><span>categorías</span></div><div><b>25 s</b><span>por respuesta</span></div><div><b>7.000</b><span>metros de cima</span></div></div>
       ${scales()}<div class="ascension-actions">${button(first?'Empezar ascensión →':`Continuar · pregunta ${run.round+1} →`,'start')}</div>
       <p class="ascension-fine">${run.game?'Esta práctica no cuenta para la clasificación.':'La misma edición para todos. Un intento diario y prácticas al terminar: gratis con anuncio de prueba, o sin anuncios con Plus. La edición cambia a medianoche de Madrid; completa tu partida antes.'}</p>
@@ -56,7 +56,7 @@
     content.querySelector('h3').focus({preventScroll:true});
   }
   function question(){
-    scene.setHeight(run.height,{animate:false});scene.setState('thinking');
+    scene.setState('thinking',{height:run.height,round:run.round+1});
     content.innerHTML=`<section class="ascension-card"><div class="ascension-clock" aria-label="Tiempo disponible"><strong id="ascension-seconds">25 s</strong><div class="ascension-clock-track" aria-hidden="true"><i></i></div></div>
       <p class="ascension-eyebrow">Busca una respuesta poco evidente</p><h3 class="ascension-question">${esc(run.current.title)}</h3><p class="ascension-lead">${esc(run.current.description)}</p>
       <form class="ascension-form" id="ascension-form"><label for="ascension-answer">Tu respuesta</label><input class="ascension-input" id="ascension-answer" type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" maxlength="120" placeholder="Escribe una respuesta…" required>
@@ -142,9 +142,9 @@
       <p class="ascension-fine">${esc(last.title)}</p>${last.discoveries?.length?`<details class="ascension-discoveries"><summary>Otros caminos que podías tomar</summary><ul>${last.discoveries.map(answer=>`<li><span>${esc(answer.name)}</span><b>${answer.points} pts</b></li>`).join('')}</ul></details>`:''}<details class="ascension-source"><summary>La categoría y sus fuentes</summary><ul>${sources(last)}</ul><p>Los puntos son una valoración editorial fija. Tus cosméticos y emotes no cambian la puntuación.</p></details></section>`;
     if(animate&&last.points>0&&!reduced()){
       replayKey=viewKey(run);
-      playClimb(()=>scene.setHeight(run.height,{animate:true,points:last.points,reaction,onCue:event=>climbSound(event,last.points)}));
+      playClimb(()=>scene.setHeight(run.height,{animate:true,points:last.points,reaction,round:run.round+1,onCue:event=>climbSound(event,last.points)}));
     }else{
-      scene.setHeight(run.height,{animate,points:last.points,reaction});
+      scene.setHeight(run.height,{animate,points:last.points,reaction,round:run.round+1});
       if(animate)sound(last.points);
       climbControls();
     }
@@ -152,7 +152,7 @@
   }
   function summary(){
     const rank=run.ranking,total=run.score;
-    scene.setHeight(run.height,{animate:false,reaction:Progress.reaction('ascension',cue(total/run.rounds),{animate:false})});
+    scene.setState('overview',{height:run.height,round:run.rounds,reaction:Progress.reaction('ascension',cue(total/run.rounds),{animate:false})});
     const histogram=window.AscensionChart?.render(rank,total)||'';
     const ranked=run.game?'<div class="ascension-rank"><strong>Un camino para practicar</strong><p>Esta ascensión no modifica tu resultado diario ni la clasificación.</p></div>':rank?`<div class="ascension-rank"><strong>${rank.others?`Puesto ${fmt(rank.position)} de ${fmt(rank.total)}${rank.tied>1?' · compartido':''}`:'Has abierto camino'}</strong><p>${rank.others?`Superas al ${rank.percentile} % de las otras ascensiones completadas de esta edición.`:'Todavía no hay otras partidas terminadas para comparar. Vuelve más tarde para ver cómo quedas.'}</p>${histogram}</div>`:'';
     content.innerHTML=`<section class="ascension-card"><p class="ascension-eyebrow">${run.game?'Práctica completada':'Tu ascensión de hoy'}</p><h3 tabindex="-1">Has llegado <em>hasta aquí.</em></h3>

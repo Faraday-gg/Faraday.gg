@@ -1089,10 +1089,10 @@ function twoBone(start,target,upper,lower,pole){
   };
 }
 const alongBone=(start,end)=>new THREE.Quaternion().setFromUnitVectors(DOWN,end.clone().sub(start).normalize());
-const palmTarget=(point,shoulder)=>atDepth(point,shoulder.z+.16);
+const palmTarget=(point,shoulder)=>atDepth(point,shoulder.z-.13);
 const foreReach=hand=>.2+HAND*hand.scale.y;
 const anklePosition=(shoe,base)=>shoe.localToWorld(new THREE.Vector3(0,.158+base,-.035));
-const ankleTarget=(point,hip,shoe,ankle)=>atDepth(point,hip.z+.025)
+const ankleTarget=(point,hip,shoe,ankle)=>atDepth(point,hip.z-.075)
   .sub(shoe.localToWorld(SOLE.clone())).add(ankle);
 
 function gripHand({arm,fore,hand,side},point,mix){
@@ -1190,7 +1190,7 @@ function climbingPose(entry,pose,neutralTurn){
   }
   const mix=THREE.MathUtils.clamp(pose.mix??1,0,1);
   const lean=THREE.MathUtils.clamp(pose.lean||0,-1,1),crouch=THREE.MathUtils.clamp(pose.crouch||0,0,1);
-  const turn=pose.turn??.65;
+  const turn=pose.turn;
   group.rotation.y=neutralTurn+(turn-neutralTurn)*mix;
   group.rotation.z*=1-mix;group.position.multiplyScalar(1-mix);
   const {body,upper,neck,arms,legs,feet}=parts;
@@ -1200,8 +1200,8 @@ function climbingPose(entry,pose,neutralTurn){
   upper.rotation.x=THREE.MathUtils.lerp(upper.rotation.x,.12+crouch*.16,mix);
   upper.rotation.y*=1-mix;upper.rotation.z*=1-mix;
   neck.rotation.x=THREE.MathUtils.lerp(neck.rotation.x,-.16-crouch*.16,mix);
-  neck.rotation.y=THREE.MathUtils.lerp(neck.rotation.y,.21,mix);
-  // Despeja la mano que se estira sin tapar el rostro ni cambiar el encuadre.
+  neck.rotation.y=THREE.MathUtils.lerp(neck.rotation.y,-.14,mix);
+  // Despeja la mano que se estira sin cambiar el encuadre.
   neck.position.x=-lean*.19*mix;
   neck.rotation.z=THREE.MathUtils.lerp(neck.rotation.z,lean*.27,mix);
   for(const leg of legs){
@@ -1209,15 +1209,17 @@ function climbingPose(entry,pose,neutralTurn){
     leg.scale.y=THREE.MathUtils.lerp(leg.scale.y,1,mix);
   }
   group.updateMatrixWorld(true);
-  const shift=weightShift(parts,entry.base,pose)*mix;
+  // En la pared el avatar está de espaldas: la izquierda del plano es su mano derecha.
+  const targets={hands:[...pose.hands].reverse(),feet:[...pose.feet].reverse()};
+  const shift=weightShift(parts,entry.base,targets)*mix;
   if(Math.abs(shift)>.001){body.position.y+=shift;group.updateMatrixWorld(true)}
   entry.climbRigs??=legs.map(rigLeg);
   entry.climbing=true;
   for(let i=0;i<2;i++){
     const rig=entry.climbRigs[i];
-    showRig(rig,Boolean(pose.feet?.[i]));
-    if(pose.hands?.[i])gripHand(arms[i],pose.hands[i],mix);
-    if(pose.feet?.[i])gripFoot(legs[i],feet[i],rig,entry.base,pose.feet[i],i?1:-1,mix);
+    showRig(rig,true);
+    gripHand(arms[i],targets.hands[i],mix);
+    gripFoot(legs[i],feet[i],rig,entry.base,targets.feet[i],i?1:-1,mix);
   }
 }
 

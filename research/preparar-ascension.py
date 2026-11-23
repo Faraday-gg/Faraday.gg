@@ -167,6 +167,8 @@ for catid,title,select,theme in emoji_specs:
   if select=='TECH' and name in ['lupa orientada hacia la izquierda','lupa orientada hacia la derecha','vela','lámpara japonesa','lámpara de aceite','fotograma de película','claqueta']:continue
   canonical=rename.get(name,name)
   pts=100 if plain(canonical)in summit_emoji else 10 if plain(canonical)in common_emoji else 30 if plain(canonical)in familiar_emoji else 85 if len(canonical)>20 else 60
+  if catid=='emoji-musica':
+   pts={'arpa':30,'banjo':85,'tamboril':100}.get(canonical,pts)
   rows.append(answer(canonical,[name]+regional.get(canonical,[]),pts))
  category(catid,title,'Se acepta el concepto en español, sus variantes regionales registradas. Conjunto fijo de Unicode Emoji 16.0 y nombres CLDR 46. Las variantes gráficas del mismo concepto se agrupan. No incluye propuestas de emoji posteriores a esa versión.',theme,rows,[UNICODE,{'title':'CLDR 46: nombres españoles de emoji','url':URLS['annotations-es.xml'],'license':'Unicode-3.0'}])
 
@@ -181,7 +183,8 @@ summit_nobel=set(map(plain,['Charles Glover Barkla','Francis W. Aston','Johannes
 nobel_labels={'845':'Barack H. Obama','339':'Alexander Fleming','540':'Mother Teresa',
  '888':'Peter W. Higgs','373':'James D. Watson','372':'Francis H. C. Crick','685':'F. A. Hayek',
  '551':'Dalai Lama','568':'Médecins Sans Frontières','525':'UNICEF','918':'Tu Youyou',
- '724':'Eric R. Kandel','1042':'Han Kang','855':'Liu Xiaobo','545':'Lech Walesa'}
+ '724':'Eric R. Kandel','1042':'Han Kang','855':'Liu Xiaobo','545':'Lech Walesa',
+ '641':'Miguel Ángel Asturias'}
 nobel_extra={
  'Albert Einstein':['Einstein'],'Marie Curie':['Maria Sklodowska Curie','Maria Curie','Marie Sklodowska Curie'],'Marie Curie, née Sklodowska':['Marie Curie','Maria Curie','Maria Sklodowska Curie'],'Pierre Curie':['Pierre Curie'],
  'Barack H. Obama':['Barack Obama','Obama'],'Mother Teresa':['Madre Teresa','Teresa de Calcuta','Madre Teresa de Calcuta'],
@@ -377,6 +380,7 @@ for row in categories:
   if ident in {'provincias-espana','entidades-mexico'}:row['theme']='geografia'
 
 runpy.run_path(str(ROOT/'research/ascension-cultura-general.py'))['add_sets'](category,answer,categories)
+runpy.run_path(str(ROOT/'research/ascension-cruces.py'))['add_crosses'](category,answer,categories,plain)
 assert len(categories)>=45
 assert sum(len(c['answers'])for c in categories)>=2000
 assert len({c['id']for c in categories})==len(categories)
@@ -387,7 +391,7 @@ for c in categories:
  # Alias vacíos o iguales a otros nombres se han retirado; evita números como alias sueltos.
  for a in c['answers']:a['aliases']=list(dict.fromkeys(s for s in a['aliases'] if s.strip()and not s.isdecimal()))
 
-out={'version':'2026-11-19-2','date':'2026-11-19','rarity':'editorial','rarityNote':'Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
+out={'version':'2026-11-21-3','date':'2026-11-21','rarity':'editorial','rarityNote':'Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
 (ROOT/'content/ascension.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
 manifest={name:{'url':url,'sha256':hashlib.sha256((args.cache/name).read_bytes()).hexdigest()}for name,url in URLS.items()}
 (ROOT/'research/ascension-manifest.json').write_text(json.dumps({'checked':'2026-11-19','files':manifest},ensure_ascii=False,indent=2)+'\n')

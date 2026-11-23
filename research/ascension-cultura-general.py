@@ -5,8 +5,8 @@ Las fuentes definen el conjunto o documentan los ejemplos cuando se indica selec
 """
 
 SETS = [
-    ('pixar', 'cine', 'familiar', '¿Qué película de Pixar pondrías en una noche de cine?',
-     'Cuentan los largometrajes estrenados hasta 2025. Puedes usar el título original o el de tu región.',
+    ('pixar', 'cine', 'familiar', '¿Qué largometraje estrenó Pixar hasta 2025?',
+     'Cuenta la filmografía del estudio hasta 2025 inclusive. Puedes usar el título original o el de tu región.',
      'Filmografía oficial de Pixar', 'https://www.pixar.com/feature-films/', """
 10 Toy Story|Coco|Cars|Buscando a Nemo=Finding Nemo|Ratatouille|Los Increíbles=The Incredibles|Up=Up Una aventura de altura
 30 Toy Story 2|Toy Story 3|Toy Story 4|Del revés=Intensamente=Inside Out|Monstruos S. A.=Monsters Inc=Monsters Incorporated=Monstruos SA|WALL·E=Wall E=WALL-E|Buscando a Dory=Finding Dory|Valiente=Brave=Indomable|Soul|Luca
@@ -14,8 +14,8 @@ SETS = [
 85 Onward=Unidos|Lightyear|Elio
 100 El viaje de Arlo=Un gran dinosaurio=The Good Dinosaur
 """),
-    ('disney-animacion', 'cine', 'familiar', '¿Qué película animada de Disney recordarías de memoria?',
-     'Cuentan las películas de Walt Disney Animation Studios hasta Vaiana 2. Puedes usar el título de tu región.',
+    ('disney-animacion', 'cine', 'familiar', '¿Qué película estrenó Walt Disney Animation Studios?',
+     'Cuenta la filmografía de ese estudio hasta Vaiana 2 (Moana 2), inclusive. Vale el título de tu región.',
      'Filmografía de Walt Disney Animation Studios', 'https://disneyanimation.com/films/', """
 10 El rey león=The Lion King|Aladdín=Aladdin|La sirenita=The Little Mermaid|La bella y la bestia=Beauty and the Beast|Frozen=Frozen El reino del hielo=Frozen Una aventura congelada|Blancanieves y los siete enanitos=Blancanieves=Snow White and the Seven Dwarfs|Cenicienta=La Cenicienta=Cinderella|Mulán=Mulan|Encanto|Vaiana=Moana
 30 Bambi|Dumbo|Pinocho=Pinocchio|La bella durmiente=Sleeping Beauty|Peter Pan|Alicia en el país de las maravillas=Alice in Wonderland|El libro de la selva=The Jungle Book|101 dálmatas=One Hundred and One Dalmatians=Ciento un dálmatas|Pocahontas|Hércules=Hercules|Tarzán=Tarzan|Lilo y Stitch=Lilo and Stitch|Zootrópolis=Zootopia|Enredados=Tangled
@@ -23,7 +23,7 @@ SETS = [
 85 Fantasía=Fantasia|Fantasía 2000=Fantasia 2000|Basil el ratón superdetective=Policías y ratones=The Great Mouse Detective|Oliver y su pandilla=Oliver y compañía=Oliver & Company|Bernardo y Bianca=Los rescatadores=The Rescuers|Bernardo y Bianca en Cangurolandia=Los rescatadores en Cangurolandia=The Rescuers Down Under|Hermano oso=Tierra de osos=Brother Bear|El emperador y sus locuras=Las locuras del emperador=The Emperor's New Groove|Atlantis El imperio perdido=Atlantis The Lost Empire|El planeta del tesoro=Treasure Planet|Chicken Little|Descubriendo a los Robinson=Descubriendo a los Robinsons=La familia del futuro=Meet the Robinsons|Vacas vaqueras=Zafarrancho en el rancho=Home on the Range|Dinosaurio=Dinosaur|Winnie the Pooh=El regreso de Winnie the Pooh|Wish=Wish El poder de los deseos|Mundo extraño=Un mundo extraño=Strange World
 100 Los tres caballeros=The Three Caballeros|Saludos amigos|Música maestro=Make Mine Music|Tiempo de melodía=Melody Time|Las aventuras de Bongo Mickey y las judías mágicas=Fun and Fancy Free|Las aventuras de Ichabod y el señor Sapo=The Adventures of Ichabod and Mr. Toad=Dos personajes fabulosos|Taron y el caldero mágico=El caldero mágico=The Black Cauldron|Lo mejor de Winnie the Pooh=The Many Adventures of Winnie the Pooh
 """),
-    ('oscar-animacion', 'cine', 'discovery', '¿Qué película ha ganado el Óscar a mejor animación?',
+    ('oscar-animacion', 'cine', 'discovery', '¿Qué película ganó el Óscar a mejor largometraje animado?',
      'Busca ganadoras del premio a largometraje animado en las ceremonias de 2002 a 2025. Valen títulos originales y traducidos.',
      'Base de datos oficial de los Óscar', 'https://awardsdatabase.oscars.org/', """
 10 Shrek|Buscando a Nemo=Finding Nemo|Coco|Frozen=Frozen El reino del hielo=Frozen Una aventura congelada|Ratatouille
@@ -32,7 +32,7 @@ SETS = [
 85 Rango|Wallace y Gromit La maldición de las verduras=Wallace y Gromit La batalla de los vegetales=Wallace & Gromit The Curse of the Were-Rabbit|El niño y la garza=The Boy and the Heron
 100 Flow=Flow Un mundo que salvar
 """),
-    ('pokemon-kanto', 'videojuegos', 'familiar', '¿Recuerdas algún Pokémon de los 151 originales?',
+    ('pokemon-kanto', 'videojuegos', 'familiar', 'Nombra uno de los primeros 151 Pokémon',
      'Vale cualquier especie de la Pokédex de Kanto, del número 1 al 151. Escribe el nombre de la especie.',
      'Pokédex oficial y repertorio original de Kanto', 'https://www.pokemon.com/el/pokedex', """
 10 Pikachu|Bulbasaur|Charmander|Squirtle|Charizard|Eevee|Mewtwo|Snorlax|Mew
@@ -50,7 +50,7 @@ SETS = [
 85 Entrenadora de Wii Fit=Entrenador de Wii Fit=Wii Fit Trainer|Tirador Mii=Mii Gunner|Luchador Mii=Mii Brawler|Planta Piraña=Piranha Plant
 100 Espadachín Mii=Mii Swordfighter
 """),
-    ('deportes-paris', 'deporte', 'familiar', '¿En qué deporte competirías en París 2024?',
+    ('deportes-paris', 'deporte', 'familiar', '¿Qué deporte formó parte de los Juegos Olímpicos de París 2024?',
      'Cuenta cualquiera de los 32 deportes del programa. Puedes nombrar una disciplina y se agrupa con su deporte.',
      'Comité Olímpico Internacional, programa de París 2024', 'https://library.olympics.com/digitalCollection/DigitalCollectionAttachmentDownloadHandler.ashx?documentId=3415338&parentDocumentId=3415336&skipCopyright=true&skipWatermark=true', """
 10 Fútbol=Balompié|Baloncesto=Básquet=Básquetbol=Basket=Basketball=Baloncesto 3x3|Atletismo=Maratón|Natación y deportes acuáticos=Natación=Natación artística=Natación sincronizada=Waterpolo=Clavados=Saltos de trampolín=Aguas abiertas|Tenis|Ciclismo=BMX=Mountain bike=Ciclismo de montaña=Ciclismo en pista=Ciclismo en ruta
@@ -59,7 +59,7 @@ SETS = [
 85 Hípica=Equitación=Doma clásica=Salto ecuestre|Lucha=Lucha libre olímpica=Lucha grecorromana|Piragüismo=Canotaje=Canoa eslalon=Canoa sprint=Kayak
 100 Pentatlón moderno=Pentatlón
 """),
-    ('mundial-catar', 'deporte', 'familiar', 'Nombra una selección que jugó el Mundial de Catar 2022',
+    ('mundial-catar', 'deporte', 'familiar', '¿Qué selección jugó el Mundial masculino de Catar 2022?',
      'Son las 32 selecciones de la fase final masculina. Escribe el país o el nombre habitual de la selección.',
      'FIFA, selecciones y grupos de Catar 2022', 'https://www.fifa.com/es/articles/qatar-2022-todo-lo-que-tienes-que-saber', """
 10 Argentina=La Albiceleste|Brasil=Brazil|España=Spain|Francia=France|Inglaterra=England|Alemania=Germany|Portugal|México=Mexico
@@ -95,8 +95,8 @@ SETS = [
 85 Macis|Alcaravea=Comino de prado|Perifollo|Semillas de amapola=Amapola|Sumac=Zumaque|Achiote=Annatto=Onoto
 100 Asafétida
 """),
-    ('legumbres-secas', 'cocina', 'familiar', '¿Qué legumbre seca echarías en una olla?',
-     'Busca las clases de semillas secas de la FAO. Se agrupan los nombres regionales y las variedades del mismo tipo.',
+    ('legumbres-secas', 'cocina', 'familiar', '¿Qué legumbre se cosecha como semilla seca para comer?',
+     'Usamos la clasificación de legumbres secas de la FAO. Las variedades y los nombres regionales cuentan por su tipo.',
      'FAO, definición y clases de legumbres secas', 'https://www.fao.org/fileadmin/user_upload/pulses-2016/Exhibit/totem1_B_roll-up_v1.pdf', """
 10 Garbanzo|Lenteja=Lentejas|Judía seca=Alubia=Frijol=Fréjol=Poroto=Habichuela=Frijol negro=Frijol pinto=Frijol mungo=Judía mungo=Mungo=Frijol azuki=Azuki
 30 Guisante seco=Guisante=Arveja=Chícharo=Arveja seca|Haba seca=Haba=Habas
@@ -113,7 +113,7 @@ SETS = [
 85 Corno inglés=Trompa inglesa|Clarinete bajo=Clarón|Contrafagot|Vibráfono|Marimba|Carillón orquestal=Glockenspiel|Campanas tubulares|Castañuelas|Clave=Clavecín|Órgano|Clarinete en mi bemol=Requinto|Clarinete contrabajo|Trombón bajo
 100 Celesta
 """),
-    ('planetas-y-enanos', 'espacio', 'familiar', 'En el sistema solar, ¿qué planeta visitarías?',
+    ('planetas-y-enanos', 'espacio', 'familiar', '¿Qué planeta o planeta enano del sistema solar visitarías?',
      'Valen los ocho planetas y los cinco planetas enanos de la lista de la NASA.',
      'NASA, planetas del sistema solar', 'https://science.nasa.gov/solar-system/planets/', """
 10 Tierra=La Tierra|Marte|Júpiter|Saturno
@@ -130,7 +130,7 @@ SETS = [
 60 Falange=Falanges|Metacarpiano=Metacarpo=Metacarpianos
 100 Metatarsiano=Metatarso=Metatarsianos
 """),
-    ('capitales-ue', 'geografia', 'familiar', 'Haz una escapada a una capital de la Unión Europea',
+    ('capitales-ue', 'geografia', 'familiar', '¿Qué ciudad es capital de un país de la Unión Europea?',
      'Nombra la capital de uno de los 27 países de la UE. Valen sus nombres habituales en español y en el idioma local.',
      'Unión Europea, fichas oficiales de los países miembros', 'https://european-union.europa.eu/principles-countries-history/eu-countries_es', """
 10 Madrid|París=Paris|Roma=Rome|Berlín=Berlin|Lisboa=Lisbon
