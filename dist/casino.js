@@ -10,6 +10,7 @@
 import {casinoFriends} from './casino-friends.js';
 import {dealer,rouletteLayout,createWheel,pokerTable,pokerActions} from './casino-tables.js';
 import {slotBody,mountSlots} from './casino-slots.js';
+import {casinoChat,EMOTES} from './casino-chat.js';
 import {createWorld,ROOM,STATIONS,SOLIDS,CAMERAS,pokerSeats} from './casino-world.js';
 
 let THREE;
@@ -39,34 +40,61 @@ const WHY={bet:`La apuesta va de ${R.MIN_BET} a ${R.MAX_BET}.`,coins:'No te lleg
 let renderer,scene,camera,world=null,hero,running=false,frame=0,last=0,built=false,near=null,game=null;
 const peers=new Map();
 let presence=[],mySeat=null,sitting=false;
-const pos={x:0,z:6},keys={up:0,down:0,left:0,right:0},stick={x:0,y:0};
+const pos={x:0,z:6},keys={up:0,down:0,left:0,right:0,run:0},stick={x:0,y:0};
 let yaw=0,pitch=.32,heading=Math.PI,stride=0,pace=0;
+// Correr: «run» va de 0 a 1. Saltar: «air» es la altura sobre el suelo y «vy» la velocidad hacia arriba.
+const JUMP=6.4,GRAVITY=19;
+let run=0,air=0,vy=0;
 // Cámara: «zoom» va de 0 (sigue al personaje) a 1 (mira la mesa a la que se ha acercado, «shot»).
 let zoom=0,shot=null;
 const view={w:1,h:1},eye={};
 // El juego abierto se juega dentro de la sala si hay mundo 3D y ese juego tiene cámara (las tragaperras no).
 const liveShot=()=>running&&game?CAMERAS[game==='friends'?'poker':game]||null:null;
 
-function buildHero(){
-  if(hero){scene.remove(hero.entry.group);window.Avatar3D.dispose(hero.entry);hero=null}
-  if(!window.Avatar3D?.build)throw new Error('Avatar no disponible');
-  const look=window.Avatar.resolve(window.Progress?.look?.()),entry=window.Avatar3D.build(look);
-  entry.group.traverse(node=>{if(node.isMesh)node.castShadow=true});
-  scene.add(entry.group);hero={entry,feet:entry.parts.feet.map(shoe=>shoe.position.clone())};
+// El modelo va dentro de un grupo propio («holder»): ese es el que se coloca en la sala. El grupo del modelo queda
+// libre para los gestos, que lo mueven, lo giran y lo estiran (Avatar3D.actor).
+function stand(model){
+  const holder=new THREE.Group();
+  model.group.traverse(node=>{if(node.isMesh)node.castShadow=true});
+  holder.add(model.group);scene.add(holder);
+  return {model,holder,actor:window.Avatar3D.actor?.(model)||null,walking:true,feet:model.parts.feet.map(shoe=>shoe.position.clone())};
 }
-// Andar: piernas y brazos se balancean al contrario, los pies siguen a las piernas y el cuerpo sube y baja un poco.
+// Deja el cuerpo en su postura neutra, para pasar de un gesto a andar sin arrastrar restos del gesto.
+function rest(body){
+  const {group,parts}=body.model;
+  body.actor?.stop();
+  group.position.set(0,0,0);group.rotation.set(0,0,0);group.scale.set(1,1,1);
+  parts.body.rotation.set(0,0,0);parts.upper.rotation.set(0,0,0);parts.neck.rotation.set(0,0,0);
+  parts.legs.forEach((leg,i)=>{leg.rotation.set(0,0,0);leg.scale.y=1;parts.feet[i].position.copy(body.feet[i]);parts.feet[i].rotation.set(0,parts.feet[i].rotation.y,0)});
+  parts.arms.forEach(({arm,fore,side})=>{arm.rotation.set(.02,0,side*.34);fore.rotation.set(-.28,0,side*-.08)});
+}
+function buildHero(){
+  if(hero){scene.remove(hero.holder);window.Avatar3D.dispose(hero.model);hero=null}
+  if(!window.Avatar3D?.build)throw new Error('Avatar no disponible');
+  hero=stand(window.Avatar3D.build(window.Avatar.resolve(window.Progress?.look?.())));
+}
+// Quieto y de pie, al personaje lo anima el propio avatar: respira, parpadea y hace el gesto que se le pida.
+// Andando, corriendo, saltando o sentado lo mueve esto: piernas y brazos se balancean al contrario, los pies siguen
+// a las piernas y el cuerpo sube y baja un poco. En el aire sube los brazos y encoge las piernas.
 function poseHero(dt,now){
   if(!hero)return;
-  const {body,upper,neck,arms,legs,feet}=hero.entry.parts,walk=pace,swing=Math.sin(stride)*.62*walk,breath=Math.sin(now/620)*(1-walk);
-  hero.entry.group.position.set(pos.x,0,pos.z);hero.entry.group.rotation.y=heading;
-  body.position.set(0,hero.entry.base+Math.abs(Math.cos(stride))*.045*walk,0);body.rotation.set(0,0,Math.sin(stride)*.03*walk);
-  upper.rotation.set(.06*walk,-Math.sin(stride)*.12*walk,0);neck.rotation.set(-.04*walk,Math.sin(stride)*.06*walk,0);
+  const seated=mySeat!==null||sitting,walk=pace;
+  hero.holder.position.set(pos.x,seated?-.28:air,pos.z);hero.holder.rotation.y=heading;
+  if(hero.actor&&!seated&&walk<.04&&air<=0){
+    if(hero.walking){hero.walking=false;hero.actor.reset()}
+    hero.actor.step(now);
+    return;
+  }
+  if(!hero.walking){hero.walking=true;rest(hero)}
+  const {body,upper,neck,arms,legs,feet}=hero.model.parts,lift=Math.min(1,air/.4),swing=Math.sin(stride)*(.62+run*.2)*walk*(1-lift),breath=Math.sin(now/620)*(1-walk);
+  body.position.set(0,hero.model.base+Math.abs(Math.cos(stride))*(.045+run*.03)*walk,0);body.rotation.set(0,0,Math.sin(stride)*.03*walk);
+  upper.rotation.set((.06+run*.2)*walk-.12*lift,-Math.sin(stride)*.12*walk,0);neck.rotation.set(-(.04+run*.12)*walk+.1*lift,Math.sin(stride)*.06*walk,0);
   legs.forEach((leg,i)=>{
-    const s=(i?-1:1)*swing;leg.rotation.x=s;leg.rotation.z=0;leg.scale.y=1;
-    const home=hero.feet[i];feet[i].position.set(home.x,home.y+Math.max(0,(i?-1:1)*Math.cos(stride))*.11*walk,home.z-Math.sin(s)*.62);feet[i].rotation.x=s*.5;
+    const s=(i?-1:1)*swing+(i?.55:-.75)*lift;leg.rotation.x=s;
+    const home=hero.feet[i];feet[i].position.set(home.x,home.y+Math.max(0,(i?-1:1)*Math.cos(stride))*.11*walk*(1-lift)+.16*lift,home.z-Math.sin(s)*.62);feet[i].rotation.x=s*.5;
   });
-  arms.forEach(({arm,fore,side},i)=>{const s=(i?1:-1)*swing*.85;arm.rotation.set(.02+s,0,side*(.34+breath*.012));fore.rotation.set(-.28-Math.abs(s)*.5+breath*.02,0,side*-.08)});
-  if(mySeat!==null||sitting)seatPose(hero.entry);
+  arms.forEach(({arm,fore,side},i)=>{const s=(i?1:-1)*swing*.85;arm.rotation.set(.02+s,0,side*(.34+breath*.012+2*lift));fore.rotation.set(-.28-Math.abs(s)*(.5+run*.5)+breath*.02,0,side*-.08)});
+  if(seated)for(const leg of legs)leg.rotation.x=-1.12;
 }
 
 function build(){
@@ -93,10 +121,6 @@ function collide(){
     const dx=pos.x-s.x,dz=pos.z-s.z,d=Math.hypot(dx,dz)||.001;if(d<s.r){pos.x=s.x+dx/d*s.r;pos.z=s.z+dz/d*s.r}
   }
 }
-function seatPose(model){
-  model.group.position.y=-.28;
-  for(const leg of model.parts.legs)leg.rotation.x=-1.12;
-}
 // Coloca al personaje en un sitio y deja la cámara a su espalda para cuando se levante.
 function place(spot){pos.x=spot.x;pos.z=spot.z;heading=spot.heading;yaw=Math.PI-heading}
 function showPeers(players,seat=null){
@@ -110,46 +134,60 @@ function showPeers(players,seat=null){
   const ids=new Set(presence.map(peer=>peer.id));
   for(const [id,peer] of peers){
     if(ids.has(id))continue;
-    scene.remove(peer.model.group);
-    peer.model.group.remove(peer.tag);
+    scene.remove(peer.holder);
+    peer.holder.remove(peer.tag);
     peer.tag.material.map.dispose();
     peer.tag.material.dispose();
     window.Avatar3D.dispose(peer.model);
     peers.delete(id);
   }
 }
-function movePeers(dt){
+function movePeers(dt,now){
   for(const friend of presence){
-    const target=pokerSeats[friend.seat]??friend;
+    const target=pokerSeats[friend.seat]??friend,sat=!!pokerSeats[friend.seat];
     let peer=peers.get(friend.id);
     if(!peer){
-      const model=window.Avatar3D.build(window.Avatar.resolve(friend.look));
+      peer=stand(window.Avatar3D.build(window.Avatar.resolve(friend.look)));
       const texture=world.paint(512,92,(context,w,h)=>{
         context.fillStyle='#202436';context.beginPath();context.roundRect(0,0,w,h,30);context.fill();
         context.fillStyle=PAPER;context.font='bold 48px Arial';context.textAlign='center';context.textBaseline='middle';
         context.fillText(friend.name,w/2,h/2,w-32);
       });
-      const tag=new THREE.Sprite(new THREE.SpriteMaterial({map:texture}));
-      tag.position.y=3;tag.scale.set(2.4,.43,1);
-      model.group.add(tag);model.group.position.set(friend.x,0,friend.z);
-      model.group.rotation.y=friend.heading;
-      scene.add(model.group);
-      peer={model,tag,stride:0};
+      peer.tag=new THREE.Sprite(new THREE.SpriteMaterial({map:texture}));
+      peer.tag.position.y=3;peer.tag.scale.set(2.4,.43,1);
+      peer.holder.add(peer.tag);peer.holder.position.set(friend.x,0,friend.z);
+      peer.holder.rotation.y=friend.heading;
+      // Lo último que hizo antes de que lo viéramos no se repite.
+      Object.assign(peer,{stride:0,air:0,vy:0,seen:friend.act?.n??0,gesture:''});
       peers.set(friend.id,peer);
     }
-    const {group,parts}=peer.model;
+    const group=peer.holder,{parts}=peer.model;
     const speed=Math.min(1,dt*5);
     const distance=Math.hypot(target.x-group.position.x,target.z-group.position.z);
     group.position.x+=(target.x-group.position.x)*speed;
     group.position.z+=(target.z-group.position.z)*speed;
     const turn=target.heading-group.rotation.y;
     group.rotation.y+=Math.atan2(Math.sin(turn),Math.cos(turn))*speed;
+    // Un gesto o un salto nuevo de este amigo.
+    const act=friend.act;
+    if(act&&act.n!==peer.seen){
+      peer.seen=act.n;
+      if(act.name==='jump'){if(peer.air<=0&&!sat){peer.vy=JUMP;peer.air=.001}}else peer.gesture=act.name;
+    }
+    if(peer.air>0){peer.vy-=GRAVITY*dt;peer.air+=peer.vy*dt;if(peer.air<=0){peer.air=0;peer.vy=0}}
+    group.position.y=sat?-.28:peer.air;
+    if(peer.actor&&!sat&&distance<.06&&peer.air<=0){
+      if(peer.walking){peer.walking=false;peer.actor.reset()}
+      if(peer.gesture){peer.actor.play(peer.gesture);peer.gesture=''}
+      peer.actor.step(now);
+      continue;
+    }
+    peer.gesture='';
+    if(!peer.walking){peer.walking=true;rest(peer)}
     peer.stride+=dt*9;
-    const swing=reduced?0:Math.sin(peer.stride)*Math.min(.45,distance);
-    parts.legs.forEach((leg,i)=>{leg.rotation.x=i?swing:-swing});
-    parts.arms.forEach(({arm},i)=>{arm.rotation.x=i?-swing:swing});
-    group.position.y=0;
-    if(pokerSeats[friend.seat])seatPose(peer.model);
+    const lift=Math.min(1,peer.air/.4),swing=reduced?0:Math.sin(peer.stride)*Math.min(.45,distance)*(1-lift);
+    parts.legs.forEach((leg,i)=>{leg.rotation.x=sat?-1.12:(i?swing:-swing)+(i?.55:-.75)*lift});
+    parts.arms.forEach(({arm,side},i)=>{arm.rotation.set(.02+(i?-swing:swing),0,side*(.34+2*lift))});
   }
 }
 function nearest(){
@@ -167,14 +205,17 @@ function tick(now){
   let ix=keys.right-keys.left+stick.x,iz=keys.down-keys.up+stick.y;const len=Math.hypot(ix,iz),moving=len>.08&&!game&&mySeat===null;
   if(moving){
     if(len>1){ix/=len;iz/=len}
-    const dx=ix*Math.cos(yaw)+iz*Math.sin(yaw),dz=-ix*Math.sin(yaw)+iz*Math.cos(yaw),speed=4.6;
+    const dx=ix*Math.cos(yaw)+iz*Math.sin(yaw),dz=-ix*Math.sin(yaw)+iz*Math.cos(yaw),speed=4.6+run*3.2;
     pos.x+=dx*speed*dt;pos.z+=dz*speed*dt;collide();
     let turn=Math.atan2(dx,dz)-heading;turn=Math.atan2(Math.sin(turn),Math.cos(turn));heading+=turn*Math.min(1,dt*12);
-    stride+=dt*9.5*Math.min(1,len);
+    stride+=dt*(9.5+run*4.5)*Math.min(1,len);
   }
+  // Se corre con Mayúsculas o llevando la palanca táctil hasta el borde.
+  run+=((moving&&(keys.run||Math.hypot(stick.x,stick.y)>.92)?1:0)-run)*Math.min(1,dt*8);
+  if(air>0){vy-=GRAVITY*dt;air+=vy*dt;if(air<=0){air=0;vy=0}}
   pace+=((moving?1:0)-pace)*Math.min(1,dt*10);if(reduced)pace=0;
   poseHero(dt,now);
-  movePeers(dt);
+  movePeers(dt,now);
   stepCrash(now);
   // Con amigos sentados, los jugadores de la casa les dejan la mesa.
   world.guests(mySeat===null&&!presence.some(peer=>pokerSeats[peer.seat]));
@@ -200,6 +241,15 @@ function tick(now){
     speaker.project(camera);
     stage.style.setProperty('--say-x',`${((speaker.x+1)/2*view.w).toFixed(1)}px`);stage.style.setProperty('--say-y',`${((1-speaker.y)/2*view.h).toFixed(1)}px`);
   }
+  // Los bocadillos del chat van sobre la cabeza de quien habla.
+  chat.frame(now,id=>{
+    const peer=id==='me'?null:peers.get(id);
+    if(id!=='me'&&!peer)return null;
+    const at=peer?eye.spare.copy(peer.holder.position).setY(peer.holder.position.y+3.45):eye.spare.set(pos.x,3.05+air,pos.z);
+    at.project(camera);
+    // Si la cabeza queda fuera de la pantalla (de cerca, o saltando), el bocadillo se queda en el borde.
+    return at.z>1?null:{x:Math.max(130,Math.min(view.w-130,(at.x+1)/2*view.w)),y:Math.max(150,(1-at.y)/2*view.h)};
+  });
   const next=game||mySeat!==null?null:nearest();
   near=next;
   const prompt=$('casino-prompt'),seated=mySeat!==null&&!game;
@@ -210,13 +260,37 @@ function tick(now){
 }
 
 // ---------- Controles ----------
-const KEYS={KeyW:'up',ArrowUp:'up',KeyS:'down',ArrowDown:'down',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right'};
+const KEYS={KeyW:'up',ArrowUp:'up',KeyS:'down',ArrowDown:'down',KeyA:'left',ArrowLeft:'left',KeyD:'right',ArrowRight:'right',ShiftLeft:'run',ShiftRight:'run'};
 const typing=event=>event.target instanceof HTMLInputElement;
 dialog.addEventListener('keydown',event=>{
   if(typing(event))return;
   if(KEYS[event.code]&&!game){keys[KEYS[event.code]]=1;event.preventDefault()}
-  if((event.code==='KeyE'||event.code==='Enter')&&near&&!game&&!(event.target instanceof HTMLButtonElement)){event.preventDefault();openGame(near.id)}
+  const onButton=event.target instanceof HTMLButtonElement;
+  if((event.code==='KeyE'||event.code==='Enter')&&near&&!game&&!onButton){event.preventDefault();return openGame(near.id)}
+  if(game||onButton||!running)return;
+  // Espacio salta, G abre los gestos, del 1 al 0 hacen uno, y Enter, T o la barra llevan al chat.
+  const digit=/^Digit(\d)$/.exec(event.code);
+  if(event.code==='Space'){event.preventDefault();jump()}
+  else if(event.code==='KeyG')chat.toggleEmotes();
+  else if(digit&&!event.ctrlKey&&!event.metaKey&&!event.altKey){const pick=EMOTES[(Number(digit[1])+9)%10];if(pick)emote(pick.id)}
+  else if(event.code==='Enter'||event.code==='KeyT'||event.code==='Slash'){event.preventDefault();chat.focus()}
 });
+// Lo que hace el personaje y ven los amigos: un salto o un gesto. «n» distingue uno del siguiente.
+const act=name=>friends.act({name,n:Math.floor(Date.now()/100)%1e9+1});
+function jump(){
+  if(game||mySeat!==null||air>0||!running)return;
+  vy=JUMP;air=.001;act('jump');
+}
+function emote(id){
+  if(game||mySeat!==null||air>0||pace>.04||!running||!hero?.actor?.play(id))return;
+  act(id);
+}
+let hinted=false;
+const chat=casinoChat({root:dialog,onEmote:emote,onJump:jump,onSay(text){
+  chat.say({id:'me',name:'Tú',text,mine:true});
+  // Sin el Salón compartido abierto, el mensaje no sale de este navegador.
+  if(!friends.say(text)&&!hinted){hinted=true;chat.note('De momento solo lo ves tú. Entra en «Amigos» para que te lean tus amigos del Salón.')}
+}});
 dialog.addEventListener('keyup',event=>{if(KEYS[event.code])keys[KEYS[event.code]]=0});
 window.addEventListener('blur',()=>{for(const key in keys)keys[key]=0});
 {
@@ -243,7 +317,8 @@ const stage=$('casino-stage'),H=R.HOLDEM;
 const shell=(title,note,body,bar,after='')=>`<header class="stage-head"><button class="casino-exit" type="button" data-casino-leave aria-label="Volver al salón">← <span>Salón</span></button>
   <div><h3>${title}</h3><p>${note}</p></div></header><div class="stage-body">${body}${after}</div><footer class="stage-bar">${bar}</footer>`;
 const friends=casinoFriends({
-  panel:stage,shell,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close()
+  panel:stage,shell,onPresence:showPeers,position:()=>({...pos,heading}),closeSalon:()=>dialog.close(),
+  onChat:message=>chat.say({id:message.id,name:message.name,text:message.text,quiet:message.old}),onNotice:text=>chat.note(text)
 });
 let bet=R.CHIPS[1],busy=false;
 const chips=(values=R.CHIPS,on=bet)=>`<div class="casino-chips" role="group" aria-label="Valor de la ficha">${values.map(n=>`<button type="button" class="casino-chip is-${n}${n===on?' is-on':''}" data-bet="${n}" aria-pressed="${n===on}">${n}</button>`).join('')}</div>`;
@@ -747,8 +822,11 @@ async function open(){
 document.querySelectorAll('[data-open-casino]').forEach(button=>button.addEventListener('click',open));
 dialog.querySelector('[data-casino-close]').addEventListener('click',()=>{if(!busy)dialog.close()});
 // Escape sale primero del juego y, si no hay ninguno abierto, del salón.
-dialog.addEventListener('cancel',event=>{if(game||busy){event.preventDefault();leaveGame()}});
-dialog.addEventListener('close',()=>{running=false;cancelAnimationFrame(frame);leaveGame();friends.stop();stick.x=stick.y=0;for(const key in keys)keys[key]=0;document.body.classList.remove('modal-open')});
+dialog.addEventListener('cancel',event=>{
+  if(chat.typing()){event.preventDefault();return chat.blur()}
+  if(game||busy){event.preventDefault();leaveGame()}
+});
+dialog.addEventListener('close',()=>{chat.clear();air=vy=run=0;running=false;cancelAnimationFrame(frame);leaveGame();friends.stop();stick.x=stick.y=0;for(const key in keys)keys[key]=0;document.body.classList.remove('modal-open')});
 // Sin 3D (is-flat) no hay mundo por el que andar: los juegos se abren desde una lista.
 dialog.querySelectorAll('[data-casino-game]').forEach(button=>button.addEventListener('click',()=>openGame(button.dataset.casinoGame)));
 window.addEventListener('resize',resize);

@@ -54,6 +54,43 @@ try{
   assert.equal(peers.find(peer=>peer.name==='Beto').x,12.3);
   assert.ok(peers.every(peer=>!JSON.stringify(peer).includes(accounts.Beto.player)));
 
+  // Gestos y saltos: viajan con la presencia y solo valen los de la lista.
+  clock+=400;
+  await pulse('Beto',{act:{name:'saludo',n:1}});
+  assert.deepEqual((await pulse('Ana')).players.find(peer=>peer.name==='Beto').act,{name:'saludo',n:1});
+  clock+=400;
+  await pulse('Beto',{act:{name:'<script>',n:2}});
+  assert.deepEqual((await pulse('Ana')).players.find(peer=>peer.name==='Beto').act,{name:'saludo',n:1},'un gesto que no existe no cambia nada');
+  clock+=400;
+  await pulse('Beto',{act:{name:'jump',n:3}});
+  assert.equal((await pulse('Ana')).players.find(peer=>peer.name==='Beto').act.name,'jump');
+
+  // Chat: lo leen los amigos y quien lo escribe; nadie más. El texto llega limpio y recortado.
+  await expect(400,'Ana','chat',{text:'  ‮  '});
+  await expect(400,'Ana','chat',{text:42});
+  clock+=1000;
+  const said=await expect(200,'Ana','chat',{text:'  Hola‮ a\ttodos  '});
+  assert.deepEqual(said.chat.map(({text,mine,name})=>({text,mine,name})),[{text:'Hola a todos',mine:true,name:'Ana'}]);
+  const heard=(await pulse('Beto')).chat;
+  assert.equal(heard.length,1);assert.equal(heard[0].mine,false);assert.equal(heard[0].text,'Hola a todos');
+  assert.equal(heard[0].id,(await pulse('Beto')).players.find(peer=>peer.name==='Ana').id,'el mensaje lleva el identificador público de quien habla');
+  assert.ok(!JSON.stringify(heard).includes(accounts.Ana.player));
+  assert.deepEqual((await pulse('Dani')).chat,[],'quien no es amigo no lo lee');
+  await pulse('Dani');
+  clock+=1000;
+  await expect(200,'Dani','chat',{text:'¿Hay alguien?'});
+  assert.equal((await pulse('Ana')).chat.length,1,'no llegan mensajes de quien no es amigo');
+  assert.equal((await expect(200,'Beto','chat',{text:'x'.repeat(300)})).chat.at(-1).text.length,140);
+  // Límites: nunca dos seguidos y como mucho seis cada diez segundos.
+  await expect(429,'Beto','chat',{text:'otra vez'});
+  for(let i=0;i<5;i++){clock+=500;await expect(200,'Beto','chat',{text:'mensaje '+i})}
+  clock+=500;
+  await expect(429,'Beto','chat',{text:'el séptimo'});
+  // Pasado un rato dejan de enviarse.
+  clock+=121000;
+  for(const player of ['Ana','Beto','Clara','Dani'])await pulse(player);
+  assert.deepEqual((await pulse('Ana')).chat,[]);
+
   const {table}=await expect(200,'Ana','create');
   await expect(404,'Dani','join',{id:table.id});
   await Promise.all(['Beto','Clara'].map(player=>expect(200,player,'join',{id:table.id})));
@@ -126,5 +163,5 @@ try{
   assert.equal((await pulse('Ana')).coins,1000);
   assert.deepEqual((await pulse('Ana')).players,[]);
 
-  console.log('Salón compartido: amistad, sesión, presencia, cartas privadas, turnos, apuestas, bote, concurrencia y caducidad correctos.');
+  console.log('Salón compartido: amistad, sesión, presencia, gestos, chat entre amigos, cartas privadas, turnos, apuestas, bote, concurrencia y caducidad correctos.');
 }finally{rmSync(dir,{recursive:true,force:true})}
