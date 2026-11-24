@@ -17,7 +17,7 @@ for(const c of bank.categories){
   assert.ok(c.sources.length&&c.sources.every(source=>source.title&&source.url.startsWith('https://')),`${c.id}: fuentes primarias enlazadas`);
   assert.ok(c.theme,`${c.id}: dominio para diversificar la diaria`);
   assert.ok(c.description.length>30,`${c.id}: alcance explicado`);
-  assert.ok(c.answers.some(answer=>answer.points===100),`${c.id}: permite alcanzar la cima`);
+  assert.ok(c.answers.some(answer=>answer.points===100&&!answer.million),`${c.id}: conserva una respuesta de cumbre ordinaria`);
   assert.ok(c.answers.length>=10,`${c.id}: alternativas suficientes`);
   const aliases=new Map();
   for(const answer of c.answers){
@@ -29,6 +29,7 @@ for(const c of bank.categories){
       const resolved=ascensionAnswer(c,value).answer;
       assert.equal(resolved?.name,answer.name,`${c.id}: cada nombre registrado resuelve su propia respuesta`);
       assert.equal(resolved.points,answer.points,'Un alias conserva la puntuación de su concepto');
+      assert.equal(resolved.million,answer.million,'Un alias conserva el impulso de su concepto');
     }
   }
 }
@@ -120,6 +121,12 @@ assert.equal(match('nobel-literatura-espanol','Saramago'),null,'Fue laureado y e
 assert.equal(accepted('emoji-musica','arpa').points,30);
 assert.equal(accepted('emoji-musica','tamboril').points,100);
 
+const extremes=bank.categories.flatMap(c=>c.answers.filter(answer=>answer.million));
+assert.equal(extremes.length,11,'El banco contiene once hallazgos de rareza extrema');
+assert.equal(accepted('disney-animacion','Make Mine Music','Música maestro').million,true);
+assert.equal(accepted('constelaciones','Reticulum','Retículo').million,true);
+assert.equal(accepted('constelaciones','Mensa','Mesa').million,undefined);
+
 const twins={id:'ambiguas',answers:[{name:'Martes',aliases:[],points:10},{name:'Martas',aliases:[],points:100}]};
 assert.equal(ascensionAnswer(twins,'Martis').answer,null,'Una errata equidistante se rechaza, también con puntuaciones distintas');
 assert.equal(ascensionAnswer(twins,'Martes').answer.points,10,'La coincidencia exacta tiene prioridad');
@@ -139,6 +146,7 @@ for(let day=0;day<120;day++){
     assert.ok(rounds.filter(entry=>['ciencia','cuerpo','espacio','naturaleza'].includes(entry.theme)).length<=2,'Se limita la concentración de preguntas de ciencia');
     assert.deepEqual(rounds.map(entry=>entry.audience),['familiar','familiar','discovery','familiar','discovery','challenge','familiar']);
     assert.ok(rounds.some(entry=>entry.connection),'Cada partida cruza al menos dos ideas en uno de los descubrimientos');
+    assert.ok(rounds.some(entry=>entry.answers.some(answer=>answer.million)),'Cada edición diaria y práctica ofrece un hallazgo extremo');
     for(const entry of rounds)seen.add(entry.id);
   }
   assert.ok(!practice.some(entry=>edition.some(other=>entry.id===other.id)),'La primera práctica no repite la diaria');

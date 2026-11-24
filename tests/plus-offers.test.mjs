@@ -72,10 +72,10 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
         const question={input,'#ascension-answer':input,'#ascension-submit':submit,'.ascension-clock':clock,'#ascension-seconds':seconds};
         if(question[selector])return question[selector];
       }
-      if(html.includes('id="ascension-climb-status"')){
-        const result={'#ascension-next':next,'.ascension-climb-controls':controls,'#ascension-climb-status':status,
-          '[data-ascension="skip-climb"]':skip,'[data-ascension="replay-climb"]':replay};
-        if(selector==='[data-ascension="skip-climb"]:not([hidden])')return skip.hidden?null:skip;
+      if(html.includes('id="ascension-flight-status"')){
+        const result={'#ascension-next':next,'.ascension-flight-controls':controls,'#ascension-flight-status':status,
+          '[data-ascension="skip-flight"]':skip,'[data-ascension="replay-flight"]':replay};
+        if(selector==='[data-ascension="skip-flight"]:not([hidden])')return skip.hidden?null:skip;
         if(result[selector])return result[selector];
       }
       return selector==='h3'?focus:null;
@@ -91,7 +91,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
   const animate=options=>{climbs.push(options);return new Promise(resolve=>{endClimb=resolve})};
   const scene={setHeight:(_height,options)=>options.animate?animate(options):Promise.resolve(),
     replay:animate,finish(){endClimb?.(true)},setState(){},refreshLook(){},destroy(){endClimb?.(false)}};
-  const fixture={date:'2026-11-19',game:0,phase:'finished',round:6,rounds:7,score:70,height:700,now:Date.now(),ranking:null,
+  const fixture={date:'2026-11-19',game:0,phase:'finished',round:6,rounds:7,seconds:25,score:70,height:700,now:Date.now(),ranking:null,
     results:Array.from({length:7},(_,round)=>({round,answer:'Respuesta',title:'Categoría',points:10,height:100,tier:{name:'Conocida'},sources:[]}))};
   let response=fixture;
   const page={document:{documentElement:{},getElementById:id=>elements[id],querySelector:()=>button,
@@ -99,7 +99,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     MutationObserver:class{observe(){}},Progress:{look:()=>({}),reaction:()=>({mood:'still'}),
       planOffer:()=>({plus:subscriber,linked:true,enabled:false}),
       openPlan({mode}){if(dispatch(event('faraday:before-plan',{mode})))openedMode=mode}},
-    AscensionScene:{mount:()=>scene},Sound:{on:false},escapeHtml:value=>String(value),
+    AscensionFlight:{mount:()=>scene},Sound:{on:false},escapeHtml:value=>String(value),
     Continuations:{register(mode,play,prepare){assert.equal(mode,'ascension');continuation={play,prepare}},refresh(){}},
     playerReady:Promise.resolve(),fetch:async(_url,options)=>{const data=JSON.parse(options.body);requests.push(data);return {ok:true,json:async()=>structuredClone(replies[data.action]||response)}},
     AbortController,Event,Date,URL,URLSearchParams,location:{search:'',pathname:'/',origin:'https://faraday.test'},navigator:{},
@@ -128,7 +128,7 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     assert(!requests.some(request=>request.action==='practica'),'Preparar sin completar el anuncio no consume el recibo');
     replies.practica={...response,game:4,phase:'ready',round:0,results:[],score:0,height:0};
     await continuation.play(prepared);await flush();
-    assert.equal(requests.at(-1).action,'practica');assert.equal(requests.at(-1).game,3);assert.equal(requests.at(-1).ticket,'recibo-de-prueba');assert.match(content.innerHTML,/Empezar ascensión/);
+    assert.equal(requests.at(-1).action,'practica');assert.equal(requests.at(-1).game,3);assert.equal(requests.at(-1).ticket,'recibo-de-prueba');assert.match(content.innerHTML,/Despegar/);
     delete replies['preparar-practica'];delete replies.practica;
     dialog.close();
     response={...fixture,phase:'question',round:0,results:[],score:0,height:0,now:Date.now(),deadline:Date.now()+25000,
@@ -145,22 +145,22 @@ listeners.get('click')({target:{closest:()=>({dataset:{openPlus:'daily'}})}});as
     await flush();
     assert.equal(dialog.scrollTop,0,'La revelación devuelve la vista a la escena');
     assert.equal(climbs.length,1);assert.equal(climbs[0].points,10);assert.equal(typeof climbs[0].onCue,'function');
-    assert.equal(status.textContent,'Escalando…');assert.equal(skip.hidden,false);assert.equal(replay.hidden,true);assert.equal(next.disabled,true);
+    assert.equal(status.textContent,'En vuelo');assert.equal(skip.hidden,false);assert.equal(replay.hidden,true);assert.equal(next.disabled,false);
     const activity=requests.length;
     response=replies.responder;
     dispatch(event('visibilitychange'));await flush();
     assert.equal(requests.length,activity,'Recuperar la visibilidad no corta la escalada');
     const click=action=>dialogHandlers.get('click')({target:{closest:()=>({dataset:{ascension:action},hasAttribute:()=>false})}});
-    skip.focus();click('skip-climb');await flush();
-    assert.equal(requests.at(-1).action,'estado');assert.equal(status.textContent,'Repisa alcanzada');
+    skip.focus();click('skip-flight');await flush();
+    assert.equal(requests.at(-1).action,'estado');assert.equal(status.textContent,'Vuelo completado');
     assert.equal(next.disabled,false);assert.equal(replay.hidden,false);assert.equal(page.document.activeElement,next);
-    replay.focus();click('replay-climb');await flush();
+    replay.focus();click('replay-flight');await flush();
     assert.equal(climbs.length,2);assert.equal(requests.length,activity+1,'La repetición solo afecta a la escena');
-    assert.equal(next.disabled,true);assert.equal(page.document.activeElement,skip);
+    assert.equal(next.disabled,false);assert.equal(page.document.activeElement,skip);
     scene.finish();await flush();
     replies.siguiente={...question,round:1};
     dialogHandlers.get('keydown')({...event('keydown'),key:'Enter',target:focus});await flush();
     assert.equal(requests.at(-1).action,'siguiente');assert.equal(dialog.dataset.phase,'question');
   }finally{dialog.close()}
 }
-console.log('plus-offers: oferta contextual, cuotas, precio dinámico, Plus y flujo de escalada correctos');
+console.log('plus-offers: oferta contextual, cuotas, precio dinámico, Plus y flujo de vuelo correctos');

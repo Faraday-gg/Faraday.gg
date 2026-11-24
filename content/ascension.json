@@ -1,8 +1,8 @@
 {
-  "version": "2026-11-21-3",
-  "date": "2026-11-21",
+  "version": "2026-11-23-4",
+  "date": "2026-11-23",
   "rarity": "editorial",
-  "rarityNote": "Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.",
+  "rarityNote": "Puntos y niveles editoriales de familiaridad estimada. «1 de un millón» identifica un hallazgo extremo con impulso adicional. La etiqueta no representa una frecuencia medida.",
   "attribution": "Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.",
   "categories": [
     {
@@ -3204,7 +3204,8 @@
           "id": "nf",
           "name": "Isla Norfolk",
           "aliases": [],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "cc",
@@ -8665,7 +8666,8 @@
           "aliases": [
             "Bothe"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "nobel-16",
@@ -17049,7 +17051,8 @@
           "aliases": [
             "Reticulum"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "const-sextans",
@@ -18874,7 +18877,8 @@
           "aliases": [
             "Kwanyama"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "idioma-li",
@@ -20098,7 +20102,8 @@
           "aliases": [
             "STN"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "moneda-fjd",
@@ -21028,7 +21033,8 @@
           "aliases": [
             "Make Mine Music"
           ],
-          "points": 100
+          "points": 100,
+          "million": true
         },
         {
           "id": "saludosamigos",
@@ -25608,7 +25614,8 @@
           "aliases": [
             "Timon of Athens"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "titoandronico",
@@ -25807,7 +25814,8 @@
           "id": "twoagainstnature",
           "name": "Two Against Nature",
           "aliases": [],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "riverthejoniletters",
@@ -26717,7 +26725,8 @@
           "id": "seaking",
           "name": "Seaking",
           "aliases": [],
-          "points": 100
+          "points": 100,
+          "million": true
         }
       ],
       "audience": "discovery",
@@ -27205,7 +27214,8 @@
           "aliases": [
             "DJF"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "moneda-kmf",
@@ -27305,7 +27315,8 @@
           "aliases": [
             "Benavente"
           ],
-          "points": 85
+          "points": 100,
+          "million": true
         },
         {
           "id": "nobel-641",

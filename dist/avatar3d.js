@@ -616,7 +616,7 @@ const SCALE=Math.min(window.devicePixelRatio||1,2),TURN=-.3,reduced=window.match
 // Encuadres: frame = alto que debe caber, width = ancho, target = altura a la que mira la cámara, x = desplazamiento lateral.
 // shoes se ve de lado, para que se vea el logotipo (la puntera queda a la izquierda, por eso se desplaza). Todos dejan margen
 // para el pelo más alto (afro, moño, corona), los saltos y la sombra, que no deben cortarse con el borde del lienzo.
-const VIEWS={full:{ratio:2/3,frame:3.45,width:2.3,target:1.55},bust:{ratio:1,frame:2.2,target:2},legs:{ratio:1,frame:1.5,target:.46},shoes:{ratio:1,frame:1.05,target:.24,x:-.08},torso:{ratio:1,frame:1.75,target:1},stage:{ratio:1,frame:3.5,target:1.58},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
+const VIEWS={full:{ratio:2/3,frame:3.45,width:2.3,target:1.55},bust:{ratio:1,frame:2.2,target:2},legs:{ratio:1,frame:1.5,target:.46},shoes:{ratio:1,frame:1.05,target:.24,x:-.08},torso:{ratio:1,frame:1.75,target:1},stage:{ratio:1,frame:3.5,target:1.58},flight:{ratio:1,frame:3.5,target:1.58,shadow:false},home:{ratio:1,frame:3.45,width:3.6,target:1.5}};
 const TAN=Math.tan(THREE.MathUtils.degToRad(13.5));
 function renderAvatarFrame(context,width,height,viewCamera){
   renderer.setViewport(0,0,width,height);renderer.setScissor(0,0,width,height);renderer.clear();renderer.render(scene,viewCamera);
@@ -627,7 +627,7 @@ function shoot(context,width,height,entry,mode,turn,climbPose){
   const x=view.x||0;camera.aspect=aspect;camera.position.set(x,view.target+distance*.03,distance);camera.lookAt(x,view.target,0);camera.updateProjectionMatrix();camera.updateMatrixWorld(true);
   entry.group.rotation.y=turn;scene.add(entry.group);
   if(climbPose||entry.climbing)climbingPose(entry,climbPose,turn);
-  floor.visible=!climbPose||(climbPose.mix??1)<.5;
+  floor.visible=view.shadow!==false&&(!climbPose||(climbPose.mix??1)<.5);
   renderAvatarFrame(context,width,height,camera);
   scene.remove(entry.group);floor.visible=true;
 }

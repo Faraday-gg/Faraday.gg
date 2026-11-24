@@ -43,6 +43,7 @@ node tests/ascension-api.test.mjs
 node tests/ascension-banco.test.mjs
 node tests/ascension-anuncios.test.mjs
 node tests/ascension-chart.test.mjs
+node tests/ascension-flight.test.mjs
 ```
 
 ## Amigos y ligas
@@ -57,9 +58,9 @@ Para comprobar la herencia, elige Robot en «Todos los modos / ¡Casi casi!» y 
 
 ## Probar Ascensión
 
-Con `node preview-server.mjs`, abre «Ascensión» en la portada o en «Juega» del menú. Son siete categorías y 25 segundos por respuesta. La rareza editorial suma 10, 30, 60, 85 o 100 puntos y el avatar escala diez metros por punto, hasta 7.000 m. Cada partida combina cuatro categorías familiares, dos de descubrimiento y una difícil, de siete temas distintos. Al menos un turno de descubrimiento cruza dos condiciones verificables. Las erratas claras se aceptan en el primer envío. Si hay varias coincidencias igual de cercanas, puedes reintentar mientras quede tiempo. Después de cada respuesta puedes descubrir ejemplos de otros niveles y consultar las fuentes.
+Con `node preview-server.mjs`, abre «Ascensión» en la portada o en «Juega» del menú. Son siete categorías y 25 segundos por respuesta. La rareza editorial suma 10, 30, 60, 85 o 100 puntos y el propulsor recorre diez metros por punto. Un hallazgo «1 de un millón» vale 100 puntos y da 1.500 m de vuelo, incluidos 500 de impulso extra. Cada partida combina cuatro categorías familiares, dos de descubrimiento y una difícil, de siete temas distintos. Al menos un turno de descubrimiento cruza dos condiciones verificables. Las erratas claras se aceptan en el primer envío. Si hay varias coincidencias igual de cercanas, puedes reintentar mientras quede tiempo. Después de cada respuesta puedes descubrir ejemplos de otros niveles y consultar las fuentes.
 
-Elige «Directa» para seguir un recorrido más vertical o «Travesía» para cruzar la pared en diagonal. Ambas llegan a la misma altura. El avatar equipado empieza de cerca contra la roca. Al jugar, la cámara abre el plano y sigue el progreso por la montaña, que se ve entera en el resumen. Las respuestas más raras encadenan los agarres más rápido y te llevan más arriba. Puedes saltar o repetir el tramo desde el resultado. Con movimiento reducido, ves directamente la altura y la repisa final.
+El vuelo llena la ventana desde la plataforma hasta el espacio. El avatar lleva un propulsor y la tarjeta permanece legible a su lado en escritorio y debajo en móvil. El sonido distingue la fuerza del vuelo y las rarezas. Puedes seguir a la pregunta siguiente durante el vuelo, saltarlo o repetirlo. Con movimiento reducido, ves directamente la posición alcanzada.
 
 La edición diaria cambia a medianoche de Madrid: termina antes. La clasificación usa solo primeras partidas diarias terminadas de la misma edición y entorno; las prácticas quedan fuera y se desbloquean al terminar: una por anuncio de prueba (primero de 15 segundos, siguientes de 60), sin límite diario, o sin anuncios con Plus. Retomar una práctica abierta no exige otro anuncio. El gráfico incluye barras reales, curva normal ajustada desde dos resultados ajenos distintos y marca de tu puntuación. Cerrar o recargar conserva el progreso en el servidor y el tiempo sigue corriendo. «Personalizar» abre el armario en Ascensión para elegir un gesto por nivel de puntuación. La ropa y los emotes no cambian los puntos.
 

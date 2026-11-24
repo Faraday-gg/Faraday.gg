@@ -92,7 +92,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   social.js              Invitaciones de amistad, presencia, actividad reciente y chat directo
   tendencias.js, tendencias.css  Traza la tendencia: dibujo de series históricas, comparación y avatar
   ascension.js, ascension.css  Respuestas raras: partida, reloj, resultados, clasificación y prácticas
-  ascension-route.js, ascension-terrain.js, ascension-scene.js y ascension-scene.css  Montaña, cámara y agarres de Ascensión
+  ascension-flight.js, ascension-flight.css y ascension-audio.js  Paisaje, propulsor y sonido de Ascensión
   ascension-chart.js     Histograma, curva normal ajustada y marca del resultado propio
   archivo-vivo.js, archivo-vivo-rondas.js y archivo-vivo-visor.js  Fotografías históricas, puntuación local y visor 360° con el avatar en primera persona (decisiones 0108, 0109 y 0111)
   categories.js          Categorías de pregunta (deportes, comida…) con su icono
@@ -102,7 +102,7 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
 lib/ascension.mjs        Edición diaria, validación, reloj y clasificación de Ascensión
 lib/archivo-vivo.mjs     Partida fotográfica, rotación, continuación y reanudación en el almacén privado de anuncios
 lib/ascension-store.mjs  Persistencia local y Supabase con versión optimista
-content/ascension.json   Banco privado de 49 categorías y 3.410 respuestas, fuentes y rareza editorial
+content/ascension.json   Banco privado de 57 categorías y 3.570 respuestas, fuentes y rareza editorial
 lib/continuaciones.mjs   Recibos, contadores por modalidad/día y retos extra de práctica (POST /api/continuacion)
 lib/tendencias.mjs       Edición diaria y puntuación de Traza la tendencia
 content/tendencias*.json Banco vigente de 108 gráficas y bancos anteriores para partidas iniciadas
@@ -288,7 +288,7 @@ El servidor escucha en `127.0.0.1:4173` por defecto. `HOST`, `PORT` y `ANSWERS_F
 
 El banco se incluye expresamente en la función de `vercel.json`, fuera de los archivos públicos. No hay consultas a fuentes externas ni generación de respuestas durante el juego. La API revela solo la categoría activa, resultados resueltos y hasta cinco ejemplos posteriores. La clasificación compara únicamente diarias completadas de la misma fecha, edición y entorno; muestra empates, percentil y distribución de otros jugadores. Sin otros resultados, lo dice expresamente.
 
-La interfaz reutiliza el avatar, la ropa, el sonido y las celebraciones del armario. `ascension-route.js` convierte los metros en coordenadas y calcula los apoyos y su cadencia para Directa y Travesía. `ascension-terrain.js` dibuja la montaña y `ascension-scene.js` aplica la misma cámara a la roca, las presas, la cuerda y el avatar. La cámara pasa de la pared al panorama al avanzar la expedición. La vía, el salto de la animación, la repetición y el movimiento reducido se resuelven en el navegador. [Decisión 0119](docs/decisiones/0119-montana-y-preguntas-de-ascension.md).
+La interfaz reutiliza el avatar, la ropa y las celebraciones del armario. `ascension-flight.js` proyecta la distancia del servidor en una trayectoria ficticia sobre un lienzo a pantalla completa. `ascension-audio.js` sintetiza el sonido de motor y los motivos por rareza a través del mezclador compartido. Las respuestas «1 de un millón» añaden 500 m al tramo de 1.000 m. Los metros del vuelo se suman desde los resultados de cada ronda y los puntos siguen entre 0 y 700. El salto, la repetición y el movimiento reducido se resuelven en el navegador. [Decisión 0123](docs/decisiones/0123-vuelo-y-sonido-de-ascension.md).
 
 La migración `20261119055720_ascension` está aplicada con autorización expresa de Álvaro. La tabla usa RLS y acceso exclusivo del servidor. Las fuentes de las preguntas se documentan en [research/ascension-fuentes.md](research/ascension-fuentes.md).
 

@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="duel-lobby.css">
   <link rel="stylesheet" href="armario.css">
   <link rel="stylesheet" href="celebrations.css">
-  <link rel="stylesheet" href="ascension-scene.css">
+  <link rel="stylesheet" href="ascension-flight.css">
   <link rel="stylesheet" href="ascension.css">
   <link rel="stylesheet" href="market.css">
   <link rel="stylesheet" href="tendencias.css">
@@ -71,9 +71,8 @@
   <script src="reactions.js" defer></script>
   <script src="auth.js" defer></script>
   <script src="tendencias.js" defer></script>
-  <script src="ascension-route.js" defer></script>
-  <script src="ascension-terrain.js" defer></script>
-  <script src="ascension-scene.js" defer></script>
+  <script src="ascension-flight.js" defer></script>
+  <script src="ascension-audio.js" defer></script>
   <script src="ascension-chart.js" defer></script>
   <script src="ascension.js" defer></script>
   <script src="social.js" defer></script>
@@ -432,14 +431,21 @@
     <div class="archivo-vivo-body" id="archivo-vivo-body"></div>
   </dialog>
   <dialog class="ascension-dialog" id="ascension-dialog" aria-labelledby="ascension-title">
+    <div id="ascension-scene" aria-hidden="true"></div>
     <header class="ascension-header">
-      <button class="game-back" type="button" aria-label="Cerrar Ascensión" data-close-ascension autofocus>×</button>
-      <div class="ascension-heading"><p class="section-kicker">FARADAY.GG</p><h2 id="ascension-title">Ascensión</h2></div>
+      <button class="ascension-icon-button ascension-close" type="button" aria-label="Cerrar Ascensión" data-close-ascension autofocus>×</button>
+      <h2 id="ascension-title">Ascensión</h2>
       <button class="ascension-icon-button" type="button" data-ascension="sound" aria-label="Activar o silenciar el sonido" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg></button>
     </header>
     <div class="ascension-body">
-      <aside class="ascension-expedition"><div id="ascension-scene"></div><button class="ascension-wardrobe" type="button" data-ascension="wardrobe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m8 4-5 3 3 5 2-1v9h8v-9l2 1 3-5-5-3c0 4-8 4-8 0z"/></svg><span>Tu avatar y tus celebraciones</span><b>Personalizar</b></button></aside>
-      <main class="ascension-play"><p class="ascension-mode-line" id="ascension-mode"></p><ol class="ascension-steps" id="ascension-steps" aria-label="Progreso de la ascensión"></ol><div id="ascension-content"></div><div class="ascension-alert" id="ascension-alert" role="alert"></div></main>
+      <aside class="ascension-expedition">
+        <div class="ascension-altitude" aria-label="Distancia recorrida"><span id="ascension-zone">Plataforma</span><p><b id="ascension-metres">0</b> <small>m</small></p></div>
+        <button class="ascension-wardrobe" type="button" data-ascension="wardrobe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m8 4-5 3 3 5 2-1v9h8v-9l2 1 3-5-5-3c0 4-8 4-8 0z"/></svg>Personalizar</button>
+      </aside>
+      <div class="ascension-play">
+        <div class="ascension-roundline"><p class="ascension-mode-line" id="ascension-mode"></p><ol class="ascension-steps" id="ascension-steps" aria-label="Progreso de la ascensión"></ol></div>
+        <div id="ascension-content"></div><div class="ascension-alert" id="ascension-alert" role="alert"></div>
+      </div>
     </div>
   </dialog>
   <dialog class="trends-dialog" id="trends-dialog" aria-labelledby="trends-title">

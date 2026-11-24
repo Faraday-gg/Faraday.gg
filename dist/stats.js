@@ -72,7 +72,7 @@
   function compare(metres){
     const total=whole(metres),index=PLACES.findLastIndex(place=>place.m<=total),place=PLACES[index],next=PLACES[index+1];
     const goal=next?`Te faltan ${distance(next.m-total)} para ${next.kind==='viaje'?(next.name.startsWith('la ')?'dar ':'ir ')+next.name:('llegar a '+next.name).replace('a el ','al ')} (${distance(next.m)}).`:'';
-    if(!place)return {text:total?'Cada repisa cuenta: la montaña se sube metro a metro.':'Juega una Ascensión y empieza a sumar metros.',goal};
+    if(!place)return {text:total?'Cada respuesta válida añade metros al vuelo.':'Juega una Ascensión y empieza a sumar metros.',goal};
     const times=total/place.m,many=times>=1.5?number(Math.floor(times*10)/10,1):'';
     const text=place.kind==='viaje'
       ?(many?`Eso es como ${place.name.startsWith('la ')?'dar':'ir'} ${many} veces ${place.name}, pero hacia arriba.`:`Eso es como ${place.name.startsWith('la ')?'dar':'ir'} ${place.name}, pero hacia arriba.`)
@@ -101,10 +101,10 @@ ${card('duelos','Duelos','Contra otras personas',[
   tile(percent(duels.won,duels.played),'de victorias'),tile(number(duels.draw),'empatados'),
   tile(number(duels.lost),'perdidos'),tile(number(n('duelStreak')),'mejor racha')],
   (modes?`<ul class="stats-lines">${modes}</ul>`:'')+'<p class="stats-note">No cuentan las prácticas con el bot ni los duelos abandonados.</p>')}
-${card('ascension','Ascensión','Siete repisas por partida',[
+${card('ascension','Ascensión','Siete preguntas por partida',[
   tile(number(asc.played),asc.played===1?'ascensión':'ascensiones',true),tile(distance(asc.total),'ascendidos',true),
   tile(distance(asc.best),'mejor ascensión'),tile(number(asc.top),'respuestas de cumbre')],
-  `<p class="stats-compare"><span aria-hidden="true">⛰️</span><span><b>${asc.total?`Has ascendido ${distance(asc.total)}.`:'Aún no has subido nada.'}</b> ${versus.text}${versus.goal?` <small>${versus.goal}</small>`:''}</span></p>`)}
+  `<p class="stats-compare"><span aria-hidden="true">↑</span><span><b>${asc.total?`Has ascendido ${distance(asc.total)}.`:'Aún no has subido nada.'}</b> ${versus.text}${versus.goal?` <small>${versus.goal}</small>`:''}</span></p>`)}
 ${card('traza','Traza','Dibuja cómo siguió la gráfica',[
   tile(number(traza.played),traza.played===1?'partida':'partidas',true),tile(number(traza.total),'puntos'),tile(number(traza.best),'mejor partida')])}
 ${card('archivo','Archivo Vivo','¿De qué año es la foto?',[

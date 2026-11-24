@@ -14,7 +14,8 @@ const fixture={version:'http-test',categories:Array.from({length:14},(_,index)=>
   id:`prueba-http-${index}`,theme:`tema-${index%7}`,title:`Nombra una respuesta válida de prueba ${index}`,
   description:'Banco cerrado para las comprobaciones de HTTP.',sources:[{title:'Catálogo de prueba',url:'https://example.org/catalogo'}],
   answers:[{name:'Respuesta corriente',aliases:['respuesta común'],points:10},
-    {name:'Respuesta de cumbre',aliases:['hallazgo secreto'],points:100}]
+    {name:'Respuesta de cumbre',aliases:['hallazgo secreto'],points:100},
+    {name:'Hallazgo extremo de prueba',aliases:['hallazgo infrecuente'],points:100,million:true}]
 }))};
 const day='2026-11-19',hash=value=>createHash('sha256').update(value).digest('hex');
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'faraday-ascension-api-'));
@@ -75,6 +76,7 @@ try{
   assert.equal(invalid.status,422);assert.equal(invalid.body.deadline,left.body.deadline);assert.equal(invalid.body.results.length,0);
   const answered=await post({action:'responder',date:day,game:0,round:0,answer:'RESPUESTA COMÚN',points:700,score:700,player:spoofPlayer},{cookie:guestCookie});
   assert.equal(answered.status,200);assert.equal(answered.body.score,10);assert.equal(answered.body.height,100);assert.equal(answered.body.results[0].answer,'Respuesta corriente');
+  assert(!JSON.stringify(answered.body).includes('Hallazgo extremo de prueba'),'Los ejemplos dejan el hallazgo extremo por descubrir');
   const repeated=await post({action:'responder',date:day,game:0,round:0,answer:'hallazgo secreto',points:100},{cookie:guestCookie});
   assert.equal(repeated.body.score,10);assert.equal(repeated.body.results.length,1);assert.equal(repeated.body.repeated,true);
   const disk=fs.readFileSync(path.join(directory,'ascension.json'),'utf8');
@@ -140,6 +142,33 @@ try{
   assert.equal((await isolated('continuacion',{action:'completar',mode:'ascension',date:day,ticket:ad.body.ticket})).status,200);
   const next=await isolated('ascension',{action:'practica',date:day,game:0,ticket:ad.body.ticket});assert.equal(next.body.game,1);
   assert.equal((await isolated('continuacion',{action:'estado',mode:'ascension'})).body.id,'1');
+
+  // Siete bonificaciones pueden superar la altura ordinaria y seguir clasificando con 700 puntos.
+  const pilotCookie=playerCookie(replaced),pilotRequest=data=>post({date:day,game:0,...data},{cookie:pilotCookie});
+  for(let round=0;round<7;round++){
+    if(round)assert.equal((await pilotRequest({action:'siguiente',round:round-1})).status,200);
+    const question=await pilotRequest({action:'empezar',round});
+    assert.equal(question.body.maxHeight,10500);assert.equal(question.body.maxScore,700);
+    assert(!JSON.stringify(question.body.current).includes('Hallazgo extremo de prueba'));
+    const response=await pilotRequest({action:'responder',round,answer:'Hallazgo infrecuente',bonusHeight:99999});
+    assert.equal(response.status,200);
+    const result=response.body.results[round];
+    assert.deepEqual(result.tier,{id:'million',name:'1 de un millón',points:100});
+    assert.equal(result.answer,'Hallazgo extremo de prueba');
+    assert.equal(result.bonusHeight,500);assert.equal(result.height,1500);assert.equal(result.totalHeight,(round+1)*1500);
+    assert.equal(response.body.score,(round+1)*100);assert.equal(response.body.height,result.totalHeight);
+    if(round===0){
+      await stop();await start();
+      const replay=await pilotRequest({action:'responder',round,answer:'hallazgo infrecuente'});
+      assert.equal(replay.body.repeated,true);assert.equal(replay.body.height,1500);
+      assert.equal(replay.body.results.length,1);assert.equal(replay.body.results[0].bonusHeight,500);
+    }
+  }
+  const flight=await pilotRequest({action:'siguiente',round:6});
+  assert.equal(flight.body.phase,'finished');assert.equal(flight.body.height,10500);
+  assert.equal(flight.body.ranking.position,1);assert.equal(flight.body.ranking.top[0],700);
+  const persistedPilot=await store.ascension.get('preview',day,hash(pilotCookie.split('=')[1]),0);
+  assert.equal(persistedPilot.score,700);assert.equal(persistedPilot.state.results.at(-1).totalHeight,10500);
 
   await stop();await start('publico');
   const production=await post({action:'estado'},{cookie:guestCookie});
