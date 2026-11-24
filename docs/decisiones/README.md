@@ -126,6 +126,7 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0120](0120-salon-mesas-en-la-sala-y-crash.md) | Mesas del Salón dentro de la sala (la cámara se acerca con la E), sala de casino y juego de crash | Prototipo | 2026-11-23 |
 | [0121](0121-tragaperras-tormenta.md) | Tragaperras «Tormenta»: rejilla de 6 × 5 con caídas, esferas multiplicadoras y tiradas gratis | Prototipo | 2026-11-23 |
 | [0122](0122-salon-gestos-correr-saltar-y-chat.md) | Salón: gestos, correr, saltar y chat con bocadillos entre amigos | Prototipo | 2026-11-23 |
+| [0123](0123-vuelo-y-sonido-de-ascension.md) | Ascensión a pantalla completa con propulsor, sonido por rareza e impulso extremo | Implementada | 2026-11-24 |
 
 ## Plantilla
 

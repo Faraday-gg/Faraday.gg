@@ -381,17 +381,39 @@ for row in categories:
 
 runpy.run_path(str(ROOT/'research/ascension-cultura-general.py'))['add_sets'](category,answer,categories)
 runpy.run_path(str(ROOT/'research/ascension-cruces.py'))['add_crosses'](category,answer,categories,plain)
+
+# Un hallazgo de rareza extrema por categoría seleccionada, validado en su repertorio.
+# Se mantiene al menos una opción de cumbre ordinaria en esas mismas preguntas.
+extreme={
+ 'territorios-oceania':'nf',
+ 'nobel-physics':'nobel-62',
+ 'grammy-album':'twoagainstnature',
+ 'monedas':'moneda-stn',
+ 'constelaciones':'const-reticulum',
+ 'disney-animacion':'musicamaestro',
+ 'idiomas':'idioma-kj',
+ 'shakespeare':'timondeatenas',
+ 'kanto-tipo-agua':'seaking',
+ 'monedas-dolar-peso-franco':'moneda-djf',
+ 'nobel-literatura-espanol':'nobel-592',
+}
+catalog={c['id']:c for c in categories}
+for category_id,answer_id in extreme.items():
+ row=next(a for a in catalog[category_id]['answers'] if a['id']==answer_id)
+ assert row['points']>=85,(category_id,answer_id)
+ row.update(points=100,million=True)
+
 assert len(categories)>=45
 assert sum(len(c['answers'])for c in categories)>=2000
 assert len({c['id']for c in categories})==len(categories)
 for c in categories:
  assert len({a['id']for a in c['answers']})==len(c['answers']),c['id']
  assert all(a['points']in [10,30,60,85,100]for a in c['answers'])
- assert any(a['points']==100 for a in c['answers']),f'Falta respuesta de cumbre: {c["id"]}'
+ assert any(a['points']==100 and not a.get('million') for a in c['answers']),f'Falta respuesta de cumbre: {c["id"]}'
  # Alias vacíos o iguales a otros nombres se han retirado; evita números como alias sueltos.
  for a in c['answers']:a['aliases']=list(dict.fromkeys(s for s in a['aliases'] if s.strip()and not s.isdecimal()))
 
-out={'version':'2026-11-21-3','date':'2026-11-21','rarity':'editorial','rarityNote':'Puntos editoriales fijos de familiaridad estimada, no probabilidades ni porcentajes de jugadores. No se modifican con las respuestas recibidas.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
+out={'version':'2026-11-23-4','date':'2026-11-23','rarity':'editorial','rarityNote':'Puntos y niveles editoriales de familiaridad estimada. «1 de un millón» identifica un hallazgo extremo con impulso adicional. La etiqueta no representa una frecuencia medida.','attribution':'Contiene datos adaptados de Unicode CLDR 46 y Unicode Emoji 16.0 (© Unicode, Inc.; Unicode-3.0), datos abiertos de Nobel Prize API (CC0), y listas de hechos de fuentes oficiales. Fuentes, criterios, hashes y licencias en research/ascension-fuentes.md.','categories':categories}
 (ROOT/'content/ascension.json').write_text(json.dumps(out,ensure_ascii=False,indent=2)+'\n')
 manifest={name:{'url':url,'sha256':hashlib.sha256((args.cache/name).read_bytes()).hexdigest()}for name,url in URLS.items()}
 (ROOT/'research/ascension-manifest.json').write_text(json.dumps({'checked':'2026-11-19','files':manifest},ensure_ascii=False,indent=2)+'\n')

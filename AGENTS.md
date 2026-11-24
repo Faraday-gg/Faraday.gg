@@ -87,7 +87,7 @@ Reglas para agentes:
   node tests/ascension-banco.test.mjs
   node tests/ascension-anuncios.test.mjs
   node tests/ascension-chart.test.mjs
-  node tests/ascension-route.test.mjs
+  node tests/ascension-flight.test.mjs
 
   node tests/anuncios.test.mjs
   node tests/continuaciones.test.mjs

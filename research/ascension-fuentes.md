@@ -1,7 +1,7 @@
 # Banco editorial de Ascensión: fuentes, cobertura y licencia
 
-- **Estado:** banco ampliado y validable, versión `2026-11-21-3`.
-- **Última revisión editorial:** 21 de noviembre de 2026.
+- **Estado:** banco ampliado y validable, versión `2026-11-23-4`.
+- **Última revisión editorial:** 23 de noviembre de 2026.
 - **Autoría editorial:** Álvaro, con Codex. Preguntas, selección de aliases y puntos propios de Faraday.
 
 ## Qué contiene
@@ -63,6 +63,10 @@ Los puntos son una clasificación editorial fija de familiaridad estimada. No so
 Se distinguen 10, 30, 60, 85 y 100 puntos. Las listas manuales del preparador separan referencias muy reconocibles, conocidas, menos inmediatas y especializadas. El resto recibe el nivel base de su dominio: por ejemplo, muchos laureados poco presentes en cultura general quedan en 85, mientras que muchos objetos cotidianos quedan en 60. Hay al menos una respuesta de 100 puntos en cada categoría para que 700 puntos sea un resultado alcanzable.
 
 Esta calibración es una primera valoración editorial, no un estudio de familiaridad de la población hispanohablante. Antes de ampliar la competición conviene revisar qué respuestas se rechazan, la distribución real de aciertos y si alguna categoría concede puntos de forma demasiado fácil. Cualquier corrección crea una versión nueva; no cambia una edición ya iniciada. No se presenta el nivel de 100 como una única respuesta secreta ni se promete que solo pueda existir una por categoría.
+
+«1 de un millón» identifica once hallazgos extremos, uno por categoría marcada. Son respuestas válidas y poco inmediatas que se pueden recuperar con conocimiento del tema. Por ejemplo, *Música maestro* figura en la filmografía oficial de Disney Animation y *Two Against Nature* ganó el Grammy a álbum del año en 2001. Cada una vale 100 puntos y suma 500 metros adicionales de vuelo. La edición nueva ofrece al menos una oportunidad para descubrirlas y conserva las opciones de 100 puntos sin impulso. [Disney Animation](https://www.disneyanimation.com/films/make-mine-music/) · [Recording Academy](https://www.grammy.com/albums/two-against-nature/)
+
+El nombre expresa una valoración editorial. Los metros de impulso se guardan con el resultado y llegan al perfil. La clasificación diaria se calcula con los 700 puntos posibles y se separa por versión de la selección. Los ejemplos después de responder siguen mostrando los niveles ordinarios y reservan la rareza extrema para quien la descubre.
 
 ## Alias y normalización
 

@@ -108,8 +108,13 @@ try{
   assert.equal(late.body.phase,'result');assert.equal(late.body.score,10);
 
   // Un proceso nuevo recupera el reloj y la referencia editorial guardados.
-  const reloaded=createAscension({store:fileAscension(file),bank:{...bank,version:'fixture-2',categories:bank.categories.map(category=>({...category,answers:category.answers.map(answer=>({...answer,points:100}))}))},now:()=>clock,scope:'preview',planOf:async()=>({plus:true})});
-  assert.equal((await call('estado',{},'jugador-a',reloaded)).body.bankVersion,'fixture-1');
+  const expandedBank={version:'fixture-2',categories:bank.categories.map(category=>({...category,answers:[
+    ...category.answers.map(answer=>({...answer,points:100})),{name:'Hallazgo extremo',aliases:[],points:100,million:true}
+  ]}))};
+  const reloaded=createAscension({store:fileAscension(file),bank:expandedBank,now:()=>clock,scope:'preview',planOf:async()=>({plus:true})});
+  const oldEdition=(await call('estado',{},'jugador-a',reloaded)).body;
+  assert.equal(oldEdition.bankVersion,'fixture-1');
+  assert.equal(oldEdition.maxHeight,7000,'Las categorías guardadas fijan el máximo de altura de la partida');
   await call('siguiente',{round:1},'jugador-a',reloaded);
   await call('empezar',{round:2},'jugador-a',reloaded);
   const preserved=await call('responder',{round:2,answer:'Quebrantahuesos'},'jugador-a',reloaded);
@@ -130,6 +135,7 @@ try{
 
   const practice=await Promise.all([call('practica',{game:0},'jugador-a',reloaded),call('practica',{game:0},'jugador-a',reloaded)]);
   assert(practice.every(result=>result.body.game===1));assert(practice.every(result=>result.body.ranking===null));
+  assert(practice.every(result=>result.body.maxHeight===10500),'Una práctica nueva usa el repertorio nuevo');
   const resumed=await call('practica',{game:0},'jugador-a',reloaded);assert.equal(resumed.body.game,1);
   assert.equal((await call('estado',{game:1},'jugador-a',reloaded)).body.phase,'ready');
 

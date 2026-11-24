@@ -288,7 +288,7 @@
     const {MODES,CUES,CLIPS}=Celebrations;
     const isDuel=['duel','duel3','ranked'].includes(celebrationMode);
     const rows=CUES.filter(({id})=>celebrationMode==='ascension'?['clavada','acierto','cerca','lejos','fallo','ko'].includes(id):celebrationMode==='all'||(isDuel?!['welcome','reward'].includes(id):celebrationMode==='trends'?['clavada','acierto','cerca','lejos','fallo'].includes(id):!['victory','draw','defeat','welcome','reward'].includes(id)));
-    const ascensionPoints={clavada:'100 puntos · +1.000 m',acierto:'85 puntos · +850 m',cerca:'60 puntos · +600 m',lejos:'30 puntos · +300 m',fallo:'10 puntos · +100 m',ko:'0 puntos'};
+    const ascensionPoints={clavada:'100 puntos · desde +1.000 m',acierto:'85 puntos · +850 m',cerca:'60 puntos · +600 m',lejos:'30 puntos · +300 m',fallo:'10 puntos · +100 m',ko:'0 puntos'};
     const ranges=['950–1.000 puntos','800–949 puntos','600–799 puntos','350–599 puntos','0–349 puntos'];
     return `<div class="celebrations-head"><button type="button" class="duel-link" data-tab="armario">← Volver al armario</button><h3>Tu forma de celebrar</h3><p>Elige un gesto para cada resultado. Se guarda automáticamente. Los gestos actuales están incluidos para todos.</p></div>
 <label class="celebrations-mode">Dónde se aplica<select data-celebration-mode>${MODES.map(([id,name])=>`<option value="${id}"${id===celebrationMode?' selected':''}>${name}</option>`).join('')}</select></label>
