@@ -1019,3 +1019,23 @@ body.lightbox-open{overflow:hidden}
 .coin-fly{position:fixed;left:0;top:0;font-size:22px;will-change:transform,opacity;box-shadow:inset 0 0 0 1.5px #20263033,inset -3px -4px 0 #20263022,0 2px 6px #20263033}
 .coin-fly-plus{position:fixed;font:700 15px var(--num);color:var(--coral);text-shadow:0 1px 0 var(--paper);white-space:nowrap}
 .ad-done[hidden]{display:none!important}
+/* Reloj del reto (round-timer.js, 90 s por pregunta): sobre el título de la pregunta y, repetido, en la cabecera del bloc,
+   porque en el móvil la calculadora tapa la tarjeta. Sin respuesta: la tarjeta y el resumen no tienen multiplicador. */
+.question-timer{min-height:30px;margin:-12px 0 20px}
+.workspace-timer{flex:1;min-width:0;display:flex;justify-content:flex-end}
+.workspace-timer:empty{display:none}
+.workspace-timer .round-timer-bar{display:none}
+.timeout-note{margin:18px 0 0;font-size:14px;line-height:1.5;color:var(--g-muted)}
+.summary-score.is-blank,.is-summary .summary-score.is-blank{font-size:clamp(40px,8vw,64px)}
+/* Día sin media: no hay gráfica de puntuaciones, así que su hueco sobra. */
+.daily-score-visual.is-blank,.is-summary .daily-score-visual.is-blank{min-height:0}
+.daily-score-visual.is-blank .summary-score{padding:20px 0 16px}
+/* Bajo el reloj, qué pasa cuando se agota. */
+.timer-note{margin:-12px 0 18px;font-size:12.5px;line-height:1.4;color:var(--g-muted)}
+/* Repasando una pregunta ya respondida con la siguiente abierta: su reloj sigue a la vista, con un botón para volver. */
+.question-away{display:flex;align-items:center;gap:10px;margin:-12px 0 18px;font-size:13px;font-weight:700}
+.question-away .question-timer{flex:1;min-width:0;min-height:0;margin:0}
+.question-away-label{flex:none}
+.question-away-back{flex:none;border:1.5px solid currentColor;border-radius:30px;background:none;color:inherit;padding:6px 12px;font:700 13px var(--font);cursor:pointer}
+.question-away-back:focus-visible{outline:3px solid currentColor;outline-offset:2px}
+@media(max-width:480px){.question-away .round-timer-bar{display:none}.question-away .question-timer{display:flex;justify-content:flex-end}}

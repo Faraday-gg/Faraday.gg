@@ -14,8 +14,10 @@ function archiveDays(){
   return [...byId.values()].filter(day=>day.id<=todayKey).sort((a,b)=>a.id<b.id?-1:1);
 }
 // Puntuación media de un día jugado. Las jornadas antiguas llegan sin respuestas, así que se guarda al calcularla.
+// Un día con alguna pregunta sin respuesta (se agotó el tiempo, app.js) está jugado pero no tiene media: vale Infinity.
 function dayScore(day){
   const guesses=getGuesses(day);if(guesses.length!==3)return null;
+  if(guesses.some(unanswered))return Infinity;
   const key=`casi-casi:score:${day.id}`;
   if(day.questions?.every(q=>Number.isFinite(q.answer))){
     const value=day.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3;
@@ -24,7 +26,7 @@ function dayScore(day){
   }
   try{const saved=Number(localStorage.getItem(key));return saved>=1?saved:0}catch{return 0}
 }
-const shortTimes = (value) => value?new Intl.NumberFormat('es-ES',value<1000?{maximumFractionDigits:value<10?1:0}:{notation:'compact',maximumFractionDigits:0}).format(value).replace(/\s/g,' ')+'×':'✓';
+const shortTimes = (value) => value===Infinity?'—':value?new Intl.NumberFormat('es-ES',value<1000?{maximumFractionDigits:value<10?1:0}:{notation:'compact',maximumFractionDigits:0}).format(value).replace(/\s/g,' ')+'×':'✓';
 
 function createArchive(container,{compact=false}={}){
   const state={container,compact,month:monthKey(todayKey),visible:false,rolling:false,direction:0};
@@ -79,7 +81,7 @@ function renderArchive(state){
     if(!day){cells.push(`<span class="arc-cell arc-tile arc-off" style="--i:${i}"><span class="arc-n">${n}</span></span>`);continue}
     const value=dayScore(day),done=value!==null,today=id===todayKey;
     const dots=categoriesOf(day).map(key=>`<i class="cat-${window.CATEGORIES?.[key]?.color||'paper'}"></i>`).join('');
-    const label=`Reto número ${editionNumber(id)}, ${prettyDate(id)}${today?', el de hoy':''}${done?`, jugado: ${shortTimes(value)}`:', sin jugar'}`;
+    const label=`Reto número ${editionNumber(id)}, ${prettyDate(id)}${today?', el de hoy':''}${done?(value===Infinity?', jugado, con preguntas sin responder':`, jugado: ${shortTimes(value)}`):', sin jugar'}`;
     cells.push(`<button type="button" class="arc-cell arc-tile ${done?'arc-done':'arc-open'}${today?' arc-today':''}" data-date="${id}" style="--i:${i}" aria-label="${label}"><span class="arc-n">${n}</span>${done?`<b class="arc-score">${shortTimes(value)}</b>`:`<span class="arc-dots" aria-hidden="true">${dots}</span>`}${today?'<span class="arc-flag">Hoy</span>':''}</button>`);
   }
   const grid=$in('[data-arc-grid]');

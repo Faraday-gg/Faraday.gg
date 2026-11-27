@@ -15,6 +15,43 @@
   let edition,chart,draft,trace,stroke,opener,view=0,lookKey='',pending=false,coordinateIndex;
   const element=selector=>content.querySelector(selector);
 
+  // Tiempo por gráfica (Contrato 5, round-timer.js): 45 s desde que la gráfica se ve por primera vez. La fecha de fin se
+  // guarda por gráfica, así que recargar o cerrar y volver a abrir no la reinicia. Al agotarse se revela el trazo que
+  // haya, completado en horizontal desde donde se dejó; sin trazo, la gráfica se cierra con 0 puntos (`timeout`).
+  // El reloj es del navegador: el servidor no guarda cuándo sirvió cada gráfica (lib/tendencias.mjs).
+  // Si al agotarse el tiempo el resultado no se puede guardar, se reintenta solo ante fallos de red o del servidor (5xx)
+  // y como mucho MAX_TRIES veces; después, o ante un rechazo (4xx), se recarga el estado del servidor y la gráfica que
+  // siga abierta se queda sin reloj (gaveUp) para que el jugador la revele a mano en vez de quedarse bloqueado.
+  const MAX_TRIES=4,gaveUp=new Set();
+  let clock=null,clockKey='',over=false,tries=0;
+  const seconds=()=>edition?.seconds||window.RoundTimer?.SECONDS.traza||45;
+  function stopClock(){clock?.stop();clock=null}
+  function timerSlot(){
+    let slot=document.getElementById('trends-timer');
+    if(!slot){slot=document.createElement('div');slot.id='trends-timer';slot.className='trends-timer';dialog.querySelector('.trends-header-inner').append(slot)}
+    return slot;
+  }
+  function startClock(){
+    stopClock();over=false;tries=0;
+    if(!window.RoundTimer)return;
+    const token=view;
+    clockKey=`traza:${edition.date}:${edition.game}:${chart.id}`;
+    if(gaveUp.has(clockKey))return;
+    clock=RoundTimer.start({key:clockKey,seconds:seconds(),mount:timerSlot(),onExpire:()=>{if(token===view&&dialog.open)timeUp()}});
+  }
+  function timeUp(){
+    if(!element('[data-trends-reveal]'))return;
+    over=true;
+    if(pending)return; // Ya viaja un trazo completo: vale ese.
+    if(stroke){const id=stroke.id;stroke=null;try{element('.trends-plot').releasePointerCapture(id)}catch{}}
+    if(trace.some((value,i)=>i>0&&value!==null)){
+      let last=trace[0];
+      for(let i=1;i<trace.length;i++){if(trace[i]===null)trace[i]=last;else last=trace[i]}
+      draft=draft.map((_,i)=>trace[(i+1)*samplesPerPeriod]);
+    }
+    reveal({timeout:true});
+  }
+
   function avatar(state){
     const look=window.Progress?.look?.()||window.Avatar?.defaults?.();
     if(!look)return;
@@ -47,6 +84,7 @@
   }
 
   function screen(markup,{focus=true}={}){
+    stopClock();
     notice();
     content.innerHTML=markup;
     dialog.scrollTop=0;
@@ -83,7 +121,8 @@
   function resultLines(q,result,ownTrace){
     const actual=line(q,result.actual);
     const own=ownTrace?tracePath(q,ownTrace):line(q,result.guess);
-    const guess=classes=>ownTrace?`<path class="${classes}" d="${own}"/>`:
+    // Sin trazo (se agotó el tiempo): solo se enseña el dato real.
+    const guess=classes=>result.blank?'':ownTrace?`<path class="${classes}" d="${own}"/>`:
       `<polyline class="${classes}" points="${own}"/>`;
     return `<g clip-path="url(#trends-clip-real)">
       <polyline class="trends-result-halo" points="${actual}"/>
@@ -94,7 +133,7 @@
 
   function labelEnds(graph,result,showActual,community){
     const compact=box.width===360;
-    const labels=[{kind:'own',name:'Tu trazo',value:result.guess.at(-1)}];
+    const labels=result.blank?[]:[{kind:'own',name:'Tu trazo',value:result.guess.at(-1)}];
     if(showActual)labels.push({kind:'actual',name:'Dato real',value:result.actual.at(-1)});
     if(community?.traces.length){
       // Ancla la etiqueta del grupo a un trazo existente en el centro de sus extremos.
@@ -202,7 +241,7 @@
         </output>
       </div>
       <div class="trends-question-controls">
-      <p class="trends-caption">Arrastra desde el punto amarillo hasta ${text(dateLabel(q,q.end))}. Agarra la línea para ajustarla.</p>
+      <p class="trends-caption">Arrastra desde el punto amarillo hasta ${text(dateLabel(q,q.end))}. Agarra la línea para ajustarla. Tienes ${seconds()} segundos: al agotarse se revela el trazo que lleves.</p>
       <details class="trends-editor"><summary>Editar valores por ${unitOfTime(q)}</summary>
         <div class="trends-controls">
           <label>${timeLabel(q)}<select data-trends-year>${options}</select></label>
@@ -220,6 +259,7 @@
       </div>
     </section>`);
     bindPlot();
+    startClock();
     updateDraft();
   }
 
@@ -286,8 +326,8 @@
     const caption=`${count} de ${draft.length} ${times(chart)}`;
     const counter=element('[data-trends-count]');
     if(counter.textContent!==caption)counter.textContent=caption;
-    element('[data-trends-reveal]').disabled=pending||count!==draft.length;
-    element('[data-trends-clear]').disabled=pending||!hasTrace;
+    element('[data-trends-reveal]').disabled=pending||over||count!==draft.length;
+    element('[data-trends-clear]').disabled=pending||over||!hasTrace;
   }
 
   const quantize=value=>Number(clamp(value,chart.min,chart.max).toFixed(chart.precision));
@@ -388,7 +428,7 @@
       updateDraft(index);
     }
     svg.addEventListener('pointerdown',event=>{
-      if(pending||stroke||!event.isPrimary||event.button!==0)return;
+      if(pending||over||stroke||!event.isPrimary||event.button!==0)return;
       const point=position(event);
       const target=hit(point,event.pointerType);
       if(!target)return;
@@ -433,7 +473,7 @@
   }
 
   function storePoint(){
-    if(pending)return;
+    if(pending||over)return;
     const input=element('[data-trends-value]');
     if(!Number.isFinite(input.valueAsNumber)||!input.validity.valid){
       input.setCustomValidity(Number.isFinite(input.valueAsNumber)?'Usa un valor dentro de la escala.':'Escribe un valor.');
@@ -458,15 +498,19 @@
     if(index<draft.length-1){year.selectedIndex=index+1;syncEditor();input.focus()}
   }
 
-  async function reveal(){
+  // timeout: se agotó el tiempo. Con el trazo completo (dibujado o rellenado en timeUp) se envía igual que al pulsar
+  // Revelar; si no hay trazo, el servidor cierra la gráfica con 0 puntos.
+  async function reveal({timeout=false}={}){
     if(pending)return;
     pending=true;
     notice();
     updateDraft();
-    const token=view;
+    const token=view,key=clockKey,asked=chart;
+    const blank=draft.some(value=>value===null);
     avatar({mood:'wait'});
     try{
-      const result=await request('revelar',{date:edition.date,game:edition.game,chart:chart.id,guess:draft});
+      const result=await request('revelar',{date:edition.date,game:edition.game,chart:chart.id,guess:blank?undefined:draft,timeout:timeout||undefined});
+      window.RoundTimer?.clear(key);
       document.dispatchEvent(new Event('faraday:played'));
       if(token!==view)return;
       edition=result;countStats();
@@ -479,7 +523,19 @@
         await load();
         return;
       }
-      notice(error.status?error.message:'No se pudo mostrar el resultado. Vuelve a pulsar Revelar.');
+      const transient=!error.status||error.status>=500;
+      if(!over)notice(error.status?error.message:'No se pudo mostrar el resultado. Vuelve a pulsar Revelar.');
+      else if(transient&&++tries<MAX_TRIES){
+        // Con el tiempo ya agotado la gráfica no se queda abierta: se vuelve a intentar cerrarla.
+        notice('No se pudo guardar el resultado. Reintentando…');
+        setTimeout(()=>{if(token===view&&chart===asked&&dialog.open&&over)timeUp()},3000);
+      }else{
+        gaveUp.add(key);
+        const message=transient?'No se pudo guardar el resultado. Revela la gráfica cuando vuelva la conexión.':error.message;
+        await load();
+        if(dialog.open&&element('[data-trends-reveal]'))notice(message);
+        return;
+      }
     }finally{
       if(token===view){pending=false;if(element('[data-trends-reveal]'))updateDraft()}
     }
@@ -551,13 +607,14 @@
     const changeUnit=q.unit.startsWith('%')?'puntos porcentuales':q.unit;
     const facts=from===last?`Acabó en el mismo nivel que en ${text(dateLabel(q,cut))} (${fmt(from)}).`:
       `De ${fmt(from)} en ${text(dateLabel(q,cut))} a ${fmt(last)} en ${text(dateLabel(q,q.end))}, un cambio de ${fmt(Math.abs(last-from))} ${text(changeUnit)}.`;
-    const rows=observations.map((value,i)=>`<tr><th scope="row">${text(dateLabel(q,cut+i+1))}</th><td>${fmt(q.guess[i])}</td><td>${fmt(value)}</td></tr>`).join('');
+    const rows=observations.map((value,i)=>`<tr><th scope="row">${text(dateLabel(q,cut+i+1))}</th><td>${q.blank?'—':fmt(q.guess[i])}</td><td>${fmt(value)}</td></tr>`).join('');
+    stopClock();
     progress.textContent=roundLabel(index);
     mood(q.score,animate);
     const result=`<section class="trends-result" data-trends-result="${index}" tabindex="-1" aria-label="Resultado del trazo">
       <p class="trends-caption" data-trends-trace-status role="status"></p>
       <button class="game-secondary" data-trends-retry-traces type="button" hidden>Reintentar la carga de trazos</button>
-      <div class="trends-points"><strong>${fmt(q.score)} pts</strong><span>Error medio: ${fmt(q.error)} ${text(changeUnit)}</span></div>
+      <div class="trends-points"><strong>${fmt(q.score)} pts</strong><span>${q.blank?'Sin trazo: se acabó el tiempo':`Error medio: ${fmt(q.error)} ${text(changeUnit)}`}</span></div>
       <details class="trends-source" open><summary>Qué pasó</summary>
         ${q.context?`<p>${text(q.context.story)}${q.context.url?` <a href="${text(q.context.url)}" target="_blank" rel="noopener">Ver fuente del contexto ↗</a>`:''}</p>`:''}
         <p>${facts} ${extreme}</p>
@@ -709,6 +766,7 @@
   });
   dialog.addEventListener('close',()=>{
     view++;
+    stopClock(); // La fecha de fin sigue corriendo: al volver a abrir, el reloj continúa donde iba.
     stage.replaceChildren();
     (opener||home)?.focus({preventScroll:true});
   });

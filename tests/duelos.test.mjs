@@ -6,7 +6,8 @@ import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore,supabaseStore} from '../lib/stores.mjs';
-import {RULES,CHAT,chatText,points,multiplier,createDuels,memoryDuels} from '../lib/duelos.mjs';
+import {RULES,CHAT,ANSWER_BRAKE,chatText,points,multiplier,createDuels,memoryDuels} from '../lib/duelos.mjs';
+import {VOICE} from '../lib/voz.mjs';
 import {editorialDays} from '../content-engine.mjs';
 
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'casi-duelos-'));
@@ -69,14 +70,17 @@ try{
   assert.equal((await duel('estado',otra,{id})).status,403,'Un tercero no puede mirar el duelo');
   assert.equal((await duel('responder',ana,{id,guess:10})).status,409,'No se responde antes de que empiece la ronda');
 
-  // Pregunta: 3 minutos, sin la cifra real a la vista.
+  // Pregunta: 60 segundos (lo justo para pensar, no para buscarlo), sin la cifra real a la vista.
   clock+=RULES.introMs;
   a=await duel('estado',ana,{id});
   assert.equal(a.data.phase,'question');assert.equal(a.data.round.deadline-a.data.round.startsAt,RULES.roundMs);assert.equal(a.data.round.rushed,false);
+  assert.deepEqual([RULES.roundMs,RULES.rushMs],[60000,20000],'Tiempos del duelo de estimación');
+  // El navegador pinta el reloj con lo que dice la vista: el juego y sus tiempos.
+  assert.equal(a.data.game,'estimacion');assert.deepEqual(a.data.rules,{roundMs:60000,rushMs:20000,revealMs:RULES.revealMs,maxRounds:10});
   assert(!('explain' in a.data.round)&&!('answer' in a.data.round)&&!('answer' in a.data.round.question)&&!('guesses' in a.data.round),'La cifra real no viaja durante la pregunta');
   const real=answers.get(a.data.round.question.id);assert(real>0);
 
-  // Ana responde a los 20 s: a Luis le quedan 30 s y sabe que Ana ha respondido, pero no qué.
+  // Ana responde a los 20 s: a Luis le quedan otros 20 s y sabe que Ana ha respondido, pero no qué.
   clock+=20000;
   a=await duel('responder',ana,{id,guess:real*2});
   assert.equal(a.data.round.yourGuess,real*2);assert.deepEqual(a.data.round.answered,[true,false]);
@@ -142,8 +146,10 @@ try{
   assert.equal(a.data.players[1].bot,true);assert.equal(a.data.phase,'intro');
   assert.equal(a.data.round.multiplier,.2);assert(!('multipliers' in a.data.round));
   clock+=RULES.introMs;
-  for(let second=0;second<60&&!a.data.round?.answered[1];second++){clock+=1000;a=await duel('estado',ana,{id:a.data.id})}
+  let waited=0;
+  for(;waited<60&&!a.data.round?.answered[1];waited++){clock+=1000;a=await duel('estado',ana,{id:a.data.id})}
   assert.equal(a.data.phase,'question');assert.deepEqual(a.data.round.answered,[false,true]);assert.equal(a.data.round.rushed,true);
+  assert(waited>=8&&waited<=39,`El bot tarda entre 8 y 38 s en responder (ha tardado ${waited})`);
   clock+=RULES.rushMs+RULES.graceMs;a=await duel('estado',ana,{id:a.data.id});
   assert.equal(a.data.phase,'reveal');assert.equal(a.data.round.loser,'you');assert(a.data.round.damage>0);
   // Si nadie vuelve, el duelo termina solo al agotar las rondas.
@@ -231,6 +237,109 @@ try{
   w=await duel('crear',p1,{});await duel('salir',p1,{id:w.data.id});
   assert.equal((await duel('activo',p1)).data.active,null,'Un duelo cancelado no se ofrece');
 
+  // Concurrencia. El duelo se guarda con control de versión, así que cada operación que lo cambia hace repetir a las
+  // que estaban a medias. Con un almacén con latencia (unas vueltas del bucle de eventos antes y después de cada
+  // lectura y escritura, como la red) se comprueba que: lo que no cambia el duelo no lo guarda; una ráfaga del rival
+  // no hace perder mi respuesta ni mi salida; y los frenos cortan la ráfaga sin escribir.
+  {
+    let t=clock;
+    const base=memoryDuels(),lag={on:false},saved={count:0};
+    const hops=async()=>{if(lag.on)for(let left=1+Math.floor(Math.random()*8);left>0;left--)await new Promise(resolve=>setImmediate(resolve))};
+    const slow=Object.fromEntries(Object.keys(base).map(name=>[name,async(...args)=>{await hops();const result=await base[name](...args);await hops();if(name==='save'&&result)saved.count++;return result}]));
+    const bank=new Map(Array.from({length:30},(_,i)=>[`q${i}`,{id:`q${i}`,answer:100*(i+1),title:`P${i}`,unit:'u',category:'x',sources:[]}]));
+    const engine=createDuels({duels:slow,questions:bank,pool:()=>[...bank.keys()],now:()=>t});
+    const go=async(action,player,extra={})=>{const result=await engine.handle({action,player,...extra});return {status:result.status,data:result.body}};
+    const race=async tasks=>{lag.on=true;try{return await Promise.all(tasks)}finally{lag.on=false}};
+    const tally=results=>results.reduce((count,result)=>{count[result.status]=(count[result.status]||0)+1;return count},{});
+    const start=async()=>{const [one,two]=[randomUUID(),randomUUID()],made=await go('crear',one,{name:'Uno'});await go('unirse',two,{code:made.data.code,name:'Dos'});t+=RULES.introMs+1000;return [made.data.id,one,two]};
+    const version=async id=>(await base.get(id)).version;
+
+    // Lo que deja el duelo igual no se guarda ni sube la versión: responder otra vez, unirse otra vez, salir de un duelo terminado.
+    {
+      const [id,one,two]=await start();
+      assert.equal((await go('responder',two,{id,guess:100})).status,200);
+      const before=[await version(id),saved.count];
+      for(let i=0;i<5;i++)assert.equal((await go('responder',two,{id,guess:100+i})).status,200);
+      assert.equal((await go('unirse',two,{code:(await base.get(id)).state.code})).status,200);
+      assert.deepEqual([await version(id),saved.count],before,'Repetir una operación no reescribe el duelo');
+      assert.equal((await go('salir',one,{id})).data.reason,'abandono');
+      const ended=[await version(id),(await base.get(id)).state.seenAt];t+=5000;
+      assert.equal((await go('salir',one,{id})).status,200);assert.equal((await go('salir',two,{id})).data.reason,'abandono');
+      assert.deepEqual([await version(id),(await base.get(id)).state.seenAt],ended,'Salir de un duelo terminado no cambia nada');
+    }
+    // Ráfaga del rival mientras respondo: 28 operaciones de voz que sí cambian el duelo, y otras 28 que no.
+    for(const flood of [(id,i)=>({action:'voz',id,op:'opt',on:i%2===0}),id=>({action:'voz',id,op:'bye'}),id=>({action:'responder',id,guess:100})]){
+      for(let run=0;run<6;run++){
+        const [id,one,two]=await start();
+        await go('responder',two,{id,guess:100});
+        const [mine]=await race([go('responder',one,{id,guess:210}),...Array.from({length:28},(_,i)=>engine.handle({player:two,...flood(id,i)}))]);
+        assert.equal(mine.status,200,'Mi respuesta entra aunque el rival mande una ráfaga');
+        assert.equal(mine.data.phase,'reveal');assert.deepEqual((await base.get(id)).state.rounds[0].guesses,[210,100]);
+      }
+    }
+    // Y mientras abandono: la salida tampoco se pierde.
+    for(let run=0;run<4;run++){
+      const [id,one,two]=await start();
+      const [left]=await race([go('salir',one,{id}),...Array.from({length:28},(_,i)=>go('voz',two,{id,op:'opt',on:i%2===0}))]);
+      assert.deepEqual([left.status,left.data.reason,left.data.winner],[200,'abandono','rival']);
+    }
+    // Freno de responder: 30 intentos cada 10 segundos por jugador y duelo; el resto, 429 sin leer ni escribir.
+    {
+      const [id,one,two]=await start();
+      let reads=0;const get=base.get.bind(base);base.get=async(...args)=>{reads++;return get(...args)};
+      const first=await Promise.all(Array.from({length:ANSWER_BRAKE.burst},()=>go('responder',one,{id,guess:100})));
+      assert.deepEqual(tally(first),{200:ANSWER_BRAKE.burst});
+      const before=[reads,saved.count];
+      const more=await Promise.all(Array.from({length:50},()=>go('responder',one,{id,guess:100})));
+      assert.deepEqual(tally(more),{429:50});assert.equal(more[0].data.error,'Vas muy rápido. Espera un momento.');
+      assert.deepEqual([reads,saved.count],before,'El freno corta antes de tocar el almacén');
+      assert.equal((await go('responder',two,{id,guess:120})).status,200,'El freno es de cada jugador');
+      t+=ANSWER_BRAKE.burstMs;
+      assert.equal((await go('responder',one,{id,guess:100})).status,200);
+      base.get=get;
+    }
+    // Freno de la voz: las operaciones rechazadas también cuentan (se guardan con el duelo) y, agotado, no se escribe más.
+    {
+      const [id,one,two]=await start();
+      assert.equal((await go('voz',one,{id,op:'opt',on:true})).status,200);
+      const sdp='v=0\r\na=mid:0\r\n',rejected=[];
+      for(let i=0;i<100;i++)rejected.push(await go('voz',two,{id,op:'signal',kind:'answer',sdp,gen:999}));
+      assert.deepEqual(tally(rejected),{409:VOICE.burst,429:100-VOICE.burst},'100 señales rechazadas seguidas: 30 y freno');
+      const before=[await version(id),saved.count];
+      for(let i=0;i<20;i++)assert.equal((await go('voz',two,{id,op:'opt',on:true})).status,429);
+      assert.deepEqual([await version(id),saved.count],before,'Con el freno agotado el duelo no se reescribe');
+      assert.equal((await go('voz',one,{id,op:'opt',on:true})).status,200,'El rival no se ve afectado');
+      t+=VOICE.burstMs;
+      assert.equal((await go('voz',two,{id,op:'opt',on:true})).status,200);
+    }
+    // Voz tras el final: al terminar se borra la conexión a medias; una hora después no se acepta ninguna señal.
+    {
+      const [id,one,two]=await start();
+      await go('voz',one,{id,op:'opt',on:true});
+      const gen=(await go('voz',two,{id,op:'opt',on:true})).data.voice.gen,sdp='v=0\r\n'+'a=candidate:1 1 udp 2122260223 192.168.1.2 54321 typ host\r\n'.repeat(180);
+      assert.equal((await go('voz',one,{id,op:'signal',kind:'offer',sdp,gen})).status,200);
+      assert.equal((await base.get(id)).state.voice.sig[0].sdp.length,sdp.length);
+      await go('salir',two,{id});
+      let state=(await base.get(id)).state;
+      assert.deepEqual([state.status,state.voice.sig,state.voice.gen],['finished',[null,null],gen+1],'Al terminar no queda guardada la oferta');
+      assert(JSON.stringify(state).length<2000);
+      t+=3600000;
+      const late=await go('voz',one,{id,op:'signal',kind:'offer',sdp,gen:gen+1});
+      assert.deepEqual([late.status,late.data.error],[409,'La llamada de este duelo ya ha terminado']);
+      // Una señal de la pantalla final que se queda sin recoger se borra en la primera consulta tras acabar la ventana.
+      const [id2,three,four]=await start();
+      await go('voz',three,{id:id2,op:'opt',on:true});await go('voz',four,{id:id2,op:'opt',on:true});
+      await go('salir',four,{id:id2});t+=1000;
+      const again=(await go('estado',three,{id:id2})).data.voice;
+      assert.deepEqual([again.open,again.ended],[true,false]);
+      assert.equal((await go('voz',three,{id:id2,op:'signal',kind:'offer',sdp,gen:again.gen})).status,200);
+      assert.ok((await base.get(id2)).state.voice.sig[0]);
+      t+=VOICE.finalMs;
+      assert.equal((await go('estado',three,{id:id2})).data.voice.ended,true);
+      assert.deepEqual((await base.get(id2)).state.voice.sig,[null,null],'Pasada la ventana final, la consulta de estado la recoge');
+    }
+  }
+
   // Almacén de Supabase contra una tabla duels simulada: control de versión y fallo si la tabla no existe.
   const rows=new Map();
   const fake=async(input,init={})=>{
@@ -253,5 +362,5 @@ try{
   const broken=build(supabaseStore({url:'https://x.supabase.co',key:'clave',fetch:async()=>new Response('{"message":"relation does not exist"}',{status:404})}));
   assert.equal((await broken('buscar',ana,{})).status,503,'Sin la tabla duels, la API responde 503 y no rompe el resto');
 
-  console.log('OK: duelos (emparejamiento, reloj de 3 min y 30 s, vida, K.O., revancha, abandono, reconexión, código, bot, chat, validación y Supabase).');
+  console.log('OK: duelos (emparejamiento, reloj de 60 s y 20 s, vida, K.O., revancha, abandono, reconexión, código, bot, chat, validación, concurrencia, frenos, voz tras el final y Supabase).');
 }finally{if(path.resolve(directory).startsWith(path.resolve(os.tmpdir())+path.sep))fs.rmSync(directory,{recursive:true,force:true})}

@@ -7,7 +7,7 @@ import path from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
-import {PRIZES,todayPrize,streakAt,DUEL,duelCoins} from '../lib/premios.mjs';
+import {PRIZES,todayPrize,streakAt,DUEL,duelCoins,createDuelPrizes} from '../lib/premios.mjs';
 import {memoryDuels} from '../lib/duelos.mjs';
 import {createHash} from 'node:crypto';
 import {REASONS} from '../lib/comunidad.mjs';
@@ -24,6 +24,18 @@ assert.ok(!REASONS.includes('reto')&&!REASONS.includes('archivo')&&!REASONS.incl
 assert.ok(progressJs.includes(`duel:{win:${DUEL.win},draw:${DUEL.draw},loss:${DUEL.loss}}`),'REWARD.duel de progress.js ya no coincide con DUEL');
 assert.ok(fs.readFileSync(new URL('../dist/duel.js',import.meta.url),'utf8').includes(`DAILY_FULL=${DUEL.full},CAPPED_FACTOR=.25`)&&DUEL.capped===.25);
 assert.deepEqual([duelCoins('win',0),duelCoins('draw',2),duelCoins('loss',2),duelCoins('win',3),duelCoins('draw',3),duelCoins('loss',9)],[15,8,5,4,2,1]);
+
+// Un duelo de Archivo Vivo no paga faradios (los años de sus fotos son públicos): gane, empate o pierda, 0. El
+// resultado sigue saliendo, porque de él dependen la experiencia y las misiones. En los demás juegos, lo de siempre.
+{
+  const duel=(game,winner,extra={})=>({id:'d',status:'finished',createdAt:1,...(game?{game}:{}),players:[{hash:'a'},{hash:'b',...extra}],questions:['q'],rounds:[{},{}],winner,reason:'ko'});
+  const prize=(state,player='a',already=0)=>createDuelPrizes({duel:async()=>state,paid:async()=>already})(player,'00000000-0000-4000-8000-000000000000');
+  assert.deepEqual(await prize(duel('archivo',0)),{reason:'duelos',result:'win',abandoned:false,bot:false,rounds:2,at:1,amount:0});
+  assert.deepEqual([(await prize(duel('archivo','draw'))).amount,(await prize(duel('archivo',0),'b')).amount,(await prize(duel('archivo',0),'b')).result],[0,0,'loss']);
+  assert.deepEqual([(await prize(duel('archivo',0,{bot:true}))).amount,(await prize(duel('archivo',0,{bot:true}))).reason],[0,'duelos-bot']);
+  assert.equal((await prize({...duel('archivo',0),size:3,players:[{hash:'a'},{hash:'b'},{hash:'c'}],winners:[0]})).amount,0);
+  for(const game of ['traza','ascension','estimacion',null])assert.deepEqual([(await prize(duel(game,0))).amount,(await prize(duel(game,'draw'))).amount,(await prize(duel(game,0),'b')).amount],[15,8,5],'Los demás juegos pagan lo de siempre');
+}
 
 // Reglas: 20 por completar, extra por precisión y 2 por día de racha hasta 7.
 assert.equal(todayPrize(1,1),20+15+2);assert.equal(todayPrize(1.49,1),37);assert.equal(todayPrize(1.5,1),32);assert.equal(todayPrize(2.5,3),20+5+6);

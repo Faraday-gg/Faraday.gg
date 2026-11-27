@@ -127,6 +127,12 @@ Registro de decisiones tomadas. Cada una en un archivo numerado `NNNN-titulo-bre
 | [0121](0121-tragaperras-tormenta.md) | Tragaperras «Tormenta»: rejilla de 6 × 5 con caídas, esferas multiplicadoras y tiradas gratis | Prototipo | 2026-11-23 |
 | [0122](0122-salon-gestos-correr-saltar-y-chat.md) | Salón: gestos, correr, saltar y chat con bocadillos entre amigos | Prototipo | 2026-11-23 |
 | [0123](0123-vuelo-y-sonido-de-ascension.md) | Ascensión a pantalla completa con propulsor, sonido por rareza e impulso extremo | Implementada | 2026-11-24 |
+| [0124](0124-lobby-publico-al-entrar.md) | Lobby público en 3D al entrar: salas de 20, ir a por un jugador, retos y solicitudes de amistad | Prototipo | 2026-11-27 |
+| [0125](0125-duelos-en-todos-los-juegos.md) | Duelos de Ascensión, Traza y Archivo Vivo con el mismo motor y puntos de 0 a 5000 | Prototipo | 2026-11-27 |
+| [0126](0126-voz-entre-preguntas-en-los-duelos.md) | Voz entre preguntas en los duelos de dos, solo si ambos la activan (WebRTC y STUN públicos) | Prototipo | 2026-11-27 |
+| [0127](0127-tiempo-limite-en-todos-los-modos.md) | Tiempo límite en todos los modos: 60 s en duelos, 90 s en el reto y 45 s en Traza y Archivo Vivo | Prototipo | 2026-11-27 |
+| [0128](0128-chat-del-lobby-en-todos-los-juegos.md) | Chat público del lobby, también dentro de los juegos, con filtro básico, límites y silenciar | Prototipo | 2026-11-27 |
+| [0129](0129-celebraciones-emotes-y-amigos-con-avatar.md) | Celebraciones y emotes como categorías del armario con filtros, y amigos en línea y desconectados con avatar | Prototipo | 2026-11-27 |
 
 ## Plantilla
 

@@ -18,9 +18,15 @@ const sessionGuesses = new Map();
 const sessionWorkspaces = new Map();
 let workspaceData = {note:'',history:[]};
 
+// Las respuestas de un día se leen SIEMPRE de localStorage, que es lo que comparten las pestañas: si otra pestaña ha
+// respondido o terminado el día, aquí se ve. sessionGuesses solo guarda los días que no se han podido escribir (modo
+// privado, cuota llena), para que duren al menos hasta cerrar la pestaña.
 function getGuesses(day){if(day.practice)return day.guesses||[];if(sessionGuesses.has(day.id))return sessionGuesses.get(day.id);try{const saved=JSON.parse(localStorage.getItem(`casi-casi:v2:${day.id}`)||'[]');return Array.isArray(saved)?saved:[]}catch{return []}}
-function saveGuesses(day,guesses){if(day.practice){day.guesses=guesses;return;}sessionGuesses.set(day.id,guesses);try{localStorage.setItem(`casi-casi:v2:${day.id}`,JSON.stringify(guesses))}catch{showToast('Las respuestas durarán solo hasta cerrar esta pestaña.')}}
-function score(guess,answer){return Math.max(guess/answer,answer/guess)}
+function saveGuesses(day,guesses){if(day.practice){day.guesses=guesses;return;}try{localStorage.setItem(`casi-casi:v2:${day.id}`,JSON.stringify(guesses));sessionGuesses.delete(day.id)}catch{sessionGuesses.set(day.id,guesses);showToast('Las respuestas durarán solo hasta cerrar esta pestaña.')}}
+// Una pregunta a la que se le agotó el tiempo sin cifra válida queda «sin respuesta»: null en la lista de respuestas.
+// Su distancia es infinita (tramo «ko» de celebrations.js) y el día se queda sin media; nunca se envía al servidor.
+const unanswered=guess=>guess==null;
+function score(guess,answer){return unanswered(guess)?Infinity:Math.max(guess/answer,answer/guess)}
 function art(kind){
   const common='fill="none" stroke="#202630" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"';
   const paths={
@@ -38,14 +44,15 @@ function art(kind){
 function renderWeek(){
   $('#home-daily-number').textContent=currentDay?'Reto nº '+editionNumber(todayKey):'En preparación';
   document.querySelectorAll('[data-play]').forEach(button=>button.disabled=!currentDay);
-  const played=currentDay?getGuesses(currentDay).length:0;
+  // Un día con alguna pregunta sin respuesta está terminado, pero sin media: no se da por «3 de 3».
+  const guesses=currentDay?getGuesses(currentDay):[],played=guesses.length,answered=guesses.filter(guess=>!unanswered(guess)).length,blank=played===3&&answered<3;
   $('#hero-play').classList.toggle('has-progress',played>0);
   $('#home-daily-action').textContent=!currentDay?'Próximamente':played===3?'Ver resultado':played?'Continuar reto':'Jugar reto';
   const dailySteps=$('#home-daily-steps');
   dailySteps.hidden=!currentDay;
-  dailySteps.querySelectorAll('i').forEach((step,index)=>step.classList.toggle('is-done',index<played));
-  $('#home-daily-count').textContent=played+'/3';
-  $('#home-daily-status').textContent=currentDay?`${played} de 3 preguntas respondidas`:'';
+  dailySteps.querySelectorAll('i').forEach((step,index)=>step.classList.toggle('is-done',index<played&&!unanswered(guesses[index])));
+  $('#home-daily-count').textContent=answered+'/3';
+  $('#home-daily-status').textContent=!currentDay?'':blank?`Reto terminado, sin media: ${answered} de 3 preguntas respondidas`:`${played} de 3 preguntas respondidas`;
   renderArchives();
 }
 async function openDate(id){
@@ -59,7 +66,7 @@ async function openDate(id){
 // El juego ocupa toda la pantalla. activeIndex 0-2 es una pregunta (o su resultado si ya está respondida) y 3 es el resumen.
 // Abrir el juego añade una entrada al historial: el botón «atrás» del navegador o del móvil vuelve a la portada.
 function openDay(day){activeDay=day;activeIndex=getGuesses(day).length;toggleWorkspace(false);const wasOpen=!$('#game-shell').hidden;$('#game-shell').hidden=false;document.body.classList.add('modal-open');if(!wasOpen&&!history.state?.faradayGame)history.pushState({faradayGame:true},'');renderGame()}
-function hideGame(){toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');announceView({view:'closed'});renderWeek()}
+function hideGame(){stopClock();toggleMenu(false);toggleWorkspace(false);$('#game-shell').hidden=true;document.body.classList.remove('modal-open');announceView({view:'closed'});renderWeek()}
 function closeGame(){if(history.state?.faradayGame)history.back();else hideGame()}
 window.addEventListener('popstate',()=>{if(!$('#game-shell').hidden)hideGame()});
 function renderGame(){
@@ -70,8 +77,98 @@ function renderGame(){
   const detail={view,index:activeIndex,mode:activeDay.practice||activeDay.id===todayKey?'daily':'archive'};
   if(view==='summary'){renderSummary();detail.average=activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}
   else if(view==='result')Object.assign(detail,renderResult(guesses));else renderQuestion();
+  // El reloj es el de la pregunta abierta del día: se ve en ella y, mientras corre, también al repasar una anterior.
+  shownCount=guesses.length;if($('#question-timer'))startClock();else stopClock();
   renderBar(guesses);$('.game-panel').scrollTop=0;justAnswered=false;announceView(detail);
 }
+// Tiempo por pregunta (Contrato 5, round-timer.js): 90 s desde que la pregunta se ve por primera vez, también en los días
+// del archivo y en los retos extra. La fecha de fin se guarda por pregunta, así que recargar, volver a la portada o abrir
+// el día desde el archivo no la reinicia; cambiar de pestaña, abrir el menú o la oferta de pista tampoco la paran. Solo se
+// pausa mientras se reproduce el anuncio de una pista (ads.js), con un máximo de PAUSE_SECONDS por pregunta para que
+// dejarlo abierto no sirva para ganar tiempo. El reloj es del navegador: el servidor no sabe cuándo se mostró.
+const QUESTION_SECONDS=window.RoundTimer?.SECONDS.reto||90,PAUSE_SECONDS=60;
+let questionClock=null,shownCount=0;
+const clockKey=(day,index)=>`reto:${day.practice?'extra:'+day.extraId:day.id}:${index}`;
+// ¿La pantalla del reto es la que el jugador tiene delante? No lo es en la portada, con el menú abierto, con el duelo u
+// otra pantalla completa encima (perfil, ligas, mercado…) ni con otro modo en un diálogo (Traza, Archivo Vivo,
+// Ascensión, Salón…). La oferta de pista y su anuncio son del propio reto. Mientras no está delante, el reloj no suena
+// ni habla y, si vence, la pregunta se cierra en silencio (timeUp).
+function dailyInFront(){
+  if($('#game-shell').hidden||menuOpen())return false;
+  if(document.querySelector('dialog[open]:not(.hint-dialog):not(.ad-dialog)'))return false;
+  return ![...document.querySelectorAll('[id$="-shell"]')].some(shell=>shell.id!=='game-shell'&&!shell.hidden);
+}
+const adOpen=()=>!!document.querySelector('dialog.ad-dialog[open]');
+const hintAd=()=>adOpen()&&$('#duel-shell').hidden&&!$('#game-shell').hidden;
+function stopClock(){questionClock?.stop();questionClock=null}
+// El mismo reloj se repite en la cabecera del bloc: en el móvil la calculadora tapa la tarjeta. Con el duelo abierto el
+// bloc es suyo (duel.js pinta ahí su propio tiempo): el reloj del reto no entra.
+function workspaceTimer(){let slot=$('#workspace-timer');if(!slot){slot=document.createElement('div');slot.id='workspace-timer';slot.className='workspace-timer';$('.workspace-head h2').after(slot)}return slot}
+function startClock(){
+  stopClock();if(!window.RoundTimer)return;
+  const day=activeDay,index=getGuesses(day).length;if(index>=day.questions.length)return;
+  questionClock=RoundTimer.start({key:clockKey(day,index),seconds:QUESTION_SECONDS,maxPause:PAUSE_SECONDS,mount:[$('#question-timer'),$('#duel-shell').hidden?workspaceTimer():null],
+    label:activeIndex===index?'Tiempo restante':`Tiempo restante de la pregunta ${index+1}`,pauseWhen:hintAd,quietWhen:()=>!dailyInFront(),onExpire:()=>timeUp(day,index)});
+}
+// duel.js devuelve el bloc al cerrar el duelo: el reloj de la pregunta abierta vuelve a su cabecera.
+function resumeDailyClock(){if(!$('#game-shell').hidden&&$('#question-timer')&&staleIndex===null)startClock()}
+// Borrador de la cifra, por pregunta (la misma clave que su reloj). Se guarda en cada pulsación: salir a la portada,
+// recargar o repasar otra pregunta no lo pierden, y es lo que se envía si el tiempo se agota sin el campo en pantalla.
+const DRAFTS='casi-casi:borradores';
+let draftMemory={},draftsOffline=false;
+function readDrafts(){
+  if(!draftsOffline)try{const all=JSON.parse(localStorage.getItem(DRAFTS)||'{}');return all&&typeof all==='object'&&!Array.isArray(all)?all:{}}catch{draftsOffline=true}
+  return draftMemory;
+}
+function getDraft(key){const value=readDrafts()[key];return typeof value==='string'?value:''}
+function setDraft(key,value){
+  const all=readDrafts();if(value)all[key]=String(value).slice(0,40);else if(key in all)delete all[key];else return;
+  const keys=Object.keys(all);for(const old of keys.slice(0,Math.max(0,keys.length-12)))delete all[old];
+  draftMemory=all;if(!draftsOffline)try{localStorage.setItem(DRAFTS,JSON.stringify(all))}catch{draftsOffline=true}
+}
+// Se acabó el tiempo de la pregunta abierta: si hay una cifra válida escrita se envía tal cual; si no, la pregunta se
+// cierra sin respuesta. Vale también cuando se está repasando otra pregunta (se usa el borrador). Si en ese momento el
+// reto no es lo que está delante, se cierra en silencio: sin aviso, sin tocar el bloc (puede ser del duelo) ni el foco.
+function timeUp(day,index){
+  if(activeDay!==day||$('#game-shell').hidden)return;
+  if(getGuesses(day).length!==index){syncGame();return} // Otra pestaña ya la ha respondido: no se pisa.
+  // Margen de pausa agotado con el anuncio de la pista aún en marcha: no se le corta; la pregunta se cierra al terminar.
+  if(adOpen()){setTimeout(()=>timeUp(day,index),400);return}
+  const front=dailyInFront(),guess=parseGuess(getDraft(clockKey(day,index)));
+  document.querySelector('dialog.hint-dialog[open]')?.close();
+  if(front){
+    if(!$('#workspace-panel').hidden)toggleWorkspace(false);
+    showToast(timeUpNote(index,guess));
+  }
+  commitGuess(guess,{day,index,quiet:!front});
+}
+const timeUpNote=(index,guess)=>`Se acabó el tiempo${activeIndex===index?'':` de la pregunta ${index+1}`}${guess===null?'.':': se envía tu cifra.'}`;
+// Pregunta recién cerrada (o cambiada desde otra pestaña): se enseña su resultado. Con el reto tapado no se repinta
+// nada hasta que vuelve a estar delante; entonces se pinta, se avisa de lo que pasó y se cuenta para el progreso.
+let staleIndex=null,staleDay=null,staleTimer=0,staleAfter=null;
+function showClosed(index,{quiet=false,after=null}={}){
+  if(!quiet||dailyInFront()){after?.();activeIndex=index;justAnswered=true;renderGame();return}
+  stopClock();staleIndex=index;staleDay=activeDay;staleAfter=after;
+  if(!staleTimer)staleTimer=setInterval(()=>{
+    const hidden=$('#game-shell').hidden;if(!hidden&&!dailyInFront())return;
+    clearInterval(staleTimer);staleTimer=0;
+    const at=staleIndex,same=staleDay===activeDay,run=staleAfter;staleIndex=staleDay=staleAfter=null;
+    run?.();if(hidden||!same)return;
+    activeIndex=at;justAnswered=true;renderGame();
+  },250);
+}
+// Lo guardado ha cambiado por fuera (otra pestaña): se repinta con lo que hay; el reloj de una pregunta ya respondida se para.
+function syncGame(){
+  if($('#game-shell').hidden||!activeDay||staleIndex!==null)return;
+  const count=getGuesses(activeDay).length;if(count===shownCount)return;
+  if(count>activeIndex&&$('#guess-form'))setDraft(clockKey(activeDay,activeIndex),'');
+  if(dailyInFront())renderGame();else showClosed(Math.min(activeIndex,count),{quiet:true});
+}
+addEventListener('storage',event=>{
+  if(event.key!==null&&!event.key.startsWith('casi-casi:v2:'))return;
+  if($('#game-shell').hidden)renderWeek();
+  else if(activeDay&&!activeDay.practice&&(event.key===null||event.key===`casi-casi:v2:${activeDay.id}`))syncGame();
+});
 // Avisa a reactions.js (avatar junto a la tarjeta, sonido y celebración) de lo que se acaba de pintar (decisión 0033).
 // En un resultado: factor, fresh (se acaba de responder; si no, se está repasando), settle (milisegundos hasta que el
 // multiplicador termina de contar) y streak (aciertos seguidos justo antes de esta pregunta, en este mismo día).
@@ -85,20 +182,43 @@ function renderBar(guesses){
 }
 // Preguntas de la comunidad (decisión 0052): el autor sale con su nombre, su avatar y los votos que tuvo.
 function authorLine(q){if(!q.author?.name)return '';const n=q.community?.votes;return `<p class="question-author"><span class="duel-avatar small" aria-hidden="true">${window.Avatar?Avatar.render(q.author.avatar||{},{bust:true}):''}</span><span><small>Pregunta de la comunidad${n?` · ${n} ${n===1?'voto':'votos'}`:''}</small><b>Propuesta por ${escapeHtml(q.author.name)}</b></span></p>`}
-function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`${q.image?`<div class="hint-photo">${questionMedia(q,{eager:true,links:false})}</div>`:''}${authorLine(q)}<h2 id="game-title">${q.title}</h2>${window.Pistas?.markup(q)||''}<form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button>${window.Pistas?.button(q)||''}<button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;$('#guess-input').focus()}
+// Bajo el reloj, siempre a la vista, qué pasa cuando se agota (antes solo lo decía un aviso la primera vez).
+const timerNote=()=>`<p class="timer-note" id="timer-note">Si se acaba el tiempo se envía lo que hayas escrito; sin cifra, ${activeDay.practice?'la pregunta queda sin respuesta':'el día queda sin media'}.</p>`;
+// Repasando una pregunta ya respondida con la siguiente abierta y su reloj en marcha: el reloj sigue a la vista, con un
+// botón para volver a ella. Si no se ha llegado a abrir, su tiempo aún no ha empezado y no hay nada que enseñar.
+function awayClock(guesses){
+  const open=guesses.length;
+  if(activeIndex>=open||open>=activeDay.questions.length||!window.RoundTimer?.peek(clockKey(activeDay,open),PAUSE_SECONDS))return '';
+  return `<div class="question-away"><span class="question-away-label">Pregunta ${open+1} en curso</span><div class="question-timer" id="question-timer"></div><button type="button" class="question-away-back" data-open-step="${open}">Volver <span aria-hidden="true">→</span></button></div>`;
+}
+function renderQuestion(){const q=activeDay.questions[activeIndex],workspaceOpen=!$('#workspace-panel').hidden;$('#game-content').innerHTML=`<div class="question-timer" id="question-timer"></div>${timerNote()}${q.image?`<div class="hint-photo">${questionMedia(q,{eager:true,links:false})}</div>`:''}${authorLine(q)}<h2 id="game-title">${q.title}</h2>${window.Pistas?.markup(q)||''}<form id="guess-form"><label class="sr-only" for="guess-input">Tu estimación, en ${q.unit}</label><div class="guess-row"><input id="guess-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Tu estimación" aria-describedby="guess-help timer-note" required><span class="guess-unit">${q.unit}</span></div><div class="form-error" id="guess-help" role="alert"></div><div class="game-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="${workspaceOpen?'Cerrar':'Abrir'} calculadora y notas" aria-expanded="${workspaceOpen}" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button>${window.Pistas?.button(q)||''}<button class="game-primary" type="submit">Confirmar <span aria-hidden="true">→</span></button></div></form>`;const input=$('#guess-input'),draft=getDraft(clockKey(activeDay,activeIndex));if(draft){input.value=draft;formatEstimateInput(input)}input.focus()}
 // Tarjeta de respuesta (decisión 0012): tu cifra frente a la real arriba, debajo el multiplicador y la distribución.
 // La pregunta y la explicación no se ven; «Cómo se calcula» abre un panel dentro de la tarjeta.
 const whole=(n)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:n<10?2:0,useGrouping:'always'}).format(n);
 const rounded=(n)=>new Intl.NumberFormat('es-ES',{maximumSignificantDigits:3,useGrouping:'always'}).format(n);
 const times=(f)=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:f<10?2:f<100?1:0,useGrouping:'always'}).format(f)+'×';
+const CARD_TOOLS='<button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button>';
+// Tarjeta de una pregunta sin respuesta: la cifra real y su explicación, sin multiplicador ni comparación con los demás
+// (no hay cifra tuya que situar en la distribución). El avatar reacciona con el tramo «ko», el de «sin respuesta».
+function renderUnanswered(q){
+  $('#game-content').innerHTML=`${awayClock(getGuesses(activeDay))}<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
+${authorLine(q)}<dl class="ledger"><div><dt>Tú</dt><dd>—</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}</p></dl>
+<div class="verdict verdict-timeout is-long"><strong class="verdict-x">Sin respuesta</strong><span class="verdict-chip">Se acabó el tiempo</span></div>
+<p class="timeout-note">${activeDay.practice?'En la práctica no pasa nada: mira cómo se calcula y sigue con la siguiente.':'Esta pregunta no entra en las estadísticas y el día se queda sin distancia media: no cuenta para la racha, las ligas ni el premio del reto.'}</p>
+<div class="card-actions">${CARD_TOOLS}<button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
+<div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
+  $('#next-question').focus();
+  return {factor:Infinity,fresh:justAnswered,settle:0,streak:0};
+}
 function renderResult(guesses){
   const q=activeDay.questions[activeIndex],guess=guesses[activeIndex],factor=score(guess,q.answer);
+  if(unanswered(guess))return renderUnanswered(q);
   const verdict=guess<q.answer?['low','↓','Corto']:guess>q.answer?['high','↑','Te pasaste']:['exact','✓','Exacto'];
-  $('#game-content').innerHTML=`<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
+  $('#game-content').innerHTML=`${awayClock(guesses)}<h2 id="game-title" class="sr-only">Resultado de la pregunta ${activeIndex+1}: ${q.title}</h2>
 ${authorLine(q)}<dl class="ledger${Math.max(whole(guess).length,rounded(q.answer).length)>=9?' is-long':''}"><div><dt>Tú</dt><dd>${whole(guess)}</dd></div><div class="ledger-real"><dt>Real</dt><dd>≈ ${rounded(q.answer)}</dd><p class="ledger-source">${sourceLine(q)}</p></div><p class="ledger-unit">${q.unit}${window.Pistas?.used(q.id)?' · <span class="hint-used">con pista</span>':''}</p></dl>
 <div class="verdict verdict-${verdict[0]}${times(factor).length>=11?' is-long is-xlong':times(factor).length>=8?' is-long':''}"><strong class="verdict-x">${times(factor)}</strong><span class="verdict-chip"><span aria-hidden="true">${verdict[1]}</span> ${verdict[2]}</span><span class="verdict-rank" id="rank-${q.id}" aria-live="polite"></span></div>
 ${populationMarkup(q)}
-<div class="card-actions"><button class="workspace-launch" type="button" id="workspace-toggle" aria-label="Abrir calculadora y notas" aria-expanded="false" aria-controls="workspace-panel" title="Calculadora y notas"><svg aria-hidden="true" viewBox="0 0 32 36" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="1.5" width="25" height="33" rx="3.5"/><rect x="8" y="6" width="16" height="7" rx="1"/><path d="M9 19h3m6 0h3M9 24h3m6 0h3M9 29h3m6 0h3"/></svg></button><button class="explain-toggle" type="button" id="explain-toggle" aria-expanded="false" aria-controls="explain-panel">Cómo se calcula <span aria-hidden="true">▴</span></button><button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
+<div class="card-actions">${CARD_TOOLS}<button class="game-primary" id="next-question" type="button">${activeIndex===2?'Ver total':'Siguiente'} <span aria-hidden="true">→</span></button></div>
 <div class="explain-panel" id="explain-panel" role="region" aria-labelledby="explain-toggle" hidden><div class="explain-inner">${explainMarkup(q)}</div></div>`;
   window.CasiCasi?.card(q,factor,{today:activeDay.id===todayKey}); // Momento «¡Casi casi!» (casi.js, decisión 0030).
   const settle=animateTimes($('.verdict-x'),factor);loadDistribution(q,guess);$('#next-question').focus();
@@ -144,12 +264,17 @@ addEventListener('resize',()=>{if($('#explain-panel.open'))placeExplain()});
 // Degradado abajo mientras quede texto por leer dentro de la hoja.
 function markMore(panel){panel.classList.toggle('more',panel.scrollTop+panel.clientHeight<panel.scrollHeight-6)}
 document.addEventListener('scroll',event=>{if(event.target.id==='explain-panel')markMore(event.target)},true);
-function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;$('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.date||activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score">${format(average)}×</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">Consultando las puntuaciones del día…</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${format(scores[i])}×</strong></button>`).join('')}</div><div class="summary-actions">${activeDay.practice?'':'<button class="game-primary" id="share-result" type="button">Compartir</button>'}<button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${activeDay.practice||activeDay.id===todayKey?'<div data-plus-slot="daily"></div><div data-continue-slot="daily"></div>':''}${moreDaysMarkup(activeDay)}`;loadDailyDistribution(activeDay,guesses)}
+function renderSummary(){const guesses=getGuesses(activeDay),scores=activeDay.questions.map((q,i)=>score(guesses[i],q.answer)),average=scores.reduce((a,b)=>a+b,0)/3;
+  // Con alguna pregunta sin respuesta el día no tiene media: ni comparación, ni tarjeta para compartir, ni reto extra
+  // (el servidor solo da por completado un día con sus tres cifras).
+  const complete=Number.isFinite(average),official=!activeDay.practice;
+  $('#game-content').innerHTML=`<p class="result-question">${activeDay.name} · ${prettyDate(activeDay.date||activeDay.id)}</p><h2 id="game-title" class="sr-only">Tu resultado</h2><div class="daily-score-visual${complete||!official?'':' is-blank'}"><div id="daily-score-chart" aria-hidden="true"></div><div class="summary-score${complete?'':' is-blank'}">${complete?format(average)+'×':'Sin media'}</div></div><p class="daily-population-caption" id="daily-score-caption" aria-live="polite">${complete?'Consultando las puntuaciones del día…':'Dejaste alguna pregunta sin responder: este día no tiene distancia media y no cuenta para la racha, las ligas ni el premio del reto.'}</p><div class="summary-list">${activeDay.questions.map((q,i)=>`<button type="button" class="summary-row" data-review-index="${i}"><span>${q.title}</span><strong>${Number.isFinite(scores[i])?format(scores[i])+'×':'Sin respuesta'}</strong></button>`).join('')}</div><div class="summary-actions">${official&&complete?'<button class="game-primary" id="share-result" type="button">Compartir</button>':''}<button class="game-secondary" id="another-day" type="button">Volver al inicio</button></div>${!official||(complete&&activeDay.id===todayKey)?'<div data-plus-slot="daily"></div><div data-continue-slot="daily"></div>':''}${moreDaysMarkup(activeDay)}`;
+  if(complete||!official)loadDailyDistribution(activeDay,guesses)}
 // «Otros días» (decisión 0021): el día anterior y el siguiente del archivo, con su estado, y el calendario completo en el menú.
 function moreDaysMarkup(day){if(day.practice)return '<p class="daily-population-caption">Práctica extra: no cambia el reto oficial, la racha, las ligas ni los premios diarios.</p>';
   const days=archiveDays(),i=days.findIndex(d=>d.id===day.id),prev=i>0?days[i-1]:null,next=i>=0&&i<days.length-1?days[i+1]:null;
   const short=id=>new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',timeZone:'Europe/Madrid'}).format(new Date(id+'T12:00:00Z')).replace('.','');
-  const state=d=>{const value=dayScore(d);return value==null?(getGuesses(d).length?'A medias':'Sin jugar'):format(value)+'×'};
+  const state=d=>{const value=dayScore(d);return value==null?(getGuesses(d).length?'A medias':'Sin jugar'):value===Infinity?'Sin media':format(value)+'×'};
   const link=(d,dir)=>d?`<button type="button" class="more-day more-day-${dir}" data-open-day="${d.id}"><span class="more-day-arrow" aria-hidden="true">${dir==='prev'?'←':'→'}</span><span><small>${dir==='prev'?'Anterior':'Siguiente'} · Nº ${editionNumber(d.id)}</small><b>${d.id===todayKey?'Hoy':short(d.id)}</b><em>${state(d)}</em></span></button>`:'<span class="more-day more-day-empty" aria-hidden="true"></span>';
   const today=currentDay&&day.id!==todayKey&&getGuesses(currentDay).length<3?`<button type="button" class="game-primary more-today" data-open-day="${todayKey}">Jugar el reto de hoy <span aria-hidden="true">→</span></button>`:'';
   return `<section class="more-days" aria-labelledby="more-days-title"><h3 id="more-days-title">Seguir jugando</h3>${today}<div class="more-days-nav">${link(prev,'prev')}<button type="button" class="more-calendar" id="more-calendar"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Elegir día</span></button>${link(next,'next')}</div></section>`;
@@ -163,15 +288,37 @@ function formatEstimateInput(input){
   let position=0,count=0;while(position<input.value.length&&count<meaningful){if(/[\d,]/.test(input.value[position]))count++;position++}
   input.setSelectionRange(position,position)
 }
-async function submitGuess(event){event.preventDefault();const raw=$('#guess-input').value.trim().replace(/[.\s]/g,'').replace(',','.');const guess=Number(raw);if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}const guesses=getGuesses(activeDay);if(guesses.length!==activeIndex)return;
-if(activeDay.practice){const day=activeDay,button=event.submitter||$('#guess-form button[type=submit]');if(button.disabled)return;button.disabled=true;
-try{const result=await window.Continuations.answer(day.extraId,activeIndex,guess);if(activeDay!==day)return;day.guesses=result.guesses;justAnswered=true;renderGame()}
-catch(error){if(activeDay===day){$('#guess-help').textContent=error.message;button.disabled=false}}return}
-guesses.push(guess);saveGuesses(activeDay,guesses);notifyProgress(guess,guesses);justAnswered=true;renderGame()}
+// La cifra escrita en el campo («1.500,5») como número, o null si no es un número mayor que cero.
+function parseGuess(text){const raw=String(text).trim().replace(/[.\s]/g,'').replace(',','.'),guess=Number(raw);return /^\d+(\.\d+)?$/.test(raw)&&Number.isFinite(guess)&&guess>0?guess:null}
+function submitGuess(event){event.preventDefault();const guess=parseGuess($('#guess-input').value);if(guess===null){$('#guess-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}commitGuess(guess)}
+// Cierra la pregunta abierta con esa cifra, o sin respuesta (null) si se agotó el tiempo sin una cifra válida.
+// Una pregunta sin respuesta no avisa a progress.js (ni experiencia ni misiones) y deja el día sin completar: no se
+// lanza faraday:day, igual que el servidor, que solo cuenta para la racha, las ligas y el premio un día con sus tres cifras.
+// Vale para la pregunta abierta del día aunque en pantalla haya otra (repaso): day e index dicen cuál es. quiet: el
+// reto no está delante, así que el resultado se pinta (y el progreso se cuenta) cuando vuelva a estarlo.
+let sendingGuess=false;
+async function commitGuess(guess,{day=activeDay,index=activeIndex,quiet=false}={}){
+  // Se relee lo guardado: si otra pestaña ya ha respondido esta pregunta, no se pisa.
+  const guesses=getGuesses(day),key=clockKey(day,index);if(guesses.length!==index){if(day===activeDay)syncGame();return}
+  if(day.practice){
+    // El reto extra vive en el servidor (continuations.js): hasta que responde no se pasa a la tarjeta de resultado.
+    if(sendingGuess)return;sendingGuess=true;const button=$('#guess-form button[type=submit]');if(button)button.disabled=true;
+    try{const result=await window.Continuations.answer(day.extraId,index,guess);if(activeDay!==day)return;day.guesses=result.guesses;window.RoundTimer?.clear(key);setDraft(key,'');showClosed(index,{quiet})}
+    catch(error){
+      if(activeDay!==day)return;
+      const help=$('#guess-help');if(help&&activeIndex===index)help.textContent=error.message;if(button?.isConnected)button.disabled=false;
+      // Con el tiempo ya agotado la pregunta no se queda abierta: se vuelve a intentar cerrarla.
+      if(window.RoundTimer?.peek(key,PAUSE_SECONDS)?.expired)setTimeout(()=>timeUp(day,index),3000);
+    }finally{sendingGuess=false}
+    return}
+  guesses.push(guess);saveGuesses(day,guesses);setDraft(key,'');
+  // La fecha vencida de una pregunta sin respuesta se conserva: si el progreso se restaura desde la cuenta, sigue cerrada.
+  if(!unanswered(guess))window.RoundTimer?.clear(key);
+  showClosed(index,{quiet,after:()=>{if(quiet)showToast(timeUpNote(index,guess));if(!unanswered(guess))notifyProgress(guess,guesses,day,index)}})}
 // Pista de la pregunta (pistas.js, decisión 0039): al desbloquearla se coloca bajo el título sin borrar lo que se haya escrito.
 function askHint(){const q=activeDay.questions[activeIndex];window.Pistas?.open(q,(html,via)=>{if(activeDay.questions[activeIndex]?.id!==q.id||!$('#guess-form'))return;$('#game-title').insertAdjacentHTML('afterend',html);$('#hint-toggle')?.remove();$('#guess-input').focus();showToast(via==='coins'?`Pista desbloqueada: −${window.Pistas.COST} ≈`:'Pista desbloqueada')})}
 // Avisa a progress.js (experiencia, faradios y misiones) de cada respuesta y de cada reto completado.
-function notifyProgress(guess,guesses){if(activeDay.practice)return;const today=activeDay.id===todayKey,detail={factor:score(guess,activeDay.questions[activeIndex].answer),question:activeDay.questions[activeIndex].id,day:activeDay.id,today,hint:!!window.Pistas?.used(activeDay.questions[activeIndex].id)};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3)document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:activeDay.id,today,average:activeDay.questions.reduce((sum,q,i)=>sum+score(guesses[i],q.answer),0)/3}}))}
+function notifyProgress(guess,guesses,day=activeDay,index=activeIndex){if(day.practice)return;const today=day.id===todayKey,q=day.questions[index],detail={factor:score(guess,q.answer),question:q.id,day:day.id,today,hint:!!window.Pistas?.used(q.id)};document.dispatchEvent(new CustomEvent('faraday:answer',{detail}));if(guesses.length===3&&!guesses.some(unanswered))document.dispatchEvent(new CustomEvent('faraday:day',{detail:{day:day.id,today,average:day.questions.reduce((sum,one,i)=>sum+score(guesses[i],one.answer),0)/3}}))}
 function loadWorkspace(id){
   if(sessionWorkspaces.has(id))return sessionWorkspaces.get(id);
   try{const saved=JSON.parse(localStorage.getItem(`casi-casi:workspace:${id}`)||'{}');return {note:typeof saved.note==='string'?saved.note:'',history:Array.isArray(saved.history)?saved.history.filter(item=>item&&typeof item.expression==='string'&&Number.isFinite(item.result)).slice(0,40):[]}}
@@ -272,10 +419,10 @@ function toggleMenu(open=!menuOpen(),{archive=false,opener=null}={}){
   $('#menu-home').hidden=!inGame;
   if(open){
     menuOpener=opener;
-    const played=currentDay?getGuesses(currentDay).length:0;
+    const todayGuesses=currentDay?getGuesses(currentDay):[],played=todayGuesses.length,blank=played===3&&todayGuesses.some(unanswered);
     $('#menu-today').disabled=!currentDay;$('#menu-today-number').textContent=currentDay?'Nº '+editionNumber(todayKey):'';
     $('#menu-today').classList.toggle('is-done',played===3);
-    $('#menu-today-title').textContent=!currentDay?'En preparación':played===3?'Reto completado':played===2?'Te queda 1 pregunta':played?'Te quedan 2 preguntas':'Tres preguntas nuevas';
+    $('#menu-today-title').textContent=!currentDay?'En preparación':blank?'Reto terminado · sin media':played===3?'Reto completado':played===2?'Te queda 1 pregunta':played?'Te quedan 2 preguntas':'Tres preguntas nuevas';
     $('#menu-today-sub').textContent=played===3?'Mira tu resultado':prettyDate(todayKey);
     if(inGame&&activeDay)menuArchive.month=activeDay.id.slice(0,7);renderArchive(menuArchive);
     const target=archive?$('#menu-archive-title'):$('#menu-today:not(:disabled)')||drawer.querySelector('.menu-link:not(:disabled):not([hidden])');
@@ -338,9 +485,9 @@ $('#clear-history').addEventListener('click',()=>{if(!workspaceData.history.leng
 $('#history-list').addEventListener('click',event=>{const use=event.target.closest('[data-use-result]'),remove=event.target.closest('[data-remove-history]');if(use)useHistoryResult(Number(use.dataset.useResult),use.closest('.history-item'));if(remove){const index=Number(remove.dataset.removeHistory),scroll=$('#history-list').scrollTop;workspaceData.history.splice(index,1);saveWorkspace();renderHistory();$('#history-list').scrollTop=scroll;const next=$(`#history-list [data-remove-history="${Math.min(index,workspaceData.history.length-1)}"]`);(next||(touchCalculator?$('#history-list'):$('#scratch-expression'))).focus({preventScroll:true})}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menuOpen()&&$('#game-shell').hidden){toggleMenu(false);return}if(event.key==='Escape'&&!$('#game-shell').hidden){if(menuOpen()){toggleMenu(false)}else if(!$('#workspace-panel').hidden)toggleWorkspace(false);else if($('#explain-panel')&&!$('#explain-panel').hidden){toggleExplain(false);$('#explain-toggle').focus()}else closeGame()}});
 $('#game-content').addEventListener('submit',event=>{if(event.target.id==='guess-form')submitGuess(event)});
-$('#game-content').addEventListener('input',event=>{if(event.target.id==='guess-input'&&!event.isComposing)formatEstimateInput(event.target)});
+$('#game-content').addEventListener('input',event=>{if(event.target.id!=='guess-input')return;if(!event.isComposing)formatEstimateInput(event.target);setDraft(clockKey(activeDay,activeIndex),event.target.value)});
 $('#game-content').addEventListener('beforeinput',event=>{const input=event.target;if(input.id!=='guess-input'||input.selectionStart!==input.selectionEnd)return;const cursor=input.selectionStart;if(event.inputType==='deleteContentBackward'&&input.value[cursor-1]==='.'){event.preventDefault();input.setRangeText('',Math.max(0,cursor-2),cursor,'end');formatEstimateInput(input)}else if(event.inputType==='deleteContentForward'&&input.value[cursor]==='.'){event.preventDefault();input.setRangeText('',cursor,cursor+2,'end');formatEstimateInput(input)}});
-$('#game-content').addEventListener('click',event=>{if($('.game-card.explaining')&&event.target.closest('.verdict,.ledger,.population')){toggleExplain(false);return}const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='hint-toggle')askHint();if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame();if(id==='more-calendar')toggleMenu(true);const other=event.target.closest('[data-open-day]');if(other)openDate(other.dataset.openDay);});
+$('#game-content').addEventListener('click',event=>{if($('.game-card.explaining')&&event.target.closest('.verdict,.ledger,.population')){toggleExplain(false);return}const id=event.target.closest('button')?.id;if(id==='workspace-toggle')toggleWorkspace($('#workspace-panel').hidden);if(id==='hint-toggle')askHint();if(id==='explain-toggle')toggleExplain();if(id==='explain-close')toggleExplain(false);if(id==='next-question'){activeIndex++;renderGame()}const back=event.target.closest('[data-open-step]');if(back){activeIndex=Number(back.dataset.openStep);renderGame()}if(id==='share-result')shareResult();if(id==='another-day')closeGame();if(id==='more-calendar')toggleMenu(true);const other=event.target.closest('[data-open-day]');if(other)openDate(other.dataset.openDay);});
 $('#game-steps').addEventListener('click',event=>{const step=event.target.closest('[data-step]');if(step&&!step.disabled){activeIndex=Number(step.dataset.step);renderGame()}});
 
 $('#game-content').addEventListener('click',event=>{const review=event.target.closest('[data-review-index]');if(review){activeIndex=Number(review.dataset.reviewIndex);renderGame()}});

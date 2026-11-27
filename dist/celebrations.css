@@ -1,11 +1,58 @@
-.celebrations-door{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;margin:0 0 20px;padding:18px;border:1px solid #d9d4cb;border-radius:16px;background:#fff8e5;color:#24262c;text-align:left;cursor:pointer}
-.celebrations-door b,.celebrations-door small{display:block}.celebrations-door small{margin-top:5px;font-size:13px;line-height:1.4}
-.celebrations-head{margin-bottom:20px}.celebrations-head h3{margin:0 0 8px;font-size:24px}.celebrations-head p{line-height:1.5;color:#64605b}
-.celebrations-mode{display:grid;gap:8px;font-weight:700;margin:20px 0}.celebrations-mode select,.celebration-row select{min-width:0;width:100%;font:inherit;color:#24262c;border:1px solid #c9c4bb;border-radius:10px;background:#fff;padding:11px}
-.celebration-list{display:grid;gap:10px}.celebration-row{display:grid;grid-template-columns:minmax(125px,1fr) minmax(170px,1.5fr) auto;align-items:center;gap:12px;padding:14px;border:1px solid #ded9d0;border-radius:14px;background:#fffdf8}
-.celebration-row label{display:grid;gap:4px;font-weight:700}.celebration-row small{font-size:12px;font-weight:400;color:#64605b;line-height:1.4}.celebration-row button{padding:10px;border-radius:10px;border:1px solid #cbc5bb;background:#fff;cursor:pointer;color:#24262c;font:inherit}
-.celebration-status{min-height:1.5em;font-size:13px;color:#555}.celebrations-reset{margin-top:20px}.celebration-preview{font-size:13px;text-align:center;line-height:1.5}
-@media(max-width:650px){.celebration-row{grid-template-columns:minmax(0,1fr) auto;gap:10px}.celebration-row label{grid-column:1/-1}.celebration-row select{font-size:16px}.celebrations-head h3{font-size:21px}}
+/* Categorías «Celebraciones» y «Emotes» del armario (decisión 0096). Son dos pestañas más de la barra deslizable de
+   armario.css y comparten su probador, su buscador y sus filtros; aquí va solo lo propio: las filas de Celebraciones
+   (un gesto por resultado) y las cartas de Emotes (vista previa y estrella de favorito). */
 
+/* Filtros: los mismos botones que «Todo / Tuyas / Por conseguir», pero aquí pueden ocupar dos líneas. */
+.gesture-filter{flex-wrap:wrap}
+.gesture-note{margin:0 0 12px;font-size:13px;line-height:1.45;color:var(--muted)}
+.gesture-note b{white-space:nowrap;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* Celebraciones: una fila por momento, con su selector de gesto y su «Ver». */
+.celebration-list{display:grid;gap:10px}
+.celebration-row{display:grid;grid-template-columns:minmax(125px,1fr) minmax(170px,1.5fr) auto;align-items:center;gap:12px;padding:14px;border:1px solid #ded9d0;border-radius:14px;background:#fffdf8}
+.celebration-row.is-changed{border-color:var(--ink);box-shadow:inset 3px 0 0 var(--coral)}
+.celebration-row label{display:grid;gap:4px;font-weight:700}
+.celebration-row small{font-size:12px;font-weight:400;color:#64605b;line-height:1.4}
+.celebration-row select{min-width:0;width:100%;font:inherit;color:#24262c;border:1px solid #c9c4bb;border-radius:10px;background:#fff;padding:11px}
+.celebration-row button{min-height:44px;padding:10px 14px;border-radius:10px;border:1px solid #cbc5bb;background:#fff;cursor:pointer;color:#24262c;font:inherit}
+.celebration-row button:hover{border-color:var(--ink)}
+.celebration-status{min-height:1.5em;margin:10px 0 0;font-size:13px;color:#555}
+.celebrations-reset{margin-top:14px}
+@media(max-width:650px){
+  .celebration-row{grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:12px}
+  .celebration-row label{grid-column:1/-1}
+  .celebration-row select{font-size:16px}
+}
+
+/* Emotes: cartas como las de las piezas. El color dice el tipo; la carta entera es el botón de vista previa y la
+   estrella, aparte, lo añade a la rueda. */
+.emote-tile{--r:#7d7667;--r-soft:#efe8da}
+.emote-tile[data-kind=celebracion]{--r:#f2a516;--r-soft:#ffe9a8}
+.emote-tile[data-kind=baile]{--r:#8f6ff0;--r-soft:#e6defd}
+.emote-tile[data-kind=decepcion]{--r:#3fa9f5;--r-soft:#d7ecfd}
+.emote-play{flex:1;display:flex;flex-direction:column;align-items:stretch;width:100%;min-width:0;border:0;border-radius:inherit;background:none;padding:0;color:inherit;font:inherit;text-align:center;cursor:pointer}
+.emote-play:focus-visible{outline-offset:-3px}
+.profile-tile.emote-tile .tile-art{display:grid;place-items:center;aspect-ratio:4/3}
+.emote-icon{font-size:clamp(32px,9vw,46px);line-height:1}
+.profile-tile.emote-tile .tile-rarity{top:auto;bottom:6px;left:50%;transform:translateX(-50%);white-space:nowrap}
+.emote-tile[data-kind=celebracion] .tile-rarity{color:#3d2a00!important}
+.emote-star{position:absolute;top:6px;right:6px;z-index:2;display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:#fffdf7eb;padding:0;color:var(--muted);cursor:pointer;box-shadow:0 2px 6px -2px #20263066;transition:transform .15s,background .15s,color .15s}
+.emote-star:hover{transform:scale(1.08);color:var(--ink)}
+.emote-star svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.emote-star[aria-pressed=true]{background:var(--ink);color:var(--yellow)}
+.emote-star[aria-pressed=true] svg{fill:currentColor}
+/* En «Favoritos», dos flechas para ordenar la rueda. */
+.emote-move{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0 8px 9px}
+.emote-move button{min-height:34px;border:1.5px solid var(--line);border-radius:30px;background:var(--paper);padding:0;color:var(--ink);font:700 17px/1 var(--font);cursor:pointer}
+.emote-move button:disabled{opacity:.35;cursor:default}
+.emote-items:has(.emote-move) .tile-state{margin-bottom:7px}
+
+/* El probador enseña el cuerpo entero en estas dos categorías, para que quepa el gesto. */
 .profile-main.is-celebrations .profile-figure{width:100%}
-@media(max-width:760px){.profile-main.is-celebrations .profile-figure{width:calc(var(--stage) - 18px);margin:9px auto}}
+@media(max-width:760px){
+  .profile-main.is-celebrations .profile-figure{width:calc(var(--stage) - 18px);margin:9px auto}
+  .emote-star{top:4px;right:4px;width:32px;height:32px}
+  .emote-star svg{width:17px;height:17px}
+  .emote-move{margin:0 6px 8px}
+}
+@media(prefers-reduced-motion:reduce){.emote-star{transition:none}.emote-star:hover{transform:none}}

@@ -72,7 +72,13 @@ dist/                    Web pública: HTML, CSS, JavaScript, JSON e imágenes
   avatar.css             Estilos del avatar 3D, la tienda con rarezas y las animaciones nuevas del duelo
   armario.css            Armario y tienda del avatar: probador con el avatar siempre a la vista (fijo arriba en el móvil), pestañas con icono, filtro y cartas por rareza (decisión 0047)
   celebrations.js       Catálogo de 22 gestos, tramos de resultado, herencia y selección por modalidad (decisión 0096)
-  celebrations.css      Selector de celebraciones y emotes dentro del armario
+  celebrations.css      Categorías «Celebraciones» y «Emotes» del armario (decisión 0129)
+  lobby.js, lobby-world.js, lobby.css  Lobby público en 3D en el centro de la portada: presencia, ir a por un jugador, menú de acciones, retos y amistades (decisión 0124)
+  chat-dock.js, chat-dock.css  Caja de chat del lobby, que acompaña al jugador en la portada y dentro de los juegos (decisión 0128)
+  voice.js, voice.css    Voz entre preguntas en los duelos de dos: WebRTC, permisos y controles (decisión 0126)
+  duel-games.js, duel-games.css  Pregunta, respuesta, resultado y repaso de los duelos de Ascensión, Traza y Archivo Vivo (decisión 0125)
+  round-timer.js, round-timer.css  Reloj común del reto diario, Traza y Archivo Vivo (decisión 0127)
+  amigos.css             Lista de amigos en línea y desconectados con avatar, en la portada y en el cajón (decisión 0129)
   progress.js            Nivel, faradios, racha, misiones, cofres, contador «Casi casi», cifras de las medallas y perfil con armario, tienda y vitrina (decisiones 0024, 0027, 0030 y 0035)
   medals.js              Medallas e insignias: catálogo, regla, dibujo, aviso y ceremonia (decisión 0035)
   stats.js               Estadísticas por juego del perfil: cuentas, comparación de metros y pestaña «Stats» (decisión 0113)
@@ -114,6 +120,10 @@ lib/comunidad.mjs        Preguntas de la comunidad y progreso en la cuenta (POST
 lib/referidos.mjs        Circuito de amigos: códigos, vínculos, conexiones y premios cobrados una vez (POST /api/referido)
 lib/social.mjs           Panel de amigos, conexiones por enlace y chat privado (POST /api/social)
 lib/social-store.mjs     Almacén local y Supabase, con control de versiones en el chat
+lib/lobby.mjs            Lobby público: salas de 20, presencia, chat con filtro, retos y solicitudes de amistad (POST /api/lobby)
+lib/lobby-store.mjs      Almacén local y Supabase del lobby: una fila por jugador y eventos de solo inserción
+lib/duelos-juegos.mjs    Tiempos por juego y adaptadores de Ascensión, Traza y Archivo Vivo para los duelos
+lib/voz.mjs              Señalización de la voz de los duelos dentro del estado del duelo (acción `voz` de /api/duelo)
 api/index.mjs            Función de Vercel para toda la API
 vercel.json              Directorio público, región, reescrituras y archivos de la función
 preview-server.mjs       Servidor HTTP local: estáticos + lib/api.mjs
@@ -170,12 +180,23 @@ En local se usa `runtime/continuaciones.json`. En Vercel se usa `continuation_st
 
 ## Duelos
 
-Dos o tres jugadores responden a la vez la misma pregunta. Cada uno empieza con 6000 de vida y una respuesta vale de 0 a 5000 puntos según su proximidad a la cifra real. En el 1v1 normal, el 1v1 clasificatorio y el 1v1v1, quien puntúa por debajo del primero pierde la diferencia por el multiplicador del líder. Cada jugador empieza en ×1 y suma 0,5 al ganar una ronda en solitario, con efecto desde la siguiente pregunta. En un empate en cabeza se aplica el mayor multiplicador de los líderes al daño a terceros. La práctica con Faraday-bot usa un multiplicador común que sube al avanzar de ronda. Hay 3 minutos por pregunta, que bajan a 30 segundos al recibir la primera respuesta. [Decisión sobre los multiplicadores](docs/decisiones/0083-multiplicadores-personales-en-duelos.md).
+Dos o tres jugadores responden a la vez la misma pregunta. Cada uno empieza con 6000 de vida y una respuesta vale de 0 a 5000 puntos según su proximidad a la cifra real. En el 1v1 normal, el 1v1 clasificatorio y el 1v1v1, quien puntúa por debajo del primero pierde la diferencia por el multiplicador del líder. Cada jugador empieza en ×1 y suma 0,5 al ganar una ronda en solitario, con efecto desde la siguiente pregunta. En un empate en cabeza se aplica el mayor multiplicador de los líderes al daño a terceros. La práctica con Faraday-bot usa un multiplicador común que sube al avanzar de ronda. En el duelo de estimación hay 60 segundos por pregunta, que bajan a 20 al recibir la primera respuesta; los duelos de Ascensión, Traza y Archivo Vivo tienen sus propios tiempos ([decisión 0127](docs/decisiones/0127-tiempo-limite-en-todos-los-modos.md)). [Decisión sobre los multiplicadores](docs/decisiones/0083-multiplicadores-personales-en-duelos.md).
 
 - `lib/duelos.mjs` guarda el estado del duelo y lo pone al día con el reloj en cada petición. La única ruta es `POST /api/duelo`, con el campo `action`: `buscar` (partida rápida), `crear` y `unirse` (reto con código), `estado`, `activo` (¿tengo un duelo en marcha?, decisión 0042), `responder`, `bot`, `salir` y `revancha`.
 - `dist/duel.js` pregunta el estado una vez por segundo y pinta el marcador, con la vida y el multiplicador de cada jugador, el temporizador, los avisos y los sonidos. No hay conexiones abiertas. La cifra real y la respuesta del rival llegan al navegador al terminar la ronda.
 - El estado se guarda en memoria en local y en la tabla `duels` de Supabase en Vercel. La migración `20261112005952_duelos` se aplicó el 12 de noviembre de 2026; si la tabla fallara, la ruta responde 503 sin afectar al resto.
 - El perfil (apodo y avatar), el nivel, la XP y la racha se guardan en `localStorage`.
+
+## Lobby, chat, voz y tiempos (rama `feat/lobby-social`)
+
+Desde la rama `feat/lobby-social` (decisiones [0124](docs/decisiones/0124-lobby-publico-al-entrar.md) a [0129](docs/decisiones/0129-celebraciones-emotes-y-amigos-con-avatar.md)), la portada es un lobby público.
+
+- **Lobby.** `dist/lobby.js` dibuja la plaza en 3D (Three.js, la misma copia que el avatar) y sondea `POST /api/lobby` con la acción `pulso`: 1,5 s con actividad, 6 s en reposo, 8 s dentro de un juego (3 s con el chat abierto) y nada con la pestaña oculta. `lib/lobby.mjs` reparte a los jugadores en salas de 20, guarda una fila por jugador en `lobby_presence` y los mensajes y señales (retos, amistad) en `lobby_events`. Vale para invitados (cookie `faraday_jugador`) y para cuentas. Sin las tablas, la ruta responde 503 y la portada enseña el lobby en solitario.
+- **Chat.** `dist/chat-dock.js` es una sola caja que se cuelga del lobby en la portada y de la barra superior en el reto diario, Traza, Ascensión, Archivo Vivo, ligas, comunidad y circuito. Usa `window.Lobby` y los eventos `faraday:lobby` y `faraday:lobby-chat`.
+- **Duelos de varios juegos.** El duelo lleva `game` (`estimacion`, `ascension`, `traza`, `archivo`); `lib/duelos-juegos.mjs` aporta banco, validación, puntos de 0 a 5000 y tiempos por juego, que llegan al navegador en `rules`. `window.Duel` (`open`, `create`, `join`, `cancel`, `GAMES`) lo usa el lobby para retar.
+- **Voz.** En los duelos de dos, `dist/voice.js` negocia audio directo entre navegadores con WebRTC; la oferta y la respuesta viajan por el sondeo del duelo (`lib/voz.mjs`). Usa los STUN públicos de Google y Cloudflare; no hay TURN ni servidor de medios.
+- **Tiempos.** `dist/round-timer.js` pone 90 s por pregunta al reto diario y 45 s a Traza y Archivo Vivo. Solo el de Archivo Vivo lo comprueba también el servidor; los duelos ya los controlaba el servidor (60 s y 20 s en estimación).
+- **Migraciones pendientes de aplicar:** `20261126120000_lobby` y `20261126120100_amigos_aspecto` ([docs/base-de-datos.md](docs/base-de-datos.md)).
 
 ## Ligas de amigos
 

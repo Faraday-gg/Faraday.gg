@@ -1,0 +1,136 @@
+/* Chat del lobby fuera del Lobby 3D (chat-dock.js). Una sola caja (.cdock) que chat-dock.js cambia de sitio; el
+   atributo data-place dice dónde está: «slot» (hueco #lobby-chat-slot de la portada), «home» (flotando abajo a la
+   izquierda de la portada) o el juego en cuya barra de arriba se ha colgado (game, league, community, circuit, trends,
+   ascension, archivo). Colores fijos de papel y tinta en el panel, para que se lea igual sobre cualquier juego; solo el
+   botón se adapta a la barra que lo aloja.
+   Ojo: la caja no lleva transform ni filtros, porque en móvil el panel es position:fixed (una hoja que sube desde
+   abajo) y dejaría de colocarse respecto a la pantalla. Los nombres .chat-* son del chat de los duelos (duel-chat.css). */
+.cdock,.cdock *{box-sizing:border-box}
+.cdock{
+  --cd-bg:var(--paper,#fffdf7);--cd-ink:var(--ink,#202630);--cd-muted:var(--muted,#666a6d);--cd-line:var(--line,#d8d2c6);--cd-accent:var(--coral,#ff6548);
+  --cd-fab-ink:var(--ink,#202630);--cd-fab-bg:transparent;--cd-fab-line:transparent;--cd-fab-hover:#ebe5d7;--cd-ring:var(--cream,#f7f3e9);
+  position:relative;z-index:2;color:var(--cd-ink);color-scheme:light;font:500 14px/1.35 var(--font,'DM Sans',Arial,sans-serif);letter-spacing:0;text-align:left;text-transform:none}
+.cdock[hidden],.cdock [hidden]{display:none!important}
+.cdock button{font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cdock :focus-visible{outline:3px solid #5586a5;outline-offset:2px}
+.cdock-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Botón: plegada, es todo lo que se ve. Lleva el número de mensajes sin leer. */
+.cdock-fab{position:relative;display:grid;place-items:center;width:44px;height:44px;margin:0;padding:0;border:1px solid var(--cd-fab-line);border-radius:50%;background:var(--cd-fab-bg);color:var(--cd-fab-ink);transition:background .15s}
+.cdock-fab:hover,.cdock.is-open .cdock-fab{background:var(--cd-fab-hover)}
+.cdock-fab svg{width:23px;height:23px}
+.cdock.is-off .cdock-fab svg{opacity:.5}
+.cdock-fab-label{display:none}
+.cdock-badge{position:absolute;top:-1px;right:-3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--cd-accent);color:#202630;font:800 11px/18px var(--font,Arial,sans-serif);text-align:center;box-shadow:0 0 0 2px var(--cd-ring);pointer-events:none}
+/* «Ocultar chat»: queda este botón pequeño para volver a enseñarlo. */
+.cdock-show{display:grid;place-items:center;width:32px;height:32px;margin:6px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--cd-fab-ink);opacity:.55;transition:opacity .15s,background .15s}
+.cdock-show:hover,.cdock-show:focus-visible{opacity:1;background:var(--cd-fab-hover)}
+.cdock-show svg{width:18px;height:18px}
+.cdock-show-label{display:none}
+
+/* Panel */
+.cdock-panel{position:absolute;z-index:1;top:calc(100% + 10px);left:0;display:flex;flex-direction:column;width:min(340px,calc(100vw - 24px));height:min(430px,calc(100dvh - 150px));min-height:220px;margin:0;border:1px solid var(--cd-line);border-radius:20px;background:var(--cd-bg);color:var(--cd-ink);box-shadow:0 2px 4px #20263014,0 24px 48px -18px #000c;overflow:hidden}
+.cdock-head{flex:none;display:flex;align-items:center;gap:2px;padding:8px 8px 8px 16px;border-bottom:1px solid var(--cd-line)}
+.cdock-room{flex:1;min-width:0;color:var(--cd-ink);font:700 15px/1.2 var(--display,'Space Grotesk',Arial,sans-serif);letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cdock-more,.cdock-x{flex:none;display:grid;place-items:center;width:38px;height:38px;margin:0;padding:0;border:0;border-radius:50%;background:transparent;color:var(--cd-ink);font:400 23px/1 var(--font,Arial,sans-serif)}
+.cdock-more:hover,.cdock-x:hover,.cdock-more[aria-expanded=true]{background:#2026300f}
+.cdock-more svg{width:20px;height:20px}
+.cdock-menu{position:absolute;z-index:2;top:52px;left:8px;right:8px;display:grid;gap:2px;max-height:calc(100% - 60px);padding:6px;border:1px solid var(--cd-line);border-radius:14px;background:var(--cd-bg);box-shadow:0 1px 2px #20263024,0 14px 30px -12px #20263080;overflow-y:auto}
+.cdock-menu button{min-height:40px;margin:0;padding:8px 12px;border:0;border-radius:10px;background:none;color:var(--cd-ink);font:600 14px/1.3 var(--font,Arial,sans-serif);text-align:left;overflow-wrap:anywhere}
+.cdock-menu button:hover{background:#2026300f}
+
+/* Registro: «Nombre: texto», uno por línea. La hora sale al pasar el ratón (title). */
+.cdock-log{flex:1;min-height:0;display:flex;flex-direction:column;gap:5px;margin:0;padding:10px 14px;list-style:none;overflow-y:auto;overscroll-behavior:contain}
+.cdock-log::before{content:'';margin-top:auto}
+.cdock-msg{margin:0;padding:0;color:var(--cd-ink);font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.cdock-who{display:inline;margin:0 5px 0 0;padding:0;border:0;border-radius:4px;background:none;color:#23395b;font:700 13px/1.4 var(--font,Arial,sans-serif);text-align:left;overflow-wrap:anywhere}
+.cdock-who::after{content:':'}
+button.cdock-who:hover{text-decoration:underline}
+.cdock-msg.is-mine{margin-inline:-6px;padding:2px 6px;border-radius:8px;background:#ffdb7052}
+.cdock-msg.is-mine .cdock-who{color:#a8321d}
+.cdock-note{margin:0;padding:0;color:var(--cd-muted);font-size:12px;line-height:1.4;font-style:italic;overflow-wrap:anywhere}
+.cdock-note.is-error{color:#b3301a;font-style:normal;font-weight:700}
+.cdock-empty{margin:0 0 auto;text-align:center}
+.cdock-link{display:inline;margin:0;padding:0;border:0;background:none;color:var(--cd-ink);font:700 12px/1.4 var(--font,Arial,sans-serif);font-style:normal;text-decoration:underline;text-underline-offset:2px}
+
+/* Campo de 140 caracteres; el contador aparece al acercarse al límite. Sin conexión, en su lugar va el aviso. */
+.cdock-form{flex:none;display:flex;align-items:center;gap:6px;margin:0;padding:8px 10px 10px;border-top:1px solid var(--cd-line)}
+.cdock-input{flex:1;min-width:0;height:42px;margin:0;padding:0 14px;border:1.5px solid var(--cd-line);border-radius:22px;background:#fff;color:var(--cd-ink);font:500 16px/1.2 var(--font,Arial,sans-serif)}
+.cdock-input::placeholder{color:#8b8d8c;font-weight:500}
+.cdock-input:focus{border-color:var(--cd-ink);outline:0}
+.cdock-input:focus-visible{outline:3px solid #5586a5;outline-offset:1px}
+.cdock-count{flex:none;min-width:24px;color:var(--cd-muted);font:700 12px/1 var(--font,Arial,sans-serif);font-variant-numeric:tabular-nums;text-align:right}
+.cdock-count:empty{display:none}
+.cdock-count.is-low{color:#b3301a}
+.cdock-send{flex:none;display:grid;place-items:center;width:42px;height:42px;margin:0;padding:0;border:0;border-radius:50%;background:var(--cd-ink);color:var(--cd-bg)}
+.cdock-send svg{width:19px;height:19px}
+.cdock.is-sending .cdock-send{opacity:.5}
+.cdock-off{flex:none;margin:0;padding:14px 16px;border-top:1px solid var(--cd-line);color:var(--cd-muted);font-size:13px;font-weight:600;text-align:center}
+
+/* ── Portada: en el hueco del lobby ocupa su ancho; plegada es una barra con el nombre del lobby. ── */
+.cdock[data-place=slot]{display:flex;flex-direction:column;width:100%;min-height:0;max-height:100%}
+.cdock[data-place=slot] .cdock-fab{flex:none;display:flex;align-items:center;justify-content:flex-start;gap:9px;width:100%;height:46px;padding:0 14px;border:1px solid var(--cd-line);border-radius:16px;background:var(--cd-bg);color:var(--cd-ink);box-shadow:0 1px 2px #20263014,0 10px 24px -16px #20263066}
+.cdock[data-place=slot] .cdock-fab:hover{background:#fff}
+.cdock[data-place=slot] .cdock-fab svg{flex:none;width:21px;height:21px}
+.cdock[data-place=slot] .cdock-fab-label{display:block;flex:1;min-width:0;font:700 14px/1.2 var(--font,Arial,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cdock[data-place=slot] .cdock-badge{position:static;flex:none;box-shadow:none}
+.cdock[data-place=slot].is-open .cdock-fab{display:none}
+/* El hueco tiene alto máximo (lobby.css): el panel encoge con él y el registro se desplaza por dentro. */
+.cdock[data-place=slot] .cdock-panel{position:relative;top:auto;flex:0 1 auto;width:100%;height:min(360px,46dvh);min-height:0;box-shadow:0 1px 2px #20263014,0 14px 30px -18px #20263066;animation:none}
+.cdock[data-place=slot] .cdock-show{flex:none;align-self:flex-start;display:flex;gap:7px;width:auto;opacity:.9;height:36px;margin:0;padding:0 12px;border-radius:18px;background:var(--cd-bg);color:var(--cd-ink);border:1px solid var(--cd-line)}
+.cdock[data-place=slot] .cdock-show-label{display:block;font:700 13px/1 var(--font,Arial,sans-serif)}
+/* Portada sin hueco: flotando abajo a la izquierda, por debajo del menú y del perfil (z-index 60) y de los juegos (100+). */
+.cdock[data-place=home]{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:55;--cd-fab-bg:var(--ink,#202630);--cd-fab-ink:var(--paper,#fffdf7);--cd-fab-hover:#3a4350}
+.cdock[data-place=home] .cdock-fab{width:52px;height:52px;box-shadow:0 10px 24px -10px #000a}
+.cdock[data-place=home] .cdock-panel{top:auto;bottom:calc(100% + 10px)}
+.cdock[data-place=home] .cdock-show{width:36px;height:36px;margin:0;background:var(--ink,#202630)}
+/* El aviso «Tienes un duelo a medias» ocupa el centro de abajo y en móvil llega a las esquinas. */
+body:has(.duel-reconnect) .cdock[data-place=home]{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+
+/* ── Dentro de un juego: un botón más de su barra de arriba, donde no tapa respuestas, calculadora, botones ni relojes. ──
+   Reto diario y archivo: a la derecha del menú (la calculadora queda a la derecha y los botones, abajo). */
+.cdock[data-place=game]{position:absolute;top:12px;left:calc(clamp(12px,3vw,28px) + 48px)}
+/* Ligas, comunidad y circuito: en el hueco vacío de la derecha de la barra. */
+.cdock:is([data-place=league],[data-place=community],[data-place=circuit]){position:absolute;top:12px;right:clamp(12px,3vw,28px)}
+/* Traza: la cabecera va llena (cerrar, título y el reloj a la derecha), así que cuelga justo debajo, en el hueco que
+   hay sobre el avatar acompañante (columna izquierda); en móvil, a la derecha de ese avatar. Nunca sobre la gráfica. */
+.cdock[data-place=trends]{position:absolute;top:calc(100% + 10px);left:max(16px,calc((100% - 1260px)/2 + 16px))}
+/* Ascensión: a la izquierda del botón de sonido. El reloj va dentro de la tarjeta de la pregunta. */
+.cdock[data-place=ascension]{position:absolute;top:calc(50% - 22px);right:calc(max(28px,(100vw - 1240px)/2) + 54px);--cd-fab-ink:#f8f6f1;--cd-fab-bg:#101c30a6;--cd-fab-line:#ecf2ff42;--cd-fab-hover:#22334f;--cd-ring:#101e34}
+/* Archivo Vivo: junto al botón de cerrar, en la primera fila de la cabecera (el progreso va a la derecha y el reloj,
+   en una fila propia debajo). Dentro de la foto en 360° no se enseña. */
+.cdock[data-place=archivo]{position:absolute;top:10px;left:calc(clamp(14px,2vw,24px) + 48px);--cd-fab-ink:#f8f4e9;--cd-fab-hover:#272e45;--cd-ring:#1c2030}
+.archivo-vivo.av-immersive .cdock{display:none}
+.cdock:is([data-place=league],[data-place=community],[data-place=circuit],[data-place=ascension]) .cdock-panel{left:auto;right:0}
+/* Dentro de un juego el panel es más pequeño que en la portada; en escritorio, además, chat-dock.js lo coloca (fit) donde
+   no tape el reloj, el enunciado ni el campo de respuesta: debajo del botón si cabe y, si no, hacia el lado libre. */
+.cdock:not([data-place=home],[data-place=slot]) .cdock-panel{width:min(320px,calc(100vw - 24px));height:min(380px,calc(100dvh - 150px))}
+/* Con el panel abierto, la barra que lo aloja pasa por encima de lo pegajoso del juego (botones de abajo, fotos). */
+:is(.game-bar,.trends-header,.ascension-header,.archivo-vivo-header):has(>.cdock.is-open){z-index:40}
+
+@media(max-width:760px){
+  .cdock:not([data-place=home],[data-place=slot]) .cdock-fab{width:40px;height:40px}
+  .cdock:not([data-place=home],[data-place=slot]) .cdock-fab svg{width:21px;height:21px}
+  .cdock:not([data-place=home],[data-place=slot]) .cdock-show{margin:4px}
+  .cdock[data-place=game]{top:10px;left:58px}
+  .cdock:is([data-place=league],[data-place=community],[data-place=circuit]){top:10px;right:12px}
+  .cdock[data-place=trends]{top:calc(100% + 8px);left:auto;right:12px}
+  .cdock[data-place=trends] .cdock-panel{left:auto;right:0}
+  .cdock[data-place=ascension]{top:calc(50% - 20px);right:64px}
+  .cdock[data-place=archivo]{top:12px;left:calc(clamp(14px,2vw,24px) + 46px)}
+}
+@media(max-width:720px){.cdock[data-place=archivo]{top:calc(max(8px,env(safe-area-inset-top,0px)) + 2px)}}
+@media(max-width:560px){
+  /* En móvil el panel es una hoja que sube desde abajo, a todo lo ancho, respetando la zona segura. Dentro de un juego
+     no pasa del 46 % del alto: arriba siguen a la vista el reloj y el enunciado. */
+  .cdock:not([data-place=slot]) .cdock-panel{position:fixed;inset:auto 0 0 0;width:100%;height:min(64dvh,500px);border-width:1px 0 0;border-radius:22px 22px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .cdock:not([data-place=home],[data-place=slot]) .cdock-panel{height:min(46dvh,400px);min-height:0}
+  .cdock:not([data-place=slot]).is-open .cdock-fab{visibility:hidden}
+  .cdock-more,.cdock-x{width:42px;height:42px}
+  .cdock[data-place=home]{left:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+}
+@media(prefers-reduced-motion:no-preference){
+  .cdock-panel{animation:cdock-in .22s cubic-bezier(.2,.8,.2,1)}
+  @keyframes cdock-in{from{opacity:0;transform:translateY(8px)}}
+}
+@media(prefers-reduced-motion:reduce){.cdock-fab,.cdock-show{transition:none}}

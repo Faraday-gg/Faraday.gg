@@ -1,0 +1,68 @@
+/* Lista de amigos con avatar (la pinta social.js): conectados y desconectados, con la cara de cada uno en un círculo
+   como en «Tu perfil». Sale en dos sitios: compacta en el bloque «Con amigos» de la portada (#portal-friends, fondo
+   oscuro) y completa en el cajón de amigos (#social-friends, fondo claro). Va después de home.css y pisa lo que haga falta. */
+
+/* La cara y el punto de estado, comunes a los dos sitios */
+.friend-face{position:relative;flex:none;display:inline-grid;line-height:0}
+.friend-face .duel-avatar{--size:36px}
+.friend-dot{position:absolute;right:-2px;bottom:-2px;width:12px;height:12px;margin:0;border:2px solid var(--friend-ring,var(--cream))}
+
+/* Cajón: dos grupos con su contador, y en cada fila la cara, el nombre y la actividad */
+.friend-group-title{display:flex;align-items:baseline;gap:5px;margin:16px 0 0;color:#51535a;font:800 12px/1.3 var(--font);letter-spacing:.06em;text-transform:uppercase}
+.friend-group-title span{font-variant-numeric:tabular-nums;letter-spacing:0}
+.friend-who{display:flex;align-items:center;gap:10px}
+.friend-who>div{min-width:0}
+.social-content .friend-none{margin:6px 0 0;font-size:13px}
+#social-group-offline+.social-list .duel-avatar{filter:grayscale(.55);opacity:.8}
+
+/* Portada: lista compacta dentro de «Con amigos», entre el botón y los atajos. Tiene altura máxima y se desliza por
+   dentro, para no empujar el resto de la portada; mientras carga reserva sitio y así no da un salto al llegar. */
+.portal-friends{display:grid;align-content:start;gap:4px;min-width:0;max-height:clamp(132px,36dvh,318px);margin-top:6px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ffffff40 transparent}
+.portal-friends[data-state=loading]{min-height:92px;align-content:center}
+.friends-note{margin:0;padding:6px 9px;color:var(--portal-muted);font-size:13px;line-height:1.35}
+.friends-group h3{display:flex;align-items:baseline;gap:5px;margin:0;padding:5px 9px 2px;color:var(--portal-muted);font:800 11px/1.2 var(--font);letter-spacing:.07em;text-transform:uppercase}
+.friends-group h3 span{font-variant-numeric:tabular-nums;letter-spacing:0}
+.friends-group ul{display:grid;list-style:none;margin:0;padding:0}
+.friends-none{margin:0;padding:1px 9px 5px;color:var(--portal-muted);font-size:12px;opacity:.85}
+.portal-social .friend-row{display:flex;align-items:center;gap:9px;min-height:42px;padding:3px 9px;background:transparent;font-weight:700;text-align:left}
+.portal-social .friend-row:hover{background:#ffffff15}
+.portal-friends .friend-face .duel-avatar{--size:32px}
+.portal-friends .friend-dot{--friend-ring:var(--portal-panel);background:#8d8ca3}
+.portal-friends .friend-dot.is-online{background:#46d79b}
+.friends-group[data-group=offline] .duel-avatar{filter:grayscale(.6);opacity:.72}
+.friend-text{display:grid;min-width:0}
+.friend-text b,.friend-text small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.friend-text b{font-size:13px;line-height:1.25}
+.friend-text small{color:var(--portal-muted);font-size:11px;font-weight:600;line-height:1.3}
+.portal-social .friends-cta{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:6px 9px;background:#ffffff12;font-size:13px;text-align:left}
+.portal-social .friends-cta:hover{background:#ffffff20}
+.friends-cta b{display:block}
+.friends-cta small{display:block;margin-top:1px;color:var(--portal-muted);font-size:11px;font-weight:600;line-height:1.3}
+.portal-social .friends-more{min-height:32px;padding:5px 9px;background:transparent;color:var(--portal-muted);font-size:12px;text-align:left}
+.portal-social .friends-more:hover{background:#ffffff15;color:var(--portal-text)}
+.portal-social :is(.friend-row,.friends-cta,.friends-more):focus-visible{outline-offset:-3px}
+
+/* Portada compacta (móvil y ventanas estrechas, los mismos cortes que home.css): la lista es una sola tira a todo el
+   ancho bajo los botones, con las caras de cada grupo; el nombre lo dice la etiqueta de cada botón. Para que ocupe las
+   dos columnas del carril, la sección deja de ser caja (en este corte ya no tenía borde ni fondo). */
+@media (max-width: 960px) and (min-height: 530px), (max-width: 619px) {
+  .portal-social{display:contents}
+  .portal-social .portal-social-open{height:auto}
+  .portal-friends{order:3;grid-column:1/-1;display:flex;align-items:center;gap:10px;max-height:none;margin:0;padding:2px 3px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+  .portal-friends::-webkit-scrollbar{display:none}
+  .portal-friends[data-state=loading]{min-height:40px}
+  .friends-group{flex:none;display:flex;align-items:center;gap:6px}
+  .friends-group h3{padding:0;font-size:10px;white-space:nowrap}
+  .friends-group ul{display:flex;gap:2px}
+  .friends-none{display:none}
+  .portal-social .friend-row{width:40px;min-height:40px;justify-content:center;padding:0;border-radius:50%}
+  .friend-text{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .friends-note{flex:none;padding:0 4px;font-size:12px;white-space:nowrap}
+  .portal-social .friends-cta{flex:1;min-width:0;min-height:40px;padding:5px 9px}
+  .friends-cta small{display:none}
+  .portal-social .friends-more{flex:none;width:auto;white-space:nowrap}
+}
+/* Con muy poca altura la portada no tiene sitio para la tira: los amigos siguen en el cajón. */
+@media (max-height: 560px) and (max-width: 960px) {
+  .portal-friends{display:none}
+}

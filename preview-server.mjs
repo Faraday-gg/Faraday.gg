@@ -23,7 +23,8 @@ const server=http.createServer(async(req,res)=>{
       let body;
       if(req.method!=='GET'&&req.method!=='HEAD'){
         // /api/progreso guarda el progreso entero del jugador con cuenta (decisión 0052): admite más tamaño.
-        const chunks=[],max=url.pathname==='/api/progreso'?65536:2048;let size=0;
+        // /api/duelo lleva la voz (hasta 16 KB) y /api/lobby el aspecto del avatar (4 KB): los mismos topes que lib/api.mjs.
+        const chunks=[],max={'/api/progreso':65536,'/api/duelo':16384,'/api/lobby':4096}[url.pathname]||2048;let size=0;
         for await(const chunk of req){size+=chunk.length;if(size>max){res.writeHead(413,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify({error:'Solicitud demasiado grande'}));return}chunks.push(chunk)}
         body=Buffer.concat(chunks);
       }

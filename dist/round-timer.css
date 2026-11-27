@@ -1,0 +1,25 @@
+/* Reloj de ronda compartido (round-timer.js): píldora con la cifra, como el reloj de los duelos, y barra fina que se
+   vacía, como la de Ascensión. Toma el color del texto de donde se monta; cada modo puede ajustar --rt-pill (fondo de
+   la píldora), --rt-track (carril), --rt-fill (barra) y --rt-alert (aviso de los últimos segundos). */
+.round-timer{display:flex;align-items:center;gap:10px;min-width:0;color:inherit}
+.round-timer-pill{flex:none;display:inline-flex;align-items:center;gap:6px;padding:5px 12px 5px 8px;border-radius:40px;background:var(--rt-pill,color-mix(in srgb,currentColor 10%,transparent));font:500 16px/1.2 var(--num,var(--font,sans-serif));font-variant-numeric:tabular-nums;white-space:nowrap;transition:background .4s,color .4s}
+.round-timer-icon{display:inline-flex}
+.round-timer-icon svg{display:block;width:16px;height:16px}
+.round-timer-time{min-width:3.1ch;font-weight:500;text-align:right}
+.round-timer-note{font:700 11px/1 var(--font,sans-serif);letter-spacing:.04em;text-transform:uppercase;opacity:.8}
+.round-timer-note[hidden]{display:none}
+.round-timer-bar{flex:1;min-width:24px;height:4px;overflow:hidden;border-radius:4px;background:var(--rt-track,color-mix(in srgb,currentColor 14%,transparent))}
+.round-timer-fill{display:block;height:100%;border-radius:inherit;background:var(--rt-fill,currentColor);opacity:.7;transform:scaleX(var(--rt,1));transform-origin:left;transition:transform .22s linear}
+.round-timer-live{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+/* Últimos 10 s: la píldora cambia de color. Últimos 5 s: además late, una vez por segundo. */
+.round-timer.is-warning .round-timer-pill{background:var(--rt-alert,#b92c16);color:#fff8ec}
+.round-timer.is-warning .round-timer-fill{background:var(--rt-alert,#b92c16);opacity:1}
+.round-timer.is-last .round-timer-pill{animation:round-timer-beat 1s ease-in-out infinite}
+.round-timer.is-paused .round-timer-pill{animation:none;opacity:.75}
+.round-timer.is-paused .round-timer-fill{opacity:.35}
+.round-timer.is-over .round-timer-pill{animation:none}
+@keyframes round-timer-beat{50%{transform:scale(1.06)}}
+@media(prefers-reduced-motion:reduce){
+  .round-timer-pill,.round-timer-fill{transition:none}
+  .round-timer.is-last .round-timer-pill{animation:none}
+}

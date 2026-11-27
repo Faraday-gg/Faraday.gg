@@ -37,6 +37,13 @@
   <link rel="stylesheet" href="home.css">
   <link rel="stylesheet" href="archivo-vivo.css">
   <link rel="stylesheet" href="casino.css">
+  <link rel="stylesheet" href="lobby.css">
+  <link rel="stylesheet" href="chat-dock.css">
+  <link rel="stylesheet" href="voice.css">
+  <link rel="stylesheet" href="round-timer.css">
+  <link rel="stylesheet" href="amigos.css">
+  <link rel="stylesheet" href="duel-games.css">
+  <script src="round-timer.js" defer></script>
   <script src="categories.js" defer></script>
   <script src="questions.js" defer></script>
   <script src="daily-content.js" defer></script>
@@ -64,6 +71,8 @@
   <script src="bets-rules.js" defer></script>
   <script src="bets.js" defer></script>
   <script src="ranked.js" defer></script>
+  <script src="voice.js" defer></script>
+  <script src="duel-games.js" defer></script>
   <script src="duel.js" defer></script>
   <script src="reconectar.js" defer></script>
   <script src="ligas.js" defer></script>
@@ -76,7 +85,9 @@
   <script src="ascension-chart.js" defer></script>
   <script src="ascension.js" defer></script>
   <script src="social.js" defer></script>
+  <script src="chat-dock.js" defer></script>
   <script type="module" src="avatar3d.js"></script>
+  <script type="module" src="lobby.js"></script>
   <script type="module" src="archivo-vivo.js"></script>
   <script src="casino-rules.js" defer></script>
   <script type="module" src="casino.js"></script>
@@ -111,11 +122,39 @@
     </header>
     <main id="inicio" class="home">
       <div class="home-portal">
-        <section class="portal-avatar" aria-labelledby="hero-title">
+        <section class="portal-avatar" id="lobby" aria-labelledby="hero-title">
           <h1 id="hero-title">Ponle cifra a <em>tu intuición.</em></h1>
+          <!-- Lobby (lobby.js). La plaza 3D ocupa toda la columna, por detrás del título y del pie. Sin 3D se queda
+               oculta y se ve el avatar de siempre con la lista de jugadores. -->
+          <div class="plaza-stage" id="lobby-stage" hidden>
+            <canvas id="lobby-canvas" tabindex="0" aria-label="Lobby en 3D. Haz clic en el suelo para andar o en un jugador para retarle. Con el teclado: W, A, S, D o las flechas para andar, Mayúsculas para correr y Espacio para saltar. El botón Jugadores ofrece las mismas acciones en una lista."></canvas>
+            <div class="plaza-bubbles" id="lobby-bubbles" aria-hidden="true"></div>
+          </div>
           <div class="portal-avatar-scene">
             <div class="portal-orbit" aria-hidden="true"><b>≈</b><i></i><i></i></div>
             <div id="home-avatar" aria-hidden="true"></div>
+            <div class="plaza-ui" id="lobby-ui">
+              <div class="plaza-bar" id="lobby-bar" hidden>
+                <p class="plaza-badge is-off" id="lobby-badge">Lobby</p>
+                <div class="plaza-tools">
+                  <button type="button" id="lobby-roster-toggle" aria-expanded="false" aria-controls="lobby-roster">Jugadores <span id="lobby-count">(1)</span></button>
+                  <button type="button" id="lobby-emote-toggle" aria-expanded="false" aria-controls="lobby-emotes" hidden>Gestos</button>
+                  <button type="button" class="plaza-expand" id="lobby-expand" aria-pressed="false" aria-label="Ampliar el lobby a pantalla completa" title="Ampliar" hidden>
+                    <svg class="plaza-expand-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+                    <svg class="plaza-expand-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+                  </button>
+                </div>
+              </div>
+              <div class="plaza-emotes" id="lobby-emotes" role="group" aria-label="Gestos" hidden></div>
+              <section class="plaza-roster" id="lobby-roster" aria-label="Jugadores del lobby" hidden>
+                <ul id="lobby-roster-list"></ul>
+                <p id="lobby-roster-empty">Entrando en el lobby…</p>
+              </section>
+              <p class="plaza-note" id="lobby-note" role="status" hidden></p>
+              <!-- Hueco para la caja de chat (chat-dock.js). -->
+              <div id="lobby-chat-slot"></div>
+              <div class="plaza-stick" id="lobby-stick" aria-hidden="true" hidden><span></span></div>
+            </div>
           </div>
           <div class="portal-avatar-foot">
             <button id="home-progress" type="button" data-open-profile-inline="misiones">

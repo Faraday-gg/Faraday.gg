@@ -39,4 +39,35 @@ assert.equal(invalid.all.ko,'desmayo');assert.equal(Object.keys(invalid.all).len
 assert.equal(C.reaction(invalid,'daily','clavada').clip,'clavada');
 for(const item of C.CLIPS)assert.match(fs.readFileSync(new URL('../dist/avatar3d.js',import.meta.url),'utf8'),new RegExp('\\b'+item.id+':\\{d:'),'Cada gesto del catálogo existe en el esqueleto');
 assert.equal(C.loadout(settings,'daily').clavada,'robot');
+
+// Categorías «Celebraciones» y «Emotes» del armario: momentos de cada modo, catálogo de emotes y rueda de favoritos.
+const skeleton=fs.readFileSync(new URL('../dist/avatar3d.js',import.meta.url),'utf8'),ids=list=>Array.from(list,item=>item.id).join(',');
+assert.equal(ids(C.cuesOf('all')),ids(C.CUES),'La selección general tiene todos los momentos');
+assert.equal(ids(C.cuesOf('daily')),ids(C.TIERS));assert.equal(ids(C.cuesOf('archive')),ids(C.TIERS));
+for(const mode of ['duel','duel3','ranked'])assert.equal(ids(C.cuesOf(mode)),ids(C.TIERS)+',victory,draw,defeat','Los duelos añaden su final');
+assert.equal(ids(C.cuesOf('trends')),'clavada,acierto,cerca,lejos,fallo');
+assert.equal(ids(C.cuesOf('ascension')),'clavada,acierto,cerca,lejos,fallo,ko');
+for(const cue of C.CUES)assert.ok(Array.from(C.GROUPS).some(([id,,list])=>id===C.groupOf(cue.id)&&list.includes(cue.id)),'Cada momento tiene su tipo');
+assert.equal(C.CLIPS.length,22,'Los gestos elegibles para las celebraciones no cambian');
+assert.equal(new Set(Array.from(C.EMOTES,item=>item.id)).size,C.EMOTES.length,'No hay emotes repetidos');
+for(const clip of C.CLIPS)assert.ok(Array.from(C.EMOTES).some(item=>item.id===clip.id),'Todo gesto es también un emote');
+for(const item of C.EMOTES){
+  assert.match(skeleton,new RegExp('\\b'+item.id+':\\{d:'),'Cada emote existe en el esqueleto');
+  assert.ok(Array.from(C.KINDS).some(([id])=>id===item.kind)&&item.icon&&item.name&&item.label,'Cada emote tiene tipo, icono y nombre');
+}
+for(const id of skeleton.match(/const DANCES=\[([^\]]+)\]/)[1].match(/\w+/g))assert.equal(Array.from(C.EMOTES).find(item=>item.id===id).kind,'baile','Los bailes del esqueleto son de tipo baile');
+// Sin favoritos, la rueda es la del Salón tal cual (casino-chat.js): mismos gestos, iconos, nombres y orden.
+const salon=[...fs.readFileSync(new URL('../dist/casino-chat.js',import.meta.url),'utf8').match(/export const EMOTES=\[([\s\S]*?)\];/)[1].matchAll(/\{id:'(\w+)',icon:'([^']+)',name:'([^']+)'\}/g)].map(([,id,icon,name])=>({id,name,icon}));
+assert.equal(salon.length,12);
+assert.equal(JSON.stringify(C.wheel()),JSON.stringify(salon));assert.equal(JSON.stringify(C.wheel([])),JSON.stringify(salon));assert.equal(JSON.stringify(C.wheel(['<script>'])),JSON.stringify(salon));
+// Los favoritos: solo emotes del catálogo, sin repetir, en su orden y como mucho WHEEL_MAX.
+assert.equal(C.favorites(['robot','robot','<script>',7,null,'dab']).join(),'robot,dab');
+assert.equal(C.favorites('robot').length,0);assert.equal(C.favorites().length,0);
+assert.equal(C.WHEEL_MAX,10);assert.equal(C.favorites(Array.from(C.EMOTES,item=>item.id)).length,10);
+assert.equal(JSON.stringify(C.wheel(['dab','hombros','saludo'])),JSON.stringify([{id:'dab',name:'Dab',icon:'😎'},{id:'hombros',name:'Ni idea',icon:'🤷'},{id:'saludo',name:'Saludar',icon:'👋'}]));
+// «En uso»: los gestos que de verdad salen con la selección del jugador, originales incluidos.
+const original=C.used(C.normalize());
+assert.ok(original.clavada>0&&original.desmayo>0&&original.saludo>0&&original.giro>0,'Los originales cuentan como en uso');assert.equal(original.robot,undefined);
+const custom=C.used(C.normalize({all:{clavada:'robot'},duel:{defeat:'none'},ascension:{clavada:'default'}}));
+assert.ok(custom.robot>0,'Un gesto elegido está en uso');assert.ok(custom.clavada>0,'Ascensión conserva el original');assert.ok(custom.suspiro<original.suspiro,'«Sin gesto» deja de usar el original');
 console.log('celebraciones: OK');
