@@ -1,7 +1,7 @@
 # Base de datos (Supabase)
 
 - **Estado:** **todo el contenido está en Supabase** (36 jornadas, 108 preguntas y 21 imágenes) y la API lo lee de ahí, siempre en Vercel y en local si se configuran las variables de entorno (ver [Uso desde la app](#uso-desde-la-app))
-- **Última actualización:** 2026-11-19. Álvaro autoriza expresamente aplicar las cinco migraciones de Traza y anuncios: **aplicadas** en el proyecto compartido. Catálogo, RLS, permisos y API de preprod comprobados. Archivos renombrados con las versiones registradas por Supabase; correspondencias en el historial.
+- **Última actualización:** 2026-11-27. La migración del Lobby público, todavía sin aplicar, gana la columna `slot` y el índice único `lobby_events_slot_idx` de `lobby_events`, que hacen cumplir los límites de envío del chat y de las invitaciones aunque las peticiones lleguen en paralelo (ver [Lobby público](#lobby-público-migración-20261126120000_lobby-pendiente-de-aplicar)). Antes: 2026-11-26. Se escriben las migraciones del Lobby público (`20261126120000_lobby`) y del avatar de los amigos (`20261126120100_amigos_aspecto`), **pendientes de aplicar**: el servidor funciona sin ellas (`/api/lobby` responde 503 y la lista de amigos sale sin aspecto). Antes: 2026-11-19. Álvaro autoriza expresamente aplicar las cinco migraciones de Traza y anuncios: **aplicadas** en el proyecto compartido. Catálogo, RLS, permisos y API de preprod comprobados. Archivos renombrados con las versiones registradas por Supabase; correspondencias en el historial.
 - **Última actualización histórica:** 2026-11-19, migración de Ascensión **aplicada** con autorización expresa de Álvaro como `20261119055720_ascension`. Se verifican RLS y permisos exclusivos de servidor. Antes: 2026-11-17, se preparan las migraciones de Traza la tendencia, pendientes de aplicar. Ese mismo día Luis pidió aplicar la migración de las clasificatorias: **aplicada** como `20261116231953_rangos` (el archivo se llamaba `20261112200000_rangos`). Antes: 2026-11-15, Luis pidió aplicar la migración de las ediciones de colección: **aplicada** como `20261115171046_ediciones` (el archivo se llamaba `20261115171046_ediciones`). Antes: 2026-11-15, Luis pidió aplicar las cuatro migraciones de la economía en el servidor: **aplicadas** como `20261115162316_preguntas_comunidad`, `20261115162701_libro_contable`, `20261115162719_experiencia_y_misiones` y `20261115162737_inventario` (los archivos se llamaban `20261115162316`, `20261115162701`, `20261115162719` y `20261115162737`, y se renombraron con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar la migración del Circuito de amigos: **aplicada** como `20261112140721_referidos` (el archivo se llamaba `20261112180000_referidos` y se renombró con la versión que registró Supabase). Antes: 2026-11-12, Luis pidió aplicar las migraciones de los duelos (`20261112005952_duelos`) y de las ligas de amigos (`20261112010003_ligas`, rama `feat/ligas-amigos`): **aplicadas**. Sus archivos se renombraron con la versión que registró Supabase (antes `20261111120000_duelos` y `20261112120000_ligas`). Antes: 2026-11-11, duelos 1 vs 1 (rama `feat/duelos-1vs1`). Antes: 2026-11-10, generación diaria con OpenAI (PR #27, rama `feat/jornada-diaria-ia`): migración `20261110120000_jornadas_generadas` escrita y **sin aplicar** (ver [pasos para activarla](mejoras/activar-jornada-diaria.md)). Supabase tiene además aplicada `20261111125432_nombres_de_usuario` (tabla `usernames`), cuyo archivo no está en esta rama: viene de otra rama aún sin fusionar
 - **Proyecto:** `Faraday Game` (`umiqvlccxxafvafroxii`), un solo entorno `main` (ver [decisión 0001](decisiones/0001-supabase-un-solo-entorno.md))
 
@@ -36,6 +36,7 @@ days (1) ──< questions (3 por día) ──< answers (1 por pregunta y jugado
 | Copia de respaldo de la web | Repositorio: `dist/questions.js` y `dist/assets/` | La web la usa solo si la API no responde. |
 | Progreso, notas e historial de cada jugador | Navegador (`localStorage`) | El progreso se recupera desde `answers` (cookie del jugador o cuenta); las notas y el historial solo están en el navegador. |
 | Ascensión | `ascension_runs` | Partida diaria y prácticas por jugador, fecha y entorno; copia privada del banco, reloj, versión y clasificación. |
+| Lobby público | `lobby_presence`, `lobby_events` | Quién está en cada lobby y el chat y las señales (retos, amistad) de los últimos minutos. Datos efímeros; migración **pendiente de aplicar**. |
 | Continuación con anuncios | `continuation_states` | Recibos por modo/día y retos extra; acceso privado de servidor. Migración aplicada. |
 | Traza la tendencia | `trend_answers`, `trend_traces`, `trend_replays` | Trazos diarios por ronda y consulta paginada de trazos ajenos por entorno. Migraciones aplicadas el 19 de noviembre de 2026. |
 | Cuentas (inicio de sesión opcional) | **Supabase Auth** (`auth.users`) | Correo y, con Google, nombre. `app_metadata.jugador` guarda el UUID del jugador enlazado a la cuenta ([decisión 0022](decisiones/0022-inicio-de-sesion-desde-el-servidor.md)). Sin tablas ni migraciones propias. |
@@ -449,6 +450,64 @@ RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como 
 
 RLS activado sin políticas y sin permisos para `anon` ni `authenticated`, como el resto.
 
+### Lobby público (migración `20261126120000_lobby`, pendiente de aplicar)
+
+`lib/lobby.mjs` y `lib/lobby-store.mjs`, acción `POST /api/lobby`. Al entrar al juego cada jugador (con cuenta o sin ella) cae en un lobby de hasta 20; se llena el de número más bajo con hueco y solo entonces se abre el siguiente. A diferencia del Salón (`casino_rooms`, una fila JSON por entorno que todos los latidos se disputan), aquí **no hay ninguna fila compartida**: cada jugador escribe solo su fila de presencia y el chat y las señales son filas nuevas. No hay `pg_cron`: lo caducado lo borra el servidor cuando entra alguien. Mientras la migración no esté aplicada, `/api/lobby` responde 503 «El lobby no está disponible ahora mismo.» y el resto de la API no se entera.
+
+**`public.lobby_presence`**: una fila por jugador y entorno. Es `UNLOGGED` (no escribe en el WAL: son datos que se reescriben cada pocos segundos y no importa perderlos si la base de datos se reinicia) y tiene `fillfactor = 60` para que las actualizaciones no toquen los índices.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `scope` | `text` | `check in ('publico','preview')`, parte de la clave primaria | Separa producción de las Preview, que comparten base de datos. |
+| `player_hash` | `text` | 64 caracteres hexadecimales, parte de la clave primaria | SHA-256 del jugador (el de la cuenta o el de la cookie `faraday_jugador`). Nunca sale del servidor. |
+| `id` | `uuid` | único | Identificador público de esa presencia: es lo que ven los demás y lo que se manda en `to`. Se conserva mientras exista la fila. |
+| `room` | `integer` | ≥ 1 | Número de lobby. |
+| `name` | `text` | 1 a 24 caracteres | Nombre que manda el navegador, saneado y pasado por el filtro de palabras. |
+| `look` | `jsonb` | objeto, por defecto `{}` | Aspecto del avatar, saneado como en el Salón (hasta 24 pares clave-valor cortos). |
+| `level` | `integer` | 1 a 999 | Nivel que declara el navegador (solo se enseña). |
+| `x`, `z`, `heading` | `double precision` | acotados | Posición y orientación. El servidor recorta `x` a ±15 y `z` a ±11 (la sala mide 30 × 22). |
+| `act` | `jsonb` | nulo u objeto | Último gesto `{name, n}`, de la lista del Salón. |
+| `place` | `text` | `lobby`, `daily`, `duel`, `trends`, `ascension`, `archivo`, `casino` u `otros` | Qué está haciendo (el campo `where` de la API; `where` es palabra reservada en SQL). |
+| `account` | `boolean` | | Si entró con cuenta (solo entre cuentas se puede pedir amistad). |
+| `joined_at` | `timestamptz` | | Cuándo entró a ese lobby: decide quién se muda si varias entradas simultáneas pasan del tope. |
+| `seen_at` | `timestamptz` | | Última escritura. Con más de 19 s (15 de caducidad más los 4 que puede tardar una señal de vida) el jugador ya no cuenta. |
+
+Clave primaria `(scope, player_hash)` e índice `lobby_presence_room_idx (scope, room)`. `seen_at` no se indexa a propósito (cambia en cada escritura).
+
+**`public.lobby_events`**: el chat de cada lobby y las señales dirigidas a un jugador. Solo se insertan y se borran al caducar.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `n` | `bigint` | identidad, clave primaria | Número creciente común a todos los eventos: es el cursor (`since`) de los navegadores. |
+| `scope` | `text` | `check in ('publico','preview')` | |
+| `room` | `integer` | ≥ 1 | Lobby en el que estaba quien lo envió. |
+| `kind` | `text` | `chat`, `reto`, `reto-no`, `amistad` o `amistad-ok` | |
+| `from_hash` | `text` | 64 caracteres hexadecimales | Quién lo envía. No sale del servidor. |
+| `from_id`, `from_name`, `from_look` | `uuid`, `text`, `jsonb` | | Identificador público, nombre y aspecto de quien lo envía en ese momento (`from_look` es nulo en el chat). |
+| `to_hash` | `text` | nulo solo en el chat | Destinatario de la señal. |
+| `body` | `text` | 1 a 140 caracteres, solo en el chat | Texto ya saneado y filtrado. |
+| `game`, `code` | `text` | solo en `reto` | Juego (`estimacion`, `ascension`, `traza` o `archivo`) y código de 6 caracteres del duelo privado. |
+| `slot` | `text` | nulo, `c:<sala>:<n>` o `i:<hash del jugador>:<n>`; único por entorno | Turno. Solo lo llevan los mensajes de chat y las invitaciones (`reto`, `amistad`); `reto-no` y `amistad-ok` lo dejan nulo. Ver «Límites de envío» más abajo. |
+| `created_at` | `timestamptz` | | |
+
+Índices: `lobby_events_room_idx (scope, room, n)` para el chat, `lobby_events_to_idx (scope, to_hash, n)` para las señales, `lobby_events_from_idx (scope, from_hash, created_at)` para las invitaciones de cada jugador y `lobby_events_slot_idx (scope, slot)`, **único** y solo para filas con `slot`, que es el que hace cumplir los límites de envío.
+
+Límites de envío (sin funciones SQL): leer los envíos recientes y después insertar no sirve cuando llegan varias peticiones a la vez, porque todas leen lo mismo. Por eso los mensajes de una sala y las invitaciones de un jugador van en cadena. Cada fila dice detrás de cuál va: un mensaje de chat lleva `c:<sala>:<n del último mensaje de esa sala>` y una invitación, `i:<hash del jugador>:<n de su última invitación>` (0 si no hay ninguna anterior). Como `(scope, slot)` es único, de dos peticiones simultáneas que han leído lo mismo solo entra una; a la otra PostgREST le responde 409 (código 23505 de Postgres), el servidor vuelve a leer —ahora ve la fila que se adelantó— y decide de nuevo, hasta tres veces. Así cada fila aceptada ha visto todas las anteriores de su cadena y los topes (6 mensajes cada 10 s por jugador y 0,4 s entre dos, 20 mensajes cada 10 s por sala, 8 invitaciones por minuto, un reto cada 15 s al mismo jugador) se cumplen también con peticiones en paralelo. La limpieza no rompe la cadena: borra siempre las filas más antiguas y el turno nuevo se calcula con la más reciente que quede.
+
+Qué se conserva: las presencias sin señal desde hace 10 minutos y los eventos de más de 15 minutos se borran cuando alguien entra a un lobby, como mucho una vez por minuto en cada instancia del servidor. No se guarda historial del chat.
+
+RLS: `enable row level security` en las dos tablas, sin políticas; `revoke all ... from public, anon, authenticated`; `grant select, insert, update, delete on lobby_presence to service_role` y `grant select, insert, delete on lobby_events to service_role` (son las primeras tablas en las que el servidor borra filas por REST). Solo accede el servidor con la clave secreta.
+
+### Avatar de los amigos (migración `20261126120100_amigos_aspecto`, pendiente de aplicar)
+
+Añade una columna a `public.social_profiles` (migración `20261119111924_amigos_y_chat`), sin tocar datos ni permisos.
+
+| Columna | Tipo | Reglas | Notas |
+| --- | --- | --- | --- |
+| `look` | `jsonb` | nulo u objeto | Aspecto del avatar del jugador, para enseñarlo en la lista de amigos. Lo guardan el `pulso` de `/api/social` y la entrada al Lobby, solo cuando cambia. |
+
+La tabla ya tiene RLS, `revoke all ... from public, anon, authenticated` y permisos de lectura, inserción y actualización para `service_role`: la columna nueva los hereda. Mientras la migración no esté aplicada, `lib/social-store.mjs` detecta el rechazo de PostgREST (`42703` al leer, `PGRST204` al escribir), sigue sin aspecto (`look: null` en la lista de amigos) y vuelve a probar a los 5 minutos.
+
 ## Funciones
 
 ### `public.daily_scores(p_day date)`
@@ -479,8 +538,9 @@ Comprobada el 9 de noviembre de 2026 con datos de prueba: un jugador con 200 fre
   - Si la posición está ocupada por otro `id` con respuestas, se conserva la pregunta publicada y se sigue con las demás. También se conservan los ids reutilizados con distinta cifra, unidad, revisión o posición. El informe enumera esas referencias. [Decisión 0088](decisiones/0088-conservar-referencias-publicadas.md).
   - A mano: `node --env-file=.env scripts/publicar-contenido.mjs --prueba` dice qué cambiaría sin escribir nada; sin `--prueba`, publica.
 
-- **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
+- **`POST /api/duelo`** (`lib/duelos.mjs`): lee el duelo por `id` o por `code`, lo pone al día con el reloj y, solo si ha cambiado, lo guarda exigiendo la versión leída; si otra petición se adelantó, repite (hasta 5 veces; `responder` y `salir`, hasta 12 con una espera corta y al azar entre intentos). Una operación que deja el duelo igual no escribe ni sube la versión. La consulta de cada segundo (`estado`) solo lee, salvo cuando el reloj cambia algo. Si la tabla no existe o Supabase falla, responde 503 sin afectar al resto de la API.
 - **Clasificatorias** (`lib/rangos.mjs`, acción `buscar` con `mode: 'ranked'` y acción `rango` de `/api/duelo`): al buscar, lee la fila de `ranks` del jugador; al terminar el duelo, por cada jugador lee su fila, calcula los PR y la guarda con `PATCH … version=eq.<leída>` (o la inserta si no existía), apuntando el duelo en `seen`. Si la fila ya tiene ese duelo en `seen`, devuelve el mismo resultado sin tocarla. Si la tabla no existe, `buscar` en clasificatoria y `rango` responden 503 y los PR de un duelo se reintentan en la siguiente consulta.
+- **`POST /api/lobby`** (`lib/lobby.mjs`): cada pulso lee la fila del jugador, las de su lobby, el chat nuevo de su sala y las señales nuevas dirigidas a él (cuatro lecturas; el chat y las señales van en consultas separadas, cada una con su ventana y su tope, para que una sala con mucho chat no deje fuera una señal) y solo escribe su fila si se ha movido, ha hecho un gesto, ha cambiado de sitio o lleva 4 segundos sin escribirse. Al entrar cuenta los jugadores presentes por lobby para elegir sala y, como mucho una vez por minuto e instancia, borra lo caducado. Enviar un mensaje lee los últimos 30 de la sala e inserta el suyo con su turno (`slot`); enviar un reto o una petición de amistad lee las últimas 30 invitaciones del jugador e inserta la suya con su turno; si el turno ya está ocupado (409 de PostgREST), repite la lectura. Aceptar una amistad escribe en `social_profiles` y `social_contacts`. Si las tablas no existen o Supabase falla, responde 503 sin afectar al resto de la API.
 - **`POST /api/liga`** (`lib/ligas.mjs`): crea ligas e inserta miembros, y para la clasificación lee `daily_results` de los miembros entre el lunes y el domingo. `POST /api/answers` (al responder la última pregunta del reto de hoy) y `POST /api/daily-scores` insertan en `daily_results`, ignorando duplicados; si falla, la respuesta se guarda igual. Si las tablas no existen o Supabase falla, `/api/liga` responde 503 sin afectar al resto de la API.
 - **`POST /api/referido`** (`lib/referidos.mjs`): `codigo` crea o actualiza tu fila de `referral_codes`. `abrir` inserta en `referrals` (ignorando duplicados) si el jugador no tiene respuestas en `answers`. `estado` y `reclamar` leen `daily_results` de los invitados para marcar `connected_at` y cobran los premios con el `PATCH` condicionado. Si las tablas no existen o Supabase falla, responde 503 sin afectar al resto de la API.
 - **Generación diaria** (`lib/generar.mjs`, [decisión 0017](decisiones/0017-jornada-diaria-generada-con-openai.md)): `/api/generar-dia` crea la jornada de mañana con OpenAI. Consulta la fecha (`days` con sus preguntas y si alguna tiene respuestas); si es del banco y nadie la ha jugado, inserta o actualiza `days` con `source = 'ia'`, borra las preguntas antiguas de esa fecha y sube las nuevas (`ia-<fecha>-<posición>`). Si la fecha ya es `ia` o `piloto`, o tiene respuestas, no hace nada. La publicación de cada despliegue no toca las jornadas `ia`.
@@ -541,6 +601,10 @@ Las usa `lib/stores.mjs`. Se configuran en el proyecto `faraday-gg` de Vercel, e
 | `20261119055720` | [ascension](../supabase/migrations/20261119055720_ascension.sql) | Crea `ascension_runs`, índice parcial de diarias completadas, RLS y permisos de servidor. | 2026-11-19, por Álvaro con Codex y autorización expresa (generada inicialmente como `20261119054236`) |
 
 | `20261119111409` | [anuncios_continuacion](../supabase/migrations/20261119111409_anuncios_continuacion.sql) | Crea `continuation_states`, RLS y permisos privados de servidor para recibos y prácticas. | 2026-11-19, por Álvaro con Codex y autorización expresa (antes `20261119061307`) |
+| `20261119111924` | [amigos_y_chat](../supabase/migrations/20261119111924_amigos_y_chat.sql) | Crea `social_profiles` y `social_contacts` (panel de amigos), con RLS y sin permisos públicos. | 2026-11-21, por Luis desde el editor SQL (ver [Panel de amigos](#panel-de-amigos)) |
+| `20261121120000` | [salon_multijugador](../supabase/migrations/20261121120000_salon_multijugador.sql) | Crea `casino_rooms` (Salón multijugador), con RLS y sin permisos públicos. | 2026-11-21, por Luis desde el editor SQL (ver [Salón multijugador](#salón-multijugador)) |
+| `20261126120000` | [lobby](../supabase/migrations/20261126120000_lobby.sql) | Crea `lobby_presence` (sin registro en el WAL) y `lobby_events` (Lobby público, con el índice único de turnos `lobby_events_slot_idx`), con RLS y sin permisos públicos. | **Pendiente**: aplicar con confirmación del responsable. Hasta entonces `/api/lobby` responde 503 |
+| `20261126120100` | [amigos_aspecto](../supabase/migrations/20261126120100_amigos_aspecto.sql) | Añade `social_profiles.look` (avatar en la lista de amigos). | **Pendiente**: aplicar con confirmación del responsable. Hasta entonces los amigos salen sin aspecto |
 
 ## Pendiente
 

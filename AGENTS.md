@@ -98,6 +98,11 @@ Reglas para agentes:
   node tests/ligas.test.mjs
   node tests/comunidad.test.mjs
   node tests/social.test.mjs
+  node tests/lobby.test.mjs
+  node tests/chat-dock.test.mjs
+  node tests/voz.test.mjs
+  node tests/duelos-juegos.test.mjs
+  node tests/tiempos.test.mjs
   node tests/referidos.test.mjs
   node tests/medallas.test.mjs
   node tests/estadisticas.test.mjs
