@@ -1,4 +1,5 @@
 // Catálogo y reglas compartidas de los gestos. Solo aspecto: no cambian puntos ni premios.
+// También el catálogo de emotes y la rueda de emotes del jugador (sus favoritos), que se eligen en el armario.
 (()=>{
   const CLIPS=[
     ['clavada','¡Clavada!','cheer'],['salto','Salto','cheer'],['puno','Puño al cielo','cheer'],['giro','Giro','cheer'],
@@ -49,5 +50,40 @@
     return {clip,mood:'',then:rest,repeat:custom&&clip!=='desmayo'?clip:''};
   }
   const loadout=(settings,mode)=>Object.fromEntries(CUES.map(({id})=>[id,choice(settings,mode,id)]));
-  window.Celebrations={CLIPS,MODES,TIERS,CUES,normalize,tierOf,trendTier,choice,reaction,loadout};
+
+  // ---- Categorías «Celebraciones» y «Emotes» del armario (progress.js).
+  // Momentos que tiene cada modo y su tipo, para los filtros de «Celebraciones».
+  const GROUPS=[['resultados','Resultados',TIERS.map(tier=>tier.id)],['duelo','Final de duelo',['victory','draw','defeat']],['otros','Otros',['welcome','reward']]];
+  const groupOf=cue=>(GROUPS.find(([,,ids])=>ids.includes(cue))||GROUPS[0])[0];
+  const ONLY={ascension:['clavada','acierto','cerca','lejos','fallo','ko'],trends:['clavada','acierto','cerca','lejos','fallo']},DUELS=['duel','duel3','ranked'];
+  function cuesOf(mode){
+    const allowed=ONLY[mode]||(mode==='all'?CUES.map(cue=>cue.id):[...GROUPS[0][2],...(DUELS.includes(mode)?GROUPS[1][2]:[])]);
+    return CUES.filter(cue=>allowed.includes(cue.id));
+  }
+  // Emotes: los gestos de CLIPS más los de la rueda del Salón que no están en él (EMOTES de casino-chat.js). Todos están
+  // incluidos para todos (decisión 0096): no tienen precio, rareza ni dueño. kind = tipo, para filtrar; icon y label = cómo
+  // salen en la rueda (los del Salón conservan su icono y su nombre corto). Cada id es un gesto de avatar3d.js.
+  const KINDS=[['celebracion','Celebración'],['baile','Baile'],['decepcion','Decepción'],['neutro','Neutro']];
+  // Los bailes: DANCES de avatar3d.js y el baile de siempre.
+  const DANCES=['bailar','robot','aspersor','disco','twist','balanceo','dab','correr'];
+  const ICONS={clavada:'🎯',salto:'🙌',puno:'✊',giro:'🌀',bailar:'💃',robot:'🤖',aspersor:'💦',disco:'🕺',twist:'🎶',balanceo:'👐',dab:'😎',correr:'🏃',
+    casi:'😬',encoger:'😕',facepalm:'🤦',horror:'😱',desmayo:'😵',suspiro:'😮‍💨',negar:'🙅',saludo:'👋',saludo2:'✋',pensar:'🤔',hombros:'🤷'};
+  const LABELS={saludo:'Saludar',puno:'¡Vamos!',bailar:'Bailar',negar:'No'};
+  // Los encogimientos de hombros (rest «meh») y los saludos van con los neutros; «Por poco» es un lamento aunque no deje triste.
+  const kindOf=item=>DANCES.includes(item.id)?'baile':item.rest==='cheer'?'celebracion':['sad','ko'].includes(item.rest)||item.id==='casi'?'decepcion':'neutro';
+  const EMOTES=[...CLIPS,{id:'hombros',name:'Ni idea',rest:'meh'}].map(item=>({...item,kind:kindOf(item),icon:ICONS[item.id],label:LABELS[item.id]||item.name}));
+  // La rueda de emotes: los favoritos del jugador (hasta WHEEL_MAX, en su orden) o, si no ha elegido, la del Salón.
+  const WHEEL=['saludo','puno','giro','bailar','robot','disco','twist','dab','negar','pensar','hombros','suspiro'],WHEEL_MAX=10;
+  const favorites=raw=>Array.isArray(raw)?[...new Set(raw.filter(id=>typeof id==='string'&&EMOTES.some(item=>item.id===id)))].slice(0,WHEEL_MAX):[];
+  function wheel(raw){
+    const ids=favorites(raw);
+    return (ids.length?ids:WHEEL).map(id=>{const item=EMOTES.find(one=>one.id===id);return {id,name:item.label,icon:item.icon}});
+  }
+  // En cuántos momentos (de todos los modos) sale cada gesto con la selección del jugador: {gesto: n}.
+  function used(settings){
+    const count={};
+    for(const [mode] of MODES)for(const {id} of cuesOf(mode)){const {clip}=reaction(settings,mode,id);if(clip)count[clip]=(count[clip]||0)+1}
+    return count;
+  }
+  window.Celebrations={CLIPS,MODES,TIERS,CUES,normalize,tierOf,trendTier,choice,reaction,loadout,GROUPS,groupOf,cuesOf,KINDS,EMOTES,WHEEL,WHEEL_MAX,favorites,wheel,used};
 })();

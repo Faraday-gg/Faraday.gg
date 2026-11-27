@@ -27,11 +27,15 @@
 .wardrobe-search svg{position:absolute;left:12px;top:50%;width:17px;height:17px;transform:translateY(-50%);fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;pointer-events:none}
 .wardrobe-search input{width:100%;box-sizing:border-box;border:1.5px solid var(--line);border-radius:30px;background:var(--paper);padding:9px 14px 9px 36px;font:500 14px var(--font);color:var(--ink);outline:0;transition:border-color .2s}
 .wardrobe-search input:focus{border-color:var(--ink)}
-.wardrobe-search input::placeholder{color:var(--muted)}
+.wardrobe-search input{text-overflow:ellipsis}
+.wardrobe-search input::placeholder{color:var(--muted);text-overflow:ellipsis}
 .wardrobe-grade{flex:none;max-width:44%;border:1.5px solid var(--line);border-radius:30px;background:var(--paper);padding:9px 12px;font:700 13px var(--font);color:var(--ink);cursor:pointer}
 .wardrobe-grade:focus{border-color:var(--ink);outline:0}
 .wardrobe-empty .duel-link{margin-top:8px}
 @media(max-width:560px){.wardrobe-search input{font-size:16px;padding-top:8px;padding-bottom:8px}.wardrobe-grade{padding:9px 8px;font-size:12px}}
+/* Móvil estrecho: en una sola fila el texto de ayuda del buscador se cortaba («Buscar momer»). El buscador ocupa su
+   fila y el desplegable (rareza, modo o tipo), la de debajo. */
+@media(max-width:480px){.wardrobe-tools{flex-wrap:wrap}.wardrobe-search{flex:1 1 100%}.wardrobe-grade{flex:1;max-width:none}}
 
 /* Filtro: todo, tuyas, por conseguir */
 .wardrobe-filter{display:flex;gap:6px;margin:0 0 14px}

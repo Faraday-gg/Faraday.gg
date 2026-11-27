@@ -1,5 +1,8 @@
 // Duelos 1 vs 1 (decisión 0023). El servidor manda (lib/duelos.mjs): aquí solo se le pregunta cada segundo
 // por el estado del duelo y se pinta: avatares, barras de vida, temporizador, avisos y sonidos.
+// El duelo puede ser de estimación (se pinta aquí) o de Ascensión, Traza la tendencia o Archivo Vivo: la pregunta,
+// la respuesta y el resultado de esos tres los pinta duel-games.js; el marcador, el reloj, el chat y el final son comunes.
+// Los tiempos (cuánto dura una ronda y cuánto queda cuando alguien responde) llegan del servidor: aquí no hay copia.
 // El perfil (apodo y avatar) y el progreso (nivel, racha) se guardan en este navegador, como el resto del juego.
 (()=>{
   const KEY='casi-casi:duelo:',shell=$('#duel-shell'),content=$('#duel-content'),hud=$('#duel-hud');
@@ -7,6 +10,20 @@
   const int=n=>new Intl.NumberFormat('es-ES',{maximumFractionDigits:0,useGrouping:'always'}).format(n);
   const times=n=>'×'+new Intl.NumberFormat('es-ES',{maximumFractionDigits:2}).format(n);
   const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Juegos del duelo (duel-games.js). El portal recuerda el último elegido; sin ese archivo solo hay estimación.
+  const Games=window.DuelGames||null;
+  const gameMeta=id=>Games?.get(id)||{id:'estimacion',name:'Estimación',short:'Estimación',tone:'coral',unit:'por pregunta',pitch:'Misma pregunta para los dos. Quien más se aleja, pierde vida.',how:['Los dos recibís la misma pregunta con una cifra por respuesta.','Quien más se aleja de la cifra real pierde vida.']};
+  let chosenGame=saved.get('juego','estimacion');if(!Games?.valid(chosenGame))chosenGame='estimacion';
+  // Tiempos y rondas de cada juego: los dice el servidor (acción «juegos»). Aquí solo se recuerda lo último que dijo,
+  // para que el portal no salga vacío mientras llega la respuesta.
+  let gameRules=saved.get('juegos',null);
+  const gameInfo=id=>(Array.isArray(gameRules)?gameRules:[]).find(one=>one?.id===id)||null;
+  const rulesFor=id=>gameInfo(id)?.rules||null;
+  // ¿Los duelos de ese juego admiten apuesta y pagan faradios? Lo dice el servidor (`stakes`); si no lo dice, sí.
+  const stakesOf=id=>gameInfo(id)?.stakes!==false;
+  const span=ms=>{const seconds=Math.round(ms/1000);return seconds%60?`${seconds} s`:`${seconds/60} min`};
+  // Las clasificatorias son solo de estimación: con otro juego, la partida rápida es siempre normal.
+  const quickMode=game=>game==='estimacion'?window.Ranked?.mode()||'normal':'normal';
 
   let profile=saved.get('perfil',null);
   if(!profile||typeof profile.name!=='string')profile={name:'Jugador '+(100+Math.floor(Math.random()*900))};
@@ -19,6 +36,9 @@
   let duel=null,offset=0,shown='',pollTimer=0,ticker=0,endTimer=0,lastSecond=-1,inviteCode='',revealed='',finishedPolls=0,chatWake=0,busy=false;
   let quotaState=null,quotaRequest=0,lastOfferMode='duel',lastAttempt=null;
   const serverNow=()=>Date.now()+offset;
+  // ¿El duelo abierto es de un juego que pinta duel-games.js? Y su nombre, para añadirlo a los rótulos.
+  const playsGame=()=>!!Games&&!!duel?.game&&duel.game!=='estimacion';
+  const gameTag=()=>playsGame()?` · ${escapeHtml(gameMeta(duel.game).name)}`:'';
   // Duelo de tres (decisión 0082): duel.size===3. rival() es el primero de los otros; others() son los demás con su asiento.
   const three=()=>duel?.size===3;
   const others=()=>duel.players.map((player,seat)=>({player,seat})).filter(one=>one.seat!==duel.you);
@@ -42,13 +62,13 @@
     win:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,i*.11,.4,{type:'triangle',gain:.07})),
     lose:()=>[392,330,262].forEach((f,i)=>tone(f,i*.18,.45,{type:'triangle',gain:.05})),
     level:()=>[784,988,1175,1568].forEach((f,i)=>tone(f,.5+i*.08,.3,{gain:.05})),
-    // Campana de ring: dos golpes con parciales inarmónicos, cuando alguien responde y arranca el reloj de 30 s.
+    // Campana de ring: dos golpes con parciales inarmónicos, cuando alguien responde y arranca el reloj corto.
     bell:()=>{for(const at of [0,.34])[[1,.09,1.9],[2.76,.045,1.2],[5.4,.025,.7],[8.93,.012,.4]].forEach(([k,gain,length])=>tone(660*k,at,length,{gain}))},
     // Tensión al encontrar rival: golpe grave, latidos, dos notas que chocan y un barrido que sube.
     tension:()=>{tone(92,0,1,{to:36,gain:.2});[0,.28,1,1.28,2,2.28].forEach((at,i)=>tone(58,at,.2,{to:42,gain:i%2?.09:.14}));tone(196,0,2.9,{type:'triangle',gain:.028});tone(207.65,0,2.9,{type:'triangle',gain:.022});tone(110,.2,2.7,{type:'sawtooth',gain:.016,to:440})}
   };
   // Música del duelo: dos bucles generados con osciladores (sin archivos). 'calm' acompaña mientras se piensa, con aire
-  // de curiosidad; 'rush' suena cuando alguien ha respondido y corre el reloj de 30 segundos: más rápida y cada vez más aguda.
+  // de curiosidad; 'rush' suena cuando alguien ha respondido y corre el reloj corto (round.rushed): más rápida y cada vez más aguda.
   const N={D2:73.42,E2:82.41,A2:110,B2:123.47,D4:293.66,E4:329.63,F4:349.23,Fs4:369.99,G4:392,A4:440,B4:493.88,C5:523.25,D5:587.33,E5:659.25};
   const CALM=[N.D4,0,N.A4,0,N.F4,N.A4,N.C5,0,N.B4,0,N.G4,0,N.E4,N.G4,N.A4,0,N.D4,0,N.A4,0,N.F4,N.A4,N.D5,0,N.C5,0,N.A4,N.G4,N.E4,0,N.F4,0];
   const RUSH=[N.E4,N.G4,N.B4,N.E5,N.B4,N.G4,N.Fs4,N.B4];
@@ -82,7 +102,7 @@
   }
   // badge = la medalla destacada (decisión 0035): viaja con el avatar y el rival la ve junto al nombre.
   // bet = la apuesta elegida (decisión 0044, bets.js), o null.
-  const identity=()=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level(),bet:window.Bets?.choice()||null,
+  const identity=(game=chosenGame)=>({name:profile.name,avatar:{...Progress.look(),badge:Progress.badge()},level:Progress.level(),bet:stakesOf(game)?window.Bets?.choice()||null:null,
     gestures:Object.fromEntries(['duel','duel3','ranked'].map(mode=>[mode,Object.fromEntries(Object.entries(Progress.gestures(mode)).filter(([,value])=>value!=='default'))]))});
   const reactionMode=()=>three()?'duel3':duel?.mode==='ranked'?'ranked':'duel';
   function playerReaction(player,cue){
@@ -103,7 +123,7 @@
   const avatar=(player,extra='')=>`<span class="duel-avatar ${extra}" aria-hidden="true">${Avatar.render(lookOf(player),{bust:true})}</span>`;
   // Cuerpo entero y animado para las pantallas grandes (portal, presentación, resultado de la ronda y final).
   const figure=(player,extra='',options={})=>`<span class="duel-figure ${extra}" aria-hidden="true">${Avatar.render(lookOf(player),{live:true,...options})}</span>`;
-  const setView=(view,tone='')=>{shell.dataset.view=view;shell.dataset.tone=tone;shell.dataset.screen=duel?.phase||'lobby'};
+  const setView=(view,tone='')=>{shell.dataset.view=view;shell.dataset.tone=tone;shell.dataset.screen=duel?.phase||'lobby';shell.dataset.game=duel?.game||''};
   function alertBar(html,ms=4200){const bar=$('#duel-alert');bar.innerHTML=html;bar.classList.add('show');clearTimeout(alertBar.timer);alertBar.timer=setTimeout(()=>bar.classList.remove('show'),ms)}
 
   function offerMode(){
@@ -209,13 +229,14 @@
   };
   // Pantallas
   function renderLobby(message=''){
-    duel=null;shown='lobby';hud.hidden=true;hideVersus(true);setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();
+    duel=null;shown='lobby';hud.hidden=true;hideVersus(true);setView('result');stopTimers();saved.remove('actual');window.DuelChat?.reset();window.Voice?.reset();
     const progress=Progress.info();
-    lastOfferMode=window.Ranked?.mode()==='ranked'?'ranked':'duel';
+    // El juego elegido en el selector decide a qué son la partida rápida, los retos con código y la práctica.
+    const estimation=chosenGame==='estimacion',meta=gameMeta(chosenGame);
+    lastOfferMode=estimation&&window.Ranked?.mode()==='ranked'?'ranked':'duel';
     // Portal de duelos (decisión 0112): un botón grande para jugar ya, los demás modos como fichas de color con su
     // icono, y los bloqueos con candado y nivel en vez de párrafos. Las reglas van como iconos y el detalle, plegado.
-    const ranked=window.Ranked?.unlocked()?Ranked.mode()==='ranked':false,rankedLevel=window.Ranked?.MIN_LEVEL||10;
-    const bets=window.Bets?Bets.picker():'',betsLocked=bets.includes('is-locked');
+    const ranked=estimation&&window.Ranked?.unlocked()?Ranked.mode()==='ranked':false,rankedLevel=window.Ranked?.MIN_LEVEL||10;
     const record=stats.wins+stats.losses+stats.draws;
     content.innerHTML=`<h2 id="duel-title" class="sr-only">Duelos</h2>
 ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</strong> Código ${escapeHtml(inviteCode)}</p><button class="game-primary" type="button" data-duel="accept">Aceptar el duelo</button></div>`:''}
@@ -227,42 +248,75 @@ ${inviteCode?`<div class="duel-invite"><p><strong>Te han retado a un duelo.</str
   </div>
   <ul class="lobby-record" aria-label="Tu historial">${record?`<li title="Victorias"><span class="lobby-dot is-win" aria-hidden="true"></span><b>${stats.wins}</b><span class="sr-only"> victorias</span></li><li title="Derrotas"><span class="lobby-dot is-loss" aria-hidden="true"></span><b>${stats.losses}</b><span class="sr-only"> derrotas</span></li>${stats.streak?`<li class="is-streak" title="Racha de victorias"><span aria-hidden="true">🔥</span><b>${stats.streak}</b><span class="sr-only"> de racha</span></li>`:''}`:'<li class="is-new">Sin duelos aún</li>'}</ul>
 </div>
-${window.Ranked?.unlocked()?Ranked.lobby():''}
-<section class="lobby-hero${ranked?' is-ranked':''}" aria-labelledby="lobby-hero-title">
+${Games?Games.picker(chosenGame):''}
+${estimation&&window.Ranked?.unlocked()?Ranked.lobby():''}
+<section class="${estimation?'lobby-hero':'lobby-stage'}${ranked?' is-ranked':''}"${estimation?'':` data-tone="${meta.tone}"`} aria-labelledby="lobby-hero-title">
   <div class="lobby-vs" aria-hidden="true">${figure({avatar:Progress.look()},'lobby-you')}<span class="lobby-vs-mark">VS</span><span class="lobby-ghost">?</span></div>
-  <div class="lobby-hero-text"><h3 id="lobby-hero-title">${ranked?'Clasificatoria':'Partida rápida'}</h3><p>Misma pregunta para los dos. Quien más se aleja, pierde vida.</p></div>
-  <button class="lobby-play" type="button" data-duel="quick">${ranked?'Buscar rival':'Jugar'}</button>
+  <div class="lobby-hero-text"><h3 id="lobby-hero-title">${ranked?'Clasificatoria':estimation?'Partida rápida':`Partida rápida · ${escapeHtml(meta.short)}`}</h3><p>${escapeHtml(meta.pitch)}</p></div>
+  <button class="lobby-play" type="button" data-duel="${estimation?'quick':'play'}">${ranked?'Buscar rival':'Jugar'}</button>
 </section>
-${betsLocked?'':bets}
+<div id="duel-bets">${betsMarkup()}</div>
 <p class="form-error" id="duel-error" role="alert">${escapeHtml(message)}</p>
 <div class="lobby-modes">
   <button type="button" class="lobby-tile" data-tone="cian" data-duel="friends" aria-haspopup="dialog"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.friends}</span><b>Con amigos</b><small>Enlace o código</small></button>
   <button type="button" class="lobby-tile" data-tone="violeta" data-duel="quick3"><span class="lobby-tile-flag">Nuevo</span><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.three}</span><b>Duelo de tres</b><small>1 vs 1 vs 1</small></button>
   <button type="button" class="lobby-tile" data-tone="verde" data-duel="practice"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.bot}</span><b>Práctica</b><small>Contra Faraday-bot</small></button>
-  ${window.Ranked&&!Ranked.unlocked()?`<button type="button" class="lobby-tile is-locked" data-tone="mostaza" data-ranked-mode="ranked" aria-disabled="true"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.shield}</span><span class="lobby-tile-lock" aria-hidden="true">${LOBBY_ICON.lock}</span><b>Clasificatoria</b><small>Nivel ${rankedLevel}</small><span class="lobby-tile-meter" role="img" aria-label="Nivel ${progress.level} de ${rankedLevel}"><i style="--p:${Math.min(1,progress.level/rankedLevel)}"></i></span></button>`
+  ${estimation&&window.Ranked&&!Ranked.unlocked()?`<button type="button" class="lobby-tile is-locked" data-tone="mostaza" data-ranked-mode="ranked" aria-disabled="true"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.shield}</span><span class="lobby-tile-lock" aria-hidden="true">${LOBBY_ICON.lock}</span><b>Clasificatoria</b><small>Nivel ${rankedLevel}</small><span class="lobby-tile-meter" role="img" aria-label="Nivel ${progress.level} de ${rankedLevel}"><i style="--p:${Math.min(1,progress.level/rankedLevel)}"></i></span></button>`
     :`<button type="button" class="lobby-tile" data-tone="rosa" data-duel="friends" data-focus="code" aria-haspopup="dialog"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.code}</span><b>Tengo un código</b><small>Únete a un duelo</small></button>`}
 </div>
-${betsLocked?`<p class="lobby-soon">${LOBBY_ICON.lock}<span>Apuestas en el nivel ${rankedLevel}</span></p>`:''}
+<div id="duel-bets-note">${betsNote()}</div>
 <div data-duel-plan></div>
-<ul class="lobby-rules" aria-label="Reglas del duelo"><li>${LOBBY_ICON.heart}<b>${int(6000)}</b><small>de vida</small></li><li>${LOBBY_ICON.clock}<b>3 min</b><small>por pregunta</small></li><li>${LOBBY_ICON.bolt}<b>30 s</b><small>si responde tu rival</small></li></ul>
-<details class="lobby-how"><summary>¿Cómo se juega?</summary><ol><li>Los dos recibís la misma pregunta con una cifra por respuesta.</li><li>Quien más se aleja de la cifra real pierde vida.</li><li>Tu daño empieza en ×1 y sube +0,5 por cada ronda que ganas.</li><li>Gana quien deja al otro sin vida o tiene más tras diez rondas.</li></ol></details>
+<ul class="lobby-rules" id="duel-rules" aria-label="Reglas del duelo">${rulesMarkup()}</ul>
+<details class="lobby-how"><summary>¿Cómo se juega?</summary><ol id="duel-how">${howMarkup()}</ol></details>
 <dialog class="lobby-sheet" id="duel-friends" aria-labelledby="duel-friends-title">
   <div class="lobby-sheet-head"><h3 id="duel-friends-title">Jugar con amigos</h3><button type="button" class="lobby-sheet-close" data-duel="friends-close" aria-label="Cerrar">${LOBBY_ICON.close}</button></div>
+  ${Games?`<p class="lobby-sheet-game">Duelo de <b>${escapeHtml(meta.name)}</b>. El juego se elige en el portal.</p>`:''}
   <div class="lobby-sheet-options">
     <button type="button" class="lobby-option" data-tone="cian" data-duel="friend"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.friends}</span><span><b>Retar a un amigo</b><small>1 vs 1 · te damos un enlace</small></span></button>
     <button type="button" class="lobby-option" data-tone="violeta" data-duel="friend3"><span class="lobby-tile-art" aria-hidden="true">${LOBBY_ICON.three}</span><span><b>Retar a dos amigos</b><small>1 vs 1 vs 1 · te damos un enlace</small></span></button>
   </div>
   <form class="duel-join lobby-join" id="duel-join"><label for="duel-code">¿Te han pasado un código?</label><div><input id="duel-code" type="text" maxlength="6" autocomplete="off" autocapitalize="characters" placeholder="ABC123"><button class="game-primary" type="submit">Unirme</button></div><p class="form-error" id="duel-join-error" role="alert"></p></form>
 </dialog>`;
-    window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh();
+    if(estimation){window.Ranked?.paint();if(window.Ranked?.unlocked())Ranked.refresh()}
     refreshQuota();
+  }
+  // Reglas del portal: la vida y los dos tiempos del juego elegido, tal como los dice el servidor.
+  function rulesMarkup(){
+    const rules=rulesFor(chosenGame),meta=gameMeta(chosenGame);
+    return `<li>${LOBBY_ICON.heart}<b>${int(6000)}</b><small>de vida</small></li><li>${LOBBY_ICON.clock}<b>${rules?span(rules.roundMs):'…'}</b><small>${escapeHtml(meta.unit)}</small></li><li>${LOBBY_ICON.bolt}<b>${rules?span(rules.rushMs):'…'}</b><small>si responde tu rival</small></li>`;
+  }
+  // «¿Cómo se juega?»: los pasos del juego elegido y cuántas rondas dura, que también lo dice el servidor.
+  function howMarkup(){
+    const meta=gameMeta(chosenGame),turns=rulesFor(chosenGame)?.maxRounds;
+    return `${meta.how.map(step=>`<li>${escapeHtml(step)}</li>`).join('')}<li>Tu daño empieza en ×1 y sube +0,5 por cada ronda que ganas.</li><li>Gana quien deja al otro sin vida o tiene más ${turns?`tras ${turns} rondas`:'al acabar las rondas'}.</li>`;
+  }
+  // Apuestas del portal: el selector (bets.js) si el juego las admite y ya hay nivel para ellas. En un juego sin
+  // apuestas (Archivo Vivo) no hay selector, y debajo de los modos se dice por qué con una línea (tampoco pagan faradios: finishStats).
+  const betsLocked=()=>(window.Bets?Bets.picker():'').includes('is-locked');
+  function betsMarkup(){return !window.Bets||!stakesOf(chosenGame)||betsLocked()?'':Bets.picker()}
+  function betsNote(){
+    if(!window.Bets)return '';
+    if(!stakesOf(chosenGame))return `<p class="lobby-soon">${LOBBY_ICON.lock}<span>En ${escapeHtml(gameMeta(chosenGame).name)} no hay apuestas ni faradios en juego</span></p>`;
+    return betsLocked()?`<p class="lobby-soon">${LOBBY_ICON.lock}<span>Apuestas en el nivel ${window.Ranked?.MIN_LEVEL||10}</span></p>`:'';
+  }
+  async function loadGames(){
+    const response=await call('juegos');
+    if(!response.ok||!Array.isArray(response.data.games))return;
+    const before=JSON.stringify(gameRules);
+    gameRules=response.data.games;saved.set('juegos',gameRules);
+    if(shown!=='lobby'||JSON.stringify(gameRules)===before)return;
+    // Lo que el portal había pintado con datos viejos (o sin datos, en la primera visita) se pone al día sin repintarlo entero.
+    const paint=(id,html)=>{const slot=document.getElementById(id);if(slot&&slot.innerHTML!==html)slot.innerHTML=html};
+    paint('duel-rules',rulesMarkup());paint('duel-how',howMarkup());
+    if(!stakesOf(chosenGame)||!$('#bet-picker'))paint('duel-bets',betsMarkup());
+    paint('duel-bets-note',betsNote());
   }
   function openFriends(code=false){const sheet=$('#duel-friends');if(sheet&&!sheet.open){sheet.showModal();sheet.querySelector(code?'#duel-code':'[data-duel=friend]')?.focus()}}
   function closeFriends(){const sheet=$('#duel-friends');if(sheet?.open)sheet.close()}
   function renderWaitingThree(){
     hud.hidden=true;setView('result');
     const friend=!duel.public,link=`${location.origin}${location.pathname}?duelo=${duel.code}`,missing=3-duel.players.length;
-    content.innerHTML=`<p class="duel-kicker">Duelo de tres · ${friend?'con amigos':'partida rápida'}</p>
+    content.innerHTML=`<p class="duel-kicker">Duelo de tres · ${friend?'con amigos':'partida rápida'}${gameTag()}</p>
 <div class="duel-search is-three">${duel.players.map(player=>figure(player,'mid')).join('')}${'<span class="duel-avatar big ghost" aria-hidden="true">?</span>'.repeat(missing)}</div>
 <h2 id="duel-title">${friend?'Comparte el código':'Buscando rivales…'}</h2>
 ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p>`:''}
@@ -274,7 +328,7 @@ ${friend?`<div class="duel-modes"><button class="game-primary" type="button" dat
     if(three())return renderWaitingThree();
     hud.hidden=true;setView('result');
     const friend=!duel.public,link=`${location.origin}${location.pathname}?duelo=${duel.code}`;
-    content.innerHTML=`<p class="duel-kicker">${friend?'Duelo con un amigo':duel.mode==='ranked'?'Clasificatoria':'Partida rápida'}</p>
+    content.innerHTML=`<p class="duel-kicker">${friend?'Duelo con un amigo':duel.mode==='ranked'?'Clasificatoria':'Partida rápida'}${gameTag()}</p>
 <div class="duel-search">${figure(me(),'mid')}<span class="duel-dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="duel-avatar big ghost" aria-hidden="true">?</span></div>
 <h2 id="duel-title">${friend?'Comparte el código':'Buscando rival…'}</h2>
 ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p class="duel-note">El duelo empieza en cuanto tu amigo abra el enlace o escriba el código.</p><div class="duel-modes"><button class="game-primary" type="button" data-duel="share" data-link="${link}">Copiar enlace</button><button class="game-secondary" type="button" data-duel="bot">Practicar con el bot</button></div>`
@@ -283,8 +337,10 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderIntro(){
     renderHud();hud.hidden=true;setView('question','coral');
-    content.innerHTML=`<p class="duel-kicker">Rival encontrado</p><h2 id="duel-title">${escapeHtml(me().name)} contra ${escapeHtml(rival().name)}</h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. ${duel.round.multipliers?'Tu daño empieza en ×1 y sube +0,5 cada vez que ganas una ronda.':'El daño empieza flojo y sube en cada ronda.'}</p>`;
+    content.innerHTML=`<p class="duel-kicker">Rival encontrado${gameTag()}</p><h2 id="duel-title">${escapeHtml(me().name)} contra ${escapeHtml(rival().name)}</h2><p class="duel-note">${int(duel.maxHp)} de vida cada uno. ${duel.round.multipliers?'Tu daño empieza en ×1 y sube +0,5 cada vez que ganas una ronda.':'El daño empieza flojo y sube en cada ronda.'}</p>`;
     showVersus();sfx.tension();
+    // En la pantalla «VS» se dice a qué se va a jugar cuando no es el duelo de estimación de siempre.
+    if(playsGame()&&versus)versus.insertAdjacentHTML('beforeend',`<p class="versus-game">Duelo de ${escapeHtml(gameMeta(duel.game).name)}</p>`);
   }
   // Pantalla «VS» a toda pantalla al encontrar rival: cada jugador entra por su lado en una franja diagonal, con el avatar
   // en grande y el apodo debajo; el VS cae en el centro con un destello. Dura lo que la fase «intro» del servidor (5 s)
@@ -312,10 +368,11 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderQuestion(){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
-    const round=duel.round,q=round.question;switchWorkspace(`duelo:${duel.id}:${round.number}`);setView('question',window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
-    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multipliers?'':` · daño ${times(round.multiplier)}`}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time">3:00</b></div></div></div>
+    const round=duel.round,q=round.question,game=playsGame();switchWorkspace(`duelo:${duel.id}:${round.number}`);if(game)panel.hidden=true;
+    setView('question',game?gameMeta(duel.game).tone:window.CATEGORIES?.[q.category]?.tone||'coral');setHp(false);setRoundInfo();
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Ronda ${round.number}${round.multipliers?'':` · daño ${times(round.multiplier)}`}</span><div class="duel-tools"><div class="duel-timer" id="duel-timer" role="timer" aria-label="Tiempo restante"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg><b id="duel-time"></b></div></div></div>
 <div class="duel-timebar" aria-hidden="true"><i id="duel-timebar"></i></div>
-<h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q,{eager:true,links:false}):''}
+${game?Games.question(duel):`<h2 id="duel-title">${q.title}</h2>${q.image?questionMedia(q,{eager:true,links:false}):''}`}
 <div id="duel-answer"></div>`;
     lastSecond=-1;renderAnswerBox(true);sfx.go();
     const done=duel.players.flatMap((player,seat)=>seat!==duel.you&&round.answered[seat]?[player]:[]);
@@ -325,6 +382,10 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
     const round=duel.round,box=$('#duel-answer');if(!box)return;
     if(three()&&!round.alive.includes(duel.you)){
       box.innerHTML='<div class="duel-sent"><small>Estás fuera</small><strong>Sin vida</strong><span>Mira cómo acaban los demás</span></div><p class="duel-rival-state" id="duel-rival-state"></p>';
+    }else if(playsGame()){
+      // Ascensión, Traza y Archivo Vivo: la caja (texto, botones del trazo o selector de año) la pinta duel-games.js.
+      if(round.yourGuess!=null)box.innerHTML=Games.sent(duel,content);
+      else if(!$('#duel-form')){box.innerHTML=Games.form(duel);Games.mount(duel,content);if(focus)box.querySelector('[data-dg-focus]')?.focus()}
     }else if(round.yourGuess!=null){
       box.innerHTML=`<div class="duel-sent"><small>Tu respuesta</small><strong>${whole(round.yourGuess)}</strong><span>${round.question.unit}</span></div><p class="duel-rival-state" id="duel-rival-state"></p>`;
     }else if(!$('#duel-form')){
@@ -357,6 +418,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   // Repaso al final del duelo: cada pregunta con las dos respuestas y su cálculo.
   function reviewMarkup(){
+    if(playsGame())return Games.review(duel,gameUi(null));
     const rounds=(duel.rounds||[]).filter(r=>r.question);if(!rounds.length)return '';
     const guess=(value,unit)=>value==null?'Sin respuesta':`${whole(value)} ${unit}`;
     return `<section class="duel-review" aria-labelledby="duel-review-title"><h3 id="duel-review-title">Repasa las preguntas</h3>${rounds.map((r,i)=>{const q=r.question;
@@ -364,6 +426,7 @@ ${friend?`<p class="duel-code" aria-label="Código del duelo">${duel.code}</p><p
   }
   function renderReveal(final){
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();
+    if(playsGame())return renderRevealGame(final);
     if(three())return renderRevealThree(final);
     const round=duel.round,q=round.question,mine=round.guesses[duel.you],theirs=round.guesses[1-duel.you],myPoints=round.points[duel.you],theirPoints=round.points[1-duel.you];
     setView('result');setRoundInfo();revealed=duel.id+':'+round.number;
@@ -401,6 +464,34 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
     setTimeout(()=>{if(!duel||revealed!==duel.id+':'+round.number)return;setHp(true);(round.damages[duel.you]>0?sfx.hit:round.best.includes(duel.you)?sfx.good:sfx.even)()},reduced()?0:1100);
   }
+  // Lo que duel-games.js necesita de aquí para pintar un resultado: los asientos (primero el tuyo), el nombre de cada
+  // uno, su figura con el gesto que toca por sus puntos, quién ha ganado la ronda y, en los duelos de tres, el daño.
+  function gameUi(round){
+    const seats=[duel.you,...others().map(one=>one.seat)],out=seat=>!!round&&three()&&!round.alive.includes(seat);
+    return {seats,out,label:seat=>seat===duel.you?'Tú':escapeHtml(duel.players[seat].name),
+      best:seat=>!!round&&(three()?round.best.includes(seat)&&!out(seat):round.loser!==null&&(round.loser==='you')!==(seat===duel.you)),
+      figure:seat=>figure(duel.players[seat],'col',reactionOptions(duel.players[seat],Games.cue(round.points[seat],round.guesses[seat]!=null&&!out(seat)))),
+      hit:seat=>!round||!three()?'':round.damages[seat]>0?`<span class="duel-col-hit">−${int(round.damages[seat])}</span>`:'<span class="duel-col-hit is-safe">sin daño</span>'};
+  }
+  // Resultado de una ronda de Ascensión, Traza o Archivo Vivo, para dos o tres jugadores: lo propio del juego lo pinta
+  // duel-games.js; la frase de quién pierde vida, el daño y el golpe en la barra son los de siempre.
+  function renderRevealGame(final){
+    const round=duel.round,parts=Games.reveal(duel,gameUi(round));setView('result');setRoundInfo();revealed=duel.id+':'+round.number;
+    const hit=three()?[duel.you,...others().map(one=>one.seat)].filter(seat=>round.damages[seat]>0):[];
+    const mine=three()?round.damages[duel.you]>0:round.loser==='you',any=three()?hit.length>0:round.loser!==null;
+    const outcome=!any?'Empate en esta ronda: nadie pierde vida.'
+      :three()?hit.map(seat=>seat===duel.you?`Pierdes <b>${int(round.damages[seat])}</b> de vida.`:`${joinNames([duel.players[seat].name])} pierde <b>${int(round.damages[seat])}</b>.`).join(' ')
+      :mine?`Pierdes <b>${int(round.damage)}</b> de vida.`:`Le quitas <b>${int(round.damage)}</b> de vida a ${escapeHtml(rival().name)}.`;
+    const detail=!any?'':!three()&&round.multipliers?`${int(Math.abs(round.points[duel.you]-round.points[1-duel.you]))} ${times(round.multiplier)}`:`Daño ${times(round.multiplier)}`;
+    content.innerHTML=`<div class="duel-top"><span class="duel-kicker">Resultado · ronda ${round.number}</span><span class="duel-kicker" id="duel-countdown"></span></div>
+${parts.head}
+<p class="duel-outcome is-${mine?'you':any?'rival':'even'}">${outcome}${detail?` <small>${detail}</small>`:''}</p>
+${parts.extra}
+${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
+    content.querySelectorAll('[data-points]').forEach(element=>count(element,0,Number(element.dataset.points),1000));
+    const won=three()?round.best.includes(duel.you)&&any:round.loser==='rival';
+    setTimeout(()=>{if(!duel||revealed!==duel.id+':'+round.number)return;setHp(true);(mine?sfx.hit:won?sfx.good:sfx.even)()},reduced()?0:1100);
+  }
   function finishStats(){
     const counted=saved.get('contados',[]);if(counted.includes(duel.id)||duel.reason==='cancelado'||duel.players.length<(duel.size||2))return null;
     saved.set('contados',[...counted,duel.id].slice(-30));
@@ -422,13 +513,15 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     const fromRatio=Progress.info().ratio,abandoned=left;
     const gained=Math.round(parts.reduce((sum,[,xp])=>sum+xp,0)*factor);
     const key=duel.winner==='you'?'win':duel.winner==='draw'?'draw':'loss';
-    const coins=abandoned||(bot&&daily.bot)?0:Math.round(Progress.REWARD.duel[key]*(capped?CAPPED_FACTOR:1));
+    // Sin faradios (duel.stakes===false, hoy Archivo Vivo): ni premio por el resultado ni apuesta; la experiencia sigue.
+    const dry=duel.stakes===false;if(dry)notes.push(`${gameMeta(duel.game).name}: sin faradios`);
+    const coins=abandoned||dry||(bot&&daily.bot)?0:Math.round(Progress.REWARD.duel[key]*(capped?CAPPED_FACTOR:1));
     if(!abandoned)stats.day={date:today,count:daily.count+1,bot:daily.bot+(bot?1:0)};
     saved.set('progreso',stats);
     // Con cuenta, los faradios del duelo los calcula y los paga el servidor (decisión 0059): aquí solo se piden.
     const online=Progress.linked(),outcome=Progress.reward({xp:gained,coins:online?0:coins,reason:'duelos'});if(online&&coins)Progress.claim('duelo:'+duel.id);
     // charge: lo que este duelo carga la batería de cofres (progress.js); sigue el mismo tope que el premio.
-    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,mode:reactionMode(),rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
+    document.dispatchEvent(new CustomEvent('faraday:duel',{detail:{result:key,mode:reactionMode(),game:duel.game||'estimacion',rounds,abandoned,bot,flawless:key==='win'&&me().hp>=duel.maxHp,charge:abandoned||(bot&&daily.bot)?0:capped?5:20}}));
     return {parts,notes,gained,coins,fromRatio,levelUp:outcome.levelUp,levelCoins:outcome.levelCoins};
   }
   function renderEnd(){
@@ -437,20 +530,20 @@ ${final?'':`<p class="duel-note">${nextRoundNote(round)}</p>`}`;
     if(hud.dataset.duel!==duel.id||hud.hidden)renderHud();setHp(false);
     const won=duel.winner==='you',draw=duel.winner==='draw',result=finishStats(),progress=Progress.info(),name=escapeHtml(rival().name);
     setView(won?'summary':'result');saved.remove('actual');shell.dataset.screen='end';
-    const place=duel.places?.[duel.you];
-    const why=three()?(me().left?'Has abandonado el duelo.':duel.reason==='abandono'?(won?'Los demás han abandonado el duelo.':'Ha terminado: los demás han abandonado.'):duel.reason==='rondas'?(draw?'Diez rondas y la misma vida arriba: empatáis.':won?'Diez rondas: ganas con más vida.':'Diez rondas: gana quien conserva más vida.'):won?'Eres el último en pie.':me().hp<=0?'Te has quedado sin vida.':'Otro jugador ha ganado la partida.')
-      :duel.reason==='abandono'?(won?`${name} ha abandonado el duelo.`:'Has abandonado el duelo.'):duel.reason==='rondas'?(draw?'Diez rondas y la misma vida. Nadie cede.':`Diez rondas: gana quien conserva más vida.`):won?`Has dejado a ${name} sin vida.`:`${name} te ha dejado sin vida.`;
-    content.innerHTML=`<p class="duel-kicker">Duelo terminado</p>
+    const place=duel.places?.[duel.you],allRounds=duel.maxRounds===10?'Diez rondas':`${duel.maxRounds} rondas`;
+    const why=three()?(me().left?'Has abandonado el duelo.':duel.reason==='abandono'?(won?'Los demás han abandonado el duelo.':'Ha terminado: los demás han abandonado.'):duel.reason==='rondas'?(draw?`${allRounds} y la misma vida arriba: empatáis.`:won?`${allRounds}: ganas con más vida.`:`${allRounds}: gana quien conserva más vida.`):won?'Eres el último en pie.':me().hp<=0?'Te has quedado sin vida.':'Otro jugador ha ganado la partida.')
+      :duel.reason==='abandono'?(won?`${name} ha abandonado el duelo.`:'Has abandonado el duelo.'):duel.reason==='rondas'?(draw?`${allRounds} y la misma vida. Nadie cede.`:`${allRounds}: gana quien conserva más vida.`):won?`Has dejado a ${name} sin vida.`:`${name} te ha dejado sin vida.`;
+    content.innerHTML=`<p class="duel-kicker">Duelo terminado${gameTag()}</p>
 <div class="duel-final">${figure(me(),'end',reactionOptions(me(),won?'victory':draw?'draw':'defeat'))}<h2 id="duel-title">${won?'¡Victoria!':draw?'Empate':three()?`${place}.º puesto`:'Derrota'}</h2></div>
 <p class="duel-note">${why}</p>
 ${three()?`<ol class="duel-podium">${duel.players.map((player,seat)=>({player,seat})).sort((a,b)=>duel.places[a.seat]-duel.places[b.seat]||a.seat-b.seat).map(one=>`<li class="${one.seat===duel.you?'is-you':''}"><b>${duel.places[one.seat]}.º</b><span>${one.seat===duel.you?'Tú':escapeHtml(one.player.name)}</span><small>${one.player.left?'abandonó':int(one.player.hp)+' de vida'}</small></li>`).join('')}</ol>`:''}
 ${window.Ranked?Ranked.result(duel):''}
 <div class="duel-reward"><div class="duel-xp"><span><b>Nivel ${progress.level}${result?.levelUp?' <em>¡Subes de nivel!</em>':''}</b><small>${result?`+${result.gained} XP · +${result.coins+result.levelCoins} ≈`:`${int(progress.done)} / ${int(progress.need)} XP`}</small></span><div class="duel-xpbar"><i style="--xp:${result&&!result.levelUp?result.fromRatio:0}" data-xp="${progress.ratio}"></i></div></div>
 ${result?`<ul class="duel-chips">${result.parts.map(([label,xp])=>`<li>${escapeHtml(label)} <b>+${xp}</b></li>`).join('')}${stats.streak>1?`<li class="hot">🔥 ${stats.streak} seguidas</li>`:''}${result.notes.map(note=>`<li>${escapeHtml(note)}</li>`).join('')}</ul>`:''}</div>
-${window.Bets?Bets.result(duel):''}
+${window.Bets&&duel.stakes!==false?Bets.result(duel):''}
 ${duel.rounds?.length&&three()?`<ol class="duel-rounds is-three">${duel.rounds.map((r,i)=>`<li><span>R${i+1}</span>${[duel.you,...others().map(one=>one.seat)].map(seat=>`<b class="${r.best?.includes(seat)?'up':''}">${int(r.points[seat])}</b>`).join('<i>·</i>')}<em class="${r.damages[duel.you]?'you':'even'}">${r.damages[duel.you]?'−'+int(r.damages[duel.you]):'='}</em></li>`).join('')}</ol>`:duel.rounds?.length?`<ol class="duel-rounds">${duel.rounds.map((r,i)=>`<li><span>R${i+1}</span><b class="${r.loser==='rival'?'up':''}">${int(r.points[duel.you])}</b><i>–</i><b class="${r.loser==='you'?'up':''}">${int(r.points[1-duel.you])}</b><em class="${r.loser||'even'}">${r.loser===null?'=':r.loser==='rival'?'+'+int(r.damage):'−'+int(r.damage)}</em></li>`).join('')}</ol>`:''}
 ${reviewMarkup()}
-${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
+${window.Bets&&duel.stakes!==false&&!rival().bot?Bets.picker({compact:true}):''}
 <p class="form-error" id="duel-error" role="alert"></p>
 <div class="duel-modes"><button class="game-primary" type="button" data-duel="rematch" id="duel-rematch">Revancha <span aria-hidden="true">→</span></button><button class="game-secondary" type="button" data-duel="again">Nuevo rival</button></div>
 <button class="duel-link" type="button" data-duel="share-result">Compartir resultado</button>
@@ -467,12 +560,13 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
 
   // Estado que llega del servidor: se repinta al cambiar de fase y, dentro de la misma fase, solo se actualiza lo que cambia.
   function apply(view){
-    const previous=duel;offset=view.now-Date.now();duel=view;window.Bets?.track(view);
+    const previous=duel;offset=view.now-Date.now();duel=view;window.Voice?.update(view);window.Bets?.track(view);
     if(view.status!=='finished')saved.set('actual',view.id);
     const key=`${view.id}:${view.phase}:${view.round?.number||0}`;
     if(key!==shown){
       quotaRequest++;
       shown=key;clearTimeout(endTimer);
+      clearTimeout(alertBar.timer);$('#duel-alert').classList.remove('show'); // El aviso de la fase anterior («…ha respondido · te quedan 10 s») no sigue sobre la nueva.
       if(view.phase!=='intro')hideVersus();
       if(view.phase==='waiting')renderWaiting();
       else if(view.phase==='intro')renderIntro();
@@ -484,7 +578,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
       const before=previous?.round,round=view.round;
       const fresh=before?view.players.flatMap((player,seat)=>seat!==view.you&&!before.answered[seat]&&round.answered[seat]?[player]:[]):[];
       if(fresh.length){
-        // Un rival ha respondido: campana (o aviso corto si tú ya habías respondido) y el reloj baja a 30 segundos.
+        // Un rival ha respondido: campana (o aviso corto si tú ya habías respondido) y el reloj se recorta.
         if(before.answered[view.you])sfx.rival();
         if(round.yourGuess==null)alertBar(`<span class="duel-bell" aria-hidden="true">🔔</span>${avatar(fresh[0],'tiny')}<span>${joinNames(fresh.map(player=>player.name))} ${fresh.length>1?'han respondido':'ha respondido'} · te quedan <b>${Math.max(1,Math.ceil((round.deadline-serverNow())/1000))} s</b></span>`,5000);
       }
@@ -505,14 +599,15 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     else tick.waitFrom=0;
     if(duel.phase==='intro'){const element=$('#duel-countdown'),left=Math.max(1,Math.ceil((round.startsAt-now)/1000));if(element&&element.textContent!==String(left)){element.textContent=left;element.classList.remove('pop');void element.offsetWidth;element.classList.add('pop');sfx.tick()}}
     if(duel.phase==='question'){
-      const left=Math.max(0,round.deadline-now),seconds=Math.ceil(left/1000),rush=round.rushed,total=rush?30000:180000,time=$('#duel-time'),timer=$('#duel-timer');
+      const left=Math.max(0,round.deadline-now),seconds=Math.ceil(left/1000),rush=round.rushed,total=(rush?duel.rules?.rushMs:duel.rules?.roundMs)||round.deadline-round.startsAt,time=$('#duel-time'),timer=$('#duel-timer');
       if(time){
         time.textContent=`${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,'0')}`;
         $('#duel-timebar').style.setProperty('--t',Math.min(1,left/total));
         const mine=round.yourGuess==null;timer.classList.toggle('is-rush',rush&&mine);timer.classList.toggle('is-last',seconds<=10&&mine);content.classList.toggle('is-rush',rush&&mine);
         if(seconds!==lastSecond){lastSecond=seconds;if(mine&&seconds<=10&&seconds>0)sfx.tick()}
+        blocTime(time.textContent,seconds<=10&&mine);
       }
-    }
+    }else blocTime('');
     if(duel.phase==='reveal'){const element=$('#duel-countdown');if(element)element.textContent=`Siguiente en ${Math.max(0,Math.ceil((round.nextAt-now)/1000))} s`}
   }
   async function poll(){
@@ -526,7 +621,8 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     clearTimeout(pollTimer);if(!duel||shell.hidden)return;
     // Terminado: se sigue mirando un rato por si el rival pide la revancha.
     // Tras escribir en el chat con el duelo terminado se mira un par de veces más, por si el rival (o el bot) contesta.
-    if(duel.phase==='finished'){if(chatWake>0)chatWake--;else if(duel.next||rival()?.bot||++finishedPolls>60)return;pollTimer=setTimeout(poll,chatWake?1500:3000);return}
+    // Con la llamada de voz abierta en la pantalla final se sigue mirando cada segundo: por ahí viajan sus señales.
+    if(duel.phase==='finished'){if(window.Voice?.active?.()){pollTimer=setTimeout(poll,1000);return}if(chatWake>0)chatWake--;else if(duel.next||rival()?.bot||++finishedPolls>60)return;pollTimer=setTimeout(poll,chatWake?1500:3000);return}
     finishedPolls=0;pollTimer=setTimeout(poll,duel.phase==='waiting'?1500:1000);
   }
   function startTimers(){if(!ticker)ticker=setInterval(tick,200);tick();schedule()}
@@ -535,25 +631,45 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   // Acciones
   function readProfile(){const input=$('#duel-name');if(input){profile.name=input.value.replace(/\s+/g,' ').trim().slice(0,16)||profile.name}saved.set('perfil',profile)}
   async function begin(action,extra={}){
-    if(busy)return;busy=true;readProfile();shell.classList.add('is-busy');
+    if(busy)return null;busy=true;readProfile();shell.classList.add('is-busy');
     const origin=content.firstElementChild;
     const mode=extra.practice||action==='bot'?'practice':extra.size===3?'duel3':duel?offerMode():extra.mode==='ranked'?'ranked':'duel';
     lastOfferMode=mode;lastAttempt={mode,action,extra};
-    const response=await call(action,{...identity(),...extra});busy=false;shell.classList.remove('is-busy');
-    if(shell.hidden||!origin?.isConnected)return;
+    const response=await call(action,{...identity(extra.game||duel?.game||chosenGame),...extra});busy=false;shell.classList.remove('is-busy');
+    if(shell.hidden||!origin?.isConnected)return null;
     if(response.ok){inviteCode='';revealed='';shown='';tick.waitFrom=0;apply(response.data);if(extra.practice&&action==='crear')await begin('bot',{id:response.data.id})}
     else{
       const error=$('#duel-friends')?.open?$('#duel-join-error'):$('#duel-error');if(error)error.textContent=response.data.error||'No se ha podido empezar el duelo.';else showToast(response.data.error||'No se ha podido empezar el duelo.');
       if(response.data.code==='limite'){closeFriends();quotaRequest++;quotaState=response.data;paintQuota(quotaState,mode,true)}
     }
+    return response;
   }
   async function submit(event){
     event.preventDefault();if(busy||!duel||duel.phase!=='question')return;
-    const raw=$('#duel-guess').value.trim().replace(/[.\s]/g,'').replace(',','.'),guess=Number(raw);
-    if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#duel-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}
-    busy=true;const response=await call('responder',{id:duel.id,guess});busy=false;
-    if(response.ok){sfx.send();const first=!response.data.round?.answered.some((done,seat)=>done&&seat!==response.data.you)&&response.data.phase==='question';apply(response.data);if(first)alertBar(`<span class="duel-bell" aria-hidden="true">🔔</span><span>Has respondido primero · ${three()?'a los demás les quedan':`a <b>${escapeHtml(rival().name)}</b> le quedan`} <b>30 s</b></span>`,3500)}
-    else if($('#duel-help'))$('#duel-help').textContent=response.data.error||'No se ha podido enviar. Inténtalo otra vez.';
+    let guess;
+    if(playsGame()){
+      // La respuesta de los demás juegos (un texto, un trazo o un año) la prepara duel-games.js.
+      const taken=Games.read(duel,content);
+      if(taken.error){if($('#duel-help'))$('#duel-help').textContent=taken.error;return}
+      guess=taken.guess;
+    }else{
+      const raw=$('#duel-guess').value.trim().replace(/[.\s]/g,'').replace(',','.');guess=Number(raw);
+      if(!/^\d+(\.\d+)?$/.test(raw)||!Number.isFinite(guess)||guess<=0){$('#duel-help').textContent='Escribe un número mayor que cero. Usa coma para los decimales.';return}
+    }
+    // 409 «El duelo está ocupado» (otra escritura a la vez): hasta dos reintentos con una espera corta antes de avisar.
+    busy=true;const id=duel.id;let response=await call('responder',{id,guess});
+    for(let again=0;again<2&&response.status===409&&!response.data.code&&/ocupado/i.test(response.data.error||'');again++){
+      await new Promise(resolve=>setTimeout(resolve,300+Math.random()*300));
+      if(!duel||duel.id!==id||duel.phase!=='question'||duel.round.yourGuess!=null)break;
+      response=await call('responder',{id,guess});
+    }
+    busy=false;if(!duel||duel.id!==id)return;
+    if(response.ok){sfx.send();const first=!response.data.round?.answered.some((done,seat)=>done&&seat!==response.data.you)&&response.data.phase==='question';apply(response.data);if(first)alertBar(`<span class="duel-bell" aria-hidden="true">🔔</span><span>Has respondido primero · ${three()?'a los demás les quedan':`a <b>${escapeHtml(rival().name)}</b> le quedan`} <b>${Math.max(1,Math.ceil((duel.round.deadline-serverNow())/1000))} s</b></span>`,3500)}
+    else if($('#duel-help')){
+      $('#duel-help').textContent=response.data.error||'No se ha podido enviar. Inténtalo otra vez.';
+      // Ascensión: la respuesta no está en la lista y aún queda tiempo para probar otra.
+      if(response.data.code==='unknown'&&playsGame())Games.retry(duel,content);
+    }
   }
   // Chat de la partida (duel-chat.js, decisión 0040): el envío pasa por aquí para pintar al momento el estado que devuelve.
   async function chatSend(kind,value){
@@ -563,6 +679,10 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     return response;
   }
   window.DuelChat?.connect({send:chatSend,rival:()=>duel?.players?.[1]?rival():null,speaker:message=>three()?duel.players[message.seat]:null,refresh:()=>{if(duel)DuelChat.render(duel)}});
+  // Voz del duelo (voice.js): aquí solo se le da por dónde enviar sus mensajes; lo que manda y lo que pinta es cosa suya.
+  // Respeta el id que traiga el mensaje: el «adiós» de Voice.reset() llega cuando aquí ya no hay duelo abierto.
+  async function voiceSend(data){const id=data?.id||duel?.id;if(!id)return {ok:false,status:0,data:{}};return call('voz',{...data,id})}
+  window.Voice?.connect({send:voiceSend});
   async function share(text,url){
     if(window.Circuito)url=Circuito.link(url); // con tu código del Circuito de amigos (?de=)
     try{if(navigator.share){await navigator.share({title:'Duelo en Faraday.gg',text,url});return}await navigator.clipboard.writeText(`${text}\n${url}`);showToast('Copiado al portapapeles.')}
@@ -576,13 +696,30 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     panel.hidden=!open;
     const button=content.querySelector('[data-duel=calc]');
     if(button){button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',`${open?'Cerrar':'Abrir'} calculadora y notas`)}
-    if(open)$('#scratch-expression').focus();else $('#guess-input')?.focus();
+    if(open)$('#scratch-expression').focus();else(content.querySelector('#duel-guess')||button)?.focus();
   }
+  // Mientras el duelo es el dueño del bloc, su cabecera enseña el tiempo de la ronda (en el móvil la calculadora tapa
+  // el reloj del duelo), con el mismo aspecto que el reloj del reto (round-timer.css). tick() lo pone al día.
+  const blocSlot=()=>typeof workspaceTimer==='function'?workspaceTimer():document.getElementById('workspace-timer');
+  function blocTime(text,warn=false){
+    const slot=blocSlot();if(!slot)return;
+    let clock=slot.querySelector('.duel-bloc-timer');
+    if(!text){if(clock)clock.remove();return}
+    if(!clock){
+      slot.innerHTML=`<div class="round-timer duel-bloc-timer" role="timer" aria-label="Tiempo restante de la ronda"><span class="round-timer-pill"><span class="round-timer-icon" aria-hidden="true">${LOBBY_ICON.clock}</span><b class="round-timer-time"></b></span></div>`;
+      clock=slot.firstElementChild;
+    }
+    const time=clock.querySelector('.round-timer-time');if(time.textContent!==text)time.textContent=text;
+    clock.classList.toggle('is-warning',warn);
+  }
+  // Al cambiar de dueño el bloc se vacía de relojes: el del reto (si había una pregunta abierta debajo) no se enseña en
+  // el duelo, y al devolverlo vuelve el suyo (resumeDailyClock, app.js).
   function attachWorkspace(){
-    duelLayout.append(panel);panel.hidden=true;switchWorkspace('duelo:');
+    duelLayout.append(panel);panel.hidden=true;blocSlot()?.replaceChildren();switchWorkspace('duelo:');
   }
   function detachWorkspace(){
-    panel.hidden=true;$('#game-layout').append(panel);switchWorkspace();
+    panel.hidden=true;$('#game-layout').append(panel);blocSlot()?.replaceChildren();switchWorkspace();
+    if(typeof resumeDailyClock==='function')resumeDailyClock();
   }
   // resume: id de un duelo al que se vuelve desde «Reconectar a la partida» (decisión 0042); también se puede ver uno ya terminado.
   async function open({code='',resume='',friends=false}={}){
@@ -592,7 +729,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
     let current=resume||saved.get('actual',null);
     shell.hidden=false;document.body.classList.add('modal-open');$('#duel-sound').setAttribute('aria-pressed',String(Sound.on));
     if(typeof toggleMenu==='function')toggleMenu(false);
-    renderLobby();
+    renderLobby();loadGames();
     if(friends)openFriends();
     // Si se recarga la página (o se vuelve más tarde) en mitad de un duelo, se vuelve a él. Si el navegador no lo recuerda, se le pregunta al servidor.
     if(!inviteCode&&!resume&&(!current||friends)){
@@ -608,28 +745,35 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
       if(!(three()&&me().hp<=0)&&!window.confirm(three()?'¿Abandonar el duelo? Quedarás eliminado y los otros dos seguirán jugando.':'¿Abandonar el duelo? Tu rival ganará la partida.'))return;
       const response=await call('salir',{id:duel.id});if(response.ok){duel=response.data;window.Bets?.track(duel);finishStats()}
     }else if(duel?.phase==='waiting')call('salir',{id:duel.id});
-    stopTimers();hideVersus(true);duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();window.DuelChat?.reset();
+    stopTimers();hideVersus(true);duel=null;shown='';hud.hidden=true;shell.hidden=true;saved.remove('actual');detachWorkspace();window.DuelChat?.reset();window.Voice?.reset();
     if($('#game-shell').hidden)document.body.classList.remove('modal-open');
   }
 
   shell.addEventListener('click',event=>{
     Sound.resume();
+    const picked=event.target.closest('[data-duel-game]');
+    if(picked&&shown==='lobby'&&!busy){
+      // Cambiar de juego repinta el portal: el botón grande, las reglas y «¿Cómo se juega?» son los de ese juego.
+      readProfile();chosenGame=Games?.valid(picked.dataset.duelGame)?picked.dataset.duelGame:'estimacion';saved.set('juego',chosenGame);sfx.tap();
+      renderLobby();content.querySelector(`[data-duel-game="${chosenGame}"]`)?.focus();return;
+    }
     const action=event.target.closest('[data-duel]')?.dataset.duel;if(!action)return;
     sfx.tap();
     if(action==='calc'){toggleCalc();return}
     if(action==='friends'){openFriends(event.target.closest('[data-duel]').dataset.focus==='code');return}
     if(action==='friends-close'){closeFriends();return}
-    if(action==='quick')begin('buscar',{mode:window.Ranked?.mode()||'normal'});
-    if(action==='friend')begin('crear');
-    if(action==='practice')begin('crear',{practice:true});
+    if(action==='quick'||action==='play')begin('buscar',{mode:quickMode(chosenGame),game:chosenGame});
+    if(action==='friend')begin('crear',{game:chosenGame});
+    if(action==='practice')begin('crear',{practice:true,game:chosenGame});
     if(action==='accept')begin('unirse',{code:inviteCode});
     if(action==='bot')begin('bot',{id:duel.id});
     if(action==='rematch')begin('revancha',{id:duel.id});
-    if(action==='quick3')begin('buscar',{size:3});
-    if(action==='friend3')begin('crear',{size:3});
-    if(action==='again'){const again3=duel?.size===3;renderLobby();begin('buscar',again3?{size:3}:{mode:window.Ranked?.mode()||'normal'})}
+    if(action==='quick3')begin('buscar',{size:3,game:chosenGame});
+    if(action==='friend3')begin('crear',{size:3,game:chosenGame});
+    // «Nuevo rival» busca otro duelo del mismo juego que el que acaba de terminar.
+    if(action==='again'){const again3=duel?.size===3,same=duel?.game||chosenGame;renderLobby();begin('buscar',again3?{size:3,game:same}:{mode:quickMode(same),game:same})}
     if(action==='cancel'){call('salir',{id:duel.id});renderLobby()}
-    if(action==='share')share(`Te reto a un duelo en Faraday.gg. Código: ${duel.code}`,event.target.closest('[data-link]').dataset.link);
+    if(action==='share')share(`Te reto a un duelo${playsGame()?' de '+gameMeta(duel.game).name:''} en Faraday.gg. Código: ${duel.code}`,event.target.closest('[data-link]').dataset.link);
     // Con la tarjeta para stories cargada, el resultado se comparte como imagen con el avatar (decisión 0081).
     if(action==='share-result'&&window.ShareCard?.openDuel){
       const rounds=duel.rounds||[],rank=duel.mode==='ranked'&&duel.rankResult?.rank&&!duel.rankResult.rank.placing?duel.rankResult.rank:null;
@@ -651,7 +795,7 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   document.addEventListener('faraday:sonido',event=>{if(!event.detail.on)stopMusic()});
   for(const mode of ['duel','duel3','ranked','practice'])window.Continuations?.register(mode,async()=>{
     if(shell.hidden)return;
-    const attempt=lastAttempt?.mode===mode?lastAttempt:{action:'buscar',extra:mode==='duel3'?{size:3}:{mode:mode==='ranked'?'ranked':'normal'}};
+    const attempt=lastAttempt?.mode===mode?lastAttempt:{action:'buscar',extra:mode==='duel3'?{size:3,game:chosenGame}:mode==='ranked'?{mode:'ranked'}:{mode:'normal',game:chosenGame}};
     await refreshQuota();await begin(attempt.action,attempt.extra);
   });
   document.addEventListener('faraday:before-plan',event=>{
@@ -675,6 +819,54 @@ ${window.Bets&&!rival().bot?Bets.picker({compact:true}):''}
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&duel&&!shell.hidden)poll()});
   // Enlace de invitación: ?duelo=CÓDIGO abre el duelo directamente.
   window.DueloReconectar={open:id=>open({resume:id})};
+  // Para el resto de la web (el lobby la usa para retar a alguien): abrir el portal, crear un duelo privado de un juego
+  // y quedarse en su pantalla de espera, o entrar en un duelo con su código. GAMES es la lista de juegos que hay.
+  const midDuel=()=>!!duel&&['intro','question','reveal'].includes(duel.phase);
+  async function ready(){
+    // Con un duelo a medias y a la vista no se toca nada (abrir el portal lo repintaría y colgaría la llamada de voz).
+    if(shell.hidden||!midDuel())await open();
+    // open() vuelve al duelo que hubiera en marcha: con uno a medias no se empieza otro.
+    return midDuel()?'Ya tienes un duelo en marcha.':'';
+  }
+  async function create({game:wanted}={}){
+    const id=wanted==null?'estimacion':wanted;
+    if(Games?!Games.valid(id):id!=='estimacion')return {error:'Juego no válido'};
+    const stop=await ready();if(stop)return {error:stop};
+    if(duel?.phase==='waiting'){
+      // Ya esperaba con un reto igual: vale ese código. Si era otra espera, se cancela y se crea el duelo nuevo.
+      if(!duel.public&&!three()&&(duel.game||'estimacion')===id)return {code:duel.code};
+      await call('salir',{id:duel.id});
+    }
+    if(Games){chosenGame=id;saved.set('juego',id)}
+    renderLobby();
+    const response=await begin('crear',{game:id});
+    return response?.ok?{code:response.data.code}:{error:response?.data?.error||'No se ha podido crear el duelo.'};
+  }
+  async function join(code){
+    const clean=String(code??'').trim().toUpperCase();
+    if(!/^[A-Z2-9]{6}$/.test(clean))return {error:'El código tiene 6 letras o números'};
+    const stop=await ready();
+    // Ya estaba dentro de ese duelo (por ejemplo, quien lo creó): no hay nada más que hacer.
+    if(duel?.code===clean)return {ok:true,code:clean};
+    if(stop)return {error:stop};
+    if(duel?.phase==='waiting')await call('salir',{id:duel.id});
+    renderLobby();
+    const response=await begin('unirse',{code:clean});
+    return response?.ok?{ok:true,code:clean}:{error:response?.data?.error||'No se ha podido entrar en el duelo.'};
+  }
+  // Cancela el duelo EN ESPERA que tenga abierto el jugador (el de Duel.create): lo mismo que «Cancelar» en la pantalla
+  // de espera, pero además cierra la pantalla del duelo y vuelve a la portada. Con un duelo ya empezado, o sin duelo,
+  // no hace nada: {ok:false}.
+  async function cancel(){
+    if(shell.hidden||busy||duel?.phase!=='waiting')return {ok:false};
+    const id=duel.id,response=await call('salir',{id});
+    // Mientras se cancelaba ha entrado el rival: el duelo ya ha empezado y no se toca.
+    if(!duel||duel.id!==id||duel.phase!=='waiting')return {ok:false};
+    if(!response.ok&&response.status!==404)return {error:response.data.error||'No se ha podido cancelar el duelo.'};
+    duel=null;await close(); // Ya se ha salido del duelo: close() solo recoge la pantalla.
+    return {ok:true};
+  }
+  window.Duel={open,create,join,cancel,GAMES:(Games?.GAMES||[{id:'estimacion',name:'Estimación'}]).map(({id,name})=>({id,name}))};
   const invited=new URLSearchParams(location.search).get('duelo');
   if(invited){history.replaceState(history.state,'',location.pathname);open({code:invited})}
 })();

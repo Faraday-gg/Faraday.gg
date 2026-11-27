@@ -140,6 +140,16 @@ try{
   assert.equal((await call('/api/answers',{method:'POST',body:'{no'})).status,400);
   assert.equal((await call('/api/answers')).status,405);
   assert.equal((await call('/api/no-existe')).status,404);
+  // /api/duelo admite hasta 16 KB (la voz de los duelos); las demás rutas siguen en 2 KB.
+  assert.notEqual((await call('/api/duelo',{method:'POST',body:{action:'no-existe',relleno:'x'.repeat(15000)}})).status,413);
+  assert.equal((await call('/api/duelo',{method:'POST',body:'x'.repeat(17000)})).status,413);
+  // Lobby: la reescritura lo lleva a la función; sin jugador, 401; y mientras sus tablas no existan en Supabase
+  // (migración 20261126120000 sin aplicar) responde 503 sin tumbar nada más.
+  assert.equal((await call('/api/lobby',{method:'POST',body:{action:'pulso'}})).status,401);
+  assert.equal((await call('/api/lobby',{method:'POST',body:{action:'pulso'},cookie:'faraday_jugador='+first,origin:'https://otro.test'})).status,403);
+  const lobby=await call('/api/lobby',{method:'POST',body:{action:'pulso',name:'Ana'},cookie:'faraday_jugador='+first});
+  assert.equal(lobby.status,503);assert.deepEqual(lobby.data,{error:'El lobby no está disponible ahora mismo.'});
+  assert.equal((await call('/api/calendar')).status,200);
 
   // Respuestas guardadas con el jugador anonimizado; jornadas y preguntas publicadas una sola vez.
   assert.equal(supabase.tables.answers.size,9,'3 + 1 + 3 + 1 + 1 respuestas válidas');

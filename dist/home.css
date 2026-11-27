@@ -507,3 +507,22 @@ html:has(.home-screen) { overflow: hidden; overscroll-behavior: none; }
 
 /* Con sesión iniciada, la cuenta se abre desde el personaje (botón «Perfil» de su panel): fuera la inicial. */
 .home-header .home-account.is-signed { display: none; }
+
+/* ---------- Lobby en la portada (lobby.js; el resto de sus estilos está en lobby.css) ----------
+   Con el 3D en marcha, la plaza (.plaza-stage) ocupa toda la columna central: el avatar suelto y su órbita se
+   quitan, y el título y la zona intermedia dejan pasar los clics al lienzo. Sin 3D no cambia nada de lo anterior. */
+.portal-avatar.is-3d .portal-orbit, .portal-avatar.is-3d #home-avatar { display: none; }
+.portal-avatar.is-3d .portal-avatar-scene { z-index: 1; pointer-events: none; }
+.portal-avatar.is-3d h1 { pointer-events: none; text-shadow: 0 2px 16px #1b1e2c, 0 0 4px #1b1e2c; }
+/* Ampliado: la columna pasa a ocupar la ventana entera. Los modos y los diálogos se siguen abriendo por encima. */
+.portal-avatar.is-expanded {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  grid-template-rows: minmax(0,1fr);
+  padding: max(10px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+  background: #1b1e2c;
+}
+.portal-avatar.is-expanded > h1, .portal-avatar.is-expanded > .portal-avatar-foot { display: none; }
+.portal-avatar.is-expanded .plaza-stage { border-radius: 0; }
+.portal-avatar.is-expanded .plaza-stage::before { height: 110px; }

@@ -130,3 +130,9 @@ body:has(.trends-dialog[open]){overflow:hidden}
   .trends-start-ring{transform-box:fill-box;transform-origin:center;animation:trends-start-pulse 1.5s ease-out 3}
   @keyframes trends-start-pulse{0%,100%{transform:scale(1)}45%{transform:scale(1.35);stroke-opacity:.15}}
 }
+
+/* Reloj de la gráfica (round-timer.js, 45 s): en la cabecera fija, para que siga a la vista mientras se dibuja. */
+.trends-header-inner{grid-template-columns:auto 1fr auto}
+.trends-timer:empty{display:none}
+.trends-timer .round-timer-bar{flex:none;width:clamp(48px,9vw,96px)}
+@media(max-width:560px){.trends-timer .round-timer-bar{display:none}}

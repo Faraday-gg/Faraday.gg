@@ -44,7 +44,7 @@ try{
   const real=answer(a.data);
   t+=1000;await call('responder',ana,{id,guess:real});
   b=await call('responder',luis,{id,guess:real*2});
-  assert.deepEqual(b.data.round.answered,[true,true,false]);assert.equal(b.data.round.rushed,true,'Al responder el primero, a los demás les quedan 30 s');
+  assert.deepEqual(b.data.round.answered,[true,true,false]);assert.equal(b.data.round.rushed,true,'Al responder el primero, a los demás les quedan 20 s');
   assert(!('guesses' in b.data.round),'No se ven las respuestas hasta el final');
   t+=RULES.rushMs+RULES.graceMs;
   c=await call('estado',eva,{id});

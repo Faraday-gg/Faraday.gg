@@ -21,6 +21,80 @@ let immersion;
 let pending = false;
 let viewVersion = 0;
 
+// Tiempo por foto (Contrato 5, round-timer.js): 45 s desde que la foto se ve por primera vez, también dentro del visor
+// 360°. El plazo lo lleva el servidor («archivo-ver», lib/archivo-vivo.mjs) y el reloj de la pantalla se ajusta a él;
+// si no hay conexión, cuenta el del navegador, que guarda su fecha de fin por foto. Al agotarse se responde con el año
+// que marque el selector si se ha tocado; si no, la foto queda sin respuesta (0 puntos).
+const SECONDS = window.RoundTimer?.SECONDS.archivo || 45;
+const pointsOf = (guess, scene) => guess === null ? 0 : scoreYear(guess, scene.year);
+let clock = null;
+// Si al agotarse el tiempo la respuesta no se puede guardar, se reintenta solo ante fallos de red o del servidor (5xx) y
+// como mucho MAX_TRIES veces; después, o ante un rechazo (4xx), se recarga la partida desde el servidor y la foto que
+// siga abierta se queda sin reloj (gaveUp) para que el jugador responda a mano en vez de quedarse bloqueado.
+const MAX_TRIES = 4;
+const gaveUp = new Set();
+
+function stopClock() {
+  clock?.stop();
+  clock = null;
+}
+
+function timerSlot() {
+  let slot = document.getElementById('av-timer');
+  if (!slot) {
+    slot = document.createElement('div');
+    slot.id = 'av-timer';
+    slot.className = 'av-timer';
+    dialog.querySelector('.archivo-vivo-header').append(slot);
+  }
+  return slot;
+}
+
+async function startClock() {
+  stopClock();
+  if (!window.RoundTimer || !run || run.index === run.scenes.length || run.guesses.length !== run.index) return;
+  const visit = viewVersion, id = run.id, index = run.index, key = `archivo:${id}:${index}`;
+  const current = () => visit === viewVersion && dialog.open && run?.id === id && run.index === index && run.guesses.length === index;
+  if (gaveUp.has(key)) return;
+  const begin = (seconds, deadline) => {
+    stopClock();
+    clock = window.RoundTimer.start({ key, seconds, deadline, mount: timerSlot(), onExpire: () => timeUp(current, key) });
+  };
+  begin(SECONDS);
+  try {
+    const data = await request('archivo-ver', { id, index });
+    if (!current()) return;
+    if (data.guesses.length > index) {
+      // El servidor ya la había cerrado: el plazo venció mientras Archivo Vivo estaba cerrado.
+      adopt(data);
+      render(true);
+    } else if (data.clock) {
+      begin(data.clock.seconds, Date.now() + data.clock.deadline - data.clock.now);
+    }
+  } catch {}
+}
+
+async function timeUp(current, key, attempt = 1) {
+  if (!current()) return;
+  // Otra petición en marcha (el jugador acaba de confirmar): se espera a que termine sin gastar un intento.
+  if (pending) {
+    setTimeout(() => timeUp(current, key, attempt), 1000);
+    return;
+  }
+  backFromViewer();
+  const year = Number(run.draft);
+  const failure = await playAction('archivo-responder', null, run.draft && validYear(year) ? { guess: year, timeout: true } : { timeout: true });
+  if (!failure || !current()) return;
+  const transient = !failure.status || failure.status >= 500;
+  if (transient && attempt < MAX_TRIES) {
+    setTimeout(() => timeUp(current, key, attempt + 1), 3000);
+    return;
+  }
+  gaveUp.add(key);
+  stopClock();
+  await load(transient ? 'No se pudo guardar la respuesta. Confirma el año cuando vuelva la conexión.' : failure.message);
+}
+
 function localRead(key) {
   try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
 }
@@ -51,8 +125,9 @@ function adopt(data, legacy) {
     ? local.value
     : data.kind === 'legacy' && legacy?.index === data.index ? legacy.draft : '';
   run = { ...data, draft: data.index === data.guesses.length ? draft : '' };
+  run.guesses.forEach((_, index) => window.RoundTimer?.clear(`archivo:${run.id}:${index}`)); // Fotos ya cerradas: su reloj sobra.
   // Estadísticas del perfil (stats.js): los puntos de cada foto respondida de esta partida.
-  window.Progress?.tally?.('archivo', `${run.date}:${run.id}`, run.guesses.map((year, index) => scoreYear(year, byId.get(run.scenes[index]).year)), run.scenes.length);
+  window.Progress?.tally?.('archivo', `${run.date}:${run.id}`, run.guesses.map((year, index) => pointsOf(year, byId.get(run.scenes[index]))), run.scenes.length);
   saveDraft();
   if (legacy) {
     try { localStorage.removeItem(legacyKey); } catch {}
@@ -66,13 +141,15 @@ async function request(action, extra = {}) {
     body: JSON.stringify({ mode, action, ...extra }), signal: AbortSignal.timeout(12000)
   });
   const data = await response.json();
-  if (!response.ok) throw Error(data.error || 'No se pudo guardar la partida.');
+  if (!response.ok) throw Object.assign(Error(data.error || 'No se pudo guardar la partida.'), { status: response.status });
   return data;
 }
 
-async function load() {
+// note: aviso que se enseña junto al año cuando la partida se ha recargado tras un fallo.
+async function load(note = '') {
   const visit = ++viewVersion;
   stopViewer();
+  stopClock();
   run = null;
   pending = false;
   progress.textContent = '';
@@ -83,6 +160,8 @@ async function load() {
     if (visit !== viewVersion || !dialog.open) return;
     adopt(data, legacy);
     render(true);
+    const status = note && body.querySelector('#av-year-feedback');
+    if (status) status.textContent = note;
   } catch (error) {
     if (visit !== viewVersion || !dialog.open) return;
     body.innerHTML = '<section class="av-panel"><h3 tabindex="-1">No se pudo abrir Archivo Vivo</h3><p role="status"></p><button class="av-primary" type="button" data-av="retry">Reintentar</button></section>';
@@ -91,24 +170,27 @@ async function load() {
   }
 }
 
+// Devuelve null si la acción se ha guardado y el error si no, para que timeUp decida si reintenta.
 async function playAction(action, button, extra) {
-  if (!run || pending) return;
+  if (!run || pending) return null;
   const visit = viewVersion;
   pending = true;
   if (button) button.disabled = true;
   try {
     const data = await request(action, { date: run.date, id: run.id, index: run.index, ...extra });
-    if (visit !== viewVersion || !dialog.open) return;
+    if (visit !== viewVersion || !dialog.open) return null;
     adopt(data);
     render(true);
+    return null;
   } catch (error) {
     if (visit === viewVersion && dialog.open) {
       const status = body.querySelector('[data-av-error],#av-year-feedback');
       if (status) {
         status.hidden = false;
-        status.textContent = error.message;
+        status.textContent = error.status ? error.message : 'Sin conexión. Inténtalo de nuevo.';
       }
     }
+    return error;
   } finally {
     if (visit === viewVersion) {
       pending = false;
@@ -254,10 +336,11 @@ function renderRound(scene, guess) {
          <p class="av-year-feedback" id="av-year-feedback" role="status"></p>
          <button type="submit" class="av-primary">Confirmar año</button>
        </form>
+       <p class="av-time-note">Tienes ${SECONDS} segundos por foto. Si se acaban, cuenta el año que hayas marcado.</p>
        <details class="av-clue"><summary>Pista de la foto original</summary><p>${scene.detail}</p></details>`
-    : `<p class="av-score">${format.format(scoreYear(guess, scene.year))} de ${format.format(MAX_POINTS)} puntos</p>
+    : `<p class="av-score">${format.format(pointsOf(guess, scene))} de ${format.format(MAX_POINTS)} puntos</p>
        <h3 tabindex="-1">${scene.year}</h3>
-       <p>${guess === scene.year ? '¡Año exacto!' : `Tu respuesta: ${guess} · Diferencia: ${Math.abs(scene.year - guess)} ${Math.abs(scene.year - guess) === 1 ? 'año' : 'años'}`}</p>
+       <p>${guess === null ? 'Sin respuesta: se acabó el tiempo.' : guess === scene.year ? '¡Año exacto!' : `Tu respuesta: ${guess} · Diferencia: ${Math.abs(scene.year - guess)} ${Math.abs(scene.year - guess) === 1 ? 'año' : 'años'}`}</p>
        <p><strong>${scene.title}</strong><br>${scene.place}</p>
        <p>${scene.story}</p>
        <p class="av-credit">${scene.credit} · ${scene.rights}. <a href="${scene.source}" target="_blank" rel="noopener">Ver ficha de archivo</a>
@@ -273,14 +356,14 @@ function renderRound(scene, guess) {
 function renderSummary() {
   progress.textContent = '';
   const collection = run.scenes.map(id => byId.get(id));
-  const scores = run.guesses.map((year, index) => scoreYear(year, collection[index].year));
+  const scores = run.guesses.map((year, index) => pointsOf(year, collection[index]));
   const total = format.format(scores.reduce((sum, points) => sum + points, 0));
   body.innerHTML = `<section class="av-summary">
     <h3 tabindex="-1"><span>${total}</span> de ${format.format(collection.length * MAX_POINTS)} puntos</h3>
     <ol>${collection.map((scene, index) => `<li>
       <img src="${photoUrl(scene)}" alt="">
       <div><a href="${scene.source}" target="_blank" rel="noopener">${scene.title}</a>
-        <small>${scene.year} · Tu respuesta: ${run.guesses[index]}</small></div>
+        <small>${scene.year} · ${run.guesses[index] === null ? 'Sin respuesta' : `Tu respuesta: ${run.guesses[index]}`}</small></div>
       <strong>${format.format(scores[index])} pts</strong>
     </li>`).join('')}</ol>
     <div data-continue-slot="${mode}"></div>
@@ -294,6 +377,7 @@ function render(focus = false) {
   else renderRound(byId.get(run.scenes[run.index]), run.guesses[run.index]);
   dialog.scrollTop = 0;
   if (focus) body.querySelector('h3').focus({ preventScroll: true });
+  startClock(); // Solo arranca si hay una foto por responder; en el resultado y el resumen quita el reloj.
 }
 
 function updateDraft(input) {
@@ -397,6 +481,7 @@ dialog.addEventListener('cancel', event => {
 dialog.addEventListener('close', () => {
   viewVersion++;
   stopViewer();
+  stopClock(); // El plazo sigue corriendo: cerrar Archivo Vivo no para el tiempo de la foto abierta.
   opener?.focus({ preventScroll: true });
 });
 document.addEventListener('faraday:avatar3d-ready', () => {

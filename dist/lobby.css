@@ -1,0 +1,341 @@
+/* Lobby de la portada (lobby.js): la plaza en 3D, la insignia de la sala, la lista de jugadores, la rueda de gestos,
+   los bocadillos del chat, el menú de acciones sobre otro jugador y los avisos de retos y amistades.
+   Las clases van con «plaza-» porque «lobby-» ya es de la pantalla de duelos (duel-lobby.css).
+   Lo que cambia de la portada en sí (.portal-avatar con el 3D puesto o ampliado) está al final de home.css. */
+.plaza-stage[hidden], .plaza-ui[hidden], .plaza-ui [hidden] { display: none !important; }
+
+/* ---------- La plaza: ocupa toda la columna central, por detrás del título y del pie ---------- */
+.plaza-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #1b1e2c;
+}
+/* Un velo arriba para que el título se lea sobre la plaza, y un filo alrededor. */
+.plaza-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 36%;
+  pointer-events: none;
+  background: linear-gradient(#1b1e2c 6%, #1b1e2cb8 46%, #1b1e2c00);
+}
+.plaza-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #4e4f6899;
+  border-radius: inherit;
+  pointer-events: none;
+}
+#lobby-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: 0; -webkit-tap-highlight-color: transparent; }
+#lobby-canvas:focus-visible { outline: 3px solid #f9cf82; outline-offset: -3px; border-radius: 18px; }
+
+/* ---------- Bocadillos del chat, sobre la cabeza de quien habla ---------- */
+.plaza-bubbles { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.plaza-bubble {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: min(230px, 62%);
+  margin: 0;
+  padding: 6px 12px;
+  border: 2px solid #1b1f27;
+  border-radius: 14px;
+  background: #fffdf7;
+  color: #1b1f27;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  overflow-wrap: anywhere;
+  translate: -50% calc(-100% - 12px);
+  box-shadow: 0 4px 12px #0007;
+  transition: opacity .45s;
+  animation: plaza-pop .2s;
+}
+.plaza-bubble::after { content: ""; position: absolute; left: 50%; top: 100%; width: 12px; height: 12px; margin: -7px 0 0 -6px; border: solid #1b1f27; border-width: 0 2px 2px 0; background: #fffdf7; rotate: 45deg; }
+.plaza-bubble.is-fading { opacity: 0; }
+@keyframes plaza-pop { from { scale: .7; opacity: 0; } }
+
+/* ---------- Lo que va encima de la plaza, entre el título y el pie ---------- */
+.plaza-ui { position: absolute; inset: 0; z-index: 2; pointer-events: none; color: #fff8ed; font-size: 13px; text-align: left; }
+.plaza-ui > * { pointer-events: auto; }
+.plaza-bar { position: absolute; inset: 4px 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 6px; pointer-events: none; }
+.plaza-bar > * { pointer-events: auto; }
+.plaza-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+  padding: 7px 11px;
+  border: 1px solid #b9a2c27d;
+  border-radius: 99px;
+  background: #241f32eb;
+  font: 800 12px/1 var(--font);
+  white-space: nowrap;
+}
+.plaza-badge::before { content: ""; flex: none; width: 8px; height: 8px; border-radius: 50%; background: #5ed596; }
+.plaza-badge.is-off::before { background: #8d8b9c; }
+.plaza-tools { display: flex; gap: 5px; flex: none; }
+.plaza-tools button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 5px 11px;
+  border: 1px solid #4e4f68;
+  border-radius: 99px;
+  background: #2a2e42f0;
+  color: #fff8ed;
+  font: 800 12px/1 var(--font);
+  white-space: nowrap;
+}
+.plaza-tools button:hover, .plaza-tools button:is([aria-expanded="true"], [aria-pressed="true"]) { background: #464064; border-color: #b9a2c2; }
+.plaza-tools .plaza-expand { width: 34px; padding: 0; }
+.plaza-expand svg { width: 17px; height: 17px; }
+.plaza-expand[aria-pressed="true"] .plaza-expand-open, .plaza-expand[aria-pressed="false"] .plaza-expand-close { display: none; }
+
+.plaza-roster, .plaza-emotes {
+  position: absolute;
+  top: 46px;
+  right: 0;
+  z-index: 1;
+  max-height: calc(100% - 52px);
+  overflow: auto;
+  border: 1px solid #4e4f68;
+  border-radius: 13px;
+  background: #241f32f7;
+  box-shadow: 0 8px 22px #0b0a1299;
+  scrollbar-width: thin;
+}
+.plaza-roster { width: min(236px, 66%); padding: 5px; }
+.plaza-roster ul { list-style: none; margin: 0; padding: 0; }
+.plaza-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 46px;
+  padding: 5px 7px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+.plaza-player:hover { background: #ffffff17; }
+.plaza-player-text { display: grid; min-width: 0; }
+.plaza-player-text :is(b, small) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plaza-player-text b { font: 700 13px/1.2 var(--display); }
+.plaza-player-text small { color: #c8c4d7; font-size: 11px; }
+#lobby-roster-empty { margin: 0; padding: 9px; color: #c8c4d7; font-size: 12px; }
+
+.plaza-emotes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; padding: 7px; }
+.plaza-emotes button {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  width: 62px;
+  padding: 6px 2px 5px;
+  border: 0;
+  border-radius: 10px;
+  background: #343951;
+  color: #fffdf7;
+  font-size: 10.5px;
+  font-weight: 700;
+}
+.plaza-emotes button:hover { background: #454c68; }
+.plaza-emotes span { font-size: 22px; line-height: 1.15; }
+.plaza-emotes kbd { position: absolute; left: 4px; top: 2px; padding: 0; font: inherit; font-size: 10px; color: #ffdb70; opacity: .85; }
+
+.plaza-note {
+  position: absolute;
+  left: 50%;
+  top: 46px;
+  translate: -50% 0;
+  width: max-content;
+  max-width: calc(100% - 12px);
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #202436f0;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  pointer-events: none;
+}
+/* Hueco de la caja de chat (chat-dock.js): abajo a la izquierda de la plaza. Tiene caja aunque esté vacío, porque
+   chat-dock.js solo lo usa si se está pintando; plegada, la caja es una barra y, abierta, crece hacia arriba.
+   Tiene tope de ancho y de alto para que, desplegada, no tape el escenario ni llegue a la insignia, a «Jugadores»
+   ni al título: el panel encoge con el hueco y el registro se desplaza por dentro (chat-dock.css). */
+#lobby-chat-slot { position: absolute; left: 0; bottom: 0; display: flex; flex-direction: column; justify-content: flex-end; width: min(300px, 42%); min-width: min(230px, 100%); max-height: min(46%, 240px); pointer-events: none; }
+#lobby-chat-slot > * { pointer-events: auto; }
+/* Ampliado hay sitio de sobra: el chat puede ser más grande. */
+.portal-avatar.is-expanded #lobby-chat-slot { width: min(320px, 100%); max-height: min(52%, 360px); }
+.plaza-stick {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  aspect-ratio: 1;
+  border: 2px solid #fffdf787;
+  border-radius: 50%;
+  background: #1c2030bc;
+  touch-action: none;
+}
+.plaza-stick span { width: 34px; height: 34px; border-radius: 50%; background: #ffdb70; pointer-events: none; }
+
+/* ---------- Menú de acciones sobre otro jugador (cuelga de <body>) ---------- */
+.plaza-menu {
+  position: fixed;
+  z-index: 95;
+  left: 8px;
+  top: 8px;
+  width: min(270px, calc(100vw - 16px));
+  max-height: calc(100dvh - 16px);
+  overflow: auto;
+  padding: 10px;
+  border: 2px solid #1b1f27;
+  border-radius: 16px;
+  background: #fffdf7;
+  color: #1b1f27;
+  box-shadow: 0 5px 0 #0b0a1255, 0 14px 34px #0b0a1288;
+  font: 500 13px/1.35 var(--font);
+  text-align: left;
+  /* Aparece sin cambiar de tamaño ni de sitio: sale bajo el cursor y sus botones no deben moverse. */
+  animation: plaza-fade .14s;
+}
+@keyframes plaza-fade { from { opacity: 0; } }
+.plaza-menu header { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.plaza-menu header div { display: grid; flex: 1; min-width: 0; }
+.plaza-menu header b { font: 700 16px/1.15 var(--display); overflow-wrap: anywhere; }
+.plaza-menu small { color: #5a5c63; font-size: 11.5px; line-height: 1.3; }
+.plaza-menu button { color: #1b1f27; }
+.plaza-menu-close { flex: none; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; font-size: 20px; line-height: 1; }
+.plaza-menu-close:hover { background: #ece6da; }
+.plaza-menu-list { display: grid; gap: 6px; }
+.plaza-menu-games { display: grid; gap: 5px; padding: 8px; border-radius: 12px; background: #f3ecdf; }
+.plaza-menu h3 { margin: 0 0 1px; color: #5a5c63; font: 800 11px/1.2 var(--font); letter-spacing: .05em; text-transform: uppercase; }
+.plaza-menu-list button {
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1.5px solid #1b1f27;
+  border-radius: 10px;
+  background: #fffdf7;
+  font-size: 13px;
+  font-weight: 800;
+  text-align: left;
+}
+.plaza-menu-list button:hover:not(:disabled) { background: #ffe4d8; }
+.plaza-menu-list button.is-game { background: #ffdb70; }
+.plaza-menu-list button.is-game:hover:not(:disabled) { background: #ffe9a6; }
+.plaza-menu-list button:disabled { opacity: .5; cursor: default; }
+.plaza-menu-fact { margin: 0; padding: 9px 12px; border-radius: 10px; background: #dff2e6; font-weight: 800; }
+/* El menú no se rehace al cambiar algo: lo que no toca se oculta en el sitio (lobby.js, paintMenu). */
+.plaza-menu [hidden] { display: none !important; }
+
+/* ---------- Avisos de retos y amistades (cuelgan de <body> o del diálogo modal abierto) ---------- */
+.plaza-notices {
+  position: fixed;
+  z-index: 130;
+  top: calc(66px + env(safe-area-inset-top));
+  right: 12px;
+  display: grid;
+  gap: 8px;
+  width: min(370px, calc(100vw - 24px));
+  pointer-events: none;
+}
+.plaza-notice {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  padding: 10px 12px 13px;
+  border: 2px solid #1b1f27;
+  border-radius: 14px;
+  background: #fffdf7;
+  color: #1b1f27;
+  box-shadow: 0 5px 0 #0b0a1244, 0 12px 28px #0b0a1277;
+  font: 500 13px/1.35 var(--font, Arial, sans-serif);
+  text-align: left;
+  pointer-events: auto;
+  animation: plaza-pop .18s;
+}
+.plaza-notice-text { flex: 1 1 150px; min-width: 0; margin: 0; overflow-wrap: anywhere; }
+.plaza-notice-actions { display: flex; gap: 6px; margin-left: auto; }
+.plaza-notice-actions button {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1.5px solid #1b1f27;
+  border-radius: 9px;
+  background: #fffdf7;
+  color: #1b1f27;
+  font: 800 13px/1 var(--font, Arial, sans-serif);
+  cursor: pointer;
+}
+.plaza-notice-actions button:hover { background: #ffe4d8; }
+.plaza-notice-actions button.is-primary { background: #ffdb70; }
+.plaza-notice-actions button.is-close { width: 34px; min-height: 34px; padding: 0; border: 0; border-radius: 50%; font-size: 19px; }
+.plaza-notice-timer { position: absolute; left: 0; bottom: 0; width: 100%; height: 3px; background: #ff6548; transform-origin: left; animation: plaza-timer linear forwards; }
+@keyframes plaza-timer { to { transform: scaleX(0); } }
+
+/* ---------- Pantallas estrechas: los paneles pasan a ser tiras y el menú, una hoja inferior ---------- */
+@media (max-width: 619px) {
+  .plaza-bar { top: 2px; }
+  .plaza-badge { padding: 6px 9px; font-size: 11px; }
+  .plaza-tools button { padding-inline: 9px; font-size: 11px; }
+  .plaza-roster, .plaza-emotes { top: 40px; left: 0; width: auto; max-height: none; overflow: visible; padding: 4px; }
+  .plaza-roster ul, .plaza-emotes { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .plaza-roster li, .plaza-emotes button { flex: none; }
+  .plaza-player { width: auto; max-width: 172px; min-height: 42px; background: #343951; }
+  .plaza-emotes button { width: 58px; }
+  .plaza-note { top: 40px; }
+  .plaza-stick { width: 70px; }
+  /* Deja libre la palanca (a la derecha) y, desplegada, la barra del lobby (arriba). */
+  #lobby-chat-slot, .portal-avatar.is-expanded #lobby-chat-slot { width: min(264px, calc(100% - 84px)); min-width: 0; max-height: calc(100% - 44px); }
+  .portal-avatar.is-expanded #lobby-chat-slot { max-height: 46%; }
+  .plaza-menu {
+    left: 0 !important;
+    right: 0;
+    top: auto !important;
+    bottom: 0;
+    width: auto;
+    max-height: 78dvh;
+    padding: 12px 12px max(14px, env(safe-area-inset-bottom));
+    border-width: 2px 0 0;
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -10px 30px #0b0a1299;
+    animation: plaza-sheet .2s;
+  }
+  .plaza-menu-list button { min-height: 44px; }
+  /* Avisos a todo lo ancho y más compactos (caben dos sobre la plaza). Con la portada a la vista, lobby.js los baja
+     justo bajo la barra del lobby y les pone tope de alto (placeNotices): así no tapan la cabecera, el título,
+     «Jugadores» ni «Gestos», ni llegan a la caja de chat; si no caben, se desplazan por dentro. */
+  .plaza-notices { top: calc(6px + env(safe-area-inset-top)); right: 8px; left: 8px; width: auto; gap: 6px; padding-bottom: 8px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+  .plaza-notice { gap: 5px 8px; padding: 7px 9px 10px; font-size: 12.5px; line-height: 1.3; box-shadow: 0 3px 0 #0b0a1244, 0 6px 14px #0b0a1266; }
+  .plaza-notice-text { flex-basis: 96px; }
+  .plaza-notice-actions button { padding: 6px 10px; font-size: 12.5px; }
+}
+@keyframes plaza-sheet { from { translate: 0 30%; opacity: 0; } }
+@media (pointer: coarse) {
+  .plaza-tools button { min-height: 38px; }
+  .plaza-tools .plaza-expand { width: 38px; }
+  .plaza-emotes kbd { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plaza-bubble, .plaza-menu, .plaza-notice { animation: none; }
+  .plaza-notice-timer { display: none; }
+}

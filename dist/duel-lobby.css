@@ -1,6 +1,6 @@
 /* Portal de duelos (decisión 0112): perfil compacto, un botón grande para jugar ya y los demás modos como fichas
    de color. Los botones tienen «labio» inferior y se hunden al pulsarlos, como en los juegos de móvil. */
-.lobby-me,.lobby-hero,.lobby-modes,.lobby-rules,.lobby-how,.lobby-soon{--lip:0 4px 0 color-mix(in srgb,var(--tile,#000) 62%,#000)}
+.lobby-me,.lobby-hero,.lobby-stage,.lobby-modes,.lobby-rules,.lobby-how,.lobby-soon{--lip:0 4px 0 color-mix(in srgb,var(--tile,#000) 62%,#000)}
 
 /* Perfil compacto: avatar en círculo, apodo, nivel con barra y marcador de victorias, derrotas y racha. */
 .lobby-me{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"avatar info" "avatar record";column-gap:12px;row-gap:4px;align-items:center;text-align:left}
@@ -25,10 +25,11 @@
 .lobby-dot{width:8px;height:8px;border-radius:50%}
 .lobby-dot.is-win{background:#2fd67b}.lobby-dot.is-loss{background:#ff6548}
 
-/* Partida rápida: el escenario «tú contra ?» y el botón grande. */
-.lobby-hero{--tile:#ff6548;position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:16px;padding:14px 16px 16px;border-radius:26px;background:var(--tile);color:#202630;text-align:center;overflow:hidden;box-shadow:var(--lip)}
+/* Partida rápida: el escenario «tú contra ?» y el botón grande. Con un juego que no es la estimación (duel-games.js)
+   la sección se llama .lobby-stage y toma el color del juego: así ranked.js, que retoca .lobby-hero, no la toca. */
+.lobby-hero,.lobby-stage{--tile:#ff6548;position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:16px;padding:14px 16px 16px;border-radius:26px;background:var(--tile);color:#202630;text-align:center;overflow:hidden;box-shadow:var(--lip)}
 .lobby-hero.is-ranked{--tile:#ffb627}
-.lobby-hero:before{content:"";position:absolute;inset:auto -20% 46% -20%;height:120px;background:repeating-linear-gradient(-55deg,#ffffff14 0 14px,transparent 14px 28px);pointer-events:none}
+.lobby-hero:before,.lobby-stage:before{content:"";position:absolute;inset:auto -20% 46% -20%;height:120px;background:repeating-linear-gradient(-55deg,#ffffff14 0 14px,transparent 14px 28px);pointer-events:none}
 .lobby-vs{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:6px}
 /* El avatar 3D se pinta en un lienzo 2:3 (avatar.css): solo se fija el ancho para no deformarlo. */
 .lobby-vs .duel-figure{flex:none;width:clamp(120px,36vw,190px);margin:-8px 0 -6px}
@@ -82,6 +83,8 @@
 .lobby-sheet-head h3{margin:0;font:800 20px var(--display);letter-spacing:-.02em}
 .lobby-sheet-close{display:grid;place-items:center;width:36px;height:36px;border:0;border-radius:50%;background:#fff8ec1f;color:inherit;cursor:pointer}
 .lobby-sheet-close svg{width:16px;height:16px}
+.lobby-sheet-game{margin:-6px 0 12px;font-size:13px;line-height:1.4;color:var(--g-muted)}
+.lobby-sheet-game b{color:var(--g-fg)}
 .lobby-sheet-options{display:grid;gap:10px}
 .lobby-option{grid-template-columns:auto 1fr;align-items:center;justify-items:stretch;min-height:0;gap:12px;padding:12px 14px;width:100%}
 .lobby-option .lobby-tile-art{margin:0}

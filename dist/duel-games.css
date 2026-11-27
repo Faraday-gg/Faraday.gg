@@ -1,0 +1,104 @@
+/* Duelos de Ascensión, Traza la tendencia y Archivo Vivo (duel-games.js): el selector de juego del portal y, para cada
+   juego, la pregunta, la caja de respuesta, el resultado de la ronda y el repaso final. Usa los colores de la tarjeta
+   del duelo (--g-*), así vale tanto sobre el fondo de color de la pregunta como sobre el oscuro del resultado. */
+
+/* Selector de juego: cuatro fichas en una fila; la elegida va rellena con su color. */
+.duel-games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:14px}
+.duel-game{display:grid;justify-items:center;gap:5px;min-width:0;padding:9px 4px 8px;border:0;border-radius:16px;background:var(--g-hover);color:var(--g-fg);cursor:pointer;box-shadow:0 3px 0 #0000002e;transition:transform .08s,box-shadow .08s,background .15s}
+.duel-game[data-tone=coral]{--tile:#ff6548}
+.duel-game-art{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:color-mix(in srgb,var(--tile) 34%,transparent)}
+.duel-game-art svg{width:22px;height:22px}
+.duel-game b{max-width:100%;font:800 12px/1.15 var(--display);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.duel-game:hover{background:color-mix(in srgb,var(--tile) 26%,var(--g-hover))}
+.duel-game:active{transform:translateY(3px);box-shadow:0 0 0 transparent}
+.duel-game:focus-visible{outline:3px solid var(--g-accent);outline-offset:2px}
+.duel-game[aria-pressed=true]{background:var(--tile);color:#202630;box-shadow:0 3px 0 color-mix(in srgb,var(--tile) 60%,#000)}
+.duel-game[aria-pressed=true] .duel-game-art{background:#ffffff59}
+/* En la pantalla «VS», a qué se va a jugar. */
+.versus-game{position:absolute;top:max(18px,env(safe-area-inset-top));left:50%;z-index:5;transform:translateX(-50%);margin:0;padding:6px 14px;border-radius:40px;background:#11141cd9;color:#ffdb70;font:800 13px var(--display);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+
+/* Pregunta */
+.duel-content .dg-title{margin:12px 0 8px;font-size:clamp(20px,5.2vw,28px);line-height:1.15}
+.dg-desc{margin:0 0 6px;font-size:14px;line-height:1.4;opacity:.88}
+.dg-meta{margin:0 0 12px;font-size:12px;font-weight:700;color:var(--g-muted)}
+.dg-form{margin-top:8px}
+.dg-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}
+.dg-actions .duel-rival-state{flex:1}
+.dg-actions .game-primary,.dg-actions .game-secondary{flex:none;padding:13px 20px;white-space:nowrap}
+.dg-actions button:disabled{opacity:.45;cursor:not-allowed}
+/* Móvil: el botón flotante del chat (abajo a la derecha, duel-chat.css) no pisa «Enviar» / «Confirmar año». El estado
+   del rival sube a su propia línea y los botones dejan libre el hueco del flotante. */
+@media(max-width:560px){
+  .dg-actions{flex-wrap:wrap;padding-right:48px}
+  .dg-actions .duel-rival-state{order:-1;flex:1 0 100%}
+  .dg-actions .game-primary{flex:1}
+}
+.duel-sent .dg-sent{font:700 clamp(20px,5vw,28px)/1.15 var(--display);overflow-wrap:anywhere}
+
+/* Traza: la gráfica va siempre sobre un panel oscuro, para que las líneas se lean igual en la pregunta y en el resultado. */
+.dg-chart{margin:6px 0 4px;padding:8px 4px 4px;border-radius:16px;background:#1c2c48;color:#fff8ec}
+.dg-plot{display:block;width:100%;height:auto;overflow:visible;-webkit-user-select:none;user-select:none}
+.dg-plot.is-drawing{touch-action:none;cursor:crosshair}
+.dg-zone{fill:#fff8ec14}
+.dg-grid{stroke:#fff8ec24;stroke-width:1}
+.dg-cut{stroke:#fff8ec;stroke-width:1.5;stroke-dasharray:3 4;opacity:.6}
+.dg-tick{fill:#fff8ec;opacity:.8;font:600 10px var(--font)}
+.dg-history,.dg-drawn,.dg-actual,.dg-guess{fill:none;stroke-linejoin:round;stroke-linecap:round}
+.dg-history{stroke:#fff8ec;stroke-width:2.5}
+.dg-pin{fill:#ffdb70;stroke:#1c2c48;stroke-width:2}
+.dg-drawn{stroke:#ffdb70;stroke-width:3}
+.dg-dots circle{fill:#ffdb70}
+.dg-hint{fill:#fff8ec;opacity:.6;font:800 13px var(--display);pointer-events:none}
+.dg-actual{stroke:#fff8ec;stroke-width:3.5}
+.dg-guess{stroke:var(--c);stroke-width:2.5;stroke-dasharray:6 4}
+.dg-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:2px 8px 4px;font-size:12px;font-weight:700}
+.dg-legend span{display:inline-flex;align-items:center;min-width:0}
+.dg-swatch{display:inline-block;flex:none;width:14px;height:4px;margin-right:6px;border-radius:4px;background:var(--c);vertical-align:middle}
+.dg-swatch.is-real{background:#fff8ec}
+.dg-unit{font-weight:600;opacity:.85}
+.dg-caption{margin:6px 0 2px;font-size:13px;line-height:1.4;color:var(--g-muted)}
+.dg-count{margin:0;min-height:18px;font-size:13px;font-weight:700}
+.dg-line{margin-top:6px;font-size:13px}
+.dg-line summary{cursor:pointer;font-weight:700;color:var(--g-muted)}
+.dg-line>div{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:8px}
+.dg-line label{flex:1 1 100%;font-size:12px}
+.dg-line input{flex:1;min-width:0;border:2px solid var(--g-line);border-radius:12px;background:transparent;color:var(--g-fg);font:700 16px var(--num);padding:8px 10px}
+.dg-line .game-secondary{padding:9px 16px}
+
+/* Archivo Vivo: la foto (se amplía al tocarla) y el año, escrito o con el deslizador. */
+.dg-photo{display:block;width:100%;margin:4px 0 10px;padding:0;border:0;border-radius:16px;overflow:hidden;background:#11141c;cursor:zoom-in}
+.dg-photo img{display:block;width:100%;max-height:min(30vh,250px);object-fit:contain}
+.dg-photo.is-large{cursor:zoom-out}
+.dg-photo.is-large img{max-height:none}
+.dg-photo:focus-visible{outline:3px solid var(--g-accent);outline-offset:2px}
+.dg-clue{margin:0 0 8px;font-size:13px}
+.dg-clue summary{cursor:pointer;font-weight:700;color:var(--g-muted)}
+.dg-clue p{margin:6px 0 0;line-height:1.45}
+.dg-year{display:flex;align-items:center;gap:10px}
+.dg-year button{flex:none;width:46px;height:46px;border:2px solid var(--g-fg);border-radius:50%;background:transparent;color:var(--g-fg);font:700 24px/1 var(--display);cursor:pointer}
+.dg-year input{flex:1;min-width:0;border:0;border-bottom:2px solid var(--g-fg);border-radius:0;background:transparent;color:var(--g-fg);text-align:center;font:700 clamp(28px,8vw,40px) var(--display);padding:6px 0;outline:0;-moz-appearance:textfield;appearance:textfield}
+.dg-year input::-webkit-outer-spin-button,.dg-year input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.dg-year input:focus{border-bottom-color:var(--g-accent)}
+.dg-year input::placeholder{font-size:20px;color:color-mix(in srgb,var(--g-fg) 42%,transparent)}
+.dg-range{display:block;width:100%;margin:14px 0 0;accent-color:var(--g-accent)}
+.dg-range-ends{display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--g-muted)}
+
+/* Resultado de la ronda y repaso final */
+.duel-col .dg-col-guess{font:700 clamp(15px,3.6vw,19px)/1.2 var(--display)}
+.duel-real .dg-real-text{font:700 clamp(20px,5vw,28px)/1.15 var(--display);overflow-wrap:anywhere}
+.dg-solved{display:grid;grid-template-columns:minmax(0,104px) 1fr;gap:10px;align-items:stretch}
+.dg-solved img{display:block;width:100%;height:100%;max-height:120px;object-fit:cover;border-radius:14px}
+.dg-solved .duel-real{align-content:center}
+.dg-credit{margin:8px 0 0;font-size:12px;line-height:1.45;color:var(--g-muted)}
+.dg-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.dg-examples{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.dg-examples li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px}
+.dg-examples span{flex:none;font-size:12px;font-weight:700;color:var(--g-muted)}
+.dg-review{padding:0 0 12px}
+.dg-review .duel-review-guesses{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.dg-review .duel-review-guesses dd small{display:block;font-size:11px;color:var(--g-muted)}
+.dg-review-photo{display:grid;grid-template-columns:84px 1fr;gap:10px;align-items:start;margin:0 4px 8px}
+.dg-review-photo img{display:block;width:100%;border-radius:10px}
+.dg-review-photo p{margin:0;font-size:13px;line-height:1.45}
+
+@media(prefers-reduced-motion:reduce){.duel-game{transition:none}}

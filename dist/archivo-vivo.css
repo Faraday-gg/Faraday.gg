@@ -218,3 +218,9 @@ button.av-photo:hover img { transform: scale(1.025); }
   }
   .av-immersive .archivo-vivo-header h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 }
+
+/* Reloj de la foto (round-timer.js, 45 s): una fila propia en la cabecera fija, para que siga a la vista con el
+   panel de respuesta desplazado y dentro del visor 360°. */
+.av-timer { grid-column: 1 / -1; min-width: 0; --rt-alert: #d9482f; }
+.av-timer:empty { display: none; }
+.av-panel .av-time-note { margin: 10px 0 0; color: #565b6b; font-size: 13px; }

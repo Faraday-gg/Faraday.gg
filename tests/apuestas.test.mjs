@@ -9,7 +9,7 @@ import vm from 'node:vm';
 import {randomUUID} from 'node:crypto';
 import {createApi} from '../lib/api.mjs';
 import {fileStore} from '../lib/stores.mjs';
-import {BET_LEVELS,betTier,BET_AMOUNTS,BET_CAP,BET_RAKE,betStake,betOpen,betResult,betPayout} from '../lib/apuestas.mjs';
+import {BET_LEVELS,betTier,BET_AMOUNTS,BET_CAP,BET_RAKE,betStake,betOpen,betResult,betPayout,NO_STAKES,gameStakes,visibleBet} from '../lib/apuestas.mjs';
 
 const page={};page.window=page;vm.createContext(page);
 vm.runInContext(fs.readFileSync(new URL('../dist/bets-rules.js',import.meta.url),'utf8'),page,{filename:'dist/bets-rules.js'});
@@ -26,6 +26,16 @@ assert.deepEqual(Object.fromEntries(Array.from(R.IDS,id=>[id,R.TIERS[id].amount]
   const state=(a,b,extra={})=>({status:'playing',players:[{bet:a},{bet:b,...extra}],rounds:[{resolvedAt:null}],winner:null,reason:null});
   assert.equal(betStake(state('calambre','alto-voltaje')),60,'Se juega la apuesta más baja de las dos');
   assert.equal(betStake(state('chispazo',null)),0);assert.equal(betStake(state('chispazo','calambre',{bot:true})),0);assert.equal(betStake({players:[{bet:'chispazo'}]}),0);
+  // Juegos sin faradios (Archivo Vivo: los años de las fotos son públicos): ni bote ni apuesta a la vista, aunque el
+  // duelo guardado traiga apuestas. En los demás juegos, como siempre.
+  assert.deepEqual(NO_STAKES,['archivo']);
+  assert.deepEqual(['estimacion','ascension','traza','archivo',undefined].map(gameStakes),[true,true,true,false,true]);
+  assert.equal(betStake({...state('calambre','alto-voltaje'),game:'archivo'}),0,'En Archivo Vivo no hay bote');
+  assert.equal(betStake({...state('calambre','alto-voltaje'),game:'traza'}),60);
+  assert.equal(betStake({...state('chispazo','chispazo'),size:3,game:'archivo',players:[{bet:'chispazo'},{bet:'chispazo'},{bet:'chispazo'}]}),0);
+  assert.equal(visibleBet({...state('calambre','calambre'),game:'archivo'},{bet:'calambre'}),null);
+  assert.equal(visibleBet({...state('calambre','calambre'),game:'ascension'},{bet:'calambre'}),'calambre');
+  assert.equal(visibleBet(state('calambre','calambre',{bot:true}),{bet:'calambre'}),null);
   assert.equal(betOpen(state('chispazo','chispazo')),true);
   assert.equal(betOpen({...state('chispazo','chispazo'),rounds:[{resolvedAt:5}]}),false,'Resuelta la primera pregunta ya no se entra');
   assert.equal(betOpen({...state('chispazo','chispazo'),rounds:[{},{}]}),false);assert.equal(betOpen({...state('chispazo','chispazo'),status:'finished'}),false);

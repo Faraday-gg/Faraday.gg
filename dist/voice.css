@@ -1,0 +1,54 @@
+/* Voz en los duelos (voice.js, Contrato 4). Una barra compacta debajo del marcador del duelo, en el flujo de la
+   página (no flota), así no tapa la pregunta ni el campo de respuesta. Va sobre papel, como las tarjetas del marcador,
+   para leerse igual con cualquier color de pantalla del duelo. data-state: off, notice, asking, waiting, connecting,
+   closed (conectados, micros cerrados) y live (en directo). */
+.voice-bar{flex:none;width:min(600px,calc(100% - 32px));margin:8px auto 0;padding:6px 8px 6px 14px;border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 1px 2px #20263014,0 10px 22px -16px #000a;font-family:var(--font)}
+.voice-bar[hidden],.voice-bar [hidden]{display:none}
+.voice-row{display:flex;align-items:center;gap:10px;min-height:44px}
+.voice-dot{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line)}
+.voice-bar[data-state=asking] .voice-dot,.voice-bar[data-state=waiting] .voice-dot,.voice-bar[data-state=connecting] .voice-dot{background:var(--yellow);box-shadow:0 0 0 2px #2026301f;animation:voice-pulse 1.2s ease-in-out infinite}
+.voice-bar[data-state=closed] .voice-dot{background:#8a94a3}
+.voice-bar[data-state=live] .voice-dot{background:#1fb866;box-shadow:0 0 0 4px #1fb86633;animation:voice-pulse 1.2s ease-in-out infinite}
+.voice-bar[data-state=notice] .voice-dot{background:var(--coral)}
+@keyframes voice-pulse{50%{transform:scale(.72);opacity:.65}}
+.voice-text{flex:1 1 0;min-width:0}
+.voice-status{margin:0;font-size:13px;font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.voice-count{font-variant-numeric:tabular-nums;white-space:nowrap}
+.voice-bar[data-state=off] .voice-status{color:var(--muted)}
+.voice-who{display:flex;flex-wrap:wrap;gap:5px;margin:4px 0 0}
+.voice-chip{max-width:130px;padding:1px 8px;border-radius:10px;background:#2026300f;color:var(--muted);font-size:11px;font-weight:800;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .12s,color .12s}
+.voice-chip.is-speaking{background:#1fb866;color:#fff}
+.voice-actions{display:flex;align-items:center;gap:6px;flex:none}
+.voice-btn,.voice-icon{display:inline-flex;align-items:center;justify-content:center;gap:7px;flex:none;border:0;font:700 13px var(--font);line-height:1;transition:background .15s,box-shadow .15s}
+.voice-btn{position:relative;height:44px;padding:0 16px;border-radius:22px;background:var(--ink);color:var(--paper);white-space:nowrap}
+.voice-btn:hover{background:#343c4a}
+.voice-btn svg{width:19px;height:19px;flex:none}
+.voice-icon{width:40px;height:40px;border-radius:50%;background:#2026300f;color:var(--ink)}
+.voice-icon:hover{background:#2026301f}
+.voice-icon svg{width:20px;height:20px}
+.voice-more{width:34px;height:34px;background:transparent}
+.voice-more[aria-expanded=true]{background:#2026301f}
+/* Micrófono y altavoz: cada botón lleva los dos dibujos y enseña el que toca. Silenciado = coral, como un aviso. */
+.voice-mic .voice-off,.voice-spk .voice-off,.voice-mic[data-muted="1"] .voice-on,.voice-spk[data-muted="1"] .voice-on{display:none}
+.voice-mic[data-muted="1"] .voice-off,.voice-spk[data-muted="1"] .voice-off{display:block}
+.voice-mic[data-muted="1"],.voice-spk[data-muted="1"]{background:var(--coral);color:var(--ink)}
+.voice-mic[data-muted="1"]:hover,.voice-spk[data-muted="1"]:hover{background:#ff7d64}
+.voice-mic.is-speaking{box-shadow:0 0 0 3px #1fb866}
+.voice-leave{background:#ffe1d9;color:#a3200c}
+.voice-leave:hover{background:#ffcfc3}
+.voice-extra{margin:4px 0 2px;padding:8px 6px 4px 0;border-top:1px solid var(--line)}
+.voice-always{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;cursor:pointer}
+.voice-always input{width:18px;height:18px;flex:none;margin:0;accent-color:var(--ink)}
+.voice-note{margin:6px 0 0;font-size:12px;line-height:1.4;color:var(--muted)}
+@media(max-width:560px){
+  .voice-bar{width:calc(100% - 20px);margin-top:6px;padding:5px 6px 5px 11px;border-radius:16px}
+  .voice-row{gap:8px}
+  .voice-status{font-size:12px}
+  .voice-actions{gap:5px}
+  /* En el móvil el micrófono es un botón redondo grande, sin texto (lo dice su aria-label). */
+  .voice-mic{width:44px;padding:0}
+  .voice-mic .voice-mic-text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .voice-join{padding:0 14px}
+  .voice-chip{max-width:92px}
+}
+@media(prefers-reduced-motion:reduce){.voice-dot{animation:none!important}.voice-chip,.voice-btn,.voice-icon{transition:none}}
